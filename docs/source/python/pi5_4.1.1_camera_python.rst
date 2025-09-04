@@ -1,40 +1,40 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten noch tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von speziellen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, gemeinsam mit uns Neues zu entdecken und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.1_py:
 
-4.1.1 Camera
+4.1.1 Kamera
 ===================
 
 **Introduction**
 
-This project demonstrates how to create a simple camera system with a shutter button using the Raspberry Pi Zero. When you press the button, the camera captures a photo, and an LED flashes to indicate the action. This is a great way to get hands-on experience with GPIO control and the Raspberry Pi Camera Module.
+Dieses Projekt zeigt, wie man mit dem Raspberry Pi Zero ein einfaches Kamerasystem mit Auslösetaste erstellt. Beim Drücken der Taste nimmt die Kamera ein Foto auf, während eine LED blinkt, um die Aktion anzuzeigen. Dies ist eine hervorragende Möglichkeit, praktische Erfahrungen mit GPIO-Steuerung und dem Raspberry Pi Kameramodul zu sammeln.
 
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-The following components are required for this project:
+Für dieses Projekt benötigst du folgende Komponenten:
 
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -60,7 +60,7 @@ The following components are required for this project:
 
 **Circuit Diagram**
 
-Below is the GPIO pin mapping for this project:
+Hier siehst du das GPIO-Pin-Mapping für dieses Projekt:
 
 .. image:: img/fzz/4.1.1_sch.png
    :width: 800
@@ -71,7 +71,7 @@ Below is the GPIO pin mapping for this project:
 
 **Wiring Diagram**
 
-Follow this wiring diagram to set up the circuit:
+Folge diesem Verdrahtungsplan, um die Schaltung aufzubauen:
 
 .. image:: img/fzz/4.1.1_bb.png
    :width: 800
@@ -83,8 +83,8 @@ Follow this wiring diagram to set up the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führe die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -96,7 +96,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-Here is the Python code used for this project:
+Hier ist der für dieses Projekt verwendete Python-Code:
 
 
 
@@ -135,7 +135,7 @@ Here is the Python code used for this project:
    try:
       # Assign the function to be called when the button is pressed
       button.when_activated = takePhotos
-      
+     
       # Main loop
       while True:
          # Check if the button has been pressed
@@ -154,7 +154,7 @@ Here is the Python code used for this project:
          else:
                # Turn off the LED if not capturing
                led.off()
-         
+        
          # Wait for a short period before checking the button status again
          time.sleep(1)
 
@@ -165,28 +165,28 @@ Here is the Python code used for this project:
       pass
 
 
-This Python script integrates a Raspberry Pi camera with an LED and a button to create an interactive photo capture system. When executed:
+Dieses Python-Skript kombiniert eine Raspberry-Pi-Kamera mit LED und Taster, um ein interaktives Fotosystem zu realisieren. Beim Ausführen gilt:
 
 1. **Initial Setup**:
 
-   - The camera starts and is ready to capture photos.
-   - An LED (connected to GPIO pin 17) and a button (connected to GPIO pin 4) are initialized.
+   - Die Kamera wird gestartet und ist aufnahmebereit.
+   - Eine LED (GPIO 17) und ein Taster (GPIO 4) werden initialisiert.
 
 2. **Photo Capture Trigger**:
 
-   - When the button is pressed, the LED blinks to indicate the camera is capturing a photo.
-   - The camera captures a photo and saves it to the user's home directory as ``my_photo.jpg``.
-   - The console displays the message ``Photo captured!``.
+   - Wird der Taster gedrückt, blinkt die LED als Indikator für die Aufnahme.
+   - Die Kamera speichert ein Foto im Home-Verzeichnis des Benutzers unter ``my_photo.jpg``.
+   - Im Terminal erscheint die Meldung ``Photo captured!``.
 
 3. **Continuous Monitoring**:
 
-   - The script continuously monitors the button press event to trigger photo capture.
+   - Das Skript überwacht kontinuierlich das Tastensignal, um Fotos auszulösen.
 
 4. **Graceful Exit**:
 
-   - On ``Ctrl+C``, the script stops the camera preview and turns off the LED.
+   - Bei ``Ctrl+C`` beendet das Skript die Kameravorschau und schaltet die LED aus.
 
-To download the photo to your PC, refer to :ref:`filezilla`.
+Um das Foto auf deinen PC herunterzuladen, siehe :ref:`filezilla`.
 
 
 
@@ -204,7 +204,7 @@ To download the photo to your PC, refer to :ref:`filezilla`.
       import time
       import os
 
-   The script uses ``Picamera2`` to control the camera, ``fusion_hat`` for GPIO management, and ``os`` for file handling.
+   Das Skript verwendet ``Picamera2`` zur Kamerasteuerung, ``fusion_hat`` für GPIO-Management und ``os`` für Dateiverwaltung.
 
 
 2. **User Home Directory:**
@@ -215,7 +215,7 @@ To download the photo to your PC, refer to :ref:`filezilla`.
       user = os.getlogin()
       user_home = os.path.expanduser(f'~{user}')
 
-   The photo is saved in the user's home directory for easy access.
+   Das Foto wird im Home-Verzeichnis des Benutzers gespeichert.
 
 
 3. **Camera Initialization:**
@@ -226,7 +226,7 @@ To download the photo to your PC, refer to :ref:`filezilla`.
       camera = Picamera2()
       camera.start()
 
-   Initializes the camera and starts it for capturing photos.
+   Initialisiert die Kamera und startet sie für Aufnahmen.
 
 
 4. **GPIO Setup:**
@@ -237,7 +237,7 @@ To download the photo to your PC, refer to :ref:`filezilla`.
       led = Pin(17, Pin.OUT)
       button = Pin(4, Pin.IN, Pin.PULL_DOWN)
 
-   Configures the LED and button using GPIO pins 17 and 4, respectively.
+   Konfiguriert LED und Taster über GPIO-Pins 17 und 4.
 
 
 5. **Button Press Event:**
@@ -247,7 +247,7 @@ To download the photo to your PC, refer to :ref:`filezilla`.
       button.when_activated = takePhotos
 
 
-   Assigns the ``take_photos`` function to execute whenever the button is pressed.
+   Verknüpft die Funktion ``takePhotos`` mit dem Tastendruck.
 
 
 6. **Main Loop:**
@@ -273,12 +273,12 @@ To download the photo to your PC, refer to :ref:`filezilla`.
                led.off()
 
 
-   Continuously checks the ``status`` variable. When a button press is detected, the LED blinks five times, and the camera captures a photo.
+   Überwacht den ``status``-Wert. Bei Tastendruck blinkt die LED fünfmal und die Kamera erstellt ein Foto.
 
 
 7. **Graceful Exit:**
 
-   Handles keyboard interrupts to stop the camera preview and turn off the LED.
+   Behandelt Tastaturunterbrechungen, um Vorschau und LED sauber zu stoppen.
 
    .. code-block:: python
 
@@ -292,46 +292,46 @@ To download the photo to your PC, refer to :ref:`filezilla`.
 
 **Troubleshooting**
 
-1. **Photo Not Captured**:
+1. **Foto wird nicht aufgenommen**:
 
-   - **Cause**: The button is not wired correctly or the camera is not initialized.
-   - **Solution**:
+   - **Ursache**: Taster falsch verdrahtet oder Kamera nicht initialisiert.
+   - **Lösung**:
 
-     - Ensure the button is connected to GPIO pin 4 and ground.
-     - Verify that the camera is properly connected and enabled via ``raspi-config``.
+     - Prüfe die Verbindung von Taster an GPIO 4 und GND.
+     - Stelle sicher, dass die Kamera korrekt verbunden und in ``raspi-config`` aktiviert ist.
 
-2. **LED Does Not Blink**:
+2. **LED blinkt nicht**:
 
-   - **Cause**: Incorrect LED wiring or GPIO configuration.
-   - **Solution**:
+   - **Ursache**: Fehlerhafte LED-Verdrahtung oder GPIO-Konfiguration.
+   - **Lösung**:
 
-     - Ensure the LED is connected to GPIO pin 17 with an appropriate resistor.
-     - Test the LED separately to confirm it functions correctly.
+     - Verbinde die LED mit GPIO 17 über einen geeigneten Widerstand.
+     - Teste die LED separat.
 
-3. **Photo Overwritten**:
+3. **Foto wird überschrieben**:
 
-   - **Cause**: The file ``my_photo.jpg`` is overwritten each time a photo is taken.
-   - **Solution**: Save photos with unique filenames using timestamps:
+   - **Ursache**: Die Datei ``my_photo.jpg`` wird bei jeder Aufnahme ersetzt.
+   - **Lösung**: Fotos mit eindeutigen Dateinamen speichern, z. B. mit Zeitstempeln:
 
      .. code-block:: python
 
          timestamp = time.strftime("%Y%m%d-%H%M%S")
          camera.capture_file(f'{user_home}/photo_{timestamp}.jpg')
 
-4. **Script Crashes with Camera Error**:
+4. **Skript stürzt mit Kamera-Fehler ab**:
 
-   - **Cause**: The camera module is not detected or in use by another process.
-   - **Solution**:
+   - **Ursache**: Kameramodul wird nicht erkannt oder ist von einem anderen Prozess belegt.
+   - **Lösung**:
 
-     - Ensure the camera is properly connected and restart the Raspberry Pi.
-     - Check for conflicting processes using ``sudo lsof /dev/video*``.
+     - Prüfe die Verbindung und starte den Raspberry Pi neu.
+     - Suche nach Konflikten mit ``sudo lsof /dev/video*``.
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Multiple Photos**: Allow multiple photos to be captured in a session, each with a unique filename:
+1. **Mehrere Fotos**: Mehrfachaufnahmen mit fortlaufenden Dateinamen ermöglichen:
 
      .. code-block:: python
 
@@ -339,7 +339,7 @@ To download the photo to your PC, refer to :ref:`filezilla`.
          camera.capture_file(f'{user_home}/photo_{counter}.jpg')
          counter += 1
 
-2. **Video Recording**: Extend the functionality to record videos when the button is pressed:
+2. **Videoaufnahme**: Funktion erweitern, um Videos per Tastendruck aufzuzeichnen:
 
      .. code-block:: python
 
@@ -347,14 +347,14 @@ To download the photo to your PC, refer to :ref:`filezilla`.
          time.sleep(10)
          camera.stop_recording()
 
-3. **LED Status Indicator**: Use the LED to indicate the camera's readiness or status:
+3. **LED-Statusanzeige**: LED als Zustandsanzeige nutzen:
 
-     - Solid light: Ready.
-     - Blinking: Capturing a photo.
+     - Dauerlicht: Kamera bereit  
+     - Blinken: Fotoaufnahme
 
-4. **Photo Gallery Management**: Organize captured photos into folders based on date or event.
+4. **Fotoverwaltung**: Fotos in Ordnern nach Datum oder Ereignis sortieren.
 
-5. **Timelapse Photography**: Capture photos at regular intervals to create a timelapse:
+5. **Zeitrafferfotografie**: Fotos in Intervallen aufnehmen:
 
      .. code-block:: python
 
@@ -366,4 +366,4 @@ To download the photo to your PC, refer to :ref:`filezilla`.
 
 **Conclusion**
 
-This project introduces a basic camera setup with a button-triggered shutter mechanism. It combines GPIO control with the Picamera2 library to demonstrate how to create interactive projects. Experiment further to expand its functionality and create more engaging applications.
+Dieses Projekt zeigt den Aufbau einer einfachen Kamera mit Taster als Auslöser. Es kombiniert GPIO-Steuerung mit der Picamera2-Bibliothek, um interaktive Anwendungen zu realisieren. Experimentiere weiter, um zusätzliche Funktionen hinzuzufügen und noch spannendere Projekte zu entwickeln.

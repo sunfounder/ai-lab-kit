@@ -3,9 +3,7 @@
 SPI Configuration
 -----------------------
 
-**Step 1**: Enable the SPI port of your Raspberry Pi (If you have
-enabled it, skip this; if you do not know whether you have done that or
-not, please continue).
+**Step 1**: Aktiviere den SPI-Port deines Raspberry Pi (wenn er bereits aktiviert ist, kannst du diesen Schritt überspringen; falls du dir nicht sicher bist, fahre bitte fort).
 
 .. raw:: html
 
@@ -25,12 +23,12 @@ not, please continue).
 .. image:: img/i3spi.png
    :align: center
 
-**<YES>, then click <OK> and <Finish>.**
+**<YES>, anschließend <OK> und <Finish> auswählen.**
 
 .. image:: img/image286.png
    :align: center 
 
-**Step 2:** Check that the spi modules are loaded and active.
+**Step 2:** Überprüfe, ob die SPI-Module geladen und aktiv sind.
 
 .. raw:: html
 
@@ -40,14 +38,14 @@ not, please continue).
 
     ls /dev/sp*
 
-Then the following codes will appear (the number may be different).
+Die folgende Ausgabe sollte erscheinen (die Zahlen können variieren):
 
 
 .. code-block:: 
 
     /dev/spidev0.0  /dev/spidev0.1
 
-**Step 3:** Install Python module SPI-Py.
+**Step 3:** Installiere das Python-Modul SPI-Py.
 
 .. raw:: html
 
@@ -60,5 +58,4 @@ Then the following codes will appear (the number may be different).
     sudo python3 setup.py install
 
 .. note::
-    This step is for python users, if you use C language, please
-    skip.
+    Dieser Schritt ist nur für Python-Nutzer relevant. Wenn du in C programmierst, kannst du ihn überspringen.

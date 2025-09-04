@@ -3,9 +3,7 @@
 I2C Configuration
 -----------------------
 
-**Step 1**: Enable the I2C port of your Raspberry Pi (If you have
-enabled it, skip this; if you do not know whether you have done that or
-not, please continue).
+**Step 1**: Aktiviere den I2C-Port deines Raspberry Pi (wenn er bereits aktiviert ist, kannst du diesen Schritt überspringen; falls du dir nicht sicher bist, fahre bitte fort).
 
 .. raw:: html
 
@@ -25,12 +23,12 @@ not, please continue).
 .. image:: img/I4i2c.jpeg
     :align: center
 
-**<Yes>, then <Ok> -> <Finish>**
+**<Yes>, dann <Ok> -> <Finish>**
 
 .. image:: img/image284.png
     :align: center
 
-**Step 2:** Check whether the i2c modules are loaded and active.
+**Step 2:** Überprüfe, ob die I2C-Module geladen und aktiv sind.
 
 .. raw:: html
 
@@ -40,14 +38,14 @@ not, please continue).
 
     lsmod | grep i2c
 
-Then the following codes will appear (the number may be different), if it does not appear, please reboot the Raspberry Pi with ``sudo reboot``.
+Die folgende Ausgabe sollte erscheinen (die Zahlen können abweichen). Falls keine Ausgabe erfolgt, starte den Raspberry Pi mit ``sudo reboot`` neu.
 
 .. code-block:: 
 
     i2c_dev                     6276    0
     i2c_bcm2708                 4121    0
 
-**Step 3:** Install i2c-tools.
+**Step 3:** Installiere i2c-tools.
 
 .. raw:: html
 
@@ -57,7 +55,7 @@ Then the following codes will appear (the number may be different), if it does n
 
     sudo apt-get install i2c-tools
 
-**Step 4:** Check the address of the I2C device.
+**Step 4:** Überprüfe die Adresse des I2C-Geräts.
 
 
 .. raw:: html
@@ -92,11 +90,11 @@ Then the following codes will appear (the number may be different), if it does n
     60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     70: -- -- -- -- -- -- -- --
 
-If there is an I2C device connected, the address of the device will be displayed.
+Wenn ein I2C-Gerät angeschlossen ist, wird dessen Adresse angezeigt.
 
 **Step 5:**
 
-**For C language users:** Install libi2c-dev.
+**Für C-Sprach-Nutzer:** Installiere libi2c-dev.
 
 .. raw:: html
 
@@ -106,15 +104,15 @@ If there is an I2C device connected, the address of the device will be displayed
 
     sudo apt-get install libi2c-dev 
 
-**For Python users:**
+**Für Python-Nutzer:**
 
-1. Activating the Virtual Environment.
+1. Aktivieren der virtuellen Umgebung.
 
 .. note::
     
-    * Before activation, you need to ensure that you have created a virtual environment, please refer to: :ref:`create_virtual`.
+    * Bevor du die Umgebung aktivieren kannst, musst du sicherstellen, dass du eine virtuelle Umgebung erstellt hast. Siehe dazu: :ref:`create_virtual`.
 
-    * Each time you restart the Raspberry Pi, or open a new terminal, you will need to run the following command again to activate the virtual environment.
+    * Jedes Mal, wenn du den Raspberry Pi neu startest oder ein neues Terminal öffnest, musst du den folgenden Befehl erneut ausführen, um die virtuelle Umgebung zu aktivieren.
 
 .. raw:: html
 
@@ -124,10 +122,10 @@ If there is an I2C device connected, the address of the device will be displayed
 
     source myenv/bin/activate
 
-Once the virtual environment is activated, you will see the environment name before the command line prompt, indicating you are working within the virtual environment.
+Nach der Aktivierung siehst du den Namen der virtuellen Umgebung vor der Befehlszeile. Das zeigt an, dass du nun innerhalb der virtuellen Umgebung arbeitest.
 
 
-2. Install smbus for I2C.
+2. Installiere smbus für I2C.
 
 .. raw:: html
 
@@ -138,9 +136,9 @@ Once the virtual environment is activated, you will see the environment name bef
     sudo pip3 install smbus2
 
 
-3. Exiting the Virtual Environment.
+3. Beenden der virtuellen Umgebung.
 
-When you have completed your work and wish to exit the virtual environment, simply run:
+Wenn du deine Arbeit abgeschlossen hast und die virtuelle Umgebung verlassen möchtest, führe einfach aus:
 
 .. raw:: html
 
@@ -150,4 +148,4 @@ When you have completed your work and wish to exit the virtual environment, simp
 
     deactivate
 
-This will return you to the system's global Python environment.
+Damit kehrst du in die globale Python-Umgebung des Systems zurück.

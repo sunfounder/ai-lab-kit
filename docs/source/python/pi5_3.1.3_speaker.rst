@@ -1,16 +1,16 @@
-3.1.3 Fusion HAT Speaker
-==============================
+3.1.3 Fusion HAT Lautsprecher
+=================================
 
 **Introduction**
 
 
-The Fusion HAT is an expansion board designed for the Raspberry Pi and includes a built-in speaker, making it ideal for audio output tasks such as voice prompts, alarms, or sound effects in embedded AI and IoT applications.
+Das Fusion HAT ist eine Erweiterungsplatine für den Raspberry Pi mit integriertem Lautsprecher – ideal für Audioausgaben wie Sprachhinweise, Alarme oder Soundeffekte in Embedded-AI- und IoT-Anwendungen.
 
-This guide will walk you through verifying and testing the speaker on your Raspberry Pi system.
+Diese Anleitung führt dich durch die Überprüfung und den Test des Lautsprechers auf deinem Raspberry-Pi-System.
 
 .. note::
 
-   This guide assumes you have already installed Raspberry Pi OS and the necessary drivers for the Fusion HAT.
+   Diese Anleitung setzt voraus, dass Raspberry Pi OS sowie die notwendigen Treiber für das Fusion HAT bereits installiert sind.
 
 
 .. image:: img/fusionhat_speaker.png
@@ -19,31 +19,31 @@ This guide will walk you through verifying and testing the speaker on your Raspb
 
 **What You’ll Need**
 
-Below are the components required for this project:
+Nachfolgend die für dieses Projekt benötigten Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - Fusion HAT
         - 
     *   - Raspberry Pi Zero 2 W
         -
 
-**Check if the Speaker is Recognized**
+**Prüfen, ob der Lautsprecher erkannt wird**
 
-Before testing, confirm that the system recognizes the Fusion HAT's audio device.
+Bevor du testest, bestätige, dass das System das Audiogerät des Fusion HAT erkennt.
 
-Open a terminal and run:
+Öffne ein Terminal und führe aus:
 
 .. code-block:: bash
 
    aplay -l
 
-This command lists all audio playback devices. A successful output should look something like this:
+Dieser Befehl listet alle Audiowiedergabegeräte auf. Eine erfolgreiche Ausgabe sieht in etwa so aus:
 
 .. code-block:: text
 
@@ -52,12 +52,12 @@ This command lists all audio playback devices. A successful output should look s
      Subdevices: 1/1
      Subdevice #0: subdevice #0
 
-If you see a device listed under `card 0` or another card number with a name like `voicehat-hifi`, the speaker hardware is correctly detected.
+Wenn unter `card 0` oder einer anderen Kartennummer ein Gerät mit einem Namen wie `voicehat-hifi` erscheint, wurde die Lautsprecher-Hardware korrekt erkannt.
 
 
-**Enable the Speaker**
+**Lautsprecher aktivieren**
 
-For safety reasons, the Fusion HAT speaker is **disabled by default**. You can enable it by running:
+Aus Sicherheitsgründen ist der Fusion-HAT-Lautsprecher **disabled by default**. Du kannst ihn wie folgt aktivieren:
 
 .. code-block:: bash
 
@@ -65,23 +65,23 @@ For safety reasons, the Fusion HAT speaker is **disabled by default**. You can e
 
 .. note::
 
-   - This setting will remain active until the Raspberry Pi is powered off.
-   - To disable the speaker manually (without rebooting), you can use:
+   - Diese Einstellung bleibt aktiv, bis der Raspberry Pi ausgeschaltet wird.
+   - Um den Lautsprecher manuell zu deaktivieren (ohne Neustart), verwende:
 
    .. code-block:: bash
 
       fusion_hat disable_speaker
 
-**Test the Speaker**
+**Lautsprecher testen**
 
 
-Once the speaker is enabled, you can verify its functionality using the following methods.
+Sobald der Lautsprecher aktiviert ist, kannst du seine Funktionalität mit folgenden Methoden prüfen.
 
-* Method 1: Using the `speaker-test` Command
+* Methode 1: Mit dem Befehl `speaker-test`
 
-   `speaker-test` is a tool provided by the ALSA audio system for generating test tones.
+   `speaker-test` ist ein Tool des ALSA-Audiosystems zur Erzeugung von Testtönen.
 
-   1. Play a stereo test sound using:
+   1. Stereotest abspielen:
 
       .. code-block:: bash
 
@@ -89,46 +89,46 @@ Once the speaker is enabled, you can verify its functionality using the followin
 
       **Parameter Explanation**:
 
-      - ``-t wav``: Uses pre-recorded WAV test files with spoken channel labels.
-      - ``-c 2``: Enables stereo mode (two channels: left and right).
+      - ``-t wav``: Verwendet voraufgezeichnete WAV-Testdateien mit gesprochenen Kanalansagen.
+      - ``-c 2``: Aktiviert den Stereomodus (zwei Kanäle: links und rechts).
 
-   2. If the speaker is working properly, you should hear the phrases “Front Left” and “Front Right” alternately from the speaker.
+   2. Wenn der Lautsprecher korrekt funktioniert, solltest du abwechselnd „Front Left“ und „Front Right“ hören.
 
-   3. To stop playback, press ``Ctrl + C``.
+   3. Zum Beenden die Taste ``Ctrl + C`` drücken.
 
-* Method 2: Playing a Test Audio File
+* Methode 2: Eine Test-Audiodatei abspielen
 
-   A sample sound file named `doorbell.wav` is included in the `music` directory of the AI Explorer Lab Kit. Use the following commands to play it:
+   Im Verzeichnis `music` des AI Explorer Lab Kit befindet sich die Beispieldatei `doorbell.wav`. Spiele sie mit:
 
    .. code-block:: bash
 
       cd ~/ai-explorer-lab-kit/music/
       aplay doorbell.wav
 
-   If the speaker is functional, you will hear a doorbell sound.
+   Wenn der Lautsprecher funktioniert, hörst du einen Türklingel-Sound.
 
    .. tip::
 
-      You can also use your own `.wav` audio files with `aplay`. Just ensure the format is supported.
+      Du kannst auch eigene `.wav`-Dateien mit `aplay` abspielen. Achte lediglich darauf, dass das Format unterstützt wird.
 
 
 
 **Troubleshooting**
 
 
-- **No sound output**:
+- **Keine Tonausgabe**:
 
-  - Confirm the speaker is enabled using `fusion_hat enable_speaker`
-  - Check if the volume is muted or too low using `alsamixer`
-  - Ensure `aplay -l` shows a valid audio device
+  - Prüfe, ob der Lautsprecher mit `fusion_hat enable_speaker` aktiviert ist.
+  - Kontrolliere, ob die Lautstärke stummgeschaltet oder zu niedrig ist (`alsamixer`).
+  - Stelle sicher, dass `aplay -l` ein gültiges Audiogerät anzeigt.
 
-- **Speaker not listed in `aplay -l`**:
+- **Lautsprecher erscheint nicht in `aplay -l`**:
 
-  - Check the physical connection of the Fusion HAT
-  - Reboot the Raspberry Pi
-  - Ensure the necessary drivers are installed (usually handled by OS updates)
+  - Überprüfe die physische Verbindung des Fusion HAT.
+  - Starte den Raspberry Pi neu.
+  - Stelle sicher, dass die nötigen Treiber installiert sind (in der Regel durch OS-Updates abgedeckt).
 
-- **Speaker output is distorted or delayed**:
+- **Ausgabe verzerrt oder verzögert**:
 
-  - Reduce CPU load or audio playback rate
-  - Try mono (`-c 1`) or lower-quality playback for testing
+  - Reduziere die CPU-Last oder die Wiedergaberate.
+  - Testweise Mono (`-c 1`) oder geringere Qualität verwenden.

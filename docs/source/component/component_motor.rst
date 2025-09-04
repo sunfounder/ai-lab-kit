@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_motor:
 
@@ -20,24 +20,24 @@ DC Motor
 .. image:: img/image114.jpeg
     :align: center
 
-This is a 3V DC motor. When you give a high level and a low level to each of the 2 terminals, it will rotate.
+Dies ist ein 3V-DC-Motor. Wenn an seinen beiden Anschlüssen ein hohes und ein niedriges Signal anliegt, beginnt er sich zu drehen.
 
-* **Size**: 25*20*15MM
-* **Operation Voltage**: 1-6V
-* **Free-run Current** (3V): 100mA
-* **A Free-run Speed** (3V): 10000RPM
-* **Stall Current** (3V): 800mA
-* **Shaft Diameter**: 2mm
+* **Größe**: 25 × 20 × 15 mm  
+* **Betriebsspannung**: 1–6 V  
+* **Leerlaufstrom** (3 V): 100 mA  
+* **Leerlaufdrehzahl** (3 V): 10000 U/min  
+* **Blockierstrom** (3 V): 800 mA  
+* **Wellendurchmesser**: 2 mm  
 
-Direct current (DC) motor is a continuous actuator that converts electrical energy into mechanical energy. DC motors make rotary pumps, fans, compressors, impellers, and other devices work by producing continuous angular rotation.
+Ein Gleichstrommotor (DC-Motor) ist ein kontinuierlicher Aktor, der elektrische Energie in mechanische Energie umwandelt. Durch die kontinuierliche Drehbewegung treiben DC-Motoren Pumpen, Lüfter, Kompressoren, Laufräder und andere Geräte an.  
 
-A DC motor consists of two parts, the fixed part of the motor called the **stator** and the internal part of the motor called the **rotor** (or **armature** of a DC motor) that rotates to produce motion.
-The key to generating motion is to position the armature within the magnetic field of the permanent magnet (whose field extends from the north pole to the south pole). The interaction of the magnetic field and the moving charged particles (the current-carrying wire generates the magnetic field) produces the torque that rotates the armature.
+Ein DC-Motor besteht aus zwei Hauptteilen: dem unbeweglichen Teil, dem **Stator**, und dem inneren, sich drehenden Teil, dem **Rotor** (oder auch **Anker** genannt), der die Bewegung erzeugt.  
+Der entscheidende Punkt bei der Erzeugung von Bewegung ist die Platzierung des Ankers im Magnetfeld des Permanentmagneten (dessen Feld sich vom Nordpol zum Südpol erstreckt). Die Wechselwirkung zwischen dem Magnetfeld und den bewegten Ladungsträgern (der stromführende Draht erzeugt das Magnetfeld) erzeugt das Drehmoment, das den Anker in Rotation versetzt.  
 
 .. image:: img/motor_sche.png
     :align: center
 
-Current flows from the positive terminal of the battery through the circuit, through the copper brushes to the commutator, and then to the armature.
-But because of the two gaps in the commutator, this flow reverses halfway through each complete rotation.
-This continuous reversal essentially converts the DC power from the battery to AC, allowing the armature to experience torque in the right direction at the right time to maintain rotation.
+Der Strom fließt vom Pluspol der Batterie durch den Stromkreis, über die Kupferbürsten zum Kommutator und von dort zum Anker.  
+Aufgrund der beiden Unterbrechungen im Kommutator kehrt sich dieser Stromfluss jedoch bei jeder vollen Umdrehung um.  
+Diese kontinuierliche Umpolung wandelt die Gleichstromversorgung der Batterie faktisch in eine Wechselwirkung um, sodass der Anker stets im richtigen Moment das Drehmoment in die richtige Richtung erhält, um die Drehung aufrechtzuerhalten.  
 

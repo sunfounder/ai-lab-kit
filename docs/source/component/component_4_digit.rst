@@ -1,51 +1,36 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _cpn_4_digit:
 
 4-Digit 7-Segment Display
 ==================================
 
-4-Digit 7-segment display consists of four 7- segment displays working
-together.
+Das 4-stellige 7-Segment-Display besteht aus vier einzelnen 7-Segment-Anzeigen, die zusammenarbeiten.
 
 .. image:: img/4-digit-sche.png
 
-The 4-digtal 7-segment display works independently. It uses the
-principle of human visual persistence to quickly display the characters
-of each 7-segment in a loop to form continuous strings.
+Jede Stelle des 4-stelligen 7-Segment-Displays arbeitet unabhängig. Mithilfe des Prinzips der visuellen Persistenz wird jede Ziffer nacheinander sehr schnell angezeigt, sodass durch die Nachbildwirkung ein kontinuierlicher Zeichenstring sichtbar wird.
 
-For example, when "1234" is displayed on the display, "1" is displayed
-on the first 7-segment, and "234" is not displayed. After a period of
-time, the second 7-segment shows "2", the 1st 3th 4th of 7-segment does
-not show, and so on, the four digital display show in turn. This process
-is very short (typically 5ms), and because of the optical afterglow
-effect and the principle of visual residue, we can see four characters
-at the same time.
+Beispiel: Wenn „1234“ dargestellt wird, zeigt zunächst das erste 7-Segment die „1“, während die anderen dunkel bleiben. Nach kurzer Zeit zeigt das zweite Segment die „2“, während die übrigen nichts anzeigen. Dieser Vorgang setzt sich für alle vier Segmente fort. Da der Zyklus sehr kurz ist (typischerweise etwa 5 ms) und das menschliche Auge ein optisches Nachbild hat, nehmen wir alle vier Ziffern gleichzeitig wahr.
 
 .. image:: img/image78.png
 
 
 **Display Codes**
 
-To help you get to know how 7-segment displays(Common Anode) display
-Numbers, we have drawn the following table. Numbers are the number 0-F
-displayed on the 7-segment display; (DP) GFEDCBA refers to the
-corresponding LED set to 0 or 1, For example, 11000000 means that DP and
-G are set to 1, while others are set to 0. Therefore, the number 0 is
-displayed on the 7-segment display, while HEX Code corresponds to
-hexadecimal number.
+Um dir den Aufbau eines 7-Segment-Displays (Common Anode) zu verdeutlichen, haben wir die folgende Tabelle erstellt. Sie zeigt die Darstellung der Zahlen 0–F auf dem 7-Segment-Display. (DP) GFEDCBA steht dabei für die jeweiligen LEDs, die auf 0 oder 1 gesetzt werden. Beispiel: 11000000 bedeutet, dass DP und G auf 1 gesetzt sind, während alle anderen auf 0 stehen. Damit wird die Zahl 0 dargestellt. Der HEX-Code entspricht der jeweiligen hexadezimalen Darstellung.
 
 .. image:: img/common_anode.png
 

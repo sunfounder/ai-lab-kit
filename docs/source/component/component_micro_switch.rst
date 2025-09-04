@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_micro_switch:
 
@@ -21,32 +21,31 @@ Micro Switch
     :width: 200
     :align: center
 
-The construction of a micro switch is really simple. The main parts of the switch are:
+Der Aufbau eines Mikroschalters ist sehr einfach. Die Hauptbestandteile sind:
 
 .. image:: img/micro_switch2.png
     :align: center
 
-* 1.Plunger (Actuator)
-* 2.Cover
-* 3.Moving piece
-* 4.Support
-* 5.Case
-* 6.NO terminal: normally open
-* 7.NC terminal: normally closed
-* 8.Contact
-* 9.Moving arm
+* 1. Plunger (Stößel/Betätiger)  
+* 2. Abdeckung  
+* 3. Bewegliches Teil  
+* 4. Halterung  
+* 5. Gehäuse  
+* 6. NO-Anschluss: normally open (normalerweise offen)  
+* 7. NC-Anschluss: normally closed (normalerweise geschlossen)  
+* 8. Kontakt  
+* 9. Beweglicher Arm  
 
+Sobald ein Mikroschalter mechanisch betätigt wird, ändern seine Kontakte ihre Position. Das grundlegende Funktionsprinzip sieht wie folgt aus:
 
-After a micro switch makes physical contact with an object, its contacts change position. The basic working principle is as follows.
+Wenn sich der Plunger in der gelösten bzw. Ruheposition befindet:
 
-When the plunger is in the released or rest position.
+* Der normalerweise geschlossene Stromkreis kann Strom führen.  
+* Der normalerweise offene Stromkreis ist elektrisch isoliert.  
 
-* The normally closed circuit can carry current.
-* The normally open circuit is electrically insulated.
+Wenn der Plunger gedrückt bzw. betätigt wird:
 
-When the plunger is depressed or switched.
-
-* The normally closed circuit is open.
-* The normally open circuit is closed.
+* Der normalerweise geschlossene Stromkreis wird geöffnet.  
+* Der normalerweise offene Stromkreis wird geschlossen.  
 
 .. image:: img/micro_switch1.png

@@ -1,47 +1,43 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiast Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke [|link_sf_facebook|] und trete noch heute bei!
 
 .. _cpn_gpio_extension_board:
 
 GPIO Extension Board
 =====================
 
-Before starting to learn the commands, you first need to know more about
-the pins of the Raspberry Pi, which is key to the subsequent study.
+Bevor du mit den Befehlen arbeitest, solltest du dich zunächst mit den Pins des Raspberry Pi vertraut machen – dies ist entscheidend für das weitere Verständnis.
 
-We can easily lead out pins of the Raspberry Pi to breadboard by GPIO
-Extension Board to avoid GPIO damage caused by frequent plugging in or
-out. This is our 40-pin GPIO Extension Board and GPIO cable for
-Raspberry Pi model B+, 2 model B and 3, 4 model B.
+Mit einem GPIO Extension Board lassen sich die Pins des Raspberry Pi einfach auf ein Breadboard herausführen. So wird verhindert, dass durch häufiges Ein- und Ausstecken Schäden an den GPIO-Pins entstehen. Hier siehst du unser 40-poliges GPIO Extension Board mit passendem Kabel, geeignet für den Raspberry Pi Model B+, 2 Model B sowie 3 und 4 Model B.
 
 .. image:: img/image32.png
     :align: center
 
-**Pin Number**
+**Pin-Nummern**
 
-The pins of Raspberry Pi have three kinds of ways to name and they are wiringPi, BCM and Board.
+Die Pins des Raspberry Pi können auf drei verschiedene Arten benannt werden: WiringPi, BCM und Board.
 
-Among these naming methods, 40-pin GPIO Extension board uses the naming method, BCM. But for some special pins, such as I2C port and SPI port, they use the Name that comes with themselves. 
+Beim 40-poligen GPIO Extension Board wird überwiegend die BCM-Namenskonvention verwendet. Einige spezielle Pins, wie die I2C- und SPI-Schnittstellen, behalten jedoch ihre eigenen standardisierten Bezeichnungen.
 
-The following table shows us the naming methods of WiringPi, Board and the intrinsic Name of each pin on GPIO Extension board. For example, for the GPIO17, the Board naming method of it is 11, the wiringPi naming method is 0, and the intrinsic naming method of it is GPIO0.
+Die folgende Tabelle zeigt die unterschiedlichen Bezeichnungsarten für WiringPi, Board und den jeweiligen intrinsischen Namen eines Pins auf dem GPIO Extension Board. Zum Beispiel: Der Pin GPIO17 entspricht in der Board-Nummerierung der 11, in der WiringPi-Nummerierung der 0 und trägt intrinsisch den Namen GPIO0.
 
 .. note::
 
-    1) In C Language, what is used is the naming method WiringPi.
+    1) In C wird die WiringPi-Namenskonvention verwendet.
     
-    2) In Python Language, the applied naming methods are **Board** and **BCM**, and the function ``GPIO.setmode()`` is used to set them.
-
-    3) In Scratch 3 and Processing, the applied naming method is **BCM**.
+    2) In Python werden die Methoden **Board** und **BCM** genutzt, die über die Funktion ``GPIO.setmode()`` festgelegt werden.
+    
+    3) In Scratch 3 und Processing wird die **BCM-Namenskonvention** angewandt.
 
 .. image:: img/gpio_board.png

@@ -1,39 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _remote_desktop:
 
 Remote Desktop 
 =====================
 
-There are two ways to control the desktop of the Raspberry Pi remotely:
+Es gibt zwei Möglichkeiten, den Desktop des Raspberry Pi aus der Ferne zu steuern:
 
-**VNC** and **XRDP**, you can use any of them.
+**VNC** und **XRDP** – du kannst beide nutzen.
 
 VNC 
 --------------
 
-You can use the function of remote desktop through VNC.
+Mit VNC kannst du die Remote-Desktop-Funktion verwenden.
 
 **Enable VNC service**
 
-The VNC service has been installed in the system. By default, VNC is
-disabled. You need to enable it in config.
+Der VNC-Dienst ist bereits im System installiert, jedoch standardmäßig deaktiviert. Du musst ihn in der Konfiguration aktivieren.
 
 **Step 1**
 
-Input the following command:
+Gib folgenden Befehl ein:
 
 .. raw:: html
 
@@ -48,8 +47,7 @@ Input the following command:
 
 **Step 2**
 
-Choose **3** **Interfacing Options** by press the down arrow key on your
-keyboard, then press the **Enter** key.
+Wähle mit den Pfeiltasten **3 Interfacing Options** und bestätige mit **Enter**.
 
 .. image:: img/image282.png
    :align: center
@@ -63,7 +61,7 @@ keyboard, then press the **Enter** key.
 
 **Step 4**
 
-Select **Yes -> OK -> Finish** to exit the configuration.
+Wähle **Yes -> OK -> Finish**, um die Konfiguration zu beenden.
 
 .. image:: img/image289.png
    :align: center
@@ -72,61 +70,60 @@ Select **Yes -> OK -> Finish** to exit the configuration.
 
 **Step 1**
 
-You need to download and install the `VNC Viewer <https://www.realvnc.com/en/connect/download/viewer/>`_ on personal computer. After the installation is done, open it.
+Lade den `VNC Viewer <https://www.realvnc.com/en/connect/download/viewer/>`_ auf deinen Computer herunter und installiere ihn. Öffne das Programm nach der Installation.
 
 **Step 2**
 
-Then select \"**New connection**\".
+Wähle „ **New connection** “.
 
 .. image:: img/image290.png
    :align: center
 
 **Step 3**
 
-Input IP address of Raspberry Pi and any **Name**.
+Gib die IP-Adresse des Raspberry Pi und einen beliebigen **Name** ein.
 
 .. image:: img/image291.png
    :align: center
 
 **Step 4**
 
-Double click the **connection** just created:
+Doppelklicke auf die eben erstellte **connection**:
 
 .. image:: img/image292.png
    :align: center
 
 **Step 5**
 
-Enter Username (**pi**) and Password (**raspberry** by default).
+Gib den Benutzernamen (**pi**) und das Passwort (**raspberry** als Standard) ein.
 
 .. image:: img/image293.png
    :align: center
 
 **Step 6**
 
-Now you can see the desktop of the Raspberry Pi:
+Nun siehst du den Desktop des Raspberry Pi:
 
 .. image:: img/image294.png
    :align: center
 
-That's the end of the VNC part.
+Damit ist der VNC-Teil abgeschlossen.
 
 
 XRDP
 -----------------------
 
-Another method of remote desktop is XRDP, it provides a graphical login to remote machines using RDP (Microsoft
-Remote Desktop Protocol).
+Eine weitere Möglichkeit für den Remote-Desktop ist XRDP. Es bietet über das RDP-Protokoll (Microsoft Remote Desktop Protocol) eine grafische Anmeldung auf entfernten Rechnern.
 
 **Install XRDP**
 
 **Step 1**
 
-Login to Raspberry Pi by using SSH.
+Melde dich per SSH beim Raspberry Pi an.
 
 **Step 2**
 
-Input the following instructions to install XRDP.
+Führe die folgenden Befehle zur Installation von XRDP aus:
 
 .. raw:: html
 
@@ -139,60 +136,42 @@ Input the following instructions to install XRDP.
 
 **Step 3**
 
-Later, the installation starts.
-
-Enter \"Y\", press key \"Enter\" to confirm.
+Die Installation startet. Bestätige mit „Y“ und drücke Enter.
 
 .. image:: img/image295.png
    :align: center
 
 **Step 4**
 
-Finished the installation, you should login to your Raspberry Pi by
-using Windows remote desktop applications.
+Nach Abschluss der Installation kannst du dich mit den Windows-Remote-Desktop-Tools beim Raspberry Pi anmelden.
 
 **Login to XRDP**
 
 **Step 1**
 
-If you are a Windows user, you can use the Remote Desktop feature that
-comes with Windows. If you are a Mac user, you can download and use
-Microsoft Remote Desktop from the APP Store, and there is not much
-difference between the two. The next example is Windows remote desktop.
+Unter Windows kannst du die integrierte Remote-Desktop-Funktion nutzen. Mac-Nutzer können „Microsoft Remote Desktop“ aus dem App Store herunterladen – der Ablauf ist nahezu identisch. Im folgenden Beispiel wird die Windows-Variante gezeigt.
 
 **Step 2**
 
-Type in \"**mstsc**\" in Run (WIN+R) to open the Remote Desktop
-Connection, and input the IP address of Raspberry Pi, then click on
-\"Connect\".
+Tippe „ **mstsc** “ im Ausführen-Dialog (WIN+R) ein, öffne die Remote-Desktop-Verbindung und gib die IP-Adresse des Raspberry Pi ein. Klicke anschließend auf „Connect“.
 
 .. image:: img/image296.png
    :align: center
 
 **Step 3**
 
-Then the xrdp login page pops out. Please type in your username and
-password. After that, please click \"OK\". At the first time you log in,
-your username is \"pi\" and the password is \"raspberry\".
+Es erscheint die xrdp-Anmeldemaske. Gib deinen Benutzernamen und dein Passwort ein und klicke auf „OK“. Beim ersten Login lautet der Benutzername „pi“ und das Passwort „raspberry“.
 
 .. image:: img/image297.png
    :align: center
 
 **Step 4**
 
-Here, you successfully login to RPi by using the remote desktop.
+Nun bist du erfolgreich per Remote-Desktop mit dem Raspberry Pi verbunden.
 
 .. image:: img/image20.png
    :align: center
 
 **Copyright Notice**
 
-All contents including but not limited to texts, images, and code in
-this manual are owned by the SunFounder Company. You should only use it
-for personal study, investigation, enjoyment, or other non-commercial or
-nonprofit purposes, under the related regulations and copyrights laws,
-without infringing the legal rights of the author and relevant right
-holders. For any individual or organization that uses these for
-commercial profit without permission, the Company reserves the right to
-take legal action.
-
+Alle Inhalte, einschließlich, aber nicht beschränkt auf Texte, Bilder und Code in diesem Handbuch, sind Eigentum der Firma SunFounder. Sie dürfen ausschließlich für persönliche Studien, Recherchen, zum Lernen oder andere nichtkommerzielle und gemeinnützige Zwecke gemäß den geltenden Vorschriften und Urheberrechtsgesetzen genutzt werden, ohne die Rechte des Autors oder anderer Rechtsinhaber zu verletzen. Jede Nutzung für kommerzielle Zwecke ohne Genehmigung behält sich die Firma vor, rechtlich zu verfolgen.

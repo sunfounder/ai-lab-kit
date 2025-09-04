@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _2.1.2_py:
 
-2.1.2 Micro Switch
+2.1.2 Mikroschalter
 =====================
 
 **Introduction**
 
-In this project, we will explore how to use a Micro Switch to control two LEDs. A Micro Switch is a highly sensitive component that requires minimal compression to activate. It is often used in safety systems to prevent machinery or doors from operating under unsafe conditions.
+In diesem Projekt lernen wir, wie man einen Mikroschalter zur Steuerung von zwei LEDs einsetzt. Ein Mikroschalter ist ein hochsensibles Bauteil, das nur eine minimale Betätigungskraft benötigt. Er wird häufig in Sicherheitssystemen verwendet, um Maschinen oder Türen unter unsicheren Bedingungen zu blockieren.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -58,7 +58,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 and GPIO27. When the Micro Switch is pressed, the yellow LED lights up; when released, the red LED turns on.
+Der Mikroschalter ist mit GPIO17 verbunden, während zwei LEDs an GPIO22 und GPIO27 angeschlossen sind. Wird der Mikroschalter gedrückt, leuchtet die gelbe LED; beim Loslassen schaltet sich die rote LED ein.
 
 
 .. image:: img/fzz/2.1.2_sch.png
@@ -70,11 +70,11 @@ The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 an
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+So bauen Sie die Schaltung auf:
 
-1. Connect one terminal of the Micro Switch to GPIO17 and the other to the ground (GND).
-2. Connect the anodes of the two LEDs to GPIO22 (yellow) and GPIO27 (red) through current-limiting resistors.
-3. Connect the cathodes of both LEDs to GND.
+1. Schließen Sie ein Ende des Mikroschalters an GPIO17 und das andere Ende an GND an.  
+2. Verbinden Sie die Anoden der beiden LEDs über Vorwiderstände mit GPIO22 (gelb) und GPIO27 (rot).  
+3. Verbinden Sie die Kathoden beider LEDs mit GND.  
 
 
 .. image:: img/fzz/2.1.2_bb.png
@@ -87,8 +87,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führen Sie das Beispiel aus:
 
 
 .. code-block:: shell
@@ -100,7 +100,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-The following Python code toggles between two LEDs based on the state of the Micro Switch:
+Der folgende Python-Code steuert zwei LEDs abhängig vom Zustand des Mikroschalters:
 
 
 .. raw:: html
@@ -136,21 +136,21 @@ The following Python code toggles between two LEDs based on the state of the Mic
         # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
         pass
 
-This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
+Dieses Python-Skript steuert zwei LEDs über den Zustand eines Mikroschalters am Raspberry Pi. Beim Ausführen gilt:
 
-1. **Micro Switch Pressed**:
+1. **Mikroschalter gedrückt**:  
 
-   - LED1 (connected to GPIO pin 22) turns on.
-   - LED2 (connected to GPIO pin 27) turns off.
+   - LED1 (an GPIO22) leuchtet.  
+   - LED2 (an GPIO27) ist aus.  
 
-2. **Micro Switch Released**:
+2. **Mikroschalter losgelassen**:  
 
-   - LED1 turns off.
-   - LED2 turns on.
+   - LED1 ist aus.  
+   - LED2 leuchtet.  
 
-3. The program continuously checks the micro switch's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. Der Zustand des Mikroschalters wird alle 0,5 Sekunden überprüft, und die LEDs werden entsprechend angepasst.  
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Das Skript läuft unbegrenzt, bis es mit ``Ctrl+C`` beendet wird.  
 
 
 ----------------------------------------------
@@ -159,7 +159,7 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 1. **Library Import**
 
-   The ``fusion_hat`` library provides simple GPIO control, and the ``time`` library enables delays.
+   Die Bibliothek ``fusion_hat`` ermöglicht eine einfache GPIO-Steuerung, während die Bibliothek ``time`` Verzögerungen einfügt.
 
    .. code-block:: python
 
@@ -168,7 +168,7 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 2. **Component Initialization**
 
-   The Micro Switch is connected to GPIO17 with pull-up disabled, while the LEDs are connected to GPIO22 and GPIO27.
+   Der Mikroschalter ist mit GPIO17 und Pull-Down-Widerstand verbunden, die LEDs mit GPIO22 und GPIO27.
 
    .. code-block:: python
 
@@ -181,7 +181,7 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 3. **Switch State Handling**
 
-   The program checks the state of the Micro Switch in a loop. When pressed, LED1 turns on and LED2 off. When released, LED1 turns off and LED2 on.
+   Der Programmcode prüft in einer Schleife den Zustand des Mikroschalters. Bei Betätigung leuchtet LED1 und LED2 ist aus; beim Loslassen ist es umgekehrt.
 
    .. code-block:: python
 
@@ -196,7 +196,7 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 4. **Interrupt Handling**
 
-   The ``try-except`` block ensures the script exits cleanly when interrupted using Ctrl+C.
+   Mit dem ``try-except``-Block wird sichergestellt, dass das Skript sauber beendet werden kann, wenn es mit Ctrl+C unterbrochen wird.
 
    .. code-block:: python
 
@@ -209,21 +209,20 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 **Troubleshooting**
 
-1. **LEDs Do Not Respond**  
+1. **LEDs reagieren nicht**  
 
-   - **Cause**: Incorrect GPIO wiring or pin configuration.  
-   - **Solution**: Ensure LED1 is connected to GPIO pin 22, LED2 to GPIO pin 27, and both LEDs have appropriate resistors. Verify the micro switch connection to GPIO pin 17.
+   - **Ursache**: Falsche GPIO-Verbindungen oder fehlerhafte Pin-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass LED1 an GPIO22, LED2 an GPIO27 angeschlossen ist, beide LEDs Vorwiderstände haben und der Mikroschalter mit GPIO17 verbunden ist.  
 
-2. **Micro Switch Not Detected**  
+2. **Mikroschalter wird nicht erkannt**  
 
-   - **Cause**: The micro switch might not be configured properly or needs a pull-up/pull-down resistor.  
-   - **Solution**: Confirm that ``pull = Pin.PULL_UP`` matches your switch configuration. If the switch requires a pull-up, enable it in the initialization.
+   - **Ursache**: Falsche Konfiguration oder fehlender Pull-up/Pull-down-Widerstand.  
+   - **Lösung**: Prüfen Sie, ob ``pull = Pin.PULL_UP`` oder ``pull = Pin.PULL_DOWN`` Ihrer Schalterkonfiguration entspricht.  
 
-3. **LEDs Flicker or Behave Erratically**  
+3. **LEDs flackern oder verhalten sich unregelmäßig**  
 
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce by introducing a short delay after detecting a press:
-
+   - **Ursache**: Entprellungsprobleme des Schalters.  
+   - **Lösung**: Fügen Sie eine kurze Software-Entprellung ein:  
 
    .. code-block:: python
 
@@ -236,9 +235,9 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 **Extendable Ideas**
 
-1. **Adjustable Delay**  
+1. **Verstellbare Verzögerung**  
 
-   Allow the user to change the delay dynamically to fine-tune LED responsiveness:
+   Ermöglichen Sie dem Nutzer, die Verzögerung dynamisch anzupassen:  
 
    .. code-block:: python
 
@@ -248,9 +247,9 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 
 
-2. **Audio Feedback**  
+2. **Akustisches Feedback**  
 
-   Add a buzzer to provide an audible signal when the switch is pressed or released:
+   Fügen Sie einen Buzzer hinzu, der beim Betätigen oder Loslassen des Schalters ein Signal abgibt:  
 
    .. code-block:: python
 
@@ -267,4 +266,4 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 **Conclusion**
 
-This project demonstrates how to use a Micro Switch to control LEDs with the Fusion HAT. Micro Switches are versatile components widely used in safety systems, user interfaces, and industrial controls. Experimenting with them can open up opportunities for creating more advanced projects.
+Dieses Projekt zeigt, wie man mit einem Mikroschalter LEDs über den Fusion HAT steuert. Mikroschalter sind vielseitig einsetzbare Bauteile, die in Sicherheitssystemen, Benutzeroberflächen und industriellen Steuerungen weit verbreitet sind. Das Experimentieren damit eröffnet zahlreiche Möglichkeiten für erweiterte Projekte.

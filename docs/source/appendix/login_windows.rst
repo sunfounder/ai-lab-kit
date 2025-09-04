@@ -1,57 +1,52 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _login_windows:
 
 PuTTY
 =========================
 
-If you are a Windows user, you can use some applications of SSH. Here, we recommend `PuTTY <https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html>`_.
+Wenn du Windows verwendest, kannst du verschiedene SSH-Anwendungen nutzen. Hier empfehlen wir `PuTTY <https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html>`_.
 
 **Step 1**
 
-Download PuTTY.
+Lade PuTTY herunter.
 
 **Step 2**
 
-Open PuTTY and click **Session** on the left tree-alike structure. Enter
-the IP address of the RPi in the text box under **Host Name (or IP
-address)** and **22** under **Port** (by default it is 22).
+Öffne PuTTY und klicke in der linken Baumstruktur auf **Session**. Gib die IP-Adresse des RPi in das Textfeld unter **Host Name (or IP address)** ein und trage unter **Port** die Zahl **22** ein (Standardwert ist 22).
 
 .. image:: img/image25.png
     :align: center
 
 **Step 3**
 
-Click **Open**. Note that when you first log in to the Raspberry Pi with
-the IP address, there prompts a security reminder. Just click **Yes**.
+Klicke auf **Open**. Beim ersten Login auf den Raspberry Pi über die IP-Adresse erscheint eine Sicherheitsabfrage – klicke einfach auf **Yes**.
 
 **Step 4**
 
-When the PuTTY window prompts \"**login as:**\", type in
-\"**pi**\" (the user name of the RPi), and **password**: \"raspberry\"
-(the default one, if you haven't changed it).
+Wenn im PuTTY-Fenster die Eingabeaufforderung „ **login as:** “ erscheint, gib „ **pi** “ (den Benutzernamen des RPi) ein und als  **password** „raspberry“ (Standardpasswort, sofern du es nicht geändert hast).
 
 .. note::
 
-    When you input the password, the characters do not display on window accordingly, which is normal. What you need is to input the correct password.
+    Bei der Passworteingabe werden keine Zeichen angezeigt – das ist normal. Wichtig ist nur, dass du das korrekte Passwort eingibst.
     
-    If inactive appears next to PuTTY, it means that the connection has been broken and needs to be reconnected.
+    Falls neben PuTTY „inactive“ erscheint, bedeutet das, dass die Verbindung getrennt wurde und neu aufgebaut werden muss.
     
 .. image:: img/image26.png
     :align: center
 
 **Step 5**
 
-Here, we get the Raspberry Pi connected and it is time to conduct the next steps.
+Nun ist der Raspberry Pi verbunden, und du kannst mit den nächsten Schritten fortfahren.

@@ -1,21 +1,21 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Enthusiasten tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Supportfälle nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
-Output
+Ausgaben
 =============
 
-1.1 Displays
+1.1 Anzeigen
 ---------------
 
 .. toctree::
@@ -29,7 +29,7 @@ Output
     pi5_1.1.6_led_dot_matrix_python
     pi5_1.1.7_i2c_lcd1602_python
 
-1.2 Sound
+1.2 Ton
 -------------
 
 .. toctree::
@@ -39,7 +39,7 @@ Output
     pi5_1.2.2_passive_buzzer_python
 
 
-1.3 Drivers
+1.3 Aktoren
 ---------------
 
 .. toctree::
@@ -47,5 +47,4 @@ Output
 
     pi5_1.3.1_motor_python
     pi5_1.3.2_servo_python
-    pi5_1.3.3_relay_python
 

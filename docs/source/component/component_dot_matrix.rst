@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _cpn_dot_matrix:
 
@@ -21,22 +21,24 @@ LED Matrix Module
     :width: 400
     :align: center
 
-This is a common cathode 8x8 dot matrix module driven by MAX7219, the module operating voltage is 5V, the size is 50mmx32mmx15mm, the left side is input port, the right side is output port, support multiple modules cascade.
+Dies ist ein 8x8-Punktmatrix-Modul mit gemeinsamer Kathode, das über den MAX7219 angesteuert wird.  
+Das Modul arbeitet mit einer Betriebsspannung von 5V, die Abmessungen betragen 50mm x 32mm x 15mm.  
+Links befindet sich der Eingangsport, rechts der Ausgangsport – mehrere Module können in Reihe geschaltet werden.
 
-* **VCC**: Positive Supply Voltage. Connect to +5V.
-* **GND**: Ground (both GND pins must be connected)
-* **DIN**: Serial-Data Input. Data is loaded into the internal 16-bit shift register on CLK’s rising edge.
-* **CS**: Chip-Select Input. Serial data is loaded into the shift register while CS is low. The last 16 bits of serial data are latched on CS’s rising edge.
-* **CLK**: Serial-Clock Input. 10MHz maximum rate. On CLK’s rising edge, data is shifted into the internal shift register. On CLK’s falling edge, data is clocked out of DOUT. On the MAX7221, the CLK input is active only while CS is low.
+* **VCC**: Positive Versorgungsspannung. Mit +5V verbinden.  
+* **GND**: Masse (beide GND-Pins müssen verbunden werden).  
+* **DIN**: Serieller Dateneingang. Daten werden an der steigenden Flanke von CLK ins interne 16-Bit-Schieberegister geladen.  
+* **CS**: Chip-Select-Eingang. Solange CS auf Low liegt, werden serielle Daten ins Schieberegister geladen. Mit der steigenden Flanke von CS werden die letzten 16 Bits übernommen.  
+* **CLK**: Serieller Takteingang. Maximalrate 10 MHz. Bei der steigenden Flanke von CLK werden Daten ins Register eingelesen, bei der fallenden Flanke über DOUT ausgegeben. Beim MAX7221 ist der CLK-Eingang nur aktiv, solange CS auf Low liegt.  
 
 **MAX7219**
 
-The MAX7219 is a compact, serial input/output common-cathode display drivers that interface microprocessors (µPs) to 7-segment numeric LED displays of up to 8 digits, bar-graph displays, or 64 individual LEDs. Included on-chip are a BCD code-B
-decoder, multiplex scan circuitry, segment and digit drivers, and an 8x8 static RAM that stores each digit.
+Der MAX7219 ist ein kompakter Displaytreiber mit serieller Ein-/Ausgabe und gemeinsamer Kathode. Er ermöglicht die Ansteuerung von 7-Segment-LED-Anzeigen mit bis zu 8 Stellen, Balkenanzeigen oder bis zu 64 einzelnen LEDs.  
+Im Chip integriert sind ein BCD-Code-B-Decoder, Multiplex-Scan-Logik, Segment- und Digit-Treiber sowie ein 8x8-Statik-RAM zur Speicherung der einzelnen Digits.  
 
-Only one external resistor is required to set the segment current for all LEDs. The MAX7221 is compatible with SPI™, QSPI™, and MICROWIRE™, and has slewrate-limited segment drivers to reduce EMI.
+Zur Strombegrenzung aller LEDs ist nur ein externer Widerstand erforderlich. Der MAX7221 ist zudem kompatibel mit SPI™, QSPI™ und MICROWIRE™ und verfügt über flankenbegrenzte Segmenttreiber zur Reduzierung elektromagnetischer Störungen (EMI).  
 
-A convenient 4-wire serial interface connects to all common µPs. Individual digits may be addressed and updated without rewriting the entire display. The MAX7219/MAX7221 also allow the user to select codeB decoding or no-decode for each digit.
+Ein praktisches 4-Draht-Interface erlaubt die Verbindung mit gängigen Mikroprozessoren. Einzelne Digits können gezielt adressiert und aktualisiert werden, ohne die gesamte Anzeige neu zu beschreiben. Darüber hinaus bieten MAX7219/MAX7221 die Wahl zwischen Code-B-Dekodierung oder keiner Dekodierung für jedes einzelne Digit.  
 
 .. image:: img/max7219_sche.png
 

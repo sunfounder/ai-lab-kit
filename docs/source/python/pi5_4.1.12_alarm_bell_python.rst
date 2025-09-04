@@ -1,39 +1,39 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.12_py:
 
-4.1.12 Alarm Bell
-==================
+4.1.12 Alarmglocke
+======================
 
 **Introduction**
 
-In this project, we will create a simple manual alarm system using a toggle switch, LEDs, and a buzzer. The toggle switch triggers the alarm, causing the buzzer to emit a sound and LEDs to flash alternately. Additionally, this project can be modified by replacing the toggle switch with a thermistor or a photosensitive sensor to create a temperature or light alarm system.
+In diesem Projekt bauen wir ein einfaches manuelles Alarmsystem mit Schiebeschalter, LEDs und einem Buzzer. Der Schalter löst den Alarm aus: Der Buzzer gibt einen Ton aus und die LEDs blinken abwechselnd. Alternativ kannst du den Schiebeschalter durch einen Thermistor oder einen Lichtsensor ersetzen, um daraus ein Temperatur- oder Lichtalarmsystem zu machen.
 
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-Here are the components required for the project:
+Für dieses Projekt benötigst du folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -54,13 +54,13 @@ Here are the components required for the project:
     *   - Fusion HAT
         - 
     *   - Raspberry Pi Zero 2 W
-        -
+        - 
 
 ----------------------------------------------
 
 **Circuit Diagram**
 
-The schematic diagram for the alarm bell is shown below:
+Das Schaltbild der Alarmglocke siehst du hier:
 
 .. image:: img/fzz/4.1.12_sch.png
    :width: 800
@@ -72,7 +72,7 @@ The schematic diagram for the alarm bell is shown below:
 
 **Wiring Diagram**
 
-Follow the wiring diagram to set up the circuit:
+Verdrahte die Bauteile gemäß folgendem Diagramm:
 
 
 .. image:: img/fzz/4.1.12_bb.png
@@ -85,8 +85,8 @@ Follow the wiring diagram to set up the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -101,7 +101,7 @@ Follow these steps to run the example:
 **Writing the Code**
 
 
-Below is the Python code for the alarm system:
+Unten findest du den Python-Code für das Alarmsystem:
 
 
 
@@ -198,23 +198,23 @@ Below is the Python code for the alarm system:
       BLedPin.off()
 
 
-This Python script creates an alarm system that integrates LEDs, a buzzer, and a switch. The program operates as follows:
+Dieses Python-Skript realisiert ein Alarmsystem mit LEDs, Buzzer und Schalter. Die Funktionsweise:
 
-1. **Alarm Activation**: When the button (``switchPin``) is pressed, the alarm is activated:
+1. **Alarmaktivierung**: Wird der Button (``switchPin``) gedrückt, wird der Alarm ausgelöst:
+   
+   - **LEDs**: Die beiden LEDs (``ALedPin`` und ``BLedPin``) blinken abwechselnd im 0,5-Sekunden-Takt.  
+   - **Buzzer**: Der Buzzer spielt fortlaufend eine vordefinierte Melodie.
 
-     - **LEDs**: Two LEDs (``ALedPin`` and ``BLedPin``) blink alternately every 0.5 seconds.
-     - **Buzzer**: The buzzer plays a predefined musical tune repeatedly.
+2. **Alarmdeaktivierung**: Beim Loslassen des Buttons wird der Alarm sofort beendet:
+   
+   - Die LEDs gehen aus.  
+   - Der Buzzer verstummt.
 
-2. **Alarm Deactivation**: Releasing the button immediately deactivates the alarm:
+3. **Multithreading**: LEDs und Buzzer laufen in separaten Threads für flüssiges, reaktionsschnelles Verhalten.
 
-     - The LEDs turn off.
-     - The buzzer stops playing.
+4. **Kontinuierliche Überwachung**: Der Button-Zustand wird permanent abgefragt und der Alarm entsprechend ein- bzw. ausgeschaltet.
 
-3. **Multi-Threading**: Separate threads are used to control the LEDs and buzzer, ensuring smooth operation and responsiveness.
-
-4. **Continuous Monitoring**: The system continuously monitors the button state, toggling the alarm on or off based on the input.
-
-5. **Graceful Exit**: On ``Ctrl+C``, the program stops all threads, turns off the LEDs, and stops the buzzer.
+5. **Sauberes Beenden**: Bei ``Ctrl+C`` werden alle Ausgaben gestoppt und die LEDs sowie der Buzzer ausgeschaltet.
 
 
 ----------------------------------------------
@@ -222,31 +222,31 @@ This Python script creates an alarm system that integrates LEDs, a buzzer, and a
 
 **Understanding the Code**
 
-1. **Components Setup:**
+1. **Komponenten-Setup:**
+   
+   * Der Buzzer ist an P0 angeschlossen.  
+   * Zwei LEDs liegen an GPIO 22 und 27.  
+   * Ein Button an GPIO 17 dient als Schalter.
 
-   * The buzzer is connected to P0.  
-   * Two LEDs are connected to GPIO pins 22 and 27.  
-   * A button is connected to GPIO pin 17, serving as the toggle switch.  
+2. **Globales Flag:**
+   
+   Die Variable ``flag`` steuert den Alarmzustand. Bei gedrücktem Schalter ist ``flag`` = 1 und Buzzer/LEDs werden aktiviert.
 
-2. **Global Flag:**
+3. **LED-Blinkmuster:**
+   
+   Die Funktion ``ledWork`` lässt die LEDs abwechselnd blinken, solange ``flag`` gesetzt ist.
 
-   The ``flag`` variable is used to control the alarm state. When the switch is pressed, the flag is set to 1, activating the buzzer and LEDs.  
+4. **Buzzer-Melodie:**
+   
+   ``buzzerWork`` spielt eine vordefinierte Tonfolge. Wird ``flag`` zurückgesetzt, stoppt die Wiedergabe sofort.
 
-3. **LED Blinking:**
-
-   The ``ledWork`` function alternates the LEDs’ blinking pattern when the flag is set.  
-
-4. **Buzzer Tune:**
-
-   The ``buzzerWork`` function plays a predefined tune using the buzzer. The tune stops immediately if the flag is unset.  
-
-5. **Main Function:**
-
-   Continuously monitors the state of the button to control the flag.  
+5. **Main-Funktion:**
+   
+   Überwacht fortlaufend den Button und setzt das Flag entsprechend.
 
 6. **Threads:**
-
-   Separate threads are used to run the ``ledWork`` and ``buzzerWork`` functions concurrently.  
+   
+   ``ledWork`` und ``buzzerWork`` laufen parallel in eigenen Threads.
 
 
 
@@ -254,62 +254,62 @@ This Python script creates an alarm system that integrates LEDs, a buzzer, and a
 
 **Troubleshooting**
 
-1. **LEDs Do Not Blink**:
+1. **LEDs blinken nicht**:
 
-   - **Cause**: Incorrect wiring or GPIO configuration.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder GPIO-Konfiguration.  
+   - **Lösung**:
 
-     - Verify that ``ALedPin`` and ``BLedPin`` are connected to GPIO 22 and 27, respectively.
-     - Test the LEDs independently with a simple GPIO script.
+     - Prüfe die Anschlüsse von ``ALedPin`` (GPIO 22) und ``BLedPin`` (GPIO 27).
+     - Teste beide LEDs mit einem einfachen GPIO-Skript.
 
-2. **Buzzer Does Not Sound**:
+2. **Buzzer gibt keinen Ton aus**:
 
-   - **Cause**: Faulty buzzer connection or incorrect GPIO pin.
-   - **Solution**:
+   - **Ursache**: Fehlerhafte Verbindung oder falscher Pin.  
+   - **Lösung**:
 
-     - Ensure the buzzer is connected to P0 and ground.
-     - Test the buzzer by manually calling ``BeepPin.play()`` with a single note.
+     - Stelle sicher, dass der Buzzer an P0 und GND hängt.
+     - Teste den Buzzer mit einem einzelnen Ton via ``BeepPin.play()``.
 
-3. **Button Does Not Toggle Alarm**:
+3. **Button schaltet den Alarm nicht**:
 
-   - **Cause**: Button not wired correctly or GPIO pin mismatch.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder Pin-Mismatch.  
+   - **Lösung**:
 
-     - Check the button connection to GPIO 17.
-     - Ensure the button properly closes the circuit when pressed.
+     - Prüfe den Anschluss des Buttons an GPIO 17.
+     - Verifiziere, dass der Button den Stromkreis beim Drücken schließt.
 
-4. **High CPU Usage**:
+4. **Hohe CPU-Auslastung**:
 
-   - **Cause**: Threads running without delays when the alarm is off.
-   - **Solution**: Add small delays to reduce CPU load when ``flag`` is 0:
+   - **Ursache**: Threads laufen ohne Pause, wenn der Alarm aus ist.  
+   - **Lösung**: Kleine Verzögerung einfügen, wenn ``flag`` = 0:
 
    .. code-block:: python
 
       if not flag:
             time.sleep(0.1)
 
-5. **Buzzer Plays Incorrect Notes**:
+5. **Buzzer spielt falsche Noten**:
 
-   - **Cause**: Incorrect ``tune`` sequence or timing.
-   - **Solution**: Verify that the ``tune`` list contains valid note and duration pairs.
+   - **Ursache**: Fehler in ``tune`` oder im Timing.  
+   - **Lösung**: Prüfe die Paare aus Note und Dauer in der ``tune``-Liste.
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Adjustable Alarm Duration**: Add functionality to set a timer for how long the alarm remains active.
+1. **Einstellbare Alarmdauer**: Füge einen Timer hinzu, der die aktive Alarmzeit begrenzt.
 
-2. **Visual Indicator for Alarm Status**: Use an additional LED to indicate whether the alarm is currently active or inactive.
+2. **Status-LED**: Eine zusätzliche LED zeigt an, ob der Alarm scharf geschaltet ist.
 
-3. **Multiple Alarm Modes**: Add different alarm patterns for LEDs and buzzer based on specific triggers or user input.
+3. **Mehrere Alarmmodi**: Unterschiedliche Blink-/Tonmuster je nach Auslöser oder Nutzereingabe.
 
-4. **Customizable Tune**: Allow users to input their own musical tune for the buzzer.
+4. **Eigene Melodie**: Erlaube das Einspielen benutzerdefinierter Tonfolgen.
 
-5. **Emergency Override**: Add a second button to immediately disable the alarm, overriding other inputs.
+5. **Notabschaltung**: Ein zweiter Button zum sofortigen Deaktivieren des Alarms.
 
 
 ----------------------------------------------
 
 **Conclusion**
 
-This project demonstrates the integration of basic electronic components to create an alarm system. By modifying the input trigger, this project can be adapted for various use cases, such as temperature or light alarms. Experiment with the code and components to explore more possibilities!
+Dieses Projekt zeigt, wie sich grundlegende Elektronikkomponenten zu einem Alarmsystem kombinieren lassen. Durch Austausch des Eingabesensors (z. B. Thermistor oder Lichtsensor) kann es leicht zu einem Temperatur- oder Lichtalarm erweitert werden. Probiere weitere Varianten aus und passe das System an deine Anforderungen an!

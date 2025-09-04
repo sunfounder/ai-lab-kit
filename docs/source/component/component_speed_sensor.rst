@@ -1,32 +1,32 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_speed_sensor:
 
-Speed Sensor Module
-========================
+Geschwindigkeitssensor-Modul
+===============================
 
 .. image:: img/speed_sensor1.png
     :width: 300
     :align: center
 
-The speed sensor consists of two parts: a transmitter and a receiver. The transmitter emits light, which then enters the receiver.
+Der Geschwindigkeitssensor besteht aus zwei Teilen: einem Sender und einem Empfänger. Der Sender emittiert Licht, das anschließend auf den Empfänger trifft.  
 
-If the light beam between the emitter and receiver is interrupted by an obstacle, the receiver will not detect the incident light, then the D0 pin will output low level.
+Wird der Lichtstrahl zwischen Sender und Empfänger durch ein Hindernis unterbrochen, empfängt der Empfänger kein einfallendes Licht mehr und der Pin D0 gibt ein Low-Signal aus.  
 
 .. note::
-    The A0 pin on this module is empty and there is no circuit.
+    Der Pin A0 dieses Moduls ist unbeschaltet und mit keiner Schaltung verbunden.
 
 .. image:: img/speed_sensor2.png
 

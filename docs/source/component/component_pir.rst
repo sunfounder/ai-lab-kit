@@ -1,52 +1,52 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_pir:
 
-PIR Motion Sensor Module
+PIR-Bewegungssensormodul
 ============================
 
 .. image:: img/pir_pic.png
     :width: 300
     :align: center
 
-The PIR sensor detects infrared heat radiation that can be used to detect the presence of organisms that emit infrared heat radiation.
+Der PIR-Sensor erkennt Infrarot-Wärmestrahlung, die von Organismen ausgesendet wird, und kann so deren Anwesenheit feststellen.  
 
-The PIR sensor is split into two slots that are connected to a differential amplifier. Whenever a stationary object is in front of the sensor, the two slots receive the same amount of radiation and the output is zero. Whenever a moving object is in front of the sensor, one of the slots receives more radiation than the other , which makes the output fluctuate high or low. This change in output voltage is a result of detection of motion.
+Der PIR-Sensor ist in zwei Segmente unterteilt, die an einen Differenzverstärker angeschlossen sind. Befindet sich ein stationäres Objekt vor dem Sensor, empfangen beide Segmente die gleiche Menge Strahlung, und der Ausgang bleibt null. Bewegt sich jedoch ein Objekt, empfängt ein Segment mehr Strahlung als das andere, was den Ausgangswert zwischen hoch und niedrig schwanken lässt. Diese Veränderung der Ausgangsspannung zeigt die Bewegungserkennung an.  
 
 .. image:: img/PIR_working_principle.jpg
     :width: 800
 
-After the sensing module is wired, there is a one-minute initialization. During the initialization, module will output for 0~3 times at intervals. Then the module will be in the standby mode. Please keep the interference of light source and other sources away from the surface of the module so as to avoid the misoperation caused by the interfering signal. Even you'd better use the module without too much wind, because the wind can also interfere with the sensor.
+Nach dem Anschließen des Sensormoduls erfolgt eine Initialisierung von etwa einer Minute. Während dieser Zeit gibt das Modul in Abständen 0–3 Signale aus. Danach wechselt es in den Standby-Modus. Achte darauf, dass keine Lichtquellen oder andere Störquellen auf die Oberfläche des Moduls einwirken, um Fehlfunktionen durch Störsignale zu vermeiden. Auch zu viel Luftzug sollte vermieden werden, da dieser den Sensor ebenfalls beeinflussen kann.  
 
 .. image:: img/pir_back.png
     :width: 600
     :align: center
 
-**Distance Adjustment**
+**Entfernungseinstellung**
 
-Turning the knob of the distance adjustment potentiometer clockwise, the range of sensing distance increases, and the maximum sensing distance range is about 0-7 meters. If turn it anticlockwise, the range of sensing distance is reduced, and the minimum sensing distance range is about 0-3 meters.
+Durch Drehen des Potentiometers für die Entfernungseinstellung im Uhrzeigersinn wird die Reichweite der Erkennung vergrößert, bis maximal etwa 0–7 Meter. Drehst du es gegen den Uhrzeigersinn, verringert sich die Reichweite auf ein Minimum von etwa 0–3 Meter.  
 
-**Delay adjustment**
+**Verzögerungseinstellung**
 
-Rotate the knob of the delay adjustment potentiometer clockwise, you can also see the sensing delay increasing. The maximum of the sensing delay can reach up to 300s. On the contrary, if rotate it anticlockwise, you can shorten the delay with a minimum of 5s. 
+Drehe das Potentiometer für die Verzögerung im Uhrzeigersinn, um die Erkennungsverzögerung zu erhöhen. Der Maximalwert kann bis zu 300 Sekunden erreichen. Drehst du es gegen den Uhrzeigersinn, kann die Verzögerung auf ein Minimum von 5 Sekunden reduziert werden.  
 
-**Two Trigger Modes**
+**Zwei Auslösemodi**
 
-Choosing different modes by using the jumper cap.
+Die Auswahl erfolgt über eine Steckbrücke (Jumper).  
 
-* **H**: Repeatable trigger mode, after sensing the human body, the module outputs high level. During the subsequent delay period, if somebody enters the sensing range, the output will keep being the high level.
+* **H**: Wiederholbarer Auslösemodus. Nach Erkennung einer Person gibt das Modul ein High-Signal aus. Betritt während der Verzögerungszeit jemand erneut den Erfassungsbereich, bleibt der Ausgang weiterhin auf High.  
 
-* **L**: Non-repeatable trigger mode, outputs high level when it senses the human body. After the delay, the output will change from high level into low level automatically. 
+* **L**: Nicht wiederholbarer Auslösemodus. Erkennt der Sensor eine Person, gibt er ein High-Signal aus. Nach Ablauf der Verzögerung wechselt der Ausgang automatisch von High auf Low.  
 

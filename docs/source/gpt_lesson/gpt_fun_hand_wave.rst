@@ -1,31 +1,31 @@
-2.6 Hand-wave Interaction System
+2.6 Hand-Wave Interaktionssystem
 ======================================
 
-This project is a gesture interaction system that utilizes two infrared obstacle avoidance sensors to detect hand waves. The system sends detected sensor events to an OpenAI-powered assistant, which analyzes the time difference between sensor activations to determine the nature of the user's hand movement. Based on the analysis, the assistant generates relevant responses, such as recognizing a wave gesture and responding accordingly.
+Dieses Projekt ist ein Gesten-Interaktionssystem, das zwei Infrarot-Hindernissensoren verwendet, um Handbewegungen zu erkennen. Die erfassten Sensordaten werden an einen OpenAI-gestützten Assistenten gesendet, der anhand der Zeitdifferenz zwischen den Sensorauslösungen die Art der Handbewegung analysiert. Basierend auf dieser Analyse erzeugt der Assistent passende Antworten, z. B. das Erkennen einer Wischgeste und eine entsprechende Rückmeldung.
 
 
 -----------------------------------
 
 **Features**
 
-- **Dual Infrared Sensor Input**: Detects hand motion using two sensors placed 10 cm apart.
-- **Real-Time Gesture Recognition**: Determines the direction, speed, and type of hand waves.
-- **AI-Based Interpretation**: Sends sensor trigger data to OpenAI for processing and response generation.
-- **LED Indicator**: Signals system status during gesture recognition.
-- **Event-Driven Execution**: Uses GPIO callbacks for efficient real-time detection.
+- **Duale Infrarotsensor-Eingabe**: Erkennt Handbewegungen mit zwei im Abstand von 10 cm platzierten Sensoren.
+- **Echtzeit-Gestenerkennung**: Bestimmt Richtung, Geschwindigkeit und Typ der Handbewegungen.
+- **KI-gestützte Interpretation**: Sendet Sensordaten an OpenAI zur Analyse und Antwortgenerierung.
+- **LED-Anzeige**: Signalisiert den Systemstatus während der Gestenerkennung.
+- **Ereignisgesteuerte Ausführung**: Nutzt GPIO-Callbacks für effiziente Erkennung in Echtzeit.
 
 
 
 -----------------------------------
 
-**What You’ll Need**
+**Was Sie benötigen**
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_avoid_module`
         - |link_obstacle_avoidance_buy|
@@ -42,7 +42,7 @@ This project is a gesture interaction system that utilizes two infrared obstacle
 
 -----------------------------------
 
-**Wiring Diagram**
+**Schaltplan**
 
 .. image:: img/fzz/gpt_hand_wave_bb.png
    :width: 800
@@ -51,11 +51,11 @@ This project is a gesture interaction system that utilizes two infrared obstacle
 
 ----------------------------------------------
 
-**Running the Example**
+**Beispiel ausführen**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -171,18 +171,18 @@ Follow these steps to run the example:
 
 **Code Explanation**
 
-This project is divided into multiple key functional components:
+Dieses Projekt ist in mehrere zentrale Funktionsblöcke gegliedert:
 
-1. **Initialization and Setup:**
+1. **Initialisierung und Setup:**
 
-   - Imports necessary modules, including ``openai`` for AI processing and ``fusion_hat`` for GPIO handling.
-   - Initializes the OpenAI API client with ``OPENAI_API_KEY``.
-   - Configures GPIO pins for the left and right sensors, as well as an LED indicator.
+   - Importiert die notwendigen Module, darunter ``openai`` für die KI-Verarbeitung und ``fusion_hat`` für die GPIO-Steuerung.
+   - Initialisiert den OpenAI-API-Client mit ``OPENAI_API_KEY``.
+   - Konfiguriert die GPIO-Pins für die linken und rechten Sensoren sowie eine LED-Anzeige.
 
-2. **Sensor Event Handling**:
+2. **Sensor-Ereignisbehandlung**:
 
-   - Each time a sensor is triggered, the timestamp and sensor ID are recorded in ``events``.
-   - If at least two events are detected, the system calls ``analyze_hand_wave`` to determine the gesture.
+   - Jedes Mal, wenn ein Sensor auslöst, werden Zeitstempel und Sensor-ID in ``events`` gespeichert.
+   - Sobald mindestens zwei Ereignisse registriert sind, wird ``analyze_hand_wave`` aufgerufen, um die Geste zu interpretieren.
 
    .. code-block:: python
 
@@ -195,11 +195,11 @@ This project is divided into multiple key functional components:
            if len(events) >= 2:
                analyze_hand_wave()
 
-3. **Hand Wave Analysis**:
+3. **Analyse der Handbewegung**:
 
-   - Verifies that at least two sensor triggers exist.
-   - Sends the recorded sensor event data to OpenAI for interpretation.
-   - Receives and processes the AI response, which describes the gesture.
+   - Stellt sicher, dass mindestens zwei Sensorauslösungen vorliegen.
+   - Sendet die aufgezeichneten Ereignisdaten an OpenAI zur Auswertung.
+   - Empfängt und verarbeitet die KI-Antwort, die die erkannte Geste beschreibt.
 
    .. code-block:: python
 
@@ -236,16 +236,16 @@ This project is divided into multiple key functional components:
            except Exception as e:
                print(f"Error in AI processing: {e}")
 
-4. **AI Integration and Response Processing:**
+4. **KI-Integration und Antwortverarbeitung:**
 
-   - Uses OpenAI’s GPT-4 model to analyze hand motion patterns.
-   - Determines wave characteristics, such as speed and direction.
-   - Responds with an appropriate message based on movement patterns.
+   - Nutzt OpenAIs GPT-4-Modell zur Analyse von Handbewegungsmustern.
+   - Erkennt Charakteristika der Geste, z. B. Geschwindigkeit und Richtung.
+   - Gibt eine passende Rückmeldung basierend auf den Bewegungsmustern aus.
 
-5. **System Loop and Cleanup:**
+5. **Systemschleife und Aufräumen:**
 
-   - Uses ``pause()`` to keep the program running indefinitely.
-   - On exit (e.g., via ``CTRL+C``), cleans up resources and deletes the OpenAI assistant instance.
+   - Verwendet ``pause()``, um das Programm dauerhaft laufen zu lassen.
+   - Beim Beenden (z. B. mit ``CTRL+C``) werden die Ressourcen freigegeben und die OpenAI-Assistenteninstanz gelöscht.
 
    .. code-block:: python
 
@@ -261,24 +261,24 @@ This project is divided into multiple key functional components:
 
 **Debugging Tips**
 
-- **No sensor triggers detected?**
+- **Keine Sensorauslösung erkannt?**
 
-  - Ensure the infrared sensors are correctly wired and powered.
-  - Print raw sensor readings to verify their functionality.
+  - Stellen Sie sicher, dass die Infrarotsensoren korrekt verkabelt und mit Strom versorgt sind.
+  - Geben Sie Rohdaten der Sensoren aus, um deren Funktion zu überprüfen.
 
-- **AI not responding?**
+- **KI reagiert nicht?**
 
-  - Confirm your OpenAI API key is valid and properly set.
-  - Check network connectivity to ensure API calls are successful.
+  - Überprüfen Sie, ob Ihr OpenAI-API-Schlüssel gültig und korrekt gesetzt ist.
+  - Prüfen Sie die Netzwerkverbindung, um erfolgreiche API-Aufrufe sicherzustellen.
 
-- **Incorrect gesture interpretation?**
+- **Gesten werden falsch interpretiert?**
 
-  - Verify that sensor timestamps are correctly recorded.
-  - Increase the distance between sensors if wave detection is too sensitive.
+  - Kontrollieren Sie, ob die Zeitstempel der Sensoren korrekt aufgezeichnet werden.
+  - Vergrößern Sie den Abstand zwischen den Sensoren, wenn die Erkennung zu empfindlich reagiert.
 
-- **LED not turning on/off?**
+- **LED schaltet nicht ein/aus?**
 
-  - Confirm the GPIO pin assignments match the hardware setup.
-  - Ensure the ``led.on()`` and ``led.off()`` functions are correctly called.
+  - Vergewissern Sie sich, dass die GPIO-Pinbelegung mit der Hardware übereinstimmt.
+  - Prüfen Sie, ob die Funktionen ``led.on()`` und ``led.off()`` korrekt aufgerufen werden.
 
 

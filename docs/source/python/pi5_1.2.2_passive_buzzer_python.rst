@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Themen und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalten Sie frühzeitig Einblick in neue Produktankündigungen und exklusive Vorschauen.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _1.2.2_py:
 
-1.2.2 Passive Buzzer
+1.2.2 Passiver Summer
 ===========================
 
 **Introduction**
 
-In this project, we will learn how to make a passive buzzer play music by driving it with different frequencies. Passive buzzers, unlike active buzzers, require an external signal to produce sound.
+In diesem Projekt lernen wir, wie ein passiver Summer über unterschiedliche Frequenzen angesteuert wird, um Melodien zu erzeugen. Im Gegensatz zu aktiven Summern benötigen passive Summer ein externes Signal, um Töne auszugeben.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -52,7 +52,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The circuit uses a passive buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor from excessive current. By varying the frequency of the GPIO pin connected to the transistor, the buzzer produces different sounds, enabling it to play music.
+Die Schaltung verwendet einen passiven Summer, einen NPN-Transistor und einen 1-kΩ-Widerstand. Der Widerstand schützt den Transistor vor zu hohem Basisstrom. Durch Variation der Frequenz am mit dem Transistor verbundenen GPIO-Pin erzeugt der Summer unterschiedliche Töne – so lassen sich Melodien abspielen.
 
 .. image:: img/fzz/1.2.2_sch.png
 
@@ -61,12 +61,12 @@ The circuit uses a passive buzzer, a NPN transistor, and a 1kΩ resistor. The re
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+Gehen Sie wie folgt vor, um die Schaltung aufzubauen:
 
-1. Connect the base of the NPN transistor to PWM0 through the resistor.
-2. Connect the emitter of the transistor to the power supply (+).
-3. Connect the collector of the transistor to one terminal of the passive buzzer.
-4. Connect the other terminal of the buzzer to the ground (-).
+1. Verbinden Sie die Basis des NPN-Transistors über den Widerstand mit PWM0.  
+2. Verbinden Sie den Emitter des Transistors mit der Stromversorgung (+).  
+3. Schließen Sie den Kollektor des Transistors an einen Anschluss des passiven Summers an.  
+4. Verbinden Sie den anderen Anschluss des Summers mit Masse (-).
 
 .. image:: img/fzz/1.2.2_bb.png
    :width: 800
@@ -77,8 +77,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -90,7 +90,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-The following Python code generates musical notes using a passive buzzer:
+Der folgende Python-Code erzeugt über einen passiven Summer musikalische Noten:
 
 
 .. raw:: html
@@ -139,12 +139,12 @@ The following Python code generates musical notes using a passive buzzer:
       pass
 
 
-This Python script plays a musical tune using a passive buzzer connected to PWM 0. When executed:
+Dieses Python-Skript spielt über einen an PWM0 angeschlossenen passiven Summer eine Melodie ab. Beim Ausführen gilt:
 
-1. The script iterates through a predefined sequence of musical notes (``tune``), playing each note for a specified duration.
-2. The notes are output to the console as they are played, providing a visual reference.
-3. The tune stops automatically once all notes are played. The buzzer produces no sound during pauses (when the note is ``None``).
-4. The program can be interrupted gracefully using ``Ctrl+C``.
+1. Das Skript iteriert durch eine vordefinierte Folge musikalischer Noten (``tune``) und spielt jede Note für die angegebene Dauer.  
+2. Die jeweils gespielte Note wird zur Kontrolle in der Konsole ausgegeben.  
+3. Nach dem letzten Eintrag endet die Wiedergabe automatisch; bei Pausen (``None``) bleibt der Summer stumm.  
+4. Das Programm kann jederzeit mit ``Ctrl+C`` sauber beendet werden.
 
 
 ----------------------------------------------
@@ -153,7 +153,7 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 1. **Library Import**
 
-   The ``Buzzer`` class from the ``fusion_hat`` library is used to generate tones, and ``time.sleep`` introduces delays for note durations.
+   Die Klasse ``Buzzer`` aus ``fusion_hat`` erzeugt Töne, ``time.sleep`` steuert die Notendauern.
 
    .. code-block:: python
 
@@ -162,7 +162,7 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 2. **Buzzer Initialization**
 
-   The ``Buzzer`` is associated with PWM0 for tone generation.
+   Der ``Buzzer`` wird zur Tongenerierung mit PWM0 verknüpft.
 
    .. code-block:: python
 
@@ -171,7 +171,7 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 3. **Playing Notes**
 
-   The ``play`` function iterates over a list of tuples representing musical notes and their durations. Each note is played for its specified duration, followed by a brief stop.
+   Die Funktion ``play`` durchläuft eine Liste aus Tupeln (Note, Dauer), spielt jede Note und schaltet danach ab.
 
    .. code-block:: python
 
@@ -183,7 +183,7 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 4. **Tune Definition**
 
-   The ``tune`` variable contains a sequence of notes (e.g., 'C#4') and durations (e.g., 0.2 seconds).
+   ``tune`` enthält die Abfolge von Noten (z. B. 'C#4') und Dauerangaben (z. B. 0,2 Sekunden).
 
    .. code-block:: python
 
@@ -202,7 +202,7 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 5. **Keyboard Interrupt Handling**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C).
+   Ein ``try-except``-Block sorgt für ein sauberes Beenden bei Unterbrechung (z. B. ``Ctrl+C``).
 
    .. code-block:: python
 
@@ -217,24 +217,24 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 **Troubleshooting**
 
-1. **No Sound from the Buzzer**  
+1. **Kein Ton aus dem Summer**  
 
-   - **Cause**: Incorrect GPIO pin connection or incompatible buzzer type.  
-   - **Solution**: Ensure the TonalBuzzer is connected to PWM 0.
+   - **Ursache**: Falsche GPIO-Zuordnung oder inkompatibler Summer.  
+   - **Lösung**: Stellen Sie sicher, dass der Ton-Summer an PWM0 angeschlossen ist.
 
-2. **Intermittent or Stuttering Sound**  
+2. **Unterbrechungen oder stotternder Klang**  
 
-   - **Cause**: Timing inconsistencies in the ``sleep()`` function.  
-   - **Solution**: Confirm that the durations in the ``tune`` list are appropriately calibrated for smooth transitions.
+   - **Ursache**: Unstimmigkeiten bei den Wartezeiten (``sleep()``).  
+   - **Lösung**: Prüfen Sie die Dauerangaben in ``tune`` und passen Sie sie für gleichmäßige Übergänge an.
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Custom Tunes**  
+1. **Eigene Melodien**  
 
-   Allow the user to input their own sequence of notes and durations:
+   Erlauben Sie die Eingabe einer eigenen Notenfolge samt Dauern:
 
    .. code-block:: python
 
@@ -248,9 +248,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(user_tune)
 
 
-2. **Multiple Tunes**  
+2. **Mehrere Melodien**  
 
-   Add predefined tunes and let the user select which one to play:
+   Hinterlegen Sie vordefinierte Melodien und lassen Sie die Nutzenden wählen:
 
    .. code-block:: python
 
@@ -262,17 +262,17 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(tunes[choice])
 
 
-3. **Real-Time Interaction**  
+3. **Echtzeit-Interaktion**  
 
-   Use buttons or a keyboard to play notes interactively, turning the buzzer into a simple instrument.
+   Nutzen Sie Taster oder die Tastatur, um Noten live zu spielen – der Summer wird zum einfachen Instrument.
 
-4. **Chained Tunes**  
+4. **Verkettete Melodien**  
 
-   Automatically chain multiple tunes together to create a longer piece.
+   Mehrere Melodien automatisch hintereinander abspielen, um längere Stücke zu erzeugen.
 
-5. **Dynamic Speed Adjustment**  
+5. **Dynamische Geschwindigkeitsanpassung**  
 
-   Allow users to change the playback speed dynamically by modifying the note durations:
+   Passen Sie die Abspielgeschwindigkeit zur Laufzeit an, indem Sie die Dauern skalieren:
 
    .. code-block:: python
 
@@ -284,4 +284,4 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 **Conclusion**
 
-This project demonstrates how to use a passive buzzer to play musical notes. By combining hardware and software, you can create a variety of sounds and melodies for interactive projects.
+Dieses Projekt zeigt, wie ein passiver Summer zum Abspielen musikalischer Noten genutzt wird. Durch das Zusammenspiel von Hardware und Software lassen sich vielfältige Klänge und Melodien für interaktive Projekte erzeugen.

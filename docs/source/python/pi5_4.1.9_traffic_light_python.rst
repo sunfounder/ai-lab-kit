@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.9_py:
 
@@ -19,7 +19,7 @@
 
 **Introduction**
 
-This project demonstrates the use of LEDs and a 4-digit 7-segment display to simulate a real-world traffic light system. The LEDs represent the red, yellow, and green lights, while the 7-segment display counts down the time remaining for each light. It provides an engaging way to learn about GPIO control, timing, and 7-segment displays in an educational or prototype setting.
+Dieses Projekt zeigt, wie mit LEDs und einer 4-stelligen 7-Segment-Anzeige ein Ampelsystem aus der Praxis simuliert werden kann. Die LEDs stehen für Rot, Gelb und Grün, während die 7-Segment-Anzeige die restliche Zeit je Signal herunterzählt. So lernst du auf anschauliche Weise GPIO-Steuerung, Timing und den Umgang mit 7-Segment-Anzeigen – ideal für Ausbildung und Prototyping.
 
 
 ----------------------------------------------
@@ -27,14 +27,14 @@ This project demonstrates the use of LEDs and a 4-digit 7-segment display to sim
 
 **What You’ll Need**
 
-The following components are required for this project:
+Für dieses Projekt benötigst du folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -59,7 +59,7 @@ The following components are required for this project:
 
 **Circuit Diagram**
 
-Below is the schematic diagram for the traffic light simulation project:
+Nachfolgend findest du das Schaltbild für die Ampelsimulation:
 
 .. image:: img/fzz/4.1.9_sch.png
    :width: 800
@@ -72,7 +72,7 @@ Below is the schematic diagram for the traffic light simulation project:
 
 **Wiring Diagram**
 
-Refer to the wiring diagram for assembling the components:
+Nutze das folgende Verdrahtungsdiagramm für den Aufbau:
 
 
 .. image:: img/fzz/4.1.9_bb.png
@@ -85,8 +85,8 @@ Refer to the wiring diagram for assembling the components:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der komplette Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -94,13 +94,13 @@ Follow these steps to run the example:
    cd ai-explorer-lab-kit/python/
    sudo python3 4.1.9_TrafficLight_zero.py 
 
-   
+
 ----------------------------------------------
 
 **Writing the Code**
 
 
-Here is the Python script for the traffic light simulation:
+Hier ist das Python-Skript für die Ampelsimulation:
 
 
 
@@ -230,32 +230,32 @@ Here is the Python script for the traffic light simulation:
 
 **Understanding the Code**
 
-1. **Initialization:**
+1. **Initialisierung:**
 
-   * Sets up GPIO pins for the shift register, 7-segment display, and traffic light LEDs.
-   * Defines constants for light durations and initializes state variables.
+   * Richtet die GPIO-Pins für Schieberegister, 7-Segment-Anzeige und Ampel-LEDs ein.
+   * Definiert die Dauer je Signalphase und initialisiert Statusvariablen.
 
-2. **7-Segment Display Functions:**
+2. **Funktionen für die 7-Segment-Anzeige:**
 
-   * ``clearDisplay``: Clears all segments on the display.
-   * ``hc595_shift``: Sends data to the shift register to control display segments.
-   * ``pickDigit``: Activates a specific digit for multiplexing.
+   * ``clearDisplay``: Löscht alle Segmente.
+   * ``hc595_shift``: Sendet Daten an das Schieberegister zur Segmentsteuerung.
+   * ``pickDigit``: Aktiviert für das Multiplexing die jeweilige Stelle.
 
-3. **Timer Function:**
+3. **Timer-Funktion:**
 
-   * Handles the countdown and transitions between light states.
+   * Steuert den Countdown und die Übergänge zwischen den Lichtzuständen.
 
-4. **Traffic Light Control:**
+4. **Ampelsteuerung:**
 
-   * Updates the LEDs based on the current state.
+   * Aktualisiert die LEDs entsprechend dem aktuellen Zustand.
 
-5. **Main Loop:**
+5. **Hauptschleife:**
 
-   * Continuously updates the display and LEDs.
+   * Aktualisiert kontinuierlich Anzeige und LEDs.
 
-6. **Cleanup:**
+6. **Aufräumen:**
 
-   * Ensures all resources are properly released on termination.
+   * Gibt beim Beenden alle Ressourcen sauber frei.
 
 
 ----------------------------------------------
@@ -263,41 +263,41 @@ Here is the Python script for the traffic light simulation:
 
 **Troubleshooting**
 
-1. **Traffic Lights Not Working**:
+1. **Ampel-LEDs funktionieren nicht**:
 
-   - **Cause**: Incorrect wiring or faulty LEDs.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder defekte LEDs.
+   - **Lösung**:
 
-     - Verify that the LEDs are correctly connected to GPIO pins 5 (Red), 6 (Green), and 13 (Yellow).
-     - Test each LED individually using a simple GPIO control script.
+     - Prüfe die Anschlüsse an GPIO 5 (Rot), 6 (Grün) und 13 (Gelb).
+     - Teste jede LED einzeln mit einem einfachen GPIO-Skript.
 
-2. **7-Segment Display Does Not Show Countdown**:
+2. **7-Segment-Anzeige zählt nicht herunter**:
 
-   - **Cause**: Incorrect wiring or shift register configuration.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder Schieberegister-Konfiguration.
+   - **Lösung**:
 
-     - Ensure the shift register's ``SDI``, ``RCLK``, and ``SRCLK`` pins are properly connected to GPIO 17, 4, and 27, respectively.
-     - Verify the digit selection pins match the ``placePin`` configuration.
+     - Stelle sicher, dass ``SDI``, ``RCLK`` und ``SRCLK`` korrekt mit GPIO 17, 4 und 27 verbunden sind.
+     - Prüfe, ob die Stellenauswahl-Pins zur ``placePin``-Konfiguration passen.
 
-3. **Countdown Timer Freezes**:
+3. **Countdown friert ein**:
 
-   - **Cause**: Timer thread not restarting correctly.
-   - **Solution**: Ensure the ``timer()`` function calls ``timer1.start()`` to restart the timer thread.
+   - **Ursache**: Timer-Thread wird nicht erneut gestartet.
+   - **Lösung**: Sicherstellen, dass ``timer()`` ``timer1.start()`` erneut aufruft.
 
-4. **Incorrect Light Durations**:
+4. **Falsche Phasendauern**:
 
-   - **Cause**: Incorrect duration values or state transitions.
-   - **Solution**:
+   - **Ursache**: Unpassende Zeitwerte oder fehlerhafte Zustandsübergänge.
+   - **Lösung**:
 
-     - Verify the ``redLight``, ``greenLight``, and ``yellowLight`` durations.
-     - Check the ``timer()`` function logic to ensure correct state transitions.
+     - Prüfe die Werte für ``redLight``, ``greenLight`` und ``yellowLight``.
+     - Kontrolliere die Logik in ``timer()`` für korrekte Übergänge.
 
 ----------------------------------------------
 
 
 **Extendable Ideas**
 
-1. **Pedestrian Crossing**: Add a pedestrian crossing button that temporarily interrupts the traffic cycle to allow pedestrians to cross safely.
+1. **Fußgängerüberweg**: Füge einen Taster hinzu, der den Zyklus kurz unterbricht und Fußgängern sicheres Queren ermöglicht.
 
    .. code-block:: python
 
@@ -310,9 +310,9 @@ Here is the Python script for the traffic light simulation:
                counter = 5  # Shorten green light duration
       pedestrian_button.when_activated = handle_pedestrian
 
-2. **Adaptive Timing**: Adjust the durations of the traffic lights dynamically based on real-time traffic density.
+2. **Adaptive Steuerung**: Passe die Phasendauern dynamisch an die aktuelle Verkehrsdichte an.
 
-3. **Event Logging**: Log traffic light state changes with timestamps to a file for analysis:
+3. **Ereignis-Logging**: Protokolliere Zustandswechsel mit Zeitstempel in eine Datei:
 
    .. code-block:: python
 
@@ -323,4 +323,4 @@ Here is the Python script for the traffic light simulation:
 
 **Conclusion**
 
-This project simulates a traffic light system, providing hands-on experience with GPIO control, shift registers, and 7-segment displays. It’s a fun and educational way to explore electronics and programming while replicating a real-world application. Try enhancing the system to make it even more interactive!
+Dieses Projekt simuliert ein Ampelsystem und bietet praktische Übung mit GPIO-Steuerung, Schieberegistern und 7-Segment-Anzeigen. Es ist eine unterhaltsame und lehrreiche Möglichkeit, Elektronik und Programmierung anhand einer realen Anwendung zu erkunden. Erweitere das System, um es noch interaktiver zu gestalten!

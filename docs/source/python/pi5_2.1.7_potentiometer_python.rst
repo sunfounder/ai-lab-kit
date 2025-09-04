@@ -1,16 +1,16 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Fragen und technische Probleme mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitieren Sie von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an Gewinnspielen und Aktionen zu Feiertagen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _2.1.7_py:
 
@@ -19,13 +19,13 @@
 
 **Introduction**
 
-The ADC (Analog-to-Digital Converter) function is essential for converting analog signals to digital ones. In this experiment, we use the Fusion HAT to achieve this conversion, utilizing a potentiometer. The potentiometer adjusts the voltage, a physical quantity, which the ADC then digitizes. This experiment also demonstrates how the potentiometer can control the brightness of an LED.
+Die ADC-Funktion (Analog-Digital-Wandlung) ist essenziell, um analoge Signale in digitale Werte umzusetzen. In diesem Experiment nutzen wir den Fusion HAT zusammen mit einem Potentiometer, um diese Wandlung durchzuführen. Das Potentiometer verändert die Spannung als physikalische Größe, die der ADC anschließend digitalisiert. Zudem zeigen wir, wie sich damit die Helligkeit einer LED steuern lässt.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-Here are the components required for this project:
+Für dieses Projekt werden folgende Komponenten benötigt:
 
 .. list-table::
     :widths: 30 20
@@ -53,7 +53,7 @@ Here are the components required for this project:
 
 **Circuit Diagram**
 
-Below are the schematic diagrams for the project:
+Nachfolgend die Schaltpläne für das Projekt:
 
 .. image:: img/fzz/2.1.7_sch.png
    :width: 800
@@ -65,7 +65,7 @@ Below are the schematic diagrams for the project:
 
 **Wiring Diagram**
 
-Build the circuit as shown in the image below:
+Bauen Sie die Schaltung wie in der folgenden Abbildung gezeigt auf:
 
 .. image:: img/fzz/2.1.7_bb.png
    :width: 800
@@ -79,8 +79,8 @@ Build the circuit as shown in the image below:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -88,12 +88,12 @@ Follow these steps to run the example:
    cd ai-explorer-lab-kit/python/
    sudo python3 2.1.7_potentiometer_zero.py 
 
-   
+
 ----------------------------------------------
 
 **Writing the Code**
 
-Below is the code for the experiment:
+Nachfolgend der Code für das Experiment:
 
 
 .. raw:: html
@@ -147,13 +147,13 @@ Below is the code for the experiment:
       led.pulse_width_percent(0)  # Turn off the LED
 
 
-This Python script uses an Fusion HAT to read analog input and control the brightness of a PWM LED. When executed:
+Dieses Python-Skript nutzt einen Fusion HAT, um einen analogen Eingang auszulesen und die Helligkeit einer PWM-LED zu steuern. Beim Ausführen gilt:
 
-1. The Fusion HAT continuously reads an analog signal, converting it to a digital value between 0 and 4095.
-2. This value is mapped to a range between 0 and 100, representing the brightness percentage of the LED.
-3. The brightness of the PWM LED is dynamically adjusted based on the mapped value.
-4. The raw ADC value and voltage is printed to the console in real time.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+1. Der Fusion HAT liest kontinuierlich ein analoges Signal und wandelt es in einen digitalen Wert zwischen 0 und 4095 um.
+2. Dieser Wert wird auf den Bereich 0 bis 100 abgebildet, der die Helligkeit der LED in Prozent repräsentiert.
+3. Die Helligkeit der PWM-LED wird dynamisch anhand des abgebildeten Werts angepasst.
+4. Roh-ADC-Wert und Spannung werden in Echtzeit in der Konsole ausgegeben.
+5. Das Programm läuft unbegrenzt, bis es mit ``Ctrl+C`` beendet wird; anschließend wird die LED ausgeschaltet.
 
 
 ----------------------------------------------
@@ -169,7 +169,7 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
       from fusion_hat import ADC, PWM
       import time
 
-   The script uses ``fusion_hat`` for PWM LED control and analog-to-digital conversion, and ``time`` for implementing delays.
+   Das Skript verwendet ``fusion_hat`` für PWM-LED-Steuerung und Analog-Digital-Wandlung sowie ``time`` für Wartezeiten.
 
 2. **Initialization:**
 
@@ -182,7 +182,7 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
       # Set up the potentiometer
       pot = ADC('A0')
 
-   The script initializes a PWM LED on pin ``P0`` and an ADC on pin ``A0``.
+   Initialisiert werden eine PWM-LED an Pin ``P0`` und ein ADC an Pin ``A0``.
 
 3. **MAP Function:**
 
@@ -191,7 +191,7 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts values from one range to another, essential for mapping ADC readings to LED brightness.
+   Die Funktion ``MAP`` wandelt Werte von einem Bereich in einen anderen um – hier zur Abbildung der ADC-Messwerte auf die LED-Helligkeit.
 
 
 4. **Main Loop:**
@@ -219,36 +219,36 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
       except KeyboardInterrupt: 
          led.pulse_width_percent(0)  # Turn off the LED
 
-   - Continuously read ADC values.
-   - Map ADC readings (0-4095) to brightness levels (0-100).
-   - Adjust LED brightness and wait for 0.2 seconds before repeating.
+   - Liest fortlaufend ADC-Werte ein.
+   - Bildet den Bereich 0–4095 auf Helligkeitswerte von 0–100 ab.
+   - Passt die LED-Helligkeit an und wartet 0,2 Sekunden bis zum nächsten Durchlauf.
 
 
 ----------------------------------------------
 
 **Troubleshooting**
 
-1. **LED Does Not Respond**  
+1. **LED reagiert nicht**  
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the LED is connected to PWM 0 with an appropriate resistor.
+   - **Ursache**: Falsche Verdrahtung oder GPIO-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass die LED an PWM 0 mit geeignetem Vorwiderstand angeschlossen ist.
 
-2. **ADC Values Always Zero**  
+2. **ADC-Werte sind immer Null**  
 
-   - **Cause**: Incorrect wiring of the sensor.  
-   - **Solution**: Verify the sensor connections. Ensure the input sensor is functioning.
+   - **Ursache**: Falsche Sensorverdrahtung.  
+   - **Lösung**: Überprüfen Sie die Anschlüsse und die Funktion des Eingabesensors.
 
-3. **Mapping Issues**  
+3. **Probleme bei der Abbildung**  
 
-   - **Cause**: Incorrect ``MAP()`` function parameters.  
-   - **Solution**: Ensure the input range (``in_min``, ``in_max``) matches the output range (0–4095) and the output range (``out_min``, ``out_max``) is suitable for LED brightness control (0–100).
+   - **Ursache**: Unpassende Parameter für ``MAP()``.  
+   - **Lösung**: Achten Sie darauf, dass der Eingangsbereich (``in_min``, ``in_max``) dem ADC-Bereich (0–4095) entspricht und der Ausgangsbereich (``out_min``, ``out_max``) für die Helligkeitssteuerung (0–100) geeignet ist.
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
 
-1. **Threshold-Based Behavior**: Add logic to turn the LED on or off based on specific ADC value thresholds:
+1. **Schwellwertlogik**: Fügen Sie eine Logik hinzu, die die LED abhängig von ADC-Schwellenwerten ein- oder ausschaltet:
 
    .. code-block:: python
 
@@ -261,4 +261,4 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
 
 **Conclusion**
 
-This experiment demonstrates how to utilize the Fusion HAT and a potentiometer to control the brightness of an LED. By understanding analog-to-digital conversion and PWM control, you can expand this knowledge to build more complex interactive systems.
+Dieses Experiment zeigt, wie sich mit dem Fusion HAT und einem Potentiometer die Helligkeit einer LED steuern lässt. Mit einem Verständnis für Analog-Digital-Wandlung und PWM-Regelung können Sie dieses Wissen auf komplexere, interaktive Systeme übertragen.

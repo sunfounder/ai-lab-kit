@@ -1,23 +1,24 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook!  
+    Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Experten-Support**: Lösen Sie Nachkauf- und Technikprobleme mit Unterstützung unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Kenntnisse zu erweitern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und Vorab-Einblicken.
+    - **Spezielle Rabatte**: Profitieren Sie von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und umzusetzen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 For Mac OS X Users
 ==========================
 
-For Mac OS X users, SSH (Secure Shell) offers a secure and convenient method to remotely access and control a Raspberry Pi. This is particularly handy for working with the Raspberry Pi remotely or when it's not connected to a monitor. Using the Terminal application on a Mac, you can establish this secure connection. The process involves an SSH command incorporating the Raspberry Pi's username and hostname. During the initial connection, a security prompt will ask for confirmation of the Raspberry Pi's authenticity.
+Für Mac OS X-Nutzer bietet SSH (Secure Shell) eine sichere und komfortable Möglichkeit, auf einen Raspberry Pi aus der Ferne zuzugreifen und ihn zu steuern. Dies ist besonders praktisch, wenn Sie mit dem Raspberry Pi arbeiten möchten, ohne dass ein Monitor angeschlossen ist. Über die Terminal-Anwendung auf dem Mac können Sie eine sichere Verbindung herstellen. Der Vorgang erfolgt über einen SSH-Befehl, der den Benutzernamen und Hostnamen des Raspberry Pi enthält. Bei der ersten Verbindung erscheint eine Sicherheitsabfrage, um die Authentizität des Raspberry Pi zu bestätigen.
 
-#. Log in to your Raspberry Pi using ``ssh <username>@<hostname>.local`` or ``ssh <username>@<IP address>``.
+#. Melden Sie sich mit folgendem Befehl am Raspberry Pi an: ``ssh <username>@<hostname>.local`` oder ``ssh <username>@<IP-Adresse>``.
 
     .. code-block::
 
@@ -25,7 +26,7 @@ For Mac OS X users, SSH (Secure Shell) offers a secure and convenient method to 
 
     .. image:: img/mac_vnc14.png
 
-#. A security message will appear during your first login. Respond with **yes** to proceed.
+#. Beim ersten Login erscheint eine Sicherheitsmeldung. Geben Sie **yes** ein, um fortzufahren.
 
     .. code-block::
 
@@ -33,7 +34,7 @@ For Mac OS X users, SSH (Secure Shell) offers a secure and convenient method to 
         ED25519 key fingerprint is SHA256:oo7x3ZSgAo032wD1tE8eW0fFM/kmewIvRwkBys6XRwg.
         Are you sure you want to continue connecting (yes/no/[fingerprint])?
 
-#. Input the password for the Raspberry Pi. Be aware that the password won’t display on the screen as you type, which is a standard security feature.
+#. Geben Sie das Passwort für den Raspberry Pi ein. Beachten Sie, dass das Passwort beim Tippen nicht angezeigt wird – dies ist ein übliches Sicherheitsmerkmal.
 
     .. code-block::
 

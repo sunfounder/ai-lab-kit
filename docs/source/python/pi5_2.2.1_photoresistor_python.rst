@@ -1,42 +1,42 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und herzlich willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Begeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.  
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.  
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Fähigkeiten auszubauen.  
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.  
+    - **Special Discounts**: Nutze besondere Rabatte auf unsere neuesten Produkte.  
+    - **Festive Promotions and Giveaways**: Nimm an saisonalen Aktionen und Verlosungen teil.  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, gemeinsam mit uns Neues zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!  
 
 .. _2.2.1_py:
 
 2.2.1 Photoresistor
 ===================
 
-**Introduction**
+**Einführung**
 
-A photoresistor, also known as a light-dependent resistor (LDR), is a component that detects light intensity. Its resistance decreases as the light intensity increases, making it useful in devices like automatic night lamps and ambient light controllers. 
+Ein Photoresistor, auch als lichtabhängiger Widerstand (LDR) bekannt, ist ein Bauteil zur Erfassung der Lichtintensität. Sein Widerstand sinkt mit steigender Lichtintensität, weshalb er in Anwendungen wie automatischen Nachtlampen oder Umgebungslicht-Steuerungen eingesetzt wird.  
 
-This project demonstrates how to use a photoresistor with Fusion HAT to adjust an LED's brightness based on ambient light levels. The working principle is similar to a potentiometer, except the input is light instead of manual adjustment.
+In diesem Projekt zeigen wir, wie ein Photoresistor mit dem Fusion HAT genutzt wird, um die Helligkeit einer LED abhängig vom Umgebungslicht anzupassen. Das Funktionsprinzip ähnelt dem eines Potentiometers, nur dass hier Licht anstelle einer manuellen Einstellung als Eingang dient.  
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Benötigte Komponenten**
 
-Here are the components required for this project:
+Für dieses Projekt werden folgende Bauteile benötigt:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -56,9 +56,9 @@ Here are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schaltplan**
 
-Below are the schematic diagrams illustrating how to connect the components:
+Nachfolgend die Schaltpläne, die den Anschluss der Komponenten zeigen:
 
 
 .. image:: img/fzz/2.2.1_sch.png
@@ -70,9 +70,9 @@ Below are the schematic diagrams illustrating how to connect the components:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-Build the circuit as shown in the diagram below:
+Baue die Schaltung wie im Diagramm dargestellt auf:
 
 .. image:: img/fzz/2.2.1_bb.png
    :width: 800
@@ -80,22 +80,22 @@ Build the circuit as shown in the diagram below:
 
 
 
-Ensure that:
+Stelle sicher, dass:
 
-- The photoresistor is connected to the Fusion HAT to convert analog signals into digital values.
-- The LED is connected to a GPIO pin for PWM control.
-- All connections are secure, and power and ground connections are properly set.
+- Der Photoresistor am Fusion HAT angeschlossen ist, um analoge Signale in digitale Werte umzuwandeln.  
+- Die LED an einen GPIO-Pin zur PWM-Steuerung angeschlossen ist.  
+- Alle Verbindungen fest sitzen und Strom- sowie Masseleitungen korrekt verbunden sind.  
 
 
 
 
 ----------------------------------------------
 
-**Running the Example**
+**Beispiel ausführen**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So startest du das Beispiel:
 
 
 .. code-block:: shell
@@ -106,10 +106,10 @@ Follow these steps to run the example:
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code schreiben**
 
 
-Below is the Python code used in this project:
+Der folgende Python-Code wird in diesem Projekt verwendet:
 
 
 .. raw:: html
@@ -160,20 +160,20 @@ Below is the Python code used in this project:
    except KeyboardInterrupt: 
       led.pulse_width_percent(0)  # Turn off the LED
 
-This Python script continuously reads the photoresistor's value, maps it to a suitable range for setting the LED brightness, and adjusts the LED's brightness accordingly. The script also includes a graceful exit mechanism to turn off the LED when interrupted by the user. When executed:
+Dieses Python-Skript liest kontinuierlich die Werte des Photoresistors, skaliert diese auf einen Bereich zur Steuerung der LED-Helligkeit und passt die Helligkeit entsprechend an. Zudem sorgt es bei Abbruch durch den Benutzer für ein sauberes Abschalten der LED. Beim Ausführen gilt:  
 
-1. The Fusion HAT continuously reads photoresistor values from its input channel (ranging from 0 to 4095).
-2. The analog value, representing light intensity or another variable input, is printed to the console as ``result =  <value>``.
-3. The script maps the analog value to a PWM signal to adjust the brightness of the LED.
-4. The LED brightness dynamically changes based on the ADC input, with updates every 0.2 seconds.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+1. Der Fusion HAT liest kontinuierlich Werte vom Photoresistor (0 bis 4095).  
+2. Der analoge Wert, der die Lichtintensität repräsentiert, wird in der Konsole ausgegeben.  
+3. Der Wert wird in ein PWM-Signal umgerechnet, das die Helligkeit der LED steuert.  
+4. Die LED-Helligkeit passt sich dynamisch der Lichtintensität an und aktualisiert sich alle 0,2 Sekunden.  
+5. Das Programm läuft unbegrenzt, bis es mit ``Ctrl+C`` beendet wird, wobei die LED automatisch ausgeschaltet wird.  
 
 
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Code verstehen**
 
 1. **Imports:**
 
@@ -183,9 +183,9 @@ This Python script continuously reads the photoresistor's value, maps it to a su
       from fusion_hat import ADC, PWM
       import time
 
-   The script imports necessary modules for reading analog values and controlling the LED brightness.
+   Das Skript importiert die notwendigen Module zur Erfassung analoger Werte und zur Steuerung der LED-Helligkeit.  
 
-2. **Initialization:**
+2. **Initialisierung:**
 
 
    .. code-block:: python
@@ -196,21 +196,21 @@ This Python script continuously reads the photoresistor's value, maps it to a su
       # Set up the potentiometer
       photoresistor = ADC('A0')
 
-   The LED connected to GPIO pin P0 is initialized, and the A0 is set up to read analog values from the photoresistor.
+   Die LED am GPIO-Pin P0 wird initialisiert und der Eingang A0 für den Photoresistor vorbereitet.  
 
 
-3. **Mapping Function:**
+3. **Mapping-Funktion:**
 
    .. code-block:: python
 
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts ADC values (0-4095) to a range suitable for PWM control (0 to 100).
+   Die Funktion ``MAP`` wandelt ADC-Werte (0–4095) in einen für PWM geeigneten Bereich (0–100) um.  
 
 
 
-4. **Main Loop:**
+4. **Hauptschleife:**
 
    .. code-block:: python
 
@@ -228,12 +228,12 @@ This Python script continuously reads the photoresistor's value, maps it to a su
          # Wait for 1 seconds before reading again
          time.sleep(0.2)
 
-   - Continuously reads light intensity values from the photoresistor.
-   - Adjusts the LED brightness proportionally to the detected light intensity.
-   - Includes a short delay to reduce CPU usage and allow visible changes in LED brightness.
+   - Liest kontinuierlich die Lichtintensität.  
+   - Passt die Helligkeit der LED proportional an.  
+   - Enthält eine kurze Pause, um CPU-Last zu verringern und sichtbare Änderungen der LED-Helligkeit zu ermöglichen.  
 
 
-5. **Graceful Exit:**
+5. **Sauberer Programmabbruch:**
 
    .. code-block:: python
 
@@ -242,37 +242,37 @@ This Python script continuously reads the photoresistor's value, maps it to a su
       except KeyboardInterrupt:
          led.pulse_width_percent(0)  # Turn off the LED
 
-   The program ensures the LED is turned off when the script is interrupted (e.g., via ``Ctrl+C``).
+   Stellt sicher, dass die LED beim Abbruch (z. B. mit ``Ctrl+C``) ausgeschaltet wird.  
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Fehlerbehebung**
 
-1. **LED Does Not Light Up**:
+1. **LED leuchtet nicht**:  
 
-   - **Cause**: Incorrect GPIO connection or LED wiring.
-   - **Solution**: Verify the LED is connected to P0 with a resistor to prevent damage.
+   - **Ursache**: Falscher GPIO-Anschluss oder fehlerhafte Verdrahtung.  
+   - **Lösung**: Überprüfe, ob die LED an P0 mit einem Vorwiderstand angeschlossen ist.  
 
-2. **ADC Values Always Zero or Maximum**:
+2. **ADC-Werte sind immer Null oder Maximum**:  
 
-   - **Cause**: Incorrect wiring.
-   - **Solution**: Check the ADC pin and ensure it is connected to photoresistor.
+   - **Ursache**: Falsche Verdrahtung.  
+   - **Lösung**: Prüfe den Anschluss des Photoresistors am ADC-Pin.  
 
-3. **LED Brightness Not Changing**:
+3. **LED-Helligkeit ändert sich nicht**:  
 
-   - **Cause**: ADC values are not correctly mapped to the PWM range.
-   - **Solution**: Ensure the mapping function correctly scales the ADC value to the PWM range (0 to 100).
+   - **Ursache**: Falsche Skalierung der ADC-Werte.  
+   - **Lösung**: Stelle sicher, dass die Mapping-Funktion den Bereich korrekt auf 0–100 abbildet.  
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Erweiterbare Ideen**
 
 
-1. **Threshold-Based Behavior**: Turn the LED on or off when the analog value crosses a threshold:
-     
+1. **Schwellenwertgesteuertes Verhalten**: LED ein- oder ausschalten, wenn ein bestimmter Wert überschritten wird:  
+
    .. code-block:: python
 
       if result > 128:
@@ -280,8 +280,8 @@ This Python script continuously reads the photoresistor's value, maps it to a su
       else:
          led.off()
 
-2. **Data Logging**: Log the ADC values and LED brightness to a file for analysis:
-     
+2. **Datenaufzeichnung**: ADC-Werte und LED-Helligkeit in einer Datei speichern:  
+
      .. code-block:: python
 
          with open("adc_log.txt", "a") as log_file:
@@ -291,6 +291,6 @@ This Python script continuously reads the photoresistor's value, maps it to a su
 
 ----------------------------------------------
 
-**Conclusion**
+**Fazit**
 
-This experiment demonstrates how to use a photoresistor and Fusion HAT to control an LED's brightness based on ambient light intensity. By understanding the principles of analog-to-digital conversion and PWM control, you can expand this project to develop more complex light-responsive systems, such as automated lighting or smart devices.
+Dieses Experiment zeigt, wie ein Photoresistor mit dem Fusion HAT genutzt werden kann, um die Helligkeit einer LED abhängig von der Umgebungshelligkeit zu steuern. Durch das Verständnis der Analog-Digital-Wandlung und der PWM-Regelung lassen sich auf dieser Basis komplexere lichtgesteuerte Systeme wie automatische Beleuchtung oder smarte Geräte entwickeln.  

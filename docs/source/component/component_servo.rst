@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_servo:
 
@@ -20,15 +20,15 @@ Servo
 .. image:: img/servo.png
     :align: center
 
-A servo is generally composed of the following parts: case, shaft, gear system, potentiometer, DC motor, and embedded board.  
+Ein Servo besteht im Wesentlichen aus folgenden Komponenten: Gehäuse, Welle, Getriebesystem, Potentiometer, Gleichstrommotor und einer eingebetteten Steuerplatine.  
 
-It works like this: The microcontroller sends out PWM signals to the servo, and then the embedded board in the servo receives the signals through the signal pin and controls the motor inside to turn. As a result, the motor drives the gear system and then motivates the shaft after deceleration. The shaft and potentiometer of the servo are connected together. When the shaft rotates, it drives the potentiometer, so the potentiometer outputs a voltage signal to the embedded board. Then the board determines the direction and speed of rotation based on the current position, so it can stop exactly at the right position as defined and hold there.
+Die Funktionsweise ist wie folgt: Der Mikrocontroller sendet PWM-Signale an das Servo. Diese werden von der Steuerplatine im Inneren über den Signaleingang empfangen, die daraufhin den Motor ansteuert. Der Motor treibt das Getriebe an, das wiederum die Welle nach einer Untersetzung bewegt. Welle und Potentiometer sind gekoppelt: Dreht sich die Welle, verändert sich die Stellung des Potentiometers, welches ein Spannungssignal an die Steuerplatine zurückgibt. Die Platine ermittelt damit Richtung und Geschwindigkeit der Drehung, sodass das Servo präzise an der vorgegebenen Position stoppt und diese zuverlässig hält.
 
 .. image:: img/servo_internal.png
     :align: center
 
-The angle is determined by the duration of a pulse that is applied to the control wire. This is called Pulse width Modulation. The servo expects to see a pulse every 20 ms. The length of the pulse will determine how far the motor turns. For example, a 1.5ms pulse will make the motor turn to the 90 degree position (neutral position).
-When a pulse is sent to a servo that is less than 1.5 ms, the servo rotates to a position and holds its output shaft some number of degrees counterclockwise from the neutral point. When the pulse is wider than 1.5 ms the opposite occurs. The minimal width and the maximum width of pulse that will command the servo to turn to a valid position are functions of each servo. Generally the minimum pulse will be about 0.5 ms wide and the maximum pulse will be 2.5 ms wide.
+Der Drehwinkel wird durch die Dauer des Impulses bestimmt, der am Steuerdraht anliegt – dieses Verfahren wird als Pulsweitenmodulation (PWM) bezeichnet. Das Servo erwartet alle 20 ms einen Impuls. Die Impulsbreite bestimmt die Drehstellung des Motors. Ein Impuls von 1,5 ms positioniert die Welle beispielsweise in die Neutralstellung von 90°.  
+Liegt die Impulsdauer unter 1,5 ms, dreht die Welle um einen bestimmten Winkel gegen den Uhrzeigersinn aus der Neutralstellung heraus. Bei Impulsdauern über 1,5 ms erfolgt die Bewegung im Uhrzeigersinn. Die minimale und maximale Impulsbreite, die eine gültige Position ansteuern, sind je nach Servomodell unterschiedlich. In der Regel liegt die minimale Impulsbreite bei etwa 0,5 ms und die maximale bei 2,5 ms.
 
 .. image:: img/servo_duty.png
     :width: 600

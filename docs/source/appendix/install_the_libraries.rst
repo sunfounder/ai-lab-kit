@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _install_the_libraries:
 
@@ -22,14 +22,14 @@ For C User
 
 BCM2835
 ~~~~~~~~~~~~~~~
-This is a C library for Raspberry Pi (RPi). It provides access to GPIO and other IO functions on the Broadcom BCM 2835 chip, as used in the RaspberryPi, allowing access to the GPIO pins on the 26 pin IDE plug on the RPi board so you can control and interface with various external devices.
+Dies ist eine C-Bibliothek für den Raspberry Pi (RPi). Sie ermöglicht den Zugriff auf GPIOs und andere IO-Funktionen des Broadcom BCM2835-Chips, der im Raspberry Pi eingesetzt wird. Damit erhältst du Zugriff auf die GPIO-Pins des 26-poligen IDE-Anschlusses auf dem RPi-Board und kannst verschiedene externe Geräte steuern und anbinden.
 
-It provides functions for reading digital inputs and setting digital outputs, using SPI and I2C, and for accessing the system timers. Pin event detection is supported by polling (interrupts are not supported).
+Die Bibliothek stellt Funktionen zum Lesen digitaler Eingaben und Setzen digitaler Ausgaben bereit, unterstützt SPI und I2C sowie den Zugriff auf Systemtimer. Die Erkennung von Pin-Ereignissen wird über Polling unterstützt (Interrupts werden nicht unterstützt).
 
-Works on all versions upt to and including RPI 4. Works with all versions of Debian up to and including Debian Buster 10.
+Kompatibel mit allen Versionen bis einschließlich RPi 4. Funktioniert mit allen Debian-Versionen bis einschließlich Debian Buster 10.
 
 
-Open a terminal and download the ``bcm2835`` library to the ``~`` path.
+Öffne ein Terminal und lade die ``bcm2835``-Bibliothek in das ``~``-Verzeichnis herunter.
 
 .. raw:: html
 
@@ -40,7 +40,7 @@ Open a terminal and download the ``bcm2835`` library to the ``~`` path.
     cd ~
     wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.69.tar.gz
 
-Unzip the package.
+Entpacke das Paket.
 
 .. raw:: html
 
@@ -50,7 +50,7 @@ Unzip the package.
 
     tar zxvf bcm2835-1.69.tar.gz
 
-Install the BCM2835 library with the following commands.
+Installiere die BCM2835-Bibliothek mit den folgenden Befehlen:
 
 .. raw:: html
 
@@ -64,7 +64,7 @@ Install the BCM2835 library with the following commands.
     sudo make check
     sudo make install
 
-* Reference: `bcm2835 <http://www.airspayce.com/mikem/bcm2835/>`_  
+* Referenz: `bcm2835 <http://www.airspayce.com/mikem/bcm2835/>`_  
 
 
 For Python User
@@ -75,17 +75,17 @@ For Python User
 Creating a Virtual Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using Raspberry Pi or similar devices, it is recommended to install packages with ``pip`` in a virtual environment. It offers dependency isolation, increases system security, maintains system cleanliness, and facilitates project migration and sharing, simplifying dependency management. These benefits make virtual environments an extremely important and useful tool in Python development.
+Beim Einsatz des Raspberry Pi oder ähnlicher Geräte wird empfohlen, Pakete mit ``pip`` in einer virtuellen Umgebung zu installieren. Diese sorgt für eine klare Trennung von Abhängigkeiten, erhöht die Systemsicherheit, hält das System sauber und erleichtert Migration sowie Austausch von Projekten. Damit wird das Dependency-Management deutlich vereinfacht – ein unverzichtbares Werkzeug in der Python-Entwicklung.
 
-Below are the steps to create a virtual environment:
+Die Schritte zum Erstellen einer virtuellen Umgebung:
 
 **1. Create a virtual environment**
 
-Firstly, you need to ensure that your system has Python installed. Python version 3.3 and later come with the ``venv`` module to create virtual environments, eliminating the need for separate installation. If you are using Python 2 or a version before Python 3.3, you will need to install ``virtualenv``.
+Stelle zunächst sicher, dass Python auf deinem System installiert ist. Ab Python 3.3 ist das ``venv``-Modul enthalten, sodass keine separate Installation notwendig ist. Bei Python 2 oder einer Version vor Python 3.3 muss ``virtualenv`` installiert werden.
 
-* For Python 3:
+* Für Python 3:
 
-Python 3.3 and later versions can directly use the ``venv`` module:
+Python 3.3 und neuere Versionen können das ``venv``-Modul direkt nutzen:
 
 .. raw:: html
 
@@ -95,11 +95,11 @@ Python 3.3 and later versions can directly use the ``venv`` module:
 
     python3 -m venv myenv
 
-This will create a virtual environment named ``myenv`` in the current directory.
+Dies erstellt eine virtuelle Umgebung mit dem Namen ``myenv`` im aktuellen Verzeichnis.
 
-* For Python 2:
+* Für Python 2:
 
-If you are still using Python 2, you first need to install ``virtualenv``:
+Wenn du noch Python 2 verwendest, installiere zunächst ``virtualenv``:
 
 .. raw:: html
 
@@ -109,7 +109,7 @@ If you are still using Python 2, you first need to install ``virtualenv``:
 
     pip install virtualenv
 
-Then, create a virtual environment:
+Erstelle anschließend eine virtuelle Umgebung:
 
 .. raw:: html
 
@@ -119,15 +119,15 @@ Then, create a virtual environment:
 
     virtualenv myenv
 
-This also creates a virtual environment named ``myenv`` in the current directory.
+Dies erstellt ebenfalls eine virtuelle Umgebung mit dem Namen ``myenv`` im aktuellen Verzeichnis.
 
 **2. Activating the Virtual Environment**
 
-After creating the virtual environment, you need to activate it for use.
+Nach dem Erstellen musst du die virtuelle Umgebung aktivieren:
 
 .. note::
 
-    Each time you restart the Raspberry Pi, or open a new terminal, you will need to run the following command again to activate the virtual environment.
+    Jedes Mal, wenn du den Raspberry Pi neu startest oder ein neues Terminal öffnest, musst du den folgenden Befehl erneut ausführen, um die virtuelle Umgebung zu aktivieren.
 
 .. raw:: html
 
@@ -137,12 +137,12 @@ After creating the virtual environment, you need to activate it for use.
 
     source myenv/bin/activate
 
-Once the virtual environment is activated, you will see the environment name before the command line prompt, indicating you are working within the virtual environment.
+Nach der Aktivierung erscheint der Name der Umgebung vor der Eingabeaufforderung – ein Hinweis darauf, dass du dich in der virtuellen Umgebung befindest.
 
 
 **3. Installing Dependencies**
 
-With the virtual environment activated, you can use pip to install the required dependencies. For example:
+Mit aktivierter virtueller Umgebung kannst du benötigte Abhängigkeiten mit pip installieren. Beispiel:
 
 .. raw:: html
 
@@ -152,12 +152,12 @@ With the virtual environment activated, you can use pip to install the required 
 
     pip install requests
 
-This will install the requests library into the current virtual environment, rather than the global environment. This step only needs to be done once.
+Damit wird die Requests-Bibliothek in der aktuellen virtuellen Umgebung installiert, nicht im globalen System. Dieser Schritt muss nur einmal durchgeführt werden.
 
 
 **4. Exiting the Virtual Environment**
 
-When you have completed your work and wish to exit the virtual environment, simply run:
+Wenn du deine Arbeit abgeschlossen hast und die virtuelle Umgebung verlassen möchtest, führe aus:
 
 .. raw:: html
 
@@ -167,11 +167,11 @@ When you have completed your work and wish to exit the virtual environment, simp
 
     deactivate
 
-This will return you to the system's global Python environment.
+Damit kehrst du in die globale Python-Umgebung des Systems zurück.
 
 **5. Deleting the Virtual Environment**
 
-If you no longer need a particular virtual environment, you can simply delete the directory containing the virtual environment:
+Falls du eine virtuelle Umgebung nicht mehr benötigst, kannst du einfach das entsprechende Verzeichnis löschen:
 
 .. raw:: html
 
@@ -185,9 +185,9 @@ If you no longer need a particular virtual environment, you can simply delete th
 Luma.LED_Matrix
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-This is a Python 3 library interfacing LED matrix displays with the MAX7219 driver (using SPI), WS2812 (NeoPixels, inc Pimoroni Unicorn pHat/Hat and Unicorn Hat HD) and APA102 (DotStar) on the Raspberry Pi and other Linux-based single board computers.
+Dies ist eine Python-3-Bibliothek zur Ansteuerung von LED-Matrix-Displays mit dem MAX7219-Treiber (über SPI), WS2812 (NeoPixels, inkl. Pimoroni Unicorn pHat/Hat und Unicorn Hat HD) sowie APA102 (DotStar) auf dem Raspberry Pi und anderen Linux-basierten Single-Board-Computern.
 
-Install the dependencies for library first with:
+Installiere zunächst die Abhängigkeiten mit:
 
 .. raw:: html
 
@@ -200,7 +200,7 @@ Install the dependencies for library first with:
 
 .. note:: warning
 
-    The default pip and setuptools bundled with apt on Raspbian are really old, and can cause components to not be installed properly. Make sure they are up to date by upgrading them first:
+    Die standardmäßig über apt verfügbaren Versionen von pip und setuptools unter Raspbian sind veraltet und können dazu führen, dass Komponenten nicht korrekt installiert werden. Stelle daher sicher, dass du sie zunächst aktualisierst:
 
     .. raw:: html
 
@@ -210,7 +210,7 @@ Install the dependencies for library first with:
 
         sudo -H pip install --upgrade --ignore-installed pip setuptools
 
-Proceed to install latest version of the luma.led_matrix library directly from PyPI:
+Installiere anschließend die aktuelle Version der luma.led_matrix-Bibliothek direkt von PyPI:
 
 .. raw:: html
 
@@ -221,14 +221,14 @@ Proceed to install latest version of the luma.led_matrix library directly from P
     sudo python3 -m pip install --upgrade luma.led_matrix
 
 
-* Reference: `Luma.LED_Matrix <https://luma-led-matrix.readthedocs.io/en/latest/install.html>`_
+* Referenz: `Luma.LED_Matrix <https://luma-led-matrix.readthedocs.io/en/latest/install.html>`_
 
 Spidev and MFRC522
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``spidev`` library helps handle interactions with the SPI and is a key component to this tutorial as we need it for the Raspberry Pi to interact with the RFID RC522.
+Die Bibliothek ``spidev`` erleichtert die Arbeit mit SPI und ist ein zentrales Element dieses Tutorials, da sie benötigt wird, um den Raspberry Pi mit dem RFID RC522 zu verbinden.
 
-Run the following command to install ``spidev`` to your Raspberry Pi via ``pip``.
+Installiere ``spidev`` mit folgendem Befehl über ``pip``:
 
 .. raw:: html
 
@@ -239,7 +239,7 @@ Run the following command to install ``spidev`` to your Raspberry Pi via ``pip``
     sudo pip3 install spidev
 
 
-Continue to install the MFRC522 library.
+Fahre anschließend mit der Installation der MFRC522-Bibliothek fort:
 
 .. raw:: html
 
@@ -249,8 +249,8 @@ Continue to install the MFRC522 library.
 
     sudo pip3 install mfrc522
 
-The MFRC522 library contains two files: ``MFRC522.py`` and ``SimpleMFRC522.py``. 
+Die MFRC522-Bibliothek besteht aus zwei Dateien: ``MFRC522.py`` und ``SimpleMFRC522.py``.
 
-Among them ``MFRC522.py`` is the realization of RFID RC522 interface, this library handles all the heavy work of communicating with RFID through Pi's SPI interface.
+Dabei implementiert ``MFRC522.py`` das Interface zum RFID RC522 und übernimmt die komplette Kommunikation über das SPI-Interface des Pi.
 
-``SimpleMFRC522.py`` takes the ``MFRC522.py`` file and greatly simplifies it by allowing you to deal with only a few functions instead of a few functions.
+``SimpleMFRC522.py`` baut auf ``MFRC522.py`` auf und vereinfacht die Nutzung erheblich, indem es dir nur wenige Funktionen bereitstellt, anstatt dich mit allen Details befassen zu müssen.

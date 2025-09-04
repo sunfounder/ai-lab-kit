@@ -1,39 +1,39 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und herzlich willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Begeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.  
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.  
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse auszubauen.  
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.  
+    - **Special Discounts**: Profitiere von besonderen Rabatten auf unsere neuesten Produkte.  
+    - **Festive Promotions and Giveaways**: Nimm an saisonalen Aktionen und Verlosungen teil.  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!  
 
 
 
-2.2.4 Soil Moisture Sensor
+2.2.4 Bodenfeuchtigkeitssensor
 =====================================
 
 
-**Introduction**
+**Einführung**
 
-In this tutorial, we'll explore how to set up and use a soil moisture sensor with a Raspberry Pi using Python. This guide is tailored for those who have a basic understanding of the Raspberry Pi platform and Python programming. By the end of this tutorial, you'll understand how to read moisture levels from the sensor and process that data for various applications like gardening automation.
+In diesem Tutorial lernst du, wie man einen Bodenfeuchtigkeitssensor mit einem Raspberry Pi und Python einrichtet und verwendet. Diese Anleitung richtet sich an alle, die bereits Grundkenntnisse in der Arbeit mit dem Raspberry Pi und in Python haben. Am Ende des Tutorials wirst du verstehen, wie man Feuchtigkeitswerte vom Sensor ausliest und die Daten für Anwendungen wie automatisierte Bewässerung weiterverarbeitet.  
 
 -----------------------------------------------------
 
-**What You’ll Need**
+**Benötigte Komponenten**
 
-Below are the components required for this project:
+Für dieses Projekt werden folgende Bauteile benötigt:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -47,9 +47,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schaltplan**
 
-Below are the schematic diagrams for the project:
+Nachfolgend die Schaltpläne für das Projekt:
 
 .. image:: img/fzz/2.2.10_sch.png
    :width: 800
@@ -58,9 +58,9 @@ Below are the schematic diagrams for the project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-Assemble the circuit as shown below:
+Baue die Schaltung wie unten dargestellt auf:
 
 .. image:: img/fzz/2.2.10_bb.png
    :width: 800
@@ -68,11 +68,11 @@ Assemble the circuit as shown below:
 
 ----------------------------------------------
 
-**Running the Example**
+**Beispiel ausführen**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -84,9 +84,9 @@ Follow these steps to run the example:
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code schreiben**
 
-Below is the Python code for this project:
+Der folgende Python-Code wird in diesem Projekt verwendet:
 
 
 .. raw:: html
@@ -115,67 +115,67 @@ Below is the Python code for this project:
     except KeyboardInterrupt: 
         pass
 
-This script initializes the moisture sensor and continuously reads the moisture levels, printing them to the console.
+Dieses Skript initialisiert den Bodenfeuchtigkeitssensor und liest kontinuierlich die Feuchtigkeitswerte aus, die in der Konsole ausgegeben werden.  
 
-By inserting the module into the soil and watering it, the value of the soil moisture sensor will become smaller.
+Steckst du das Modul in die Erde und gießt Wasser darauf, wird der gemessene Wert kleiner.  
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Code verstehen**
 
-This script begins by importing necessary modules: ``fusion_hat`` for the ADC interface and ``time`` for controlling the reading intervals.
+Dieses Skript beginnt mit dem Import der benötigten Module: ``fusion_hat`` für die ADC-Schnittstelle und ``time`` zur Steuerung der Abstände zwischen den Messungen.  
 
-1. **Initialization**:
-   The ``moisture`` object is created as an instance of ``ADC`` on port ``'A1'``. This is the connection point for the soil moisture sensor.
+1. **Initialisierung**:  
+   Das Objekt ``moisture`` wird als Instanz von ``ADC`` am Port ``'A1'`` erstellt. Dies ist der Anschluss für den Bodenfeuchtigkeitssensor.  
 
 .. code-block:: python
 
     moisture = ADC('A1')
 
-2. **Continuous Monitoring Loop**:
-   The script enters an infinite loop, where it continuously reads the moisture level through ``moisture.read()``. The result is stored in the variable ``result``, which is then printed to the console.
+2. **Kontinuierliche Überwachungsschleife**:  
+   Das Skript läuft in einer Endlosschleife, liest den Feuchtigkeitswert mit ``moisture.read()`` aus und speichert ihn in der Variablen ``result``, die anschließend ausgegeben wird.  
 
 .. code-block:: python
 
     result = moisture.read()
     print('result = %d ' %result)
 
-3. **Timing Control**:
-   ``time.sleep(0.2)`` is used to pause the loop for 0.2 seconds between readings, allowing for a controlled flow of readings.
+3. **Zeitsteuerung**:  
+   Mit ``time.sleep(0.2)`` pausiert die Schleife 0,2 Sekunden, um einen kontrollierten Ablauf der Messungen zu gewährleisten.  
 
-4. **Graceful Exit**:
-   The ``try`` and ``except`` block gracefully handles a user-generated interrupt, typically ``Ctrl+C``, allowing the program to exit without error messages.
+4. **Sauberer Abbruch**:  
+   Der ``try`` - ``except`` -Block fängt eine vom Benutzer ausgelöste Unterbrechung (``Ctrl+C``) ab und beendet das Programm ohne Fehlermeldungen.  
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Fehlerbehebung**
 
-When working with hardware and sensor setups like this one, you might encounter several common issues. Here's how to troubleshoot some of the frequent problems:
+Beim Arbeiten mit Hardware und Sensoren können häufig typische Probleme auftreten. Hier einige Ansätze zur Fehlerbehebung:  
 
-1. **No Output or Erratic Readings**:
-   Check all physical connections first. Loose or improper connections between the Raspberry Pi Zero and the moisture sensor can cause no output or fluctuating readings.
+1. **Keine Ausgabe oder instabile Werte**:  
+   Überprüfe zuerst alle Verbindungen. Lose oder fehlerhafte Kabelverbindungen zwischen Raspberry Pi Zero und Sensor können zu fehlender oder schwankender Ausgabe führen.  
 
-2. **Constant Zero or Maximum Readings**:
+2. **Konstant Null- oder Maximalwerte**:  
 
-   - Constant readings often indicate a problem with the sensor itself or its configuration on the ADC. Verify that the sensor is not damaged and is correctly inserted into the ADC port.
+   - Ständige gleiche Werte deuten oft auf einen Defekt am Sensor oder eine falsche Konfiguration am ADC hin. Prüfe, ob der Sensor beschädigt ist und korrekt mit dem ADC-Port verbunden wurde.  
 
-   - Check the voltage levels supported by your moisture sensor, it should be 3.3V.
+   - Achte auf die korrekte Spannung – der Sensor muss mit 3,3V betrieben werden.  
 
-4. **Handling Interrupts**:
-   If the script does not exit cleanly on pressing ``Ctrl+C``, check your exception handling. Ensure that the KeyboardInterrupt exception is correctly being caught in your try-except block.
+3. **Probleme beim Abbrechen mit Ctrl+C**:  
+   Falls das Skript nicht sauber beendet wird, überprüfe die Ausnahmebehandlung. Stelle sicher, dass ``KeyboardInterrupt`` korrekt im try-except-Block behandelt wird.  
 
 .. code-block:: python
 
     except KeyboardInterrupt: 
         pass
 
-**Extendable Ideas**
+**Erweiterbare Ideen**
 
-Taking this basic project to the next level involves adding features and integrating it with other technologies. Here are some extendable ideas to enhance your soil moisture sensor project:
+Um dieses Grundprojekt auszubauen, kannst du zusätzliche Funktionen implementieren und es mit anderen Technologien kombinieren. Hier einige Vorschläge:  
 
-1. **Data Logging and Visualization**:
-   Implement data logging by storing the moisture readings in a file or a database at regular intervals. This data can then be used to create graphs and visualizations to analyze the moisture trends over time.
+1. **Datenaufzeichnung und Visualisierung**:  
+   Speichere die Feuchtigkeitswerte regelmäßig in einer Datei oder Datenbank. Diese Daten lassen sich später grafisch darstellen und analysieren.  
 
    .. code-block:: python
 
@@ -184,25 +184,25 @@ Taking this basic project to the next level involves adding features and integra
          writer = csv.writer(file)
          writer.writerow([time.time(), result])
 
-2. **Real-Time Alerts**:
-   Set up a system to send real-time alerts (via email or SMS) when the soil moisture falls below a certain threshold. This could be particularly useful for maintaining optimal soil conditions for specific plants.
+2. **Echtzeit-Benachrichtigungen**:  
+   Richte ein System ein, das Warnungen per E-Mail oder SMS sendet, sobald die Bodenfeuchtigkeit unter einen definierten Schwellenwert fällt.  
 
    .. code-block:: python
 
       if result < threshold:
          send_alert("Soil moisture is low, consider watering.")
 
-3. **Integration with a Watering System**:
-   Connect your Raspberry Pi to a solenoid valve or a water pump to automate watering based on the moisture level readings. This can make the system fully autonomous and very efficient for maintaining gardens or crops.
+3. **Integration in ein Bewässerungssystem**:  
+   Verbinde den Raspberry Pi mit einem Magnetventil oder einer Pumpe, um die Bewässerung automatisch anhand der Messwerte zu steuern.  
 
    .. code-block:: python
 
       if result < threshold:
          activate_pump()
 
-4. **Multi-Sensor Expansion**:
-   Expand the system by integrating other environmental sensors, such as ambient temperature, humidity, and light sensors. This holistic approach would provide more data points for precise gardening or farming conditions management.
+4. **Erweiterung mit mehreren Sensoren**:  
+   Ergänze weitere Umweltsensoren, z. B. für Temperatur, Luftfeuchtigkeit oder Licht. Damit erhältst du ein umfassenderes System für präzises Garten- oder Landwirtschaftsmanagement.  
 
-**Conclusion**
+**Fazit**
 
-This project demonstrates a straightforward method to integrate a soil moisture sensor with a Raspberry Pi Zero for real-time monitoring. This setup can be the foundation for more complex projects, including automated watering systems or environmental data collection for scientific analysis. By understanding and modifying this simple script, you can tailor the system to meet specific needs or conditions in your garden or greenhouse.
+Dieses Projekt zeigt eine einfache Möglichkeit, einen Bodenfeuchtigkeitssensor mit einem Raspberry Pi Zero zu nutzen, um Messwerte in Echtzeit zu erfassen. Diese Grundlage kann für komplexere Projekte wie automatisierte Bewässerungssysteme oder die wissenschaftliche Datenerfassung erweitert werden. Durch das Verständnis und die Anpassung des Skripts lässt sich das System gezielt auf die Anforderungen deines Gartens oder Gewächshauses zuschneiden.  

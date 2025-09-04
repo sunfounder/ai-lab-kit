@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Enthusiasten tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf sowie technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorab-Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.5_py:
 
@@ -20,7 +20,7 @@
 
 **Introduction**
 
-Have you ever noticed the automatic doors in convenience stores that open with a welcoming chime when someone approaches? This project replicates that functionality on a smaller scale. Using a PIR sensor, servo motor, LED, and buzzer, you’ll create a miniature "automatic door" system. When motion is detected, the system lights an LED, "opens" the door using a servo, and plays a welcoming chime with a buzzer.
+Ist dir schon einmal aufgefallen, wie sich in Convenience-Stores die automatischen Türen mit einem freundlichen Klingelton öffnen, sobald jemand näherkommt? Dieses Projekt bildet diese Funktion im Kleinformat nach. Mit einem PIR-Sensor, einem Servomotor, einer LED und einem Summer baust du ein miniaturisiertes „automatisches Tür“-System. Bei erkannter Bewegung schaltet das System die LED ein, „öffnet“ die Tür per Servo und spielt über den Summer einen Willkommensklang.
 
 
 ----------------------------------------------
@@ -28,14 +28,14 @@ Have you ever noticed the automatic doors in convenience stores that open with a
 
 **What You’ll Need**
 
-Below are the components required for this project:
+Nachfolgend die für dieses Projekt benötigten Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -64,7 +64,7 @@ Below are the components required for this project:
 
 **Circuit Diagram**
 
-Below is the circuit diagram for this project:
+Unten findest du den Schaltplan für dieses Projekt:
 
 .. image:: img/fzz/4.1.5_sch.png
    :width: 800
@@ -77,7 +77,7 @@ Below is the circuit diagram for this project:
 
 **Wiring Diagram**
 
-Follow the wiring diagram to assemble the circuit:
+Verdrahte die Bauteile gemäß dem folgenden Diagramm:
 
 
 .. image:: img/fzz/4.1.5_bb.png
@@ -87,7 +87,7 @@ Follow the wiring diagram to assemble the circuit:
 
 .. note::
 
-   Adjust the potentiometers on the PIR sensor module for optimal sensitivity and detection range. Rotate both potentiometers fully counterclockwise for best performance.
+   Stelle die Potentiometer auf dem PIR-Sensormodul für optimale Empfindlichkeit und Reichweite ein. Drehe beide Regler vollständig gegen den Uhrzeigersinn, um mit der höchsten Einstellung zu beginnen.
 
 .. image:: ../python/img/4.1.8_PIR_TTE.png
    :width: 400
@@ -99,8 +99,8 @@ Follow the wiring diagram to assemble the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode in diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führe die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -113,7 +113,7 @@ Follow these steps to run the example:
 
 **Code**
 
-Below is the Python script for the project:
+Nachfolgend das Python-Skript für dieses Projekt:
 
 
 
@@ -194,34 +194,32 @@ Below is the Python script for the project:
       buzPin.off()
       ledPin.off()
 
-This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer to create an automated welcoming system. When executed:
+Dieses Python-Skript verbindet einen PIR-Bewegungssensor, einen Servomotor, eine LED und einen Summer zu einem automatisierten Begrüßungssystem. Beim Ausführen passiert Folgendes:
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO pin 22 detects motion.
+1. **Motion Detection**: Ein an GPIO-Pin 22 angeschlossener PIR-Sensor erkennt Bewegung.
 
-2. **Door Automation**: When motion is detected:
+2. **Door Automation**: Bei erkannter Bewegung:
+     - Der Servomotor (an PWM 4) „öffnet“ die Tür, indem er sich von 0° auf 180° bewegt.
+     - Die LED (an GPIO-Pin 17) schaltet sich ein.
+     - Über den Summer (an PWM 0) wird ein Willkommensklang abgespielt.
+     - Der Servomotor bewegt sich zurück von 180° auf 0° und „schließt“ die Tür.
+     - Die LED schaltet sich aus.
 
-     - The servo motor (on PWM 4) opens a door by moving from 0° to 180°.
-     - The LED (on GPIO pin 17) turns on.
-     - A welcoming chime is played through the buzzer (on PWM 0).
-     - The servo motor closes the door by moving back from 180° to 0°.
-     - The LED turns off.
+3. **Continuous Monitoring**: Das System überwacht kontinuierlich Bewegungen und führt die Sequenz bei jeder Erkennung aus.
 
-3. **Continuous Monitoring**: The system continuously monitors for motion and triggers the above sequence whenever motion is detected.
-
-4. **Graceful Exit**: On ``Ctrl+C``, the buzzer and LED are turned off, and the script exits cleanly.
-
+4. **Graceful Exit**: Bei ``Ctrl+C`` werden Summer und LED ausgeschaltet und das Skript sauber beendet.
 
 ----------------------------------------------
 
 **Understanding the Code**
 
-1. **Motion Detection:** The PIR sensor detects motion and triggers the system.
+1. **Motion Detection:** Der PIR-Sensor erkennt Bewegung und triggert das System.
 
-2. **Servo Control:** The servo motor opens and closes the door using angles from 0° to 180°.
+2. **Servo Control:** Der Servomotor öffnet und schließt die Tür mithilfe von Winkeln zwischen 0° und 180°.
 
-3. **Buzzer Melody:** A welcoming tune is played using the ``Buzzer``.
+3. **Buzzer Melody:** Über den ``Buzzer`` wird eine Willkommensmelodie abgespielt.
 
-4. **Reset:** After the chime, the system closes the door and turns off the LED, ready for the next event.
+4. **Reset:** Nach dem Klingelton schließt das System die Tür, schaltet die LED aus und ist bereit für das nächste Ereignis.
 
 
 
@@ -230,42 +228,42 @@ This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer 
 
 **Troubleshooting**
 
-1. **Motion Not Detected**:
+1. **Bewegung wird nicht erkannt**:
 
-   - **Cause**: PIR sensor not wired correctly or environmental interference.
-   - **Solution**:
+   - **Ursache**: PIR-Sensor falsch verdrahtet oder Umgebungsstörungen.
+   - **Lösung**:
 
-     - Ensure the PIR sensor is connected to GPIO pin 22, power, and ground.
-     - Adjust the sensor's sensitivity and delay potentiometers if available.
+     - Prüfen, ob der PIR-Sensor an GPIO-Pin 22, Versorgung und Masse angeschlossen ist.
+     - Empfindlichkeit und Verzögerung am Sensor (falls vorhanden) anpassen.
 
-2. **Servo Not Moving**:
+2. **Servo bewegt sich nicht**:
 
-   - **Cause**: Incorrect servo configuration or power supply issues.
-   - **Solution**:
+   - **Ursache**: Falsche Servokonfiguration oder Spannungsversorgung.
+   - **Lösung**:
 
-     - Verify the servo is connected to P4 and powered correctly.
+     - Sicherstellen, dass der Servo an P4 korrekt angeschlossen und versorgt wird.
 
-3. **Chime Not Playing**:
+3. **Klingelton wird nicht abgespielt**:
 
-   - **Cause**: Buzzer misconfiguration or incorrect tune format.
-   - **Solution**:
+   - **Ursache**: Summer falsch konfiguriert oder falsches Melodieformat.
+   - **Lösung**:
 
-     - Ensure the buzzer is connected to P0.
-     - Verify the ``tune`` list contains valid note and duration pairs.
+     - Prüfen, ob der Summer an P0 angeschlossen ist.
+     - Verifizieren, dass die ``tune``-Liste gültige Noten-/Dauer-Paare enthält.
 
-4. **LED Not Turning On**:
+4. **LED schaltet nicht ein**:
 
-   - **Cause**: LED wiring or GPIO configuration issues.
-   - **Solution**: Verify the LED is connected to GPIO pin 17 with an appropriate resistor.
+   - **Ursache**: Fehler in LED-Verdrahtung oder GPIO-Konfiguration.
+   - **Lösung**: Prüfen, ob die LED mit geeignetem Vorwiderstand an GPIO-Pin 17 angeschlossen ist.
 
 ----------------------------------------------
 
 
 **Extendable Ideas**
 
-1. **Adjustable Chime**: Add more melodies or allow the user to select different chimes for different events.
+1. **Anpassbarer Klingelton**: Weitere Melodien hinzufügen oder eine Auswahl je nach Ereignis anbieten.
 
-2. **Time-Based Operation**: Disable the system during specific hours (e.g., at night):
+2. **Zeitgesteuerter Betrieb**: Das System zu bestimmten Zeiten deaktivieren (z. B. nachts):
 
      .. code-block:: python
 
@@ -273,18 +271,18 @@ This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer 
          if 8 <= datetime.now().hour < 22:  # Operate only between 8 AM and 10 PM
              opendoor()
 
-3. **Data Logging**: Log motion detection events and timestamps to a file for analysis:
+3. **Datenlogging**: Bewegungsereignisse mit Zeitstempel in eine Datei schreiben:
 
      .. code-block:: python
 
          with open("motion_log.txt", "a") as log_file:
              log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - Motion detected\n")
 
-4. **Voice Greetings**: Replace the buzzer chime with pre-recorded voice messages using a speaker.
+4. **Sprachbegrüßung**: Den Summer durch vorab aufgenommene Sprachansagen über einen Lautsprecher ersetzen.
 
 ----------------------------------------------
 
 
 **Conclusion**
 
-This project replicates the functionality of automatic doors in a fun and educational way. It introduces concepts like motion detection, servo control, and sound generation, making it a great entry point for IoT and automation projects. Try expanding it by adding features like remote notifications or cloud integration for real-time monitoring.
+Dieses Projekt bildet die Funktion automatischer Türen auf unterhaltsame und lehrreiche Weise nach. Es führt in Konzepte wie Bewegungserkennung, Servosteuerung und Klangerzeugung ein und eignet sich hervorragend als Einstieg in IoT- und Automatisierungsprojekte. Erweitere es z. B. um Benachrichtigungen oder Cloud-Anbindung für eine Überwachung in Echtzeit.

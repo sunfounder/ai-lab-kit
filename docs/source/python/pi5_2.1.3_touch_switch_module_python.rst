@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Fragen und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an Aktionen und Verlosungen zu Feiertagen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _2.1.3_py:
 
-2.1.3 Touch Switch Module
+2.1.3 Touch-Schalter-Modul
 ================================
 
 **Introduction**
 
-In this project, we explore the use of a Touch Switch Module. This component replaces traditional mechanical switches and offers benefits such as precise control, fine touch sensitivity, and minimal mechanical wear. Touch switches are commonly used in modern appliances and devices where reliability and ease of operation are essential.
+In diesem Projekt setzen wir ein Touch-Schalter-Modul ein. Dieses Bauteil ersetzt herkömmliche mechanische Schalter und bietet Vorteile wie präzise Steuerung, hohe Berührungsempfindlichkeit und minimale mechanische Abnutzung. Touch-Schalter kommen häufig in modernen Geräten zum Einsatz, in denen Zuverlässigkeit und einfache Bedienung entscheidend sind.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -54,7 +54,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-Below is the schematic diagram showing how to connect the Touch Switch Module to the Raspberry Pi and LEDs:
+Die folgende Schaltskizze zeigt, wie das Touch-Schalter-Modul mit dem Raspberry Pi und den LEDs verbunden wird:
 
 .. image:: img/fzz/2.1.3_sch.png
    :width: 800
@@ -67,8 +67,8 @@ Below is the schematic diagram showing how to connect the Touch Switch Module to
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Gehen Sie wie folgt vor, um das Beispiel auszuführen:
 
 
 .. code-block:: shell
@@ -80,11 +80,11 @@ Follow these steps to run the example:
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+Bauen Sie die Schaltung wie folgt auf:
 
-1. Connect the Touch Switch Module output pin to GPIO17.
-2. Connect LED1 anode to GPIO22 and LED2 anode to GPIO27 via appropriate resistors.
-3. Connect the cathodes of both LEDs and the Touch Switch ground pin to GND.
+1. Verbinden Sie den Ausgangspin des Touch-Schalters mit GPIO17.
+2. Verbinden Sie die Anode von LED1 mit GPIO22 und die Anode von LED2 mit GPIO27 – jeweils über geeignete Vorwiderstände.
+3. Verbinden Sie die Kathoden beider LEDs sowie den GND-Pin des Touch-Schalters mit Masse (GND).
 
 .. image:: img/fzz/2.1.3_bb.png
    :width: 800
@@ -96,7 +96,7 @@ Follow these steps to build the circuit:
 
 **Writing the Code**
 
-The following Python code controls two LEDs based on the state of the Touch Switch Module:
+Der folgende Python-Code steuert zwei LEDs abhängig vom Zustand des Touch-Schalter-Moduls:
 
 
 .. raw:: html
@@ -135,22 +135,22 @@ The following Python code controls two LEDs based on the state of the Touch Swit
       pass
 
 
-This Python script uses a touch sensor to control two LEDs connected to a Raspberry Pi. When executed:
+Dieses Python-Skript verwendet einen Touch-Sensor, um zwei LEDs an einem Raspberry Pi zu steuern. Beim Ausführen gilt:
 
-1. **Touch Sensor Pressed**:
+1. **Touch-Sensor gedrückt**:
 
-   - Prints "You touch it!" to the console.
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+   - „You touch it!“ wird in der Konsole ausgegeben.
+   - LED1 (an GPIO22) erlischt.
+   - LED2 (an GPIO27) leuchtet.
 
-2. **Touch Sensor Not Pressed**:
+2. **Touch-Sensor nicht gedrückt**:
 
-   - LED1 turns on.
-   - LED2 turns off.
+   - LED1 leuchtet.
+   - LED2 erlischt.
 
-3. The program continuously monitors the touch sensor's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. Der Zustand des Touch-Sensors wird alle 0,5 Sekunden überprüft und die LEDs entsprechend geschaltet.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Das Skript läuft unbegrenzt, bis es mit ``Ctrl+C`` beendet wird.
 
 ----------------------------------------------
 
@@ -159,7 +159,7 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 1. **Library Import**
 
-   The ``fusion_hat`` library is used to simplify GPIO control, and the ``sleep`` function provides delay functionality.
+   Die Bibliothek ``fusion_hat`` vereinfacht die GPIO-Ansteuerung, ``sleep`` sorgt für Wartezeiten.
 
    .. code-block:: python
 
@@ -168,7 +168,7 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 2. **Component Initialization**
 
-   The touch sensor is configured as a button on GPIO17, and two LEDs are initialized on GPIO22 and GPIO27.
+   Der Touch-Sensor wird als Button an GPIO17 konfiguriert, zwei LEDs sind an GPIO22 bzw. GPIO27 angeschlossen.
 
    .. code-block:: python
 
@@ -182,7 +182,7 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 3. **Main Loop**
 
-   The program continuously checks the state of the Touch Switch Module. When touched, LED2 turns on and LED1 off; otherwise, LED1 is on, and LED2 is off.
+   Das Programm prüft fortlaufend den Zustand des Touch-Schalters. Bei Berührung geht LED2 an und LED1 aus; andernfalls ist LED1 an und LED2 aus.
 
    .. code-block:: python
 
@@ -197,7 +197,7 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 4. **Interrupt Handling**
 
-   A ``try-except`` block ensures that the program exits cleanly upon receiving a keyboard interrupt (Ctrl+C).
+   Ein ``try-except``-Block stellt sicher, dass das Programm bei ``Ctrl+C`` sauber beendet wird.
 
    .. code-block:: python
 
@@ -208,21 +208,21 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 **Troubleshooting**
 
-1. **No Response from Touch Sensor**  
+1. **Keine Reaktion des Touch-Sensors**  
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the touch sensor is connected to GPIO pin 17 and ground, and verify that ``PULL_DOWN`` matches the sensor's active-low configuration.
+   - **Ursache**: Falsche Verdrahtung oder Pin-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass der Sensor mit GPIO17 und GND verbunden ist und dass ``PULL_DOWN`` zur aktiven Logik des Sensors passt.
 
-2. **Sensor Always Reads Pressed or Not Pressed**  
+2. **Sensor meldet stets gedrückt oder nie gedrückt**  
 
-   - **Cause**: Faulty sensor or wiring.  
-   - **Solution**: Test the sensor with a multimeter or replace it. Check for loose or incorrect connections.
+   - **Ursache**: Defekter Sensor oder fehlerhafte Verdrahtung.  
+   - **Lösung**: Sensor mit Multimeter prüfen oder austauschen; auf lose bzw. falsche Verbindungen achten.
+
+3. **LEDs flackern oder verhalten sich unregelmäßig**  
 
 
-3. **LEDs Flicker or Behave Erratically**  
-
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **Ursache**: Entprellung fehlt.  
+   - **Lösung**: Software-Entprellung hinzufügen, um das Eingangssignal zu stabilisieren:
 
    .. code-block:: python
 
@@ -234,9 +234,9 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 **Extendable Ideas**
 
-1. **Touch Duration Detection**  
+1. **Erkennung der Berührungsdauer**  
 
-   Add functionality to detect how long the touch sensor is pressed and adjust LED behavior:
+   Ergänzen Sie eine Auswertung, wie lange der Sensor berührt wurde, und passen Sie das LED-Verhalten entsprechend an:
 
    .. code-block:: python
 
@@ -251,9 +251,9 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
             duration = time() - start_time
             print(f"Sensor was touched for {duration:.2f} seconds")
 
-2. **Adjustable Delay**  
+2. **Anpassbare Verzögerung**  
 
-   Allow the user to modify the delay dynamically to fine-tune responsiveness:
+   Ermöglichen Sie dem Nutzer, die Verzögerung zur Feinabstimmung der Reaktionszeit dynamisch zu ändern:
 
    .. code-block:: python
 
@@ -265,4 +265,4 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 **Conclusion**
 
-This project demonstrates how to use a Touch Switch Module with the Fusion HAT to control LEDs. Touch switches are versatile and reliable components, often used in modern devices for seamless and intuitive interaction.
+Dieses Projekt zeigt, wie sich mit dem Fusion HAT ein Touch-Schalter-Modul zur LED-Steuerung einsetzen lässt. Touch-Schalter sind vielseitige und zuverlässige Komponenten, die in modernen Geräten für eine nahtlose, intuitive Interaktion sorgen.

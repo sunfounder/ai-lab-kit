@@ -1,25 +1,25 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.10_py:
 
-4.1.10 Overheat Monitor
-========================
+4.1.10 Überhitzungs-Monitor
+===============================
 
 **Introduction**
 
-In industrial or household settings, monitoring temperature is crucial to prevent overheating, which could lead to equipment damage or safety hazards. This project demonstrates how to build a smart overheat monitoring device using a thermistor, joystick, buzzer, LED, and LCD. The device allows real-time temperature monitoring and includes an adjustable temperature threshold feature for triggering alerts.
+Sowohl in der Industrie als auch im Haushalt ist die Temperaturüberwachung entscheidend, um Überhitzung zu vermeiden – sie kann Geräte beschädigen oder ein Sicherheitsrisiko darstellen. In diesem Projekt baust du ein intelligentes Überhitzungs-Warnsystem mit Thermistor, Joystick, Buzzer, LED und LCD. Das Gerät überwacht die Temperatur in Echtzeit und bietet einen einstellbaren Temperaturschwellwert, bei dessen Überschreitung ein Alarm ausgelöst wird.
 
 
 ----------------------------------------------
@@ -27,14 +27,14 @@ In industrial or household settings, monitoring temperature is crucial to preven
 
 **What You’ll Need**
 
-The following components are required for this project:
+Für dieses Projekt benötigst du folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -65,7 +65,7 @@ The following components are required for this project:
 
 **Circuit Diagram**
 
-The schematic diagram for the overheat monitor is shown below:
+Das folgende Schaltbild zeigt den Aufbau des Überhitzungs-Monitors:
 
 .. image:: img/fzz/4.1.10_sch.png
    :width: 800
@@ -78,7 +78,7 @@ The schematic diagram for the overheat monitor is shown below:
 
 **Wiring Diagram**
 
-Follow the wiring diagram to connect all components:
+Verdrahte alle Komponenten gemäß dem folgenden Diagramm:
 
 
 .. image:: img/fzz/4.1.10_bb.png
@@ -91,8 +91,8 @@ Follow the wiring diagram to connect all components:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -106,7 +106,7 @@ Follow these steps to run the example:
 **Writing the Code**
 
 
-Here is the Python script for the overheat monitoring system:
+Hier ist das Python-Skript für das Überhitzungs-Überwachungssystem:
 
 
 
@@ -238,61 +238,61 @@ Here is the Python script for the overheat monitoring system:
         lcd.clear()
 
 
-This Python script integrates a temperature monitoring system with a joystick-controlled adjustable threshold. It provides the following functionalities:
+Dieses Python-Skript kombiniert Temperaturüberwachung mit einem per Joystick einstellbaren Schwellwert. Es bietet folgende Funktionen:
 
-1. **Temperature Measurement**: Reads the current temperature and displays it on the LCD.
+1. **Temperaturmessung**: Liest die aktuelle Temperatur und zeigt sie auf dem LCD an.
 
-2. **Upper Threshold Adjustment**:
+2. **Einstellbarer Obergrenzwert**:
 
-   - Uses a joystick to adjust the upper temperature threshold:
+   - Über den Joystick lässt sich der Grenzwert anpassen:
 
-     - Horizontal movements (left/right) change the threshold by ±1.
-     - Vertical movements (up/down) change the threshold by ±10.
+     - Horizontale Bewegungen (links/rechts) ändern um ±1.
+     - Vertikale Bewegungen (hoch/runter) ändern um ±10.
 
-   - The updated threshold is displayed in real-time on the LCD.
+   - Der aktualisierte Wert wird in Echtzeit auf dem LCD angezeigt.
 
-3. **Alert Mechanism**:
+3. **Alarmmechanismus**:
 
-   - If the temperature exceeds the threshold:
+   - Überschreitet die Temperatur den Grenzwert:
 
-     - A buzzer turns on.
-     - An LED lights up.
+     - Schaltet der Buzzer ein.
+     - Leuchtet die LED.
+    
+   - Unterschreitet sie den Grenzwert, gehen Buzzer und LED aus.
 
-   - The buzzer and LED turn off when the temperature falls below the threshold.
-
-4. **Joystick Button Functionality**: The joystick button toggles between two modes:
+4. **Joystick-Taste**: Wechselt zwischen zwei Modi:
    
-   - Threshold adjustment mode.
-   - Temperature monitoring mode.
+   - Grenzwert-Einstellung.
+   - Temperatur-Monitoring.
 
-5. **Graceful Exit**: On ``Ctrl+C``, the LCD is cleared, and the ADC module is safely shut down.
+5. **Sauberes Beenden**: Bei ``Ctrl+C`` wird das LCD geleert und das Programm ordnungsgemäß beendet.
 
 
 ----------------------------------------------
 
 **Understanding the Code**
 
-1. **Initialization:**
+1. **Initialisierung:**
 
-   * Sets up GPIO pins for the joystick button, buzzer, and LED.
-   * Initializes the ADC and LCD modules.
+   * Richtet die GPIO-Pins für Joystick-Taste, Buzzer und LED ein.
+   * Initialisiert die ADC- und LCD-Module.
 
-2. **Joystick Input:**
+2. **Joystick-Eingabe:**
 
-   * Reads joystick values to determine adjustments to the temperature threshold.
+   * Liest die Joystick-Werte und leitet daraus Anpassungen für den Temperaturschwellwert ab.
 
-3. **Temperature Monitoring:**
+3. **Temperaturüberwachung:**
 
-   * Continuously monitors the current temperature and updates the LCD display.
-   * Triggers an alarm (LED and buzzer) if the temperature exceeds the threshold.
+   * Überwacht kontinuierlich die aktuelle Temperatur und aktualisiert die LCD-Ausgabe.
+   * Löst bei Überschreitung des Grenzwerts (LED/Buzzer) einen Alarm aus.
 
-4. **Mode Switching:**
+4. **Moduswechsel:**
 
-   * Toggles between "threshold adjustment" and "temperature monitoring" modes using the joystick button.
+   * Wechselt per Joystick-Taste zwischen „Grenzwert einstellen“ und „Temperatur überwachen“.
 
-5. **Graceful Exit:**
+5. **Sauberes Beenden:**
 
-   * Cleans up resources on script termination to ensure no GPIO pins are left active.
+   * Räumt beim Skriptende auf, damit keine GPIO-Pins aktiv bleiben.
 
 
 
@@ -301,44 +301,44 @@ This Python script integrates a temperature monitoring system with a joystick-co
 
 **Troubleshooting**
 
-1. **Temperature Not Displayed**:
+1. **Temperatur wird nicht angezeigt**:
 
-   - **Cause**: Module not properly set up.
-   - **Solution**:
+   - **Ursache**: Modul nicht korrekt eingerichtet.
+   - **Lösung**:
 
-     - Ensure the thermistor is functional and wired properly.
+     - Prüfe, ob der Thermistor funktionsfähig und korrekt verdrahtet ist.
 
-2. **Joystick Not Responding**:
+2. **Joystick reagiert nicht**:
 
-   - **Cause**: Incorrect joystick wiring or configuration.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder Konfiguration des Joysticks.
+   - **Lösung**:
 
-     - Verify connections for the joystick's X, Y, and button pins (A1, A2 and GPIO 17, respectively).
-     - Test the joystick independently to confirm functionality.
+     - Überprüfe die Anschlüsse für X, Y und die Taste (A1, A0 und GPIO 17).
+     - Teste den Joystick separat, um die Funktion sicherzustellen.
 
-3. **Buzzer/LED Not Triggering**:
+3. **Buzzer/LED werden nicht ausgelöst**:
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+   - **Ursache**: Verdrahtungsfehler oder falsche GPIO-Konfiguration.
+   - **Lösung**:
 
-     - Check the connections for the buzzer (GPIO 27) and LED (GPIO 22).
-     - Test the components using simple scripts to ensure they function correctly.
+     - Prüfe die Anschlüsse für den Buzzer (GPIO 22) und die LED (GPIO 27) entsprechend dem Code.
+     - Teste die Komponenten mit einfachen Skripten.
 
-4. **Threshold Adjustment Not Working**:
+4. **Grenzwert lässt sich nicht anpassen**:
 
-   - **Cause**: Joystick movement not detected or ``get_joystick_value()`` logic error.
-   - **Solution**: Add debug prints to verify the values returned by ``get_joystick_value()``.
+   - **Ursache**: Joystick-Bewegung wird nicht erkannt oder Logikfehler in ``get_joystick_value()``.
+   - **Lösung**: Debug-Ausgaben hinzufügen, um die Rückgabewerte zu prüfen.
 
       .. code-block:: python
 
          print(f"Joystick Value: {get_joystick_value()}")
 
-5. **LCD Not Displaying Properly**:
+5. **LCD zeigt nichts oder falsche Werte**:
 
-   - **Cause**: Incorrect I2C address or wiring.
-   - **Solution**:
+   - **Ursache**: Falsche I²C-Adresse oder Verdrahtung.
+   - **Lösung**:
 
-     - Verify the LCD's I2C address using ``i2cdetect -y 1``.
+     - Prüfe die I²C-Adresse des LCD mit ``i2cdetect -y 1``.
 
 
 ----------------------------------------------
@@ -346,25 +346,25 @@ This Python script integrates a temperature monitoring system with a joystick-co
 
 **Extendable Ideas**
 
-1. **Dynamic Threshold Alerts**: Add a hysteresis mechanism to avoid frequent toggling of alerts around the threshold.
+1. **Dynamische Alarm-Schwelle**: Füge Hysterese hinzu, um ständiges Ein/Aus um den Grenzwert zu vermeiden.
 
-2. **Data Logging**: Log temperature readings and threshold changes to a file for later analysis:
+2. **Datenlogging**: Protokolliere Temperaturwerte und Grenzwertänderungen in einer Datei:
 
    .. code-block:: python
 
       with open("temperature_log.txt", "a") as log_file:
             log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - Temp: {Cel}, Threshold: {upperTem}\n")
 
-3. **Temperature Unit Conversion**: Add functionality to display the temperature in Fahrenheit or Kelvin.
+3. **Einheitenumschaltung**: Optional Anzeige in Fahrenheit oder Kelvin.
 
-4. **Advanced Joystick Features**: Use long joystick presses for additional actions, such as resetting the threshold to default.
+4. **Erweiterte Joystick-Funktionen**: Lange Tastendrücke für Zusatzaktionen, z. B. Rücksetzen auf Standardwert.
 
-5. **Real-Time Clock Integration**: Add a real-time clock module to timestamp temperature readings on the LCD.
+5. **RTC-Integration**: Ergänze eine Echtzeituhr für Zeitstempel direkt auf dem LCD.
 
-6. **Temperature Trends**: Calculate and display the rate of temperature change over time.
+6. **Trendanzeige**: Berechne und zeige die Temperaturänderungsrate im Zeitverlauf.
 
 ----------------------------------------------
 
 **Conclusion**
 
-This project combines multiple sensors and components to create a functional and interactive overheat monitoring device. It provides a practical understanding of temperature sensing, user input handling, and alert mechanisms. Experiment with the device to adapt it to various real-world scenarios, such as monitoring server rooms, household appliances, or industrial machinery.
+Dieses Projekt vereint mehrere Sensoren und Aktoren zu einem praxisnahen, interaktiven Überhitzungs-Monitor. Es vermittelt ein solides Verständnis für Temperaturerfassung, Benutzereingaben und Alarmierung. Probiere eigene Erweiterungen aus – etwa zur Überwachung von Serverräumen, Haushaltsgeräten oder Maschinen in der Fertigung.

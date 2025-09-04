@@ -1,25 +1,25 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.  
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf sowie technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.  
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Kenntnisse zu erweitern.  
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.  
+    - **Special Discounts**: Profitiere von besonderen Rabatten auf unsere neuesten Produkte.  
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!  
 
 .. _2.2.8_py:
 
-2.2.8 MPU6050 Module
+2.2.8 MPU6050 Modul
 ====================
 
 **Introduction**
 
-The MPU6050 is a highly integrated 6-axis motion tracking module that includes a 3-axis gyroscope and a 3-axis accelerometer. This module is widely used in smartphones, tablets, and wearable devices due to its compact size, low power consumption, and high performance. In this project, you will learn how to interface with the MPU6050 using the I2C protocol to obtain acceleration and angular velocity data, which will then be displayed on the screen.
+Das MPU6050 ist ein hochintegriertes 6-Achsen-Bewegungserfassungsmodul, das ein 3-Achsen-Gyroskop und einen 3-Achsen-Beschleunigungssensor kombiniert. Aufgrund seiner kompakten Bauweise, des geringen Energieverbrauchs und der hohen Leistungsfähigkeit wird es häufig in Smartphones, Tablets und Wearables eingesetzt. In diesem Projekt lernst du, wie du den MPU6050 über das I2C-Protokoll ansteuerst, um Beschleunigungs- und Winkelgeschwindigkeitsdaten auszulesen und diese anschließend auf dem Bildschirm anzuzeigen.  
 
 
 
@@ -27,7 +27,7 @@ The MPU6050 is a highly integrated 6-axis motion tracking module that includes a
 
 **What You’ll Need**
 
-Below are the components required for this project:
+Folgende Komponenten werden für dieses Projekt benötigt:
 
 .. list-table::
     :widths: 30 20
@@ -50,7 +50,7 @@ Below are the components required for this project:
 
 **Circuit Diagram**
 
-The MPU6050 communicates with the microcontroller via the I2C bus. Connect the SDA1 and SCL1 pins of the MPU6050 to the corresponding I2C pins on the Raspberry Pi:
+Der MPU6050 kommuniziert über den I2C-Bus mit dem Mikrocontroller. Verbinde die SDA1- und SCL1-Pins des MPU6050 mit den entsprechenden I2C-Pins des Raspberry Pi:
 
 .. image:: img/fzz/2.2.8_sch.png
    :width: 800
@@ -62,13 +62,13 @@ The MPU6050 communicates with the microcontroller via the I2C bus. Connect the S
 
 **Wiring Diagram**
 
-Assemble the circuit as shown in the wiring diagram below:
+Baue die Schaltung wie im folgenden Verdrahtungsdiagramm dargestellt auf:
 
 .. image:: img/fzz/2.2.8_bb.png
    :width: 800
    :align: center
 
-Ensure that all connections are secure and match the schematic to avoid communication errors.
+Stelle sicher, dass alle Verbindungen fest sitzen und exakt dem Schaltplan entsprechen, um Kommunikationsfehler zu vermeiden.  
 
 
 
@@ -77,8 +77,8 @@ Ensure that all connections are secure and match the schematic to avoid communic
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führe die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -93,7 +93,7 @@ Follow these steps to run the example:
 **Writing the Code**
 
 
-Below is the Python code for this project:
+Nachfolgend findest du den Python-Code für dieses Projekt:
 
 
 .. raw:: html
@@ -122,7 +122,7 @@ Below is the Python code for this project:
       )
       sleep(0.2)
 
-This Python script utilizes the MPU6050 sensor, which is commonly used for motion tracking in devices such as drones, mobile phones, and gaming devices. The script reads temperature, accelerometer, and gyroscope data from the sensor and prints these readings continuously in a formatted output. Below, I'll explain the code step-by-step in a way suitable for a documentation style like you might find on readthedocs.
+Dieses Python-Skript nutzt den MPU6050-Sensor, der häufig in Drohnen, Smartphones oder Spielekonsolen zur Bewegungserfassung eingesetzt wird. Es liest kontinuierlich Temperatur-, Beschleunigungs- und Gyroskopdaten aus und gibt sie formatiert in der Konsole aus.  
 
 ----------------------------------------------
 
@@ -138,7 +138,7 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
       from time import sleep
 
 
-   These lines import the necessary Python libraries. ``fusion_hat`` contains the ``MPU6050`` class for interfacing with the sensor. The ``sleep`` function from the ``time`` module is used to introduce a delay in the loop.
+   Hier werden die erforderlichen Python-Bibliotheken importiert. ``fusion_hat`` enthält die Klasse ``MPU6050`` für die Kommunikation mit dem Sensor. Mit ``sleep`` aus dem Modul ``time`` wird eine Pause in der Schleife realisiert.  
 
 2. **Initializing the Sensor**
 
@@ -147,7 +147,7 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
       mpu = MPU6050()
 
 
-   This line creates an instance of the ``MPU6050`` class, initializing the sensor so that it's ready to gather data.
+   Erstellt eine Instanz der Klasse ``MPU6050`` und initialisiert damit den Sensor, sodass Daten erfasst werden können.  
 
 3. **Main Loop**
 
@@ -165,94 +165,94 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
          sleep(0.2)
 
 
-   - **While Loop**: The ``while True`` statement creates an infinite loop, meaning the code inside the loop runs repeatedly without stopping.
+   - **Endlosschleife**: Mit ``while True`` läuft die Schleife unbegrenzt weiter.  
 
-   - **Reading Sensor Data**:
+   - **Sensordaten auslesen**:  
 
-      - ``temp = mpu.get_temp()``: Retrieves the current temperature from the sensor and stores it in the variable ``temp``.
-      - ``acc_x, acc_y, acc_z = mpu.get_accel_data()``: Retrieves the current acceleration data in three dimensions (x, y, z) from the sensor.
-      - ``gyro_x, gyro_y, gyro_z = mpu.get_gyro_data()``: Retrieves the gyroscope data, which measures angular velocity in the x, y, and z directions.
+     - ``temp = mpu.get_temp()`` liest die aktuelle Temperatur.  
+     - ``acc_x, acc_y, acc_z = mpu.get_accel_data()`` liefert die Beschleunigungswerte auf den Achsen x, y, z.  
+     - ``gyro_x, gyro_y, gyro_z = mpu.get_gyro_data()`` gibt die Winkelgeschwindigkeit auf den Achsen zurück.  
 
-   - **Printing Data**: The ``print`` statement formats and displays the sensor data. Temperature is displayed in degrees Celsius, acceleration in g-forces, and gyroscope data in degrees per second.
+   - **Ausgabe**: Die Daten werden formatiert in der Konsole ausgegeben.  
 
-   - **Sleep**: ``sleep(0.2)`` pauses the loop for 0.2 seconds before repeating. This delay helps manage the rate at which data is read and printed, preventing the script from consuming too much CPU time.
+   - **Pause**: ``sleep(0.2)`` sorgt für eine Verzögerung von 0,2 Sekunden, um die CPU-Last zu reduzieren und eine saubere Ausgabe zu gewährleisten.  
 
 4. **Additional Comments**
 
-   The lines to set the accelerometer and gyroscope ranges are commented out:
+   Die folgenden, auskommentierten Zeilen erlauben es, den Messbereich von Beschleunigungssensor und Gyroskop anzupassen:
 
    .. code-block:: python
 
       # mpu.set_accel_range(MPU6050.ACCEL_RANGE_2G)
       # mpu.set_gyro_range(MPU6050.GYRO_RANGE_250DEG)
 
-   Uncommenting these lines would allow you to configure the sensitivity of the accelerometer and gyroscope. For example, ``ACCEL_RANGE_2G`` configures the accelerometer to measure up to ±2g, and ``GYRO_RANGE_250DEG`` sets the gyroscope to measure up to ±250 degrees per second. By default, the MPU6050 module initializes with the default ranges of ±2g for acceleration and ±250 degrees per second for gyroscope.
+   Wenn du diese Zeilen einkommentierst, kannst du die Empfindlichkeit des Beschleunigungs- und Gyroskopsensors anpassen. Zum Beispiel konfiguriert ``ACCEL_RANGE_2G`` den Beschleunigungssensor so, dass er bis ±2g messen kann, während ``GYRO_RANGE_250DEG`` den Gyroskopbereich auf ±250 Grad pro Sekunde setzt. Standardmäßig wird das MPU6050-Modul mit den Voreinstellungen ±2g (Beschleunigung) und ±250 Grad pro Sekunde (Gyroskop) initialisiert.  
 
-   You can adjust these ranges based on your specific application requirements. The range settings are as follows:
+   Du kannst diese Bereiche an die Anforderungen deiner Anwendung anpassen. Die möglichen Einstellungen sind:  
 
    - **Accelerometer Ranges**:
 
-      - ``MPU6050.ACCEL_RANGE_2G``: ±2g
-      - ``MPU6050.ACCEL_RANGE_4G``: ±4g
-      - ``MPU6050.ACCEL_RANGE_8G``: ±8g
-      - ``MPU6050.ACCEL_RANGE_16G``: ±16g
+      - ``MPU6050.ACCEL_RANGE_2G``: ±2g  
+      - ``MPU6050.ACCEL_RANGE_4G``: ±4g  
+      - ``MPU6050.ACCEL_RANGE_8G``: ±8g  
+      - ``MPU6050.ACCEL_RANGE_16G``: ±16g  
 
    - **Gyroscope Ranges**:
 
-      - ``MPU6050.GYRO_RANGE_250DEG``: ±250 degrees per second
-      - ``MPU6050.GYRO_RANGE_500DEG``: ±500 degrees per second
-      - ``MPU6050.GYRO_RANGE_1000DEG``: ±1000 degrees per second
-      - ``MPU6050.GYRO_RANGE_2000DEG``: ±2000 degrees per second
+      - ``MPU6050.GYRO_RANGE_250DEG``: ±250 Grad pro Sekunde  
+      - ``MPU6050.GYRO_RANGE_500DEG``: ±500 Grad pro Sekunde  
+      - ``MPU6050.GYRO_RANGE_1000DEG``: ±1000 Grad pro Sekunde  
+      - ``MPU6050.GYRO_RANGE_2000DEG``: ±2000 Grad pro Sekunde  
 
 ----------------------------------------------
 
 
 **Troubleshooting**
 
-1. **No Output or Sensor Not Detected**:
+1. **Keine Ausgabe oder Sensor wird nicht erkannt**:
 
-   - **Cause**: Incorrect I2C setup or wiring.
-   - **Solution**:
+   - **Ursache**: Fehlerhafte I2C-Konfiguration oder Verdrahtung.  
+   - **Lösung**:  
 
-      - Ensure the MPU6050 is correctly connected to the Raspberry Pi's I2C pins (SDA, SCL, power, ground).
-      - Verify the I2C address using the ``i2cdetect`` tool:
+      - Stelle sicher, dass der MPU6050 korrekt mit den I2C-Pins des Raspberry Pi verbunden ist (SDA, SCL, Stromversorgung, Masse).  
+      - Überprüfe die I2C-Adresse mit dem Tool ``i2cdetect``:  
 
       .. code-block:: shell
 
          sudo i2cdetect -y 1
          
-      - Confirm that the device address matches ``0x68`` in the script.
+      - Stelle sicher, dass die erkannte Geräteadresse ``0x68`` im Skript entspricht.  
 
-2. **Incorrect or Erratic Values**:
+2. **Falsche oder instabile Werte**:
 
-   - **Cause**: Sensor calibration issues or noisy environment.
-   - **Solution**:
+   - **Ursache**: Kalibrierungsprobleme oder eine störanfällige Umgebung.  
+   - **Lösung**:  
 
-     - Place the MPU6050 on a stable surface to reduce noise.
-     - Perform calibration on the gyroscope and accelerometer to ensure accurate readings.
+     - Platziere den MPU6050 auf einer stabilen Oberfläche, um Störungen zu minimieren.  
+     - Kalibriere Gyroskop und Beschleunigungssensor, um präzisere Werte zu erhalten.  
 
 3. **ImportError: No Module Named ``smbus``**:
 
-   - **Cause**: The ``smbus`` library is not installed.
-   - **Solution**: Install the library using:
+   - **Ursache**: Die Bibliothek ``smbus`` ist nicht installiert.  
+   - **Lösung**: Installiere die Bibliothek mit:  
 
    .. code-block:: shell
 
-     sudo apt-get install python3-smbus
+     sudo apt-get install python3-smbus  
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Data Logging**: Save gyroscope and accelerometer readings to a file for analysis:
+1. **Datenaufzeichnung**: Speichere Gyroskop- und Beschleunigungswerte in einer Datei zur späteren Analyse:  
      
    .. code-block:: python
 
       with open("mpu6050_log.txt", "a") as log_file:
          log_file.write(f"{time.time():.3f}, {gyro_x}, {gyro_y}, {gyro_z}, {acc_x}, {acc_y}, {acc_z}\n")
 
-2. **Integration with Motors**: Use the gyroscope data to stabilize a drone or robotic arm.
+2. **Integration in Motorsteuerungen**: Nutze die Gyroskopdaten, um beispielsweise eine Drohne oder einen Roboterarm zu stabilisieren.  
 
 
 
@@ -261,4 +261,4 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
 
 **Conclusion**
 
-This script provides a simple yet powerful way to continuously monitor and display data from the MPU6050 sensor, which could be useful in various applications requiring real-time motion tracking or environmental monitoring.
+Dieses Skript bietet eine einfache, aber effektive Möglichkeit, kontinuierlich Daten des MPU6050-Sensors zu überwachen und auszugeben. Es eignet sich besonders für Anwendungen, die eine Echtzeit-Bewegungserfassung oder Umgebungsüberwachung erfordern.  

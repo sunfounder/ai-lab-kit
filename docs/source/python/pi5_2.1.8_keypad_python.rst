@@ -1,39 +1,39 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und herzlich willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Begeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.  
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.  
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.  
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.  
+    - **Special Discounts**: Profitiere von besonderen Rabatten auf unsere neuesten Produkte.  
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!  
 
 .. _2.1.8_py:
 
 2.1.8 Keypad
-============
+================
 
-**Introduction**
+**Einführung**
 
-A keypad is a rectangular array of buttons commonly used for inputting characters, numbers, or commands. In this project, we will use a keypad to input characters and display the values of pressed buttons on the screen. This experiment illustrates how to interface a keypad with a Raspberry Pi and process the input.
+Ein Keypad ist ein rechteckiges Tastenfeld, das üblicherweise zur Eingabe von Zeichen, Zahlen oder Befehlen verwendet wird. In diesem Projekt nutzen wir ein Keypad, um Zeichen einzugeben und die Werte der gedrückten Tasten auf dem Bildschirm anzuzeigen. Dieses Experiment zeigt, wie man ein Keypad mit einem Raspberry Pi verbindet und die Eingaben verarbeitet.  
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Benötigte Komponenten**
 
-Here are the components required for this project:
+Für dieses Projekt werden folgende Bauteile benötigt:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_keypad`
         - |link_keypad_buy|
@@ -47,9 +47,9 @@ Here are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schaltplan**
 
-Below are the schematic diagrams for the project:
+Nachfolgend die Schaltpläne für das Projekt:
 
 .. image:: img/fzz/2.1.8_sch.png
    :width: 800
@@ -59,9 +59,9 @@ Below are the schematic diagrams for the project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-Connect the components as shown in the wiring diagram below:
+Verbinde die Bauteile wie im folgenden Verdrahtungsdiagramm dargestellt:
 
 .. image:: img/fzz/2.1.8_bb.png
    :width: 800
@@ -69,15 +69,15 @@ Connect the components as shown in the wiring diagram below:
 
 
 
-Ensure that all connections are secure and that the GPIO pins are correctly assigned to the rows and columns of the keypad.
+Achte darauf, dass alle Verbindungen stabil sind und die GPIO-Pins korrekt den Reihen und Spalten des Keypads zugeordnet sind.  
 
 ----------------------------------------------
 
-**Running the Example**
+**Beispiel ausführen**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -87,9 +87,9 @@ Follow these steps to run the example:
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code schreiben**
 
-Below is the Python code used for this project:
+Der folgende Python-Code wird in diesem Projekt verwendet:
 
 
 .. raw:: html
@@ -129,27 +129,27 @@ Below is the Python code used for this project:
       pass
 
 
-The provided Python script implements a 4x4 keypad using the GPIO pins of a Raspberry Pi. When executed:
+Das bereitgestellte Python-Skript implementiert ein 4x4-Keypad mithilfe der GPIO-Pins des Raspberry Pi. Beim Ausführen:
 
 1. **Keypad Initialization**:
 
-   - The keypad uses GPIO pins specified in ``rows_pins`` (rows) and ``cols_pins`` (columns).
-   - Each key corresponds to a specific button layout defined in ``keys`` (e.g., "1", "2", "A", etc.).
+   - Das Keypad nutzt die in ``rows_pins`` (Reihen) und ``cols_pins`` (Spalten) definierten GPIO-Pins.  
+   - Jede Taste entspricht einem bestimmten Layout in ``keys`` (z. B. "1", "2", "A").  
 
 2. **Key Press Detection**:
 
-   - The program continuously scans the keypad to detect pressed keys.
-   - When a key is pressed, its value (e.g., "1", "A") is printed to the console.
+   - Das Programm scannt kontinuierlich das Keypad, um gedrückte Tasten zu erkennen.  
+   - Sobald eine Taste gedrückt wird, erscheint ihr Wert (z. B. "1", "A") in der Konsole.  
 
 3. **Continuous Monitoring**:
 
-   - The script runs in a loop, updating the list of currently pressed keys every 0.1 seconds.
-   - The program stops when interrupted with ``Ctrl+C``.
+   - Das Skript läuft in einer Schleife und aktualisiert alle 0,1 Sekunden die Liste der gedrückten Tasten.  
+   - Das Programm kann mit ``Ctrl+C`` beendet werden.  
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Code verstehen**
 
 1. **Imports:**
 
@@ -158,7 +158,7 @@ The provided Python script implements a 4x4 keypad using the GPIO pins of a Rasp
       from fusion_hat import Keypad
       from time import sleep
 
-   The script uses ``fusion_hat`` for Keypad control and ``time`` for implementing delays.
+   Das Skript verwendet ``fusion_hat`` zur Steuerung des Keypads und ``time`` zur Implementierung von Wartezeiten.  
 
 2. **Main Script:**
 
@@ -186,32 +186,32 @@ The provided Python script implements a 4x4 keypad using the GPIO pins of a Rasp
                last_key_pressed = pressed_keys
          sleep(0.1)  # Short delay to reduce CPU load
 
-   - Configures pins for the rows and columns.
-   - Defines the keypad layout.
-   - Continuously reads and prints pressed keys.
+   - Konfiguriert die Pins für Reihen und Spalten.  
+   - Definiert das Layout des Keypads.  
+   - Liest kontinuierlich die gedrückten Tasten und gibt diese aus.  
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Fehlerbehebung**
 
-1. **No Output When Pressing Keys**:
+1. **Keine Ausgabe bei Tastendruck**:
 
-   - **Cause**: Incorrect wiring of the keypad or GPIO pins.
-   - **Solution**: Verify the keypad is connected according to the ``rows_pins`` and ``cols_pins`` assignments. Ensure proper ground connections.
+   - **Ursache**: Falsche Verdrahtung des Keypads oder der GPIO-Pins.  
+   - **Lösung**: Überprüfe, ob das Keypad entsprechend den ``rows_pins``- und ``cols_pins``-Zuordnungen angeschlossen ist. Achte auf korrekte Masseverbindungen.  
 
-2. **Incorrect Key Press Detection**:
+2. **Falsche Tasterkennung**:
 
-   - **Cause**: Keypad layout mismatch with ``keys`` or row/column order.  
-   - **Solution**: Ensure the ``keys`` list matches the physical keypad layout. Double-check row and column pin order.
+   - **Ursache**: Abweichung im Keypad-Layout von der ``keys``-Liste oder falsche Reihen-/Spaltenzuordnung.  
+   - **Lösung**: Stelle sicher, dass die ``keys``-Liste dem physischen Layout des Keypads entspricht. Prüfe Reihen- und Spaltenzuordnung sorgfältig.  
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Erweiterbare Ideen**
 
-1. **Multi-Key Combination Detection**: Implement logic to detect specific key combinations or sequences:
+1. **Mehrfachtastenerkennung**: Logik implementieren, um bestimmte Tastenkombinationen oder -sequenzen zu erkennen:
 
      .. code-block:: python
 
@@ -219,7 +219,7 @@ The provided Python script implements a 4x4 keypad using the GPIO pins of a Rasp
              print("Special Combination Detected!")
 
 
-2. **LED or Buzzer Feedback**: Provide visual or auditory feedback when keys are pressed:
+2. **LED- oder Summer-Feedback**: Visuelles oder akustisches Feedback beim Tastendruck geben:
      
       .. code-block:: python
 
@@ -231,10 +231,10 @@ The provided Python script implements a 4x4 keypad using the GPIO pins of a Rasp
             led.off()
 
 
-3. **Event Trigger**: Trigger specific actions based on key presses, such as controlling appliances.
+3. **Ereignisauslösung**: Bestimmte Aktionen abhängig von Tastendrücken starten, z. B. Steuerung von Geräten.  
 
 ----------------------------------------------
 
-**Conclusion**
+**Fazit**
 
-This experiment demonstrates how to interface a keypad with a Fusion HAT and process input in Python. By understanding how the row-column scanning method works, you can build interactive applications like access control systems, calculators, or custom input devices.
+Dieses Experiment zeigt, wie ein Keypad mit einem Fusion HAT verbunden und Eingaben in Python verarbeitet werden können. Durch das Verständnis der Reihen-Spalten-Scanmethode lassen sich interaktive Anwendungen wie Zugangskontrollsysteme, Taschenrechner oder individuelle Eingabegeräte entwickeln.  

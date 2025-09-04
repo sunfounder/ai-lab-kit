@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie technische Fragen und Probleme nach dem Kauf mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitieren Sie von speziellen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu entwickeln? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _1.1.4_py:
 
-1.1.4 7-segment Display
+1.1.4 7-Segment-Anzeige
 =============================
 
 **Introduction**
 
-In this project, we will explore how to control a 7-segment display to sequentially show numbers from 0 to 9 and letters from A to F. This will demonstrate how to use a 74HC595 shift register to control multiple segments efficiently with fewer GPIO pins.
+In diesem Projekt steuern wir eine 7-Segment-Anzeige, um nacheinander die Zahlen von 0 bis 9 sowie die Buchstaben A bis F darzustellen. Dabei wird gezeigt, wie sich ein 74HC595-Schieberegister einsetzen lässt, um mehrere Segmente effizient mit wenigen GPIO-Pins anzusteuern.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -54,14 +54,14 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The circuit uses a 74HC595 shift register to control the 7-segment display. The connections are as follows:
+Die Schaltung nutzt ein 74HC595-Schieberegister zur Steuerung der 7-Segment-Anzeige. Die Verbindungen sind wie folgt:
 
-- Connect RCLK (Storage Register Clock) of 74HC595 to Pin 4 of the Raspberry Pi.
-- Connect SRCLK (Shift Register Clock) to Pin 27.
-- Connect SER (Serial Data Input, SDI) to Pin 17.
-- The output pins of the 74HC595 are connected to the corresponding segments of the 7-segment display.
+- RCLK (Storage Register Clock) des 74HC595 wird mit Pin 4 des Raspberry Pi verbunden.
+- SRCLK (Shift Register Clock) wird mit Pin 27 verbunden.
+- SER (Serial Data Input, SDI) wird mit Pin 17 verbunden.
+- Die Ausgangspins des 74HC595 steuern die jeweiligen Segmente der 7-Segment-Anzeige.
 
-This setup minimizes the GPIO pins needed by using serial communication to control the parallel outputs of the shift register.
+Durch diese Konfiguration wird die Anzahl benötigter GPIO-Pins reduziert, da die serielle Ansteuerung die parallelen Ausgänge des Schieberegisters kontrolliert.
 
 
 .. image:: img/fzz/1.1.4_sch.png
@@ -74,12 +74,12 @@ This setup minimizes the GPIO pins needed by using serial communication to contr
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+So bauen Sie die Schaltung auf:
 
-1. Place the 7-segment display and 74HC595 shift register on the breadboard.
-2. Connect the shift register output pins to the 7-segment display segments.
-3. Connect the input pins of the shift register to the specified GPIO pins on the Raspberry Pi.
-4. Add resistors to limit current for the display segments.
+1. Platzieren Sie die 7-Segment-Anzeige und den 74HC595 auf dem Breadboard.  
+2. Verbinden Sie die Ausgänge des Schieberegisters mit den Segmenten der Anzeige.  
+3. Schließen Sie die Eingänge des Schieberegisters an die angegebenen GPIO-Pins des Raspberry Pi an.  
+4. Fügen Sie Vorwiderstände hinzu, um den Strom für die Segmente zu begrenzen.  
 
 .. image:: img/fzz/1.1.4_bb.png
    :width: 800
@@ -92,8 +92,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der Beispielcode für dieses Projekt befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie folgende Schritte aus, um das Programm zu starten:
 
 
 .. code-block:: shell
@@ -105,7 +105,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-The following Python code sequentially displays hexadecimal digits (0-9, A-F) on the 7-segment display:
+Der folgende Python-Code zeigt nacheinander die hexadezimalen Zeichen (0–9, A–F) auf der 7-Segment-Anzeige an:
 
 
 .. raw:: html
@@ -162,13 +162,13 @@ The following Python code sequentially displays hexadecimal digits (0-9, A-F) on
       # Gracefully handle script interruption (e.g., Ctrl+C)
       pass
 
-This Python script controls a 7-segment display connected to a Raspberry Pi through a 74HC595 shift register. When executed:
+Dieses Python-Skript steuert eine 7-Segment-Anzeige, die über ein 74HC595-Schieberegister mit dem Raspberry Pi verbunden ist. Bei der Ausführung:
 
-1. The script sequentially cycles through hexadecimal digits (0-9, A-F) on the 7-segment display.
-2. Each digit is displayed for 0.5 seconds.
-3. The corresponding digit being displayed is also printed to the console in hexadecimal format.
+1. Durchläuft das Skript nacheinander die hexadezimalen Zeichen (0–9, A–F).  
+2. Jedes Zeichen wird für 0,5 Sekunden angezeigt.  
+3. Gleichzeitig wird der angezeigte Wert im Konsolenfenster im Hexadezimalformat ausgegeben.  
 
-The program runs in an infinite loop until interrupted by the user pressing ``Ctrl+C``.
+Das Programm läuft in einer Endlosschleife, bis es vom Benutzer mit ``Ctrl+C`` beendet wird.
 
 
 ----------------------------------------------
@@ -178,7 +178,7 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 1. **Importing Libraries**
 
-   The ``fusion_hat`` library simplifies GPIO control, and the ``time`` library provides delays.
+   Die Bibliothek ``fusion_hat`` vereinfacht die GPIO-Steuerung, während ``time`` für Pausen sorgt.
 
    .. code-block:: python
 
@@ -189,7 +189,7 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 2. **Defining GPIO Pins**
 
-   The GPIO pins are assigned to control the SDI, RCLK, and SRCLK of the shift register.
+   Die GPIO-Pins werden den Eingängen SDI, RCLK und SRCLK des Schieberegisters zugewiesen.
 
    .. code-block:: python
 
@@ -201,7 +201,7 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 3. **Hexadecimal Codes**
 
-   Each hexadecimal digit has a unique code to control the segments on the display.
+   Jeder hexadezimale Wert besitzt einen eigenen Code zur Steuerung der Segmente.
 
    .. code-block:: python
 
@@ -212,7 +212,7 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 4. **Data Shifting Function**
 
-   The ``hc595_shift`` function sends 8 bits of data to the shift register.
+   Die Funktion ``hc595_shift`` überträgt 8 Bit an das Schieberegister.
 
    .. code-block:: python
 
@@ -228,7 +228,7 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 5. **Main Loop**
 
-   The main loop cycles through the hexadecimal codes, displaying each digit on the 7-segment display.
+   Die Hauptschleife durchläuft die Codes und zeigt jedes Zeichen auf der 7-Segment-Anzeige an.
 
    .. code-block:: python
 
@@ -246,26 +246,26 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 **Troubleshooting**
 
-1. **7-Segment Display Not Working**  
+1. **7-Segment-Anzeige reagiert nicht**  
 
-   - **Cause**: Incorrect wiring between the Fusion HAT, 74HC595, and 7-segment display.  
-   - **Solution**: Verify that the GPIO pins (17, 4, 27) are correctly connected to ``SDI``, ``RCLK``, and ``SRCLK`` of the shift register, and that the output pins of the 74HC595 are connected to the display.
+   - **Ursache**: Falsche Verdrahtung zwischen Fusion HAT, 74HC595 und Anzeige.  
+   - **Lösung**: Prüfen Sie, ob die GPIO-Pins (17, 4, 27) korrekt mit ``SDI``, ``RCLK`` und ``SRCLK`` verbunden sind und ob die Ausgänge des 74HC595 richtig an die Segmente angeschlossen sind.  
 
-2. **Incorrect Digits Displayed**  
+2. **Falsche Zeichen werden angezeigt**  
 
-   - **Cause**: The ``segCode`` values may not match the wiring of the 7-segment display.  
-   - **Solution**: Ensure the segment-to-pin mapping corresponds to the codes in ``segCode``.
+   - **Ursache**: Die Werte in ``segCode`` stimmen nicht mit der Verdrahtung überein.  
+   - **Lösung**: Stellen Sie sicher, dass das Pin-Mapping der Segmente zu den Codes passt.  
 
 
-3. **No Activity on the Display**  
+3. **Keine Aktivität auf der Anzeige**  
 
-   - **Cause**: The shift register may not be receiving data correctly.  
-   - **Solution**: Verify the clock signals (``RCLK``, ``SRCLK``) are being toggled and that the data (``SDI``) is being sent correctly.
+   - **Ursache**: Das Schieberegister empfängt keine Daten.  
+   - **Lösung**: Überprüfen Sie die Taktsignale (``RCLK``, ``SRCLK``) sowie die Datenübertragung über ``SDI``.  
 
-4. **Timing Issues**  
+4. **Timing-Probleme**  
 
-   - **Cause**: Delays (``sleep(0.001)``) may be too short for proper latching.  
-   - **Solution**: Increase delay values slightly (e.g., ``sleep(0.002)``).
+   - **Ursache**: Die Verzögerung (``sleep(0.001)``) ist zu kurz.  
+   - **Lösung**: Erhöhen Sie die Verzögerung leicht (z. B. auf ``sleep(0.002)``).  
 
 
 
@@ -274,16 +274,16 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 **Extendable Ideas**
 
 
-1. **Custom Patterns**: Add custom patterns or animations by defining new codes that light up specific segments.
+1. **Eigene Muster**: Definieren Sie zusätzliche Codes für benutzerdefinierte Muster oder Animationen.  
 
-2. **Variable Speed Control**: Allow the user to input a delay time to control the display speed dynamically:  
+2. **Variable Geschwindigkeit**: Ermöglichen Sie dem Benutzer, die Verzögerungszeit selbst festzulegen:  
 
    .. code-block:: python
 
       delay = float(input("Enter delay between digits (in seconds): "))
 
 
-3. **Counter Functionality**: Implement a counting feature that increments or decrements a number in real time:  
+3. **Zählerfunktion**: Implementieren Sie eine Funktion, die Werte in Echtzeit hoch- oder herunterzählt:  
 
    .. code-block:: python
 
@@ -298,4 +298,4 @@ The program runs in an infinite loop until interrupted by the user pressing ``Ct
 
 **Conclusion**
 
-By completing this project, you have learned how to control a 7-segment display using a 74HC595 shift register and Python. This knowledge can be expanded to build more complex displays and integrate with various applications.
+Mit diesem Projekt haben Sie gelernt, eine 7-Segment-Anzeige mithilfe eines 74HC595-Schieberegisters und Python zu steuern. Dieses Wissen bildet die Grundlage für komplexere Anzeigen und vielfältige Anwendungsprojekte.

@@ -8,12 +8,12 @@ Fusion HAT+
     :align: center
    
 
-The Fusion HAT+ is a powerful and versatile expansion board designed to effortlessly transform a Raspberry Pi into a fully functional robot with minimal setup, and it can also support advanced automation projects. 
+Der Fusion HAT+ ist ein leistungsstarkes und vielseitiges Erweiterungsboard, das einen Raspberry Pi mit minimalem Aufwand in einen voll funktionsfähigen Roboter verwandelt. Gleichzeitig eignet es sich hervorragend für anspruchsvolle Automatisierungsprojekte.  
 
-At the heart of the Fusion HAT+ is an onboard microcontroller (MCU), which significantly extends the Raspberry Pi’s native functionality by providing additional PWM outputs and ADC inputs—capabilities that are typically absent on standard Raspberry Pi models. This allows developers to achieve more precise motor control and sensor integration.
+Im Zentrum des Fusion HAT+ befindet sich ein integrierter Mikrocontroller (MCU), der die native Funktionalität des Raspberry Pi erheblich erweitert. Er stellt zusätzliche PWM-Ausgänge sowie ADC-Eingänge bereit – Funktionen, die standardmäßig auf den meisten Raspberry-Pi-Modellen fehlen. Dadurch können Entwickler Motoren präziser steuern und Sensoren nahtlos einbinden.  
 
-Compact in size yet rich in functionality, the Fusion HAT+ integrates four motor driver chips, supporting independent control of up to four DC motors. It also features a digital I2S audio module and a built-in mono speaker, enabling high-quality audio playback and interactive sound features directly from the board.
+Kompakt in den Abmessungen, aber reich an Funktionen, integriert der Fusion HAT+ vier Motortreiber-Chips, die die unabhängige Ansteuerung von bis zu vier Gleichstrommotoren ermöglichen. Zudem verfügt er über ein digitales I2S-Audiomodul sowie einen integrierten Mono-Lautsprecher, wodurch hochwertige Audiowiedergabe und interaktive Soundeffekte direkt vom Board möglich sind.  
 
-The board accepts a 6.0V to 8.4V power input via a 3-pin XH2.54 connector. It includes two power indicator LEDs for monitoring system status, a user-programmable LED for custom signaling, and a convenient onboard buttons for immediate function testing or input simulation—making development and debugging more efficient and user-friendly.
+Die Spannungsversorgung erfolgt über einen 3-poligen XH2.54-Anschluss mit einer Eingangsleistung von 6,0 V bis 8,4 V. Darüber hinaus bietet das Board zwei Power-LEDs zur Überwachung des Systemstatus, eine benutzerprogrammierbare LED für individuelle Signalisierungen sowie praktische Onboard-Tasten zur sofortigen Funktionsprüfung oder zur Simulation von Eingaben – was die Entwicklung und Fehlersuche deutlich effizienter und anwenderfreundlicher macht.  
 
-For detailed instructions, please refer to: |link_fusion_hat|.
+Ausführliche Anleitungen findest du unter: |link_fusion_hat|.

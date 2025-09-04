@@ -1,45 +1,29 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_wires:
 
-Jumper Wires
+Jumper-Kabel
 =====================
 
-Wires that connect two terminals are called jumper wires. There are
-various kinds of jumper wires. Here we focus on those used in
-breadboard. Among others, they are used to transfer electrical signals
-from anywhere on the breadboard to the input/output pins of a
-microcontroller.
+Leitungen, die zwei Anschlüsse miteinander verbinden, werden als Jumper-Kabel bezeichnet. Es gibt verschiedene Arten von Jumper-Kabeln, hier konzentrieren wir uns auf die, die auf Steckbrettern verwendet werden. Sie dienen dazu, elektrische Signale von beliebigen Punkten des Breadboards zu den Ein- und Ausgängen eines Mikrocontrollers zu übertragen.
 
-Jump wires are fitted by inserting their "end connectors" into the slots
-provided in the breadboard, beneath whose surface there are a few sets
-of parallel plates that connect the slots in groups of rows or columns
-depending on the area. The "end connectors" are inserted into the
-breadboard, without soldering, in the particular slots that need to be
-connected in the specific prototype.
+Jumper-Kabel werden eingesetzt, indem ihre Endstecker in die entsprechenden Schlitze des Breadboards eingeführt werden. Unter der Oberfläche des Breadboards befinden sich parallel angeordnete Kontaktleisten, die die Schlitze in Reihen oder Spalten miteinander verbinden – je nach Bereich. Die **Endstecker** lassen sich ohne Löten in die vorgesehenen Steckplätze einsetzen, um die benötigten Verbindungen im Prototyp herzustellen.
 
-There are three types of jumper wire: Female-to-Female, Male-to-Male,
-and Male-to-Female. The reason we call it Male-to-Female is because it
-has the outstanding tip in one end as well as a sunk female end.
-Male-to-Male means both side are male and Female-to-Female means both
-ends are female.
+Es gibt drei Arten von Jumper-Kabeln: Female-to-Female, Male-to-Male und Male-to-Female.  
+Die Bezeichnung ergibt sich aus der Bauform der Enden: Male-to-Female hat an einem Ende einen hervorstehenden Stift und am anderen eine eingelassene Buchse. Male-to-Male bedeutet, dass beide Enden Stifte sind, während Female-to-Female bedeutet, dass beide Enden Buchsen sind.
 
 .. image:: img/Jumper_Wires.png
 
-
-More than one type of them may be used in a project. The color of the
-jump wires is different but it doesn’t mean their function is different
-accordingly; it's just designed so to better identify the connection
-between each circuit.
+In einem Projekt können mehrere Arten gleichzeitig verwendet werden. Die Farben der Jumper-Kabel unterscheiden sich, dies weist jedoch nicht auf eine unterschiedliche Funktion hin – die Farbgebung dient lediglich dazu, die Verbindungen zwischen den einzelnen Schaltungen besser zu erkennen.

@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Fragen und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitieren Sie von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an Verlosungen und Aktionen zu Feiertagen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _2.1.5_py:
 
-2.1.5 Tilt Switch
-=================
+2.1.5 Neigungsschalter
+==============================
 
 **Introduction**
 
-In this project, we will explore the tilt switch module, a ball tilt-switch containing a small metal ball inside. This switch is designed to detect slight inclinations and can be utilized in various applications like motion detection, angle measurement, and balance monitoring.
+In diesem Projekt beschäftigen wir uns mit dem Neigungsschalter-Modul – einem Kugel-Neigungsschalter, der eine kleine Metallkugel enthält. Dieser Schalter ist für das Erkennen kleinster Neigungen ausgelegt und eignet sich für Anwendungen wie Bewegungserkennung, Winkelmessung und Lageüberwachung.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, gather the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -55,7 +55,7 @@ To complete this project, gather the following components:
 
 **Circuit Diagram**
 
-Refer to the following diagrams for connecting the tilt switch:
+Verwenden Sie die folgenden Schaltpläne, um den Neigungsschalter anzuschließen:
 
 .. image:: img/fzz/2.1.5_sch.png
    :width: 800
@@ -67,12 +67,12 @@ Refer to the following diagrams for connecting the tilt switch:
 
 **Wiring Diagram**
 
-Follow these steps to set up the circuit:
+Gehen Sie wie folgt vor, um die Schaltung aufzubauen:
 
-1. Connect the tilt switch to GPIO pin 17 on the Raspberry Pi.
-2. Connect the green LED to GPIO pin 27 with a resistor.
-3. Connect the red LED to GPIO pin 22 with a resistor.
-4. Complete the connections by wiring the cathodes of both LEDs to GND.
+1. Verbinden Sie den Neigungsschalter mit GPIO-Pin 17 des Raspberry Pi.
+2. Schließen Sie die grüne LED über einen Widerstand an GPIO-Pin 27 an.
+3. Schließen Sie die rote LED über einen Widerstand an GPIO-Pin 22 an.
+4. Verbinden Sie die Kathoden beider LEDs mit GND.
 
 .. image:: img/fzz/2.1.5_bb.png
    :width: 800
@@ -85,8 +85,8 @@ Follow these steps to set up the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -98,7 +98,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-Below is the Python script to control the tilt switch and LEDs:
+Nachfolgend das Python-Skript zur Ansteuerung des Neigungsschalters und der LEDs:
 
 .. raw:: html
 
@@ -142,22 +142,22 @@ Below is the Python script to control the tilt switch and LEDs:
       pass
 
 
-This Python script uses a tilt sensor to control two LEDs and display status messages on the console. When executed:
+Dieses Python-Skript verwendet einen Neigungssensor, um zwei LEDs zu steuern und Statusmeldungen in der Konsole auszugeben. Beim Ausführen gilt:
 
-1. If the tilt sensor (connected to GPIO pin 17) detects a tilt:
+1. Erkennt der Neigungssensor (an GPIO-Pin 17) eine Neigung:
 
-   - Prints a message to the console.
-   - Turns on the red LED (connected to GPIO pin 22).
-   - Turns off the green LED (connected to GPIO pin 27).
+   - Es wird eine Meldung in der Konsole ausgegeben.
+   - Die rote LED (GPIO-Pin 22) leuchtet.
+   - Die grüne LED (GPIO-Pin 27) erlischt.
 
-2. If the tilt sensor is not tilted:
+2. Wird keine Neigung erkannt:
 
-   - Turns off the red LED.
-   - Turns on the green LED.
+   - Die rote LED erlischt.
+   - Die grüne LED leuchtet.
 
-3. The program continuously monitors the tilt sensor's state and adjusts the LEDs accordingly.
+3. Das Programm überwacht den Sensorzustand kontinuierlich und passt die LEDs entsprechend an.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Das Skript läuft unbegrenzt, bis es mit ``Ctrl+C`` beendet wird.
 
 
 ----------------------------------------------
@@ -166,7 +166,7 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 1. **Imports**
 
-   The script imports necessary classes for LED and Button control and initializes them with appropriate GPIO pins.
+   Das Skript importiert die benötigten Klassen zur LED- und Taster-Steuerung und initialisiert sie mit den entsprechenden GPIO-Pins.
 
    .. code-block:: python
 
@@ -175,7 +175,7 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 2. **Initialization**
 
-   Configure the tilt switch and LEDs connected to GPIO pins 17, 27, and 22.
+   Konfigurieren Sie den Neigungsschalter und die LEDs an den GPIO-Pins 17, 27 und 22.
 
    .. code-block:: python
 
@@ -185,7 +185,7 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 3. **Detect Function**
 
-   The ``detect`` function checks the state of the tilt switch and updates the LEDs accordingly. If the switch is tilted, the red LED lights up and the green LED turns off.
+   Die Funktion ``detect`` prüft den Zustand des Neigungsschalters und aktualisiert die LEDs entsprechend. Bei Neigung leuchtet die rote LED, die grüne geht aus.
 
    .. code-block:: python
 
@@ -204,7 +204,7 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 4. **Main Loop**
 
-   Assign the ``detect`` function to handle ``when_pressed`` and ``when_released`` events of the tilt sensor. The loop continues until interrupted.
+   Weisen Sie ``detect`` den Ereignissen ``when_pressed`` und ``when_released`` (hier: ``when_activated``/``when_deactivated``) des Neigungssensors zu. Die Schleife läuft bis zur Unterbrechung weiter.
 
    .. code-block:: python
 
@@ -223,16 +223,16 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 **Troubleshooting**
 
-1. **Script Does Not Respond to Tilting**  
+1. **Skript reagiert nicht auf Neigung**  
 
-   - **Cause**: Event listeners (``when_activated`` and ``when_deactivated``) not functioning properly.  
-   - **Solution**: Confirm that ``detect()`` is correctly linked to both ``when_activated`` and ``when_deactivated`` events.
+   - **Ursache**: Ereignis-Handler (``when_activated`` / ``when_deactivated`` ) greifen nicht.  
+   - **Lösung**: Prüfen Sie, ob ``detect()`` korrekt beiden Ereignissen zugewiesen ist.
 
 
-2. **LEDs Flicker**  
+2. **LEDs flackern**  
 
-   - **Cause**: Sensor noise or debounce issues.  
-   - **Solution**: Add a short delay to stabilize the signal:
+   - **Ursache**: Sensorausrauschen bzw. fehlende Entprellung.  
+   - **Lösung**: Kurze Verzögerung zur Stabilisierung hinzufügen:
 
 
    .. code-block:: python
@@ -253,9 +253,9 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 **Extendable Ideas**
 
-1. **Sound Feedback**  
+1. **Akustisches Feedback**  
 
-   Add a buzzer to provide audio feedback when the tilt sensor is activated:
+   Fügen Sie einen Buzzer hinzu, der bei aktivem Neigungssensor einen Ton ausgibt:
    
    .. code-block:: python
 
@@ -267,9 +267,9 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
          buzzer.off()
 
 
-2. **Timed Alerts**  
+2. **Zeitgesteuerte Warnung**  
 
-   Trigger an alert if the sensor remains tilted for a specified duration:
+   Lösen Sie einen Alarm aus, wenn der Sensor für eine bestimmte Dauer gekippt bleibt:
 
    .. code-block:: python
 
@@ -288,4 +288,4 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 **Conclusion**
 
-This project demonstrates how to use a tilt switch with a Fusion HAT to detect inclinations and control LEDs. Tilt switches are a cost-effective solution for simple motion and angle detection, offering practical applications in robotics and home automation.
+Dieses Projekt zeigt, wie ein Neigungsschalter mit dem Fusion HAT zur Neigungserkennung eingesetzt und LEDs angesteuert werden können. Neigungsschalter sind eine kostengünstige Lösung für einfache Bewegungs- und Winkelerkennung und bieten praktische Einsatzmöglichkeiten in Robotik und Heimautomatisierung.

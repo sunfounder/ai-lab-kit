@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.7_py:
 
@@ -19,7 +19,7 @@
 
 **Introduction**
 
-In this project, you’ll build a "smart fan" that operates in both manual and automatic modes. By combining motors, buttons, and a thermistor, the fan can have adjustable wind speeds and respond to changes in temperature. This makes it a perfect experiment for learning about motor control, temperature sensing, and GPIO usage.
+In diesem Projekt baust du einen „Smart Fan“, der sowohl manuell als auch automatisch arbeitet. Durch die Kombination aus Motor, Taster und Thermistor erhält der Lüfter einstellbare Geschwindigkeiten und reagiert auf Temperaturänderungen. Das macht ihn ideal, um Motorsteuerung, Temperatursensorik und die Nutzung der GPIO-Pins zu erlernen.
 
 
 ----------------------------------------------
@@ -27,14 +27,14 @@ In this project, you’ll build a "smart fan" that operates in both manual and a
 
 **What You’ll Need**
 
-Here are the components you’ll need for this project:
+Diese Komponenten benötigst du für das Projekt:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -59,7 +59,7 @@ Here are the components you’ll need for this project:
 
 **Circuit Diagram**
 
-The circuit diagram below illustrates how to connect the thermistor, button, motor driver, and motor:
+Das folgende Schaltbild zeigt die Verbindung von Thermistor, Taster, Motortreiber und Motor:
 
 .. image:: img/fzz/4.1.7_sch.png
    :width: 800
@@ -72,7 +72,7 @@ The circuit diagram below illustrates how to connect the thermistor, button, mot
 
 **Wiring Diagram**
 
-Refer to the following image for the breadboard layout and wiring connections:
+Der Breadboard-Aufbau und die Verdrahtung sind hier dargestellt:
 
 
 .. image:: img/fzz/4.1.7_bb.png
@@ -86,8 +86,8 @@ Refer to the following image for the breadboard layout and wiring connections:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials liegt im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -99,7 +99,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-Here’s the Python script for this project:
+Hier ist das Python-Skript für dieses Projekt:
 
 
 
@@ -212,23 +212,23 @@ Here’s the Python script for this project:
         # Stop the motor when the script is interrupted
         motor.speed(0)
 
-This Python script integrates a motor, button, and temperature sensor to create a temperature-controlled fan system with adjustable speed. When executed:
+Dieses Python-Skript kombiniert Motor, Taster und Temperatursensor zu einem temperaturgesteuerten Lüfter mit einstellbarer Geschwindigkeit. Beim Ausführen geschieht Folgendes:
 
-1. **Temperature Sensing**: Reads the current temperature in Celsius using the thermistor.
+1. **Temperature Sensing**: Die aktuelle Temperatur wird mithilfe des Thermistors in Grad Celsius ermittelt.
 
 2. **Manual Speed Adjustment**:
 
-   - A button connected to GPIO 22 allows the user to cycle through five speed levels (0 to 4).
-   - Pressing the button increases the speed level, and the motor runs at the corresponding speed. Speed level 0 stops the motor.
+   - Ein Taster an GPIO 22 lässt dich zwischen fünf Stufen (0–4) umschalten.
+   - Jeder Tastendruck erhöht die Stufe; Stufe 0 stoppt den Motor.
 
-3. **Automatic Speed Control**: The system adjusts the motor speed automatically based on temperature changes:
+3. **Automatic Speed Control**: Die Drehzahl passt sich automatisch an Temperaturänderungen an:
 
-   - If the temperature increases by 2°C or more, the speed level increases (up to level 4).
-   - If the temperature decreases by 2°C or more, the speed level decreases (down to level 0).
+   - Steigt die Temperatur um **2 °C** oder mehr, erhöht sich die Stufe (bis maximal Stufe 4).
+   - Fällt die Temperatur um **2 °C** oder mehr, verringert sich die Stufe (bis minimal Stufe 0).
 
-4. **Continuous Monitoring**: The system continuously monitors the temperature and adjusts the fan speed accordingly.
+4. **Continuous Monitoring**: Das System überwacht fortlaufend die Temperatur und regelt die Lüftergeschwindigkeit entsprechend.
 
-5. **Graceful Exit**: On ``Ctrl+C``, the motor stops, and the script exits cleanly.
+5. **Graceful Exit**: Bei ``Ctrl+C`` wird der Motor gestoppt und das Skript sauber beendet.
 
 ----------------------------------------------
 
@@ -259,7 +259,7 @@ This Python script integrates a motor, button, and temperature sensor to create 
          return Cel
 
 
-   The ``temperature()`` function reads the thermistor’s analog value, converts it into resistance, and calculates the corresponding temperature using a mathematical formula.
+   Die Funktion ``temperature()`` liest den Analogwert des Thermistors, berechnet daraus den Widerstand und bestimmt anschließend über eine mathematische Formel die Temperatur.
 
 
 2. **Motor Speed Control:**
@@ -286,7 +286,7 @@ This Python script integrates a motor, button, and temperature sensor to create 
          return level
 
 
-   The ``motor_run()`` function adjusts the motor’s speed based on the ``level`` variable. The speed is normalized to a value between 0 and 1.
+   ``motor_run()`` setzt die Motorgeschwindigkeit anhand der Variable ``level``; höhere Stufen entsprechen höheren Drehzahlen.
 
 
 3. **Manual Speed Adjustment:**
@@ -309,7 +309,7 @@ This Python script integrates a motor, button, and temperature sensor to create 
       BtnPin.when_activated = changeLevel
 
 
-   The ``changeLevel()`` function cycles through speed levels 0-4 when the button is pressed.
+   Die Funktion ``changeLevel()`` schaltet beim Tastendruck zyklisch durch die Stufen 0–4.
 
 
 4. **Automatic Speed Adjustment:**
@@ -343,7 +343,7 @@ This Python script integrates a motor, button, and temperature sensor to create 
             level = motor_run(level)
             sleep(0.5)
 
-   The ``main()`` function continuously monitors temperature and adjusts the fan speed if the temperature deviates by more than 2°C from the reference temperature.
+   Die ``main()``-Funktion überwacht kontinuierlich die Temperatur und passt die Lüfterstufe an, sobald die Abweichung den definierten Schwellenwert überschreitet.
 
 
 
@@ -352,33 +352,33 @@ This Python script integrates a motor, button, and temperature sensor to create 
 
 **Troubleshooting**
 
-1. **Motor Does Not Run**:
+1. **Motor läuft nicht**:
 
-   - **Cause**: Incorrect wiring or insufficient power supply.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder unzureichende Stromversorgung.
+   - **Lösung**:
 
-     - Verify the motor is connected to M0.
-     - Ensure the motor's power supply matches its voltage requirements.
+     - Prüfe den Anschluss des Motors an M0.
+     - Achte auf eine passende Versorgungsspannung für den Motor.
 
-2. **Temperature Reading is Incorrect**:
+2. **Temperaturwerte sind falsch**:
 
-   - **Cause**: Faulty thermistor.
-   - **Solution**:
+   - **Ursache**: Defekter oder falsch angeschlossener Thermistor.
+   - **Lösung**:
 
-     - Check the thermistor wiring and ensure it is within the specified range.
+     - Verdrahtung und Spezifikation des Thermistors überprüfen.
 
-3. **Button Press Not Detected**:
+3. **Tastendrücke werden nicht erkannt**:
 
-   - **Cause**: Incorrect button wiring or GPIO configuration.
-   - **Solution**:
+   - **Ursache**: Fehlerhafte Verkabelung oder GPIO-Konfiguration.
+   - **Lösung**:
+     - Sicherstellen, dass der Taster an GPIO 22 und Masse angeschlossen ist.
+     - Taster separat testen.
 
-     - Verify the button is connected to GPIO 22 and ground.
-     - Test the button independently to confirm it closes the circuit when pressed.
 
-4. **Speed Level Does Not Change Automatically**:
+4. **Automatische Stufenänderung bleibt aus**:
 
-   - **Cause**: Incorrect temperature difference calculation.
-   - **Solution**: Ensure the ``currentTemp`` and ``markTemp`` values update correctly in the ``main()`` function.
+   - **Ursache**: Temperaturdifferenz wird nicht korrekt berechnet.
+   - **Lösung**: Prüfe, ob ``currentTemp`` und ``markTemp`` in ``main()`` korrekt aktualisiert werden.
 
 
 ----------------------------------------------
@@ -386,18 +386,18 @@ This Python script integrates a motor, button, and temperature sensor to create 
 **Extendable Ideas**
 
 
-1. **Overheat Alert**: Add a buzzer or LED to alert the user when the temperature exceeds a critical threshold.
+1. **Überhitzungswarnung**: Summer oder LED aktivieren, wenn eine kritische Temperatur überschritten wird.
 
      .. code-block:: python
 
          if currentTemp > 50:
              buzzer.on()
 
-2. **Smart Button Functions**: Long-press the button to reset the speed level to 0 or toggle automatic/manual modes.
+2. **Intelligente Tasterfunktionen**: Durch Langdruck die Stufe auf 0 setzen oder zwischen Automatik-/Manuell-Modus umschalten.
 
 ----------------------------------------------
 
 
 **Conclusion**
 
-The Smart Fan project demonstrates how to combine manual and automatic control in a single system. It’s a practical example of integrating sensors, motors, and user interaction into a functional and efficient design. Try enhancing it with additional features to create your personalized climate control solution!
+Das Smart-Fan-Projekt zeigt, wie sich manuelle und automatische Regelung in einem System vereinen lassen. Es ist ein praxisnahes Beispiel für die Integration von Sensorik, Motorsteuerung und Nutzerinteraktion zu einem funktionalen, effizienten Design. Erweitere es um zusätzliche Funktionen und baue dir deine persönliche Klimasteuerung!

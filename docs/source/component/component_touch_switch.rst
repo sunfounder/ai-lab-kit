@@ -1,33 +1,33 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_touch_switch:
 
-Touch Switch Module
+Touch-Schalter-Modul
 ==================================
 
 .. image:: img/touch168.png
     :width: 300
     :align: center
 
-Touch switch module works by detecting a change in capacitance due to influence of an external object. The touch plate is covered with insulating material, and the user does not come in contact with the electrical circuit.
+Das Touch-Schalter-Modul arbeitet, indem es Änderungen in der Kapazität erkennt, die durch den Einfluss eines externen Objekts verursacht werden. Die Touchfläche ist mit isolierendem Material bedeckt, sodass der Benutzer keinen direkten Kontakt mit der elektrischen Schaltung hat.
 
-A capacitive touch switch has different layers—top insulating face plate followed by touch plate, another insulating layer and then ground plate.
+Ein kapazitiver Touch-Schalter besteht aus mehreren Schichten — einer oberen Isolationsschicht, gefolgt von der Touchfläche, einer weiteren Isolationsschicht und schließlich der Massefläche.
 
 .. image:: img/touch169.jpeg
 
-In practice, a capacitive sensor can be made on a double-sided PCB by regarding one side as the touch sensor and the opposite side as ground plate of the capacitor. When power is applied across these plates, the two plates get charged. In equilibrium state, the plates have the same voltage as the power source.
+In der Praxis kann ein kapazitiver Sensor auf einer doppelseitigen Leiterplatte realisiert werden, wobei eine Seite als Touch-Sensor und die gegenüberliegende als Massefläche des Kondensators dient. Wird Spannung an diese Flächen angelegt, laden sich beide auf. Im Gleichgewichtszustand liegt an beiden Platten die gleiche Spannung wie an der Spannungsquelle an.
 
-The touch detector circuit has an oscillator whose frequency is dependent on capacitance of the touchpad. When a finger is moved close to the touchpad, additional capacitance causes frequency of this internal oscillator to change. The detector circuit tracks oscillator frequency at timed intervals, and when the shift crosses the threshold change, the circuit triggers a key-press event.
+Die Touch-Detektorschaltung verfügt über einen Oszillator, dessen Frequenz von der Kapazität des Touchpads abhängt. Nähert sich ein Finger der Touchfläche, erhöht sich die Kapazität und verändert dadurch die Frequenz des internen Oszillators. Die Schaltung überwacht diese Frequenz in zeitlichen Abständen, und sobald die Abweichung einen festgelegten Schwellenwert überschreitet, löst die Schaltung ein Tastendruck-Ereignis aus.
 

@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Fragen und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an Verlosungen und Sonderaktionen zu Feiertagen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _2.1.4_py:
 
-2.1.4 Slide Switch
+2.1.4 Schiebeschalter
 ==============================================
 
 **Introduction**
 
-In this project, we will learn how to use a slide switch to control two LEDs. Slide switches are commonly used as power switches in electronic circuits. Here, we demonstrate its functionality using a breadboard setup. While slide switches are often soldered onto PCBs for stability, we will use it in a flexible breadboard configuration to better understand its operation.
+In diesem Projekt lernen wir, wie man mit einem Schiebeschalter zwei LEDs steuert. Schiebeschalter werden häufig als Netzschalter in elektronischen Schaltungen eingesetzt. Hier demonstrieren wir ihre Funktion mithilfe eines Breadboards. Während Schiebeschalter üblicherweise für mehr Stabilität auf Leiterplatten verlötet werden, nutzen wir ihn in einer flexiblen Breadboard-Konfiguration, um seine Funktionsweise besser zu verstehen.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, gather the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -56,7 +56,7 @@ To complete this project, gather the following components:
 
 **Circuit Diagram**
 
-The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected to GPIO22 and GPIO27. The switch toggles between the two LEDs, alternately lighting them up.
+Der mittlere Pin des Schiebeschalters ist mit GPIO17 verbunden, während zwei LEDs an GPIO22 und GPIO27 angeschlossen sind. Der Schalter wechselt zwischen den beiden LEDs, sodass jeweils eine von ihnen leuchtet.
 
 .. image:: img/fzz/2.1.4_sch.png
    :width: 800
@@ -69,13 +69,13 @@ The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+Gehen Sie wie folgt vor, um die Schaltung aufzubauen:
 
-1. Connect the middle pin of the Slide Switch to GPIO17.
-2. Connect one side pin of the Slide Switch to GND and the other to VCC.
-3. Connect LED1’s anode to GPIO22 via a current-limiting resistor.
-4. Connect LED2’s anode to GPIO27 via a current-limiting resistor.
-5. Connect the cathodes of both LEDs to GND.
+1. Verbinden Sie den mittleren Pin des Schiebeschalters mit GPIO17.  
+2. Verbinden Sie einen äußeren Pin des Schalters mit GND und den anderen mit VCC.  
+3. Verbinden Sie die Anode von LED1 über einen Vorwiderstand mit GPIO22.  
+4. Verbinden Sie die Anode von LED2 über einen Vorwiderstand mit GPIO27.  
+5. Verbinden Sie die Kathoden beider LEDs mit GND.  
 
 .. image:: img/fzz/2.1.4_bb.png
    :width: 800
@@ -87,8 +87,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -100,8 +100,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-Here’s the Python code to control the LEDs based on the state of the Slide Switch:
-
+Hier der Python-Code, um die LEDs abhängig vom Zustand des Schiebeschalters zu steuern:
 
 .. raw:: html
 
@@ -138,21 +137,19 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
       # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
       pass
 
-This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT. When executed:
+Dieses Python-Skript zeigt, wie sich mit einem Schiebeschalter zwei LEDs am Fusion HAT steuern lassen. Beim Ausführen gilt:
 
-1. **Slide Switch Activated**:
+1. **Schiebeschalter aktiviert**:  
+   - LED1 (GPIO22) erlischt.  
+   - LED2 (GPIO27) leuchtet.  
 
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+2. **Schiebeschalter nicht aktiviert**:  
+   - LED1 leuchtet.  
+   - LED2 erlischt.  
 
-2. **Slide Switch Not Activated**:
+3. Das Programm überprüft alle 0,5 Sekunden den Zustand des Schalters und steuert die LEDs entsprechend.  
 
-   - Turns on LED1.
-   - Turns off LED2.
-
-3. The program continuously checks the state of the slide switch every 0.5 seconds and adjusts the LEDs accordingly.
-
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Das Skript läuft unbegrenzt, bis es mit ``Ctrl+C`` beendet wird.  
 
 
 
@@ -162,7 +159,7 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
 1. **Library Imports**
 
-   Import necessary libraries for GPIO control and adding delays.
+   Notwendige Bibliotheken für GPIO-Steuerung und Wartezeiten importieren.
 
    .. code-block:: python
 
@@ -171,7 +168,7 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
 2. **Component Initialization**
 
-   Configure the Slide Switch as a Button and initialize two LEDs connected to GPIO pins 22 and 27.
+   Der Schiebeschalter wird als Button auf GPIO17 konfiguriert, zwei LEDs werden an GPIO22 und GPIO27 initialisiert.
 
    .. code-block:: python
 
@@ -185,7 +182,7 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
 3. **State Monitoring and LED Control**
 
-   In the main loop, the program monitors the state of the Slide Switch. When the switch is toggled, it alternates between turning on LED1 and LED2.
+   In der Hauptschleife wird der Zustand des Schalters überwacht. Je nach Schalterstellung wird entweder LED1 oder LED2 eingeschaltet.
 
    .. code-block:: python
 
@@ -202,7 +199,7 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
 4. **Graceful Exit**
 
-   The script terminates gracefully when interrupted using Ctrl+C.
+   Das Skript beendet sich sauber, wenn es mit Ctrl+C unterbrochen wird.
 
    .. code-block:: python
 
@@ -215,16 +212,16 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 **Troubleshooting**
 
 
-1. **Slide Switch Does Not Respond**  
+1. **Schiebeschalter reagiert nicht**  
 
-   - **Cause**: The slide switch is not connected properly, or the pull-up resistor configuration is incorrect.  
-   - **Solution**: Confirm that the slide switch is connected to GPIO pin 17 and ground. Ensure ``PULL_DOWN`` matches the switch configuration.
+   - **Ursache**: Falsche Verdrahtung oder Pull-up/Pull-down-Konfiguration.  
+   - **Lösung**: Überprüfen Sie die Verbindung des Schalters mit GPIO17 und GND. Achten Sie darauf, dass ``PULL_DOWN`` korrekt zur Schalterkonfiguration passt.  
 
 
-2. **LEDs Flicker or Behave Erratically**  
+2. **LEDs flackern oder verhalten sich unregelmäßig**  
 
-   - **Cause**: Debounce issues with the slide switch.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **Ursache**: Entprellungsprobleme am Schalter.  
+   - **Lösung**: Software-Entprellung hinzufügen, um das Signal zu stabilisieren:  
 
    .. code-block:: python
 
@@ -236,14 +233,14 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 **Extendable Ideas**
 
 
-1. **Two-Way Switch Control**  
+1. **Zwei-Wege-Schaltersteuerung**  
 
-   Combine two slide switches to control LEDs in a more complex setup, such as a simple light control panel.
+   Zwei Schiebeschalter kombinieren, um LEDs in komplexeren Mustern zu steuern – z. B. als einfaches Bedienpanel.  
 
 
-2. **Audio Feedback**  
+2. **Akustisches Feedback**  
 
-   Add a buzzer that sounds when the slide switch is activated:
+   Einen Buzzer hinzufügen, der ertönt, wenn der Schiebeschalter betätigt wird:  
 
    .. code-block:: python
 
@@ -260,4 +257,4 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
 **Conclusion**
 
-This project demonstrates how to use a Slide Switch with the Fusion HAT to control LEDs. Slide Switches are versatile and durable components, often employed in user interfaces and control systems. Experimenting with them opens up possibilities for creating advanced and interactive projects.
+Dieses Projekt zeigt, wie sich ein Schiebeschalter mit dem Fusion HAT zur Steuerung von LEDs einsetzen lässt. Schiebeschalter sind vielseitige und robuste Bauteile, die häufig in Benutzeroberflächen und Steuerungssystemen verwendet werden. Experimente damit eröffnen zahlreiche Möglichkeiten für interaktive und erweiterte Projekte.

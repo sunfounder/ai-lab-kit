@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_relay:
 
@@ -21,48 +21,25 @@ Relay
     :width: 200
     :align: center
 
-As we may know, relay is a device which is used to provide connection
-between two or more points or devices in response to the input signal
-applied. In other words, relays provide isolation between the controller
-and the device as devices may work on AC as well as on DC. However, they
-receive signals from a microcontroller which works on DC hence requiring
-a relay to bridge the gap. Relay is extremely useful when you need to
-control a large amount of current or voltage with small electrical
-signal.
+Ein Relais ist ein Bauelement, das Verbindungen zwischen zwei oder mehr Punkten bzw. Geräten herstellt, sobald ein Eingangssignal anliegt. Anders gesagt: Ein Relais sorgt für eine galvanische Trennung zwischen Steuerung und Last, da Verbraucher sowohl mit Gleichstrom (DC) als auch mit Wechselstrom (AC) betrieben werden können. Mikrocontroller hingegen arbeiten mit DC-Signalen, sodass ein Relais notwendig ist, um diese Lücke zu überbrücken. Relais sind besonders nützlich, wenn mit einem kleinen Steuersignal große Ströme oder Spannungen geschaltet werden müssen.
 
-There are 5 parts in every relay:
+Jedes Relais besteht aus fünf Hauptkomponenten:
 
 .. image:: img/relay142.jpeg
 
-**Electromagnet** - It consists of an iron core wounded by coil of
-wires. When electricity is passed through, it becomes magnetic.
-Therefore, it is called electromagnet.
+**Elektromagnet** – Ein Eisenkern, umwickelt mit einer Spule. Fließt Strom durch die Spule, wird der Kern magnetisch und wirkt somit als Elektromagnet.
 
-**Armature** - The movable magnetic strip is known as armature. When
-current flows through them, the coil is it energized thus producing a
-magnetic field which is used to make or break the normally open (N/O) or
-normally close (N/C) points. And the armature can be moved with direct
-current (DC) as well as alternating current (AC).
+**Anker (Armature)** – Der bewegliche Magnetstreifen wird als Anker bezeichnet. Wird die Spule erregt, erzeugt sie ein Magnetfeld, das den Anker bewegt und die normalerweise offenen (N/O) oder normalerweise geschlossenen (N/C) Kontakte betätigt. Der Anker kann sowohl mit Gleich- als auch mit Wechselstrom bewegt werden.
 
-**Spring** - When no currents flow through the coil on the
-electromagnet, the spring pulls the armature away so the circuit cannot
-be completed.
+**Feder** – Fließt kein Strom durch die Spule des Elektromagneten, zieht die Feder den Anker zurück, sodass der Stromkreis unterbrochen bleibt.
 
-Set of electrical **contacts** - There are two contact points:
+**Kontaktpaar** – Relais besitzen zwei Arten von Kontakten:
 
--  Normally open - connected when the relay is activated, and disconnected when it is inactive.
+- Normally Open (N/O) – geschlossen, wenn das Relais aktiviert ist, geöffnet, wenn es inaktiv ist.  
+- Normally Closed (N/C) – geöffnet, wenn das Relais aktiviert ist, geschlossen, wenn es inaktiv ist.  
 
--  Normally close - not connected when the relay is activated, and connected when it is inactive.
+**Gehäuse** – Relais sind meist von einem Kunststoffrahmen umschlossen, der Schutz bietet.
 
-**Molded frame** - Relays are covered with plastic for protection.
-
-The working principle of relay is simple. When power is supplied to the
-relay, currents start flowing through the control coil; as a result, the
-electromagnet starts energizing. Then the armature is attracted to the
-coil, pulling down the moving contact together thus connecting with the
-normally open contacts. So the circuit with the load is energized. Then
-breaking the circuit would a similar case, as the moving contact will be
-pulled up to the normally closed contacts under the force of the spring.
-In this way, the switching on and off of the relay can control the state
-of a load circuit.
-
+Das Funktionsprinzip eines Relais ist einfach:  
+Wird das Relais mit Strom versorgt, fließt ein Strom durch die Steuerspule und der Elektromagnet wird erregt. Dadurch zieht er den Anker an, wodurch die beweglichen Kontakte nach unten auf die N/O-Kontakte gedrückt werden und der Lastkreis geschlossen wird.  
+Wird die Versorgung getrennt, fällt die Magnetkraft ab, die Feder zieht den Anker zurück und verbindet die beweglichen Kontakte mit den N/C-Kontakten. Auf diese Weise kann durch das Ein- und Ausschalten des Relais der Zustand eines Lastkreises präzise gesteuert werden.

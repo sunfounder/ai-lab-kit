@@ -1,25 +1,25 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Enthusiasten tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf sowie technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalte frühen Zugang zu neuen Produktankündigungen und exklusiven Vorab-Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.15_py:
 
-4.1.3 GAME - 10 Second Challenge
-=================================
+4.1.3 SPIEL – 10-Sekunden-Challenge
+=======================================
 
 **Introduction**
 
-Test your focus and timing with the "10 Second Challenge" game! In this project, you'll create a magic wand by attaching a tilt switch to a stick. Shake the wand to start a timer on a 4-digit segment display. Shake it again to stop the timer. The goal is to stop the timer as close to **10.00 seconds** as possible. Compete with friends to see who is the ultimate time wizard!
+Teste deine Konzentration und dein Timing mit dem Spiel „10-Sekunden-Challenge“! In diesem Projekt baust du dir einen Zauberstab, indem du einen Neigungsschalter an einem Stab befestigst. Schüttle den Stab, um einen Timer auf einer 4-stelligen Segmentanzeige zu starten. Schüttle ihn erneut, um den Timer zu stoppen. Ziel ist es, den Timer so nah wie möglich an **10.00 seconds** zu stoppen. Miss dich mit Freundinnen und Freunden und finde heraus, wer der ultimative Zeitmagier ist!
 
 
 ----------------------------------------------
@@ -27,14 +27,14 @@ Test your focus and timing with the "10 Second Challenge" game! In this project,
 
 **What You’ll Need**
 
-Below is the list of components required for this project:
+Nachfolgend die für dieses Projekt benötigten Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -58,7 +58,7 @@ Below is the list of components required for this project:
 
 **Circuit Diagram**
 
-Below is the schematic diagram for the "10 Second Challenge":
+Unten findest du den Schaltplan für die „10-Sekunden-Challenge“:
 
 .. image:: img/fzz/4.1.15_sch.png
    :width: 800
@@ -71,7 +71,7 @@ Below is the schematic diagram for the "10 Second Challenge":
 
 **Wiring Diagram**
 
-Follow the wiring instructions shown below to set up the circuit:
+Verdrahte die Schaltung gemäß der folgenden Anleitung:
 
 
 .. image:: img/fzz/4.1.15_bb.png
@@ -84,8 +84,8 @@ Follow the wiring instructions shown below to set up the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -98,7 +98,7 @@ Follow these steps to run the example:
 **Writing the Code**
 
 
-Here is the Python code for the project:
+Hier ist der Python-Code für das Projekt:
 
 
 .. raw:: html
@@ -213,83 +213,82 @@ Here is the Python code for the project:
          timer1.cancel()
 
 
-#. Shake the wand to start the timer on the 4-digit segment display.
+#. Schüttle den Zauberstab, um den Timer auf der 4-stelligen Segmentanzeige zu starten.
 
-#. Shake the wand again to stop the timer.
+#. Schüttle den Zauberstab erneut, um den Timer zu stoppen.
 
-#. If the timer reads 10.00 seconds, you win the round!
+#. Wenn der Timer 10.00 seconds anzeigt, gewinnst du die Runde!
 
-#. Shake the wand one more time to reset the game and start a new round.
+#. Schüttle den Zauberstab noch einmal, um das Spiel zurückzusetzen und eine neue Runde zu starten.
 
 ----------------------------------------------
 
 **Understanding the Code**
 
 1. **Button Input:**  
-   The tilt switch is connected to GPIO pin 22, which detects when the wand is shaken.
+   Der Neigungsschalter ist an GPIO-Pin 22 angeschlossen und erkennt, wenn der Stab geschüttelt wird.
 
 2. **74HC595 Shift Register:**  
-   The shift register controls which digits are illuminated on the 7-segment display.
+   Das Schieberegister steuert, welche Stellen der 7-Segment-Anzeige aktiviert werden.
 
 3. **Timer Logic:**  
-   A threading timer increments the counter every 0.01 seconds, ensuring precise timing.
+   Ein Thread-Timer erhöht den Zähler alle 0,01 Sekunden und sorgt so für präzises Timing.
 
 4. **State Management:**  
-   The game switches between states (start, stop) based on button input, resetting the counter as needed.
+   Das Spiel wechselt anhand der Tastereingabe zwischen Zuständen (Start, Stopp) und setzt den Zähler bei Bedarf zurück.
 
 5. **Display Update:**  
-   The 7-segment display shows the timer value, formatted to two decimal places.
+   Die 7-Segment-Anzeige zeigt den Timerwert formatiert mit zwei Dezimalstellen an.
 
 
 ----------------------------------------------
 
 **Troubleshooting**
 
-1. **7-Segment Display Not Showing Numbers**:
+1. **7-Segment-Anzeige zeigt keine Zahlen**:
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder GPIO-Konfiguration.
+   - **Lösung**:
 
-     - Verify connections to the 74HC595 shift register and 7-segment display.
-     - Ensure the ``number`` segment codes match the display's configuration.
+     - Verbindungen zum 74HC595 und zur 7-Segment-Anzeige prüfen.
+     - Sicherstellen, dass die ``number``-Segmentcodes zur Anzeige passen.
 
-2. **Switch Tilts Not Detected**:
+2. **Neigungsschalter wird nicht erkannt**:
 
-   - **Cause**: Tilt switch wiring or debounce issues.
-   - **Solution**:
-
-     - Confirm the tilt switch is connected to GPIO 22.
-     - Add a short debounce delay in the ``loop()`` function:
+   - **Ursache**: Verdrahtungsfehler oder fehlende Entprellung.
+   - **Lösung**:
+     - Prüfen, ob der Neigungsschalter an GPIO 22 angeschlossen ist.
+     - Eine kurze Entprell-Pause in ``loop()`` hinzufügen:
 
        .. code-block:: python
 
            time.sleep(0.05)
 
-3. **Counter Not Incrementing**:
+3. **Zähler erhöht sich nicht**:
 
-   - **Cause**: Timer function not starting correctly.
-   - **Solution**:
+   - **Ursache**: Timerfunktion startet nicht korrekt.
+   - **Lösung**:
 
-     - Check the ``timer()`` function and ensure ``timer1.start()`` is called.
-     - Debug by printing the ``counter`` value inside ``timer()``.
+     - ``timer()`` prüfen und sicherstellen, dass ``timer1.start()`` aufgerufen wird.
+     - Testweise den ``counter`` innerhalb von ``timer()`` ausgeben.
 
-4. **Display Shows Incorrect Digits**:
+4. **Anzeige zeigt falsche Ziffern**:
 
-   - **Cause**: Segment codes in the ``number`` list do not match the hardware.
-   - **Solution**: Test individual digits with static segment codes to verify the mapping.
+   - **Ursache**: Segmentcodes in ``number`` stimmen nicht mit der Hardware überein.
+   - **Lösung**: Einzelne Ziffern mit festen Segmentmustern testen, um die Zuordnung zu verifizieren.
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Adjustable Timer Speed**: Add a mechanism to change the timer's increment rate (e.g., using a second button to switch between 0.01, 0.1, and 1-second increments).
+1. **Einstellbare Timergeschwindigkeit**: Möglichkeit hinzufügen, die Schrittweite des Timers zu ändern (z. B. per zweitem Taster zwischen 0,01 s, 0,1 s und 1 s umschalten).
 
-2. **Countdown Mode**: Implement a countdown mode where the counter starts at a predefined value and decrements to 0.
+2. **Countdown-Modus**: Einen Countdown implementieren, der von einem voreingestellten Wert bis 0 herunterzählt.
 
-3. **Pause and Resume**: Add a separate button to pause and resume the counter without resetting.
+3. **Pause und Fortsetzen**: Separaten Taster zum Pausieren und Fortsetzen ohne Zurücksetzen hinzufügen.
 
-4. **Audio Feedback**: Use a buzzer to emit beeps when the counter reaches certain milestones (e.g., multiples of 10).
+4. **Akustisches Feedback**: Einen Buzzer einsetzen, der bei bestimmten Meilensteinen piept (z. B. Vielfache von 10).
 
 
 
@@ -298,4 +297,4 @@ Here is the Python code for the project:
 
 **Conclusion**
 
-The "10 Second Challenge" demonstrates how simple components like a tilt switch and a 7-segment display can create an engaging interactive game. This project highlights the use of GPIO control, timers, and state management in Python, making it a fun and educational experience. Challenge yourself and your friends to achieve perfect timing!
+Die „10-Sekunden-Challenge“ zeigt, wie sich mit einfachen Komponenten wie Neigungsschalter und 7-Segment-Anzeige ein fesselndes, interaktives Spiel umsetzen lässt. Das Projekt verdeutlicht die Nutzung von GPIO-Steuerung, Timern und Zustandslogik in Python – ein unterhaltsamer und lehrreicher Einstieg. Fordere dich und deine Freunde heraus, die perfekte Zeit zu treffen!

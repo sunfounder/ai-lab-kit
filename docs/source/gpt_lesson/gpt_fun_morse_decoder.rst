@@ -1,30 +1,30 @@
-2.8 Morse Code Decoder
+2.8 Morse-Code-Decoder
 ============================
 
-This project is a Morse code decoder that interprets button presses as Morse code signals. Short presses are recognized as dots, and long presses as dashes. The system collects these inputs and sends them to an OpenAI-powered assistant for decoding. Once decoded, the translated message is displayed on the console.
+Dieses Projekt ist ein Morse-Code-Decoder, der Tastendrücke als Morsezeichen interpretiert. Kurze Tastendrücke werden als Punkte erkannt, lange Tastendrücke als Striche. Das System sammelt diese Eingaben und sendet sie an einen OpenAI-gestützten Assistenten zur Decodierung. Nach der Auswertung wird die übersetzte Nachricht in der Konsole angezeigt.
 
 ----------------------------------------------
 
 **Features**
 
-- **Morse Code Input**: Button presses represent Morse code signals.
-- **Real-Time Signal Processing**: Captures press and release times to distinguish between dots and dashes.
-- **AI-Based Decoding**: Sends Morse sequences to OpenAI for interpretation.
-- **Start/Stop Button**: Controls the input session.
-- **LED Indicator**: Signals when Morse input is active.
+- **Morse Code Input**: Tastenbetätigungen repräsentieren Morsezeichen.
+- **Real-Time Signal Processing**: Erfasst Druck- und Loslasszeiten, um Punkte und Striche zu unterscheiden.
+- **AI-Based Decoding**: Sendet Morse-Sequenzen zur Interpretation an OpenAI.
+- **Start/Stop Button**: Steuert den Eingabesitzungsmodus.
+- **LED Indicator**: Signalisiert, wenn die Morse-Eingabe aktiv ist.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Benötigte Komponenten**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie folgende Bauteile:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -47,7 +47,7 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schaltplan**
 
 .. image:: img/fzz/gpt_morse_decoder_bb.png
    :width: 800
@@ -57,11 +57,11 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Running the Example**
+**Beispiel ausführen**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -184,20 +184,20 @@ Follow these steps to run the example:
 
 ----------------------------------------------
 
-**Code Explanation**
+**Code Erklärung**
 
-This project is structured into several key functional components:
+Dieses Projekt gliedert sich in mehrere zentrale Funktionsbereiche:
 
-1. **Initialization and Setup:**
+1. **Initialisierung und Einrichtung:**
 
-   - Imports necessary modules, including ``openai`` for AI processing and ``fusion_hat`` for GPIO handling.
-   - Sets up OpenAI API client using ``OPENAI_API_KEY``.
-   - Configures GPIO pins for Morse input, a start/stop button, and an LED indicator.
+   - Importiert erforderliche Module, darunter ``openai`` für die KI-Verarbeitung und ``fusion_hat`` für die GPIO-Ansteuerung.
+   - Richtet den OpenAI-API-Client über ``OPENAI_API_KEY`` ein.
+   - Konfiguriert GPIO-Pins für die Morse-Eingabe, einen Start/Stop-Taster sowie eine LED-Anzeige.
 
-2. **Morse Code Input Handling:**
+2. **Verarbeitung der Morse-Eingaben:**
 
-   - Records timestamps for button press and release events.
-   - Uses the duration of a press to determine if it is a dot or a dash.
+   - Zeichnet Zeitstempel für Tastendruck- und -loslassereignisse auf.
+   - Bestimmt anhand der Druckdauer, ob es sich um einen Punkt oder einen Strich handelt.
 
    .. code-block:: python
 
@@ -213,11 +213,11 @@ This project is structured into several key functional components:
            morse_events.append(('released', release_time))
            print(f" Pressed at {start_time}-{release_time}")
 
-3. **Start/Stop Button Handling:**
+3. **Start/Stop-Taster:**
 
-   - Controls when Morse code input begins and ends.
-   - Clears previous input when restarted.
-   - Triggers decoding when input is stopped.
+   - Steuert Beginn und Ende der Morse-Eingabe.
+   - Löscht frühere Eingaben bei Neustart.
+   - Löst beim Beenden die Decodierung aus.
 
    .. code-block:: python
 
@@ -234,10 +234,10 @@ This project is structured into several key functional components:
                led.on()
                print("Input started.")
 
-4. **Morse Code Decoding**:
+4. **Morse-Decodierung**:
 
-   - Sends collected Morse code input data to OpenAI.
-   - Retrieves and prints the decoded text.
+   - Sendet die gesammelten Morse-Ereignisse an OpenAI.
+   - Ruft den decodierten Text ab und gibt ihn aus.
 
    .. code-block:: python
 
@@ -266,10 +266,10 @@ This project is structured into several key functional components:
                print(f"Error in decoding: {e}")
            morse_events = []
 
-5. **System Loop and Cleanup:**
+5. **Systemschleife und Aufräumen:**
 
-   - Uses ``pause()`` to keep the program running indefinitely.
-   - Cleans up resources and deletes OpenAI assistant on exit.
+   - Verwendet ``pause()``, um das Programm unbegrenzt laufen zu lassen.
+   - Räumt beim Beenden Ressourcen auf und löscht den OpenAI-Assistenten.
 
    .. code-block:: python
 
@@ -283,25 +283,25 @@ This project is structured into several key functional components:
 
 ----------------------------------------------
 
-**Debugging Tips**
+**Debugging Tipps**
 
 - **Button presses not registering?**
 
-  - Check GPIO pin connections and ensure the buttons are wired correctly.
-  - Print ``morse_events`` to verify input is being captured.
+  - Überprüfen Sie die GPIO-Verbindungen und stellen Sie sicher, dass die Taster korrekt verdrahtet sind.
+  - Geben Sie ``morse_events`` aus, um zu prüfen, ob Eingaben erfasst werden.
 
 - **Incorrect Morse code interpretation?**
 
-  - Adjust debounce timing if short presses are missed.
-  - Verify timestamps are correctly recorded.
+  - Passen Sie das Entprell-Intervall an, falls kurze Tastendrücke übersehen werden.
+  - Verifizieren Sie, dass die Zeitstempel korrekt aufgezeichnet werden.
 
 - **AI not responding?**
 
-  - Confirm OpenAI API key is valid.
-  - Ensure the network connection is stable.
+  - Stellen Sie sicher, dass der OpenAI-API-Schlüssel gültig ist.
+  - Prüfen Sie die Netzwerkverbindung, damit API-Aufrufe funktionieren.
 
 - **LED indicator not working?**
 
-  - Check that ``led.on()`` and ``led.off()`` are correctly called.
-  - Verify that the correct GPIO pin is assigned for the LED.
+  - Prüfen Sie, ob ``led.on()`` und ``led.off()`` an den richtigen Stellen aufgerufen werden.
+  - Verifizieren Sie, dass der korrekte GPIO-Pin der LED zugewiesen ist.
 

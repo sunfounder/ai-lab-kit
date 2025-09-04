@@ -1,29 +1,29 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu entwickeln? Klicke [|link_sf_facebook|] und trete noch heute bei!
 
 .. _cpn_keypad:
 
 Keypad
 ========================
 
-A keypad is a rectangular array of 12 or 16 OFF-(ON) buttons. 
-Their contacts are accessed via a header suitable for connection with a ribbon cable or insertion into a printed circuit board. 
-In some keypads, each button connects with a separate contact in the header, while all the buttons share a common ground.
+Ein Keypad ist ein rechteckiges Tastenfeld mit 12 oder 16 OFF-(ON)-Tasten.  
+Die Kontakte sind über eine Stiftleiste zugänglich, die sich für den Anschluss eines Flachbandkabels oder zum Einsetzen in eine Leiterplatte eignet.  
+Bei manchen Keypads ist jede Taste mit einem separaten Kontakt in der Stiftleiste verbunden, während alle Tasten eine gemeinsame Masse teilen.  
 
 .. image:: img/keypad314.png
 
-More often, the buttons are matrix encoded, meaning that each of them bridges a unique pair of conductors in a matrix. 
-This configuration is suitable for polling by a microcontroller, which can be programmed to send an output pulse to each of the four horizontal wires in turn. 
-During each pulse, it checks the remaining four vertical wires in sequence, to determine which one, if any, is carrying a signal. 
-Pullup or pulldown resistors should be added to the input wires to prevent the inputs of the microcontroller from behaving unpredictably when no signal is present.
+Häufiger jedoch sind die Tasten in einer Matrix verschaltet, was bedeutet, dass jede Taste ein einzigartiges Leiterpaar in der Matrix überbrückt.  
+Diese Konfiguration eignet sich ideal für das Abfragen durch einen Mikrocontroller, der so programmiert werden kann, dass er nacheinander Impulse an jede der vier horizontalen Leitungen sendet.  
+Während jedes Impulses überprüft der Mikrocontroller die verbleibenden vier vertikalen Leitungen, um festzustellen, welche – falls überhaupt – ein Signal führt.  
+Um unvorhersehbares Verhalten der Eingänge bei fehlendem Signal zu vermeiden, sollten Pull-up- oder Pull-down-Widerstände an die Eingangsleitungen angeschlossen werden.  

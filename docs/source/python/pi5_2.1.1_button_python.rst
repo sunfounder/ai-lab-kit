@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkauf-Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _2.1.1_py:
 
@@ -19,20 +19,20 @@
 
 **Introduction**
 
-In this project, we will learn how to use a button to control an LED. Buttons are fundamental input devices used in various electronic projects to interact with circuits and systems.
+In diesem Projekt lernen wir, wie man mit einem Taster eine LED steuert. Taster sind grundlegende Eingabegeräte, die in zahlreichen Elektronikprojekten genutzt werden, um mit Schaltungen und Systemen zu interagieren.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -55,7 +55,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-We will use a normally open button as an input for the Raspberry Pi. When the button is pressed, GPIO17 will receive a high-level signal (3.3V). The Raspberry Pi will detect this signal and turn the LED on. The circuit connections are shown in the diagrams below:
+Wir verwenden einen normalerweise offenen Taster als Eingang für den Raspberry Pi. Wird der Taster gedrückt, erhält GPIO17 ein High-Signal (3,3 V). Der Raspberry Pi erkennt dieses Signal und schaltet die LED ein. Die Schaltungsverbindungen sind in den folgenden Diagrammen dargestellt:
 
 
 .. image:: img/fzz/2.1.1_sch.png
@@ -67,11 +67,11 @@ We will use a normally open button as an input for the Raspberry Pi. When the bu
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+So bauen Sie die Schaltung auf:
 
-1. Connect the anode (long pin) of the LED to a GPIO pin (GPIO22) through a current-limiting resistor.
-2. Connect the cathode (short pin) of the LED to the ground (GND).
-3. Connect one terminal of the button to GPIO17 and the other terminal to the ground (GND).
+1. Verbinden Sie die Anode (langes Bein) der LED über einen Vorwiderstand mit GPIO22.  
+2. Verbinden Sie die Kathode (kurzes Bein) der LED mit Masse (GND).  
+3. Schließen Sie ein Ende des Tasters an GPIO17 und das andere Ende an Masse (GND) an.  
 
 
 .. image:: img/fzz/2.1.1_bb.png
@@ -83,8 +83,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führen Sie das Beispiel aus:
 
 
 .. code-block:: shell
@@ -96,7 +96,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-The following Python code toggles the LED based on button presses and releases:
+Der folgende Python-Code schaltet die LED je nach Tastendruck oder -loslassen ein oder aus:
 
 
 .. raw:: html
@@ -125,11 +125,11 @@ The following Python code toggles the LED based on button presses and releases:
    pause()
 
 
-This Python script demonstrates an interactive setup where a button controls an LED. When executed:
+Dieses Python-Skript zeigt ein interaktives Beispiel, bei dem ein Taster eine LED steuert. Beim Ausführen gilt:
 
-1. Pressing the button (connected to GPIO pin 17) turns the LED (connected to GPIO pin 22) on.
-2. Releasing the button turns the LED off.
-3. The program runs indefinitely, listening for button press and release events to control the LED.
+1. Drücken des Tasters (an GPIO17) schaltet die LED (an GPIO22) ein.  
+2. Loslassen des Tasters schaltet die LED wieder aus.  
+3. Das Programm läuft unbegrenzt weiter und reagiert auf Tastendrücke und -freigaben.  
 
 
 ----------------------------------------------
@@ -138,7 +138,7 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 1. **Library Import**
 
-   The ``fusion_hat`` library provides a simple interface for GPIO control, and the ``signal`` module is used to keep the program running.
+   Die Bibliothek ``fusion_hat`` bietet eine einfache Schnittstelle zur GPIO-Steuerung. Mit dem Modul ``signal`` wird das Programm dauerhaft aktiv gehalten.
 
    .. code-block:: python
 
@@ -147,7 +147,7 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 2. **Component Initialization**
 
-   The LED is connected to GPIO pin 22, and the Button is connected to GPIO pin 17.
+   Die LED ist mit GPIO22 verbunden, der Taster mit GPIO17.
 
    .. code-block:: python
 
@@ -158,7 +158,7 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 3. **Event Handling**
 
-   The ``when_activated`` and ``when_deactivated`` events are linked to the LED's ``high()`` and ``low()`` methods, respectively. This ensures that the LED turns on when the button is pressed and off when the button is released.
+   Die Events ``when_activated`` und ``when_deactivated`` werden mit den Methoden ``high()`` und ``low()`` der LED verknüpft. Dadurch leuchtet die LED, wenn der Taster gedrückt wird, und geht aus, wenn er losgelassen wird.
 
    .. code-block:: python
 
@@ -167,7 +167,7 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 4. **Event Loop**
 
-   The ``pause()`` function keeps the program running and listens for button press and release events.
+   Mit der Funktion ``pause()`` bleibt das Programm aktiv und wartet auf Taster-Ereignisse.
 
    .. code-block:: python
 
@@ -177,20 +177,20 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 **Troubleshooting**
 
-1. **LED Does Not Light Up**  
+1. **LED leuchtet nicht**  
 
-   - **Cause**: Incorrect GPIO pin connection or LED wiring.  
-   - **Solution**: Verify that the LED's positive leg is connected to GPIO pin 22 and its negative leg to a resistor leading to ground.
+   - **Ursache**: Falsche GPIO-Verbindung oder LED falsch angeschlossen.  
+   - **Lösung**: Sicherstellen, dass die Anode der LED an GPIO22 und die Kathode über einen Widerstand an Masse angeschlossen ist.  
 
-2. **Button Press Has No Effect**  
+2. **Tastendruck hat keine Wirkung**  
 
-   - **Cause**: Incorrect button wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the button is connected correctly to GPIO pin 17 and ground. .
+   - **Ursache**: Fehlerhafte Tasterverdrahtung oder falsche GPIO-Konfiguration.  
+   - **Lösung**: Prüfen Sie, ob der Taster korrekt zwischen GPIO17 und GND angeschlossen ist.  
 
-3. **LED Stays On or Off Regardless of Button State**  
+3. **LED bleibt dauerhaft an oder aus**  
 
-   - **Cause**: The button may not trigger events correctly.  
-   - **Solution**: Check the button’s functionality by directly testing its connectivity with a multimeter or simple circuit.
+   - **Ursache**: Das Taster-Event wird nicht korrekt ausgelöst.  
+   - **Lösung**: Testen Sie den Taster separat, z. B. mit einem Multimeter oder einer einfachen Schaltung.  
 
 
 
@@ -198,9 +198,9 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 **Extendable Ideas**
 
-1. **Toggle LED State**  
+1. **LED-Zustand umschalten**  
 
-   Modify the script to toggle the LED's state with each button press instead of turning it on/off directly:
+   Ändern Sie das Skript so, dass die LED bei jedem Tastendruck ihren Zustand wechselt:
 
    .. code-block:: python
     
@@ -212,9 +212,9 @@ This Python script demonstrates an interactive setup where a button controls an 
 
       button.when_activated = toggle
 
-2. **Multiple LEDs**  
+2. **Mehrere LEDs**  
 
-   Control multiple LEDs with a single button, cycling through different patterns:
+   Steuern Sie mehrere LEDs mit einem einzigen Taster und schalten Sie zwischen verschiedenen Mustern um:
 
    .. code-block:: python
 
@@ -229,9 +229,9 @@ This Python script demonstrates an interactive setup where a button controls an 
 
       button.when_activated = cycle_leds
 
-3. **Button Press Duration**  
+3. **Unterscheidung nach Tastdauer**  
 
-   Add functionality to perform different actions based on how long the button is held:
+   Führen Sie verschiedene Aktionen abhängig davon aus, wie lange der Taster gedrückt gehalten wird:
 
    .. code-block:: python
 
@@ -254,9 +254,9 @@ This Python script demonstrates an interactive setup where a button controls an 
       button.when_activated = start_timer
       button.when_deactivated = check_duration
 
-4. **Debouncing**  
+4. **Entprellen (Debouncing)**  
 
-   Implement software debouncing for more accurate button press detection:
+   Implementieren Sie eine Software-Entprellung, um Tastendrücke zuverlässiger zu erfassen:
 
    .. code-block:: python
 
@@ -286,4 +286,4 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 **Conclusion**
 
-This project demonstrates how to use a button to control an LED with a Fusion HAT. Buttons are versatile components and can be integrated into various applications, from basic circuits to complex interactive systems.
+Dieses Projekt zeigt, wie man mit einem Taster eine LED über den Fusion HAT steuert. Taster sind vielseitige Eingabekomponenten und lassen sich in verschiedensten Anwendungen einsetzen – von einfachen Schaltungen bis hin zu komplexen interaktiven Systemen.

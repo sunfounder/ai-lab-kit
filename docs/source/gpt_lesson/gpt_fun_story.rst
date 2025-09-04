@@ -1,9 +1,9 @@
 2.1 Story Teller
 ==========================
 
-This Python script integrates OpenAI's GPT with hardware components like a button and a camera to create an interactive storytelling experience based on a book cover photo. 
+Dieses Python-Skript integriert OpenAIs GPT mit Hardwarekomponenten wie einem Taster und einer Kamera, um auf Basis eines Buchcover-Fotos ein interaktives Erzählerlebnis zu erzeugen. 
 
-The program waits for the user to press a button.
+Das Programm wartet darauf, dass die Nutzerin oder der Nutzer einen Taster drückt.
 
 
 
@@ -11,22 +11,22 @@ The program waits for the user to press a button.
 
 When pressed:
 
-#. A photo of the book cover is captured.
+#. Es wird ein Foto des Buchcovers aufgenommen.
 
-#. The photo is sent to OpenAI's GPT model, which generates a story summary.
+#. Das Foto wird an das GPT-Modell von OpenAI gesendet, das eine Handlungszusammenfassung erzeugt.
 
-#. The story is converted to speech and played back.
+#. Die Geschichte wird in Sprache umgewandelt und wiedergegeben.
 
 
 ----------------------------------------------
 
 **Features**
 
-* Interactive Experience: Users can interact with the system through a button and receive both visual and auditory feedback.
+* Interaktives Erlebnis: Nutzerinnen und Nutzer interagieren über einen Taster und erhalten visuelles sowie akustisches Feedback.
 
-* AI-Powered Storytelling: GPT interprets the book cover and provides a creative summary.
+* KI-gestütztes Storytelling: GPT interpretiert das Buchcover und liefert eine kreative Zusammenfassung.
 
-* Voice Feedback: The generated story is read aloud, enhancing accessibility and engagement.
+* Sprachausgabe: Die generierte Geschichte wird vorgelesen – das erhöht Zugänglichkeit und Engagement.
 
 ---------------------------------------------
 
@@ -34,7 +34,7 @@ When pressed:
 
 **What You’ll Need**
 
-The following components are required for this project:
+Die folgenden Komponenten werden für dieses Projekt benötigt:
 
 
 .. list-table::
@@ -75,8 +75,8 @@ The following components are required for this project:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -231,10 +231,10 @@ Follow these steps to run the example:
    from fusion_hat import Pin
    from picamera2 import Picamera2
 
-* ``openai``: To interact with OpenAI's GPT and Whisper models.
-* ``fusion_hat``: To handle button presses for capturing photos.
-* ``picamera2``: To control the Raspberry Pi camera for taking photos.
-* ``subprocess``: To play audio files for text-to-speech output.
+* ``openai``: Schnittstelle zu OpenAIs GPT- und Whisper-Modellen.
+* ``fusion_hat``: Verarbeitung des Tastendrucks zum Auslösen der Aufnahme.
+* ``picamera2``: Steuerung der Raspberry-Pi-Kamera für Fotos.
+* ``subprocess``: Abspielen der Audiodateien für die Sprachausgabe.
 
 
 2. Initialize OpenAI Client and Hardware
@@ -243,14 +243,14 @@ Follow these steps to run the example:
 
    client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
-This sets up the OpenAI client with the provided API key for accessing GPT and Whisper models.
+Richtet den OpenAI-Client mit dem bereitgestellten API-Schlüssel für den Zugriff auf GPT- und Whisper-Modelle ein.
 
 .. code-block:: python
 
    button = Pin(17, Pin.IN, Pin.PULL_DOWN)
    camera = Picamera2()
 
-The button connected to GPIO pin 17 triggers the photo capture process. The ``Picamera2`` instance controls the Raspberry Pi camera.
+Der an GPIO-Pin 17 angeschlossene Taster startet den Aufnahmevorgang. Die Instanz ``Picamera2`` steuert die Raspberry-Pi-Kamera.
 
 
 3. Capture Photo
@@ -271,9 +271,9 @@ The button connected to GPIO pin 17 triggers the photo capture process. The ``Pi
       except Exception as e:
          print(f"Error capturing photo: {e}")
 
-* Configures the camera's preview settings.
-* Starts the camera to capture an image.
-* Saves the image as `my_photo.jpg`.
+* Konfiguriert die Vorschau der Kamera.
+* Startet die Kamera und nimmt ein Foto auf.
+* Speichert das Bild als `my_photo.jpg`.
 
 4. Text-to-Speech Conversion
 
@@ -293,13 +293,13 @@ The button connected to GPIO pin 17 triggers the photo capture process. The ``Pi
       except Exception as e:
          print(f"Error in Text-to-Speech: {e}")
 
-* Converts text responses from GPT into an audio file (``speech.mp3``) using OpenAI's text-to-speech model.
-* Plays the audio file using the ``mplayer`` command.
+* Wandelt die GPT-Antwort mit dem Text-zu-Sprache-Modell (``speech.mp3``) in Audio um.
+* Gibt die Audiodatei per ``mplayer`` wieder.
 
 
 5. Interact with GPT for Storytelling
 
-The ``story_talking()`` function:
+Die Funktion ``story_talking()``:
 
 .. code-block:: python
 
@@ -307,7 +307,7 @@ The ``story_talking()`` function:
       file=open("my_photo.jpg", "rb"), purpose="vision"
    )
 
-Upload the Photo: The captured photo (``my_photo.jpg``) is uploaded to OpenAI for processing.
+Foto hochladen: Das aufgenommene Bild (``my_photo.jpg``) wird zur Verarbeitung an OpenAI gesendet.
 
 
 .. code-block:: python
@@ -321,7 +321,7 @@ Upload the Photo: The captured photo (``my_photo.jpg``) is uploaded to OpenAI fo
       ],
    )
 
-Send a User Query: The script sends a message along with the photo to the assistant.
+Benutzeranfrage senden: Die Nachricht wird zusammen mit dem Foto an den Assistenten übermittelt.
 
 .. code-block:: python
 
@@ -340,7 +340,7 @@ Send a User Query: The script sends a message along with the photo to the assist
                         text_to_speech(response)
                         return
 
-Process GPT Response: GPT processes the input and generates a response. The response includes a story summary, which is printed and converted to speech.
+Verarbeitung der GPT-Antwort: GPT erzeugt eine Zusammenfassung der Geschichte, die ausgegeben und anschließend vorgelesen wird.
 
 6. OpenAI Assistant Configuration
 
@@ -355,7 +355,7 @@ Process GPT Response: GPT processes the input and generates a response. The resp
       model="gpt-4o-mini",
    )
 
-This defines the assistant's role and ensures that responses are formatted appropriately for storytelling.
+Definiert die Rolle des Assistenten und stellt sicher, dass Antworten für Storytelling geeignet formuliert sind.
 
 
 7. Event Loop
@@ -374,11 +374,11 @@ This defines the assistant's role and ensures that responses are formatted appro
       client.beta.assistants.delete(assistant.id)
       print("Resources cleaned up. Exiting.")
 
-* Waits for a button press.
-* Captures a photo when the button is pressed.
-* Sends the photo to GPT for storytelling.
-* Plays the generated story using text-to-speech.
-* The finally block ensures proper cleanup.
+* Wartet auf einen Tastendruck.
+* Nimmt bei Tastendruck ein Foto auf.
+* Sendet das Foto an GPT für das Storytelling.
+* Spielt die generierte Geschichte per TTS ab.
+* Der finally-Block sorgt für sauberes Aufräumen.
 
 
 ----------------------------------------------
@@ -388,14 +388,14 @@ This defines the assistant's role and ensures that responses are formatted appro
 
 1. Camera Issues: 
    
-   * Ensure the Raspberry Pi camera is enabled and connected properly. Run raspi-config to check camera settings.
+   * Stellen Sie sicher, dass die Raspberry-Pi-Kamera aktiviert und korrekt angeschlossen ist. Prüfen Sie die Kameraeinstellungen mit raspi-config.
 
 2. Incomplete Book Cover in Photo:
    
-   * Since this project lacks a preview screen, ensure the book is positioned properly before pressing the button:
+   * Da dieses Projekt keinen Vorschaubildschirm nutzt, achten Sie vor dem Tastendruck auf die richtige Positionierung des Buches:
       
-      * Place the book at a consistent distance and angle relative to the camera.
-      * Use a fixed stand or guide to ensure the book's cover fits entirely within the camera's frame.
-      * Test with different setups to determine the optimal placement for consistent results.
+      * Platzieren Sie das Buch in konstantem Abstand und Winkel zur Kamera.
+      * Verwenden Sie eine feste Halterung oder Führung, damit das Cover vollständig ins Bild passt.
+      * Testen Sie verschiedene Setups, um die optimale Position für reproduzierbare Ergebnisse zu finden.
    
-   * If cropping issues persist, consider using a connected display or external device to verify positioning during setup.
+   * Wenn weiterhin Beschnittprobleme auftreten, ziehen Sie für die Einrichtung einen angeschlossenen Bildschirm oder ein externes Gerät zur Kontrolle der Ausrichtung in Betracht.

@@ -1,31 +1,28 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _cpn_diode:
 
 Diode
 =================
 
+Eine Diode ist ein elektronisches Bauelement mit zwei Anschlüssen, das den Stromfluss nur in einer Richtung zulässt – diese Eigenschaft wird als Gleichrichterfunktion bezeichnet. Man kann sich eine Diode daher wie ein elektronisches Rückschlagventil vorstellen.  
 
-A diode is an electronic component with two electrodes. It allows current to flow in only one direction, which is often called the "Rectifying" function.
-Thus, a diode can be thought of as an electronic version of a check valve.
+Durch ihre Einweg-Leitfähigkeit wird die Diode in nahezu allen komplexeren elektronischen Schaltungen eingesetzt. Sie zählt zu den ersten Halbleiterbauelementen und verfügt über ein sehr breites Anwendungsspektrum.  
 
-Because of its unidirectional conductivity, the diode is used in almost all electronic circuits of some complexity. It is one of the first semiconductor devices and has a wide range of applications.
-
-According to its use classification, it can be divided into detector diodes, rectifier diodes, limiter diodes, voltage regulator diodes, etc. 
-
-Rectifier diodes and voltage regulator diodes are included in this kit.
+Je nach Einsatzzweck unterscheidet man verschiedene Typen: Detektordioden, Gleichrichterdioden, Begrenzerdioden, Zenerdioden usw.  
+In diesem Kit sind Gleichrichterdioden und Zenerdioden enthalten.  
 
 **Rectifier Diode**
 
@@ -33,18 +30,19 @@ Rectifier diodes and voltage regulator diodes are included in this kit.
 .. image:: img/symbol_rectifier_diode.png
     :width: 200
 
-A rectifier diode is a semiconductor diode, used to rectify AC (alternating current) to DC (direct current) using the rectifier bridge application. The alternative of rectifier diode through the Schottky barrier is mainly valued within digital electronics. This diode is capable to conduct the values of current which changes from mA to a few kA & voltages up to a few kV.
+Eine Gleichrichterdiode ist eine Halbleiterdiode, die verwendet wird, um Wechselstrom (AC) in Gleichstrom (DC) umzuwandeln, z. B. in einer Brückengleichrichterschaltung.  
+In der Digitaltechnik wird sie häufig durch Schottky-Dioden ersetzt, die aufgrund ihrer geringen Schaltverluste geschätzt werden. Gleichrichterdioden können Ströme von Milliampere bis zu mehreren Kiloampere sowie Spannungen bis in den Kilovoltbereich leiten.  
 
-The designing of rectifier diodes can be done with Silicon material and they are capable of conducting high electric current values. These diodes are not famous but still used Ge or gallium arsenide-based semiconductor diodes. Ge diodes have less allowable reversed voltage as well as a lesser allowable junction temperature. The Ge diode has a benefit as compared to Si diode that is low threshold voltage value while operating in a forward-bias.
+Sie werden in der Regel aus Silizium gefertigt, wodurch sie hohe Stromstärken bewältigen können. Es existieren auch Varianten auf Basis von Germanium oder Galliumarsenid, die allerdings weniger verbreitet sind. Germaniumdioden besitzen eine niedrigere Sperrspannung und eine geringere zulässige Sperrschichttemperatur, bieten jedoch den Vorteil einer niedrigeren Schwellenspannung im Vorwärtsbetrieb im Vergleich zu Siliziumdioden.  
 
 * `1N400x general-purpose diode  - Wikipedia <https://en.wikipedia.org/wiki/1N400x_general-purpose_diode>`_
 
 
 **Zener Diode**
 
-A Zener diode is a special type of diode designed to reliably allow current to flow "backwards" when a certain set reverse voltage, known as the Zener voltage, is reached.
+Eine Zener-Diode ist eine spezielle Diode, die so ausgelegt ist, dass sie bei Erreichen einer definierten Sperrspannung – der sogenannten Zenerspannung – zuverlässig in Sperrrichtung leitend wird.  
 
-This diode is a semiconductor device that has a very high resistance up to the critical reverse breakdown voltage. At this critical breakdown point, the reverse resistance is reduced to a very small value, and the current increases while the voltage remains constant in this low resistance region.
+Sie weist bis zum kritischen Durchbruchspunkt einen sehr hohen Widerstand auf. Sobald dieser Punkt erreicht wird, sinkt der Widerstand stark ab, der Strom steigt an, während die Spannung in diesem Bereich nahezu konstant bleibt. Dadurch eignet sich die Zener-Diode hervorragend zur Spannungsstabilisierung.  
 
 .. image:: img/zener_diode.png
 .. image:: img/symbol-zener-diode.jpg

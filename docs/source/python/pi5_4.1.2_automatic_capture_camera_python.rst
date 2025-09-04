@@ -1,25 +1,25 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten noch tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, Neues zu entdecken und mit uns zu gestalten? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.2_py:
 
-4.1.2 Automatic Capture Camera
+4.1.2 Automatische Aufnahmekamera
 ===================================
 
 **Introduction**
 
-Imagine you’re away, and a curious little squirrel visits your windowsill. With this project, you can create an automatic capture camera to snap pictures of these delightful moments. Using a motion sensor, the camera detects movement and captures photos at regular intervals.
+Stell dir vor, du bist nicht zu Hause, und ein neugieriges Eichhörnchen besucht dein Fensterbrett. Mit diesem Projekt kannst du eine automatische Kamera einrichten, die solche besonderen Momente einfängt. Mithilfe eines Bewegungssensors erkennt die Kamera Bewegungen und macht in regelmäßigen Abständen Fotos.
 
 
 ----------------------------------------------
@@ -27,14 +27,14 @@ Imagine you’re away, and a curious little squirrel visits your windowsill. Wit
 
 **What You’ll Need**
 
-The following components are required for this project:
+Für dieses Projekt benötigst du folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -58,7 +58,7 @@ The following components are required for this project:
 
 **Circuit Diagram**
 
-Below is the circuit diagram for this project:
+Hier siehst du den Schaltplan für dieses Projekt:
 
 .. image:: img/fzz/4.1.2_sch.png
    :width: 800
@@ -70,7 +70,7 @@ Below is the circuit diagram for this project:
 
 **Wiring Diagram**
 
-Follow this wiring diagram to set up the circuit:
+Verdrahte die Schaltung entsprechend folgendem Diagramm:
 
 
 .. image:: img/fzz/4.1.2_bb.png
@@ -80,7 +80,7 @@ Follow this wiring diagram to set up the circuit:
 
 
 
-For best performance, adjust the two potentiometers on the PIR module: one controls sensitivity, and the other adjusts detection distance. Turn both counterclockwise to the end.
+Für optimale Ergebnisse justiere die beiden Potentiometer am PIR-Modul: einer regelt die Empfindlichkeit, der andere die Erfassungsreichweite. Drehe beide Regler vollständig gegen den Uhrzeigersinn.
 
 .. image:: ../python/img/4.1.4_PIR_TTE.png
    :width: 400
@@ -92,8 +92,8 @@ For best performance, adjust the two potentiometers on the PIR module: one contr
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führe die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -107,7 +107,7 @@ Follow these steps to run the example:
 **Writing the Code**
 
 
-Here is the Python code used for this project:
+Hier ist der Python-Code für dieses Projekt:
 
 
 .. raw:: html
@@ -152,26 +152,26 @@ Here is the Python code used for this project:
       pass
 
 
-This Python script integrates a PIR motion sensor and a Raspberry Pi camera to create a motion-triggered photo capture system. When executed:
+Dieses Python-Skript kombiniert einen PIR-Bewegungssensor mit einer Raspberry-Pi-Kamera, um ein bewegungsgesteuertes Aufnahmesystem zu realisieren. Beim Ausführen gilt:
 
 1. **Setup**:
 
-   - The PIR motion sensor is initialized on GPIO pin 17 to detect motion.
-   - The Raspberry Pi camera is started and ready to capture photos.
+   - Der PIR-Sensor wird an GPIO-Pin 17 initialisiert.  
+   - Die Kamera wird gestartet und ist aufnahmebereit.  
 
 2. **Motion Detection**:
 
-   - When the PIR sensor detects motion, the camera captures a photo and saves it to the user's home directory with filenames like ``capture_1.jpg``, ``capture_2.jpg``, etc.
-   - The console displays a message such as ``Captured photo #<i>``.
+   - Erkennt der PIR-Sensor eine Bewegung, nimmt die Kamera ein Foto auf und speichert es im Home-Verzeichnis des Benutzers mit Dateinamen wie ``capture_1.jpg``, ``capture_2.jpg`` usw.  
+   - Im Terminal erscheint eine Ausgabe wie ``Captured photo #<i>``.  
 
 3. **Continuous Monitoring**:
 
-   - The script continuously checks for motion every 0.5 seconds when no motion is detected.
-   - After capturing a photo, the script waits for 3 seconds before checking for motion again.
+   - Wird keine Bewegung erkannt, prüft das Skript alle 0,5 Sekunden erneut.  
+   - Nach einer Aufnahme pausiert das Skript 3 Sekunden, bevor es weiter prüft.  
 
 4. **Graceful Exit**:
 
-   - On ``Ctrl+C``, the script stops the camera preview and exits cleanly.
+   - Mit ``Ctrl+C`` wird die Kameravorschau gestoppt und das Skript sauber beendet.  
 
 
 ----------------------------------------------
@@ -188,7 +188,7 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
       import time
       import os
 
-   The script imports necessary libraries for camera control (``Picamera2``), motion detection (``Pin``), and system utilities (``os`` and ``time``).
+   Hier werden Bibliotheken für Kamerasteuerung (``Picamera2``), Bewegungserkennung (``Pin``) sowie Systemfunktionen (``os`` und ``time``) eingebunden.
 
 
 2. **Camera Initialization:**
@@ -198,7 +198,7 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
        camera = Picamera2()
        camera.start()
 
-   Initializes the ``Picamera2`` instance and starts the camera.
+   Erstellt eine Instanz von ``Picamera2`` und startet die Kamera.
 
 3. **PIR Sensor Setup:**
 
@@ -207,7 +207,7 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
       # Initialize the motion sensor on GPIO pin 17
       pir = Pin(17, Pin.IN, Pin.PULL_DOWN) 
 
-   Configures the motion sensor on GPIO pin 17 to detect movement.
+   Konfiguriert den PIR-Bewegungssensor an GPIO-Pin 17.
 
 4. **Motion Detection Loop:**
 
@@ -224,12 +224,12 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
                print('Waiting for motion...')
                time.sleep(0.5)
 
-   In the main loop, the script:
+   Die Hauptschleife:  
 
-   * Captures and saves a photo when motion is detected.
-   * Prints the number of photos captured.
-   * Waits for 3 seconds between captures to avoid duplicates.
-   * Prints "Waiting for motion..." if no motion is detected and checks every 0.5 seconds.
+   - Erkennt Bewegung, erstellt und speichert ein Foto.  
+   - Gibt die Anzahl aufgenommener Fotos aus.  
+   - Wartet 3 Sekunden zwischen Aufnahmen.  
+   - Gibt „Waiting for motion…“ aus, wenn keine Bewegung erkannt wird.  
 
 5. **Graceful Exit:**
 
@@ -238,54 +238,54 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
       except KeyboardInterrupt:
          camera.stop_preview()
 
-   Handles a keyboard interrupt (Ctrl+C) to stop the script and clean up resources.
+   Behandelt einen Abbruch mit ``Ctrl+C`` und stoppt die Vorschau.  
 
 ----------------------------------------------
 
 **Troubleshooting**
 
-1. **Photos Are Not Captured**:
+1. **Keine Fotos aufgenommen**:
 
-   - **Cause**: PIR motion sensor is not working or incorrectly wired.
-   - **Solution**:
+   - **Ursache**: PIR-Sensor nicht funktionsfähig oder falsch verdrahtet.  
+   - **Lösung**:  
 
-     - Verify the PIR sensor is connected to GPIO pin 17, power, and ground.
-     - Adjust the PIR sensor's sensitivity and delay potentiometers if available.
+     - Prüfe die Verbindung des Sensors an GPIO 17, Strom und Masse.  
+     - Stelle Empfindlichkeit und Verzögerung des PIR-Moduls ein.  
 
-2. **File Overwriting**:
+2. **Dateien werden überschrieben**:
 
-   - **Cause**: Photos are saved with the same name, overwriting previous captures.
-   - **Solution**: The script already uses a counter ``i`` to create unique filenames. Ensure ``i`` increments correctly.
+   - **Ursache**: Fotos werden unter gleichem Namen gespeichert.  
+   - **Lösung**: Das Skript nutzt bereits einen Zähler ``i``. Stelle sicher, dass er korrekt hochgezählt wird.  
 
-3. **PIR Sensor Always Detects Motion**:
+3. **PIR erkennt ständig Bewegung**:
 
-   - **Cause**: Faulty PIR sensor or excessive environmental interference.
-   - **Solution**:
+   - **Ursache**: Defekter Sensor oder starke Störquellen.  
+   - **Lösung**:  
 
-     - Test the sensor with a multimeter to ensure it detects motion correctly.
-     - Place the sensor in a stable, controlled environment to avoid false positives.
+     - Teste den Sensor mit einem Multimeter.  
+     - Platziere ihn in einer ruhigen Umgebung, um Fehlalarme zu vermeiden.  
 
-4. **Script Crashes with Camera Error**:
+4. **Skript stürzt mit Kamera-Fehler ab**:
 
-   - **Cause**: Camera is not properly initialized or in use by another process.
-   - **Solution**:
+   - **Ursache**: Kamera nicht richtig initialisiert oder durch anderen Prozess belegt.  
+   - **Lösung**:  
 
-     - Ensure the camera is connected and enabled via ``raspi-config``.
-     - Restart the Raspberry Pi to release any conflicting processes.
+     - Prüfe die Kameraverbindung und aktiviere sie in ``raspi-config``.  
+     - Starte den Raspberry Pi neu, um Konflikte zu beseitigen.  
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Timestamped Filenames**: Save photos with timestamps in their filenames for better organization:
+1. **Dateinamen mit Zeitstempeln**: Fotos mit Zeitstempel speichern:
 
    .. code-block:: python
 
       timestamp = time.strftime("%Y%m%d-%H%M%S")
       camera.capture_file(f'{user_home}/capture_{timestamp}.jpg')
 
-2. **LED Indicator**: Add an LED that lights up when the PIR sensor detects motion:
+2. **LED-Indikator**: Eine LED hinzufügen, die bei Bewegung aufleuchtet:
 
    .. code-block:: python
 
@@ -296,7 +296,7 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
       else:
          led.off()
 
-3. **Photo Gallery Management**: Automatically organize captured photos into folders based on date or event.
+3. **Fotoverwaltung**: Aufnahmen automatisch nach Datum oder Ereignis in Ordner sortieren.  
 
 
 
@@ -304,4 +304,4 @@ This Python script integrates a PIR motion sensor and a Raspberry Pi camera to c
 
 **Conclusion**
 
-This project demonstrates how to build an automated camera system using a PIR motion sensor and a Raspberry Pi Camera Module. It’s a great way to capture unexpected moments and explore the possibilities of IoT and computer vision. Try expanding its functionality to include additional features like video recording or cloud uploads for real-time monitoring.
+Dieses Projekt zeigt, wie man mit einem PIR-Sensor und dem Raspberry-Pi-Kameramodul ein automatisches Aufnahmesystem erstellt. Damit lassen sich unvorhersehbare Momente festhalten und die Möglichkeiten von IoT und Computer Vision erkunden. Mit Erweiterungen wie Videoaufzeichnung oder Cloud-Upload kannst du das System noch vielseitiger einsetzen.

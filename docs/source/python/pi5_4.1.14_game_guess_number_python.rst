@@ -1,26 +1,26 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Supportfälle nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.14_py:
 
 
-4.1.14 GAME - Guess Number
+4.1.14 SPIEL – Zahlenraten
 ==============================
 
 **Introduction**
 
-The "Guess the Number" game is a classic party activity where players take turns guessing a hidden number within a specified range. With each guess, the range narrows based on whether the guess is too high or too low, until someone correctly identifies the hidden number. In this project, we bring this game to life using a Raspberry Pi, a keypad for input, and an LCD to display outcomes and guide gameplay.
+Das Spiel „Guess the Number“ ist ein klassischer Party-Klassiker: Spielende raten reihum eine verborgene Zahl innerhalb eines vorgegebenen Bereichs. Mit jedem Versuch wird der Bereich – abhängig davon, ob der Tipp zu hoch oder zu niedrig war – weiter eingegrenzt, bis jemand die richtige Zahl trifft. In diesem Projekt setzt du das Spiel mit einem Raspberry Pi um: Eine Tastatur dient zur Eingabe und ein LCD zeigt Hinweise und Ergebnisse an.
 
 
 ----------------------------------------------
@@ -28,14 +28,14 @@ The "Guess the Number" game is a classic party activity where players take turns
 
 **What You’ll Need**
 
-Below is the list of components required for this project:
+Nachfolgend die für dieses Projekt benötigten Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -48,7 +48,7 @@ Below is the list of components required for this project:
     *   - Fusion HAT
         - 
     *   - Raspberry Pi Zero 2 W
-        -
+        - 
 
 
 
@@ -56,7 +56,7 @@ Below is the list of components required for this project:
 
 **Circuit Diagram**
 
-Below is the schematic diagram for the "Guess the Number" game:
+Unten findest du das Schaltbild für „Guess the Number“:
 
 .. image:: img/fzz/4.1.14_sch.png
    :width: 800
@@ -69,7 +69,7 @@ Below is the schematic diagram for the "Guess the Number" game:
 
 **Wiring Diagram**
 
-Follow the wiring instructions shown below to set up the circuit:
+Verdrahte die Bauteile gemäß folgender Anleitung:
 
 
 .. image:: img/fzz/4.1.14_bb.png
@@ -81,8 +81,8 @@ Follow the wiring instructions shown below to set up the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial liegt im Verzeichnis ``ai-explorer-lab-kit``.  
+Führe die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -213,25 +213,25 @@ Follow these steps to run the example:
 
 
 
-* When the program starts, the LCD displays the following prompt:
+* Beim Programmstart zeigt das LCD folgende Aufforderung:
 
    .. code-block::
 
       Welcome!
       Press A to go!
 
-* Press ``A`` on the keypad to begin the game. The game page will display:
+* Drücke auf der Tastatur ``A``, um das Spiel zu starten. Die Spielseite zeigt:
 
    .. code-block::
 
       Enter number:
       0 < point < 99
 
-* The Raspberry Pi generates a hidden random number (``point``) within the range of 0 to 99. Players must guess the number based on the range displayed on the LCD. After entering a number:
+* Der Raspberry Pi erzeugt eine verborgene Zufallszahl (``point``) im Bereich 0 bis 99. Die Spielenden müssen anhand des auf dem LCD angezeigten Bereichs raten. Nach der Eingabe einer Zahl:
 
-  * Press ``D`` to confirm the guess.
-  * If the guess is incorrect, the range narrows.
-  * If the correct number is guessed, the LCD displays:
+  * Mit ``D`` bestätigst du den Tipp.
+  * Ist der Tipp falsch, wird der Bereich eingegrenzt.
+  * Bei korrekter Zahl erscheint auf dem LCD:
 
    .. code-block::
 
@@ -246,92 +246,92 @@ Follow these steps to run the example:
 
 1. **Keypad Class:**  
 
-   * Initializes row and column pins for the keypad.
-   * Detects and returns the pressed keys.
+   * Initialisiert Zeilen- und Spaltenpins der Tastatur.  
+   * Erkennt gedrückte Tasten und gibt sie zurück.
 
 2. **Game Logic:**  
 
-   - Players input guesses using the keypad.
-   - Pressing "D" submits the current guess.
-   - The LCD provides feedback:
+   - Spielende geben über die Tastatur ihre Tipps ein.  
+   - Mit „D“ wird der aktuelle Tipp bestätigt.  
+   - Das LCD liefert Feedback:
 
-     - Displays the guessed number and the current range of possible values.
-     - Updates the range dynamically based on whether the guess is too high or too low.
+     - Es zeigt den geratenen Wert und den aktuellen Zielbereich.
+     - Der Bereich wird dynamisch angepasst, je nachdem, ob der Tipp zu hoch oder zu niedrig war.
 
-3. **Win Condition**:
+3. **Win Condition**:  
 
-   - When the player guesses the correct number, the LCD displays: ``You have got it!``
-   - A new random target number is generated automatically after a brief delay.
+   - Bei der richtigen Zahl zeigt das LCD: ``You have got it!``  
+   - Nach kurzer Verzögerung wird automatisch eine neue Zielzahl generiert.
 
 
-4. **Continuous Play**: The game resets after each win and allows for multiple rounds.
+4. **Continuous Play**: Nach jedem Sieg setzt sich das Spiel zurück und ermöglicht weitere Runden.
 
-5. **Graceful Exit**: On ``Ctrl+C``, the LCD is cleared, and the program exits cleanly.
+5. **Graceful Exit**: Mit ``Ctrl+C`` wird das LCD geleert und das Programm sauber beendet.
 
 ----------------------------------------------
 
 
 **Troubleshooting**
 
-1. **Keypad Does Not Respond**:
+1. **Tastatur reagiert nicht**:
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder GPIO-Konfiguration.  
+   - **Lösung**:
 
-      - Verify the keypad's row and column pins are correctly connected as defined in ``rowsPins`` and ``colsPins``.
-      - Test the keypad independently with a simple script.
+      - Prüfe, ob die Zeilen- und Spaltenpins wie in ``rowsPins`` und ``colsPins`` definiert verbunden sind.
+      - Teste die Tastatur separat mit einem einfachen Skript.
 
-2. **LCD Not Displaying Correctly**:
+2. **LCD zeigt Inhalte nicht korrekt an**:
 
-   - **Cause**: Incorrect I2C address or wiring.
-   - **Solution**:
+   - **Ursache**: Falsche I2C-Adresse oder Verdrahtung.  
+   - **Lösung**:
 
-      - Use ``i2cdetect -y 1`` to confirm the LCD's I2C address.
-      - Update ``lcd = LCD1602(address=0x27, backlight=1)`` with the correct address.
+      - Bestätige die I2C-Adresse mit ``i2cdetect -y 1``.
+      - Passe ``lcd = LCD1602(address=0x27, backlight=1)`` an die korrekte Adresse an.
 
-3. **Game Logic Fails (e.g., Wrong Range Updates)**:
+3. **Spiellogik fehlerhaft (z. B. falsche Bereichsaktualisierung)**:
 
-   - **Cause**: Logical error in the ``detect_point()`` function.
-   - **Solution**:
+   - **Ursache**: Logikfehler in ``detect_point()``.  
+   - **Lösung**:
 
-      - Verify the conditions for updating ``upper`` and ``lower`` bounds.
-      - Add debug prints to monitor variable values:
+      - Prüfe die Bedingungen zum Aktualisieren von ``upper`` und ``lower``.
+      - Nutze Debug-Ausgaben zur Kontrolle der Variablen:
 
       .. code-block:: python
 
          print(f"Target: {pointValue}, Guess: {count}, Lower: {lower}, Upper: {upper}")
 
-4. **No Feedback on "A" or "D" Keys**:
+4. **Keine Reaktion auf Tasten „A“ oder „D“**:
 
-   - **Cause**: Incorrect handling of special keys.
-   - **Solution**: Ensure the keys "A" and "D" are recognized in the ``loop()`` function.
+   - **Ursache**: Spezielle Tasten werden nicht korrekt verarbeitet.  
+   - **Lösung**: Stelle sicher, dass „A“ und „D“ in der ``loop()``-Funktion erkannt und behandelt werden.
 
-5. **Input Issues with Digits**:
+5. **Probleme bei der Zifferneingabe**:
 
-   - **Cause**: Incorrect handling of numeric inputs.
-   - **Solution**: Ensure only valid digits (0-9) update the ``count`` variable.
+   - **Ursache**: Falsche Verarbeitung numerischer Eingaben.  
+   - **Lösung**: Stelle sicher, dass nur gültige Ziffern (0–9) ``count`` verändern.
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Difficulty Levels**: Add an option to select difficulty levels (e.g., Easy: 0-50, Medium: 0-99, Hard: 0-999).
+1. **Schwierigkeitsgrade**: Auswahl unterschiedlicher Bereiche (z. B. Easy: 0–50, Medium: 0–99, Hard: 0–999).
 
-2. **Game Timer**: Introduce a timer to limit the time available for each round, displaying the remaining time on the LCD.
+2. **Spieltimer**: Begrenze die Rundenzeit und zeige die Restzeit auf dem LCD an.
 
-3. **Score Tracking**: Keep track of the number of guesses and display the score on the LCD after each round.
+3. **Punktesystem**: Zähle die Versuche und gib nach jeder Runde eine Bewertung aus.
 
-4. **Hint System**: Provide hints (e.g., "Much Higher" or "Slightly Lower") based on how close the guess is to the target number.
+4. **Hinweissystem**: Liefere Hinweise („Deutlich höher“, „Etwas niedriger“) je nach Abstand zur Zielzahl.
 
-5. **Multiplayer Mode**: Allow two players to compete by taking turns guessing, with the winner being the one who guesses correctly first.
+5. **Mehrspielermodus**: Zwei Spielende raten abwechselnd; gewinnt, wer zuerst richtig liegt.
 
-6. **Randomized Feedback**: Display varied congratulatory messages upon winning, such as "Great Job!" or "You Nailed It!"
+6. **Zufällige Gratulationen**: Variiere Gewinn-Meldungen wie „Great Job!“ oder „You Nailed It!“.
 
-7. **Audio Feedback**: Use a buzzer to emit different tones for correct and incorrect guesses.
+7. **Akustisches Feedback**: Nutze einen Buzzer für unterschiedliche Töne bei richtigen/falschen Tipps.
 
 ----------------------------------------------
 
 **Conclusion**
 
-The "Guess the Number" game combines entertainment with practical Raspberry Pi programming. It introduces core concepts such as GPIO control, random number generation, and user interface design using an LCD and keypad. Expand on this foundation to create more engaging interactive projects!
+„Guess the Number“ verbindet Spielspaß mit praktischer Raspberry-Pi-Programmierung. Du lernst zentrale Konzepte wie GPIO-Steuerung, Zufallszahlengenerierung und die Gestaltung einfacher User Interfaces mit LCD und Tastatur. Baue darauf auf, um noch interaktivere Projekte zu entwickeln!

@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.8_py:
 
@@ -19,9 +19,9 @@
 
 **Introduction**
 
-This project involves creating a simple yet effective battery indicator that visually displays the battery level using an LED bar graph. It's a practical application of analog-to-digital conversion (ADC) and GPIO control, making it an excellent learning opportunity for understanding how to measure and visualize voltage levels.
+In diesem Projekt erstellst du einen einfachen, aber wirkungsvollen Batterieindikator, der den Ladezustand mit einer LED-Balkenanzeige visualisiert. Das ist eine praxisnahe Anwendung von Analog-/Digital-Wandlung (ADC) und GPIO-Steuerung und eignet sich hervorragend, um zu lernen, wie man Spannungspegel misst und visualisiert.
 
-.. warning::  In this example, please do not measure power supplies above 3.3V. More specifically, we recommend that you only measure one AA battery in this example. Otherwise, you may burn out the Fusion HAT.
+.. warning::  Miss in diesem Beispiel bitte keine Spannungsquellen über 3,3 V. Konkret empfehlen wir, nur eine einzelne AA-Batterie zu messen. Andernfalls könnte der Fusion HAT beschädigt werden.
 
 
 ----------------------------------------------
@@ -29,14 +29,14 @@ This project involves creating a simple yet effective battery indicator that vis
 
 **What You’ll Need**
 
-The following components are required for this project:
+Folgende Komponenten werden benötigt:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -57,7 +57,7 @@ The following components are required for this project:
 
 **Circuit Diagram**
 
-The schematic diagram below shows how the components are connected:
+Das folgende Schaltbild zeigt die Verbindung der Komponenten:
 
 .. image:: img/fzz/4.1.8_sch.png
    :width: 800
@@ -70,7 +70,7 @@ The schematic diagram below shows how the components are connected:
 
 **Wiring Diagram**
 
-Refer to the following diagram for setting up the circuit on a breadboard:
+Nutze die folgende Abbildung für den Breadboard-Aufbau und die Verdrahtung:
 
 
 .. image:: img/fzz/4.1.8_bb.png
@@ -83,8 +83,8 @@ Refer to the following diagram for setting up the circuit on a breadboard:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials liegt im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -98,7 +98,7 @@ Follow these steps to run the example:
 **Writing the Code**
 
 
-Here is the Python code for the battery indicator project:
+Hier ist der Python-Code für den Batterieindikator:
 
 
 
@@ -157,24 +157,24 @@ Here is the Python code for the battery indicator project:
         for i in range(10):
             leds[i].off()
 
-This Python script control a 10-LED bar graph based on the analog input value. When executed:
+Dieses Python-Skript steuert eine 10-LED-Balkenanzeige basierend auf einem Analogwert. Beim Ausführen gilt:
 
 1. **Analog Input Reading**:
 
-   - The Fusion HAT continuously reads analog input values from a battery.
+   - Der Fusion HAT liest kontinuierlich den analogen Eingangswert einer Batterie.
 
 2. **LED Bar Graph Display**:
 
-   - The voltage is scaled to a range of 0-10.
-   - The corresponding number of LEDs light up on the bar graph to represent the input level.
+   - Die Spannung wird auf den Bereich 0–10 skaliert.
+   - Entsprechend viele LEDs der Balkenanzeige leuchten, um den Eingangspegel darzustellen.
 
 3. **Dynamic Updates**:
 
-   - As the analog input changes, the number of illuminated LEDs updates in real-time, providing a visual representation of the input value.
+   - Ändert sich der Analogwert, passt sich die Anzahl der leuchtenden LEDs in Echtzeit an und bildet den Wert visuell ab.
 
 4. **Graceful Exit**:
 
-   - On ``Ctrl+C``, all LEDs are turned off, and the script exits cleanly.
+   - Bei ``Ctrl+C`` werden alle LEDs ausgeschaltet und das Skript beendet sich sauber.
 
 
 ----------------------------------------------
@@ -188,8 +188,8 @@ This Python script control a 10-LED bar graph based on the analog input value. W
       from fusion_hat import Pin,ADC
       from time import sleep
 
-   * ``fusion_hat`` is used for interfacing with the ADC module and LED Bar Graph.
-   * ``time`` is used for timing-related functions.
+   * ``fusion_hat`` dient zur Ansteuerung des ADC-Moduls und der LED-Balkenanzeige.
+   * ``time`` stellt zeitbezogene Funktionen bereit.
 
 2. **LED Initialization:**
 
@@ -201,7 +201,7 @@ This Python script control a 10-LED bar graph based on the analog input value. W
       # Create LED objects for each pin
       leds = [Pin(pin, Pin.OUT) for pin in led_pins]
 
-   * The GPIO pins for the LEDs are defined, and LED objects are initialized for easy control.
+   * Die GPIO-Pins der LEDs werden definiert und als LED-Objekte zur einfachen Steuerung initialisiert.
 
 3. **ADC Setup:**
 
@@ -210,7 +210,7 @@ This Python script control a 10-LED bar graph based on the analog input value. W
       # Set up the detection pin for the battery
       btr = ADC('A0')
 
-   * The ADC object is initialized to enable analog-to-digital conversion.
+   * Das ADC-Objekt wird initialisiert, um die Analog-/Digital-Wandlung zu ermöglichen.
 
 4. **Bar Graph Logic:**
 
@@ -223,7 +223,7 @@ This Python script control a 10-LED bar graph based on the analog input value. W
                leds[i].on()
 
 
-   * The ``LedBarGraph`` function turns on LEDs corresponding to the battery level.
+   * Die Funktion ``LedBarGraph`` schaltet entsprechend dem Batteriestand die passenden LEDs ein.
 
 
 
@@ -248,8 +248,8 @@ This Python script control a 10-LED bar graph based on the analog input value. W
          for i in range(10):
             leds[i].off()
 
-   * Continuously reads the voltage from the battery, scales it, and updates the LED bar graph.
-   * Handles a keyboard interrupt to ensure all LEDs are turned off before exiting.
+   * Liest fortlaufend die Batteriespannung, skaliert sie und aktualisiert die LED-Balkenanzeige.
+   * Behandelt einen Keyboard-Interrupt, damit vor dem Beenden alle LEDs ausgeschaltet werden.
 
 
 
@@ -257,31 +257,31 @@ This Python script control a 10-LED bar graph based on the analog input value. W
 
 **Troubleshooting**
 
-1. **LEDs Do Not Light Up**:
+1. **LEDs leuchten nicht**:
 
-   - **Cause**: Incorrect wiring or GPIO configuration.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder GPIO-Konfiguration.
+   - **Lösung**:
 
-     - Ensure each LED is connected to the correct GPIO pin listed in ``ledPins``.
-     - Verify that the LEDs are functional and properly powered.
+     - Prüfe, ob jede LED am korrekten GPIO-Pin aus ``led_pins`` hängt.
+     - Überzeuge dich davon, dass die LEDs funktionsfähig und korrekt versorgt sind.
 
-2. **LED Bar Graph Does Not Update**:
+2. **Balkenanzeige aktualisiert nicht**:
 
-   - **Cause**: Incorrect ADC value scaling or logic error in ``LedBarGraph``.
-   - **Solution**:
+   - **Ursache**: Falsche ADC-Skalierung oder Logikfehler in ``LedBarGraph``.
+   - **Lösung**:
 
-     - Verify that ``voltage`` is being read correctly and scaled to the range 0-10.
-     - Add debug prints to confirm correct values:
-       
+     - Prüfe, ob ``voltage`` korrekt gelesen und auf 0–10 skaliert wird.
+     - Füge Debug-Ausgaben hinzu:
+
        .. code-block:: python
 
            print(f"Analog Value: {voltage}, LEDs On: {int(MAP(voltage, 0, 3.3, 0, 10))}")
 
 
-4. **Flickering LEDs**:
+4. **Flackernde LEDs**:
 
-   - **Cause**: Rapid updates without sufficient delay.
-   - **Solution**: Add a small delay in the main loop to stabilize the updates:
+   - **Ursache**: Zu schnelle Aktualisierung ohne ausreichende Pause.
+   - **Lösung**: Eine kleine Verzögerung in der Hauptschleife stabilisiert die Anzeige:
 
      .. code-block:: python
 
@@ -293,16 +293,16 @@ This Python script control a 10-LED bar graph based on the analog input value. W
 
 **Extendable Ideas**
 
-1. **Real-Time Data Logging**: Log analog input values and corresponding LED levels to a file for analysis:
+1. **Echtzeit-Logging**: Protokolliere Analogwerte und LED-Stufen zur späteren Analyse:
 
    .. code-block:: python
 
       with open("log.txt", "a") as log_file:
             log_file.write(f"Analog Value: {voltage}, LEDs On: {int(MAP(voltage, 0, 3.3, 0, 10))}\n")
 
-2. **Interactive Control**: Use buttons or a rotary encoder to adjust the scaling factor or sensitivity of the bar graph.
+2. **Interaktive Steuerung**: Nutze Taster oder einen Drehencoder, um Skalierungsfaktoren bzw. Empfindlichkeit der Balkenanzeige anzupassen.
 
-3. **Custom Threshold Alerts**: Trigger an alert (e.g., buzzer or flashing LEDs) when the analog value exceeds a threshold.
+3. **Schwellwert-Warnungen**: Löse bei Überschreiten eines Grenzwerts Alarme aus (z. B. Summer oder blinkende LEDs):
 
      .. code-block:: python
 
@@ -318,4 +318,4 @@ This Python script control a 10-LED bar graph based on the analog input value. W
 
 **Conclusion**
 
-This battery indicator project demonstrates how to use the Fusion HAT and an LED bar graph to visualize voltage levels. It’s a simple yet powerful tool to learn about analog voltage measurement and GPIO control. Try enhancing it with additional features like a digital readout or integrating it into a larger project for real-world applications.
+Dieses Batterieindikator-Projekt zeigt, wie sich mit dem Fusion HAT und einer LED-Balkenanzeige Spannungspegel visualisieren lassen. Es ist ein einfaches, aber leistungsfähiges Beispiel, um analoge Spannungsmessung und GPIO-Steuerung zu erlernen. Erweitere es etwa um eine digitale Anzeige oder integriere es in ein größeres Projekt für den Praxiseinsatz.

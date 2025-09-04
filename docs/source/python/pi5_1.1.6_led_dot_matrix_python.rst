@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Maker:innen tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkaufprobleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und Sneak Peeks.
+    - **Special Discounts**: Profitieren Sie von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _1.1.6_py:
 
-1.1.6 LED Dot Matrix
-=====================
+1.1.6 LED-Punktmatrix
+========================
 
 **Introduction**
 
-An LED dot matrix is a grid of LEDs that can light up to display characters, symbols, or animations. This project demonstrates how to control an LED dot matrix to display static shapes.
+Eine LED-Punktmatrix ist ein Raster aus LEDs, das Zeichen, Symbole oder Animationen darstellen kann. In diesem Projekt zeigen wir, wie Sie eine LED-Punktmatrix ansteuern, um statische Formen anzuzeigen.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -48,7 +48,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The circuit connects the LED dot matrix to the Raspberry Pi using SPI communication. The schematic below provides a clear view of the wiring.
+Die Matrix wird per SPI mit dem Raspberry Pi verbunden. Das folgende Schaltbild zeigt die Verdrahtung im Überblick.
 
 
 .. image:: img/fzz/1.1.6_sch.png
@@ -60,10 +60,10 @@ The circuit connects the LED dot matrix to the Raspberry Pi using SPI communicat
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+Gehen Sie wie folgt vor, um die Schaltung aufzubauen:
 
-1. Connect the SPI interface pins (MOSI, SCK, and CS) to the Fusion HAT pins.
-2. Ensure proper power supply connections to the matrix.
+1. Verbinden Sie die SPI-Pins (MOSI, SCK und CS) mit den entsprechenden Pins des Fusion HAT.
+2. Stellen Sie eine korrekte Spannungsversorgung der Matrix sicher.
 
 .. image:: img/fzz/1.1.6_bb.png
    :width: 800
@@ -76,8 +76,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -131,9 +131,9 @@ Follow these steps to run the example:
     # To keep the display on, prevent the script from exiting (e.g., with a loop)
     input("Press Enter to exit...")
 
-This script demonstrates how to control an LED matrix using the Fusion Hat library. It initializes the LED matrix and displays a predefined pattern.
+Dieses Skript zeigt, wie Sie eine LED-Matrix mit der Fusion-HAT-Bibliothek ansteuern. Es initialisiert die Matrix und gibt ein vordefiniertes Muster aus.
 
-Run the script on a compatible device with an attached LED matrix. The matrix will display a defined pattern until the user manually exits the script.
+Führen Sie das Skript auf einem kompatiblen Gerät mit angeschlossener LED-Matrix aus. Die Matrix zeigt das definierte Muster an, bis Sie das Skript manuell beenden.
 
 
 ----------------------------------------------
@@ -148,7 +148,7 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
 
       from fusion_hat import LedMatrix
    
-   The required module ``LedMatrix`` from the ``fusion_hat`` library is imported to control the LED matrix.
+   Das benötigte Modul ``LedMatrix`` aus der Bibliothek ``fusion_hat`` wird importiert, um die LED-Matrix zu steuern.
 
 2. **Initializing the LED Matrix**
    
@@ -156,7 +156,7 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
 
       rgb_matrix = LedMatrix(rotate=0)
    
-   The LED matrix is initialized with a rotation setting of ``0``. This parameter can be adjusted to rotate the display if necessary.
+   Die LED-Matrix wird mit einer Rotation von ``0`` initialisiert. Ändern Sie diesen Parameter bei Bedarf, um die Anzeige zu drehen.
 
 3. **Defining a Display Pattern**
    
@@ -173,7 +173,7 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
           0b00111100
       ]
    
-   The pattern is defined as a list of 8-bit binary values, where each bit represents an LED state (1 for ON, 0 for OFF). The chosen pattern forms a specific shape when displayed on an 8x8 LED matrix.
+   Das Muster ist als Liste aus 8-Bit-Binärwerten definiert; jedes Bit repräsentiert den Zustand einer LED (1 = EIN, 0 = AUS). Das gewählte Muster ergibt auf einer 8×8-Matrix eine bestimmte Form.
 
 4. **Displaying the Pattern**
    
@@ -181,7 +181,7 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
 
       rgb_matrix.display_pattern(pattern)
    
-   The pattern is sent to the LED matrix for display.
+   Das Muster wird an die LED-Matrix gesendet und angezeigt.
 
 5. **Keeping the Display Active**
    
@@ -189,7 +189,7 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
 
       input("Press Enter to exit...")
    
-   The script waits for user input before terminating, ensuring that the pattern remains visible until the user decides to exit.
+   Das Skript wartet auf eine Benutzereingabe, bevor es beendet wird, sodass das Muster sichtbar bleibt, bis Sie es schließen.
 
 
 
@@ -199,40 +199,40 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
 
 **Troubleshooting**
 
-1. **No Output on the LED Matrix**  
+1. **Keine Ausgabe auf der LED-Matrix**  
 
-   - **Cause**: Incorrect SPI connection or initialization issues.  
-   - **Solution**: Verify the SPI connections between the Raspberry Pi and the LED matrix. Ensure the correct ``port`` and ``device`` values are passed to the ``spi()`` function.
+   - **Ursache**: Fehlerhafte SPI-Verbindung oder Initialisierungsprobleme.  
+   - **Lösung**: Prüfen Sie die SPI-Verbindungen zwischen Raspberry Pi und Matrix. Stellen Sie sicher, dass die korrekten ``port``- und ``device``-Werte an ``spi()`` übergeben werden.
 
-2. **Text or Shapes Appear Distorted**  
+2. **Text oder Formen wirken verzerrt**  
 
-   - **Cause**: Incorrect rotation or device dimensions.  
-   - **Solution**: Adjust the ``rotate`` parameter in the ``max7219()`` initialization to match the physical orientation of the LED matrix.
+   - **Ursache**: Falsche Rotation oder Gerätekonfiguration.  
+   - **Lösung**: Passen Sie den Parameter ``rotate`` bei der Initialisierung von ``max7219()`` an die physische Ausrichtung der Matrix an.
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Dynamic Pattern Animation**  
+1. **Dynamische Musteranimation**  
 
-   - Implement multiple patterns and cycle through them using a loop.  
-   - Introduce smooth transitions between patterns to create animations.  
+   - Implementieren Sie mehrere Muster und schalten Sie in einer Schleife zwischen ihnen um.  
+   - Fügen Sie weiche Übergänge hinzu, um Animationen zu erzeugen.  
 
-2. **User-Defined Patterns**  
+2. **Benutzerdefinierte Muster**  
 
-   - Allow users to input custom patterns via a configuration file or user interface.  
-   - Use a simple text-based representation to define new designs easily.  
+   - Ermöglichen Sie die Eingabe eigener Muster über eine Konfigurationsdatei oder ein einfaches UI.  
+   - Nutzen Sie eine textbasierte Darstellung, um neue Designs leicht zu definieren.  
 
-3. **Real-Time Interaction**  
+3. **Interaktion in Echtzeit**  
 
-   - Implement button controls to switch between different patterns.  
-   - Integrate a joystick or touch interface to manipulate the LED matrix dynamically.  
+   - Setzen Sie Tasten ein, um zwischen Mustern zu wechseln.  
+   - Integrieren Sie einen Joystick oder eine Touch-Eingabe, um die Matrix dynamisch zu steuern.  
 
-4. **Scrolling Text Display**  
+4. **Lauftext-Anzeige**  
 
-   - Develop a function to scroll messages across the LED matrix.  
-   - Allow users to input text dynamically and display it character by character.  
+   - Entwickeln Sie eine Funktion, die Nachrichten über die Matrix scrollen lässt.  
+   - Erlauben Sie die dynamische Texteingabe und die zeichenweise Ausgabe.  
 
 
 ----------------------------------------------
@@ -241,5 +241,5 @@ Run the script on a compatible device with an attached LED matrix. The matrix wi
 **Conclusion**
 
 
-This script provides a simple example of displaying patterns on an LED matrix using the Fusion Hat library. Users can modify the pattern to create different visual designs.
+Dieses Skript ist ein einfaches Beispiel für die Musteranzeige auf einer LED-Matrix mit der Fusion-HAT-Bibliothek. Passen Sie das Muster an, um eigene visuelle Designs zu erstellen.
 

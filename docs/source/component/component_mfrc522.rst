@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials und erweitere so deine Kenntnisse.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu entwickeln? Klicke [|link_sf_facebook|] und trete noch heute bei!
 
 .. _cpn_mfrc522:
 
@@ -19,42 +19,17 @@ MFRC522 Module
 
 **RFID**
 
-Radio Frequency Identification (RFID) refers to technologies that
-involve using wireless communication between an object (or tag) and an
-interrogating device (or reader) to automatically track and identify
-such objects. The tag transmission range is limited to several meters
-from the reader. A clear line of sight between the reader and tag is not
-necessarily required.
+Radio Frequency Identification (RFID) bezeichnet Technologien, die eine drahtlose Kommunikation zwischen einem Objekt (oder Tag) und einem Abfragegerät (Reader) nutzen, um Objekte automatisch zu identifizieren und nachzuverfolgen. Die Übertragungsreichweite eines Tags ist in der Regel auf wenige Meter vom Reader begrenzt. Eine direkte Sichtverbindung zwischen Reader und Tag ist dabei nicht zwingend erforderlich.
 
-Most tags contain at least one integrated circuit (IC) and an antenna.
-The microchip stores information and is responsible for managing the
-radio frequency (RF) communication with the reader. Passive tags do not
-have an independent energy source and depend on an external
-electromagnetic signal, provided by the reader, to power their
-operations. Active tags contain an independent energy source, such as a
-battery. Thus, they may have increased processing, transmission
-capabilities and range.
+Die meisten Tags enthalten mindestens einen integrierten Schaltkreis (IC) sowie eine Antenne. Der Mikrochip speichert Informationen und steuert die Hochfrequenz-(RF)-Kommunikation mit dem Reader. Passive Tags besitzen keine eigene Energiequelle und sind auf ein externes elektromagnetisches Signal angewiesen, das vom Reader bereitgestellt wird. Aktive Tags hingegen verfügen über eine eigene Energiequelle, etwa eine Batterie, wodurch sie erweiterte Verarbeitungs- und Übertragungsfunktionen sowie eine größere Reichweite bieten.
 
 .. image:: img/image230.png
 
 
 **MFRC522**
 
-MFRC522 is a kind of integrated read and write card chip. It is commonly
-used in the radio at 13.56MHz. Launched by the NXP Company, it is a
-low-voltage, low-cost, and small-sized non-contact card chip, a best
-choice of intelligent instrument and portable handheld device.
+Der MFRC522 ist ein integrierter Lese-/Schreibchip für RFID-Karten. Er arbeitet im 13,56-MHz-Bereich und wurde von NXP entwickelt. Mit seinem niedrigen Stromverbrauch, geringen Kosten und seiner kompakten Bauweise ist er eine ausgezeichnete Wahl für intelligente Messgeräte und tragbare Handheld-Geräte.
 
-The MF RC522 uses advanced modulation and demodulation concept which
-fully presented in all types of 13.56MHz passive contactless
-communication methods and protocols. In addition, it supports rapid
-CRYPTO1 encryption algorithm to verify MIFARE products. MFRC522 also
-supports MIFARE series of high-speed non-contact communication, with a
-two-way data transmission rate up to 424kbit/s. As a new member of the
-13.56MHz highly integrated reader card series, MF RC522 is much similar
-to the existing MF RC500 and MF RC530 but there also exists great
-differences. It communicates with the host machine via the serial manner
-which needs less wiring. You can choose between SPI, I2C and serial UART
-mode (similar to RS232), which helps reduce the connection, save PCB
-board space (smaller size), and reduce cost.
+Der MFRC522 setzt auf moderne Modulations- und Demodulationsverfahren, die in allen gängigen passiven 13,56-MHz-Kontaktlos-Kommunikationsmethoden und -protokollen vollständig implementiert sind. Darüber hinaus unterstützt er den schnellen **CRYPTO1**-Verschlüsselungsalgorithmus zur Authentifizierung von MIFARE-Produkten. Der MFRC522 ist mit den MIFARE-Serien für Hochgeschwindigkeits-Kontaktlos-Kommunikation kompatibel und erreicht dabei eine bidirektionale Datenübertragungsrate von bis zu 424 kbit/s. 
 
+Als neues Mitglied der hochintegrierten 13,56-MHz-Reader-Serie ähnelt der MFRC522 den bestehenden MFRC500- und MFRC530-Chips, weist jedoch auch deutliche Unterschiede auf. Die Kommunikation mit dem Hostsystem erfolgt über eine serielle Schnittstelle, wodurch weniger Verdrahtung nötig ist. Es stehen **SPI**, **I2C** sowie **UART** (ähnlich RS232) als Betriebsmodi zur Verfügung. Dies reduziert den Verkabelungsaufwand, spart Platz auf der Leiterplatte und senkt die Kosten.

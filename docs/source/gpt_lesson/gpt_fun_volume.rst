@@ -1,24 +1,24 @@
 2.3 Voice Level
 =====================================
 
-This project is a voice-controlled AI assistant that listens to user speech, transcribes it using OpenAI's Whisper model, generates a response using GPT-4, and plays the response back through text-to-speech (TTS). The system also integrates a potentiometer to control volume levels with visual LED feedback.
+Dieses Projekt ist ein sprachgesteuerter KI-Assistent, der gesprochene Eingaben erfasst, sie mit dem Whisper-Modell von OpenAI transkribiert, mit GPT-4 eine Antwort generiert und diese per Text-to-Speech (TTS) wiedergibt. Zusätzlich ist ein Potentiometer integriert, um die Lautstärke zu regeln; eine LED-Balkenanzeige liefert visuelles Feedback.
 
 --------------------------------------
 
 **Features**
 
-- **Voice Recognition**: Uses OpenAI's Whisper model to transcribe speech.
-- **AI-Powered Responses**: Utilizes GPT-4 to generate relevant responses based on user input.
-- **Text-to-Speech (TTS)**: Converts AI-generated responses into spoken audio.
-- **Volume Control via Potentiometer**: Adjusts system volume with real-time LED indicators.
-- **Continuous Monitoring**: Runs in an infinite loop to process user commands dynamically.
-- **LED Feedback System**: Indicates volume levels using a series of LEDs.
+- **Voice Recognition**: Verwendet das Whisper-Modell von OpenAI zur Sprachtranskription.
+- **AI-Powered Responses**: Nutzt GPT-4, um auf Grundlage der Nutzereingaben passende Antworten zu erzeugen.
+- **Text-to-Speech (TTS)**: Wandelt KI-Antworten in gesprochene Sprache um.
+- **Volume Control via Potentiometer**: Stellt die Systemlautstärke ein und zeigt sie in Echtzeit über LEDs an.
+- **Continuous Monitoring**: Läuft in einer Endlosschleife und verarbeitet Befehle dynamisch.
+- **LED Feedback System**: Visualisiert Lautstärkepegel über eine LED-Leiste.
 
 --------------------------------------
 
 **What You’ll Need**
 
-Here are the components required for this project:
+Die folgenden Komponenten werden für dieses Projekt benötigt:
 
 .. list-table::
     :widths: 30 20
@@ -55,8 +55,8 @@ Here are the components required for this project:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führen Sie das Beispiel aus:
 
 
 .. code-block:: shell
@@ -271,7 +271,7 @@ Follow these steps to run the example:
 
 1. **Initialization**
 
-The script starts by importing necessary modules and enabling the speaker:
+Das Skript beginnt mit dem Import der erforderlichen Module und dem Aktivieren des Lautsprechers:
 
 .. code-block:: python
 
@@ -286,13 +286,13 @@ The script starts by importing necessary modules and enabling the speaker:
 
     os.system("fusion_hat enable_speaker")
 
-The OpenAI client is initialized:
+Der OpenAI-Client wird initialisiert:
 
 .. code-block:: python
 
     client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
-An AI assistant and a conversation thread are created:
+Ein KI-Assistent und ein Konversationsthread werden angelegt:
 
 .. code-block:: python
 
@@ -307,7 +307,7 @@ An AI assistant and a conversation thread are created:
 
 2. **Speech Recognition Setup**
 
-The ``speech_to_text`` function converts spoken input into text using OpenAI’s Whisper model:
+Die Funktion ``speech_to_text`` wandelt gesprochene Eingaben mit dem Whisper-Modell von OpenAI in Text um:
 
 .. code-block:: python
 
@@ -322,14 +322,14 @@ The ``speech_to_text`` function converts spoken input into text using OpenAI’s
         )
         return transcription.text
 
-- Converts recorded audio to WAV format.
-- Sends the audio file to OpenAI’s Whisper model for transcription.
-- Returns the transcribed text.
+- Konvertiert die Aufnahme in ein WAV-Objekt.
+- Sendet die Audiodaten an Whisper zur Transkription.
+- Gibt den transkribierten Text zurück.
 
 
 3. **Text-to-Speech Processing**
 
-The ``text_to_speech`` function generates an audio response:
+Die Funktion ``text_to_speech`` erzeugt eine gesprochene Antwort:
 
 .. code-block:: python
 
@@ -344,13 +344,13 @@ The ``text_to_speech`` function generates an audio response:
         p = subprocess.Popen("mplayer speech.mp3", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         p.wait()
 
-- Converts the response text into an MP3 file.
-- Uses ``mplayer`` to play the generated speech.
+- Wandelt den Antworttext in eine MP3-Datei um.
+- Spielt die erzeugte Sprachausgabe mit ``mplayer`` ab.
 
 
 4. **Potentiometer and LED Volume Control**
 
-The potentiometer reads the ADC value and maps it to a percentage for volume control:
+Das Potentiometer wird ausgelesen und auf einen Prozentwert zur Lautstärkeregelung abgebildet:
 
 .. code-block:: python
 
@@ -364,14 +364,14 @@ The potentiometer reads the ADC value and maps it to a percentage for volume con
             leds[i].high()
         os.system(f"amixer set Master {percent}%")
 
-- ``MAP``: Converts the ADC reading (0-4095) to a percentage (0-100%).
-- ``set_volume``: Updates LED indicators and adjusts system volume accordingly.
+- ``MAP``: Überträgt den ADC-Wert (0–4095) auf einen Prozentbereich (0–100 %).
+- ``set_volume``: Aktualisiert die LED-Anzeige und setzt die Systemlautstärke entsprechend.
 
 
 
 5. **Main Loop: Listening & Processing**
 
-The script continuously listens for user input and processes it:
+Das Skript lauscht fortlaufend auf Eingaben und verarbeitet sie:
 
 .. code-block:: python
 
@@ -412,7 +412,7 @@ The script continuously listens for user input and processes it:
 
 6. **Cleanup and Resource Management**
 
-If the script is interrupted, resources are cleaned up:
+Bei Unterbrechung räumt das Skript Ressourcen auf:
 
 .. code-block:: python
 
@@ -421,8 +421,8 @@ If the script is interrupted, resources are cleaned up:
         for led in leds:
             led.low()
 
-- Deletes the assistant to free API resources.
-- Turns off all LEDs before exiting.
+- Löscht den Assistenten, um API-Ressourcen freizugeben.
+- Schaltet vor dem Beenden alle LEDs aus.
 
 --------------------------------------
 
@@ -430,14 +430,14 @@ If the script is interrupted, resources are cleaned up:
 
 1. **No Audio Response?**
 
-   - Ensure ``mplayer`` is installed.
-   - Check if ``fusion_hat enable_speaker`` is executed properly.
+   - Stellen Sie sicher, dass ``mplayer`` installiert ist.
+   - Prüfen Sie, ob ``fusion_hat enable_speaker`` korrekt ausgeführt wurde.
 
 2. **Speech Recognition Not Working?**
 
-   - Adjust noise threshold settings in ``speech_recognition``.
+   - Passen Sie die Rauschschwellen in ``speech_recognition`` an.
 
 3. **Volume Control Not Responding?**
 
-   - Check the potentiometer connections.
-   - Use ``print(pot.read())`` to verify ADC readings.
+   - Überprüfen Sie die Verkabelung des Potentiometers.
+   - Nutzen Sie ``print(pot.read())``, um die ADC-Messwerte zu verifizieren.

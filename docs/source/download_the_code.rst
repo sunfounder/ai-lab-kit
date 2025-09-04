@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community auf Facebook! Tauche gemeinsam mit anderen Enthusiasten tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse After-Sales-Fragen und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Anleitungen aus, um deine Fähigkeiten auszubauen.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 Download the Code & Library
 =====================================
@@ -20,38 +20,38 @@ Download the Code & Library
 Download the code
 -----------------------------
 
-.. note:: Before you download the code, please note that the example code is **ONLY** test on Raspberry Pi OS. We provide two methods for download:
+.. note:: Bevor Sie den Code herunterladen, beachten Sie bitte, dass der Beispielcode **ONLY** unter Raspberry Pi OS getestet wurde. Wir stellen zwei Methoden für den Download bereit:
 
 **Method 1: Use git clone (Recommended)**
 
-Log into Raspberry Pi and then change directory to ``~``.
+Melden Sie sich auf dem Raspberry Pi an und wechseln Sie anschließend in das Verzeichnis ``~``.
 
 .. raw:: html
 
    <run></run>
 
-.. code-block:: 
+.. code-block::
 
    cd ~/
 
 
 .. note::
 
-   cd to change to the intended directory from the current path. Informally, here is to go to the path ``~/``.
+   cd wechselt vom aktuellen Pfad in das gewünschte Verzeichnis. Hier bedeutet das, zum Pfad ``~/`` zu wechseln.
 
-Clone the repository from GitHub.
+Klonen Sie das Repository von GitHub.
 
 .. raw:: html
 
    <run></run>
 
-.. code-block:: 
+.. code-block::
 
    git clone https://github.com/sunfounder/ai-explorer-lab-kit.git
 
 **Method 2: Download the code**
 
-Download the source code from github: https://github.com/sunfounder/ai-explorer-lab-kit
+Laden Sie den Quellcode von GitHub herunter: https://github.com/sunfounder/ai-explorer-lab-kit
 
 .. image:: img/download_code.png
 
@@ -62,9 +62,9 @@ Download the source code from github: https://github.com/sunfounder/ai-explorer-
 Download & Install the Library
 ----------------------------------
 
-For this kit, all GPIO functionalities are managed through the Fusion HAT. Therefore, you need to use the accompanying ``fusion-hat`` library to access and control them.
+Für dieses Kit werden alle GPIO-Funktionen über den Fusion HAT bereitgestellt. Verwenden Sie daher die zugehörige ``fusion-hat``-Bibliothek, um darauf zuzugreifen und sie zu steuern.
 
-Run the command in terminal to install ``fusion-hat`` module.
+Führen Sie im Terminal die folgenden Befehle aus, um das Modul ``fusion-hat`` zu installieren.
 
    .. raw:: html
 
@@ -77,36 +77,36 @@ Run the command in terminal to install ``fusion-hat`` module.
       cd fusion-hat
       sudo python3 setup.py install
 
-.. note:: For the detail of fusion-hat, please refer to the |link_fusion_hat|.
+.. note:: Ausführliche Informationen zu fusion-hat finden Sie unter |link_fusion_hat|.
 
 .. _install_i2s:
 
 Install ``i2samp.sh`` for the Speaker
 ------------------------------------------------------
 
-The ``i2samp.sh`` is a sophisticated Bash script specifically designed for setting up and configuring an I2S (Inter-IC Sound) amplifier on Raspberry Pi and similar devices. Licensed under the MIT license, it ensures compatibility with a range of hardware and operating systems, conducting thorough checks before proceeding with any installation or configuration.
+``i2samp.sh`` ist ein ausgefeiltes Bash-Skript zur Einrichtung und Konfiguration eines I2S-(Inter-IC Sound)-Verstärkers auf dem Raspberry Pi und ähnlichen Geräten. Es steht unter der MIT-Lizenz, prüft vor der Installation bzw. Konfiguration die Kompatibilität und unterstützt eine Vielzahl von Hardware- und Betriebssystemkombinationen.
 
-If you want your speaker to work properly, you definitely need to install this script. 
+Damit Ihr Lautsprecher korrekt funktioniert, müssen Sie dieses Skript unbedingt installieren.
 
-The steps are as follows:
+Gehen Sie wie folgt vor:
 
 .. code-block::
 
     cd ~/fusion-hat
     sudo bash i2samp.sh
 
-Type ``y`` and press ``enter`` to continue running the script.
+Geben Sie ``y`` ein und drücken Sie ``Enter``, um das Skript fortzusetzen.
 
     .. image:: img/install_i2s1.png
 
-Type ``y`` and press ``enter`` to run ``/dev/zero`` in the background.
+Geben Sie ``y`` ein und drücken Sie ``Enter``, um ``/dev/zero`` im Hintergrund auszuführen.
 
     .. image:: img/install_i2s2.png
 
-Type ``y`` and press ``enter`` to restart the Raspberry pi.
+Geben Sie ``y`` ein und drücken Sie ``Enter``, um den Raspberry Pi neu zu starten.
 
     .. image:: img/install_i2s2.png
 
 .. warning::
 
-    If there is no sound after restarting, you may need to run the ``i2samp.sh`` script several times.
+    Falls nach dem Neustart kein Ton zu hören ist, müssen Sie das Skript ``i2samp.sh`` möglicherweise mehrfach ausführen.

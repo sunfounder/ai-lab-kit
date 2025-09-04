@@ -1,31 +1,34 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook!  
+    Entdecken Sie gemeinsam mit anderen Technikbegeisterten die Welt von Raspberry Pi, Arduino und ESP32 noch intensiver.
 
-    **Why Join?**
+    **Warum beitreten?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Experten-Support**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Kenntnisse zu erweitern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und ersten Einblicken.
+    - **Spezielle Rabatte**: Profitieren Sie von exklusiven Preisnachlässen auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _remote_desktop:
 
 Remote Desktop Access for Raspberry Pi
 ==================================================
 
-For those preferring a graphical user interface (GUI) over command-line access, the Raspberry Pi supports remote desktop functionality. This guide will walk you through setting up and using VNC (Virtual Network Computing) for remote access.
+Für Anwender, die eine grafische Benutzeroberfläche (GUI) der Kommandozeile vorziehen, unterstützt der Raspberry Pi den Fernzugriff über Remote Desktop.  
+In dieser Anleitung erfahren Sie, wie Sie VNC (Virtual Network Computing) einrichten und verwenden, um Ihren Raspberry Pi aus der Ferne zu steuern.
 
-We recommend using `VNC® Viewer <https://www.realvnc.com/en/connect/download/viewer/>`_ for this purpose.
+Wir empfehlen hierfür die Nutzung von `VNC® Viewer <https://www.realvnc.com/en/connect/download/viewer/>`_.
 
-**Enabling VNC Service on Raspberry Pi**
+**VNC-Dienst auf dem Raspberry Pi aktivieren**
 
-VNC service comes pre-installed in the Raspberry Pi OS but is disabled by default. Follow these steps to enable it:
+Der VNC-Dienst ist in Raspberry Pi OS bereits vorinstalliert, aber standardmäßig deaktiviert.  
+Gehen Sie wie folgt vor, um ihn zu aktivieren:
 
-#. Enter the following command in the Raspberry Pi terminal:
+#. Geben Sie im Terminal des Raspberry Pi den folgenden Befehl ein:
 
     .. raw:: html
 
@@ -35,36 +38,36 @@ VNC service comes pre-installed in the Raspberry Pi OS but is disabled by defaul
 
         sudo raspi-config
 
-#. Navigate to **Interfacing Options** using the down arrow key, then press **Enter**.
+#. Navigieren Sie mit der Pfeiltaste nach unten zu **Interfacing Options** und drücken Sie **Enter**.
 
     .. image:: img/config_interface.png
         :align: center
 
-#. Select **VNC** from the options.
+#. Wählen Sie **VNC** aus den Optionen.
 
     .. image:: img/vnc.png
         :align: center
 
-#. Use the arrow keys to choose **<Yes>** -> **<OK>** -> **<Finish>** and finalize the VNC service activation.
+#. Verwenden Sie die Pfeiltasten, um **<Yes>** -> **<OK>** -> **<Finish>** auszuwählen und die Aktivierung des VNC-Dienstes abzuschließen.
 
     .. image:: img/vnc_yes.png
         :align: center
 
-**Logging in via VNC Viewer**
+**Anmeldung über VNC Viewer**
 
-#. Download and install `VNC Viewer <https://www.realvnc.com/en/connect/download/viewer/>`_ on your personal computer.
+#. Laden Sie den `VNC Viewer <https://www.realvnc.com/en/connect/download/viewer/>`_ auf Ihren Computer herunter und installieren Sie ihn.
 
-#. Once installed, launch VNC Viewer. Enter the hostname or IP address of your Raspberry Pi and press Enter.
+#. Starten Sie anschließend den VNC Viewer. Geben Sie den Hostnamen oder die IP-Adresse Ihres Raspberry Pi ein und drücken Sie Enter.
 
     .. image:: img/vnc_viewer1.png
         :align: center
 
-#. When prompted, enter your Raspberry Pi's username and password, then click **OK**.
+#. Geben Sie bei Aufforderung den Benutzernamen und das Passwort Ihres Raspberry Pi ein und klicken Sie auf **OK**.
 
     .. image:: img/vnc_viewer2.png
         :align: center
 
-#. You'll now have access to your Raspberry Pi's desktop interface.
+#. Nun haben Sie Zugriff auf die Desktop-Oberfläche Ihres Raspberry Pi.
 
     .. image:: img/bullseye_desktop.png
         :align: center

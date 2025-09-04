@@ -1,50 +1,50 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitig Zugang zu neuen Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu erschaffen? Klicke [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _cpn_ultrasonic_sensor:
 
-Ultrasonic Module
+Ultraschall-Modul
 ================================
 
 .. image:: img/ultrasonic_pic.png
     :width: 400
     :align: center
 
-Ultrasonic ranging module provides 2cm - 400cm non-contact measurement function, and the ranging accuracy can reach to 3mm. 
-It can ensure that the signal is stable within 5m, and the signal is gradually weakened after 5m, till the 7m position disappears.
+Das Ultraschall-Entfernungsmodul ermöglicht berührungslose Messungen im Bereich von 2 cm bis 400 cm, mit einer Messgenauigkeit von bis zu 3 mm.  
+Innerhalb von 5 m bleibt das Signal stabil, nach 5 m wird es allmählich schwächer und verschwindet spätestens bei 7 m.
 
-The module includes ultrasonic transmitters, receiver and control circuit. The basic principles are as follows:
+Das Modul besteht aus einem Ultraschall-Sender, einem Empfänger und einer Steuerschaltung. Die Grundprinzipien sind:
 
-#. Use an IO flip-flop to process a high level signal of at least 10us.
+#. Mit einem IO-Flipflop wird ein High-Pegel-Signal von mindestens 10 µs verarbeitet.
 
-#. The module automatically sends eight 40khz and detects if there is a pulse signal return.
+#. Das Modul sendet automatisch acht 40-kHz-Impulse aus und überprüft, ob ein Rücksignal empfangen wird.
 
-#. If the signal returns, passing the high level, the high output IO duration is the time from the transmission of the ultrasonic wave to the return of it. Here, test distance = (high time x sound speed (340 m / s) / 2.
+#. Wird ein Signal zurückgegeben, so entspricht die Dauer des High-Pegels am Ausgang der Zeitspanne zwischen Aussendung und Empfang der Ultraschallwelle.  
+   Testdistanz = (High-Pegel-Zeit × Schallgeschwindigkeit (340 m/s)) / 2.
 
 
 
-The timing diagram is shown below. 
+Das Zeitdiagramm ist unten dargestellt:
 
 .. image:: img/ultrasonic228.png
 
-You only need to supply a short 10us pulse for the trigger input to start the ranging, and then the module
-will send out an 8 cycle burst of ultrasound at 40 kHz and raise its
-echo. You can calculate the range through the time interval between
-sending trigger signal and receiving echo signal.
+Zum Start der Entfernungsmessung genügt es, einen kurzen Impuls von 10 µs an den Trigger-Eingang anzulegen.  
+Daraufhin sendet das Modul eine Serie von 8 Ultraschallzyklen bei 40 kHz aus und setzt das Echo-Signal.  
+Die Entfernung wird anhand der Zeitspanne zwischen dem Sendeimpuls und dem Empfang des Echos berechnet.
 
-Formula: us / 58 = centimeters or us / 148 =inch; or: the range = high
-level time \* velocity (340M/S) / 2; you are suggested to use
-measurement cycle over 60ms in order to prevent signal collisions of
-trigger signal and the echo signal.
+Formel: us / 58 = Zentimeter oder us / 148 = Zoll; alternativ:  
+Reichweite = High-Pegel-Zeit × Schallgeschwindigkeit (340 m/s) / 2.  
+
+Es wird empfohlen, Messzyklen von mehr als 60 ms einzuhalten, um Signalüberlagerungen zwischen Trigger- und Echo-Signal zu vermeiden.
 

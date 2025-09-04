@@ -1,11 +1,11 @@
-3.1.4 Funsion HAT Microphone
+3.1.4 Fusion HAT Mikrofon
 ==============================
 
 **Introduction**
 
-The Fusion HAT includes a built-in microphone, making it ideal for audio input applications such as voice recognition, sound detection, or recording logs in AI/IoT projects.
+Das Fusion HAT verfügt über ein integriertes Mikrofon und eignet sich damit ideal für Audioeingaben wie Spracherkennung, Geräuscherfassung oder Aufzeichnungsprotokolle in AI-/IoT-Projekten.
 
-This guide will help you check if the microphone is recognized by the system and show you how to perform a basic recording test.
+Diese Anleitung zeigt dir, wie du überprüfst, ob das Mikrofon vom System erkannt wird, und wie du einen einfachen Aufnahmetest durchführst.
 
 .. image:: img/fusionhat_mic.png
    :align: center
@@ -14,30 +14,30 @@ This guide will help you check if the microphone is recognized by the system and
 
 **What You’ll Need**
 
-Below are the components required for this tutorial:
+Nachfolgend die für dieses Tutorial benötigten Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - Component
-        - Purchase Link
+    *   - Komponente
+        - Kauflink
 
     *   - Fusion HAT
         - 
-    *   - Raspberry Pi Zero 2 W (or compatible model)
+    *   - Raspberry Pi Zero 2 W (oder kompatibles Modell)
         - 
 
-**Check if the Microphone is Recognized**
+**Prüfen, ob das Mikrofon erkannt wird**
 
 
-Use the following command to check whether the system has detected the microphone:
+Verwende den folgenden Befehl, um zu prüfen, ob das System das Mikrofon erkannt hat:
 
 .. code-block:: bash
 
    arecord -l
 
-This will list all audio **capture** devices available on your Raspberry Pi. Sample output:
+Damit werden alle verfügbaren Audio- **Capture** -Geräte deines Raspberry Pi aufgelistet. Beispielausgabe:
 
 .. code-block:: text
 
@@ -46,12 +46,12 @@ This will list all audio **capture** devices available on your Raspberry Pi. Sam
      Subdevices: 1/1
      Subdevice #0: subdevice #0
 
-If you see the `voicehat-hifi` listed under card 0, it means the microphone hardware is detected correctly.
+Wenn unter `card 0` ein Gerät wie `voicehat-hifi` angezeigt wird, ist die Mikrofon-Hardware korrekt erkannt worden.
 
-**Enable the Audio Module**
+**Audiomodul aktivieren**
 
 
-For protection purposes, the audio module on the Fusion HAT is **disabled by default**. To enable it, run:
+Aus Sicherheitsgründen ist das Audiomodul auf dem Fusion HAT **disabled by default**. Du kannst es aktivieren mit:
 
 .. code-block:: bash
 
@@ -59,19 +59,19 @@ For protection purposes, the audio module on the Fusion HAT is **disabled by def
 
 .. note::
 
-   This setting remains active until the Raspberry Pi is powered off.
-   If you want to disable the audio module again, either reboot the device or run:
+   Diese Einstellung bleibt aktiv, bis der Raspberry Pi ausgeschaltet wird.  
+   Möchtest du das Audiomodul wieder deaktivieren, kannst du entweder neu starten oder folgenden Befehl ausführen:
 
    .. code-block:: bash
 
       fusion_hat disable_speaker
 
-**Test the Microphone**
+**Mikrofon testen**
 
 
-Once the microphone is enabled, you can perform a basic recording test:
+Sobald das Mikrofon aktiviert ist, kannst du einen einfachen Aufnahmetest durchführen:
 
-1. Record a short audio sample:
+1. Eine kurze Audioaufnahme erstellen:
 
    .. code-block:: bash
 
@@ -79,45 +79,45 @@ Once the microphone is enabled, you can perform a basic recording test:
 
    **Parameter Explanation**:
 
-   - ``rec``: Command for recording (from the `sox` package)
-   - ``-c 1``: Record in mono (1 channel)
-   - ``test.wav``: Output file name
+   - ``rec``: Befehl zur Aufnahme (aus dem `sox`-Paket)
+   - ``-c 1``: Aufnahme in Mono (1 Kanal)
+   - ``test.wav``: Name der Ausgabedatei
 
-2. Playback the recorded file:
+2. Die Aufnahme abspielen:
 
    .. code-block:: bash
 
       aplay test.wav
 
-   If you hear your recorded voice, the microphone is working properly.
+   Wenn du deine Stimme hörst, funktioniert das Mikrofon korrekt.
 
-3. If the recorded volume is too low, you can amplify it using `sox`:
+3. Falls die Aufnahme zu leise ist, kannst du sie mit `sox` verstärken:
 
    .. code-block:: bash
 
       sox input.wav output.wav gain 5
 
-   - ``input.wav``: The original recording
-   - ``output.wav``: The amplified version
-   - ``gain 5``: Increase the volume by 5 dB (you can adjust this value as needed)
+   - ``input.wav``: Die Originalaufnahme
+   - ``output.wav``: Die verstärkte Version
+   - ``gain 5``: Erhöht die Lautstärke um 5 dB (anpassbar nach Bedarf)
 
-**Adjust Microphone Volume**
+**Mikrofonlautstärke anpassen**
 
-If the recording volume is too low or muted, you can manually adjust the microphone gain:
+Wenn die Aufnahme zu leise oder stumm ist, kannst du den Mikrofonpegel manuell erhöhen:
 
-1. Launch the ALSA mixer:
+1. Starte den ALSA-Mixer:
 
    .. code-block:: bash
 
       alsamixer
 
-2. Press ``F6`` to select the correct sound card (e.g., USB or voiceHAT audio)
+2. Mit ``F6`` die richtige Soundkarte auswählen (z. B. USB oder voiceHAT Audio)
 
-3. Use the arrow keys to increase the microphone level. If the mic is muted, unmute it (look for `MM` at the bottom—press ``M`` to toggle).
+3. Mit den Pfeiltasten den Mikrofonpegel anpassen. Falls das Mikrofon stummgeschaltet ist (`MM` unten angezeigt), mit ``M`` umschalten.
 
 .. tip::
 
-   If `rec` or `sox` is not installed, you can install them using:
+   Falls `rec` oder `sox` nicht installiert sind, kannst du sie nachinstallieren mit:
 
    .. code-block:: bash
 
@@ -127,17 +127,17 @@ If the recording volume is too low or muted, you can manually adjust the microph
 **Troubleshooting**
 
 
-- **No input detected**:
+- **Keine Eingabe erkannt**:
 
-  - Ensure the microphone is enabled with `fusion_hat enable_speaker`
-  - Verify that `arecord -l` lists the correct device
-  - Try using `arecord` instead of `rec` to test manually
+  - Sicherstellen, dass das Mikrofon mit `fusion_hat enable_speaker` aktiviert ist
+  - Prüfen, ob `arecord -l` das richtige Gerät anzeigt
+  - Alternativ manuell mit `arecord` testen
 
-- **Audio is distorted or noisy**:
+- **Audio verzerrt oder verrauscht**:
 
-  - Reduce the microphone gain in `alsamixer`
-  - Avoid recording in noisy environments
+  - Mikrofonverstärkung im `alsamixer` reduzieren
+  - Aufnahme in ruhigerer Umgebung durchführen
 
-- **`rec` command not found**:
+- **`rec`-Befehl nicht gefunden**:
 
-  - Install `sox` with `sudo apt install sox`
+  - Mit `sudo apt install sox` das `sox`-Paket installieren

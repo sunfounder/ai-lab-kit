@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Maker:innen tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkaufprobleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihre Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitigen Zugang zu Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu entwickeln? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _1.1.7_py:
 
@@ -19,20 +19,20 @@
 
 **Introduction**
 
-The LCD1602 is a 16x2 character-type liquid crystal display capable of displaying up to 32 characters at a time. It uses the I2C communication protocol, reducing the number of GPIO pins required for control. This project demonstrates how to interface with the LCD1602 to display text messages.
+Das LCD1602 ist ein 16×2-Zeichen-LCD, das bis zu 32 Zeichen gleichzeitig darstellen kann. Es nutzt das I2C-Kommunikationsprotokoll und reduziert dadurch die Anzahl benötigter GPIO-Pins. In diesem Projekt zeigen wir, wie Sie das LCD1602 ansteuern, um Textnachrichten anzuzeigen.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -47,7 +47,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The circuit diagram below shows how to connect the LCD1602 to the Raspberry Pi using the I2C interface.
+Das folgende Schaltbild zeigt, wie das LCD1602 über die I2C-Schnittstelle mit dem Raspberry Pi verbunden wird.
 
 .. image:: img/fzz/1.1.7_sch.png
    :width: 800
@@ -57,11 +57,11 @@ The circuit diagram below shows how to connect the LCD1602 to the Raspberry Pi u
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+So bauen Sie die Schaltung auf:
 
-1. Connect the I2C interface pins (SDA and SCL) of the LCD1602 to the corresponding pins on the Fusiuon HAT.
-2. Ensure proper power supply connections to the LCD1602.
-3. Verify the wiring to avoid errors.
+1. Verbinden Sie die I2C-Pins (SDA und SCL) des LCD1602 mit den entsprechenden Pins des Fusion HAT.
+2. Stellen Sie die Stromversorgung des LCD1602 sicher.
+3. Überprüfen Sie die Verdrahtung sorgfältig, um Fehler zu vermeiden.
 
 .. image:: img/fzz/1.1.7_bb.png
    :width: 800
@@ -73,8 +73,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -86,7 +86,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-The following Python code initializes the LCD1602 and displays a simple greeting message:
+Das folgende Python-Skript initialisiert das LCD1602 und zeigt eine einfache Begrüßung an:
 
 
 .. raw:: html
@@ -109,14 +109,14 @@ The following Python code initializes the LCD1602 and displays a simple greeting
       lcd.message('Hello\n   World!')
       sleep(1)
 
-This Python script interfaces with an LCD1602 display module to present a brief message. When executed:
+Dieses Skript steuert ein LCD1602-Modul über I2C und zeigt kurze Nachrichten an. Beim Ausführen gilt:
 
-1. It initializes the LCD1602 display with I2C communication (default address ``0x27``).
-2. The first line of the display shows the text "Greetings!".
-3. The second line displays the text "From SunFounder".
-4. The messages remain visible for 1 seconds before the next text.
+1. Das LCD1602 wird mit der Standard-I2C-Adresse ``0x27`` initialisiert.
+2. In der ersten Zeile erscheint „Greetings!“.
+3. In der zweiten Zeile steht „From SunFounder“.
+4. Jede Nachricht bleibt 1 Sekunde sichtbar, bevor die nächste angezeigt wird.
 
-The display clears if the user interrupts the script by pressing ``Ctrl+C``.
+Das Display wird geleert, wenn Sie das Skript mit ``Ctrl+C`` unterbrechen.
 
 
 ----------------------------------------------
@@ -125,7 +125,7 @@ The display clears if the user interrupts the script by pressing ``Ctrl+C``.
 
 1. **Library Import**
 
-   The ``LCD1602`` class simplifies interfacing with the I2C LCD1602 display. It provides functions for initialization and displaying text.
+   Die Klasse ``LCD1602`` vereinfacht die Ansteuerung des I2C-Displays. Sie stellt Funktionen zur Initialisierung und Textausgabe bereit.
 
    .. code-block:: python
 
@@ -133,7 +133,7 @@ The display clears if the user interrupts the script by pressing ``Ctrl+C``.
 
 2. **Initialization**
 
-   Initializes the LCD with the I2C address (typically 0x27). The backlight is enabled during initialization.
+   Initialisiert das LCD mit der I2C-Adresse (in der Regel 0x27). Die Hintergrundbeleuchtung wird dabei aktiviert.
 
    .. code-block:: python
 
@@ -151,36 +151,36 @@ The display clears if the user interrupts the script by pressing ``Ctrl+C``.
       lcd.message('Hello\n   World!')
       sleep(1)
 
-   * The ``write`` function is used to display text on the LCD. The first two parameters specify the row and column positions, and the third parameter is the text message.
-   * The ``message`` function displays a multi-line message on the LCD. The text is automatically split into two lines.
-   * The ``clear`` function clears the display.
+   * Mit ``write`` wird Text an einer bestimmten Position ausgegeben (Zeile, Spalte, Text).  
+   * Mit ``message`` können mehrzeilige Texte dargestellt werden; die Zeilen werden automatisch umgebrochen.  
+   * ``clear`` löscht den Display-Inhalt.
 
 ----------------------------------------------
 
 **Troubleshooting**
 
-1. **No Text on the LCD Display**  
+1. **Kein Text auf dem Display**  
 
-   - **Cause**: Incorrect I2C address or improper wiring.  
-   - **Solution**: Verify the I2C address of the LCD module (use ``i2cdetect -y 1`` on the Raspberry Pi). Ensure the SDA and SCL pins are correctly connected.
+   - **Ursache**: Falsche I2C-Adresse oder Verdrahtungsfehler.  
+   - **Lösung**: Prüfen Sie die I2C-Adresse des Moduls (mit ``i2cdetect -y 1`` auf dem Raspberry Pi) und stellen Sie sicher, dass SDA und SCL korrekt angeschlossen sind.
 
-2. **Backlight Not Working**  
+2. **Hintergrundbeleuchtung funktioniert nicht**  
 
-   - **Cause**: Incorrect backlight setting or wiring issue.  
-   - **Solution**: Check the backlight connection and ensure the ``backlight`` parameter is set correctly during initialization.
+   - **Ursache**: Fehlerhafte Einstellung oder Verdrahtungsproblem.  
+   - **Lösung**: Überprüfen Sie die Verbindung und stellen Sie sicher, dass der Parameter ``backlight`` korrekt gesetzt ist.
 
-3. **Text Alignment Issues**  
+3. **Probleme mit der Textausrichtung**  
 
-   - **Cause**: Incorrect column and row positions in the ``write()`` function.  
-   - **Solution**: Adjust the ``write(row, column, text)`` parameters to align the text properly.
+   - **Ursache**: Falsche Spalten- oder Zeilenangabe in ``write()``.  
+   - **Lösung**: Passen Sie die Parameter ``write(row, column, text)`` an, um den Text richtig auszurichten.
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Custom Messages**  
+1. **Eigene Nachrichten**  
 
-   Allow the user to input custom messages via the terminal to be displayed on the LCD:
+   Lassen Sie Benutzer eigene Texte eingeben, die auf dem LCD angezeigt werden:
 
    .. code-block:: python
 
@@ -190,9 +190,9 @@ The display clears if the user interrupts the script by pressing ``Ctrl+C``.
       lcd.write(1, 0, user_message2)
 
 
-2. **Real-Time Clock Display**  
+2. **Echtzeituhr-Anzeige**  
 
-   Show the current date and time dynamically:
+   Zeigen Sie Datum und Uhrzeit dynamisch an:
 
 
    .. code-block:: python
@@ -205,13 +205,13 @@ The display clears if the user interrupts the script by pressing ``Ctrl+C``.
          time.sleep(1)
 
 
-3. **Interactive Display**  
+3. **Interaktive Anzeige**  
 
-   Use buttons or sensors to cycle through pre-defined messages or interact with the display content.
+   Nutzen Sie Tasten oder Sensoren, um zwischen vordefinierten Nachrichten umzuschalten.
 
-4. **Scrolling Text**  
+4. **Lauftext**  
 
-   Implement a scrolling text feature for messages longer than the display width:
+   Implementieren Sie eine Scroll-Funktion für längere Texte:
 
    .. code-block:: python
 
@@ -221,16 +221,16 @@ The display clears if the user interrupts the script by pressing ``Ctrl+C``.
             time.sleep(delay)
 
 
-5. **Dynamic Backlight Control**  
+5. **Dynamische Hintergrundbeleuchtung**  
 
-   Add functionality to turn the backlight on or off based on user input or a light sensor.
+   Schalten Sie die Hintergrundbeleuchtung je nach Benutzereingabe oder Sensor ein/aus.
 
-6. **Animated Effects**  
+6. **Animationen**  
 
-   Create simple animations, such as blinking text or alternating messages, for more engaging output.
+   Erstellen Sie einfache Effekte wie blinkenden Text oder abwechselnde Nachrichten.
 
 ----------------------------------------------
 
 **Conclusion**
 
-This project demonstrates how to use the LCD1602 with the I2C interface to display static text. By understanding the basics of I2C communication and the functions of the ``LCD1602`` class, you can integrate the display into more complex applications.
+Dieses Projekt zeigt, wie Sie das LCD1602 über die I2C-Schnittstelle nutzen, um Texte darzustellen. Mit den Grundlagen der I2C-Kommunikation und den Funktionen der Klasse ``LCD1602`` können Sie das Display in komplexere Anwendungen integrieren.

@@ -1,34 +1,34 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und herzlich willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Begeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.  
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse nach dem Kauf auftretende Probleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.  
+    - **Learn & Share**: Teile Tipps und Tutorials, um deine Kenntnisse auszubauen.  
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.  
+    - **Special Discounts**: Profitiere von besonderen Rabatten auf unsere neuesten Produkte.  
+    - **Festive Promotions and Giveaways**: Nimm an saisonalen Aktionen und Verlosungen teil.  
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und zu entwickeln? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!  
 
 .. _2.2.5_py:
 
 
-2.2.5 IR Obstacle Avoidance Sensor
-===================================
+2.2.5 IR-Hinderniserkennungssensor
+=====================================
 
-**Introduction**
+**Einführung**
 
-The IR obstacle avoidance sensor is a versatile and efficient module designed to detect obstacles at short distances. It works by emitting infrared light and detecting the reflected light from nearby objects. This module is widely used in robotics, automation, and conveyor belt systems for obstacle detection, counting, and more. In this project, you will learn how to connect and use the IR obstacle avoidance module with a Raspberry Pi to detect obstacles and respond to them programmatically.
+Der IR-Hinderniserkennungssensor ist ein vielseitiges und effizientes Modul zur Erkennung von Hindernissen auf kurze Distanz. Er arbeitet, indem er Infrarotlicht aussendet und das von Objekten reflektierte Licht erfasst. Dieses Modul wird häufig in Robotik, Automatisierung oder Förderbandsystemen eingesetzt, um Hindernisse zu erkennen, Objekte zu zählen und vieles mehr. In diesem Projekt lernst du, wie du das Modul mit einem Raspberry Pi verbindest und programmatisch auf Hindernisse reagieren kannst.  
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Benötigte Komponenten**
 
-Below are the components required for this project:
+Für dieses Projekt werden folgende Bauteile benötigt:
 
 .. list-table::
     :widths: 30 20
@@ -46,9 +46,9 @@ Below are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schaltplan**
 
-Below is the schematic diagram for the project:
+Nachfolgend das Schaltbild für dieses Projekt:
 
 .. image:: img/fzz/2.2.5_sch.png
    :width: 800
@@ -57,23 +57,23 @@ Below is the schematic diagram for the project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Verdrahtungsdiagramm**
 
-Connect the components as shown in the wiring diagram below:
+Verbinde die Bauteile wie im Diagramm dargestellt:
 
 .. image:: img/fzz/2.2.5_bb.png
    :width: 800
    :align: center
 
-Ensure the connections are secure and match the schematic. The IR sensor module should be connected to GPIO pin 17.
+Stelle sicher, dass die Verbindungen stabil sind und dem Schaltplan entsprechen. Der IR-Sensor muss mit GPIO-Pin 17 verbunden werden.  
 
 ----------------------------------------------
 
-**Running the Example**
+**Beispiel ausführen**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+So führst du das Beispiel aus:
 
 
 .. code-block:: shell
@@ -84,10 +84,10 @@ Follow these steps to run the example:
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code schreiben**
 
 
-The following Python code can be used to read the obstacle distance and detect if an obstacle is present:
+Der folgende Python-Code liest den Sensorstatus aus und erkennt, ob ein Hindernis vorhanden ist:
 
 
 .. raw:: html
@@ -126,7 +126,7 @@ The following Python code can be used to read the obstacle distance and detect i
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Code verstehen**
 
 1. **Imports:**
 
@@ -136,18 +136,18 @@ The following Python code can be used to read the obstacle distance and detect i
       from fusion_hat import Pin 
       from signal import pause  # Import pause function from signal module
 
-   The script uses ``fusion_hat`` to interact with the obstacle sensor and ``time`` for implementing delays.
+   Das Skript nutzt ``fusion_hat`` zur Kommunikation mit dem Hindernissensor und ``time`` für das Pausieren im Ereignisloop.  
 
 
-2. **Sensor Initialization:**
+2. **Sensorinitialisierung:**
 
    .. code-block:: python
 
       IR_Obstacle = Pin(17, Pin.IN, pull= Pin.PULL_UP)
 
-   The obstacle sensor is connected to GPIO pin 17 with an internal pull-up resistor. This configuration ensures that the sensor outputs stable signals.
+   Der Hindernissensor ist an GPIO-Pin 17 mit internem Pull-up-Widerstand angeschlossen, um stabile Signale sicherzustellen.  
 
-3. **Main Loop:**
+3. **Hauptlogik:**
 
    .. code-block:: python
 
@@ -169,34 +169,34 @@ The following Python code can be used to read the obstacle distance and detect i
          # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
          pass
 
-   The script continuously checks the state of the obstacle sensor:
+   Das Skript überwacht kontinuierlich den Sensorstatus:  
 
-   * When the sensor is triggered (object detected), the message "Detected Barrier!" is printed.
-   * A 1-second delay prevents repetitive messages from flooding the output.
-
-----------------------------------------------
-
-
-
-**Troubleshooting**
-
-1. **No Output When an Obstacle is Present**:
-
-   - **Cause**: Incorrect wiring of the obstacle sensor.
-   - **Solution**: Ensure the obstacle sensor is correctly connected to GPIO pin 17, power, and ground. Verify that the ``PULL_UP`` configuration matches the sensor’s requirements.
-
-2. **Sensor Always Triggered or Never Triggered**:
-
-   - **Cause**: Sensor malfunction or misconfiguration.
-   - **Solution**: Test the sensor with a multimeter to ensure it changes state when an obstacle is present. Double-check the pull-up resistor setting.
-
+   * Wenn ein Hindernis erkannt wird, erscheint die Meldung „Detected Barrier!“.  
+   * Ohne Hindernis wird „No Barrier“ ausgegeben.  
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
 
-1. **Visual Feedback**: Add an LED that lights up when an obstacle is detected:
+**Fehlerbehebung**
+
+1. **Keine Ausgabe bei vorhandenem Hindernis**:  
+
+   - **Ursache**: Fehlerhafte Verdrahtung.  
+   - **Lösung**: Überprüfe, ob der Sensor korrekt mit GPIO-Pin 17, Stromversorgung und Masse verbunden ist. Achte darauf, dass die ``PULL_UP`` -Konfiguration den Sensoreigenschaften entspricht.  
+
+2. **Sensor immer ausgelöst oder nie ausgelöst**:  
+
+   - **Ursache**: Defekter Sensor oder falsche Konfiguration.  
+   - **Lösung**: Teste den Sensor mit einem Multimeter und überprüfe, ob er bei Hinderniserkennung seinen Status ändert. Kontrolliere auch die Pull-up-Einstellung.  
+
+
+----------------------------------------------
+
+
+**Erweiterbare Ideen**
+
+1. **Visuelles Feedback**: Ergänze eine LED, die bei Hinderniserkennung leuchtet:  
 
    .. code-block:: python
 
@@ -207,7 +207,7 @@ The following Python code can be used to read the obstacle distance and detect i
       else:
          led.off()
 
-2. **Auditory Feedback**: Include a buzzer to provide an audible alert when an obstacle is detected:
+2. **Akustisches Feedback**: Füge einen Buzzer hinzu, der bei Hinderniserkennung einen Ton ausgibt:  
 
    .. code-block:: python
 
@@ -218,7 +218,7 @@ The following Python code can be used to read the obstacle distance and detect i
          time.sleep(1)
          buzzer.off()
 
-3. **Data Logging**: Log obstacle detection events to a file for later analysis:
+3. **Datenaufzeichnung**: Protokolliere erkannte Hindernisse in einer Datei:  
 
    .. code-block:: python
 
@@ -228,6 +228,6 @@ The following Python code can be used to read the obstacle distance and detect i
 ----------------------------------------------
 
 
-**Conclusion**
+**Fazit**
 
-This project demonstrates how to use an IR obstacle avoidance sensor module with a Fusion HAT to detect obstacles. By understanding how to programmatically respond to sensor inputs, you can integrate similar modules into complex systems like robotics, automation, or IoT applications. This foundational knowledge opens the door to building smarter, more interactive projects.
+Dieses Projekt zeigt, wie ein IR-Hinderniserkennungssensor mit einem Fusion HAT genutzt werden kann, um Hindernisse zu erfassen. Durch die Fähigkeit, programmatisch auf Sensoreingaben zu reagieren, lassen sich ähnliche Module in komplexe Systeme wie Robotik, Automatisierung oder IoT-Anwendungen integrieren. Dieses Grundlagenwissen eröffnet den Weg zu intelligenteren und interaktiveren Projekten.  

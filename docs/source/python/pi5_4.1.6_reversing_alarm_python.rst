@@ -1,16 +1,16 @@
-.. note::
+.. note:: 
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Fans tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Fragen nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten weiterzuentwickeln.
+    - **Exclusive Previews**: Erhalte frühen Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und zu bauen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _4.1.6_py:
 
@@ -19,7 +19,7 @@
 
 **Introduction**
 
-Parking a car safely into a garage often requires careful navigation, especially in tight spaces. In this project, you’ll create a reversing alarm system using an ultrasonic sensor, an LCD, and a buzzer. This system mimics the functionality of a real-world parking sensor, providing both visual and auditory feedback about the distance to obstacles.
+Ein Auto sicher in eine Garage zu manövrieren erfordert besonders in engen Räumen präzises Navigieren. In diesem Projekt baust du ein Einpark-Warngerät mit einem Ultraschallsensor, einem LCD und einem Summer. Das System ahmt einen Parkassistenten nach und liefert visuelles sowie akustisches Feedback über den Abstand zu Hindernissen.
 
 
 ----------------------------------------------
@@ -27,14 +27,14 @@ Parking a car safely into a garage often requires careful navigation, especially
 
 **What You’ll Need**
 
-Below are the components required for this project:
+Nachfolgend die für dieses Projekt benötigten Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - KOMPONENTENVORSTELLUNG
+        - KAUFLINK
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -61,7 +61,7 @@ Below are the components required for this project:
 
 **Circuit Diagram**
 
-The system uses an ultrasonic sensor to measure the distance to obstacles. The distance is displayed on an I2C LCD screen, and the buzzer emits warning tones of varying frequency depending on the distance.
+Das System nutzt einen Ultraschallsensor zur Abstandsmessung. Der Messwert wird auf einem I²C-LCD angezeigt; der Summer gibt abhängig vom Abstand Warnsignale mit unterschiedlicher Frequenz aus.
 
 .. image:: img/fzz/4.1.6_sch.png
    :width: 800
@@ -73,7 +73,7 @@ The system uses an ultrasonic sensor to measure the distance to obstacles. The d
 
 **Wiring Diagram**
 
-Follow this wiring diagram to set up your system:
+Verdrahte das System gemäß dem folgenden Diagramm:
 
 
 .. image:: img/fzz/4.1.6_bb.png
@@ -87,8 +87,8 @@ Follow this wiring diagram to set up your system:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode in diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führe die folgenden Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -101,7 +101,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-Here is the Python code for the project:
+Hier ist der Python-Code für dieses Projekt:
 
 
 
@@ -177,11 +177,11 @@ Here is the Python code for the project:
         buzzer.off()
         lcd.clear()
 
-This Python script integrates an ultrasonic distance sensor, a buzzer, and an LCD1602 display to create a real-time distance monitoring system. When executed:
+Dieses Python-Skript kombiniert einen Ultraschall-Abstandssensor, einen Summer und ein LCD1602-Display zu einem Echtzeit-Abstandsanzeigesystem. Beim Ausführen passiert Folgendes:
 
 1. **System Initialization**:
 
-   - The LCD initializes with a welcome message: 
+   - Das LCD zeigt zunächst eine Willkommensmeldung:
 
    .. code-block:: python
 
@@ -189,20 +189,20 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
       By SunFounder
 
 
-   - The welcome message is displayed for 2 seconds before transitioning to real-time distance monitoring.
+   - Die Meldung bleibt 2 Sekunden sichtbar, bevor in den Messbetrieb gewechselt wird.
 
-2. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
+2. **Distance Measurement**: Der Ultraschallsensor erfasst den Abstand zum nächstgelegenen Objekt und gibt ihn in Zentimetern aus.
 
 3. **LCD Output**:
 
-   - The measured distance is displayed on the LCD in real-time:
+   - Der gemessene Abstand wird in Echtzeit auf dem LCD angezeigt:
 
    .. code-block:: python
 
       Distance is
       XX.XX cm
 
-   - If the distance exceeds 400 cm, the LCD displays an error message:
+   - Überschreitet der Abstand 400 cm, erscheint eine Fehlermeldung:
 
    .. code-block:: python
 
@@ -210,18 +210,18 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
       Out of range
 
 
-4. **Buzzer Alerts**: Based on the measured distance:
+4. **Buzzer Alerts**: Je nach Abstand:
 
-     - **More than 50 cm**: No buzzer sound.
-     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
-     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
+     - **Mehr als 50 cm**: Kein Tonsignal.
+     - **Zwischen 20 cm und 50 cm**: Der Summer piept zweimal mit kurzem Intervall.
+     - **20 cm oder weniger**: Schnelle Pieptöne als unmittelbare Warnung.
 
 
 ----------------------------------------------
 
 **Understanding the Code**
 
-1. **LCD Initialization:** The LCD is initialized and displays a startup message.
+1. **LCD Initialization:** Das LCD wird initialisiert und zeigt eine Startmeldung.
 
    .. code-block:: python
 
@@ -233,7 +233,7 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
       lcd.write(1, 1, 'By SunFounder')
       time.sleep(2)  # Wait for 2 seconds
 
-2. **Distance Measurement:** The ultrasonic sensor calculates the distance, which is displayed on the LCD.
+2. **Distance Measurement:** Der Ultraschallsensor berechnet den Abstand, der anschließend auf dem LCD ausgegeben wird.
 
    .. code-block:: python
 
@@ -244,11 +244,11 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
          time.sleep(0.3)  # Wait for 0.3 seconds before next measurement
          return dis
 
-3. **Auditory Alerts:** The buzzer's frequency changes based on the proximity of obstacles:
+3. **Auditory Alerts:** Die Summer-Frequenz variiert abhängig von der Hindernisnähe:
 
-   * **>50 cm:** No sound.
-   * **20-50 cm:** Beeps twice with medium intervals.
-   * **≤20 cm:** Rapid beeping for urgent warning.
+   * **>50 cm:** Kein Ton.
+   * **20–50 cm:** Zweimaliges Piepen mit mittleren Abständen.
+   * **≤20 cm:** Schnelles Piepen als dringende Warnung.
 
 
 
@@ -257,29 +257,29 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
 
 **Troubleshooting**
 
-1. **LCD Does Not Display Anything**:
+1. **LCD zeigt nichts an**:
 
-   - **Cause**: Incorrect I2C address or wiring.
-   - **Solution**:
+   - **Ursache**: Falsche I²C-Adresse oder Verdrahtung.
+   - **Lösung**:
 
-     - Verify the LCD's I2C address using ``i2cdetect -y 1`` and update ``LCD1602.init()`` with the correct address.
-     - Ensure SDA and SCL pins are connected properly.
+     - I²C-Adresse des LCD mit ``i2cdetect -y 1`` prüfen und die Adresse in ``LCD1602`` entsprechend anpassen.
+     - Sicherstellen, dass SDA- und SCL-Leitungen korrekt verbunden sind.
 
-2. **Distance Not Measured**:
+2. **Abstand wird nicht gemessen**:
 
-   - **Cause**: Incorrect wiring or sensor malfunction.
-   - **Solution**:
+   - **Ursache**: Falsche Verdrahtung oder defekter Sensor.
+   - **Lösung**:
 
-     - Ensure the ultrasonic sensor's ``echo`` and ``trigger`` pins are connected to GPIO 22 and GPIO 27, respectively.
-     - Test the sensor independently to confirm functionality.
+     - Prüfen, ob ``echo`` und ``trigger`` an GPIO 22 bzw. GPIO 27 angeschlossen sind.
+     - Sensor separat testen, um die Funktion zu verifizieren.
 
-3. **Buzzer Does Not Sound**:
+3. **Summer bleibt stumm**:
 
-   - **Cause**: Buzzer not connected or faulty.
-   - **Solution**:
+   - **Ursache**: Summer nicht angeschlossen oder defekt.
+   - **Lösung**:
 
-     - Verify the buzzer is connected to GPIO 17 and ground.
-     - Test the buzzer by turning it on manually:
+     - Anschlüsse an GPIO 17 und Masse prüfen.
+     - Funktionstest manuell auslösen:
        
        .. code-block:: python
 
@@ -287,30 +287,30 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
            time.sleep(1)
            buzzer.off()
 
-4. **LCD Displays 'Out of Range' Constantly**:
+4. **LCD zeigt ständig 'Out of range'**:
 
-   - **Cause**: Sensor is unable to detect objects within its range.
-   - **Solution**:
+   - **Ursache**: Sensor erkennt keine Objekte im Arbeitsbereich.
+   - **Lösung**:
 
-     - Ensure there are no obstructions or interference in the sensor's path.
-     - Place objects within the sensor's effective range (usually 2 cm to 400 cm).
+     - Sicherstellen, dass keine Hindernisse oder Störungen im Messfeld liegen.
+     - Objekte innerhalb des effektiven Messbereichs (typisch 2–400 cm) platzieren.
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Adjustable Alert Thresholds**: Allow users to set custom distance thresholds for the buzzer alerts.
+1. **Anpassbare Schwellwerte**: Benutzerdefinierte Abstandsschwellen für die Summer-Warnungen festlegen.
 
-2. **Data Logging**: Log distance measurements to a file for later analysis:
+2. **Datenlogging**: Messwerte zur späteren Analyse in eine Datei schreiben:
 
    .. code-block:: python
 
       with open("distance_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, {dis:.2f} cm\n")
 
-3. **Visual Alerts**: Use LEDs of different colors to indicate proximity levels (e.g., green for safe, yellow for caution, red for danger).
+3. **Visuelle Warnstufen**: LEDs in unterschiedlichen Farben für die Distanzbereiche einsetzen (z. B. Grün = sicher, Gelb = Vorsicht, Rot = Gefahr).
 
-4. **Dynamic Messages**: Display custom messages on the LCD based on distance, such as:
+4. **Dynamische Meldungen**: Abhängig vom Abstand benutzerdefinierte LCD-Texte anzeigen, z. B.:
 
    - ``Too Close!``
    - ``Safe Distance``
@@ -319,4 +319,4 @@ This Python script integrates an ultrasonic distance sensor, a buzzer, and an LC
 
 **Conclusion**
 
-This project demonstrates a practical application of ultrasonic sensors, combining auditory and visual feedback for an intuitive reversing alarm system. Such systems are valuable in vehicles and robotics, offering insights into proximity detection and IoT integrations. Extend its functionality to suit your innovative ideas!
+Dieses Projekt zeigt eine praxisnahe Anwendung von Ultraschallsensoren und kombiniert akustisches mit visuellem Feedback zu einem intuitiven Einpark-Warner. Solche Systeme sind in Fahrzeugen und der Robotik wertvoll und vermitteln Grundlagen der Abstandserkennung und IoT-Integration. Baue die Lösung weiter aus und passe sie deinen Ideen an!

@@ -1,38 +1,38 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie gemeinsam mit anderen Tüftler:innen tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Lösen Sie Nachkaufprobleme und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Tauschen Sie Tipps und Tutorials aus, um Ihr Wissen zu erweitern.
+    - **Exclusive Previews**: Erhalten Sie frühzeitigen Zugang zu Produktankündigungen und exklusiven Vorschauen.
+    - **Special Discounts**: Profitieren Sie von besonderen Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nehmen Sie an saisonalen Aktionen und Verlosungen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns Neues zu entdecken und umzusetzen? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. _1.2.1_py:
 
-1.2.1 Active Buzzer
+1.2.1 Aktiver Summer
 =========================================
 
 **Introduction**
 
-In this project, we will learn how to drive an active buzzer to produce a beeping sound using a NPN transistor. Active buzzers are simple components used in many electronic projects to produce sound signals.
+In diesem Projekt lernen wir, wie ein aktiver Summer über einen NPN-Transistor angesteuert werden kann, um ein Signalton-Muster zu erzeugen. Aktive Summer sind einfache Bauteile, die in vielen Elektronikprojekten zur Ausgabe von akustischen Signalen verwendet werden.
 
 ----------------------------------------------
 
 **What You’ll Need**
 
-To complete this project, you will need the following components:
+Für dieses Projekt benötigen Sie folgende Komponenten:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - KOMPONENTE
+        - KAUFLINK
 
 
     *   - :ref:`cpn_wires`
@@ -54,7 +54,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor by limiting the base current. When GPIO17 outputs a high level (3.3V), the transistor conducts, allowing current to flow through the buzzer, causing it to beep. When GPIO17 outputs a low level, the transistor is cut off, and the buzzer remains silent.
+Die Schaltung verwendet einen aktiven Summer, einen NPN-Transistor und einen 1kΩ-Widerstand. Der Widerstand schützt den Transistor, indem er den Basisstrom begrenzt. Gibt GPIO17 ein High-Signal (3,3V) aus, leitet der Transistor und Strom fließt durch den Summer, wodurch dieser ertönt. Bei Low-Pegel wird der Transistor gesperrt und der Summer bleibt stumm.
 
 .. image:: img/fzz/1.2.1_sch.png
 
@@ -63,13 +63,13 @@ The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The re
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
+So bauen Sie die Schaltung auf:
 
-1. Place the NPN transistor, buzzer, and resistor on the breadboard.
-2. Connect the base of the transistor to GPIO17 through the resistor.
-3. Connect the emitter of the transistor to the power supply (+).
-4. Connect the collector of the transistor to one terminal of the buzzer.
-5. Connect the other terminal of the buzzer to the ground (-).
+1. Platzieren Sie den NPN-Transistor, den Summer und den Widerstand auf dem Breadboard.  
+2. Verbinden Sie die Basis des Transistors über den Widerstand mit GPIO17.  
+3. Verbinden Sie den Emitter des Transistors mit der Stromversorgung (+).  
+4. Schließen Sie den Kollektor des Transistors an einen Anschluss des Summers an.  
+5. Verbinden Sie den anderen Anschluss des Summers mit Masse (-).  
 
 .. image:: img/fzz/1.2.1_bb.png
    :width: 800
@@ -80,8 +80,8 @@ Follow these steps to build the circuit:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
-Follow these steps to run the example:
+Der gesamte Beispielcode zu diesem Tutorial befindet sich im Verzeichnis ``ai-explorer-lab-kit``.  
+Führen Sie folgende Schritte aus, um das Beispiel zu starten:
 
 
 .. code-block:: shell
@@ -93,7 +93,7 @@ Follow these steps to run the example:
 
 **Writing the Code**
 
-The following Python code drives the active buzzer to beep on and off in a loop:
+Das folgende Python-Skript lässt den aktiven Summer in einer Schleife im Wechsel ein- und ausschalten:
 
 
 .. raw:: html
@@ -125,11 +125,11 @@ The following Python code drives the active buzzer to beep on and off in a loop:
         # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
         pass
 
-This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi. When executed:
+Dieses Python-Skript steuert einen Summer, der an GPIO-Pin 17 eines Raspberry Pi angeschlossen ist. Beim Ausführen gilt:
 
-1. The buzzer alternates between turning on and off every 0.1 seconds, producing a beeping sound.
-2. The program prints "Buzzer On" and "Buzzer Off" to the console in sync with the buzzer's operation.
-3. The buzzing continues indefinitely until the user interrupts the script by pressing ``Ctrl+C``.
+1. Der Summer wechselt alle 0,1 Sekunden zwischen Ein- und Ausschalten und erzeugt so einen Piepton.  
+2. Gleichzeitig gibt das Programm „Buzzer On“ und „Buzzer Off“ in der Konsole aus.  
+3. Der Ton läuft ununterbrochen weiter, bis das Skript mit ``Ctrl+C`` beendet wird.  
 
 
 
@@ -139,7 +139,7 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
 1. **Library Import**
 
-   The ``fusion_hat`` library provides an easy-to-use interface for controlling GPIO pins, and ``time`` is used for delays.
+   Die Bibliothek ``fusion_hat`` stellt eine einfache Schnittstelle zur GPIO-Steuerung bereit; ``time`` wird für Verzögerungen verwendet.
 
    .. code-block:: python
 
@@ -148,7 +148,7 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
 2. **Buzzer Initialization**
 
-   The ``Buzzer`` object is initialized and associated with Pin 17.
+   Der Summer wird als Objekt initialisiert und Pin 17 zugewiesen.
 
    .. code-block:: python
 
@@ -156,7 +156,7 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
 3. **Control Loop**
 
-   The program uses an infinite loop (``while True``) to toggle the buzzer on and off every 0.1 seconds, creating a beeping sound. The ``print`` statements provide console feedback.
+   Eine Endlosschleife (``while True``) schaltet den Summer alle 0,1 Sekunden an und aus. Die ``print``-Ausgaben geben den Status in der Konsole wieder.
 
    .. code-block:: python
 
@@ -170,7 +170,7 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
 4. **Keyboard Interrupt Handling**
 
-   The ``try-except`` block ensures that the program can be terminated cleanly using Ctrl+C without raising errors.
+   Der ``try-except``-Block ermöglicht ein sauberes Beenden des Programms mit ``Ctrl+C`` ohne Fehlermeldungen.
 
    .. code-block:: python
 
@@ -183,33 +183,33 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
 **Troubleshooting**
 
-1. **No Sound from the Buzzer**  
+1. **Kein Ton hörbar**  
 
-   - **Cause**: Incorrect GPIO pin connection or buzzer wiring.  
-   - **Solution**: Ensure the buzzer is properly connected to GPIO pin 17 and the ground (GND). 
+   - **Ursache**: Falsche Verdrahtung oder fehlerhafte GPIO-Zuordnung.  
+   - **Lösung**: Überprüfen Sie die Verbindung des Summers mit GPIO17 und Masse (GND).  
 
-2. **Buzzer Always On or Off**  
+2. **Summer bleibt ständig an oder aus**  
 
-   - **Cause**: Faulty buzzer or GPIO setup issue.  
-   - **Solution**: Verify the buzzer's functionality by testing it with direct voltage. 
+   - **Ursache**: Defekter Summer oder fehlerhafte GPIO-Konfiguration.  
+   - **Lösung**: Testen Sie den Summer mit direkter Spannung, um die Funktion zu prüfen.  
 
-3. **Script Doesn't Respond to KeyboardInterrupt**  
+3. **Skript reagiert nicht auf KeyboardInterrupt**  
 
-   - **Cause**: The ``except`` block may not properly handle interruption.  
-   - **Solution**: Ensure the ``try...except KeyboardInterrupt`` block is properly implemented, and that no other processes are blocking the main loop.
+   - **Ursache**: Der ``except``-Block greift nicht korrekt.  
+   - **Lösung**: Stellen Sie sicher, dass der ``try...except KeyboardInterrupt``-Block richtig implementiert ist und keine weiteren Prozesse die Hauptschleife blockieren.  
 
-4. **Buzzing is Too Fast or Annoying**  
+4. **Signalton ist zu schnell oder störend**  
 
-   - **Cause**: The ``sleep(0.1)`` interval may be too short.  
-   - **Solution**: Increase the ``sleep()`` duration for longer intervals between buzzes.
+   - **Ursache**: Das Intervall ``sleep(0.1)`` ist zu kurz.  
+   - **Lösung**: Erhöhen Sie die ``sleep()``-Dauer, um längere Pausen zwischen den Tönen zu erhalten.  
 
 
 ----------------------------------------------
 
 **Extendable Ideas**
 
-1. **Custom Beep Patterns**  
-   Create distinct beep patterns for different events or notifications:
+1. **Individuelle Signaltonmuster**  
+   Erstellen Sie verschiedene Tonfolgen für bestimmte Ereignisse oder Benachrichtigungen:
 
    .. code-block:: python
 
@@ -223,8 +223,8 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
          buzzer.off()
 
 
-2. **User Input for Buzzer Control**  
-   Allow the user to start, stop, or change the buzzer's pattern dynamically:
+2. **Benutzereingaben für Summer-Steuerung**  
+   Ermöglichen Sie es, den Summer per Eingabe zu steuern:
 
    .. code-block:: python
 
@@ -243,4 +243,4 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
 **Conclusion**
 
-This project demonstrates how to drive an active buzzer using a NPN transistor and the Raspberry Pi GPIO pins. The simplicity of the code and hardware setup makes it a great starting point for sound-based electronic projects.
+Dieses Projekt zeigt, wie ein aktiver Summer mit einem NPN-Transistor und den GPIO-Pins des Raspberry Pi angesteuert werden kann. Durch die einfache Hardware- und Softwareumsetzung eignet es sich hervorragend als Einstieg in Projekte mit akustischen Signalausgaben.

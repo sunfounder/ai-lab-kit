@@ -1,16 +1,16 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _cpn_camera_module:
 
@@ -24,26 +24,26 @@ Camera Module
    :width: 200
    :align: center
 
-This is a 5MP Raspberry Pi camera module with OV5647 sensor. It's plug and play, connect the included ribbon cable to the CSI (Camera Serial Interface) port on your Raspberry Pi and you're ready to go.
+Dies ist ein 5-Megapixel-Raspberry-Pi-Kameramodul mit einem OV5647-Sensor. Es ist sofort einsatzbereit („Plug and Play“): Verbinde einfach das beiliegende Flachbandkabel mit dem CSI-Port (Camera Serial Interface) deines Raspberry Pi – und schon kann es losgehen.  
 
-The board is small, about 25mm x 23mm x 9mm, and weighs 3g, making it ideal for mobile or other size and weight-critical applications. The camera module has a native resolution of 5 megapixels and has an on-board fixed focus lens that captures still images at 2592 x 1944 pixels, and also supports 1080p30, 720p60 and 640x480p90 video.
+Das Board ist sehr kompakt – etwa 25 mm x 23 mm x 9 mm groß – und wiegt lediglich 3 g. Damit eignet es sich ideal für mobile Anwendungen oder Projekte, bei denen Größe und Gewicht entscheidend sind. Das Kameramodul besitzt eine native Auflösung von 5 Megapixeln und eine fest eingebaute Linse. Es kann Standbilder mit 2592 × 1944 Pixeln aufnehmen und unterstützt zudem Videoformate wie 1080p30, 720p60 und 640×480p90.  
 
 .. note:: 
 
-   The module is only capable of capturing pictures and videos, not sound.
+   Das Modul kann ausschließlich Bilder und Videos aufnehmen, jedoch keine Audiodaten.
 
 
 
 **Specification**
 
 * **Static Images Resolution**: 2592×1944 
-* **Supported Video Resolution**: 1080p/30 fps, 720p/ 60fps and 640 x480p 60/90 video recording 
+* **Supported Video Resolution**: 1080p/30 fps, 720p/60 fps und 640×480p 60/90 Videoaufnahme 
 * **Aperture (F)**: 1.8 
-* **Visual Angle**: 65 degree 
-* **Dimension**: 24mmx23.5mmx8mm 
-* **Weight**: 3g 
-* **Interface**: CSI connector 
-* **Supported OS**: Raspberry Pi OS(latest version recommended) 
+* **Visual Angle**: 65 Grad 
+* **Dimension**: 24 mm × 23.5 mm × 8 mm 
+* **Weight**: 3 g 
+* **Interface**: CSI-Anschluss 
+* **Supported OS**: Raspberry Pi OS (neueste Version empfohlen) 
 
 
 
@@ -51,9 +51,9 @@ Assemble the Camera Module
 -------------------------------------
 
 
-On the camera module or Raspberry Pi, you will find a flat plastic connector. Carefully pull out the black fixing switch until the fixing switch is partially pulled out. Insert the FFC cable into the plastic connector in the direction shown and push the fixing switch back into place.
+Am Kameramodul oder Raspberry Pi findest du einen flachen Kunststoffstecker. Ziehe vorsichtig den schwarzen Fixierriegel heraus, bis er teilweise gelöst ist. Führe dann das FFC-Kabel wie gezeigt in den Stecker ein und schiebe den Riegel wieder zurück.  
 
-If the FFC wire is installed correctly, it will be straight and will not pull out when you gently pull on it. If not, reinstall it again.
+Wenn das FFC-Kabel korrekt eingesetzt ist, sitzt es gerade und lässt sich bei leichtem Ziehen nicht herauslösen. Ist das nicht der Fall, wiederhole den Vorgang.  
 
 
 .. image:: img/connect_ffc.png
@@ -62,14 +62,14 @@ If the FFC wire is installed correctly, it will be straight and will not pull ou
 
 .. warning::
 
-   Do not install the camera with the power on, it may damage your camera.
+   Installiere die Kamera niemals bei eingeschalteter Stromversorgung – dies kann das Modul dauerhaft beschädigen.
 
 .. _enable_camera:
 
 Enable the Camera Interface
 ---------------------------------------
 
-Run the following command to enable the camera interface of your Raspberry Pi. If you have enabled it, skip this; if you do not know whether you have done that or not, please continue.
+Führe den folgenden Befehl aus, um die Kameraschnittstelle deines Raspberry Pi zu aktivieren. Wenn du sie bereits aktiviert hast, kannst du diesen Schritt überspringen. Falls du unsicher bist, führe ihn bitte durch.  
 
 .. raw:: html
 
@@ -89,12 +89,12 @@ Run the following command to enable the camera interface of your Raspberry Pi. I
 .. image:: img/camera_config1.png
    :align: center
 
-**<Yes>, then <Ok> -> <Finish>**
+**<Yes>, dann <Ok> -> <Finish>**
 
 .. image:: img/camera_config2.png
    :align: center
 
-After the configuration is complete, it is recommended to reboot the Raspberry Pi.
+Nach Abschluss der Konfiguration empfiehlt es sich, den Raspberry Pi neu zu starten.
 
 .. raw:: html
 
@@ -103,4 +103,4 @@ After the configuration is complete, it is recommended to reboot the Raspberry P
 .. code-block:: 
 
    sudo reboot
-   
+

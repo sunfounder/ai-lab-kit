@@ -1,32 +1,32 @@
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Technikbegeisterten tiefer in die Welt von Raspberry Pi, Arduino und ESP32 ein.
 
     **Why Join?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Expert Support**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
+    - **Learn & Share**: Teile Tipps und Anleitungen, um deine Kenntnisse zu erweitern.
+    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
+    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
+    - **Festive Promotions and Giveaways**: Nimm an Verlosungen und saisonalen Aktionen teil.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 Bereit, mit uns zu entdecken und Neues zu erschaffen? Klicke auf [|link_sf_facebook|] und werde noch heute Mitglied!
 
 .. _get_ip:
 
 Get the IP address
 =========================
 
-There are many ways to know the IP address, and two of them are listed as follows.
+Es gibt verschiedene Möglichkeiten, die IP-Adresse herauszufinden. Zwei davon sind hier aufgeführt:
 
 **Checking via the router**
 
-If you have permission to log in the router(such as a home network), you can check the addresses assigned to Raspberry Pi on the admin interface of router.
+Wenn du Zugriff auf den Router hast (z. B. im Heimnetzwerk), kannst du im Administrationsmenü des Routers die dem Raspberry Pi zugewiesene Adresse einsehen.
 
-The default hostname of the Raspberry Pi OS is raspberrypi, and you need to find it. (If you are using ArchLinuxARM system, please find alarmpi.)
+Der Standard-Hostname des Raspberry Pi OS lautet *raspberrypi* – nach diesem musst du suchen. (Wenn du das ArchLinuxARM-System verwendest, lautet der Hostname *alarmpi*.)
 
 **Network Segment Scanning**
 
-You can also use network scanning to look up the IP address of Raspberry Pi. You can apply the software, **Advanced IP scanner** and so on.
+Alternativ kannst du auch einen Netzwerkscan verwenden, um die IP-Adresse des Raspberry Pi zu ermitteln. Dazu eignet sich Software wie **Advanced IP Scanner** oder ähnliche Programme.
 
-Scan the IP range set, and the name of all connected devices will be displayed. Similarly, the default hostname of the Raspberry Pi OS is raspberrypi, if you haven’t modified it.
+Scanne den definierten IP-Bereich – die Namen aller verbundenen Geräte werden angezeigt. Standardmäßig lautet der Hostname des Raspberry Pi OS *raspberrypi*, sofern du ihn nicht geändert hast.
