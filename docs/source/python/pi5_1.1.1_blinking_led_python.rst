@@ -82,7 +82,7 @@ Before diving into the project, make sure your Raspberry Pi is ready:
 
    Connect the Fusion HAT to the GPIO pins on the Raspberry Pi. Make sure the pins are aligned correctly.
 
-   .. image:: /image/xxxx.png
+   :ref:`assemble_hat`
 
 4. **Download & Install Fusion HAT Libraries:**  
 

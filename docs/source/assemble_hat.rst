@@ -1,3 +1,5 @@
+.. _assemble_hat:
+
 Assemble the Fusion Hat 
 ====================================
 
