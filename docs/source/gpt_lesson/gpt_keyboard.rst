@@ -9,14 +9,14 @@ This example demonstrates a basic chatbot that can interact with users in real t
 
 **Running the Example**
 
-All example code used in these lessons is available in the ``ai-explorer-lab-kit`` directory. 
+All example code used in these lessons is available in the ``ai-lab-kit`` directory. 
 You can follow these steps to run the example:
 
 
 .. code-block:: shell
 
-   cd ~/ai-explorer-lab-kit/gpt_example/
-   sudo ~/my_venv/bin/python3 gpt_easy_keyboard.py
+   cd ~/ai-lab-kit/gpt_example/
+   sudo ~/gpt_env/bin/python3 gpt_easy_keyboard.py
 
 
 ----------------------------------------------

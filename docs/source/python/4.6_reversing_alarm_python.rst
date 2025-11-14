@@ -1,0 +1,247 @@
+.. note::
+
+    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+
+    **Why Join?**
+
+    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
+    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
+    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
+    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
+    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+
+    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+
+.. _py_fun_alarm:
+
+4.6 Reversing Alarm
+==============================
+
+**Introduction**
+
+Parking a car safely into a garage often requires careful navigation, especially in tight spaces. In this project, you’ll create a reversing alarm system using an ultrasonic sensor, and a buzzer. This system mimics the functionality of a real-world parking sensor, providing auditory feedback about the distance to obstacles.
+
+
+----------------------------------------------
+
+
+**What You’ll Need**
+
+Below are the components required for this project:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - COMPONENT INTRODUCTION
+        - PURCHASE LINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_buzzer`
+        - |link_passive_buzzer_buy|
+    *   - :ref:`cpn_transistor`
+        - |link_transistor_buy|
+    *   - :ref:`cpn_ultrasonic_sensor`
+        - |link_ultrasonic_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - 
+    *   - Raspberry Pi
+        -
+
+
+
+----------------------------------------------
+
+**Circuit Diagram**
+
+The system uses an ultrasonic sensor to measure the distance to obstacles. The buzzer emits warning tones of varying frequency depending on the distance.
+
+.. image:: img/fzz/4.1.6_sch.pn.g
+   :width: 800
+   :align: center
+
+
+----------------------------------------------
+
+
+**Wiring Diagram**
+
+Follow this wiring diagram to set up your system:
+
+
+.. image:: img/fzz/4.1.6_bb.pn.g
+   :width: 800
+   :align: center
+
+
+
+----------------------------------------------
+
+**Running the Example**
+
+
+All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
+Follow these steps to run the example:
+
+
+.. code-block:: shell
+   
+   cd ai-lab-kit/python/
+   sudo python3 4.6_ReversingAlarm.py
+
+----------------------------------------------
+
+
+**Writing the Code**
+
+Here is the Python code for the project:
+
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    import time
+    from fusion_hat import Ultrasonic, Buzzer, Pin
+
+    # Trigger pin is connected to GPIO 27, Echo pin to GPIO 22
+    sensor = Ultrasonic(trig=Pin(27), echo=Pin(22))
+
+    # Initialize the buzzer connected to GPIO pin 17
+    buzzer = Buzzer(Pin(17))
+
+
+    def distance():
+        # Calculate and return the distance measured by the sensor
+        dis = sensor.read() # Convert distance to centimeters
+        print('Distance: {:.2f} cm'.format(dis))  # Print distance with two decimal places
+        time.sleep(0.3)  # Wait for 0.3 seconds before next measurement
+        return dis
+
+    def loop():
+        # Continuously measure distance and update buzzer
+        while True:
+            dis = distance()  # Get the current distance
+
+            # Adjust buzzer frequency based on distance
+            if dis >= 50:
+                time.sleep(0.5)
+            elif 20 < dis < 50:
+                # Medium distance: medium buzzer frequency
+                for _ in range(2):
+                    buzzer.on()
+                    time.sleep(0.05)
+                    buzzer.off()
+                    time.sleep(0.2)
+            elif dis <= 20:
+                # Close distance: high buzzer frequency
+                for _ in range(5):
+                    buzzer.on()
+                    time.sleep(0.05)
+                    buzzer.off()
+                    time.sleep(0.05)
+
+    try:
+        loop()      # Start the measurement loop
+    except KeyboardInterrupt:
+        # Turn off buzzer (e.g., Ctrl+C)
+        buzzer.off()
+
+This Python script integrates an ultrasonic distance sensor and a buzzer to create a real-time distance monitoring system. When executed:
+
+
+1. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
+
+
+2. **Buzzer Alerts**: Based on the measured distance:
+
+     - **More than 50 cm**: No buzzer sound.
+     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
+     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
+
+
+----------------------------------------------
+
+**Understanding the Code**
+
+
+1. **Distance Measurement:** The ultrasonic sensor calculates the distance.
+
+   .. code-block:: python
+
+      def distance():
+         # Calculate and return the distance measured by the sensor
+         dis = sensor.read() # Convert distance to centimeters
+         print('Distance: {:.2f} cm'.format(dis))  # Print distance with two decimal places
+         time.sleep(0.3)  # Wait for 0.3 seconds before next measurement
+         return dis
+
+2. **Auditory Alerts:** The buzzer's frequency changes based on the proximity of obstacles:
+
+   * **>50 cm:** No sound.
+   * **20-50 cm:** Beeps twice with medium intervals.
+   * **≤20 cm:** Rapid beeping for urgent warning.
+
+
+
+
+----------------------------------------------
+
+**Troubleshooting**
+
+
+
+1. **Distance Not Measured**:
+
+   - **Cause**: Incorrect wiring or sensor malfunction.
+   - **Solution**:
+
+     - Ensure the ultrasonic sensor's ``echo`` and ``trigger`` pins are connected to GPIO 22 and GPIO 27, respectively.
+     - Test the sensor independently to confirm functionality.
+
+2. **Buzzer Does Not Sound**:
+
+   - **Cause**: Buzzer not connected or faulty.
+   - **Solution**:
+
+     - Verify the buzzer is connected to GPIO 17 and ground.
+     - Test the buzzer by turning it on manually:
+       
+       .. code-block:: python
+
+           buzzer.on()
+           time.sleep(1)
+           buzzer.off()
+
+
+----------------------------------------------
+
+**Extendable Ideas**
+
+1. **Adjustable Alert Thresholds**: Allow users to set custom distance thresholds for the buzzer alerts.
+
+2. **Data Logging**: Log distance measurements to a file for later analysis:
+
+   .. code-block:: python
+
+      with open("distance_log.txt", "a") as log_file:
+            log_file.write(f"{time.time():.3f}, {dis:.2f} cm\n")
+
+3. **Visual Alerts**: Use LEDs of different colors to indicate proximity levels (e.g., green for safe, yellow for caution, red for danger).
+
+
+----------------------------------------------
+
+**Conclusion**
+
+This project demonstrates a practical application of ultrasonic sensors, combining auditory feedback for an intuitive reversing alarm system. Such systems are valuable in vehicles and robotics, offering insights into proximity detection and IoT integrations. Extend its functionality to suit your innovative ideas!

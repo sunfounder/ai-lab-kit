@@ -50,7 +50,7 @@ Let’s start building the future—one line of Python at a time.
     :maxdepth: 2
 
     About This Kit <self>
-    prepare
+    get_start/get_start
 
 .. toctree::
     :maxdepth: 4
@@ -62,6 +62,9 @@ Let’s start building the future—one line of Python at a time.
     :maxdepth: 2
 
     gpt_lesson/play_with_gpt
+
+    opencv_python/opencv
+    mediapipe/mediapipe
 
 
 .. toctree::

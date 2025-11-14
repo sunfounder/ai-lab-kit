@@ -18,22 +18,71 @@
 5. Configure Power & Install Software (Important)
 ================================================================
 
-In this chapter, you’ll set up safe power management, install the related software, configure audio, and learn how to handle shutdowns and the App service.
+In this chapter, you’ll install the related software, configure audio, set up safe power management and learn how to handle shutdowns.
 
 
-Configure Shutdown Behavior
-----------------------------
+.. _download_code:
 
-The Fusion HAT relies on the Raspberry Pi shutdown signal to manage the full system power.  
-Therefore, you need to configure shutdown behavior properly.
+
+
+Download Sample Code
+---------------------------------
+Download the complete set of example code for the kit:
+
+.. code-block:: 
+
+   cd ~/
+   git clone https://github.com/sunfounder/ai-lab-kit.git
+
+.. _install_fusion_hat:
+.. _download_the_lib:
+.. _install_i2s:
+
+
+Install ``fusion-hat`` module
+----------------------------------
+
+For this kit, all GPIO functionalities are managed through the Fusion HAT. Therefore, you need to use the accompanying ``fusion-hat`` library to access and control them.
+
+Run the command in terminal to install ``fusion-hat`` module.
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block::
+
+      curl -sSL https://raw.githubusercontent.com/sunfounder/sunfounder-installer-scripts/main/install-fusion-hat.sh | sudo bash
+
+.. note:: For the detail of fusion-hat, please refer to the |link_fusion_hat|.
+
+
+After installation completes, reboot the Raspberry Pi. Then execute the audio setup script:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block::
+
+      sudo /opt/setup_fusion_hat_audio.sh
+
+This completes the software installation process for the Fusion HAT.
+
+Configure and Use Safe Shutdown
+-------------------------------
+
+The Fusion HAT relies on the Raspberry Pi’s shutdown signal to fully manage system power.  
+To ensure a safe and reliable power-off process, you need to **configure the shutdown behavior** according to your Raspberry Pi model and then use the **power button** correctly.
 
 **For Raspberry Pi 5 and 4B**
 
 These models support complete power-off after shutdown. The Fusion HAT monitors the 3.3V line to detect the Pi’s power state.
 
-1. Place the jumper on **RPI State → Pi3V3**.
+1. Place the jumper on **RPI_STATE → Pi3V3**.
 
-   .. image:: img/run_state.png
+   .. image:: img/state_3v3.jpg
+      :width: 500
 
 2. Edit the EEPROM configuration manually:
 
@@ -45,7 +94,7 @@ These models support complete power-off after shutdown. The Fusion HAT monitors 
 
    .. image:: img/run_power_off.png
 
-4. After saving, you will be prompted to reboot for changes to take effect.
+4. After saving, you will be prompted to reboot for the changes to take effect.
 
 
 **For Raspberry Pi Zero 2W, 3B, 3B+**
@@ -54,7 +103,8 @@ These models do **not** support full power-off using 3.3V. Instead, GPIO26 must 
 
 1. Place the jumper on **RPI_STATE → IO26**.
 
-   .. image:: img/run_state.png
+   .. image:: img/state_io26.jpg
+      :width: 500
 
 2. Edit the ``/boot/firmware/config.txt`` file:
 
@@ -75,75 +125,20 @@ These models do **not** support full power-off using 3.3V. Instead, GPIO26 must 
       sudo reboot
 
 
+**Using the Power Button for Safe Shutdown**
 
-Download Code
----------------------------------
+After the shutdown configuration is completed, you can safely power off the PiCar-X using the Fusion HAT power button.
 
-.. code-block:: 
+* **Soft Shutdown (Recommended)**
 
+  * Press and hold the power button for **2 seconds**.  
+  * The two power LEDs will flash rapidly.  
+  * Release the button → Fusion HAT triggers Raspberry Pi shutdown.  
+  * Once the shutdown is complete, Fusion HAT will cut power automatically.  
+  * ✅ This protects your SD card and files.
 
-   cd ~/
-   git clone https://github.com/sunfounder/ai-explorer-lab-kit.git
+* **Hard Shutdown (Emergency Only)**
 
-
-
-.. _download_the_lib:
-
-Download & Install the Library
-----------------------------------
-
-For this kit, all GPIO functionalities are managed through the Fusion HAT. Therefore, you need to use the accompanying ``fusion-hat`` library to access and control them.
-
-Run the command in terminal to install ``fusion-hat`` module.
-
-   .. raw:: html
-
-      <run></run>
-
-   .. code-block::
-
-      cd ~/
-      git clone https://github.com/sunfounder/fusion-hat.git
-      cd fusion-hat
-      sudo python3 setup.py install
-
-.. note:: For the detail of fusion-hat, please refer to the |link_fusion_hat|.
-
-.. _install_i2s:
-
-Install ``i2samp.sh`` for the Speaker
-------------------------------------------------------
-
-The ``i2samp.sh`` is a sophisticated Bash script specifically designed for setting up and configuring an I2S (Inter-IC Sound) amplifier on Raspberry Pi and similar devices. Licensed under the MIT license, it ensures compatibility with a range of hardware and operating systems, conducting thorough checks before proceeding with any installation or configuration.
-
-If you want your speaker to work properly, you definitely need to install this script. 
-
-The steps are as follows:
-
-.. code-block::
-
-    cd ~/fusion-hat
-    sudo bash i2samp.sh
-
-输入多个Y来确认。
-If there is no sound after restarting, you may need to run the ``i2samp.sh`` script several times.
-
-
-Safe Shutdown
---------------
-
-After the above configuration, you can safely shut down your PiCar-X using the power button.
-
-**Soft Shutdown**
-
-* Press and hold the power button for **2 seconds**.  
-* The two power LEDs will flash rapidly.  
-* Release the button → Fusion HAT triggers Raspberry Pi shutdown.  
-* Once the Pi finishes shutting down, Fusion HAT cuts power automatically.  
-* This protects your SD card and files.
-
-**Hard Shutdown**
-
-* If the system freezes or crashes, press and hold the power button for **5+ seconds**.  
-* Fusion HAT will force power-off.  
-* ⚠️ Warning: This may corrupt the SD card or system files. Use only when necessary.
+  * If the system becomes unresponsive, press and hold the power button for **5+ seconds**.  
+  * Fusion HAT will force power-off.  
+  * ⚠️ Warning: This may corrupt the SD card or system files. Use only when necessary.

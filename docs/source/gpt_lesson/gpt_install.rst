@@ -22,22 +22,23 @@ To ensure isolated and manageable development, let’s create and activate a vir
 
 A virtual environment provides an independent Python dependency environment for each project. This is particularly useful for complex projects like GPT, as it avoids conflicts between dependencies and ensures a clean, controlled development space.
 
-#. Use the following command to create a virtual environment named ``my_venv`` with access to system-level packages. The ``--system-site-packages`` option allows the virtual environment to access globally installed packages, such as pre-installed device drivers.
+#. Use the following command to create a virtual environment named ``gpt_env`` with access to system-level packages. The ``--system-site-packages`` option allows the virtual environment to access globally installed packages, such as pre-installed device drivers.
 
    .. code-block:: shell
 
-      python -m venv --system-site-packages my_venv
+      python -m venv --system-site-packages gpt_env
 
-#. Navigate to the ``my_venv`` directory and activate the virtual environment:
+#. Navigate to the ``gpt_env`` directory and activate the virtual environment:
 
    .. code-block:: shell
 
-      cd my_venv
+      cd gpt_env
       source bin/activate
 
 .. note::
 
-   Always install dependencies and run projects within the virtual environment.
+   The virtual environment is activated by running the ``source bin/activate`` command. This command sets the environment variables to point to the virtual environment’s Python interpreter and package directory.
+   Always the GPT project should be run within this activated virtual environment to ensure that all dependencies are correctly loaded.
 
 
 ----------------------------------------------
@@ -111,7 +112,7 @@ image generation, semantic search, and speech recognition.
 
    .. code-block:: shell
 
-      nano ~/ai-explorer-lab-kit/gpt_example/keys.py
+      nano ~/ai-lab-kit/gpt_example/keys.py
 
 #. Add the copied API Key:
 
@@ -131,7 +132,7 @@ image generation, semantic search, and speech recognition.
 
 .. .. code-block:: shell
 
-..    cd ~/ai-explorer-lab-kit/gpt_example
+..    cd ~/ai-lab-kit/gpt_example
 ..    chmod 755 
 
 .. .. warning::

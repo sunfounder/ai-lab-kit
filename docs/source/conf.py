@@ -19,10 +19,17 @@
 import sphinx_rtd_theme
 import time
 
-project = 'SunFounder AI Explorer Lab Kit for Raspberry Pi Zero 2 W'
+project = 'SunFounder AI Fusion Lab Kit for Raspberry Pi 5'
 copyright = f'{time.localtime().tm_year}, SunFounder'
 author = 'www.sunfounder.com'
 
+
+# -- sphinx_rtd_theme Theme options -----------------------------------------------------
+html_theme_options = {
+    'flyout_display': 'attached',
+    'version_selector': False,
+    'language_selector': False,
+}
 
 # -- General configuration ---------------------------------------------------
 
@@ -30,8 +37,10 @@ author = 'www.sunfounder.com'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autosectionlabel',
-    'sphinx_copybutton'
+    #'sphinx.ext.autosectionlabel',
+    'sphinx_copybutton',
+    'sphinx_rtd_theme',
+    'sphinx.ext.intersphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -98,11 +107,11 @@ rst_epilog = """
 
 .. |link_ai_explorer_kit| raw:: html
 
-    <a href="https://www.sunfounder.com/products/ai-explorer-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">AI Explorer Lab Kit</a>
+    <a href="https://www.sunfounder.com/products/ai-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">AI Explorer Lab Kit</a>
 
 .. |link_ai_explorer| raw:: html
 
-    <a href="https://www.sunfounder.com/products/ai-explorer-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">Purchase link for AI Explorer Lab Kit</a>
+    <a href="https://www.sunfounder.com/products/ai-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">Purchase link for AI Explorer Lab Kit</a>
 
 .. |link_picow_buy| raw:: html
 
@@ -281,34 +290,51 @@ rst_epilog += """
 
 .. |link_german_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/de/latest/" target="_blank">Deutsch Online-Kurs</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/de/latest/" target="_blank">Deutsch Online-Kurs</a>
 
 .. |link_jp_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/ja/latest/" target="_blank">日本語オンライン教材</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/ja/latest/" target="_blank">日本語オンライン教材</a>
 
 .. |link_en_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/en/latest/" target="_blank">English Online-tutorials</a>
-
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/en/latest/" target="_blank">English Online-tutorials</a>
 
 .. |link_es_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/es/latest/" target="_blank">Tutoriales en línea de español</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/es/latest/" target="_blank">Tutoriales en línea de español</a>
 
 .. |link_fr_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/fr/latest/" target="_blank">Tutoriels de français en ligne</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/fr/latest/" target="_blank">Tutoriels de français en ligne</a>
 
 .. |link_it_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/it/latest/" target="_blank">Tutorial online in italiano</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/it/latest/" target="_blank">Tutorial online in italiano</a>
     
+
+"""
+
+
+# open links on a new page
+
+rst_epilog += """
+
+.. |link_rpi_connect| raw:: html
+
+    <a href="https://www.raspberrypi.com/documentation/services/connect.html" target="_blank">Raspberry Pi Connect</a>
+
+.. |link_iso_code| raw:: html
+
+    <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements" target="_blank">ISO/IEC alpha2 code</a>
+
+.. |link_rpi_imager| raw:: html
+
+    <a href="https://www.raspberrypi.org/software/" target="_blank">Raspberry Pi Imager</a>
 
 .. |Adafruit_CircuitPython_DHT| raw:: html
 
     <a href="https://github.com/adafruit/Adafruit_CircuitPython_DHT" target="_blank">adafruit/Adafruit_CircuitPython_DHT</a>    
-
 
 .. |link_openai_platform| raw:: html
 
@@ -318,6 +344,4 @@ rst_epilog += """
 
     <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>
 
-    
-
-"""
+    """

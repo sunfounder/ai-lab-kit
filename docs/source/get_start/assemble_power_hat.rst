@@ -16,6 +16,11 @@ Connect Fusion HAT to Raspberry Pi
 #. 插入电池。
 
 
+3. Power Supply for Raspberry Pi (Important)
+=====================================================
+
+In this section, you will learn how to charge the PiCar-X battery, read the indicator LEDs, and safely power on the car to ensure the Raspberry Pi starts correctly.
+
 Charge
 -------------------
 
@@ -25,10 +30,9 @@ Before the first use, it is recommended to fully charge the battery. You can use
 * You can also use a **USB-C PD (Power Delivery)** charger or a **QC 2.0 fast charger**.  
 * Charging from 0% to full typically takes about **2 hours**.  
 
-.. image:: img/BTR_IMG_1096.png
+.. image:: img/power_charge.jpg
+   :width: 500
    :align: center
-
-
 
 The Fusion HAT includes **two battery indicator LEDs**, showing the battery voltage level:  
 
@@ -66,9 +70,8 @@ After fully charged:
 
 .. note::
 
-   For extended programming or debugging sessions, you can keep the Fusion HAT powered  
+   For extended programming or debugging sessions, you can keep the PiCar-X powered  
    by connecting the USB-C cable, which will charge the battery and run the car at the same time.
-
 
 Power ON
 ----------------------
@@ -79,5 +82,5 @@ When the battery has sufficient charge, press the **power button** on the Fusion
 * The **battery LEDs** will also light up.  
 * The Raspberry Pi will power on automatically.  
 
-.. image:: img/BTR_IMG_1097.png
-   :align: center
+.. image:: img/power_button.jpg
+    :width: 500

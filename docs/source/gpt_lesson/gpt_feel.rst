@@ -34,9 +34,9 @@ The following components are required for this project:
         - |link_resistor_buy|
     *   - :ref:`cpn_photoresistor`
         - |link_photoresistor_buy|
-    *   - Fusion HAT
+    *   - :ref:`cpn_fusion_hat`
         - 
-    *   - Raspberry Pi Zero 2 W
+    *   - Raspberry Pi
         -
 
 ----------------------------------------------
@@ -55,13 +55,13 @@ The following components are required for this project:
 
 **Running the Example**
 
-All example code used in this course is located in the ``ai-explorer-lab-kit`` directory. Follow the steps below to run this example:
+All example code used in this course is located in the ``ai-lab-kit`` directory. Follow the steps below to run this example:
 
 
 .. code-block:: shell
 
-   cd ~/ai-explorer-lab-kit/gpt_example/
-   sudo ~/my_venv/bin/python3 gpt_easy_feel.py
+   cd ~/ai-lab-kit/gpt_example/
+   sudo ~/gpt_env/bin/python3 gpt_easy_feel.py
 
 ----------------------------------------------
 
@@ -220,7 +220,7 @@ This example builds upon :ref:`gpt_easy_tts`, with the main difference being the
             content=text_send,
          )
 
-The photoresistor is a sensor whose resistance varies with ambient light intensity. Using the Fusion HAT, its analog signal is converted into a digital value that the AI can process. For more details about using the ADC module, refer to :ref:`2.2.1_py`.
+The photoresistor is a sensor whose resistance varies with ambient light intensity. Using the Fusion HAT, its analog signal is converted into a digital value that the AI can process. For more details about using the ADC module, refer to :ref:`py_potentiometer`.
 
 In this project, the AI receives the photoresistor value along with a user query, enabling it to determine whether the environment is suitable for reading.
 

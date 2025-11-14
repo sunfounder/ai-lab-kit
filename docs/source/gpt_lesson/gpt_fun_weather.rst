@@ -37,9 +37,9 @@ To complete this project, you will need the following components:
         - |link_wires_buy|
     *   - :ref:`cpn_i2c_lcd`
         - |link_i2clcd1602_buy|
-    *   - Fusion HAT
+    *   - :ref:`cpn_fusion_hat`
         - 
-    *   - Raspberry Pi Zero 2 W
+    *   - Raspberry Pi
         -
 
 
@@ -85,7 +85,7 @@ To complete this project, you will need the following components:
 
    .. code-block:: shell
 
-      nano ~/ai-explorer-lab-kit/gpt_example/keys.py
+      nano ~/ai-lab-kit/gpt_example/keys.py
 
 #. Add the copied API Key:
 
@@ -105,14 +105,14 @@ To complete this project, you will need the following components:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
+All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
 
 .. code-block:: shell
    
-   cd ~/ai-explorer-lab-kit/gpt_example/
-   sudo ~/my_venv/bin/python3 gpt_fun_weather.py
+   cd ~/ai-lab-kit/gpt_example/
+   sudo ~/gpt_env/bin/python3 gpt_fun_weather.py
 
 
 

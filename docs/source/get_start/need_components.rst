@@ -16,6 +16,7 @@
 ===============================
 
 Before we start playing with this kit, let’s prepare the essential hardware.
+
 Required Components
 ------------------------------
 

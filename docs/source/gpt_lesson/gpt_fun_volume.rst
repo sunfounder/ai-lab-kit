@@ -37,9 +37,9 @@ Here are the components required for this project:
         - |link_photoresistor_buy|
     *   - :ref:`cpn_bar_graph`
         - \-
-    *   - Fusion HAT
+    *   - :ref:`cpn_fusion_hat`
         - 
-    *   - Raspberry Pi Zero 2 W
+    *   - Raspberry Pi
         -
 
 --------------------------------------
@@ -55,14 +55,14 @@ Here are the components required for this project:
 **Running the Example**
 
 
-All example code used in this tutorial is available in the ``ai-explorer-lab-kit`` directory. 
+All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
 
 .. code-block:: shell
    
-   cd ~/ai-explorer-lab-kit/gpt_example/
-   sudo ~/my_venv/bin/python3 gpt_fun_volume.py 
+   cd ~/ai-lab-kit/gpt_example/
+   sudo ~/gpt_env/bin/python3 gpt_fun_volume.py 
 
 --------------------------------------
 

@@ -35,9 +35,9 @@ The following components are required for this project:
         - |link_resistor_buy|
     *   - :ref:`cpn_rgb_led`
         - |link_rgb_led_buy|
-    *   - Fusion HAT
+    *   - :ref:`cpn_fusion_hat`
         - 
-    *   - Raspberry Pi Zero 2 W
+    *   - Raspberry Pi
         -
 
 
@@ -57,14 +57,14 @@ The following components are required for this project:
 
 **Running the Example**
 
-We provide all example code used in this course, located in the ``ai-explorer-lab-kit`` directory. 
+We provide all example code used in this course, located in the ``ai-lab-kit`` directory. 
 Use the following steps to run this example:
 
 
 .. code-block:: shell
 
-   cd ~/ai-explorer-lab-kit/gpt_example/
-   sudo ~/my_venv/bin/python3 gpt_easy_action.py
+   cd ~/ai-lab-kit/gpt_example/
+   sudo ~/gpt_env/bin/python3 gpt_easy_action.py
 
 ----------------------------------------------
 
@@ -212,7 +212,7 @@ Here is the complete example code:
 
 This section highlights the new features, 
 including controlling a physical RGB light and parsing JSON data returned by the assistant. 
-For details on controlling RGB lights, refer to :ref:`1.1.2_py`. 
+For details on controlling RGB lights, refer to :ref:`py_rgb`. 
 Below, we’ll focus on JSON parsing and its key aspects.
 
 

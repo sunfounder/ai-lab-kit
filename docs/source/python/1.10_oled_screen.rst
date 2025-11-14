@@ -1,0 +1,395 @@
+.. note::
+
+    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+
+    **Why Join?**
+
+    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
+    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
+    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
+    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
+    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+
+    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+
+.. _py_oled:
+
+
+1.10 OLED Display
+===========================================
+
+
+**Introduction**
+
+In this project, we will learn how to interface with an SSD1306-based OLED display using I2C communication on a Raspberry Pi. OLED (Organic Light-Emitting Diode) displays are known for their high contrast, wide viewing angles, and low power consumption. This project demonstrates how to initialize the display, draw basic shapes, and render text.
+
+----------------------------------------------
+
+**What You'll Need**
+
+To complete this project, you will need the following components:
+
+.. list-table::
+   :widths: 30 20
+   :header-rows: 1
+
+   *  - COMPONENT
+      - PURCHASE LINK
+
+   *  - :ref:`cpn_oled`
+      - |link_oled_ssd1306_buy|
+   *  - :ref:`cpn_wires`
+      - |link_wires_buy|
+   *  - :ref:`cpn_fusion_hat`
+      - 
+   *  - Raspberry Pi
+      -
+
+----------------------------------------------
+
+**Circuit Diagram**
+
+The circuit connects the OLED display to the Raspberry Pi's I2C interface. The SSD1306 typically requires four connections: VCC (3.3V), GND, SCL (clock), and SDA (data). Some displays may also have a reset pin, but it's often not required for basic operation.
+
+.. image:: img/fzz/1.8_oled_sch.png
+
+----------------------------------------------
+
+**Wiring Diagram**
+
+Follow these steps to build the circuit:
+
+1. Connect the VCC pin of OLED display to 3.3V on Fusion HAT+
+2. Connect the GND pin of OLED display to GND on Fusion HAT+
+3. Connect the SCL pin of OLED display to SCL (GPIO 3) on Fusion HAT+
+4. Connect the SDA pin of OLED display to SDA (GPIO 2) on Fusion HAT+
+
+.. image:: img/fzz/1.8_oled_bb.png
+   :width: 800
+   :align: center
+
+----------------------------------------------
+
+**Create Environment**
+
+First, we need to create a virtual environment and install the necessary libraries.
+
+.. code-block:: shell
+
+   cd ~
+   python3 -m venv oled_env --system-site-packages
+   source oled_env/bin/activate
+
+.. note:: 
+
+   For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
+
+-----------------------------------------------
+
+**Installation Requirements**
+
+Before running the code, you need to install the required library:
+
+.. code-block:: shell
+
+   pip3 install adafruit-circuitpython-ssd1306
+
+This library provides the necessary functions to control SSD1306 OLED displays.
+
+
+
+
+----------------------------------------------
+
+**Running the Example**
+
+All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
+Follow these steps to run the example:
+
+.. code-block:: shell
+   
+   cd ai-lab-kit/python/
+   sudo ~/oled_env/bin/python3 1.10_OLED_Display.py
+
+----------------------------------------------
+
+**Writing the Code**
+
+The following Python code initializes an OLED display and draws "Hello World!" text:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   import board
+   import digitalio
+   from PIL import Image, ImageDraw, ImageFont
+   import adafruit_ssd1306
+
+   # Initialize OLED display dimensions
+   WIDTH = 128
+   HEIGHT = 64
+
+   # Set up I2C communication with the OLED display
+   i2c = board.I2C()  # Utilizes board's SCL and SDA pins
+   oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
+
+   # Clear the OLED display
+   oled.fill(0)
+   oled.show()
+
+   # Create a new image with 1-bit color for drawing
+   image = Image.new("1", (oled.width, oled.height))
+
+   # Obtain a drawing object to manipulate the image
+   draw = ImageDraw.Draw(image)
+
+   # Draw a filled white rectangle as the background
+   draw.rectangle((0, 0, oled.width, oled.height), outline=255, fill=255)
+
+   # Define border size for an inner rectangle
+   BORDER = 5
+   # Draw a smaller black rectangle inside the larger one
+   draw.rectangle(
+       (BORDER, BORDER, oled.width - BORDER - 1, oled.height - BORDER - 1),
+       outline=0,
+       fill=0,
+   )
+
+   # Load the default font for text
+   font = ImageFont.load_default()
+
+   def getfontsize(font, text):
+       # Calculate the size of the text in pixels
+       left, top, right, bottom = font.getbbox(text)
+       return right - left, bottom - top
+
+   # Define the text to be displayed
+   text = "Hello World!"
+   # Get the width and height of the text in pixels
+   (font_width, font_height) = getfontsize(font, text)
+   # Draw the text, centered on the display
+   draw.text(
+       (oled.width // 2 - font_width // 2, oled.height // 2 - font_height // 2),
+       text,
+       font=font,
+       fill=255,
+   )
+
+   # Send the image to the OLED display
+   oled.image(image)
+   oled.show()
+
+This Python script creates a "Hello World!" display on an SSD1306 OLED screen. When executed:
+
+1. The script initializes I2C communication with the OLED display
+2. Creates a black-and-white image buffer for drawing
+3. Draws a white background with a black bordered rectangle
+4. Calculates text positioning to center "Hello World!" on the display
+5. Renders the final image to the OLED display
+6. The display shows the text until powered off or updated
+
+----------------------------------------------
+
+**Understanding the Code**
+
+1. **Library Import**
+
+   The code imports necessary libraries for display control and image manipulation.
+
+   .. code-block:: python
+
+      import board
+      import digitalio
+      from PIL import Image, ImageDraw, ImageFont
+      import adafruit_ssd1306
+
+2. **Display Initialization**
+
+   The OLED display is initialized with specified dimensions and I2C address.
+
+   .. code-block:: python
+
+      WIDTH = 128
+      HEIGHT = 64
+      i2c = board.I2C()
+      oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
+
+3. **Display Clearing**
+
+   The display is cleared by filling it with zeros (black) and updating.
+
+   .. code-block:: python
+
+      oled.fill(0)
+      oled.show()
+
+4. **Image Buffer Creation**
+
+   A 1-bit color image buffer is created for drawing operations.
+
+   .. code-block:: python
+
+      image = Image.new("1", (oled.width, oled.height))
+      draw = ImageDraw.Draw(image)
+
+5. **Drawing Operations**
+
+   Rectangles and text are drawn onto the image buffer.
+
+   .. code-block:: python
+
+      # Background rectangle
+      draw.rectangle((0, 0, oled.width, oled.height), outline=255, fill=255)
+      # Inner bordered rectangle
+      draw.rectangle((BORDER, BORDER, oled.width - BORDER - 1, oled.height - BORDER - 1), outline=0, fill=0)
+
+6. **Text Rendering**
+
+   Text is centered on the display using font metrics.
+
+   .. code-block:: python
+
+      font = ImageFont.load_default()
+      (font_width, font_height) = getfontsize(font, text)
+      draw.text((oled.width // 2 - font_width // 2, oled.height // 2 - font_height // 2), text, font=font, fill=255)
+
+7. **Display Update**
+
+   The final image is sent to the OLED display.
+
+   .. code-block:: python
+
+      oled.image(image)
+      oled.show()
+
+----------------------------------------------
+
+**Troubleshooting**
+
+1. **Display Not Showing Anything**
+
+   - **Cause**: Incorrect I2C address, wiring issues, or I2C not enabled.
+   - **Solution**: Verify I2C address (try 0x3C or 0x3D), check all connections, and enable I2C in Raspberry Pi configuration (``sudo raspi-config``).
+
+2. **I2C Communication Errors**
+
+   - **Cause**: I2C bus issues or device not detected.
+   - **Solution**: Check if device is detected with ``i2cdetect -y 1`` command. Ensure no other devices are conflicting on the I2C bus.
+
+3. **Text or Graphics Not Displaying Correctly**
+
+   - **Cause**: Incorrect color values or coordinate issues.
+   - **Solution**: Remember that 0=black and 255=white in 1-bit color mode. Verify coordinates are within display boundaries (0-127 for width, 0-63 for height).
+
+4. **Library Import Errors**
+
+   - **Cause**: Missing dependencies or incorrect installation.
+   - **Solution**: Ensure all required libraries are installed in the correct environment and try running with ``sudo`` if permission issues occur.
+
+----------------------------------------------
+
+**Extendable Ideas**
+
+1. **System Information Display**
+
+   Create a real-time system monitor showing CPU usage, memory, and temperature:
+
+   .. code-block:: python
+
+      import psutil
+      import time
+      
+      while True:
+          # Clear and redraw
+          draw.rectangle((0, 0, oled.width, oled.height), fill=0)
+          
+          # Get system info
+          cpu_percent = psutil.cpu_percent()
+          memory = psutil.virtual_memory()
+          temp = psutil.sensors_temperatures()['cpu_thermal'][0].current
+          
+          # Display info
+          draw.text((0, 0), f"CPU: {cpu_percent}%", font=font, fill=255)
+          draw.text((0, 16), f"RAM: {memory.percent}%", font=font, fill=255)
+          draw.text((0, 32), f"Temp: {temp}C", font=font, fill=255)
+          
+          oled.image(image)
+          oled.show()
+          time.sleep(2)
+
+2. **Scrolling Text**
+
+   Create scrolling text effects for longer messages:
+
+   .. code-block:: python
+
+      text = "This is a scrolling text message!"
+      text_width = getfontsize(font, text)[0]
+      
+      for x in range(oled.width, -text_width, -1):
+          draw.rectangle((0, 0, oled.width, oled.height), fill=0)
+          draw.text((x, oled.height//2), text, font=font, fill=255)
+          oled.image(image)
+          oled.show()
+          time.sleep(0.05)
+
+3. **Animated Graphics**
+
+   Create simple animations using basic shapes:
+
+   .. code-block:: python
+
+      for i in range(0, oled.width-10, 5):
+          draw.rectangle((0, 0, oled.width, oled.height), fill=0)
+          draw.rectangle((i, 20, i+10, 30), fill=255)  # Moving rectangle
+          oled.image(image)
+          oled.show()
+          time.sleep(0.1)
+
+4. **Multiple Pages**
+
+   Create a multi-page display with button control:
+
+   .. code-block:: python
+
+      pages = ["Page 1: Info", "Page 2: Stats", "Page 3: Graph"]
+      current_page = 0
+      
+      # Use buttons to change pages
+      def next_page():
+          global current_page
+          current_page = (current_page + 1) % len(pages)
+          update_display()
+
+5. **Custom Fonts**
+
+   Use different fonts for better visual appeal:
+
+   .. code-block:: python
+
+      # Load custom font (requires font file)
+      try:
+          custom_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12)
+      except:
+          custom_font = ImageFont.load_default()
+
+6. **Graphs and Charts**
+
+   Display simple bar graphs or charts:
+
+   .. code-block:: python
+
+      data = [10, 25, 45, 30, 60, 15]
+      for i, value in enumerate(data):
+          x = i * 20 + 5
+          height = int(value / 100 * oled.height)
+          draw.rectangle((x, oled.height-height, x+15, oled.height), fill=255)
+
+----------------------------------------------
+
+**Conclusion**
+
+This project demonstrates how to interface with SSD1306 OLED displays using I2C communication on a Raspberry Pi. OLED displays provide crisp, high-contrast visual output suitable for various applications including system monitoring, user interfaces, and information displays. By combining text, shapes, and graphics, you can create informative and visually appealing displays for your projects. The skills learned here can be extended to create complex user interfaces, data visualizations, and real-time monitoring systems.
