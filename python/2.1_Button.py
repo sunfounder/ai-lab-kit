@@ -13,8 +13,6 @@ button.when_activated = led.high
 # # Link the button's "when_deactivated" event to the LED's low() method
 button.when_deactivated = led.low
 
-
-
 # Run an event loop that waits for button events and keeps the script running
 print("CTRL + C to exit")
 pause()

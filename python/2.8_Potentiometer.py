@@ -4,8 +4,6 @@ from fusion_hat.adc import ADC
 from fusion_hat.pwm import PWM
 import time
 
-
-
 # Set up the potentiometer
 pot = ADC(0)
 
