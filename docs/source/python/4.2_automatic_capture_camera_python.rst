@@ -47,9 +47,9 @@ The following components are required for this project:
     *   - :ref:`cpn_camera_module`
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -61,7 +61,7 @@ The following components are required for this project:
 Below is the circuit diagram for this project:
 
 .. image:: img/fzz/4.1.2_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -74,7 +74,7 @@ Follow this wiring diagram to set up the circuit:
 
 
 .. image:: img/fzz/4.1.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -96,15 +96,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 4.2_AutomaticCaptureCamera.py 
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 
 Here is the Python code used for this project:
@@ -118,7 +122,7 @@ Here is the Python code used for this project:
 
    #!/usr/bin/env python3
    from picamera2 import Picamera2, Preview
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode, Pull
    import time
    import os
 
@@ -131,7 +135,7 @@ Here is the Python code used for this project:
    camera.start()
 
    # Initialize the motion sensor on GPIO pin 17
-   pir = Pin(17, Pin.IN, Pin.PULL_DOWN) 
+   pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
    try:
       i = 1  # Initialize the image count
@@ -150,7 +154,6 @@ Here is the Python code used for this project:
       # Stop the camera and turn off the LED if a KeyboardInterrupt occurs
       camera.stop_preview()
       pass
-
 
 This Python script integrates a PIR motion sensor and a Raspberry Pi camera to create a motion-triggered photo capture system. When executed:
 

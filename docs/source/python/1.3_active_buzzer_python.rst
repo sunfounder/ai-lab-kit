@@ -44,9 +44,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -57,6 +57,8 @@ To complete this project, you will need the following components:
 The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor by limiting the base current. When GPIO17 outputs a high level (3.3V), the transistor conducts, allowing current to flow through the buzzer, causing it to beep. When GPIO17 outputs a low level, the transistor is cut off, and the buzzer remains silent.
 
 .. image:: img/fzz/1.2.1_sch.png
+   :width: 80%
+   :align: center
 
 
 ----------------------------------------------
@@ -72,7 +74,7 @@ Follow these steps to build the circuit:
 5. Connect the other terminal of the buzzer to the ground (-).
 
 .. image:: img/fzz/1.2.1_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -84,14 +86,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 1.3_ActiveBuzzer.py 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code drives the active buzzer to beep on and off in a loop:
 
@@ -102,28 +108,29 @@ The following Python code drives the active buzzer to beep on and off in a loop:
 
 .. code-block:: python
 
-    #!/usr/bin/env python3
-    from fusion_hat import Buzzer,Pin
-    from time import sleep
+   #!/usr/bin/env python3
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pin import Pin
+   from time import sleep
 
-    # Initialize a Buzzer object on GPIO pin 17
-    buzzer = Buzzer(Pin(17))
+   # Initialize a Buzzer object on GPIO pin 17
+   buzzer = Buzzer(Pin(17))
 
-    try:
-        while True:
-            # Turn on the buzzer
-            print('Buzzer On')
-            buzzer.on()
-            sleep(0.1)  # Keep the buzzer on for 0.1 seconds
+   try:
+      while True:
+         # Turn on the buzzer
+         print('Buzzer On')
+         buzzer.on()
+         sleep(0.1)  # Keep the buzzer on for 0.1 seconds
 
-            # Turn off the buzzer
-            print('Buzzer Off')
-            buzzer.off()
-            sleep(0.1)  # Keep the buzzer off for 0.1 seconds
+         # Turn off the buzzer
+         print('Buzzer Off')
+         buzzer.off()
+         sleep(0.1)  # Keep the buzzer off for 0.1 seconds
 
-    except KeyboardInterrupt:
-        # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
-        pass
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
+      pass
 
 This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi. When executed:
 
@@ -143,7 +150,8 @@ This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi.
 
    .. code-block:: python
 
-      from fusion_hat import Buzzer,Pin
+      from fusion_hat.modules import Buzzer
+      from fusion_hat.pin import Pin
       from time import sleep
 
 2. **Buzzer Initialization**

@@ -14,7 +14,7 @@
 
 .. _py_fun_morse_code_generator:
 
-4.13 Morse Code Generator
+4.4 Morse Code Generator
 ===========================
 
 **Introduction**
@@ -48,9 +48,9 @@ The following components are required:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -61,7 +61,7 @@ The following components are required:
 The schematic diagram is shown below:
 
 .. image:: img/fzz/4.1.13_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -73,7 +73,7 @@ Build the circuit following the diagram below. Ensure correct polarity for the b
 
 
 .. image:: img/fzz/4.1.13_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -87,15 +87,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
-   sudo python3 4.13_MorseCodeGenerator.py
+   cd ~/ai-lab-kit/python/
+   sudo python3 4.4_MorseCodeGenerator.py
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Below is the Python code for this project:
 

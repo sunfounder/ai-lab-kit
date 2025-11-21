@@ -14,14 +14,12 @@
 
 .. _py_mpu6050:
 
-2.17 MPU6050 Module
+MPU6050 Sensor
 =====================================
 
 **Introduction**
 
-The MPU6050 is a highly integrated 6-axis motion tracking module that includes a 3-axis gyroscope and a 3-axis accelerometer. This module is widely used in smartphones, tablets, and wearable devices due to its compact size, low power consumption, and high performance. In this project, you will learn how to interface with the MPU6050 using the I2C protocol to obtain acceleration and angular velocity data, which will then be displayed on the screen.
-
-
+In this lesson, we focus on the MPU6050 sensor built into the GY-87 module. The MPU6050 is a 6-axis IMU that includes a 3-axis accelerometer and a 3-axis gyroscope. Using the Fusion HAT, you will learn how to read acceleration, rotation, and temperature data from the sensor. This serves as a foundation for motion-related projects such as gesture detection, balancing robots, and orientation tracking.
 
 ----------------------------------------------
 
@@ -36,26 +34,14 @@ Below are the components required for this project:
     *   - COMPONENT INTRODUCTION
         - PURCHASE LINK
 
-    *   - :ref:`cpn_mpu6050`
-        - |link_mpu6050_buy|
+    *   - :ref:`cpn_gy87`
+        - \-
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
-
-----------------------------------------------
-
-
-**Circuit Diagram**
-
-The MPU6050 communicates with the microcontroller via the I2C bus. Connect the SDA1 and SCL1 pins of the MPU6050 to the corresponding I2C pins on the Raspberry Pi:
-
-.. image:: img/fzz/2.2.8_sch.png
-   :width: 800
-   :align: center
-
+        - \-
 
 
 ----------------------------------------------
@@ -64,33 +50,33 @@ The MPU6050 communicates with the microcontroller via the I2C bus. Connect the S
 
 Assemble the circuit as shown in the wiring diagram below:
 
-.. image:: img/fzz/2.2.8_bb.png
-   :width: 800
+.. image:: img/fzz/2.15_gy87_bb.png
+   :width: 80%
    :align: center
-
-Ensure that all connections are secure and match the schematic to avoid communication errors.
-
 
 
 ----------------------------------------------
 
 **Running the Example**
 
-
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
-   sudo python3 2.18_MPU6050.py
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.15_GY87_MPU6050.py
 
 
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code**
 
 
 Below is the Python code for this project:
@@ -102,39 +88,86 @@ Below is the Python code for this project:
 
 .. code-block:: python
 
-   from fusion_hat import MPU6050
+   #!/usr/bin/env python3
+   """
+   Read temperature, accelerometer, and gyroscope data
+   from the MPU6050 on the GY-87 module.
+   Gracefully exits on Ctrl+C.
+   """
+
+   # Import the MPU6050 IMU module (accelerometer + gyroscope + temperature)
+   from fusion_hat.modules import MPU6050
+   # Import sleep for timing delays
    from time import sleep
 
-   mpu = MPU6050()
+   def main():
+      # Create an MPU6050 sensor object with default settings
+      mpu = MPU6050()
 
-   # mpu.set_accel_range(MPU6050.ACCEL_RANGE_2G)
-   # mpu.set_gyro_range(MPU6050.GYRO_RANGE_250DEG)
+      # Optional: Set accelerometer and gyroscope range
+      # mpu.set_accel_range(MPU6050.ACCEL_RANGE_2G)
+      # mpu.set_gyro_range(MPU6050.GYRO_RANGE_250DEG)
 
+      try:
+         # Loop forever
+         while True:
+               # Read temperature in Celsius
+               temp = mpu.get_temp()
 
-   while True:
-      temp = mpu.get_temp()
-      acc_x, acc_y, acc_z  = mpu.get_accel_data()
-      gyro_x, gyro_y, gyro_z = mpu.get_gyro_data()
-      print(
-         f"Temp: {temp:0.2f} 'C",
-         f"  |  ACC: {acc_x:8.5f}g {acc_y:8.5f}g {acc_z:8.5f}g",
-         f"  |  GYRO: {gyro_x:8.5f}deg/s {gyro_y:8.5f}deg/s {gyro_z:8.5f}deg/s"
-      )
-      sleep(0.2)
+               # Read accelerometer data (X, Y, Z axes), in units of g
+               acc_x, acc_y, acc_z = mpu.get_accel_data()
 
-This Python script utilizes the MPU6050 sensor, which is commonly used for motion tracking in devices such as drones, mobile phones, and gaming devices. The script reads temperature, accelerometer, and gyroscope data from the sensor and prints these readings continuously in a formatted output. Below, I'll explain the code step-by-step in a way suitable for a documentation style like you might find on readthedocs.
+               # Read gyroscope data (X, Y, Z axes), in degrees per second
+               gyro_x, gyro_y, gyro_z = mpu.get_gyro_data()
+
+               # Print temperature, acceleration, and gyroscope readings
+               print(
+                  f"Temp: {temp:0.2f} °C"
+                  f"  |  ACC: {acc_x:8.5f}g {acc_y:8.5f}g {acc_z:8.5f}g"
+                  f"  |  GYRO: {gyro_x:8.5f}deg/s {gyro_y:8.5f}deg/s {gyro_z:8.5f}deg/s"
+               )
+
+               # Wait 0.2 seconds before next read
+               sleep(0.2)
+
+      except KeyboardInterrupt:
+         # Graceful exit when Ctrl+C is pressed
+         print("\nKeyboard interrupt received, exiting...")
+
+   if __name__ == "__main__":
+      main()
+
+When you run this script, the Raspberry Pi begins continuously reading motion and temperature data from the MPU6050 sensor on the GY-87 module.  
+Every 0.2 seconds, it prints a new line containing:
+
+- **Temperature** in degrees Celsius  
+- **Accelerometer readings** (X, Y, Z) in units of *g*  
+- **Gyroscope readings** (X, Y, Z) in degrees per second  
+
+A typical output looks like:
+
+.. code-block:: text
+
+    Temp: 25.31 °C  |  ACC:  0.01230g -0.00457g  0.99876g  |  GYRO: -0.15234deg/s  0.08712deg/s  0.01345deg/s
+    Temp: 25.32 °C  |  ACC:  0.01198g -0.00421g  0.99902g  |  GYRO: -0.14987deg/s  0.09045deg/s  0.01402deg/s
+    Temp: 25.33 °C  |  ACC:  0.01215g -0.00398g  0.99854g  |  GYRO: -0.15042deg/s  0.08877deg/s  0.01388deg/s
+
+As you gently move, tilt, or rotate the sensor, you will see the accelerometer and gyroscope values change in real time.  
+Press ``Ctrl+C`` to stop the program, and it will exit cleanly with a message indicating that the script has been interrupted.
+
 
 ----------------------------------------------
 
 **Understanding the Code**
 
 
-
 1. **Importing Libraries**
 
    .. code-block:: python
 
-      from fusion_hat import MPU6050
+      # Import the MPU6050 IMU module (accelerometer + gyroscope + temperature)
+      from fusion_hat.modules import MPU6050
+      # Import sleep for timing delays
       from time import sleep
 
 
@@ -169,9 +202,9 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
 
    - **Reading Sensor Data**:
 
-      - ``temp = mpu.get_temp()``: Retrieves the current temperature from the sensor and stores it in the variable ``temp``.
-      - ``acc_x, acc_y, acc_z = mpu.get_accel_data()``: Retrieves the current acceleration data in three dimensions (x, y, z) from the sensor.
-      - ``gyro_x, gyro_y, gyro_z = mpu.get_gyro_data()``: Retrieves the gyroscope data, which measures angular velocity in the x, y, and z directions.
+     - ``temp = mpu.get_temp()``: Retrieves the current temperature from the sensor and stores it in the variable ``temp``.
+     - ``acc_x, acc_y, acc_z = mpu.get_accel_data()``: Retrieves the current acceleration data in three dimensions (x, y, z) from the sensor.
+     - ``gyro_x, gyro_y, gyro_z = mpu.get_gyro_data()``: Retrieves the gyroscope data, which measures angular velocity in the x, y, and z directions.
 
    - **Printing Data**: The ``print`` statement formats and displays the sensor data. Temperature is displayed in degrees Celsius, acceleration in g-forces, and gyroscope data in degrees per second.
 
@@ -192,17 +225,17 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
 
    - **Accelerometer Ranges**:
 
-      - ``MPU6050.ACCEL_RANGE_2G``: ±2g
-      - ``MPU6050.ACCEL_RANGE_4G``: ±4g
-      - ``MPU6050.ACCEL_RANGE_8G``: ±8g
-      - ``MPU6050.ACCEL_RANGE_16G``: ±16g
+     - ``MPU6050.ACCEL_RANGE_2G``: ±2g
+     - ``MPU6050.ACCEL_RANGE_4G``: ±4g
+     - ``MPU6050.ACCEL_RANGE_8G``: ±8g
+     - ``MPU6050.ACCEL_RANGE_16G``: ±16g
 
    - **Gyroscope Ranges**:
 
-      - ``MPU6050.GYRO_RANGE_250DEG``: ±250 degrees per second
-      - ``MPU6050.GYRO_RANGE_500DEG``: ±500 degrees per second
-      - ``MPU6050.GYRO_RANGE_1000DEG``: ±1000 degrees per second
-      - ``MPU6050.GYRO_RANGE_2000DEG``: ±2000 degrees per second
+     - ``MPU6050.GYRO_RANGE_250DEG``: ±250 degrees per second
+     - ``MPU6050.GYRO_RANGE_500DEG``: ±500 degrees per second
+     - ``MPU6050.GYRO_RANGE_1000DEG``: ±1000 degrees per second
+     - ``MPU6050.GYRO_RANGE_2000DEG``: ±2000 degrees per second
 
 ----------------------------------------------
 
@@ -214,14 +247,18 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
    - **Cause**: Incorrect I2C setup or wiring.
    - **Solution**:
 
-      - Ensure the MPU6050 is correctly connected to the Raspberry Pi's I2C pins (SDA, SCL, power, ground).
-      - Verify the I2C address using the ``i2cdetect`` tool:
+     - Ensure the MPU6050 is correctly connected to the Raspberry Pi's I2C pins (SDA, SCL, power, ground).
+     - Verify the I2C address using the ``i2cdetect`` tool:
 
-      .. code-block:: shell
+     .. raw:: html
 
-         sudo i2cdetect -y 1
-         
-      - Confirm that the device address matches ``0x68`` in the script.
+        <run></run>
+
+     .. code-block:: shell
+
+        sudo i2cdetect -y 1
+        
+     - Confirm that the device address matches ``0x68`` in the script.
 
 2. **Incorrect or Erratic Values**:
 
@@ -236,9 +273,13 @@ This Python script utilizes the MPU6050 sensor, which is commonly used for motio
    - **Cause**: The ``smbus`` library is not installed.
    - **Solution**: Install the library using:
 
+   .. raw:: html
+
+      <run></run>
+
    .. code-block:: shell
 
-     sudo apt-get install python3-smbus
+      sudo apt-get install python3-smbus
 
 
 ----------------------------------------------

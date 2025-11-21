@@ -41,9 +41,9 @@ Below are the components required for this project:
     *   - :ref:`cpn_wires`
         - |link_wires_buy|        
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -64,7 +64,7 @@ Below is the schematic diagram for this project:
 Build the circuit as shown in the diagram below:
 
 .. image:: img/fzz/2.2.6_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per the schematic.
@@ -74,7 +74,7 @@ Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per 
    Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
 
 .. image:: ../python/img/4.1.7_PIR_TTE.png
-   :width: 400
+   :width: 200
    :align: center
 
 ----------------------------------------------
@@ -86,9 +86,13 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.7_PIR.py
 
 
@@ -96,7 +100,7 @@ Follow these steps to run the example:
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code**
 
 Below is the Python code for this project:
 
@@ -108,11 +112,11 @@ Below is the Python code for this project:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin  
+   from fusion_hat.pin import Pin, Mode, Pull
    from signal import pause  # Import pause function from signal module
 
    # Initialize a PIR Module object on GPIO pin 17
-   pir = Pin(17, Pin.IN, pull= Pin.PULL_DOWN)
+   pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
    def detect():
       if pir.value() == 1:  # Check if the PIR Module is triggered
@@ -132,8 +136,6 @@ Below is the Python code for this project:
       # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
       pass
 
-
-
 This Python script monitors a PIR (Passive Infrared) motion sensor based on motion detection. When executed:
 
 1. **When Motion is Detected**: Prints "Detected Barrier!" to the console.
@@ -150,7 +152,7 @@ This Python script monitors a PIR (Passive Infrared) motion sensor based on moti
 
    .. code-block:: python
 
-      from fusion_hat import Pin  
+      from fusion_hat.pin import Pin, Mode, Pull
       from signal import pause  # Import pause function from signal module
 
    The script uses the ``fusion_hat`` library to control the PIR sensor, and the ``signal`` module to handle program termination.
@@ -160,7 +162,7 @@ This Python script monitors a PIR (Passive Infrared) motion sensor based on moti
 
    .. code-block:: python
 
-      pir = Pin(17, Pin.IN, pull= Pin.PULL_DOWN)
+      pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
    In this line, a PIR sensor is initialized on pin 17 with an internal pull-down resistor enabled.
 

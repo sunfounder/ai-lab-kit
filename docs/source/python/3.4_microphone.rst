@@ -27,7 +27,7 @@ This guide will help you check if the microphone is recognized by the system and
 
 .. image:: img/fusionhat_mic.png
    :align: center
-   :width: 600px
+   :width: 50%
 
 
 **What You’ll Need**
@@ -42,14 +42,18 @@ Below are the components required for this tutorial:
         - Purchase Link
 
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi (or compatible model)
-        - 
+        - \-
 
 **Check if the Microphone is Recognized**
 
 
 Use the following command to check whether the system has detected the microphone:
+ 
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: bash
 
@@ -64,12 +68,16 @@ This will list all audio **capture** devices available on your Raspberry Pi. Sam
      Subdevices: 1/1
      Subdevice #0: subdevice #0
 
-If you see the `voicehat-hifi` listed under card 0, it means the microphone hardware is detected correctly.
+If you see the ``voicehat-hifi`` listed, it means the microphone hardware is detected correctly.
 
 **Enable the Audio Module**
 
 
 For protection purposes, the audio module on the Fusion HAT is **disabled by default**. To enable it, run:
+ 
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: bash
 
@@ -79,6 +87,10 @@ For protection purposes, the audio module on the Fusion HAT is **disabled by def
 
    This setting remains active until the Raspberry Pi is powered off.
    If you want to disable the audio module again, either reboot the device or run:
+
+   .. raw:: html
+
+      <run></run>
 
    .. code-block:: bash
 
@@ -90,6 +102,10 @@ For protection purposes, the audio module on the Fusion HAT is **disabled by def
 Once the microphone is enabled, you can perform a basic recording test:
 
 1. Record a short audio sample:
+ 
+   .. raw:: html
+
+      <run></run>
 
    .. code-block:: bash
 
@@ -102,7 +118,11 @@ Once the microphone is enabled, you can perform a basic recording test:
    - ``test.wav``: Output file name
 
 2. Playback the recorded file:
+ 
+   .. raw:: html
 
+      <run></run>
+      
    .. code-block:: bash
 
       aplay test.wav
@@ -110,7 +130,11 @@ Once the microphone is enabled, you can perform a basic recording test:
    If you hear your recorded voice, the microphone is working properly.
 
 3. If the recorded volume is too low, you can amplify it using `sox`:
+ 
+   .. raw:: html
 
+      <run></run>
+      
    .. code-block:: bash
 
       sox input.wav output.wav gain 5
@@ -124,7 +148,11 @@ Once the microphone is enabled, you can perform a basic recording test:
 If the recording volume is too low or muted, you can manually adjust the microphone gain:
 
 1. Launch the ALSA mixer:
+ 
+   .. raw:: html
 
+      <run></run>
+      
    .. code-block:: bash
 
       alsamixer
@@ -135,8 +163,12 @@ If the recording volume is too low or muted, you can manually adjust the microph
 
 .. tip::
 
-   If `rec` or `sox` is not installed, you can install them using:
+   If ``rec`` or ``sox`` is not installed, you can install them using:
+ 
+   .. raw:: html
 
+      <run></run>
+      
    .. code-block:: bash
 
       sudo apt update
@@ -147,15 +179,15 @@ If the recording volume is too low or muted, you can manually adjust the microph
 
 - **No input detected**:
 
-  - Ensure the microphone is enabled with `fusion_hat enable_speaker`
-  - Verify that `arecord -l` lists the correct device
-  - Try using `arecord` instead of `rec` to test manually
+  - Ensure the microphone is enabled with ``fusion_hat enable_speaker``
+  - Verify that ``arecord -l`` lists the correct device
+  - Try using ``arecord`` instead of ``rec`` to test manually
 
 - **Audio is distorted or noisy**:
 
-  - Reduce the microphone gain in `alsamixer`
+  - Reduce the microphone gain in ``alsamixer``
   - Avoid recording in noisy environments
 
 - **`rec` command not found**:
 
-  - Install `sox` with `sudo apt install sox`
+  - Install ``sox`` with ``sudo apt install sox``

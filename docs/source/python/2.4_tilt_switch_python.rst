@@ -45,9 +45,9 @@ To complete this project, gather the following components:
     *   - :ref:`cpn_tilt_switch`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -58,7 +58,7 @@ To complete this project, gather the following components:
 Refer to the following diagrams for connecting the tilt switch:
 
 .. image:: img/fzz/2.1.5_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -75,7 +75,7 @@ Follow these steps to set up the circuit:
 4. Complete the connections by wiring the cathodes of both LEDs to GND.
 
 .. image:: img/fzz/2.1.5_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -89,14 +89,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.4_Tilt.py
    
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Below is the Python script to control the tilt switch and LEDs:
 
@@ -108,12 +112,12 @@ Below is the Python script to control the tilt switch and LEDs:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode, Pull
    from signal import pause  # Import pause function from signal module
 
-   TiltPin = Pin(17,Pin.IN, pull=Pin.PULL_DOWN)  # Tilt sensor connected to GPIO pin 17
-   green_led = Pin(27, Pin.OUT)  # Green LED connected to GPIO pin 27
-   red_led = Pin(22, Pin.OUT)   # Red LED connected to GPIO pin 22
+   TiltPin = Pin(17, mode=Mode.IN, pull=Pull.DOWN)  # Tilt sensor connected to GPIO pin 17
+   green_led = Pin(27,mode=Mode.OUT)  # Green LED connected to GPIO pin 27
+   red_led = Pin(22,mode=Mode.OUT)   # Red LED connected to GPIO pin 22
 
    def detect():
       """
@@ -140,7 +144,6 @@ Below is the Python script to control the tilt switch and LEDs:
    except KeyboardInterrupt:
       # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
       pass
-
 
 This Python script uses a tilt sensor to control two LEDs and display status messages on the console. When executed:
 
@@ -170,8 +173,9 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
    .. code-block:: python
 
-      from fusion_hat import Pin
-      from signal import pause
+      from fusion_hat.pin import Pin, Mode, Pull
+      from signal import pause  # Import pause function from signal module
+
 
 2. **Initialization**
 
@@ -179,9 +183,9 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
    .. code-block:: python
 
-      TiltPin = Pin(17,Pin.IN, pull=Pin.PULL_DOWN)  # Tilt sensor connected to GPIO pin 17
-      green_led = Pin(27, Pin.OUT)  # Green LED connected to GPIO pin 27
-      red_led = Pin(22, Pin.OUT)   # Red LED connected to GPIO pin 22
+      TiltPin = Pin(17, mode=Mode.IN, pull=Pull.DOWN)  # Tilt sensor connected to GPIO pin 17
+      green_led = Pin(27,mode=Mode.OUT)  # Green LED connected to GPIO pin 27
+      red_led = Pin(22,mode=Mode.OUT)   # Red LED connected to GPIO pin 22
 
 3. **Detect Function**
 
@@ -190,12 +194,10 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
    .. code-block:: python
 
       def detect():
-         """
-         Detect the tilt sensor state and control the LEDs.
-         Turns on the red LED and turns off the green LED when tilted.
-         Turns off the red LED and turns on the green LED when not tilted.
-         """
          if TiltPin.value() == 1:  # Check if the sensor is tilted
+            print('    *************')
+            print('    *   Tilt!   *')
+            print('    *************')
             red_led.high()   # Turn on red LED
             green_led.low()  # Turn off green LED
          else:  # If the sensor is not tilted

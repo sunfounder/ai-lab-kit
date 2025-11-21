@@ -15,7 +15,7 @@
 .. _py_oled:
 
 
-1.10 OLED Display
+4.11 Set Angle
 ===========================================
 
 
@@ -71,43 +71,50 @@ Follow these steps to build the circuit:
       <run></run>
    
    .. code-block:: shell
-      
+
+
       cd ~
-      python3 -m venv 1.10_oled_env --system-site-packages
-      source 1.10_oled_env/bin/activate
-   
-   .. note::
-      It is recommended to create a separate virtual environment for each project to avoid dependency conflicts.
+      python3 -m venv oled_env --system-site-packages
+      source oled_env/bin/activate
+
+.. note:: 
+
+   For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
+
+-----------------------------------------------
+
+**Installation Requirements**
+
+Before running the code, you need to install the required library:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   pip3 install adafruit-circuitpython-ssd1306
+
+This library provides the necessary functions to control SSD1306 OLED displays.
 
 
-#. Install the SSD1306 driver library:
-   
-   This library enables communication with SSD1306 OLED displays using Python.
-
-   .. raw:: html
-   
-      <run></run>
-   
-   .. code-block:: shell
-   
-       pip3 install adafruit-circuitpython-ssd1306
-   
-
-#. All example programs are included in the ``ai-lab-kit`` directory. Run the OLED example as follows:
-
-   .. raw:: html
-   
-      <run></run>
-   
-   .. code-block:: shell
-   
-      cd ~/ai-lab-kit/python/
-      sudo ~/1.10_oled_env/bin/python3 1.10_OLED_Display.py
 
 
-#. When the example runs, the OLED screen will display a framed box with the text **“Hello World!”** centered inside it.  
+----------------------------------------------
 
-   This confirms that the display is successfully communicating over I2C and can render text and graphics.
+**Running the Example**
+
+All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
+Follow these steps to run the example:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo ~/oled_env/bin/python3 1.10_OLED_Display.py
 
 ----------------------------------------------
 

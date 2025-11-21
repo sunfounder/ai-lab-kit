@@ -14,7 +14,7 @@
 
 .. _py_fun_10s:
 
-4.3 GAME - 10 Second Challenge
+4.8 GAME - 10 Second Challenge
 =================================
 
 **Introduction**
@@ -49,9 +49,9 @@ Below is the list of components required for this project:
     *   - :ref:`cpn_tilt_switch`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -61,7 +61,7 @@ Below is the list of components required for this project:
 Below is the schematic diagram for the "10 Second Challenge":
 
 .. image:: img/fzz/4.1.15_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -75,7 +75,7 @@ Follow the wiring instructions shown below to set up the circuit:
 
 
 .. image:: img/fzz/4.1.15_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -88,14 +88,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
-   sudo python3 4.3_GAME_10Second.py
+   cd ~/ai-lab-kit/python/
+   sudo python3 4.8_GAME_10Second.py
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 
 Here is the Python code for the project:
@@ -109,109 +113,124 @@ Here is the Python code for the project:
 
    #!/usr/bin/env python3
 
-   from fusion_hat import Pin
+   # Import Pin control, modes, and pull-up/down definitions
+   from fusion_hat.pin import Pin, Mode, Pull
+   # Import time for delays
    import time
+   # Import threading to use Timer for repeated callbacks
    import threading
 
-   # Initialize the button connected to GPIO 26
-   sensorPin = Pin(22, Pin.IN, Pin.PULL_DOWN)
+   # Initialize the button connected to GPIO 22, set as input with pull-down resistor
+   sensorPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
 
    # Define GPIO pins for the 74HC595 shift register
-   SDI = Pin(17,Pin.OUT)   # Serial Data Input
-   RCLK = Pin(4,Pin.OUT)  # Register Clock
-   SRCLK = Pin(27,Pin.OUT) # Shift Register Clock
+   SDI = Pin(17, mode=Mode.OUT)    # Serial Data Input
+   RCLK = Pin(4, mode=Mode.OUT)    # Register Clock (latch)
+   SRCLK = Pin(27, mode=Mode.OUT)  # Shift Register Clock
 
-   # Define GPIO pins for digit selection on the 7-segment display
-   placePin = [Pin(pin,Pin.OUT) for pin in (23, 24, 25, 12)]
+   # Define GPIO pins controlling digit selection on the 4-digit 7-segment display
+   placePin = [Pin(pin, mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
-   # Define segment codes for numbers 0 to 9 on the 7-segment display
+   # Define the segment encoding for digits 0–9 (common cathode)
    number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
-   # Counter and timer variables
+   # Counter value, timer object, and game state variable
    counter = 0
    timer1 = None
    gameState = 0
 
    def clearDisplay():
-      """ Clear all segments on the 7-segment display. """
+      """Clear all segments by shifting out 'all off' bits to the 74HC595."""
       for _ in range(8):
-         SDI.on()
-         SRCLK.on()
+         SDI.on()      # Send high bits (turned off segments)
+         SRCLK.on()    # Pulse shift clock
          SRCLK.off()
-      RCLK.on()
+      RCLK.on()         # Latch the data
       RCLK.off()
 
    def hc595_shift(data):
-      """ Shift data to the 74HC595 shift register to display a digit. """
+      """Shift out one byte to the 74HC595 to control segment lighting."""
       for i in range(8):
-         SDI.value(0x80 & (data << i))
-         SRCLK.on()
+         SDI.value(0x80 & (data << i))  # Output next bit
+         SRCLK.on()                     # Clock pulse
          SRCLK.off()
-      RCLK.on()
+      RCLK.on()                          # Latch data to output
       RCLK.off()
 
    def pickDigit(digit):
-      """ Select which digit to display on the 7-segment display. """
+      """Enable one of the 4 digits on the display by activating its control pin."""
       for pin in placePin:
-         pin.off()
-      placePin[digit].on()
+         pin.off()          # Disable all digits
+      placePin[digit].on()   # Enable selected digit
 
    def display():
-      """ Display the current counter value on the 7-segment display. """
+      """Render the current 4-digit counter value onto the 7-segment display."""
       global counter
+
+      # Units digit
       clearDisplay()
       pickDigit(3)
       hc595_shift(number[counter % 10])
 
+      # Tens digit
       clearDisplay()
       pickDigit(2)
       hc595_shift(number[counter % 100 // 10])
 
+      # Hundreds digit (minus 0x80 to enable decimal point if needed)
       clearDisplay()
       pickDigit(1)
       hc595_shift(number[counter % 1000 // 100] - 0x80)
 
+      # Thousands digit
       clearDisplay()
       pickDigit(0)
       hc595_shift(number[counter % 10000 // 1000])
 
    def stateChange():
-      """ Handle state changes for the counter based on button presses. """
+      """Handle button-triggered mode changes: start or stop the timer."""
       global gameState, counter, timer1
+
+      # When gameState = 0 → Reset counter and start timer
       if gameState == 0:
-         counter = 0
-         time.sleep(1)
-         timer()
+         counter = 0           # Reset counter
+         time.sleep(1)         # Small delay before start
+         timer()               # Start counting
+
+      # When gameState = 1 → Stop the timer
       elif gameState == 1 and timer1 is not None:
-         timer1.cancel()
+         timer1.cancel()       # Stop Timer thread
          time.sleep(1)
+
+      # Toggle between state 0 and 1
       gameState = (gameState + 1) % 2
 
    def loop():
-      """ Main loop to check for button presses and update the display. """
+      """Main loop: refresh the display and detect button presses."""
       global counter
       currentState = 0
       lastState = 0
+
       while True:
-         display()
-         currentState = sensorPin.value()
+         display()                     # Continuously update display
+         currentState = sensorPin.value()   # Read button state
+         # Detect falling edge: button released → pressed transition
          if (currentState == 0) and (lastState == 1):
-               stateChange()
-         lastState = currentState
+               stateChange()             # Trigger state change
+         lastState = currentState      # Save state for edge detection
 
    def timer():
-      """ Timer function that increments the counter every 0.01 second. """
+      """Timer callback: increments counter every 0.01 seconds using threading.Timer."""
       global counter, timer1
-      timer1 = threading.Timer(0.01, timer)
-      timer1.start()
-      counter += 1
+      timer1 = threading.Timer(0.01, timer)  # Create next timer event
+      timer1.start()                         # Start timer loop
+      counter += 1                           # Increase counter value
 
    try:
-      loop()
+      loop()                                 # Run main loop
    except KeyboardInterrupt:
       if timer1:
-         timer1.cancel()
-
+         timer1.cancel()                    # Cleanly stop timer on exit
 
 #. Shake the wand to start the timer on the 4-digit segment display.
 

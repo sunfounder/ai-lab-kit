@@ -45,9 +45,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -57,7 +57,7 @@ To complete this project, you will need the following components:
 The circuit diagram shows how to connect the 74HC595 shift register to the 4-digit 7-segment display and the Raspberry Pi GPIO pins. The shift register reduces the number of GPIO pins required, allowing efficient control of the display.
 
 .. image:: img/fzz/1.1.5_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -73,7 +73,7 @@ Follow these steps to assemble the circuit:
 4. Add resistors to limit current for the display segments.
 
 .. image:: img/fzz/1.1.5_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -87,15 +87,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 1.8_4-Digit.py
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The Python code below initializes the display, updates the counter, and manages the display refresh loop:
 
@@ -107,17 +111,17 @@ The Python code below initializes the display, updates the counter, and manages 
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode
    import time
    import threading
 
    # Define GPIO pins for the 74HC595 shift register
-   SDI = Pin(17,Pin.OUT)   # Serial Data Input
-   RCLK = Pin(4,Pin.OUT)  # Register Clock
-   SRCLK = Pin(27,Pin.OUT) # Shift Register Clock
+   SDI = Pin(17,mode=Mode.OUT)   # Serial Data Input
+   RCLK = Pin(4,mode=Mode.OUT)  # Register Clock
+   SRCLK = Pin(27,mode=Mode.OUT) # Shift Register Clock
 
    # Define GPIO pins for digit selection on the 7-segment display
-   placePin = [Pin(pin,Pin.OUT) for pin in (23, 24, 25, 12)]
+   placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
    # Define segment codes for numbers 0-9 for the 7-segment display
    number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
@@ -195,6 +199,7 @@ The Python code below initializes the display, updates the counter, and manages 
 
 
 
+
 This Python script controls a 4-digit 7-segment display using a Raspberry Pi and a 74HC595 shift register. When executed:
 
 1. The display shows an incrementing counter, with digits updating every second.
@@ -220,7 +225,7 @@ The program runs indefinitely, incrementing the displayed counter until the user
       SRCLK = Pin(27,Pin.OUT) # Shift Register Clock
 
       # Define GPIO pins for digit selection on the 7-segment display
-      placePin = [Pin(pin,Pin.OUT) for pin in (23, 24, 25, 12)]
+      placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
 2. **Segment Codes**
 

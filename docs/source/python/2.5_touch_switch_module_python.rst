@@ -45,9 +45,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_touch_switch`
         - |link_touch_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -57,7 +57,7 @@ To complete this project, you will need the following components:
 Below is the schematic diagram showing how to connect the Touch Switch Module to the Raspberry Pi and LEDs:
 
 .. image:: img/fzz/2.1.3_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -71,9 +71,13 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.5_TouchSwitch.py
 
 ----------------------------------------------
@@ -87,14 +91,14 @@ Follow these steps to build the circuit:
 3. Connect the cathodes of both LEDs and the Touch Switch ground pin to GND.
 
 .. image:: img/fzz/2.1.3_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code controls two LEDs based on the state of the Touch Switch Module:
 
@@ -107,33 +111,33 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin  
+   from fusion_hat.pin import Pin, Mode, Pull
    from time import sleep  # Import sleep for delay
 
    # Initialize touch sensor (Button) on GPIO pin 17
-   touch_sensor = Pin(17, Pin.IN, pull = Pin.PULL_DOWN) 
+   touch_sensor = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
    # Initialize LED1 connected to GPIO pin 22
-   led1 = Pin(22,Pin.OUT)
+   led1 = Pin(22,mode=Mode.OUT)
    # Initialize LED2 connected to GPIO pin 27
-   led2 = Pin(27,Pin.OUT)
+   led2 = Pin(27,mode=Mode.OUT)
 
    try:
       # Continuously monitor the state of the touch sensor and control LEDs accordingly
       while True:
          if touch_sensor.value() == 1:  # Check if the touch sensor is pressed
-            print('You touch it!')  # Output message indicating sensor activation
-            led1.off()  # Turn off LED1
-            led2.on()   # Turn on LED2
+               print('You touch it!')  # Output message indicating sensor activation
+               led1.off()  # Turn off LED1
+               led2.on()   # Turn on LED2
          else:  # If the sensor is not pressed
-            led1.on()   # Turn on LED1
-            led2.off()  # Turn off LED2
+               led1.on()   # Turn on LED1
+               led2.off()  # Turn off LED2
+
          sleep(0.5)  # Pause for 0.5 seconds before rechecking the sensor state
 
    except KeyboardInterrupt:
       # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
       pass
-
 
 This Python script uses a touch sensor to control two LEDs connected to a Raspberry Pi. When executed:
 
@@ -163,8 +167,9 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
    .. code-block:: python
 
-      from fusion_hat import Pin  
-      from time import sleep 
+      from fusion_hat.pin import Pin, Mode, Pull
+      from time import sleep  # Import sleep for delay
+
 
 2. **Component Initialization**
 
@@ -173,12 +178,12 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
    .. code-block:: python
 
       # Initialize touch sensor (Button) on GPIO pin 17
-      touch_sensor = Pin(17, Pin.IN, pull = Pin.PULL_DOWN) 
+      touch_sensor = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
       # Initialize LED1 connected to GPIO pin 22
-      led1 = Pin(22,Pin.OUT)
+      led1 = Pin(22,mode=Mode.OUT)
       # Initialize LED2 connected to GPIO pin 27
-      led2 = Pin(27,Pin.OUT)
+      led2 = Pin(27,mode=Mode.OUT)
 
 3. **Main Loop**
 

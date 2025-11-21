@@ -14,7 +14,7 @@
 
 .. _py_dht:
 
-DHT-11
+2.14 DHT-11
 ================
 
 **Introduction**
@@ -41,9 +41,9 @@ Here are the components required for this project:
     *   - :ref:`cpn_wires`
         - |link_wires_buy|  
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -53,7 +53,7 @@ Here are the components required for this project:
 Below is the schematic diagram for connecting the DHT11 sensor:
 
 .. image:: img/fzz/2.2.3_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -66,7 +66,7 @@ Below is the schematic diagram for connecting the DHT11 sensor:
 Build the circuit as shown in the wiring diagram below:
 
 .. image:: img/fzz/2.2.3_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -79,15 +79,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.17_DHT.py
 
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code**
 
 
 Below is the Python code used for this project:
@@ -99,20 +103,31 @@ Below is the Python code used for this project:
 
 .. code-block:: python
 
-   from fusion_hat import DHT11
+   # Import the DHT11 temperature & humidity sensor module
+   from fusion_hat.modules import DHT11
+   # Import sleep function for delays
    from time import sleep
 
+   # Create a DHT11 sensor object on GPIO pin 17
    dht11 = DHT11(pin=17)
 
+   # Loop forever
    while True:
+      # Read data from the DHT11 sensor
       result = dht11.read()
+
+      # If data was successfully read, unpack humidity and temperature
       if result:
          humidity, temperature = result
-         print ("humidity: %s %%,  Temperature: %s C`" % (humidity, temperature))
-      else:
-         print("time out")
-      sleep(1)
 
+         # Print the humidity and temperature values
+         print("humidity: %s %%,  Temperature: %s C" % (humidity, temperature))
+      else:
+         # Print timeout message if reading failed
+         print("time out")
+
+      # Wait 1 second before the next reading
+      sleep(1)
 
 This Python script reads temperature and humidity data from a DHT11 sensor connected to a Fusion HAT using GPIO pin 17. When executed:
 
@@ -128,7 +143,9 @@ This Python script reads temperature and humidity data from a DHT11 sensor conne
 
    .. code-block:: python
 
-      from fusion_hat import DHT11
+      # Import the DHT11 temperature & humidity sensor module
+      from fusion_hat.modules import DHT11
+      # Import sleep function for delays
       from time import sleep
 
    These lines import the necessary modules for the script.

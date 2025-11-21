@@ -16,7 +16,7 @@
 
 .. _py_rotary_encoder:
 
-2.15 Rotary Encoder
+2.12 Rotary Encoder
 =======================
 
 **Introduction**
@@ -43,9 +43,9 @@ Here are the components required for this project:
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        -
+        - \-
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -53,8 +53,8 @@ Here are the components required for this project:
 
 Below are the schematic diagrams for the project:
 
-.. image:: img/fzz/rotary_encoder_sch.png
-   :width: 800
+.. image:: img/fzz/2.1.6_rotary_sch.png
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -63,8 +63,8 @@ Below are the schematic diagrams for the project:
 
 Connect the components as shown in the wiring diagram below:
 
-.. image:: img/fzz/rotary_encoder_bb.png
-   :width: 800
+.. image:: img/fzz/2.1.6_rotary_bb.png
+   :width: 80%
    :align: center
 
 **Pin Mapping Used in the Example**
@@ -84,14 +84,18 @@ Ensure that all connections are secure. If your encoder has separate **C (COM)**
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory.
 Follow these steps to run the example:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
 
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.15_RotaryEncoder.py
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Below is the Python code used for this project:
 
@@ -102,23 +106,24 @@ Below is the Python code used for this project:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Rotary_Encoder, Pin
+   from fusion_hat.modules import Rotary_Encoder
+   from fusion_hat.pin import Pin, Mode, Pull
    from signal import pause  # Import pause function from signal module
 
 
    # Initialize the rotary encoder and button (sw)
    encoder = Rotary_Encoder(clk=17, dt=4)  # Rotary Encoder connected to GPIO pins 17 (CLK) and 4 (DT)
-   sw = Pin(27, Pin.IN, pull= Pin.PULL_UP)  # Button (sw) connected to GPIO pin 27
+   sw = Pin(27, mode=Mode.IN, pull=Pull.UP)  # Button (sw) connected to GPIO pin 27
 
 
    def rotary_change():
-       """ Update the counter based on the rotary encoder's rotation. """
-       print('Counter =', encoder.steps())  # Display current counter value
+      """ Update the counter based on the rotary encoder's rotation. """
+      print('Counter =', encoder.steps())  # Display current counter value
 
    def reset_counter():
-       """ Reset the counter to zero when the button (sw) is pressed. """
-       encoder.reset()  # Reset the counter
-       print('Counter reset')  # Indicate counter reset
+      """ Reset the counter to zero when the button (sw) is pressed. """
+      encoder.reset()  # Reset the counter
+      print('Counter reset')  # Indicate counter reset
 
    # Set up event handlers for the rotary encoder and button (sw)
    encoder.when_rotated = rotary_change
@@ -129,6 +134,7 @@ Below is the Python code used for this project:
    print("CTRL + C to exit")
    pause()
 
+
 ----------------------------------------------
 
 **Understanding the Code**
@@ -137,8 +143,9 @@ Below is the Python code used for this project:
 
    .. code-block:: python
 
-      from fusion_hat import Rotary_Encoder, Pin
-      from signal import pause
+      from fusion_hat.modules import Rotary_Encoder
+      from fusion_hat.pin import Pin, Mode, Pull
+      from signal import pause  # Import pause function from signal module
 
    - ``Rotary_Encoder`` handles quadrature decoding of the rotary signals.
    - ``Pin`` provides GPIO configuration and event support.
@@ -148,8 +155,8 @@ Below is the Python code used for this project:
 
    .. code-block:: python
 
-      encoder = Rotary_Encoder(clk=17, dt=4)
-      sw = Pin(27, Pin.IN, pull=Pin.PULL_UP)
+      encoder = Rotary_Encoder(clk=17, dt=4)  # Rotary Encoder connected to GPIO pins 17 (CLK) and 4 (DT)
+      sw = Pin(27, mode=Mode.IN, pull=Pull.UP)  # Button (sw) connected to GPIO pin 27
 
    - The encoder’s two channels (CLK/DT) feed the quadrature decoder.
    - The switch uses an internal pull-up; pressing it pulls the line to GND.

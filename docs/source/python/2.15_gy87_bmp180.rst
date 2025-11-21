@@ -1,0 +1,318 @@
+.. note::
+
+    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+
+    **Why Join?**
+
+    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
+    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
+    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
+    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
+    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+
+    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+
+.. _basic_gy87_bmp180:
+
+BMP180
+==========================
+
+In this tutorial, we explore the environmental sensing features of the GY-87 module, focusing on its onboard **BMP180** sensor.  
+The BMP180 is a high-precision digital barometric pressure and temperature sensor capable of estimating altitude based on atmospheric pressure changes.  
+
+In this lesson, you will learn how to interface the BMP180 with the Raspberry Pi using the Fusion HAT library, initialize the sensor, and read temperature, pressure, and altitude data in real time. This forms the foundation for weather-monitoring projects, indoor/outdoor environment tracking, and altitude-based applications.
+
+----------------------------------------------
+
+**What You’ll Need**
+
+Below are the components required for this project:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - COMPONENT INTRODUCTION
+        - PURCHASE LINK
+
+    *   - :ref:`cpn_gy87`
+        - \-
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+
+----------------------------------------------
+
+**Wiring Diagram**
+
+Assemble the circuit as shown in the wiring diagram below:
+
+.. image:: img/fzz/2.15_gy87_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Running the Example**
+
+All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
+Follow these steps to run the example:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.15_GY87_BMP180.py
+
+When you run this script, the Raspberry Pi continuously reads data from the BMP180 sensor on the GY-87 module.  
+Every 0.5 seconds, it prints the current temperature (in degrees Celsius), atmospheric pressure (in Pascals), and estimated altitude (in meters).  
+The output looks similar to the following:
+
+.. code-block:: text
+
+    Temp:  24.65 °C  | Pressure: 100875.21 Pa  | Altitude:   12.34 m
+    Temp:  24.66 °C  | Pressure: 100872.89 Pa  | Altitude:   12.47 m
+    Temp:  24.67 °C  | Pressure: 100870.30 Pa  | Altitude:   12.63 m
+
+Press ``Ctrl+C`` to stop the program.  
+The script will exit cleanly and display an exit message.
+
+
+----------------------------------------------
+
+
+**Code**
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    """
+    Read temperature, pressure, and altitude
+    from the BMP180 sensor on the GY-87 module.
+    Gracefully exits when Ctrl+C is pressed.
+    """
+
+    # Import SMBus for I2C communication
+    from smbus2 import SMBus
+
+    # Import the BMP180 module from Fusion HAT
+    from fusion_hat.modules import bmp180
+
+    # Import sleep for timing delays
+    from time import sleep
+
+
+    def main():
+        # Create an I2C bus object
+        # SMBus(1) corresponds to I2C bus 1 on Raspberry Pi
+        bus = SMBus(1)
+
+        # Initialize the BMP180 sensor
+        # Oversampling=3 gives highest accuracy (slower sampling)
+        sensor = bmp180.BMP180(bus, oversampling=3)
+
+        try:
+            # Continuous loop to read and print sensor values
+            while True:
+                # Read temperature (°C), pressure (Pa), altitude (m)
+                temp, pressure, altitude = sensor.read()
+
+                # Print formatted readings to the terminal
+                print(
+                    f"Temp: {temp:6.2f} °C",
+                    f" | Pressure: {pressure:10.2f} Pa",
+                    f" | Altitude: {altitude:7.2f} m"
+                )
+
+                # Delay between readings
+                sleep(0.5)
+
+        except KeyboardInterrupt:
+            # Handles CTRL+C interruption safely
+            print("\nExiting program...")
+
+
+    # Standard Python entry point check
+    if __name__ == "__main__":
+        main()
+
+----------------------------------------------
+
+**Understanding the Code**
+
+1. **Imports**
+
+   .. code-block:: python
+
+      # Import SMBus for I2C communication
+      from smbus2 import SMBus
+
+      # Import the BMP180 module from Fusion HAT
+      from fusion_hat.modules import bmp180
+
+      # Import sleep for timing delays
+      from time import sleep
+
+   These lines import the required modules:
+
+   - ``SMBus`` is used to communicate with I2C devices on the Raspberry Pi.
+   - ``bmp180`` is the Fusion HAT module that provides the BMP180 driver.
+   - ``sleep`` is used to pause the program between readings.
+
+
+2. **I2C Bus and Sensor Initialization**
+
+   .. code-block:: python
+
+      bus = SMBus(1)
+      sensor = bmp180.BMP180(bus, oversampling=3)
+
+   - ``SMBus(1)`` opens I2C bus 1, which is the default I2C bus on most Raspberry Pi boards.
+   - ``bmp180.BMP180(bus, oversampling=3)`` creates a BMP180 sensor object using the I2C bus.
+   - The ``oversampling=3`` parameter enables high-accuracy mode for pressure readings (at the cost of slightly longer measurement time).
+
+3. **Main Loop: Reading and Printing Sensor Data**
+
+   .. code-block:: python
+
+      try:
+          while True:
+              # Read temperature (°C), pressure (Pa), altitude (m)
+              temp, pressure, altitude = sensor.read()
+
+              print(
+                  f"Temp: {temp:6.2f} °C",
+                  f" | Pressure: {pressure:10.2f} Pa",
+                  f" | Altitude: {altitude:7.2f} m"
+              )
+
+              # Delay between readings
+              sleep(0.5)
+
+   - The code enters an infinite loop using ``while True:``.
+   - ``sensor.read()`` returns a tuple containing temperature, pressure, and altitude.
+   - The values are printed in a formatted string, making the output easy to read in the terminal.
+   - ``sleep(0.5)`` pauses the loop for 0.5 seconds before the next reading, controlling the update rate.
+
+
+4. **Graceful Exit on Keyboard Interrupt**
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+          # Handles CTRL+C interruption safely
+          print("\nExiting program...")
+
+   When the user presses ``Ctrl+C``, a ``KeyboardInterrupt`` exception is raised.  
+   The ``except`` block catches this exception and prints a friendly exit message instead of showing an error traceback.  
+   This ensures the program stops cleanly.
+
+
+**Troubleshooting**
+
+1. **No Output or Sensor Not Detected**
+
+   - **Cause**: The BMP180 is not properly connected or the I2C bus is not enabled.
+   - **Solution**:
+
+     - Check wiring of the GY-87 module:
+
+       - SDA → Raspberry Pi SDA (GPIO 2)
+       - SCL → Raspberry Pi SCL (GPIO 3)
+       - VCC → 3.3V
+       - GND → GND
+       
+     - Ensure I2C is enabled on the Raspberry Pi using:
+
+     .. raw:: html
+
+        <run></run>
+
+     .. code-block:: shell
+
+        sudo raspi-config
+
+     Navigate to: **Interface Options → I2C → Enable**
+
+     - Verify the sensor is detected using:
+
+     .. raw:: html
+
+        <run></run>
+
+     .. code-block:: shell
+
+        sudo i2cdetect -y 1
+
+     You should see address ``0x77`` in the table. If not, recheck wiring.
+
+
+2. **Incorrect or Unstable Pressure/Altitude Values**
+
+   - **Cause**: Normal environmental variations or insufficient warm-up time.
+   - **Solution**:
+
+     - Allow the sensor to stabilize for a few seconds after powering up.
+     - Avoid measuring near strong airflow (fans, windows).
+     - For more accurate altitude, adjust the reference sea-level pressure.
+
+
+3. **ImportError: No Module Named ``smbus2``**
+
+   - **Cause**: Missing I2C dependency library.
+   - **Solution**: Install ``smbus2``:
+
+     .. raw:: html
+
+        <run></run>
+
+     .. code-block:: shell
+
+        sudo apt-get install python3-smbus python3-smbus2
+
+
+4. **Altitude Seems Incorrect**
+
+   - **Cause**: Altitude depends on the current sea-level pressure, which varies daily.
+   - **Solution**:
+
+     - Get your local sea-level pressure (from a weather app).
+     - Update the altitude formula if needed to improve accuracy.
+
+----------------------------------------------
+
+**Extendable Ideas**
+
+1. **Data Logging**
+
+   Log temperature, pressure, and altitude to a file for later analysis:
+
+   .. code-block:: python
+
+      with open("bmp180_log.txt", "a") as f:
+         f.write(f"{temp:.2f}, {pressure:.2f}, {altitude:.2f}\n")
+
+
+2. **Weather Station Project**
+
+   Combine BMP180 (pressure/temperature) with DHT11 or BME280 to build a full weather monitor.
+
+
+----------------------------------------------
+
+**Conclusion**
+
+The BMP180 is a compact and reliable sensor for measuring temperature, pressure, and altitude.  
+This lesson shows how to read these values using Python on the Fusion HAT.  
+With simple I2C wiring and accurate output, the BMP180 is ideal for weather monitoring, altitude tracking, and similar environmental projects.

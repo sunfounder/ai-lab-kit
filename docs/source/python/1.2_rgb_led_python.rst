@@ -43,9 +43,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_rgb_led`
         - |link_rgb_led_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \-
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -55,7 +55,7 @@ To complete this project, you will need the following components:
 After connecting the R, G, and B pins of the RGB LED to current-limiting resistors, connect these resistors to PWM0, PWM1, and PWM2, respectively. The longest pin of the LED (GND) is connected to the GND pin of the Raspberry Pi. Different PWM values for the three pins produce various colors.
 
 .. image:: img/fzz/1.1.2_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -69,7 +69,7 @@ Follow the steps below to build the circuit:
 3. Connect the longest pin (GND) of the LED to the GND of the Raspberry Pi.
 
 .. image:: img/fzz/1.1.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -82,16 +82,19 @@ Follow the steps below to build the circuit:
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 1.2_RGBLED.py 
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code cycles through various colors on the RGB LED by setting different PWM values for the red, green, and blue components:
 
@@ -103,11 +106,12 @@ The following Python code cycles through various colors on the RGB LED by settin
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import RGB_LED,PWM
+   from fusion_hat.modules import RGB_LED
+   from fusion_hat.pwm import PWM
    from time import sleep
 
    # Initialize an RGB LED. Connect the red component to P0, green to P1, and blue to P2.
-   rgb_led = RGB_LED(PWM('P0'), PWM('P1'), PWM('P2'),common=RGB_LED.CATHODE)
+   rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
 
    try:
       # Set the RGB LED to red.
@@ -147,7 +151,8 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
    
    .. code:: python
 
-      from fusion_hat import RGB_LED, PWM
+      from fusion_hat.modules import RGB_LED
+      from fusion_hat.pwm import PWM
       from time import sleep
    
    The required modules are imported. ``RGB_LED`` and ``PWM`` from the ``fusion_hat`` library manage the RGB LED, and ``sleep`` is used for timing.
@@ -156,8 +161,8 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
    
    .. code:: python
 
-      rgb_led = RGB_LED(PWM('P0'), PWM('P1'), PWM('P2'), common=RGB_LED.CATHODE)
-   
+      rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
+
    The RGB LED is initialized with its red, green, and blue components connected to PWM pins ``P0``, ``P1``, and ``P2``, respectively. The LED uses a common cathode configuration.
 
 3. **Setting Colors Sequentially**

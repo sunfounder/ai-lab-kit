@@ -15,7 +15,7 @@
 
 .. _py_joystick:
 
-2.13 Joystick
+2.11 Joystick
 =========================
 
 **Introduction**
@@ -38,13 +38,13 @@ Below are the components required for this project:
         - PURCHASE LINK
 
     *   - :ref:`cpn_joystick`
-        - 
+        - \- 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -54,7 +54,7 @@ When using a joystick, the data for the X and Y axes are analog values that requ
 
 
 .. image:: img/fzz/2.1.9_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -66,7 +66,7 @@ When using a joystick, the data for the X and Y axes are analog values that requ
 Build the circuit as shown in the diagram below:
 
 .. image:: img/fzz/2.1.9_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -86,16 +86,20 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.13_Joystick.py
 
 
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code**
 
 Below is the Python code used for this project:
 
@@ -107,24 +111,16 @@ Below is the Python code used for this project:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin,ADC
+   from fusion_hat.adc import ADC
+   from fusion_hat.pin import Pin, Mode, Pull
    import time
 
-   # Initialize the button connected to GPIO pin 17
-   BtnPin = Pin(17, Pin.IN, Pin.PULL_UP)
+   # Initialize the Joystick
+   BtnPin = Pin(17, mode=Mode.IN, pull=Pull.UP)
    xAxis = ADC('A1')
    yAxis = ADC('A0')
 
    def MAP(x, in_min, in_max, out_min, out_max):
-      """
-      Map a value from one range to another.
-      :param x: The value to be mapped.
-      :param in_min: The lower bound of the value's current range.
-      :param in_max: The upper bound of the value's current range.
-      :param out_min: The lower bound of the value's target range.
-      :param out_max: The upper bound of the value's target range.
-      :return: The mapped value.
-      """
       return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
    try:
@@ -147,6 +143,7 @@ Below is the Python code used for this project:
    except KeyboardInterrupt: 
       pass
 
+
 This Python script read and display real-time joystick data on a Fusion HAT. When executed:
 
 1. The script continuously reads the X and Y values from the Fusion HAT.
@@ -167,7 +164,8 @@ This Python script read and display real-time joystick data on a Fusion HAT. Whe
 
    .. code-block:: python
 
-      from fusion_hat import Pin,ADC
+      from fusion_hat.adc import ADC
+      from fusion_hat.pin import Pin, Mode, Pull
       import time
 
    The script imports necessary modules: ``fusion_hat`` for GPIO functionalities, and ``time`` for adding delays.
@@ -177,7 +175,7 @@ This Python script read and display real-time joystick data on a Fusion HAT. Whe
    .. code-block:: python
 
       # Initialize the Joystick
-      BtnPin = Pin(17, Pin.IN, Pin.PULL_UP)
+      BtnPin = Pin(17, mode=Mode.IN, pull=Pull.UP)
       xAxis = ADC('A1')
       yAxis = ADC('A0')
 

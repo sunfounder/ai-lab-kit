@@ -58,36 +58,9 @@ Here’s the list of components and their purposes:
     *   - :ref:`cpn_led`
         - |link_led_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \-
     *   - Raspberry Pi
-        -
-
-
-----------------------------------------------
-
-
-**Getting Started: Setting Up Your Raspberry Pi**
-
-Before diving into the project, make sure your Raspberry Pi is ready:
-
-1. **Install the Operating System:**  
-
-   Download and install Raspberry Pi OS on your SD card. You can use the official `Raspberry Pi Imager <https://www.raspberrypi.org/software/>`_ tool to do this.
-
-2. **Connect Peripherals:**  
-
-   Attach a monitor, keyboard, and mouse to your Raspberry Pi. Alternatively, set up SSH to control your Raspberry Pi from another computer.
-
-3. **Connect the Fusion HAT:**
-
-   Connect the Fusion HAT to the GPIO pins on the Raspberry Pi. Make sure the pins are aligned correctly.
-
-   :ref:`assemble_hat`
-
-4. **Download & Install Fusion HAT Libraries:**  
-
-   You should done this step when you download the code. See :ref:`download_the_lib`
-
+        - \-
 
 ----------------------------------------------
 
@@ -100,14 +73,11 @@ Here’s how the circuit should look:
 * The cathode (short pin) of the LED connects to one leg of the resistor.
 * The other leg of the resistor connects to the **GND** (Ground) pin.
 
-.. image:: img/fzz/1.1.1_sch.png
-   :width: 800
-   :align: center
-
-
-**Why Use a Resistor?**  
-
 The resistor limits the current flowing through the LED, preventing it from burning out. Without a resistor, the LED may draw too much current, which can damage both the LED and the Raspberry Pi.
+
+.. image:: img/fzz/1.1.1_sch.png
+   :width: 80%
+   :align: center
 
 
 ----------------------------------------------
@@ -118,14 +88,12 @@ The resistor limits the current flowing through the LED, preventing it from burn
 Follow the wiring diagram below to connect your components:
 
 .. image:: img/fzz/1.1.1_bb.png
-   :width: 800
+   :width: 80%
    :align: center
-
 
 ----------------------------------------------
 
-
-**Writing the Code**
+**Code**
 
 Let’s write the Python code to control the LED. You’ll create a script that turns the LED on and off at regular intervals.
 
@@ -133,7 +101,11 @@ Let’s write the Python code to control the LED. You’ll create a script that 
 
    Open your terminal and type:
 
-   .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
@@ -141,7 +113,11 @@ Let’s write the Python code to control the LED. You’ll create a script that 
 
    Use the following command to execute the script:
 
-   .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
       sudo python3 1.1_LED.py
 
@@ -151,7 +127,11 @@ Let’s write the Python code to control the LED. You’ll create a script that 
 
    To modify the program, open the code file in a text editor:
 
-   .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
        nano 1.1_LED.py
 
@@ -172,11 +152,12 @@ Here’s the complete Python script for this project:
 
 .. code-block:: python
 
-   from fusion_hat import Pin
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode
    from time import sleep
 
-   # Initialize an LED connected to GPIO pin 17 using the Fusion HAT library.
-   led = Pin(17,mode=Pin.OUT)
+   # Initialize an LED connected to GPIO pin 17 as an output pin.
+   led = Pin(17,mode=Mode.OUT)
 
    try:
       # Start an infinite loop to toggle the LED state.
@@ -197,7 +178,6 @@ Here’s the complete Python script for this project:
 
    except KeyboardInterrupt:
       # Gracefully handle a keyboard interrupt (Ctrl+C) by breaking the loop.
-      # GPIO Zero handles cleanup of GPIO settings automatically on exit.
       pass
 
 
@@ -218,7 +198,7 @@ This Python script controls an LED connected to GPIO pin 17 of a Raspberry Pi. W
 
 2. **Initialization:**  
 
-   The line ``led = Pin(17,mode=Pin.OUT)`` tells the Raspberry Pi that an LED is connected to GPIO pin 17.
+   The line ``led = Pin(17,mode=Mode.OUT)`` tells the Raspberry Pi that an LED is connected to GPIO pin 17.
 
 3. **Main Loop:**  
 

@@ -14,7 +14,7 @@
 
 .. _py_ultrasonic:
 
-2.16 Ultrasonic Sensor Module
+2.13 Ultrasonic Sensor Module
 ==============================
 
 **Introduction**
@@ -41,9 +41,9 @@ Here are the components required for this project:
     *   - :ref:`cpn_ultrasonic_sensor`
         - |link_ultrasonic_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -63,7 +63,7 @@ Below is the schematic diagram for the ultrasonic sensor module:
 Assemble the circuit as shown in the diagram below:
 
 .. image:: img/fzz/2.2.7_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 Ensure the connections are secure, with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27 of the Raspberry Pi.
@@ -77,15 +77,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.16_Ultrasonic.py
 
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code**
 
 
 Below is the Python code for this project:
@@ -97,13 +101,13 @@ Below is the Python code for this project:
 
 .. code-block:: python
 
-   #!/usr/bin/env python3
-   from fusion_hat import Ultrasonic,Pin
+   # Import Ultrasonic and Pin class
+   from fusion_hat.modules import Ultrasonic
+   from fusion_hat.pin import Pin
    from time import sleep
 
-   # Initialize the DistanceSensor
-   # Trigger pin is connected to GPIO 27, Echo pin to GPIO 22
-   sensor = Ultrasonic(trig=Pin(27), echo=Pin(22))
+   # Create Ultrasonic object
+   sensor = Ultrasonic(Pin(27), Pin(22))
 
    try:
       # Main loop to continuously measure and report distance
@@ -134,7 +138,8 @@ This Python script uses an ultrasonic distance sensor to measure the distance to
 
    .. code-block:: python
 
-      from fusion_hat import Ultrasonic,Pin
+      from fusion_hat.modules import Ultrasonic
+      from fusion_hat.pin import Pin
       from time import sleep
 
    The script imports the ``Ultrasonic`` class from the ``fusion_hat`` library to interact with the ultrasonic sensor and the ``sleep`` function from the ``time`` module to introduce delays.
@@ -144,7 +149,7 @@ This Python script uses an ultrasonic distance sensor to measure the distance to
 
    .. code-block:: python
 
-      sensor = Ultrasonic(trig=Pin(27), echo=Pin(22))
+      sensor = Ultrasonic(Pin(27), Pin(22))
 
    The ultrasonic sensor is initialized with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27. This setup enables the Raspberry Pi to send and receive ultrasonic signals.
 

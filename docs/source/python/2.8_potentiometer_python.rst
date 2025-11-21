@@ -14,7 +14,7 @@
 
 .. _py_potentiometer:
 
-2.9 Potentiometer
+2.8 Potentiometer
 ===================
 
 **Introduction**
@@ -45,9 +45,9 @@ Here are the components required for this project:
     *   - :ref:`cpn_potentiometer`
         - |link_potentiometer_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -56,7 +56,7 @@ Here are the components required for this project:
 Below are the schematic diagrams for the project:
 
 .. image:: img/fzz/2.1.7_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -68,7 +68,7 @@ Below are the schematic diagrams for the project:
 Build the circuit as shown in the image below:
 
 .. image:: img/fzz/2.1.7_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -83,15 +83,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.9_Potentiometer.py
 
    
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Below is the code for the experiment:
 
@@ -105,32 +109,25 @@ Below is the code for the experiment:
 
    #!/usr/bin/env python3
 
-   from fusion_hat import ADC, PWM
+   from fusion_hat.adc import ADC
+   from fusion_hat.pwm import PWM
    import time
 
-   # Initialize a PWM LED
-   led = PWM('P0')
-
    # Set up the potentiometer
-   pot = ADC('A0')
+   pot = ADC(0)
+
+   # Initialize a PWM LED
+   led = PWM(0)
 
    def MAP(x, in_min, in_max, out_min, out_max):
-      """
-      Map a value from one range to another.
-      :param x: The value to be mapped.
-      :param in_min: The lower bound of the value's current range.
-      :param in_max: The upper bound of the value's current range.
-      :param out_min: The lower bound of the value's target range.
-      :param out_max: The upper bound of the value's target range.
-      :return: The mapped value.
-      """
+
       return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
    try:
       while True:
          # Get the current reading from the ADC port
          result = pot.read()
-         voltage = pot.read_voltage() # Get the voltage from the ADC port, in Volts (0-3.3V)
+         voltage = pot.read_voltage()
          print('result = %d voltage = %.2f' %(result,voltage))
 
          # Map the ADC value to a range suitable for setting LED brightness
@@ -166,7 +163,8 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
 
    .. code-block:: python
 
-      from fusion_hat import ADC, PWM
+      from fusion_hat.adc import ADC
+      from fusion_hat.pwm import PWM
       import time
 
    The script uses ``fusion_hat`` for PWM LED control and analog-to-digital conversion, and ``time`` for implementing delays.
@@ -176,11 +174,11 @@ This Python script uses an Fusion HAT to read analog input and control the brigh
 
    .. code-block:: python
 
-      # Initialize a PWM LED
-      led = PWM('P0')
-
       # Set up the potentiometer
-      pot = ADC('A0')
+      pot = ADC(0)
+
+      # Initialize a PWM LED
+      led = PWM(0)
 
    The script initializes a PWM LED on pin ``P0`` and an ADC on pin ``A0``.
 

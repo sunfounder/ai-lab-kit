@@ -49,9 +49,9 @@ The following components are required for this project:
     *   - :ref:`cpn_camera_module`
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -63,7 +63,7 @@ The following components are required for this project:
 Below is the GPIO pin mapping for this project:
 
 .. image:: img/fzz/4.1.1_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -74,7 +74,7 @@ Below is the GPIO pin mapping for this project:
 Follow this wiring diagram to set up the circuit:
 
 .. image:: img/fzz/4.1.1_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -87,14 +87,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 4.1_Camera.py 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Here is the Python code used for this project:
 
@@ -106,8 +110,10 @@ Here is the Python code used for this project:
 
 .. code-block:: python
 
+   #!/usr/bin/env python3
+
    from picamera2 import Picamera2, Preview
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode, Pull
    import time
    import os
 
@@ -124,8 +130,8 @@ Here is the Python code used for this project:
    status = False
 
    # Set up LED and button with their GPIO pin numbers
-   led = Pin(17, Pin.OUT)
-   button = Pin(4, Pin.IN, Pin.PULL_DOWN)
+   led = Pin(17, mode=Mode.OUT)
+   button = Pin(4, mode=Mode.IN, pull=Pull.DOWN)
 
    def takePhotos(pin):
       """Function to set the camera's status to True when the button is pressed."""

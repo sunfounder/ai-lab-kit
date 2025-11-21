@@ -43,6 +43,7 @@ Play with Python
 .. toctree::
    :maxdepth: 1
 
+
    2.1_button_python.rst 
    2.2_micro_switch_python.rst 
    2.3_slide_switch_python.rst 
@@ -50,17 +51,14 @@ Play with Python
    2.5_touch_switch_module_python.rst 
    2.6_reed_switch_module_python.rst 
    2.7_pir_python.rst 
-   2.8_ir_obstacle_avoidance_sensor_python.rst 
-   2.9_potentiometer_python.rst 
-   2.10_photoresistor_python.rst 
-   2.11_thermistor_python.rst 
-   2.12_moisture_python.rst 
-   2.13_joystick_python.rst 
-   2.14_keypad_python.rst 
-   2.15_rotatary_encoder_python.rst
-   2.16_ultrasonic_sensor_module_python.rst 
-   2.17_mpu6050_module_python.rst 
-   2.20_dht_python.rst 
+   2.8_potentiometer_python.rst 
+   2.9_photoresistor_python.rst 
+   2.10_thermistor_python.rst 
+   2.11_joystick_python.rst 
+   2.12_rotatary_encoder_python.rst 
+   2.13_ultrasonic_sensor_module_python.rst 
+   2.14_dht_python.rst 
+   2.15_gy87_imu.rst
 
 **Media**
 
@@ -78,17 +76,17 @@ Play with Python
 .. toctree::
    :maxdepth: 1
 
+
    4.1_camera_python.rst 
    4.2_automatic_capture_camera_python.rst 
-   4.3_game_10_second_python.rst 
-   4.4_counting_device_python.rst 
+   4.3_reversing_alarm_python.rst 
+   4.4_morse_code_generator_python.rst 
    4.5_welcome_python.rst 
-   4.6_reversing_alarm_python.rst 
+   4.6_counting_device_python.rst 
    4.7_smart_fan_python.rst 
-   4.8_battery_indicator_python.rst 
-   4.9_traffic_light_python.rst 
-   4.10_overheat_monitor_python.rst 
-   4.11_password_lock_python.rst 
-   4.12_alarm_bell_python.rst 
-   4.13_morse_code_generator_python.rst 
-   4.14_game_guess_number_python.rst
+   4.8_game_10_second_python.rst 
+   4.9_traffic_light_python.rst
+
+
+.. 4.10_hub_knob
+.. 4.11_set_angle

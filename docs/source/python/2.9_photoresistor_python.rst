@@ -12,9 +12,10 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+
 .. _py_photoresistor:
 
-2.10 Photoresistor
+2.9 Photoresistor
 ===========================
 
 **Introduction**
@@ -49,9 +50,9 @@ Here are the components required for this project:
     *   - :ref:`cpn_photoresistor`
         - |link_photoresistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -62,7 +63,7 @@ Below are the schematic diagrams illustrating how to connect the components:
 
 
 .. image:: img/fzz/2.2.1_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -75,7 +76,7 @@ Below are the schematic diagrams illustrating how to connect the components:
 Build the circuit as shown in the diagram below:
 
 .. image:: img/fzz/2.2.1_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -86,31 +87,29 @@ Ensure that:
 - The LED is connected to a GPIO pin for PWM control.
 - All connections are secure, and power and ground connections are properly set.
 
-
-
-
 ----------------------------------------------
 
 **Running the Example**
 
-
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
-
-.. code-block:: shell
+.. raw:: html
    
-   cd ai-lab-kit/python/
+   <run></run>
+   
+.. code-block:: shell
+
+   cd ~/ai-lab-kit/python/
    sudo python3 2.10_Photoresistor.py
+
+
 
 ----------------------------------------------
 
-
-**Writing the Code**
-
+**Code**
 
 Below is the Python code used in this project:
-
 
 .. raw:: html
 
@@ -120,25 +119,18 @@ Below is the Python code used in this project:
 
    #!/usr/bin/env python3
 
-   from fusion_hat import ADC, PWM
+   from fusion_hat.adc import ADC
+   from fusion_hat.pwm import PWM
    import time
 
-   # Initialize a PWM LED on GPIO pin 22
+   # Initialize a PWM LED
    led = PWM('P0')
 
    # Set up the potentiometer
    photoresistor = ADC('A0')
 
    def MAP(x, in_min, in_max, out_min, out_max):
-      """
-      Map a value from one range to another.
-      :param x: The value to be mapped.
-      :param in_min: The lower bound of the value's current range.
-      :param in_max: The upper bound of the value's current range.
-      :param out_min: The lower bound of the value's target range.
-      :param out_max: The upper bound of the value's target range.
-      :return: The mapped value.
-      """
+
       return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
    try:
@@ -160,6 +152,7 @@ Below is the Python code used in this project:
    except KeyboardInterrupt: 
       led.pulse_width_percent(0)  # Turn off the LED
 
+
 This Python script continuously reads the photoresistor's value, maps it to a suitable range for setting the LED brightness, and adjusts the LED's brightness accordingly. The script also includes a graceful exit mechanism to turn off the LED when interrupted by the user. When executed:
 
 1. The Fusion HAT continuously reads photoresistor values from its input channel (ranging from 0 to 4095).
@@ -180,8 +173,10 @@ This Python script continuously reads the photoresistor's value, maps it to a su
 
    .. code-block:: python
 
-      from fusion_hat import ADC, PWM
+      from fusion_hat.adc import ADC
+      from fusion_hat.pwm import PWM
       import time
+
 
    The script imports necessary modules for reading analog values and controlling the LED brightness.
 

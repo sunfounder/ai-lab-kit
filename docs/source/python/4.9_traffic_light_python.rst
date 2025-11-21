@@ -49,9 +49,9 @@ The following components are required for this project:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -62,7 +62,7 @@ The following components are required for this project:
 Below is the schematic diagram for the traffic light simulation project:
 
 .. image:: img/fzz/4.1.9_sch.png
-   :width: 800
+   :width: 90%
    :align: center
 
 
@@ -76,7 +76,7 @@ Refer to the wiring diagram for assembling the components:
 
 
 .. image:: img/fzz/4.1.9_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -89,15 +89,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 4.9_TrafficLight.py
 
    
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 
 Here is the Python script for the traffic light simulation:
@@ -112,24 +116,24 @@ Here is the Python script for the traffic light simulation:
 
    #!/usr/bin/env python3
 
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode
    import threading
 
    # Setup GPIO pins for 74HC595 shift register
-   SDI = Pin(17,Pin.OUT)   # Serial Data Input
-   RCLK = Pin(4,Pin.OUT)  # Register Clock
-   SRCLK = Pin(27,Pin.OUT) # Shift Register Clock
+   SDI = Pin(17,mode=Mode.OUT)   # Serial Data Input
+   RCLK = Pin(4,mode=Mode.OUT)  # Register Clock
+   SRCLK = Pin(27,mode=Mode.OUT) # Shift Register Clock
 
    # Define GPIO pins for digit selection on the 7-segment display
-   placePin = [Pin(pin,Pin.OUT) for pin in (23, 24, 25, 12)]
+   placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
    # Segment codes for numbers 0-9 on 7-segment display
    number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
    # Setup GPIO pins for traffic light LEDs
-   ledPinR = Pin(5,Pin.OUT) # Red LED
-   ledPinG = Pin(6,Pin.OUT)  # Green LED
-   ledPinY = Pin(13,Pin.OUT)  # Yellow LED
+   ledPinR = Pin(5,mode=Mode.OUT) # Red LED
+   ledPinG = Pin(6,mode=Mode.OUT)  # Green LED
+   ledPinY = Pin(13,mode=Mode.OUT)  # Yellow LED
 
    # Duration settings for traffic lights
    greenLight = 30
@@ -224,6 +228,7 @@ Here is the Python script for the traffic light simulation:
       loop()
    except KeyboardInterrupt:
       destroy()
+
 
 ----------------------------------------------
 

@@ -47,12 +47,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_capacitor`
         - |link_capacitor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
-
-
-
+        - \-
 
 ----------------------------------------------
 
@@ -62,7 +59,7 @@ The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 an
 
 
 .. image:: img/fzz/2.1.2_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -78,7 +75,7 @@ Follow these steps to build the circuit:
 
 
 .. image:: img/fzz/2.1.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -91,14 +88,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.2_MicroSwitch.py
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code toggles between two LEDs based on the state of the Micro Switch:
 
@@ -109,32 +110,32 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 .. code-block:: python
 
-    #!/usr/bin/env python3
-    from fusion_hat import Pin  
-    from time import sleep  # Import sleep function for delays
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from time import sleep  # Import sleep function for delays
 
-    # Initialize micro switch on GPIO pin 17
-    micro_switch = Pin(17, Pin.IN, pull = Pin.PULL_DOWN)
-    # Initialize LED1 connected to GPIO pin 22
-    led1 = Pin(22,Pin.OUT)
-    # Initialize LED2 connected to GPIO pin 27
-    led2 = Pin(27,Pin.OUT)
+   # Initialize micro switch on GPIO pin 17
+   micro_switch = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+   # Initialize LED1 connected to GPIO pin 22
+   led1 = Pin(22,mode=Mode.OUT)
+   # Initialize LED2 connected to GPIO pin 27
+   led2 = Pin(27,mode=Mode.OUT)
 
-    try:
-        # Continuously check the state of the micro switch and control LEDs accordingly
-        while True:
-            if micro_switch.value() == 1:  # If the micro switch is pressed
-                led1.high()       # Turn on LED1
-                led2.low()      # Turn off LED2
-            else:  # If the micro switch is not pressed
-                led1.low()      # Turn off LED1
-                led2.high()       # Turn on LED2
+   try:
+      # Continuously check the state of the micro switch and control LEDs accordingly
+      while True:
+         if micro_switch.value() == 1:  # If the micro switch is pressed
+               led1.high()       # Turn on LED1
+               led2.low()      # Turn off LED2
+         else:  # If the micro switch is not pressed
+               led1.low()      # Turn off LED1
+               led2.high()       # Turn on LED2
 
-            sleep(0.5)  # Pause for 0.5 seconds before checking the switch again
+         sleep(0.5)  # Pause for 0.5 seconds before checking the switch again
 
-    except KeyboardInterrupt:
-        # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
-        pass
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
+      pass
 
 This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
 
@@ -163,8 +164,8 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
    .. code-block:: python
 
-      from fusion_hat import Pin  
-      from time import sleep  
+      from fusion_hat.pin import Pin, Mode, Pull
+      from time import sleep  # Import sleep function for delays  
 
 2. **Component Initialization**
 
@@ -173,11 +174,11 @@ This Python script controls two LEDs based on the state of a micro switch connec
    .. code-block:: python
 
       # Initialize micro switch on GPIO pin 17
-      micro_switch = Pin(17, Pin.IN, pull = Pin.PULL_DOWN)
+      micro_switch = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
       # Initialize LED1 connected to GPIO pin 22
-      led1 = Pin(22,Pin.OUT)
+      led1 = Pin(22,mode=Mode.OUT)
       # Initialize LED2 connected to GPIO pin 27
-      led2 = Pin(27,Pin.OUT)
+      led2 = Pin(27,mode=Mode.OUT)
 
 3. **Switch State Handling**
 

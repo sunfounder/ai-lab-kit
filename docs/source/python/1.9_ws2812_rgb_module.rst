@@ -34,148 +34,152 @@ To complete this project, you will need the following components:
    *   - COMPONENT
        - PURCHASE LINK
 
-   *   - :ref:`cpn_neopixel_12`
-       - |link_neopixel_buy|
+   *   - :ref:`cpn_ws2812_module`
+       - \-
    *   - :ref:`cpn_wires`
        - |link_wires_buy|
-   *   - :ref:`cpn_power_supply`
-       - |link_power_supply_buy|
+
    *   - :ref:`cpn_fusion_hat`
-       - 
+       - \- 
    *   - Raspberry Pi
-       -
-
-**Important Note**: For NeoPixel strips with more than 8-10 LEDs, use an external 5V power supply to avoid overloading the Raspberry Pi's power regulator.
-
-----------------------------------------------
-
-**Circuit Diagram**
-
-The circuit connects the NeoPixel strip to the Raspberry Pi's SPI interface. The strip requires three connections: power (5V), ground, and data input. A level shifter may be needed for reliable data transmission, as NeoPixels typically require 5V logic levels while the Raspberry Pi uses 3.3V.
-
-.. image:: img/fzz/1.9_neopixel_sch.png
+       - \-
 
 ----------------------------------------------
 
 **Wiring Diagram**
 
-Follow these steps to build the circuit:
-
-1. Connect the 5V pin from Fusion HAT+ to VCC of NeoPixel strip
-2. Connect the GND pin from Fusion HAT+ to GND of NeoPixel strip  
-3. Connect the SPI (MO) from Fusion HAT+ to DATA IN of NeoPixel strip
-4. For longer strips, use an external 5V power supply:
-
-   - Connect external 5V to NeoPixel VCC
-   - Connect external GND to both NeoPixel GND and Fusion HAT+ GND
-
-.. image:: img/fzz/1.7_neopixel_bb.png
-   :width: 800
+.. image:: img/fzz/1.9_ws2812_bb.png
+   :width: 70%
    :align: center
 
 
 ----------------------------------------------
 
-**Create Environment**
+**Setup Steps**
 
-First, we need to create a virtual environment and install the necessary libraries.
+#. Create and activate an isolated environment for this project:
 
-.. code-block:: shell
-
-   cd ~
-   python3 -m venv neopixel_env --system-site-packages
-   source neopixel_env/bin/activate
-
-.. note:: 
-
-   For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
-
------------------------------------------------
-
-**Installation Requirements**
-
-Before running the code, you need to install the required library:
-
-.. code-block:: shell
-
-   pip3 install adafruit-circuitpython-neopixel-spi
-
-This library provides the necessary functions to control NeoPixel LEDs using SPI communication.
-
-
-----------------------------------------------
-
-**Running the Example**
-
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
-
-.. code-block:: shell
+   .. raw:: html
    
-   cd ai-lab-kit/python/
-   sudo ~/neopixel_env/bin/python3 1.9_NeoPixel.py
+      <run></run>
+   
+   .. code-block:: shell
+
+      cd ~
+      python3 -m venv 1.9_ws2812_env --system-site-packages
+      source 1.9_ws2812_env/bin/activate
+
+   .. note:: 
+   
+      For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
+
+#. Before running the code, you need to install the required library:
+
+   This library provides the necessary functions to control NeoPixel LEDs using SPI communication.
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+   
+      pip3 install adafruit-circuitpython-neopixel-spi
+   
+
+#. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+      
+      cd ~/ai-lab-kit/python/
+      sudo ~/1.9_ws2812_env/bin/python3 1.9_NeoPixel.py
+
+#. When this script runs, the WS2812 LED module cycles through three solid colors:
+
+   * All LEDs turn **red** for one second  
+   * All LEDs turn **green** for one second  
+   * All LEDs turn **blue** for one second  
+
+   After displaying each color, the LEDs briefly turn **off** before repeating the cycle.  
+   The terminal prints the current color name as the pattern runs.
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code controls a NeoPixel LED strip, cycling through different colors:
 
-.. raw:: html
-
-   <run></run>
-
 .. code-block:: python
 
-   # pip3 install adafruit-circuitpython-neopixel-spi
+   import time               # Used for delays
+   import board              # Provides board-specific pin definitions
+   import neopixel_spi as neopixel   # NeoPixel SPI driver
 
-   import time
-   import board
-   import neopixel_spi as neopixel
-
+   # Create an SPI object using the default SPI bus of the board
    spi = board.SPI()
-   LED_COUNT = 12  # Number of LED pixels.
-   PIXEL_ORDER = neopixel.GRB
 
+   LED_COUNT = 12  # Number of LED pixels in the strip
+   PIXEL_ORDER = neopixel.GRB  # Color order used by the LEDs (Green, Red, Blue)
+
+   # Create a NeoPixel strip object over SPI
+   # auto_write=False means we must call strip.show() to update the LEDs
    strip = neopixel.NeoPixel_SPI(spi, LED_COUNT, pixel_order=PIXEL_ORDER, auto_write=False)
-   time.sleep(0.01)
-   strip.fill(0)
-   strip.show()
 
-   while True:
-       print("RGB test")
-       print("Red")
-       strip.fill((255, 0, 0))
-       strip.show()
-       time.sleep(1)
-       print("Green")
-       strip.fill((0, 255, 0))
-       strip.show()
-       time.sleep(1)
-       print("Blue")
-       strip.fill((0, 0, 255))
-       strip.show()
-       time.sleep(1)
-       #print("Off for 10 seconds")
-       strip.fill((0, 0, 0))
-       strip.show()
-       time.sleep(1)
+   time.sleep(0.01)   # Short delay to ensure the strip is ready
 
-This Python script creates a color cycling demonstration on a NeoPixel LED strip. When executed:
+   strip.fill(0)      # Turn all pixels off (color value 0 = off)
+   strip.show()       # Send the data to the LED strip
 
-1. The script initializes communication with the NeoPixel strip using SPI
-2. It cycles through primary colors (Red, Green, Blue) with 1-second intervals
-3. Each color change is announced in the console
-4. The strip turns off briefly between cycles
-5. The program runs continuously until interrupted with Ctrl+C
+   try:
+      while True:
+         print("RGB test")
+
+         # Display red on all LEDs
+         print("Red")
+         strip.fill((255, 0, 0))  # Full red, no green, no blue
+         strip.show()
+         time.sleep(1)
+
+         # Display green on all LEDs
+         print("Green")
+         strip.fill((0, 255, 0))  # Full green
+         strip.show()
+         time.sleep(1)
+
+         # Display blue on all LEDs
+         print("Blue")
+         strip.fill((0, 0, 255))  # Full blue
+         strip.show()
+         time.sleep(1)
+      
+         # Turn all LEDs off
+         # print("Off for 10 seconds")
+         strip.fill((0, 0, 0))    # All channels 0 = off
+         strip.show()
+         time.sleep(1)
+
+   # Gracefully handle script termination (e.g., via KeyboardInterrupt)
+   except KeyboardInterrupt: 
+      pass
+
+This Python script demonstrates basic control of a 12-LED WS2812 ring using the NeoPixel SPI driver. When executed:
+
+1. The script initializes the SPI interface and prepares the WS2812 LED ring.
+2. All LEDs cycle through red, green, and blue with 1-second intervals.
+3. Each color change is printed to the console for debugging.
+4. The LEDs briefly turn off between cycles.
+5. The program loops continuously until interrupted with Ctrl+C.
 
 ----------------------------------------------
 
 **Understanding the Code**
 
-1. **Library Import and Installation**
+1. **Library Import**
 
-   The code requires the Adafruit NeoPixel library, which must be installed separately.
+   The script uses the `neopixel_spi` library to control WS2812 LEDs through Raspberry Pi’s SPI interface.
 
    .. code-block:: python
 
@@ -183,142 +187,111 @@ This Python script creates a color cycling demonstration on a NeoPixel LED strip
       import board
       import neopixel_spi as neopixel
 
-2. **SPI and NeoPixel Initialization**
+2. **SPI and NeoPixel Setup**
 
-   The SPI interface is initialized and the NeoPixel strip is configured with the correct number of LEDs and color order.
-
+   The SPI bus is initialized and the NeoPixel ring is configured with 12 LEDs and the required color order (GRB).
+   
    .. code-block:: python
+   
+       spi = board.SPI()
+       LED_COUNT = 12
+       PIXEL_ORDER = neopixel.GRB
+   
+       strip = neopixel.NeoPixel_SPI(
+           spi,
+           LED_COUNT,
+           pixel_order=PIXEL_ORDER,
+           auto_write=False
+       )
 
-      spi = board.SPI()
-      LED_COUNT = 12  # Number of LED pixels.
-      PIXEL_ORDER = neopixel.GRB
+3. **Initial LED Reset**
 
-      strip = neopixel.NeoPixel_SPI(spi, LED_COUNT, pixel_order=PIXEL_ORDER, auto_write=False)
-
-3. **Initial Setup**
-
-   The strip is initialized by turning off all LEDs and ensuring they are updated.
-
+   A short delay ensures the LEDs are ready, then all pixels are turned off.
+   
    .. code-block:: python
+   
+       time.sleep(0.01)
+       strip.fill(0)
+       strip.show()
 
-      time.sleep(0.01)
-      strip.fill(0)
+4. **Main Color-Cycling Loop**
+
+   Inside the infinite loop, the script fills the LED ring with solid red, green, and blue in sequence. Each change is displayed for one second.
+   
+   .. code-block:: python
+   
+       while True:
+           strip.fill((255, 0, 0))  # Red
+           strip.show()
+           time.sleep(1)
+           # Similar code for green and blue...
+
+**5. Color Format**
+
+   Colors are defined using an RGB tuple: ``(red, green, blue)`` with each value between 0–255.
+   
+   .. code-block:: python
+   
+       strip.fill((0, 255, 0))  # Example: green
+
+Troubleshooting
+---------------
+
+* **LED Ring Not Lighting Correctly**
+
+  - **Cause:** Wrong wiring or insufficient power  
+  - **Solution:** Ensure VCC is 5V, GND is shared, and the data line is connected to DIN (sometimes labeled RGB)
+
+* **Incorrect Colors**
+
+  - **Cause:** LED color order mismatch  
+  - **Solution:** Try different pixel orders such as ``neopixel.RGB`` or ``neopixel.GRBW``
+
+* **SPI Not Working**
+
+  - **Cause:** SPI disabled or hardware conflict  
+  - **Solution:** Enable SPI via ``sudo raspi-config``
+  
+* **Library Import Fails**
+
+  - **Cause:** Missing dependency  
+  - **Solution:**
+  
+  .. code-block:: bash
+
+      pip3 install adafruit-circuitpython-neopixel-spi
+
+Extendable Ideas
+------------------
+
+* You can light up specific LEDs with different colors to create simple patterns or highlight certain positions on the ring.
+
+  .. code-block:: python
+  
+      strip[0] = (255, 0, 0)
       strip.show()
 
-4. **Color Cycling Loop**
+* By cycling through calculated RGB values, you can generate a smooth rainbow transition across all LEDs.
 
-   The main loop cycles through different colors, updating the entire strip and adding delays for visibility.
-
-   .. code-block:: python
-
-      while True:
-          print("RGB test")
-          print("Red")
-          strip.fill((255, 0, 0))
-          strip.show()
-          time.sleep(1)
-          # ... continues with other colors
-
-5. **Color Format**
-
-   Colors are specified as RGB tuples with values from 0-255. The ``fill()`` method applies the color to all LEDs.
-
-   .. code-block:: python
-
-      strip.fill((255, 0, 0))   # Red
-      strip.fill((0, 255, 0))   # Green  
-      strip.fill((0, 0, 255))   # Blue
-      strip.fill((0, 0, 0))     # Off
-
-----------------------------------------------
-
-**Troubleshooting**
-
-1. **LEDs Not Lighting or Flickering**
-
-   - **Cause**: Insufficient power, incorrect wiring, or logic level mismatch.
-   - **Solution**: Use external 5V power supply for longer strips, verify all connections, and consider using a level shifter for data line.
-
-2. **Wrong Colors Displayed**
-
-   - **Cause**: Incorrect pixel order configuration.
-   - **Solution**: Change ``PIXEL_ORDER`` to ``neopixel.GRB``, ``neopixel.RGB``, or other orders depending on your LED model.
-
-3. **SPI Communication Errors**
-
-   - **Cause**: SPI not enabled or conflicts with other devices.
-   - **Solution**: Enable SPI in Raspberry Pi configuration (``sudo raspi-config``) and ensure no other devices are using the SPI bus.
-
-4. **Library Installation Issues**
-
-   - **Cause**: Missing dependencies or permission issues.
-   - **Solution**: Install required dependencies: ``sudo apt-get install python3-pip`` and run with sudo privileges.
-
-----------------------------------------------
-
-**Extendable Ideas**
-
-1. **Individual LED Control**
-
-   Control each LED individually instead of filling the entire strip:
-
-   .. code-block:: python
-
-      # Set individual pixels to different colors
-      strip[0] = (255, 0, 0)    # First LED red
-      strip[1] = (0, 255, 0)    # Second LED green
-      strip[2] = (0, 0, 255)    # Third LED blue
+  .. code-block:: python
+  
+      strip.fill(wheel(50))
       strip.show()
 
-2. **Color Wheel and Smooth Transitions**
+* Create a chasing effect by lighting one LED at a time while keeping the others off.
 
-   Create smooth color transitions using HSV to RGB conversion:
-
-   .. code-block:: python
-
-      def wheel(pos):
-          # Input a value 0-255 to get a rainbow color
-          if pos < 85:
-              return (pos * 3, 255 - pos * 3, 0)
-          elif pos < 170:
-              pos -= 85
-              return (255 - pos * 3, 0, pos * 3)
-          else:
-              pos -= 170
-              return (0, pos * 3, 255 - pos * 3)
-
-      for i in range(255):
-          strip.fill(wheel(i))
-          strip.show()
-          time.sleep(0.05)
-
-3. **Running Light Effect**
-
-   Create chasing or running light patterns:
-
-   .. code-block:: python
-
-      while True:
-          for i in range(LED_COUNT):
-              strip.fill((0, 0, 0))  # Turn all off
-              strip[i] = (0, 255, 0)  # Turn current LED green
-              strip.show()
-              time.sleep(0.1)
-
-4. **Brightness Control**
-
-   Adjust overall brightness of the strip:
-
-   .. code-block:: python
-
-      strip.brightness = 0.5  # Set to 50% brightness
-      strip.fill((255, 0, 0))
+  .. code-block:: python
+  
+      strip[i] = (0, 255, 0)
       strip.show()
 
+* You can dim or brighten the entire LED ring by adjusting the brightness attribute.
 
+  .. code-block:: python
+  
+      strip.brightness = 0.3
 
-----------------------------------------------
+Conclusion
+----------
 
-**Conclusion**
-
-This project demonstrates how to control NeoPixel LED strips using SPI communication on a Raspberry Pi. NeoPixels offer versatile lighting solutions for decorative, indicator, and artistic applications. By mastering individual LED control and color manipulation, you can create complex lighting patterns and interactive displays for various projects including home automation, art installations, and visual feedback systems.
+This example demonstrates how to control a WS2812 12-LED ring using SPI on a Raspberry Pi. With only a few lines of code, you can cycle through colors, create animations, and explore individual LED control. This makes WS2812 rings ideal for indicator lights, robotics, decorative effects, and interactive visual projects.

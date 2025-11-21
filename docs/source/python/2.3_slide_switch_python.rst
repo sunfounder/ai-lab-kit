@@ -47,9 +47,9 @@ To complete this project, gather the following components:
     *   - :ref:`cpn_capacitor`
         - |link_capacitor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -59,7 +59,7 @@ To complete this project, gather the following components:
 The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected to GPIO22 and GPIO27. The switch toggles between the two LEDs, alternately lighting them up.
 
 .. image:: img/fzz/2.1.4_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -78,7 +78,7 @@ Follow these steps to build the circuit:
 5. Connect the cathodes of both LEDs to GND.
 
 .. image:: img/fzz/2.1.4_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -91,14 +91,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.3_SlideSwitch.py 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Here’s the Python code to control the LEDs based on the state of the Slide Switch:
 
@@ -111,16 +115,16 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin 
+   from fusion_hat.pin import Pin, Mode, Pull
    from time import sleep  # Import sleep for delay
 
    # Initialize slider (Button) on GPIO pin 17
-   slider = Pin(17, Pin.IN, pull = Pin.PULL_DOWN) 
+   slider = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
    # Initialize LED1 connected to GPIO pin 22
-   led1 = Pin(22,Pin.OUT)
+   led1 = Pin(22,mode=Mode.OUT)
    # Initialize LED2 connected to GPIO pin 27
-   led2 = Pin(27,Pin.OUT)
+   led2 = Pin(27,mode=Mode.OUT)
 
    try:
       # Continuously monitor the state of the slider and control LEDs accordingly
@@ -166,7 +170,7 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
    .. code-block:: python
 
-      from fusion_hat import Pin 
+      from fusion_hat.pin import Pin, Mode, Pull
       from time import sleep  # Import sleep for delay
 
 2. **Component Initialization**
@@ -176,12 +180,12 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
    .. code-block:: python
 
       # Initialize slider (Button) on GPIO pin 17
-      slider = Pin(17, Pin.IN, pull = Pin.PULL_DOWN) 
+      slider = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
       # Initialize LED1 connected to GPIO pin 22
-      led1 = Pin(22,Pin.OUT)
+      led1 = Pin(22,mode=Mode.OUT)
       # Initialize LED2 connected to GPIO pin 27
-      led2 = Pin(27,Pin.OUT)
+      led2 = Pin(27,mode=Mode.OUT)
 
 3. **State Monitoring and LED Control**
 

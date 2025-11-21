@@ -14,7 +14,7 @@
 
 .. _py_fun_count:
 
-4.4 Counting Device
+4.6 Counting Device
 =======================
 
 **Introduction**
@@ -49,9 +49,9 @@ The following components are required for this project:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -64,7 +64,7 @@ Below is the circuit diagram for the project:
 
 
 .. image:: img/fzz/4.1.4_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -76,7 +76,7 @@ Follow the wiring diagram to connect the components correctly:
 
 
 .. image:: img/fzz/4.1.4_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -97,15 +97,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
-   sudo python3 4.4_CountingDevice.py 
+   cd ~/ai-lab-kit/python/
+   sudo python3 4.6_CountingDevice.py 
 
 ----------------------------------------------
 
 
-**Writing the Code**
+**Code**
 
 
 Below is the Python script used in this project:
@@ -119,89 +123,98 @@ Below is the Python script used in this project:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode, Pull
 
-   # Initialize PIR motion sensor on GPIO 22
-   pir = Pin(22, Pin.IN, pull= Pin.PULL_DOWN)
+   # Initialize PIR motion sensor on GPIO 22 (input with pull-down)
+   pir = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
 
    # Define GPIO pins for the 74HC595 shift register
-   SDI = Pin(17,Pin.OUT)   # Serial Data Input
-   RCLK = Pin(4,Pin.OUT)  # Register Clock
-   SRCLK = Pin(27,Pin.OUT) # Shift Register Clock
+   SDI = Pin(17, mode=Mode.OUT)   # Serial Data Input
+   RCLK = Pin(4, mode=Mode.OUT)   # Register Clock (latch)
+   SRCLK = Pin(27, mode=Mode.OUT) # Shift Register Clock
 
-   # Define GPIO pins for digit selection on the 7-segment display
-   placePin = [Pin(pin,Pin.OUT) for pin in (23, 24, 25, 12)]
+   # Define GPIO pins used to select one of the 4 digits on the 7-segment display
+   placePin = [Pin(pin, mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
-   # Define digit codes for 7-segment display
+   # Segment code table for digits 0–9 (common-cathode 7-segment display)
    number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
-   # Counter for the displayed number
+   # Counter to display the number of detections
    counter = 0
 
    def clearDisplay():
-      """ Clear the 7-segment display. """
+      """Clear the 7-segment display by shifting out 'all off' bits."""
       for _ in range(8):
-         SDI.high()
-         SRCLK.high()
+         SDI.high()     # Send a high bit
+         SRCLK.high()   # Clock it in
          SRCLK.low()
-      RCLK.high()
+      RCLK.high()        # Latch output
       RCLK.low()
 
    def hc595_shift(data):
-      """ Shift a byte of data to the 74HC595 shift register. """
+      """Shift a full byte of data into the 74HC595 to control the segments."""
       for i in range(8):
-         SDI.value(0x80 & (data << i))  # Set SDI high/low based on data bit
-         SRCLK.high()  # Pulse the Shift Register Clock
+         SDI.value(0x80 & (data << i))  # Output next bit of the data
+         SRCLK.high()                   # Pulse shift clock
          SRCLK.low()
-      RCLK.high()  # Latch data on the output by pulsing Register Clock
+      RCLK.high()                        # Latch data to display
       RCLK.low()
 
    def pickDigit(digit):
-      """ Select a digit for display on the 7-segment display. """
+      """Enable one specific digit (0–3) on the multiplexed display."""
       for pin in placePin:
-         pin.low()  # Turn off all digit selection pins
-      placePin[digit].high()  # Turn on the selected digit
-
+         pin.low()                      # Disable all digits
+      placePin[digit].high()             # Activate the selected digit
 
    def display():
-      # Updates the display with the current counter value
+      """Display the current 4-digit counter value on the 7-segment display."""
       global counter
+
+      # Display ones place
       clearDisplay()
       pickDigit(3)
       hc595_shift(number[counter % 10])
 
+      # Display tens place
       clearDisplay()
       pickDigit(2)
-      hc595_shift(number[counter % 100//10])
+      hc595_shift(number[counter % 100 // 10])
 
+      # Display hundreds place
       clearDisplay()
       pickDigit(1)
-      hc595_shift(number[counter % 1000//100])
+      hc595_shift(number[counter % 1000 // 100])
 
+      # Display thousands place
       clearDisplay()
       pickDigit(0)
-      hc595_shift(number[counter % 10000//1000])
+      hc595_shift(number[counter % 10000 // 1000])
 
    def loop():
-      # Main loop to update display and check for motion
+      """Main loop: continuously update display and detect PIR motion transitions."""
       global counter
       currentState = 0
       lastState = 0
+
       while True:
-         display()
-         currentState = 1 if pir.value()==1 else 0
+         display()                                      # Refresh 7-segment display
+         currentState = 1 if pir.value() == 1 else 0    # Read PIR output
+
+         # Detect rising edge: motion detected now, but not in last cycle
          if currentState == 1 and lastState == 0:
-               counter += 1
-         lastState = currentState
+               counter += 1                               # Increase the count
+
+         lastState = currentState                        # Save state for next loop
 
    try:
-      loop()
+      loop()                                             # Start main loop
    except KeyboardInterrupt:
-      # Turn off all pins when the script is interrupted
+      # Clean up GPIO pins when exiting
       SDI.low()
       SRCLK.low()
       RCLK.low()
       pass
+
 
 This Python script integrates a PIR motion sensor and a 7-segment display driven by a 74HC595 shift register. The script performs the following:
 

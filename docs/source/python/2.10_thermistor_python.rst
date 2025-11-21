@@ -14,7 +14,7 @@
 
 .. _py_thermistor:
 
-2.11 Thermistor
+2.10 Thermistor
 ====================================
 
 **Introduction**
@@ -45,9 +45,9 @@ Here are the components required for this project:
     *   - :ref:`cpn_thermistor`
         - |link_thermistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -70,7 +70,7 @@ Below are the schematic diagrams illustrating how to connect the thermistor to t
 Build the circuit as shown in the wiring diagram below:
 
 .. image:: img/fzz/2.2.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -91,15 +91,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.11_Thermistor.py 
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 Below is the Python code used for this project:
 
@@ -110,7 +114,10 @@ Below is the Python code used for this project:
 
 .. code-block:: python
 
-   from fusion_hat import ADC
+   #!/usr/bin/env python3
+   # -*- coding: utf-8 -*-
+
+   from fusion_hat.adc import ADC
    import time
    import math
 
@@ -123,19 +130,25 @@ Below is the Python code used for this project:
          Vr = thermistor.read_voltage()
          # Calculate the resistance of the thermistor
          if 3.3 - Vr < 0.1:
-            print("Please check the sensor")
-            continue
+               print("Please check the sensor")
+               continue
          else:
-            Rt = 10000 * Vr / (3.3 - Vr)
-            temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25))) # Calculate the temperature in Kelvin
-            Cel = temp - 273.15 # Convert Kelvin to Celsius
-            Fah = Cel * 1.8 + 32 # Convert Celsius to Fahrenheit
-            print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
-            time.sleep(0.2)
+               Rt = 10000 * Vr / (3.3 - Vr)
+               # Calculate the temperature in Kelvin
+               temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25)))
+               # Convert Kelvin to Celsius
+               Cel = temp - 273.15
+               # Convert Celsius to Fahrenheit
+               Fah = Cel * 1.8 + 32
+               # Print the temperature in both Celsius and Fahrenheit
+               print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
+               # Wait for 0.2 seconds before the next read
+               time.sleep(0.2)
 
    # Handle KeyboardInterrupt for graceful termination
    except KeyboardInterrupt:
       pass
+
 
 This Python script reads an analog signal from a thermistor via the fusion hat and calculates the corresponding temperature. When executed:
 
@@ -154,7 +167,7 @@ This Python script reads an analog signal from a thermistor via the fusion hat a
 
    .. code-block:: python
 
-      from fusion_hat import ADC
+      from fusion_hat.adc import ADC
       import time
       import math
 

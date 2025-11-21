@@ -33,23 +33,32 @@ To complete this project, you will need the following components:
 
     *   - COMPONENT
         - PURCHASE LINK
-
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_transistor`
+        - |link_transistor_buy|
     *   - :ref:`cpn_relay`
         - |link_relay_buy|
+    *   - :ref:`cpn_diode`
+        - |link_diode_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
 **Circuit Diagram**
 
-The circuit uses a relay module connected to a GPIO pin. The relay module typically has three pins: VCC (power), GND (ground), and IN (control signal). When the GPIO pin outputs a HIGH signal, the relay activates; when it outputs a LOW signal, the relay deactivates.
+The GPIO signal passes through a 1 kΩ resistor to the transistor base, allowing the transistor to switch the relay coil on and off. When GPIO17 outputs HIGH, the transistor turns on, current flows through the relay coil, the relay activates, and the LED (through the 220 Ω resistor) lights up. When GPIO17 outputs LOW, the transistor turns off, the relay coil is de-energized, the relay releases, and the LED turns off. A flyback diode is placed across the relay coil to protect the circuit from voltage spikes.
 
-.. image:: img/fzz/1.3.3_sch.png
+.. image:: img/fzz/1.3.3_relay_sch.png
 
 ----------------------------------------------
 
@@ -57,12 +66,9 @@ The circuit uses a relay module connected to a GPIO pin. The relay module typica
 
 Follow these steps to build the circuit:
 
-1. Connect the VCC pin of the relay module to 3.3V on the Raspberry Pi
-2. Connect the GND pin of the relay module to GND on the Raspberry Pi
-3. Connect the IN pin of the relay module to GPIO 17 on the Raspberry Pi
 
-.. image:: img/fzz/1.3.3_bb.png
-   :width: 800
+.. image:: img/fzz/1.3.3_relay_bb.png
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -72,14 +78,18 @@ Follow these steps to build the circuit:
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 1.5_Relay.py 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code controls a relay module, toggling it on and off:
 
@@ -89,28 +99,29 @@ The following Python code controls a relay module, toggling it on and off:
 
 .. code-block:: python
 
-   #!/usr/bin/env python3
-   from fusion_hat import Pin  # Import the class for controlling GPIO pins
-   from time import sleep  # Import the sleep function for delay
+    #!/usr/bin/env python3
+    from fusion_hat.pin import Pin, Mode
+    from time import sleep  # Import the sleep function for delay
 
-   # Initialize the relay connected to GPIO pin 17
-   relay = Pin(17,Pin.OUT)
+    # Initialize the relay connected to GPIO pin 17
+    relay = Pin(17,mode=Mode.OUT)
 
-   try:
-       # Loop to continuously toggle the relay's state every second
-       while True:
-           print('Relay open...')  # Inform that the relay is being activated
-           relay.high()  # Turn on the relay 
-           sleep(1)   # Maintain the relay in the on state for 1 second
+    try:
+        # Loop to continuously toggle the relay's state every second
+        while True:
+            print('Relay open...')  # Inform that the relay is being activated
+            relay.high()  # Turn on the relay 
+            sleep(1)   # Maintain the relay in the on state for 1 second
 
-           print('...Relay close')  # Inform that the relay is being deactivated
-           relay.low()  # Turn off the relay
-           sleep(1)   # Maintain the relay in the off state for 1 second
+            print('...Relay close')  # Inform that the relay is being deactivated
+            relay.low()  # Turn off the relay
+            sleep(1)   # Maintain the relay in the off state for 1 second
 
-   except KeyboardInterrupt:
-       # Handle a keyboard interrupt (Ctrl+C) to exit the loop
-       relay.off()  # Ensure the relay is turned off before exiting
-       pass
+    except KeyboardInterrupt:
+        # Handle a keyboard interrupt (Ctrl+C) to exit the loop
+        relay.off()  # Ensure the relay is turned off before exiting
+        pass
+
 
 This Python script controls a relay module connected to GPIO pin 17. When executed:
 
@@ -129,8 +140,8 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
 
    .. code-block:: python
 
-      from fusion_hat import Pin  # Import the class for controlling GPIO pins
-      from time import sleep  # Import the sleep function for delay
+        from fusion_hat.pin import Pin, Mode
+        from time import sleep  # Import the sleep function for delay
 
 2. **Relay Initialization**
 
@@ -139,7 +150,7 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
    .. code-block:: python
 
       # Initialize the relay connected to GPIO pin 17
-      relay = Pin(17,Pin.OUT)
+      relay = Pin(17,mode=Mode.OUT)
 
 3. **Main Control Loop**
 

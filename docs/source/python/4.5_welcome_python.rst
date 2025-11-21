@@ -52,9 +52,9 @@ Below are the components required for this project:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -67,7 +67,7 @@ Below are the components required for this project:
 Below is the circuit diagram for this project:
 
 .. image:: img/fzz/4.1.5_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -81,7 +81,7 @@ Follow the wiring diagram to assemble the circuit:
 
 
 .. image:: img/fzz/4.1.5_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -103,9 +103,13 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 4.5_Welcome.py
 
 ----------------------------------------------
@@ -123,12 +127,18 @@ Below is the Python script for the project:
 
 .. code-block:: python
 
-   from fusion_hat import Pin, Servo, Buzzer,PWM
+   from fusion_hat.pin import Pin, Mode, Pull
+   from fusion_hat.servo import Servo 
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pwm import PWM
    import time
 
-   # GPIO pin setup for LED, motion sensor (PIR), and buzzer
+   # GPIO pin setup
    ledPin = Pin(17, Pin.OUT)
-   pirPin = Pin(22, Pin.IN, Pin.PULL_DOWN)
+
+   # Initialize a PIR Module object on GPIO pin 17
+   pirPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
+
    buzPin = Buzzer(PWM('P0'))
 
    # Initialize servo with custom pulse widths
@@ -143,7 +153,7 @@ Below is the Python script for the project:
          ('C4', 0.2), ('B4', 0.2), (None, 0.2),
          ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
          ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
-         ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+         ('A4', 0.2), ('G4', 0.2), ('E4', 0.2),
          ('D4', 0.2), ('E4', 0.2)]
 
    def setAngle(angle):

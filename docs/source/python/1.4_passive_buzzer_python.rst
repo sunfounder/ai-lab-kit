@@ -43,9 +43,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \-
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -69,7 +69,7 @@ Follow these steps to build the circuit:
 4. Connect the other terminal of the buzzer to the ground (-).
 
 .. image:: img/fzz/1.2.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -81,14 +81,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 1.4_PassiveBuzzer.py
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code generates musical notes using a passive buzzer:
 
@@ -100,12 +104,12 @@ The following Python code generates musical notes using a passive buzzer:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Buzzer,PWM
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pwm import PWM
    from time import sleep
 
    # Initialize a TonalBuzzer connected to PWM 0
    tb = Buzzer(PWM('P0'))  # Update this pin number based on your setup
-
 
    def play(tune):
       """
@@ -137,7 +141,6 @@ The following Python code generates musical notes using a passive buzzer:
       # Handle KeyboardInterrupt for graceful termination
       pass
 
-
 This Python script plays a musical tune using a passive buzzer connected to PWM 0. When executed:
 
 1. The script iterates through a predefined sequence of musical notes (``tune``), playing each note for a specified duration.
@@ -156,8 +159,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
    .. code-block:: python
 
-      from fusion_hat import Buzzer,PWM
-      from time import sleep
+       from fusion_hat.modules import Buzzer
+       from fusion_hat.pwm import PWM
+       from time import sleep
 
 2. **Buzzer Initialization**
 

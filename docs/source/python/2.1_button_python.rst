@@ -45,9 +45,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_button`
         - |link_button_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 
@@ -59,7 +59,7 @@ We will use a normally open button as an input for the Raspberry Pi. When the bu
 
 
 .. image:: img/fzz/2.1.1_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -75,7 +75,7 @@ Follow these steps to build the circuit:
 
 
 .. image:: img/fzz/2.1.1_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -87,14 +87,18 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.1_Button.py
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code toggles the LED based on button presses and releases:
 
@@ -106,13 +110,13 @@ The following Python code toggles the LED based on button presses and releases:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin  
+   from fusion_hat.pin import Pin, Mode, Pull
    from signal import pause  # Import pause function from signal module
 
    # Initialize an LED object on GPIO pin 22
-   led = Pin(22,Pin.OUT)
+   led = Pin(22,mode=Mode.OUT)
    # Initialize a Button object on GPIO pin 17
-   button = Pin(17, Pin.IN, pull= Pin.PULL_DOWN)
+   button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
    # # Link the button's "when_activated" event to the LED's high() method
    button.when_activated = led.high
@@ -123,7 +127,6 @@ The following Python code toggles the LED based on button presses and releases:
    # Run an event loop that waits for button events and keeps the script running
    print("CTRL + C to exit")
    pause()
-
 
 This Python script demonstrates an interactive setup where a button controls an LED. When executed:
 
@@ -142,8 +145,10 @@ This Python script demonstrates an interactive setup where a button controls an 
 
    .. code-block:: python
 
-      from fusion_hat import Pin  
-      from signal import pause 
+      #!/usr/bin/env python3
+      from fusion_hat.pin import Pin, Mode, Pull
+      from signal import pause  # Import pause function from signal module
+
 
 2. **Component Initialization**
 
@@ -152,9 +157,9 @@ This Python script demonstrates an interactive setup where a button controls an 
    .. code-block:: python
 
       # Initialize an LED object on GPIO pin 22
-      led = Pin(22,Pin.OUT)
+      led = Pin(22,mode=Mode.OUT)
       # Initialize a Button object on GPIO pin 17
-      button = Pin(17, Pin.IN, pull= Pin.PULL_DOWN)
+      button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
 3. **Event Handling**
 

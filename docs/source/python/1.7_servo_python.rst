@@ -37,9 +37,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_servo`
         - |link_servo_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 
 ----------------------------------------------
@@ -49,7 +49,7 @@ To complete this project, you will need the following components:
 The circuit diagram below shows the connections required for controlling the servo motor.
 
 .. image:: img/fzz/1.3.2_sch.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -60,7 +60,7 @@ The circuit diagram below shows the connections required for controlling the ser
 
 
 .. image:: img/fzz/1.3.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -72,15 +72,19 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 1.7_Servo.py 
 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code demonstrates how to control the servo motor by moving it between various angles:
 
@@ -91,18 +95,22 @@ The following Python code demonstrates how to control the servo motor by moving 
 
 .. code-block:: python
 
-   from fusion_hat import Servo
-   from time import sleep
+   from fusion_hat.servo import Servo   # Import the Servo class for controlling servos
+   from time import sleep               # Import sleep for timing delays
 
-   servo = Servo('P0')
+   servo = Servo(0)                     # Create a Servo object on channel 0
 
-   while True:
+   while True:                          # Loop forever
+      # Sweep from -90° to +90° in steps of 10°
       for i in range(-90, 91, 10):
-         servo.angle(i)
-         sleep(0.1)
+         servo.angle(i)               # Set servo to angle i
+         sleep(0.1)                   # Small delay for smooth movement
+
+      # Sweep back from +90° to -90° in steps of -10°
       for i in range(90, -91, -10):
-         servo.angle(i)
-         sleep(0.1)
+         servo.angle(i)               # Set servo to angle i
+         sleep(0.1)                   # Small delay for smooth movement
+
 
 
 This Python script controls a servo motor connected to PWM 0. When executed:
@@ -123,8 +131,9 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 
    .. code-block:: python
 
-      from fusion_hat import Servo
-      from time import sleep
+      from fusion_hat.servo import Servo   # Import the Servo class for controlling servos
+      from time import sleep               # Import sleep for timing delays
+
 
 2. **Servo Initialization**
 
@@ -132,7 +141,7 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 
    .. code-block:: python
 
-      servo = Servo('P0')
+      servo = Servo(0)
 
 3. **Servo Movement**
 

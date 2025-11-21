@@ -14,7 +14,7 @@
 
 .. _py_reed:
 
-1.6 Reed Switch
+2.6 Reed Switch
 ===========================
 
 **Introduction**
@@ -43,9 +43,9 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_resistor`
         - |link_resistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - 
+        - \- 
     *   - Raspberry Pi
-        -
+        - \-
 
 ----------------------------------------------
 
@@ -69,7 +69,7 @@ Follow these steps to build the circuit:
 6. Connect LED2 anode to GND
 
 .. image:: img/fzz/2.2.4_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -79,14 +79,18 @@ Follow these steps to build the circuit:
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: shell
    
-   cd ai-lab-kit/python/
+   cd ~/ai-lab-kit/python/
    sudo python3 2.6_ReedSwitch.py 
 
 ----------------------------------------------
 
-**Writing the Code**
+**Code**
 
 The following Python code monitors a reed switch and controls two LEDs based on its state:
 
@@ -96,31 +100,31 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 .. code-block:: python
 
-   #!/usr/bin/env python3
-   from fusion_hat import Pin  
-   from time import sleep  # Import sleep for delay
+    #!/usr/bin/env python3
+    from fusion_hat.pin import Pin, Mode, Pull
+    from time import sleep  # Import sleep for delay
 
-   # Initialize reed switch (Button) on GPIO pin 17
-   reed = Pin(17, Pin.IN, pull = Pin.PULL_DOWN) 
+    # Initialize reed switch (Button) on GPIO pin 17
+    reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-   # Initialize LED1 connected to GPIO pin 22
-   led1 = Pin(22,Pin.OUT)
-   # Initialize LED2 connected to GPIO pin 27
-   led2 = Pin(27,Pin.OUT)
+    # Initialize LED1 connected to GPIO pin 22
+    led1 = Pin(22,mode=Mode.OUT)
+    # Initialize LED2 connected to GPIO pin 27
+    led2 = Pin(27,mode=Mode.OUT)
 
-   try:
-       # Continuously monitor the state of the reed switch and control LEDs accordingly
-       while True:
-           if reed.value() == 1:  # Check if the reed switch is activated
-               led1.off()  # Turn off LED1
-               led2.on()   # Turn on LED2
-           else:  # If the sensor is not activated
-               led1.on()   # Turn on LED1
-               led2.off()  # Turn off LED2
+    try:
+        # Continuously monitor the state of the reed switch and control LEDs accordingly
+        while True:
+            if reed.value() == 1:  # Check if the reed switch is activated
+                led1.off()  # Turn off LED1
+                led2.on()   # Turn on LED2
+            else:  # If the sensor is not activated
+                led1.on()   # Turn on LED1
+                led2.off()  # Turn off LED2
 
-   except KeyboardInterrupt:
-       # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
-       pass
+    except KeyboardInterrupt:
+        # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
+        pass
 
 This Python script creates a magnetic field detection system using a reed switch and two status LEDs. When executed:
 
@@ -140,8 +144,8 @@ This Python script creates a magnetic field detection system using a reed switch
 
    .. code-block:: python
 
-      from fusion_hat import Pin  
-      from time import sleep  # Import sleep for delay
+        from fusion_hat.pin import Pin, Mode, Pull
+        from time import sleep  # Import sleep for delay
 
 2. **Reed Switch Initialization**
 
@@ -149,8 +153,8 @@ This Python script creates a magnetic field detection system using a reed switch
 
    .. code-block:: python
 
-      # Initialize reed switch (Button) on GPIO pin 17
-      reed = Pin(17, Pin.IN, pull = Pin.PULL_DOWN) 
+        # Initialize reed switch (Button) on GPIO pin 17
+        reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
 3. **LED Initialization**
 
@@ -158,10 +162,10 @@ This Python script creates a magnetic field detection system using a reed switch
 
    .. code-block:: python
 
-      # Initialize LED1 connected to GPIO pin 22
-      led1 = Pin(22,Pin.OUT)
-      # Initialize LED2 connected to GPIO pin 27
-      led2 = Pin(27,Pin.OUT)
+        # Initialize LED1 connected to GPIO pin 22
+        led1 = Pin(22,mode=Mode.OUT)
+        # Initialize LED2 connected to GPIO pin 27
+        led2 = Pin(27,mode=Mode.OUT)
 
 4. **Main Monitoring Loop**
 
