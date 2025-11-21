@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-Learn about the Components in Your Kit
+Components
 ================================================
 
 After opening the package, please check whether the quantity of components is compliance with product description and whether all components are in good condition.
@@ -50,11 +50,9 @@ Below is the introduction to each component, which contains the operating princi
 
     component_led
     component_rgb_led
-    component_bar_graph
-    component_7_segment
     component_4_digit
-    component_dot_matrix
-    component_i2c_lcd
+    component_oled
+    component_ws2812_module
 
 
 **Sound**
@@ -71,6 +69,7 @@ Below is the introduction to each component, which contains the operating princi
 
     component_motor
     component_servo
+    component_relay
     
 
 **Controller**
@@ -83,7 +82,6 @@ Below is the introduction to each component, which contains the operating princi
     component_slide_switch
     component_potentiometer
     component_joystick
-    component_keypad
 
 **Sensor**
 
@@ -95,10 +93,9 @@ Below is the introduction to each component, which contains the operating princi
     component_tilt_switch
     component_touch_switch
     component_reed_switch
-    component_avoid_module
     component_pir
     component_ultrasonic_sensor
+    component_rotary_encoder
     component_humiture_sensor
-    component_mpu6050
     component_camera_module
-    component_moisture
+    component_gy87_module
