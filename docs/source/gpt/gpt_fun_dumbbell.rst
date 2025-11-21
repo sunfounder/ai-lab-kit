@@ -31,8 +31,8 @@ This project is a smart fitness assistant that helps users track their dumbbell 
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
-    *   - :ref:`cpn_mpu6050`
-        - |link_mpu6050_buy|
+    *   - :ref:`cpn_gy87`
+        - \-
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_resistor`
@@ -53,7 +53,7 @@ This project is a smart fitness assistant that helps users track their dumbbell 
 **Wiring Diagram**
 
 .. image:: img/fzz/gpt_dumbbell_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -66,6 +66,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -81,7 +85,8 @@ Follow these steps to run the example:
 
 .. code-block:: python
 
-    from fusion_hat import MPU6050, Pin
+    from fusion_hat.modules import MPU6050
+    from fusion_hat.pin import Pin
     from time import sleep,time
     import openai
     from keys import OPENAI_API_KEY

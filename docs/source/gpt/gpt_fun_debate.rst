@@ -69,7 +69,7 @@ The following components are required for this project:
 **Diagram**
 
 .. image:: img/fzz/gpt_debate_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -82,6 +82,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -91,6 +95,10 @@ Follow these steps to run the example:
 
 **Code**
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: python
 
    import openai
@@ -98,7 +106,8 @@ Follow these steps to run the example:
    import readline  # Optimize keyboard input, only need to import
    import sys,os
    from pathlib import Path
-   from fusion_hat import Servo, Pin
+   from fusion_hat.pin import Pin
+   from fusion_hat.servo import Servo   # Import the Servo class for controlling servos
    import subprocess
 
    os.system("fusion_hat enable_speaker")
@@ -250,7 +259,8 @@ Follow these steps to run the example:
    import readline  # Optimize keyboard input, only need to import
    import sys,os
    from pathlib import Path
-   from fusion_hat import Servo, Pin
+   from fusion_hat.pin import Pin
+   from fusion_hat.servo import Servo   # Import the Servo class for controlling servos
    import subprocess
 
 Importing Required Libraries:

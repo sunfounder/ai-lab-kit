@@ -66,7 +66,7 @@ The following components are required for this project:
 
 
 .. image:: img/fzz/gpt_story_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -79,6 +79,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -102,7 +106,7 @@ Follow these steps to run the example:
    import os
    from pathlib import Path
    import subprocess
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin
    from picamera2 import Picamera2
 
    os.system("fusion_hat enable_speaker")
@@ -228,7 +232,7 @@ Follow these steps to run the example:
    import os
    from pathlib import Path
    import subprocess
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin
    from picamera2 import Picamera2
 
 * ``openai``: To interact with OpenAI's GPT and Whisper models.

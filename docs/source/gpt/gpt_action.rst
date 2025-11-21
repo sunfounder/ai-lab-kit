@@ -48,7 +48,7 @@ The following components are required for this project:
 
 
 .. image:: img/fzz/1.1.2_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -59,8 +59,11 @@ The following components are required for this project:
 
 We provide all example code used in this course, located in the ``ai-lab-kit`` directory. 
 Use the following steps to run this example:
+   
+.. raw:: html
 
-
+   <run></run>
+   
 .. code-block:: shell
 
    cd ~/ai-lab-kit/gpt_example/
@@ -72,6 +75,9 @@ Use the following steps to run this example:
 
 Here is the complete example code:
 
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 

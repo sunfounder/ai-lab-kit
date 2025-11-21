@@ -40,7 +40,7 @@ This project is an interactive blindfolded watermelon-smashing game powered by O
 
 
 .. image:: img/fzz/2.1.9_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -52,6 +52,14 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -71,7 +79,8 @@ Follow these steps to run the example:
     import openai
     from keys import OPENAI_API_KEY
     import time
-    from fusion_hat import Pin, ADC
+    from fusion_hat.pin import Pin
+    from fusion_hat.adc import ADC
     import sys, os
     import subprocess
     from pathlib import Path

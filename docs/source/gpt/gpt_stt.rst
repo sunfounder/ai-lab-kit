@@ -9,6 +9,8 @@ This example builds upon :ref:`gpt_easy_tts`, enhancing the chatbot to not only 
 Speech-to-text technology allows chatbots to interact with users in a more natural and accessible way. This is particularly useful for hands-free interactions, accessibility applications, and real-time communication systems.
 
 .. image:: img/fusionhat_mic.png
+   :width: 70%
+   :align: center
 
 
 ----------------------------------------------
@@ -20,6 +22,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
 
    cd ~/ai-lab-kit/gpt_example/

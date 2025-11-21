@@ -1,4 +1,4 @@
-1.0 OpenAI Initial Configuration
+1.1 OpenAI Initial Configuration
 ==================================================
 
 This chapter provides a step-by-step guide on configuring OpenAI's development environment on a Raspberry Pi. 
@@ -24,15 +24,24 @@ A virtual environment provides an independent Python dependency environment for 
 
 #. Use the following command to create a virtual environment named ``gpt_env`` with access to system-level packages. The ``--system-site-packages`` option allows the virtual environment to access globally installed packages, such as pre-installed device drivers.
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
 
+      cd ~/
       python -m venv --system-site-packages gpt_env
 
 #. Navigate to the ``gpt_env`` directory and activate the virtual environment:
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
 
-      cd gpt_env
+      cd ~/gpt_env
       source bin/activate
 
 .. note::
@@ -51,6 +60,10 @@ Once the virtual environment is activated, proceed with installing the necessary
 
 #. Install Python packages within the virtual environment:
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
 
       pip3 install openai
@@ -62,6 +75,10 @@ Once the virtual environment is activated, proceed with installing the necessary
 
 #. Install system-level dependencies using the ``apt`` package manager with administrative privileges:
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
 
       sudo apt install python3-pyaudio
@@ -110,13 +127,18 @@ image generation, semantic search, and speech recognition.
 
 #. Open the ``keys.py`` file with the following command:
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
 
       nano ~/ai-lab-kit/gpt_example/keys.py
 
 #. Add the copied API Key:
 
-   .. code-block:: shell
+   
+   .. code-block:: python
 
       OPENAI_API_KEY = "sk-proj-vEBo7Ahxxxx-xxxxx-xxxx"
 

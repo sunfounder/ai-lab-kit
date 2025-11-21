@@ -55,7 +55,7 @@ The following components are required for this project:
 **Diagram**
 
 .. image:: img/fzz/1.1.6_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -68,6 +68,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/

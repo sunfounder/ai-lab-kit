@@ -48,7 +48,7 @@ To complete this project, you will need the following components:
 **Diagram**
 
 .. image:: img/fzz/1.1.7_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -83,12 +83,20 @@ To complete this project, you will need the following components:
 
 #. Open the ``keys.py`` file with the following command:
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
 
       nano ~/ai-lab-kit/gpt_example/keys.py
 
 #. Add the copied API Key:
 
+   .. raw:: html
+
+      <run></run>
+   
    .. code-block:: shell
       :emphasize-lines: 2
 
@@ -109,7 +117,11 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
-.. code-block:: shell
+   .. raw:: html
+
+      <run></run>
+   
+   .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
    sudo ~/gpt_env/bin/python3 gpt_fun_weather.py

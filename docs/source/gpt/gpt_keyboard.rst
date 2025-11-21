@@ -12,7 +12,10 @@ This example demonstrates a basic chatbot that can interact with users in real t
 All example code used in these lessons is available in the ``ai-lab-kit`` directory. 
 You can follow these steps to run the example:
 
+.. raw:: html
 
+   <run></run>
+   
 .. code-block:: shell
 
    cd ~/ai-lab-kit/gpt_example/
@@ -25,6 +28,10 @@ You can follow these steps to run the example:
 
 The complete example code is as follows:
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: python
 
    import openai

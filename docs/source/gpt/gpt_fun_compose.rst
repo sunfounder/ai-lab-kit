@@ -54,7 +54,7 @@ The following components are required for this project:
 
 
 .. image:: img/fzz/gpt_compose_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 ----------------------------------------------
@@ -66,6 +66,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -92,7 +96,9 @@ Follow these steps to run the example:
 
    import speech_recognition as sr
 
-   from fusion_hat import Buzzer,Pin,PWM
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pwm import PWM
+   from fusion_hat.pin import Pin
 
    os.system("fusion_hat enable_speaker")
 
@@ -241,7 +247,9 @@ Follow these steps to run the example:
    import os
    from time import sleep
    import speech_recognition as sr
-   from fusion_hat import Buzzer,Pin,PWM
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pwm import PWM
+   from fusion_hat.pin import Pin
 
 * ``openai``: Interacts with OpenAI's GPT and Whisper models.
 * ``speech_recognition``: Captures and processes audio input.

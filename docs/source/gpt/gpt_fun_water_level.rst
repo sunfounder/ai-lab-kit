@@ -40,7 +40,7 @@ Here are the components required for this project:
 **Wiring Diagram**
 
 .. image:: img/fzz/2.2.7_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -53,6 +53,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -77,7 +81,8 @@ Follow these steps to run the example:
     import subprocess
     from pathlib import Path
     import speech_recognition as sr
-    from fusion_hat import Ultrasonic,Pin
+    from fusion_hat.modules import Ultrasonic
+    from fusion_hat.pin import Pin
     import time
     import threading
 

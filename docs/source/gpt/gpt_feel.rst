@@ -46,7 +46,7 @@ The following components are required for this project:
 
 
 .. image:: img/fzz/gpt_feel_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -58,6 +58,10 @@ The following components are required for this project:
 All example code used in this course is located in the ``ai-lab-kit`` directory. Follow the steps below to run this example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
 
    cd ~/ai-lab-kit/gpt_example/
@@ -70,6 +74,10 @@ All example code used in this course is located in the ``ai-lab-kit`` directory.
 Below is the complete example code:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: python
 
    import openai

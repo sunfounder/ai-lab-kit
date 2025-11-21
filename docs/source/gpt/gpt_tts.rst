@@ -7,6 +7,8 @@ This example builds upon :ref:`gpt_easy_keyboard` by enabling the chatbot to pla
 The implementation integrates OpenAI's TTS (Text-to-Speech) API and a local audio player for playback.
 
 .. image:: img/fusionhat_spk.png
+   :align: center
+   :width: 70%
 
 ----------------------------------------------
 
@@ -16,6 +18,10 @@ Before running this example, ensure that your system has a compatible audio play
 
 For Linux systems, install ``mplayer`` by running:
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
 
    sudo apt install mplayer
@@ -23,6 +29,10 @@ For Linux systems, install ``mplayer`` by running:
 
 Once installed, navigate to the project directory and execute the script:
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
 
    cd ~/ai-lab-kit/gpt_example/

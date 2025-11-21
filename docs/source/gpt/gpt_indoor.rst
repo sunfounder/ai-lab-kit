@@ -2,7 +2,7 @@
 .. _gpt_easy:
 
 
-1.1 A Simple Conversation
+1.2 A Simple Conversation
 =======================================
 
 This example demonstrates how to use OpenAI's Python library to create and interact with a chatbot through a simple conversation.
@@ -15,6 +15,10 @@ This example demonstrates how to use OpenAI's Python library to create and inter
 
 All example code used in these lessons is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
 
    cd ~/ai-lab-kit/gpt_example/

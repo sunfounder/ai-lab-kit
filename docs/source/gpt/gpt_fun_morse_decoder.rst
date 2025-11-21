@@ -50,7 +50,7 @@ To complete this project, you will need the following components:
 **Wiring Diagram**
 
 .. image:: img/fzz/gpt_morse_decoder_bb.png
-   :width: 800
+   :width: 80%
    :align: center
 
 
@@ -64,6 +64,10 @@ All example code used in this tutorial is available in the ``ai-lab-kit`` direct
 Follow these steps to run the example:
 
 
+.. raw:: html
+
+   <run></run>
+   
 .. code-block:: shell
    
    cd ~/ai-lab-kit/gpt_example/
@@ -83,7 +87,7 @@ Follow these steps to run the example:
 
     import openai
     from keys import OPENAI_API_KEY
-    from fusion_hat import Pin
+    from fusion_hat.pin import Pin
     from signal import pause
     import time
 
