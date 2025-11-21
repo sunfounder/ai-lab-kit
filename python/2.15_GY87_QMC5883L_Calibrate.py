@@ -1,79 +1,95 @@
 #!/usr/bin/env python3
-from fusion_hat.modules import Compass
+"""
+Magnetometer Calibration Tool
+Supports: QMC5883L / QMC5883P / QMC6310 / HMC5883L
+
+Rotate the GY-87 module slowly in all directions to collect
+raw magnetic field extremes for offset & scale calibration.
+"""
+
 import time
 import math
+from fusion_hat.modules.magnetometer import Magnetometer
 
-com = Compass()
+CALIB_TIME = 20   # Duration of sample collection (seconds)
 
-print("\n==================== QMC5883L Calibration Tool ====================")
-print("Rotate your GY-87 module slowly in ALL directions for 15 seconds.")
-print("Try to draw a big 3D sphere motion: roll, pitch, yaw.\n")
-print("Calibration starting in 3 seconds...\n")
-time.sleep(3)
 
-# Initialize min/max
-x_min, x_max = 9999, -9999
-y_min, y_max = 9999, -9999
-z_min, z_max = 9999, -9999
+def main():
+    # Auto-detect magnetometer on I2C bus
+    mag = Magnetometer()
+    mag_type = mag.get_type()
 
-start_time = time.time()
-CALIBRATION_DURATION = 15  # seconds
+    if not mag_type:
+        print("❌ No magnetometer detected. Check wiring or I2C settings.")
+        return
 
-print("Calibrating... KEEP ROTATING the sensor!\n")
+    print(f"✅ Magnetometer detected: {mag_type}")
+    print("\n==================== Calibration Instructions ====================")
+    print(" Slowly rotate the sensor in ALL directions for 20 seconds.")
+    print(" Try to draw a large 3D sphere.\n")
+    print(" Calibration starts in 3 seconds...\n")
+    time.sleep(3)
 
-while time.time() - start_time < CALIBRATION_DURATION:
-    x, y, z, _ = com.read()
+    # Initialize min/max capture variables
+    x_min, x_max =  9999.0, -9999.0
+    y_min, y_max =  9999.0, -9999.0
+    z_min, z_max =  9999.0, -9999.0
 
-    # Track min/max for each axis
-    x_min = min(x_min, x)
-    x_max = max(x_max, x)
+    print("▶ Collecting samples... KEEP ROTATING!\n")
+    start = time.time()
 
-    y_min = min(y_min, y)
-    y_max = max(y_max, y)
+    try:
+        while time.time() - start < CALIB_TIME:
+            data = mag.read()
+            if data is None:
+                continue  # Skip if sensor failed to read
 
-    z_min = min(z_min, z)
-    z_max = max(z_max, z)
+            x, y, z = data
 
-    print(f"X[{x_min},{x_max}] Y[{y_min},{y_max}] Z[{z_min},{z_max}] ", end="\r")
-    time.sleep(0.05)
+            # Update min/max ranges
+            x_min, x_max = min(x_min, x), max(x_max, x)
+            y_min, y_max = min(y_min, y), max(y_max, y)
+            z_min, z_max = min(z_min, z), max(z_max, z)
 
-print("\n\n==================== Calibration Complete ====================")
+            # Live feedback
+            print(
+                f"X[{x_min:+.4f},{x_max:+.4f}]  "
+                f"Y[{y_min:+.4f},{y_max:+.4f}]  "
+                f"Z[{z_min:+.4f},{z_max:+.4f}] ",
+                end="\r"
+            )
+            time.sleep(0.05)
 
-# Calculate OFFSETS (Hard iron correction)
-offset_x = (x_max + x_min) / 2
-offset_y = (y_max + y_min) / 2
-offset_z = (z_max + z_min) / 2
+    except KeyboardInterrupt:
+        print("\n\n⚠ Calibration interrupted\n")
+        return
 
-# Calculate SCALES (Soft iron correction)
-scale_x = (x_max - x_min) / 2
-scale_y = (y_max - y_min) / 2
-scale_z = (z_max - z_min) / 2
+    print("\n\n==================== Calibration Complete ====================\n")
 
-avg_scale = (scale_x + scale_y + scale_z) / 3
+    # Hard-iron offsets (center of ellipsoid)
+    offset_x = (x_max + x_min) / 2
+    offset_y = (y_max + y_min) / 2
+    offset_z = (z_max + z_min) / 2
 
-scale_x = avg_scale / scale_x
-scale_y = avg_scale / scale_y
-scale_z = avg_scale / scale_z
+    # Soft-iron scaling factors (normalize ellipsoid → sphere)
+    scale_x = (x_max - x_min) / 2
+    scale_y = (y_max - y_min) / 2
+    scale_z = (z_max - z_min) / 2
 
-print("\nCopy these lines into your project:\n")
+    avg = (scale_x + scale_y + scale_z) / 3  # average radius
 
-print(f"compass_offsets = ({offset_x:.2f}, {offset_y:.2f}, {offset_z:.2f})")
-print(f"compass_scales  = ({scale_x:.4f}, {scale_y:.4f}, {scale_z:.4f})")
+    # Convert to scale multipliers
+    scale_x = avg / scale_x if scale_x != 0 else 1.0
+    scale_y = avg / scale_y if scale_y != 0 else 1.0
+    scale_z = avg / scale_z if scale_z != 0 else 1.0
 
-print("\nExample usage in your main program:")
-print("""
-x, y, z, angle = com.read()
+    # Output calibration results
+    print("Paste the following into your project:\n")
+    print(f"mag_offsets = ({offset_x:.6f}, {offset_y:.6f}, {offset_z:.6f})")
+    print(f"mag_scales  = ({scale_x:.6f}, {scale_y:.6f}, {scale_z:.6f})\n")
 
-# Apply calibration
-x = (x - compass_offsets[0]) * compass_scales[0]
-y = (y - compass_offsets[1]) * compass_scales[1]
-z = (z - compass_offsets[2]) * compass_scales[2]
+    print("🎉 Calibration done.\n")
 
-# Compute corrected heading
-heading = math.degrees(math.atan2(y, x))
-if heading < 0:
-    heading += 360
-print("Heading:", heading)
-""")
 
-print("\nDone.\n")
+if __name__ == "__main__":
+    main()

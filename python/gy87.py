@@ -419,16 +419,19 @@ def demo_loop():
         d = dev.read_all()
         if has_mag:
             print(
-                "ACC(g): x={:+.3f} y={:+.3f} z={:+.3f} | "
-                "GYR(dps): x={:+.1f} y={:+.1f} z={:+.1f} | "
+                # "ACC(g): x={:+.3f} y={:+.3f} z={:+.3f} | "
+                # "GYR(dps): x={:+.1f} y={:+.1f} z={:+.1f} | "
                 "MAG(G): x={:+.3f} y={:+.3f} z={:+.3f} | "
-                "HDG(tilt-comp): {:6.1f}° | "
-                "TMP(°C): MPU={:+.2f} BMP={:+.2f} | "
-                "P(Pa): {:,.0f} | ALT(m): {:+.2f}".format(
-                    *d["accel_g"], *d["gyro_dps"],
-                    *d.get("mag_gauss", (0.0,0.0,0.0)), d.get("heading_deg", float("nan")),
-                    d["temp_mpu_c"], d["temp_bmp_c"],
-                    d["pressure_pa"], d["altitude_m"]
+                # "HDG(tilt-comp): {:6.1f}° | "
+                # "TMP(°C): MPU={:+.2f} BMP={:+.2f} | "
+                # "P(Pa): {:,.0f} | ALT(m): {:+.2f}"
+                .format(
+                    # *d["accel_g"], *d["gyro_dps"],
+                    *d.get("mag_gauss", (0.0,0.0,0.0))
+                    #, 
+                    #d.get("heading_deg", float("nan")),
+                    # d["temp_mpu_c"], d["temp_bmp_c"],
+                    # d["pressure_pa"], d["altitude_m"]
                 )
             )
         else:

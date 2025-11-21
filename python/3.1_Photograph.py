@@ -1,30 +1,72 @@
-#!/usr/bin/env python3    
+#!/usr/bin/env python3
+"""
+Take photos using the Fusion HAT USR button and Picamera2.
 
-from picamera2 import Picamera2, Preview
+- Shows a live preview window.
+- Each press of the USR button captures a new image.
+- Images are saved in ~/Pictures/photo_XXX.jpg with automatic numbering.
+- Press Ctrl+C to exit.
+"""
+
 import os
+import time
+import threading
+from picamera2 import Picamera2, Preview
+from fusion_hat.user_button import UserButton   # Fusion HAT USR button
 
-# Get the current user's login name
-user = os.getlogin()
-# Get the path to the user's home directory
-user_home = os.path.expanduser(f'~{user}')
+# Resolve the correct user's home directory
+# Works correctly even when running with sudo
+REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+USER_HOME = f"/home/{REAL_USER}"
+PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
+os.makedirs(PICTURES_DIR, exist_ok=True)
 
-# Create a Picamera2 instance
+# Initialize camera
 camera = Picamera2()
-# Retrieve the default preview configuration
-preview_config = camera.preview_configuration
+camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
 
-try:
-    # Set preview size and format
-    preview_config.size = (800, 600)
-    preview_config.format = 'XRGB8888'  
-    # Start the camera preview in QTGL mode
-    # camera.start_preview(Preview.QTGL)
-    # Start the camera
+# Global photo counter with thread safety
+photo_index = 1
+photo_lock = threading.Lock()
+
+# Button event handler
+def take_photo():
+    """
+    Called automatically whenever the USR button is clicked.
+    Captures a photo and saves it with an incrementing filename.
+    """
+    global photo_index
+    with photo_lock:
+        filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
+        print(f"\nCapturing: {filepath}")
+        camera.capture_file(filepath)
+        print("Saved.")
+        photo_index += 1
+
+# Main program logic
+def main():
+    # Start button listener
+    btn = UserButton()
+    btn.set_on_click(take_photo)
+
+    # Start preview
+    camera.start_preview(Preview.QT)
     camera.start()
-    # Capture and save a photo to the user's home directory
-    camera.capture_file(f'{user_home}/my_photo.jpg')
 
-except KeyboardInterrupt:
-    # Stop the camera preview if a KeyboardInterrupt (e.g., Ctrl+C) occurs
-    camera.stop_preview()
-    pass
+    print("Camera preview is running.")
+    print("Press the Fusion HAT USR button to take a photo.")
+    print(f"Photos will be saved to: {PICTURES_DIR}")
+    print("Press Ctrl+C to exit.\n")
+
+    try:
+        while True:
+            time.sleep(0.1)  # Keep program alive
+    except KeyboardInterrupt:
+        print("\nExiting...")
+
+    finally:
+        camera.stop_preview()
+        camera.close()
+
+if __name__ == "__main__":
+    main()

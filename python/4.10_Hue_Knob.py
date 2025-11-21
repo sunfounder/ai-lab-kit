@@ -3,7 +3,8 @@ import time
 import colorsys
 import board
 import neopixel_spi as neopixel
-from fusion_hat import Rotary_Encoder, Pin
+from fusion_hat.modules import Rotary_Encoder
+from fusion_hat.pin import Pin, Mode, Pull
 from signal import pause
 
 # ---------------------------
@@ -24,11 +25,11 @@ strip.fill(0)
 strip.show()
 
 # ---------------------------
-# Rotary Encoder + Button
+# Rotary Encoder
 # ---------------------------
 # CLK -> GPIO17, DT -> GPIO4, SW -> GPIO27 (pull-up)
 encoder = Rotary_Encoder(clk=17, dt=4)
-sw = Pin(27, Pin.IN, pull=Pin.PULL_UP)
+sw = Pin(27, mode=Mode.IN, pull=Pull.UP)
 
 # You can tweak how many encoder steps you want per full hue cycle.
 # If your encoder has 24 'detents', 24 or 48 feel good.

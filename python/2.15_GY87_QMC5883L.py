@@ -1,22 +1,36 @@
-# from fusion_hat.modules import MPU6050
-from fusion_hat.modules import Compass 
+from fusion_hat.modules.magnetometer import Magnetometer
+import math
 import time
 
-com = Compass()
+# Initialize the magnetometer (auto-detects QMC5883L / QMC5883P / HMC5883L / QMC6310)
+mag = Magnetometer()
 
-compass_offsets = (-123.52, 88.14, 30.77)
-compass_scales  = (1.0921, 0.9746, 1.0154)
+mag_offsets = (OFFSET_X, OFFSET_Y, OFFSET_Z)
+mag_scales  = (SCALE_X,  SCALE_Y,  SCALE_Z)
 
-while True:
-    x, y, z, _ = com.read()
+try:
+    while True:
+        # Read raw magnetic field values (Gauss)
+        mx, my, mz = mag.read()
 
-    x = (x - compass_offsets[0]) * compass_scales[0]
-    y = (y - compass_offsets[1]) * compass_scales[1]
-    z = (z - compass_offsets[2]) * compass_scales[2]
+        # Apply hard-iron offset and soft-iron scaling to each axis
+        mx = (mx - mag_offsets[0]) * mag_scales[0]   # Corrected X
+        my = (my - mag_offsets[1]) * mag_scales[1]   # Corrected Y
+        mz = (mz - mag_offsets[2]) * mag_scales[2]   # Corrected Z (not used for heading)
 
-    angle = math.degrees(math.atan2(y, x))
-    if angle < 0:
-        angle += 360
+        # Compute heading angle (atan2 gives angle from +X axis)
+        heading = math.degrees(math.atan2(my, mx))
 
-    print("Corrected heading:", angle)
-    time.sleep(0.1)
+        # Convert negative angles into a 0–360° range
+        if heading < 0:
+            heading += 360
+
+        # Print heading in degrees
+        print(f"Heading: {heading:6.2f}°")
+
+        # Small delay between updates
+        time.sleep(0.2)
+
+except KeyboardInterrupt:
+    # Graceful exit when user presses Ctrl+C
+    print("\nHeading measurement stopped by user.")
