@@ -36,6 +36,8 @@ Download the complete set of example code for the kit:
       cd ~/
       git clone https://github.com/sunfounder/ai-lab-kit.git
 
+.. _install_fusion_hat:
+
 Install ``fusion-hat`` module
 ----------------------------------
 

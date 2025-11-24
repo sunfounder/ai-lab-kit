@@ -222,7 +222,7 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
 3. **Incorrect GPIO Setup**  
 
    - **Cause**: Fusion_hat library is not installed.  
-   - **Solution**: See :ref:`download_the_lib`.
+   - **Solution**: See :ref:`install_fusion_hat`.
 
 ----------------------------------------------
 

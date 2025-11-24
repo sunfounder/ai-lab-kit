@@ -50,8 +50,6 @@ The following components are required for this project:
     *   - Raspberry Pi
         - \-
 
-
-
 ----------------------------------------------
 
 **Circuit Diagram**
@@ -59,7 +57,6 @@ The following components are required for this project:
 .. image:: img/fzz/4.1.9_sch.png
    :width: 80%
    :align: center
-
 
 
 ----------------------------------------------

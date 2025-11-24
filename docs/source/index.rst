@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-SunFounder AI Explorer Lab Kit
+SunFounder AI Fusion Lab Kit
 =======================================================
 
 
@@ -20,7 +20,7 @@ SunFounder AI Explorer Lab Kit
 
 Are you new to programming, curious about AI, or looking for a hands-on way to bring smart ideas to life?
 
-The **AI Explorer Lab Kit** is the perfect starting point for students, makers, and educators who want to learn Python and explore the power of artificial intelligence—**no prior experience needed**.
+The **AI Fusion Lab Kit** is the perfect starting point for students, makers, and educators who want to learn Python and explore the power of artificial intelligence—**no prior experience needed**.
 
 This kit doesn’t just give you parts. It gives you a **complete learning journey**.
 
@@ -35,7 +35,7 @@ With step-by-step tutorials, you’ll learn how to:
 
 Each lesson is designed to be beginner-friendly, engaging, and practical. You’ll start with small examples and quickly move on to exciting AI-powered applications that combine **software and hardware in creative ways**.
 
-Whether you’re a middle school student learning to code for the first time, a teacher bringing AI into the classroom, or a hobbyist ready to explore machine learning, the AI Explorer Lab Kit helps you turn ideas into reality.
+Whether you’re a middle school student learning to code for the first time, a teacher bringing AI into the classroom, or a hobbyist ready to explore machine learning, the AI Fusion Lab Kit helps you turn ideas into reality.
 
 If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
 
@@ -50,32 +50,16 @@ Let’s start building the future—one line of Python at a time.
     :maxdepth: 2
 
     About This Kit <self>
-    get_start/get_start
-
-.. toctree::
-    :maxdepth: 4
-
+    quick_start/quick_start
     python/play_with_python
-
-
-.. toctree::
-    :maxdepth: 2
-
-    gpt_lesson/play_with_gpt
-
-    opencv_python/opencv
+    llm/llm
+    gpt/gpt
+    opencv/opencv
     mediapipe/mediapipe
-
-
-.. toctree::
-    :maxdepth: 3
-
-    component/component_list
+    component/component
     appendix/appendix
-
-
-
-
+    faq
+    
 **Copyright Notice**
 
 All contents including but not limited to texts, images, and code in this manual are owned by the SunFounder Company. You should only use it for personal study,investigation, enjoyment, or other non-commercial or nonprofit purposes, under therelated regulations and copyrights laws, without infringing the legal rights of the author and relevant right holders. For any individual or organization that uses these for commercial profit without permission, the Company reserves the right to take legal action.
