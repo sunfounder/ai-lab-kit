@@ -1,6 +1,6 @@
 import openai
 from keys import OPENAI_API_KEY
-from fusion_hat import Pin
+from fusion_hat.pin import Pin
 from signal import pause
 import time
 

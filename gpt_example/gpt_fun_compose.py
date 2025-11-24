@@ -8,7 +8,10 @@ from time import sleep
 
 import speech_recognition as sr
 
-from fusion_hat import Buzzer,Pin,PWM
+from fusion_hat.modules import Buzzer
+from fusion_hat.pwm import PWM
+from fusion_hat.pin import Pin
+
 
 os.system("fusion_hat enable_speaker")
 

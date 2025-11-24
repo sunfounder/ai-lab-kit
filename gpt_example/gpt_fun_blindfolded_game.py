@@ -1,7 +1,8 @@
 import openai
 from keys import OPENAI_API_KEY
 import time
-from fusion_hat import Pin, ADC
+from fusion_hat.adc import ADC
+from fusion_hat.pin import Pin
 import sys, os
 import subprocess
 from pathlib import Path

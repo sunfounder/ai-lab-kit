@@ -1,4 +1,5 @@
-from fusion_hat import MPU6050, Pin
+from fusion_hat.modules import MPU6050
+from fusion_hat.pin import Pin
 from time import sleep,time
 import openai
 from keys import OPENAI_API_KEY

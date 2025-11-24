@@ -6,7 +6,9 @@ import os
 import subprocess
 from pathlib import Path
 import speech_recognition as sr
-from fusion_hat import Ultrasonic,Pin
+from fusion_hat.modules import Ultrasonic
+from fusion_hat.pin import Pin
+
 import time
 import threading
 

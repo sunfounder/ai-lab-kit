@@ -1,11 +1,10 @@
 import openai
 from keys import OPENAI_API_KEY
 import readline  # Optimize keyboard input
-import sys
 import os
 from pathlib import Path
 import subprocess
-from fusion_hat import Pin
+from fusion_hat.pin import Pin
 from picamera2 import Picamera2
 
 os.system("fusion_hat enable_speaker")

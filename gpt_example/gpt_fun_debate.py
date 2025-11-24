@@ -3,7 +3,8 @@ from keys import OPENAI_API_KEY
 import readline  # Optimize keyboard input, only need to import
 import sys,os
 from pathlib import Path
-from fusion_hat import Servo, Pin
+from fusion_hat.pin import Pin
+from fusion_hat.servo import Servo   # Import the Servo class for controlling servos
 import subprocess
 
 os.system("fusion_hat enable_speaker")

@@ -4,7 +4,9 @@ import sys
 import os
 import time
 import speech_recognition as sr
-from fusion_hat import Motor,PWM,Pin,Buzzer
+from fusion_hat.modules import Buzzer
+from fusion_hat.pin import Pin
+from fusion_hat.motor import Motor
 
 # gets API Key from environment variable OPENAI_API_KEY
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
