@@ -1,7 +1,7 @@
 .. _mp_hand_gesture:
 
 
-Gesture Recognizer
+6. Hand Gesture Recognizer
 ==================================================
 
 In the previous chapter, we used MediaPipe Hands to obtain 21 hand landmarks and visualized the skeleton.

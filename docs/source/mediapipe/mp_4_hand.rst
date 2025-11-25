@@ -1,7 +1,7 @@
 .. _mp_hand:
 
 
-Hand Detection
+4. Hand Detection
 ===============================
 
 In the previous section, we learned how to implement face detection and tracking using MediaPipe.

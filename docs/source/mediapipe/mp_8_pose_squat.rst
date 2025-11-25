@@ -1,6 +1,6 @@
 .. _mp_pose_squat:
 
-Squat Counter
+8. Squat Counter
 ==========================================
 
 In the previous chapter, we implemented basic human pose estimation. This chapter will utilize the **keypoints detected by Pose** to implement a **Squat Counter**.

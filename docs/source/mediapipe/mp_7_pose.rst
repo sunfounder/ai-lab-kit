@@ -1,7 +1,7 @@
 .. _mp_pose:
 
 
-Human Pose Estimation
+7. Human Pose Estimation
 ================================
 
 Following our completion of hand and gesture recognition, this chapter introduces **MediaPipe Pose** — a lightweight yet powerful **real-time pose estimation** module.

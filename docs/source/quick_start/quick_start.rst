@@ -14,7 +14,7 @@
 
 .. _get_start:
 
-2. Getting Started (Important)
+Getting Started (Important)
 ===============================
 
 This is the very first chapter of this kit course.  

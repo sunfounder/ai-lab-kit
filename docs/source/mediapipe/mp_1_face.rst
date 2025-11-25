@@ -1,6 +1,6 @@
 .. _mp_face:
 
-Face Detection
+1. Face Detection
 ===========================
 
 This section introduces how to use the **MediaPipe Face Mesh** module on a **Raspberry Pi** for real-time face detection and facial landmark mesh drawing.

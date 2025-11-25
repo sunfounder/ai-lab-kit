@@ -1,6 +1,6 @@
 .. _mp_pose_segmentation:
 
-Green Screen
+9. Green Screen
 ====================================
 
 This chapter utilizes the **person segmentation** feature of MediaPipe Pose to achieve **person cutout** + **background replacement with green** (green screen).

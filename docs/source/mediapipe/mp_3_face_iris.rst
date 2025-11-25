@@ -1,6 +1,6 @@
 .. _mp_face_iris:
 
-Facial Contours and Iris Detection
+3. Facial Contours and Iris Detection
 =================================================================
 
 In the previous sections, we implemented basic face mesh detection and simple emotion recognition based on landmarks.

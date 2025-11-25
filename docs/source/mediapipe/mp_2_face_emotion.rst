@@ -1,7 +1,6 @@
 .. _mp_face_emotion:
 
-
-Emotion Detection
+2. Emotion Detection
 ==========================================
 
 In the previous section, we implemented **Face Mesh detection** based on MediaPipe.
