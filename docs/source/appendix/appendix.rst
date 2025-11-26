@@ -24,7 +24,6 @@ Appendix
     audio_configuration
     remote_desktop
     filezilla
-    blynk_app
     get_ip
     install_openssh_powershell
     login_windows
