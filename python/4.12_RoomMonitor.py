@@ -6,7 +6,6 @@ DHT11 + LDR + OLED live dashboard
 - Reads temperature & humidity from a DHT11 on GPIO 17
 - Reads light level from an LDR on ADC A0 (0..4095)
 - Renders values to a 128x64 SSD1306 OLED (I2C addr 0x3C)
-- English-only comments
 """
 
 import time

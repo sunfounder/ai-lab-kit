@@ -5,7 +5,6 @@
 Joystick-controlled eye on a 128x64 SSD1306 OLED.
 - Joystick X/Y on ADC A0/A1 (0..4095)
 - Pupil moves inside a drawn eye based on joystick deflection
-- English-only comments
 """
 
 import time

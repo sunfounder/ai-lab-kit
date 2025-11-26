@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-MPU6050 + SSD1306 OLED
+MPU6050(GY87) + SSD1306 OLED
 Gravity-referenced cube with one filled face and user-selectable X/Y flip.
 - Accelerometer-only tilt (roll/pitch) relative to an initial baseline
 - Orthographic projection (no perspective distortion)
