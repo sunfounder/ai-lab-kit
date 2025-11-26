@@ -53,9 +53,9 @@ Let’s start building the future—one line of Python at a time.
     quick_start/quick_start
     python/play_with_python
     llm/llm
-    gpt/gpt
-    opencv/opencv
     mediapipe/mediapipe
+    opencv/opencv
+    gpt/gpt
     component/component
     appendix/appendix
     faq

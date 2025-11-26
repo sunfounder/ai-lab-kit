@@ -1,5 +1,5 @@
-Play With MediaPipe
-=======================
+Play with MediaPipe (AI Vision Models)
+==================================================
 
 This section is about how to use MediaPipe.
 

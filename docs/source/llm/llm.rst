@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-Think · Talk · Drive —  AI-Powered with Multi-LLMs
+Play with AI (Multi-LLMs)
 ------------------------------------------------------------
 
 Go beyond movement and vision by adding **speech** and **AI**.  

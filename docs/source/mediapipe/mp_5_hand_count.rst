@@ -1,6 +1,6 @@
 .. _mp_hand_count:
 
-Hand Gesture Counting
+5. Hand Gesture Counting
 ==============================================
 
 In the previous section, we implemented **real-time detection and landmark drawing** for both hands.

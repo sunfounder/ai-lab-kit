@@ -1,5 +1,5 @@
-Play with GPT
-===========================
+Play with GPT (OpenAI SDK)
+=========================================
 
 In the current technological trend, the influence of artificial intelligence (AI) is growing, especially in the field of natural language processing (NLP). 
 Generative Pre-trained Transformer (GPT) is a powerful language model developed by OpenAI, which can understand and generate human-like text, and is widely used in many fields from automatic writing to customer service.

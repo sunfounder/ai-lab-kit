@@ -1,7 +1,7 @@
 .. _mediapipe_install:
 
-MediaPipe Environment Setup
-=============================
+0. MediaPipe Environment Setup
+=====================================
 
 -----------------------------
 1. Install OpenCV and VNC

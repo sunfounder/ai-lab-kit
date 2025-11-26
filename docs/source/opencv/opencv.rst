@@ -1,5 +1,5 @@
-Play with OpenCV in Python
-===================================
+Play with OpenCV (Computer Vision Basics)
+==================================================
 
 This mini-course is a hands-on introduction to computer vision with **OpenCV** in **Python**.  
 You’ll learn how to load and display images, work with video streams, access a Raspberry Pi camera, detect colors, track objects with MeanShift/CAMShift, extract edges with Canny, and run lightweight face/eye detection with Haar cascades.

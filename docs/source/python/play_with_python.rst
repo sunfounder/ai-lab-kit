@@ -15,8 +15,8 @@
 
 .. _play_with_python:
 
-Play with Python
-===============================
+Play with Python (Electronics Basics)
+==================================================
 
 
 **Output**

@@ -1,7 +1,7 @@
 .. _mp_object:
 
 
-Object Detection
+10. Object Detection
 =================================
 
 In addition to specialized models for face, hands, and pose, MediaPipe also provides a **Object Detector** based on TFLite for general-purpose object detection.
