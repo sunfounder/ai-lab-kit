@@ -86,7 +86,9 @@ Play with Python
    4.7_smart_fan_python.rst 
    4.8_game_10_second_python.rst 
    4.9_traffic_light_python.rst
-
-
-.. 4.10_hub_knob
-.. 4.11_set_angle
+   4.10_hue_knob.rst 
+   4.11_servo_angle_meter.rst 
+   4.12_room_monitor.rst 
+   4.13_joystick_eye.rst 
+   4.14_cube.rst 
+   4.15_whack_a_mole.rst

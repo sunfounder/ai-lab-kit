@@ -1,6 +1,7 @@
 
 .. note::
 
+
     Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
 
     **Why Join?**
@@ -50,13 +51,13 @@ The following components are required for this project:
     *   - Raspberry Pi
         - \-
 
-----------------------------------------------
+.. ----------------------------------------------
 
-**Circuit Diagram**
+.. **Circuit Diagram**
 
-.. image:: img/fzz/4.1.9_sch.png
-   :width: 80%
-   :align: center
+.. .. image:: img/fzz/4.1.9_sch.png
+..    :width: 80%
+..    :align: center
 
 
 ----------------------------------------------
@@ -129,11 +130,93 @@ Refer to the wiring diagram for assembling the components:
 
 Here is the Python script for the traffic light simulation:
 
-.. raw:: html
-
-   <run></run>
-
 .. code-block:: python
+
+   #!/usr/bin/env python3
+   import time
+   import colorsys
+   import board
+   import neopixel_spi as neopixel
+   from fusion_hat.modules import Rotary_Encoder
+   from fusion_hat.pin import Pin, Mode, Pull
+   from signal import pause
+
+   # ---------------------------
+   # NeoPixel (SPI) setup
+   # ---------------------------
+   LED_COUNT = 12
+   PIXEL_ORDER = neopixel.GRB
+
+   spi = board.SPI()
+   strip = neopixel.NeoPixel_SPI(
+      spi,
+      LED_COUNT,
+      pixel_order=PIXEL_ORDER,
+      auto_write=False,
+   )
+   time.sleep(0.01)
+   strip.fill(0)
+   strip.show()
+
+   # ---------------------------
+   # Rotary Encoder
+   # ---------------------------
+   # CLK -> GPIO17, DT -> GPIO4, SW -> GPIO27 (pull-up)
+   encoder = Rotary_Encoder(clk=17, dt=4)
+   sw = Pin(27, mode=Mode.IN, pull=Pull.UP)
+
+   # You can tweak how many encoder steps you want per full hue cycle.
+   # If your encoder has 24 'detents', 24 or 48 feel good.
+   STEPS_PER_CYCLE = 120  # higher = finer control
+
+   _last_hue_idx = 0
+
+   def hue_to_rgb(h: float):
+      """h in [0.0, 1.0] -> (R, G, B) 0..255"""
+      r, g, b = colorsys.hsv_to_rgb(h, 1.0, 1.0)
+      return int(r * 255), int(g * 255), int(b * 255)
+
+   def apply_color_from_steps(steps: int):
+      global _last_hue_idx
+      # Map steps to [0..STEPS_PER_CYCLE-1]
+      hue_idx = steps % STEPS_PER_CYCLE
+      if hue_idx == _last_hue_idx:
+         return  # no visual update needed
+      _last_hue_idx = hue_idx
+
+      hue = hue_idx / STEPS_PER_CYCLE  # 0.0..1.0
+      color = hue_to_rgb(hue)
+
+      strip.fill(color)
+      strip.show()
+      print(f"Hue: {int(hue * 360)}°, Steps: {steps}, Color: {color}")
+
+   def rotary_change():
+      apply_color_from_steps(encoder.steps())
+
+   def reset_counter():
+      encoder.reset()
+      apply_color_from_steps(0)
+      print("Counter reset (Hue -> 0°)")
+
+   # Event bindings
+   encoder.when_rotated = rotary_change
+   sw.when_activated = reset_counter
+
+   # Initialize to 0°
+   apply_color_from_steps(0)
+
+   print("Rotate to change hue. Press button to reset. CTRL+C to exit.")
+   try:
+      pause()
+   except KeyboardInterrupt:
+      pass
+   finally:
+      # Turn off LEDs on exit
+      strip.fill(0)
+      strip.show()
+      print("Exited and cleared LEDs.")
+
 
 -------------------------
 
@@ -236,18 +319,22 @@ Here is the Python script for the traffic light simulation:
 -------------------
 
 - **LEDs do not light up**
+
   - Check wiring to the WS2812 LED module.
   - Ensure the Fusion HAT SPI NeoPixel interface is enabled.
   - Make sure you are using a supported WS2812/WS2812B LED module.
 
 - **Colors change too quickly or too slowly**
+
   - Adjust ``STEPS_PER_CYCLE`` to refine or increase sensitivity.
 
 - **Button press does not reset hue**
+
   - Verify SW is connected to GPIO27.
   - Ensure the pin is configured with ``pull=Pin.PULL_UP``.
 
 - **Script exits immediately**
+
   - Confirm ``pause()`` is imported from ``signal``.
   - Make sure no other process is using SPI.
 
@@ -258,22 +345,28 @@ Here is the Python script for the traffic light simulation:
 Want to extend this project further? Try these ideas:
 
 1. **Add Brightness Control**  
+
    Use another variable (e.g., encoder press + rotation) to adjust LED brightness from 0–255.
 
 2. **Add Multiple Display Modes**  
+
    Press the encoder to cycle through modes:
+
    - Solid color (default)
    - Rainbow animation
    - Breathing effect
    - Color wipe
 
 3. **Add a Power Toggle**  
+
    Long-press the encoder button to turn the LED ring on/off.
 
 4. **Make Hue Change Smoother**  
+
    Increase ``STEPS_PER_CYCLE`` or add interpolation for buttery-smooth transitions.
 
 5. **Show Direction Feedback**  
+
    Glow one LED green when rotating clockwise, red when counterclockwise.
 
 These small extensions turn the simple “Hue Knob” into a versatile RGB control interface.
