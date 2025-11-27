@@ -40,7 +40,8 @@ If You Have a Screen
 #. Power on the Raspberry Pi.
 #. After a short while, Raspberry Pi OS desktop will appear and you can open a Terminal to enter commands.
 
-    .. image:: img/bookwarm.png
+    .. image:: img/trixie.png
+        :width: 70%
         :align: center
 
 
@@ -119,7 +120,8 @@ Without a monitor, you can configure and log into your Raspberry Pi remotely. Th
 
 If you prefer a graphical interface instead of command line, you have two options:
 
-    .. image:: img/bookwarm.png
+    .. image:: img/trixie.png
+        :width: 70%
         :align: center
 
 * :ref:`remote_desktop`: Enable **VNC (Virtual Network Computing)** for a full desktop experience on your Pi.  
