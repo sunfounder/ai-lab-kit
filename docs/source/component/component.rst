@@ -35,6 +35,7 @@ Below is the introduction to each component, which contains the operating princi
     component_capacitor
     component_diode
     component_wires
+    component_battery_3pin
 
 **Chip**
 
@@ -67,8 +68,8 @@ Below is the introduction to each component, which contains the operating princi
 .. toctree::
     :maxdepth: 1
 
-    component_motor
-    component_servo
+    component_motor_xh254
+    component_servo_metal
     component_relay
     
 
