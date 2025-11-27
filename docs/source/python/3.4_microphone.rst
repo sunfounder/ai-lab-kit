@@ -70,31 +70,31 @@ This will list all audio **capture** devices available on your Raspberry Pi. Sam
 
 If you see the ``voicehat-hifi`` listed, it means the microphone hardware is detected correctly.
 
-**Enable the Audio Module**
+.. **Enable the Audio Module**
 
 
-For protection purposes, the audio module on the Fusion HAT is **disabled by default**. To enable it, run:
+.. For protection purposes, the audio module on the Fusion HAT is **disabled by default**. To enable it, run:
  
-.. raw:: html
+.. .. raw:: html
 
-   <run></run>
+..    <run></run>
 
-.. code-block:: bash
+.. .. code-block:: bash
 
-   fusion_hat enable_speaker
+..    fusion_hat enable_speaker
 
-.. note::
+.. .. note::
 
-   This setting remains active until the Raspberry Pi is powered off.
-   If you want to disable the audio module again, either reboot the device or run:
+..    This setting remains active until the Raspberry Pi is powered off.
+..    If you want to disable the audio module again, either reboot the device or run:
 
-   .. raw:: html
+..    .. raw:: html
 
-      <run></run>
+..       <run></run>
 
-   .. code-block:: bash
+..    .. code-block:: bash
 
-      fusion_hat disable_speaker
+..       fusion_hat disable_speaker
 
 **Test the Microphone**
 
