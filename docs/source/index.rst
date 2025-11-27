@@ -55,7 +55,6 @@ Let’s start building the future—one line of Python at a time.
     llm/llm
     mediapipe/mediapipe
     opencv/opencv
-    gpt/gpt
     component/component
     appendix/appendix
     faq
