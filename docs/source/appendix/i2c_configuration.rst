@@ -96,17 +96,6 @@ If there is an I2C device connected, the address of the device will be displayed
 
 **Step 5:**
 
-**For C language users:** Install libi2c-dev.
-
-.. raw:: html
-
-   <run></run>
- 
-.. code-block:: 
-
-    sudo apt-get install libi2c-dev 
-
-**For Python users:**
 
 1. Activating the Virtual Environment.
 

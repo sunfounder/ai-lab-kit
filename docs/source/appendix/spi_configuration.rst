@@ -58,7 +58,3 @@ Then the following codes will appear (the number may be different).
     git clone https://github.com/lthiery/SPI-Py.git
     cd SPI-Py
     sudo python3 setup.py install
-
-.. note::
-    This step is for python users, if you use C language, please
-    skip.
