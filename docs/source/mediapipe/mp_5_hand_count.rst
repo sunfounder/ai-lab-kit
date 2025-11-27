@@ -6,7 +6,7 @@
 In the previous section, we implemented **real-time detection and landmark drawing** for both hands.
 This section will further introduce how to use **finger landmark positions** to implement a simple and efficient function:
 
-👉 **Count the number of raised fingers** to achieve hand gesture number recognition (0~5).
+**Count the number of raised fingers** to achieve hand gesture number recognition (0~5).
 
 .. image:: img/mp_hand_count.png
    :align: center
@@ -177,7 +177,7 @@ The judgment rules are as follows:
 - **Other four fingers**: Check if ``tip.y`` is less than ``dip.y``.
   - If the tip is higher than the dip, the finger is considered extended.
 
-👉 Each condition met increases the count by ``+1``.
+Each condition met increases the count by ``+1``.
 
 -----------------------------
 4. Advanced Tips
@@ -213,7 +213,7 @@ The judgment rules are as follows:
      - Reduce resolution or optimize algorithm
 
 -----------------------------
-6. ✅ Summary
+6.  Summary
 -----------------------------
 
 - Using MediaPipe Hands, we can quickly implement **real-time gesture recognition**.

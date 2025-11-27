@@ -156,7 +156,7 @@ After running the program, you’ll see:
 
 - Like MeanShift, CAMShift requires an **initial tracking window**.  
 
-👉 This initial region defines the target appearance we want to “remember.”
+This initial region defines the target appearance we want to “remember.”
 
 
 2. Convert Color Space
@@ -177,7 +177,7 @@ H (Hue) represents color, S (Saturation) indicates purity, and V (Value) describ
 
 ``inRange`` labels pixels within the specified range as white (255) and others as black (0).
 
-📌 Here we set a range to filter the target. The output is a binary image (mask).
+Here we set a range to filter the target. The output is a binary image (mask).
 
 .. image:: img/opencv_camshift_inrange.png
    :alt: inRange mask effect
@@ -202,7 +202,7 @@ H (Hue) represents color, S (Saturation) indicates purity, and V (Value) describ
 - ``calcHist``: counts the color distribution within the ROI  
 - ``normalize``: standardizes value ranges to reduce the impact of brightness variations
 
-👉 This step essentially **teaches CAMShift what our target looks like**.
+This step essentially **teaches CAMShift what our target looks like**.
 
 .. tip::
 
@@ -274,7 +274,7 @@ Connecting them with ``polylines`` gives a rotated box that follows the target.
      - Static targets
      - Complex motion, rotating targets
 
-✅ CAMShift is an upgrade over MeanShift,  
+ CAMShift is an upgrade over MeanShift,  
 better handling target deformation, rotation, and distance changes—well-suited for real-world scenarios.
 
 

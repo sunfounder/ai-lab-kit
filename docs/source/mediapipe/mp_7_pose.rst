@@ -112,9 +112,9 @@ Here is a basic human pose detection program:
 
 After running the program, the camera feed will display a real-time human skeleton, including:
 
-- 🟡 33 keypoints
-- 🔹 Skeleton connection lines
-- 🧍 Skeleton follows movement when the person moves
+- 33 keypoints
+- Skeleton connection lines
+- Skeleton follows movement when the person moves
 
 -----------------------------
 3. Code Explanation
@@ -341,7 +341,7 @@ These points can be used for **posture judgment**, **action counting** (e.g., sq
      - Use smoothing algorithms or inter-frame filtering
 
 -----------------------------
-7. ✅ Summary
+7.  Summary
 -----------------------------
 
 - This chapter implemented **real-time human skeleton detection** based on MediaPipe Pose;
@@ -349,6 +349,6 @@ These points can be used for **posture judgment**, **action counting** (e.g., sq
 - By adjusting resolution and model complexity, smooth operation can be achieved on Raspberry Pi;
 - Based on these keypoints, we can subsequently develop:
 
-  - 🤸 Action recognition (e.g., "raising hand", "squatting")
-  - 🧍 Posture assessment (e.g., "Is sitting posture correct?")
-  - 🎮 Human interactive control.
+  - Action recognition (e.g., "raising hand", "squatting")
+  - Posture assessment (e.g., "Is sitting posture correct?")
+  - Human interactive control.

@@ -151,9 +151,9 @@ The code in this section is basically the same as the code in :ref:`mp_face`. Th
 4. Advantages and Application Scenarios
 --------------------------------------------------
 
-- ✨ **Lightweight Drawing** — Lower rendering burden compared to the full FaceMesh grid.
-- 👁️ **More Focused Features** — Facilitates facial feature localization and iris tracking.
-- 🧠 **High Extensibility** — Can be directly integrated with gaze estimation algorithms or other interaction modules.
+- **Lightweight Drawing** — Lower rendering burden compared to the full FaceMesh grid.
+- **More Focused Features** — Facilitates facial feature localization and iris tracking.
+- **High Extensibility** — Can be directly integrated with gaze estimation algorithms or other interaction modules.
 
 **Application Examples:**
 
@@ -183,7 +183,7 @@ The code in this section is basically the same as the code in :ref:`mp_face`. Th
      - Reduce resolution or turn off refine_landmarks
 
 -----------------------------
-6. ✅ Summary
+6.  Summary
 -----------------------------
 
 - ``FACEMESH_CONTOURS`` and ``FACEMESH_IRISES`` are two important connection methods provided by MediaPipe.

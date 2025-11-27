@@ -12,7 +12,7 @@ In this lesson, we’ll not only implement a complete **MeanShift tracking** exa
 
 MeanShift iteratively shifts a window according to probability density to **find the most likely location of the target**.
 
-📌 In plain words:  
+In plain words:  
 You first give the algorithm an “initial target region.” It computes the color features of this region (e.g., the target’s color histogram), and then in each subsequent frame finds the area most similar to that color and moves the rectangle there.
 
 This process doesn’t rely on deep learning and requires no pre-training—it’s very lightweight.
@@ -326,7 +326,7 @@ Previously, we used fixed values:
 That’s simple but not flexible.  
 If you switch videos or the target starts elsewhere, you’d have to change the code.
 
-👉 OpenCV provides ``cv2.selectROI`` so you can **select the target region interactively on the first frame** with the mouse, and the program will obtain ``(x, y, w, h)`` automatically.
+OpenCV provides ``cv2.selectROI`` so you can **select the target region interactively on the first frame** with the mouse, and the program will obtain ``(x, y, w, h)`` automatically.
 
 **Modified initialization code**
 
@@ -358,7 +358,7 @@ Run ``cv_meanshift_auto.py`` for the modified code.
    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
    ...
 
-👉 The program pauses at the first frame and opens a selection window:
+The program pauses at the first frame and opens a selection window:
 
 - Drag a box with the mouse around the target you want to track (e.g., a red ball or a person).  
 - Press ``Enter`` or ``Space`` to confirm, or ``Esc`` to cancel.  

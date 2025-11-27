@@ -13,10 +13,10 @@ MediaPipe is a cross-platform machine learning pipeline framework developed by G
 
 Compared to OpenCV's Haar detection, MediaPipe uses a deep learning model for detection, offering:
 
-- ✅ Higher accuracy
-- ✅ Better robustness to lighting and angles
-- ✅ Supports facial landmark tracking (468 points)
-- ✅ Seamless integration with OpenCV, allowing direct drawing of detection results on video streams.
+-  Higher accuracy
+-  Better robustness to lighting and angles
+-  Supports facial landmark tracking (468 points)
+-  Seamless integration with OpenCV, allowing direct drawing of detection results on video streams.
 
 ------------------------
 1. Run the Code
@@ -253,7 +253,7 @@ Picamera2 outputs in **XRGB8888** format, which needs to be converted to BGR for
      - Use ``pip install mediapipe`` and confirm Python is 64-bit
 
 -----------------------------
-5. ✅ Summary
+5.  Summary
 -----------------------------
 
 - MediaPipe FaceMesh uses a deep learning model to achieve high-precision face detection on Raspberry Pi

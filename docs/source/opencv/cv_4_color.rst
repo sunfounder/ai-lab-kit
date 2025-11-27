@@ -163,7 +163,7 @@ For example:
    mask2 = cv2.inRange(hsv, LOWER_RED2, UPPER_RED2)
    mask = cv2.bitwise_or(mask1, mask2)
 
-📌 **Core Logic:**
+**Core Logic:**
 
 The relationship between ``cv2.inRange`` input and output:
 
@@ -181,7 +181,7 @@ The relationship between ``cv2.inRange`` input and output:
 Since red is near both 0 and 180 in HSV,  
 we use two separate ranges and combine the results with ``bitwise_or``.
 
-👉 The output ``mask`` is a binary image:  
+The output ``mask`` is a binary image:  
 white = red region, black = background.
 
 .. image:: img/color_detection2.png

@@ -21,7 +21,7 @@ Typical Haar feature examples:
    :alt: Illustration of Haar features
    :align: center
 
-👉 OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already included in the example directory—just load and use them.
+OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already included in the example directory—just load and use them.
 
 2. Detection Pipeline
 
@@ -171,7 +171,7 @@ Open the terminal in VNC and enter the following command:
 ..   - ``haarcascade_eye.xml`` → eye detection
 ..   - ``haarcascade_profileface.xml`` → profile (side) face detection
 ..
-..  👉 You can find them under OpenCV’s ``data/haarcascades`` directory.
+..  You can find them under OpenCV’s ``data/haarcascades`` directory.
 
 2. Convert to Grayscale
 
@@ -194,7 +194,7 @@ Grayscale conversion:
 - ``1.3``: image pyramid scale factor. Larger → faster but slightly less precise.  
 - ``5``: minimum neighbors for a detection. Larger → fewer false positives but may miss some faces.
 
-👉 ``detectMultiScale`` returns rectangles for all detected faces as ``(x, y, w, h)``.
+``detectMultiScale`` returns rectangles for all detected faces as ``(x, y, w, h)``.
 
 4. Draw Face Bounding Boxes
 
@@ -250,7 +250,7 @@ Grayscale conversion:
      - Small model size; easy to deploy
      - Less accurate than deep learning methods
 
-👉 Because it’s lightweight and fast, Haar features are still very practical on embedded devices.
+Because it’s lightweight and fast, Haar features are still very practical on embedded devices.
 
 
 7. Common Improvements

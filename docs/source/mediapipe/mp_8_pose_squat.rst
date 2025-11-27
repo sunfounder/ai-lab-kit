@@ -254,7 +254,7 @@ Use a simple state machine for reliable counting:
      - Adjust model_complexity=1 or reduce resolution
 
 -----------------------------
-6. ✅ Summary
+6.  Summary
 -----------------------------
 
 - Implemented a **real-time squat counter** using Pose keypoints + state machine;
@@ -262,6 +262,6 @@ Use a simple state machine for reliable counting:
 - Suitable for Raspberry Pi or other edge device applications;
 - Future extensions possible:
 
-  - 🏃‍♂️ Push-up/Sit-up detection
-  - 📊 Data recording and visualization
-  - 🧠 Automatic rhythm guidance and training feedback
+  - Push-up/Sit-up detection
+  - Data recording and visualization
+  - Automatic rhythm guidance and training feedback

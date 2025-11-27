@@ -260,7 +260,7 @@ Or use another video as the background (read the next frame ``bg_frame``, resize
      - Use blue/gray background, or change background image
 
 -----------------------------
-8. ✅ Summary
+8.  Summary
 -----------------------------
 
 - Using ``segmentation_mask``, we can quickly achieve "person cutout + background replacement";

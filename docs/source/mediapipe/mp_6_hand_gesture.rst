@@ -470,7 +470,7 @@ Using the helper with recognizer output
      - Reduce resolution, disable skeleton drawing, use lightweight system environment
 
 -----------------------------
-6. ✅ Summary
+6.  Summary
 -----------------------------
 
 - **Gesture Recognizer** enables real-time semantic gesture recognition on Raspberry Pi;

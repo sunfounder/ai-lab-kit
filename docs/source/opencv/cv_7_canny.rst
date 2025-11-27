@@ -14,7 +14,7 @@ In images, **edges** usually correspond to locations with strong intensity (gray
 - Boundaries between bright and dark regions
 - Structural edge lines
 
-👉 The purpose of Canny edge detection is to:
+The purpose of Canny edge detection is to:
 
 - **Accurately extract edge information** while reducing unnecessary interference;
 - Provide a reliable foundation for subsequent **contour detection**, **object segmentation**, and **geometric recognition** (e.g., circles, rectangles);
@@ -149,7 +149,7 @@ Open the terminal in VNC and enter the following command:
 - Canny uses only grayscale information to detect where intensity “jumps.”
 - Color (RGB) channels add complexity; converting to grayscale reduces interference.
 
-👉 Goal: convert the color image to a single-channel grayscale image to prepare for edge detection.
+Goal: convert the color image to a single-channel grayscale image to prepare for edge detection.
 
 
 2. Gaussian Blur
@@ -181,10 +181,10 @@ Open the terminal in VNC and enter the following command:
 
 - This design:
 
-  ✅ Preserves clear, main edges  
-  🚫 Filters out isolated noise
+   Preserves clear, main edges  
+   Filters out isolated noise
 
-👉 That’s why we use trackbars to tune thresholds interactively to find suitable edge strength.
+That’s why we use trackbars to tune thresholds interactively to find suitable edge strength.
 
 .. image:: img/opencv_canny_trackbar.png
    :alt: Canny threshold tuning
@@ -204,7 +204,7 @@ Canny actually includes four stages:
 3. **Double thresholding**: classify strong and weak edges.  
 4. **Hysteresis (edge tracking)**: keep weak edges if they connect to strong edges; otherwise discard.
 
-📌 This approach is more robust than a single threshold and better handles lighting changes.
+This approach is more robust than a single threshold and better handles lighting changes.
 
 
 5. Display Results
@@ -245,7 +245,7 @@ Canny output is well-suited for subsequent vision tasks:
    * - OCR / Target localization
      - Text regions, QR codes, markers often have clear edge features
 
-👉 Canny isn’t just “cool-looking”—it’s the **entry point** to a broader CV pipeline.
+Canny isn’t just “cool-looking”—it’s the **entry point** to a broader CV pipeline.
 
 
 7. Threshold Selection Tips
@@ -276,7 +276,7 @@ Canny output is well-suited for subsequent vision tasks:
      - 80
      - Lower thresholds further to make edges more sensitive
 
-👉 Use the trackbars to quickly tune an appropriate range, then hardcode it into your program.
+Use the trackbars to quickly tune an appropriate range, then hardcode it into your program.
 
 
 

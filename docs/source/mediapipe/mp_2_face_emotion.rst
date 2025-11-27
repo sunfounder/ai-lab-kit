@@ -31,9 +31,9 @@ This section will further utilize the **468 landmark coordinates** from Face Mes
 
 This method does not rely on neural network inference, therefore:
 
-- ✅ Fast speed, low latency (suitable for Raspberry Pi)
-- ✅ Easy to adjust thresholds based on project requirements
-- ⚠️ Accuracy is lower than trained deep learning emotion recognition models, but it is lightweight and efficient
+-  Fast speed, low latency (suitable for Raspberry Pi)
+-  Easy to adjust thresholds based on project requirements
+-  Accuracy is lower than trained deep learning emotion recognition models, but it is lightweight and efficient
 
 ------------------------
 1. Run the Code
@@ -268,7 +268,7 @@ Determine emotion using empirical values:
      - Improve lighting, face the camera directly
 
 -----------------------------
-6. ✅ Summary
+6.  Summary
 -----------------------------
 
 - This chapter implemented lightweight emotion recognition based on **geometric features + FaceMesh landmarks**.

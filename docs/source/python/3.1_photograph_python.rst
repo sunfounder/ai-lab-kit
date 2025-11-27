@@ -232,7 +232,7 @@ Below is the Python code used for this project:
               filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
               print(f"\n📸 Capturing photo: {filepath}")
               camera.capture_file(filepath)
-              print("✅ Saved.")
+              print(" Saved.")
               photo_index += 1
 
    - This function is called automatically whenever the USR button is clicked.

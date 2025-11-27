@@ -109,8 +109,9 @@ The complete example code is as follows:
 After running the code, you will see in the camera feed:
 
 - If one or two hands are detected, it will show:
-  - 🟡 21 hand landmarks
-  - 🔹 Blue connection skeleton
+
+  - 21 hand landmarks
+  - Blue connection skeleton
 - When the hand moves, the detection will track it in real-time.
 
 --------------------------------------------------------
@@ -170,12 +171,14 @@ Common landmarks include:
      - Reduce resolution, close other processes
 
 -----------------------------
-5. ✅ Summary
+5.  Summary
 -----------------------------
 
 - MediaPipe Hands enables stable **real-time hand detection** on the Raspberry Pi.
 - Provides 21 landmarks per hand, suitable for:
-  - ✋ Gesture recognition
-  - 🕹️ Virtual control
-  - 📱 Interactive UI control
+
+  - Gesture recognition
+  - Virtual control
+  - Interactive UI control
+  
 - Subsequently, we will implement **custom gesture recognition** based on these landmarks.

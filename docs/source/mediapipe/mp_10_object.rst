@@ -163,9 +163,9 @@ Open the terminal in VNC and enter the following command:
 
 After running the script, the camera feed will display:
 
-- 🟧 Bounding boxes around detected objects
-- 🏷️ Classification labels and confidence scores
-- ⚡ Real-time detection (can achieve about 10~20 FPS on Raspberry Pi)
+- Bounding boxes around detected objects
+- Classification labels and confidence scores
+- Real-time detection (can achieve about 10~20 FPS on Raspberry Pi)
 
 -----------------------------
 4. Code Explanation
@@ -362,7 +362,7 @@ Always release the camera and destroy windows to avoid locking the device.
      - Limit with MAX_DRAW
 
 -----------------------------
-7. ✅ Summary
+7.  Summary
 -----------------------------
 
 - This chapter implemented general-purpose object detection based on MediaPipe Tasks;
