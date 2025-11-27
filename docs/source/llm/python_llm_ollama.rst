@@ -118,6 +118,23 @@ Run the following commands:
 
 Once Ollama is installed and your model is ready, you can quickly test it with a minimal chat loop.
 
+**Set IP Address**
+
+#. Open the example script:
+
+   .. code-block:: bash
+
+      cd ~/fusion-hat/examples/
+      sudo nano llm_ollama.py
+
+#. Update the parameters as needed:
+
+   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``: Update both ``ip`` and ``model`` to your own setup.  
+
+     * ``ip``: If Ollama runs on the **same Pi**, use ``localhost``. If Ollama runs on another computer in your LAN, enable **Expose to network** in Ollama and set ``ip`` to that computer’s LAN IP.  
+     * ``model``: Must exactly match the model name you downloaded/activated in Ollama.  
+
+
 **Run the program**
 
   .. code-block:: bash
