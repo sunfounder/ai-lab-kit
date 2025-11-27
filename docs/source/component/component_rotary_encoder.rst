@@ -39,5 +39,5 @@ As illustrated below, when channel A transitions from a high level to a low leve
 	
 **Example**
 
-* :ref:`2.1.6_c` (C Project)
-* :ref:`2.1.6_py` (Python Project)
+.. * :ref:`2.1.6_c` (C Project)
+.. * :ref:`2.1.6_py` (Python Project)

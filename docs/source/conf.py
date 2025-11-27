@@ -105,18 +105,7 @@ gettext_compact = False # Support for generating the contents of the folders ins
 # Purchase links of components
 rst_epilog = """
 
-.. |link_ai_explorer_kit| raw:: html
 
-    <a href="https://www.sunfounder.com/products/ai-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">AI Explorer Lab Kit</a>
-
-.. |link_ai_explorer| raw:: html
-
-    <a href="https://www.sunfounder.com/products/ai-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">Purchase link for AI Explorer Lab Kit</a>
-
-.. |link_picow_buy| raw:: html
-
-    <a href="https://www.sunfounder.com/products/raspberry-pi-pico-w" target="_blank">BUY</a>
-    
 .. |link_led_buy| raw:: html
 
     <a href="https://www.sunfounder.com/products/500pcs-5-colors-x-100pcs-5mm-leds-with-white-red-yellow-green-blue-colors-kit-box" target="_blank">BUY</a>
@@ -271,11 +260,11 @@ rst_epilog = """
 
 .. |link_fusion_hat| raw:: html
 
-    <a href="https://fusion-hat.readthedocs.io/en/latest/fusion_hat/fusion_hat.html" target="_blank">SunFounder Fusion HAT+</a>
+    <a href="https://docs.sunfounder.com/projects/fusion-hat/en/latest/" target="_blank">SunFounder Fusion HAT+</a>
 
 .. |link_api_fusion_hat| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/fusion-hat/en/latest/api/api.html" target="_blank">fusion-hat documentation </a>
+    <a href="https://docs.sunfounder.com/projects/fusion-hat/en/latest/api/fusion_hat.html" target="_blank">fusion-hat documentation </a>
 
 
 """
