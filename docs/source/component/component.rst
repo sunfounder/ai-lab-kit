@@ -15,10 +15,10 @@
 Components
 ================================================
 
-After opening the package, please check whether the quantity of components is compliance with product description and whether all components are in good condition.
+.. After opening the package, please check whether the quantity of components is compliance with product description and whether all components are in good condition.
 
-.. image:: img/list.png
-    :width: 800
+.. .. image:: img/list.png
+..     :width: 800
 
 Below is the introduction to each component, which contains the operating principle of the component and the corresponding projects.
 
