@@ -28,10 +28,10 @@ With step-by-step tutorials, you’ll learn how to:
 
 .. With step-by-step tutorials and over **160 hands-on projects**, you’ll learn how to:
 
-* Use **OpenAI’s API** to generate text, answer questions, or create chatbots
+* Understand Python basics while actually building real things—not just reading theory
 * Connect AI to real-world components like LEDs, sensors, buzzers, and motors
 * Build smart projects like a voice-controlled assistant, AI-powered robot, or even a chatbot that controls lights
-* Understand Python basics while actually building real things—not just reading theory
+* Use OpenCV and MediaPipe to create computer vision projects
 
 Each lesson is designed to be beginner-friendly, engaging, and practical. You’ll start with small examples and quickly move on to exciting AI-powered applications that combine **software and hardware in creative ways**.
 
