@@ -12,7 +12,7 @@ config = picam2.create_preview_configuration(
 picam2.configure(config)
 
 # Start preview from Picamera2 (optional GUI preview)
-picam2.start_preview(Preview.QTGL)
+# picam2.start_preview(Preview.QTGL)
 picam2.start()
 
 # Create OpenCV windows
