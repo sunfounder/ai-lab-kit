@@ -274,7 +274,7 @@ Connecting them with ``polylines`` gives a rotated box that follows the target.
      - Static targets
      - Complex motion, rotating targets
 
- CAMShift is an upgrade over MeanShift,  
+CAMShift is an upgrade over MeanShift,  
 better handling target deformation, rotation, and distance changes—well-suited for real-world scenarios.
 
 

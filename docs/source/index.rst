@@ -53,8 +53,8 @@ Let’s start building the future—one line of Python at a time.
     quick_start/quick_start
     python/play_with_python
     llm/llm
-    mediapipe/mediapipe
     opencv/opencv
+    mediapipe/mediapipe
     component/component
     appendix/appendix
     faq

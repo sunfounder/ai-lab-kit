@@ -3,6 +3,20 @@
 0. MediaPipe Environment Setup
 =====================================
 
+.. warning::
+   
+   To ensure full functionality of this project, the required **MediaPipe** and **Picamera2** libraries are only fully compatible with **Raspberry Pi OS (Debian 12 / Bookworm)**.
+
+   The newly released **Raspberry Pi OS based on Debian 13 (Trixie)** ships with **Python 3.13**, but:
+
+   * **MediaPipe is not yet compatible with Python 3.13**, and cannot be installed in the system environment.
+   * **Picamera2 and its libcamera Python bindings are built only for the system Python**, making them unusable in a custom Python 3.12 environment.
+   * As a result, MediaPipe and Picamera2 cannot run together under the same interpreter on Trixie.
+
+   **Therefore, this project does not support Debian 13 (Trixie) at this time.
+   Please use Raspberry Pi OS (Bookworm, Debian 12) to ensure full compatibility.**
+
+
 -----------------------------
 1. Install OpenCV and VNC
 -----------------------------
@@ -17,6 +31,7 @@ Before proceeding with MediaPipe, we need to install OpenCV and VNC to run Media
 ----------------------------------------------------------------
 2. Create a Virtual Environment
 ----------------------------------------------------------------
+
 
 Using a virtual environment is recommended to avoid dependency conflicts between different projects.
 
