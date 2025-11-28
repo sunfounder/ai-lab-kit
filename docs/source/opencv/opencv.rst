@@ -1,3 +1,5 @@
+.. _play_with_opencv:
+
 Play with OpenCV (Computer Vision Basics)
 ==================================================
 

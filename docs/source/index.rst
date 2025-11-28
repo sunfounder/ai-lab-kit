@@ -15,39 +15,38 @@
 SunFounder AI Fusion Lab Kit
 =======================================================
 
+**Welcome to the AI Fusion Lab Kit Documentation**
 
-**Your Gateway to Creative AI Projects with Raspberry Pi**
+The AI Fusion Lab Kit is an all-in-one learning and development platform designed for beginners, makers, and educators to explore Python programming, artificial intelligence, computer vision, and interactive hardware projects.
 
-Are you new to programming, curious about AI, or looking for a hands-on way to bring smart ideas to life?
+It combines:
 
-The **AI Fusion Lab Kit** is the perfect starting point for students, makers, and educators who want to learn Python and explore the power of artificial intelligence—**no prior experience needed**.
+* A modular hardware kit
+* A ready-to-use software environment
+* Step-by-step learning modules
+* AI and vision tools such as LLMs, OpenCV, and MediaPipe
 
-This kit doesn’t just give you parts. It gives you a **complete learning journey**.
+With this kit, you can build projects that blend coding, electronics, and modern AI technology — all in a hands-on, beginner-friendly way.
 
-With step-by-step tutorials, you’ll learn how to:
+**How to Navigate This Documentation**
 
-.. With step-by-step tutorials and over **160 hands-on projects**, you’ll learn how to:
-
-* Understand Python basics while actually building real things—not just reading theory
-* Connect AI to real-world components like LEDs, sensors, buzzers, and motors
-* Build smart projects like a voice-controlled assistant, AI-powered robot, or even a chatbot that controls lights
-* Use OpenCV and MediaPipe to create computer vision projects
-
-Each lesson is designed to be beginner-friendly, engaging, and practical. You’ll start with small examples and quickly move on to exciting AI-powered applications that combine **software and hardware in creative ways**.
-
-Whether you’re a middle school student learning to code for the first time, a teacher bringing AI into the classroom, or a hobbyist ready to explore machine learning, the AI Fusion Lab Kit helps you turn ideas into reality.
-
-If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
-
-Let’s start building the future—one line of Python at a time.
+This guide will help you understand what the kit can do, how the documentation is structured, and where to begin based on your experience level. Whether you're a beginner, an educator, or an experienced maker, you’ll find a clear path that fits your goals.
 
 
+**Not Sure Where to Start?**
+
+* **Brand-new to the kit?** → Always start with :ref:`get_start`
+* **New to coding?** → :ref:`play_with_python`
+* **Interested in AI?** → :ref:`play_with_llm`
+* **Working with cameras?** → :ref:`play_with_opencv` or :ref:`play_with_mediapipe`
+* **Need technical details?** → :ref:`cpn_list`
+* **Encountering problems?** → :ref:`faq`
 
 
-**Contents**
+**Content**
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     About This Kit <self>
     quick_start/quick_start
@@ -58,6 +57,12 @@ Let’s start building the future—one line of Python at a time.
     component/component
     appendix/appendix
     faq
+
+
+**Contact Us**
+
+If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
+
     
 **Copyright Notice**
 

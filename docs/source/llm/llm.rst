@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _play_with_llm:
+
 Play with AI (Multi-LLMs)
 ------------------------------------------------------------
 

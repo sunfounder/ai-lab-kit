@@ -1,3 +1,5 @@
+.. _play_with_mediapipe:
+
 Play with MediaPipe (AI Vision Models)
 ==================================================
 
