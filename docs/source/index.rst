@@ -43,6 +43,13 @@ This guide will help you understand what the kit can do, how the documentation i
 * **Encountering problems?** → :ref:`faq`
 
 
+.. warning::
+   
+   The MediaPipe project does not support Debian 13 (Trixie) at this time.
+   Please use Raspberry Pi OS (Bookworm, Debian 12) to ensure full compatibility.
+
+
+
 **Content**
 
 .. toctree::
