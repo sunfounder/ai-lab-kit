@@ -5,16 +5,13 @@
 
 Connect Fusion HAT to Raspberry Pi
 ----------------------------------------
-在这里，我们将教你如何将Fusion HAT组合到一起。
 
-#. 将摄像头模块用FPC线连接到树莓派。
+Here, we'll teach you how to assemble the Fusion HAT.
 
-#. 在树莓派上拧上尼龙柱。
-
-#. 将Fusion HAT插入到树莓派的40pin引脚上。用螺钉固定。
-
-#. 插入电池。
-
+#. Connect the camera module to the Raspberry Pi using an FPC cable.
+#. Screw the nylon standoffs onto the Raspberry Pi.
+#. Plug the Fusion HAT into the 40-pin connector on the Raspberry Pi. Secure it with screws.
+#. Insert the battery.
 
 Charge
 -------------------
