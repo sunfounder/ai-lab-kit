@@ -44,17 +44,15 @@ Using a virtual environment is recommended to avoid dependency conflicts between
    # Upgrade pip
    pip install --upgrade pip
 
-.. note::
+.. .. note::
 
-   All mediapipe related commands and projects should be run in the mediapipe environment.
-   
-.. note::
+..    All mediapipe related commands and projects should be run in the mediapipe environment.
 
-   After each reboot of your Raspberry Pi, if you need to use the mediapipe environment again, please re-run:
+..    After each reboot of your Raspberry Pi, if you need to use the mediapipe environment again, please re-run:
 
-   .. code-block:: bash
+..    .. code-block:: bash
 
-      source ~/mediapipe_env/bin/activate
+..       source ~/mediapipe_env/bin/activate
 
 
 
@@ -68,17 +66,23 @@ MediaPipe can be installed directly via pip:
 
    pip install mediapipe
 
-.. note::
+.. .. note::
 
-   - For Raspberry Pi OS, `mediapipe` has supported ARM64 since version 0.10.0.
-   - If you encounter an "unsupported platform" error, please check if your Python and system architecture are 64-bit.
-   - You can confirm the architecture using the following commands:
+..    - For Raspberry Pi OS, `mediapipe` has supported ARM64 since version 0.10.0.
+..    - If you encounter an "unsupported platform" error, please check if your Python and system architecture are 64-bit.
+..    - You can confirm the architecture using the following commands:
 
-     .. code-block:: bash
+..      .. code-block:: bash
 
-        uname -m
-        python3 -V
+..         uname -m
+..         python3 -V
 
+
+Then the installation is successful! 
+
+
+At this point, the MediaPipe runtime environment on your Raspberry Pi is set up.
+The next section will introduce how to use MediaPipe for real-time face detection.
 
 
 ----------------------------------------------------------------
@@ -93,7 +97,7 @@ MediaPipe can be installed directly via pip:
      - Solution
    * - ``mediapipe`` installation fails
      - Python or system architecture incompatibility
-     - Ensure it's a 64-bit system; Use ``pip install mediapipe==0.10.5``
+     - Ensure it's the Raspberry Pi OS Bookworm Debian 12 64-bit system
    * - Camera cannot be opened
      - Driver not enabled
      - Run ``sudo raspi-config`` → Interface Options → Enable Camera
@@ -121,9 +125,3 @@ If the terminal outputs a version number, for example:
 
    MediaPipe version: 0.10.18
 
-Then the installation is successful! 🎉
-
-
-
-At this point, the MediaPipe runtime environment on your Raspberry Pi is set up.
-The next section will introduce how to use MediaPipe for real-time face detection.

@@ -55,15 +55,18 @@ This guide explains how to do that using **Raspberry Pi Imager** in a simple, be
 
 #. Go to the **OS** section and choose the recommended **Raspberry Pi OS (64-bit)** option.
 
+   .. warning::
+      
+      The :ref:`play_with_mediapipe` project does not support Debian 13 (Trixie) at this time.
+      Please use **Raspberry Pi OS (Legacy,64-bit) (Bookworm, Debian 12)** to ensure full compatibility.
+
+
    .. image:: img/imager_os.png
       :width: 90%
 
 
 
-.. warning::
-   
-   The MediaPipe project does not support Debian 13 (Trixie) at this time.
-   Please use Raspberry Pi OS (Bookworm, Debian 12) to ensure full compatibility.
+
 
 
 #. In the **Storage** section, select your microSD card. For safety, unplug other USB drives so only the SD card appears in the list.
