@@ -1,127 +1,133 @@
 .. _mediapipe_install:
 
-0. MediaPipe Environment Setup
-=====================================
+MediaPipe Installation Guide (Raspberry Pi)
+==========================================
 
 .. warning::
    
-   To ensure full functionality of this project, the required MediaPipe and Picamera2 libraries are only fully compatible with **Raspberry Pi OS (Debian 12 / Bookworm)**.
+   To ensure full functionality of this project, the required MediaPipe and Picamera2 libraries are only fully compatible with **Raspberry Pi OS (Debian 12 / Bookworm , 64-bit)**.
 
-   The newly released Raspberry Pi OS based on Debian 13 (Trixie) ships with Python 3.13, but:
+   The new Raspberry Pi OS Trixie (Debian 13) uses Python 3.13 as the system Python, but:
 
-   * MediaPipe is not yet compatible with Python 3.13, and cannot be installed in the system environment.
-   * Picamera2 and its libcamera Python bindings are built only for the system Python.
+   * MediaPipe is not yet compatible with Python 3.13.
+   * Picamera2 (used for camera access) only works with the system Python.
 
-   Therefore, please use **Raspberry Pi OS (Bookworm, Debian 12)** to ensure full compatibility.
-
-
------------------------------
-1. Install OpenCV and VNC
------------------------------
-
-Before proceeding with MediaPipe, we need to install OpenCV and VNC to run MediaPipe on your Raspberry Pi.
-
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
+   Please use **Raspberry Pi OS Bookworm 64-bit** for full compatibility.  
+   This tutorial will be updated once Trixie becomes supported.
 
 
-----------------------------------------------------------------
-2. Create a Virtual Environment
-----------------------------------------------------------------
+Before You Start
+----------------
 
+Before installing MediaPipe, make sure:
 
-Using a virtual environment is recommended to avoid dependency conflicts between different projects.
+* OpenCV has been installed on your Raspberry Pi (see :ref:`opencv_install`).
+* You can access the Raspberry Pi desktop through a display.
 
-.. code-block:: bash
+  * or remotely via **Raspberry Pi Connect** (|link_rpi_connect|)  
+  * or remotely through VNC software (see :ref:`remote_desktop`).
 
-   # Create a virtual environment named 'mediapipe_env'
-   python3 -m venv ~/mediapipe_env --system-site-packages
+* You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
 
-   # Activate the virtual environment
-   source ~/mediapipe_env/bin/activate
-
-   # Upgrade pip
-   pip install --upgrade pip
-
-.. .. note::
-
-..    All mediapipe related commands and projects should be run in the mediapipe environment.
-
-..    After each reboot of your Raspberry Pi, if you need to use the mediapipe environment again, please re-run:
-
-..    .. code-block:: bash
-
-..       source ~/mediapipe_env/bin/activate
+These preparations ensure MediaPipe can run with full graphical and camera functionality on your Raspberry Pi.
 
 
 
-----------------------------------------------------------------
-3. Install MediaPipe
-----------------------------------------------------------------
+Installation Steps
+------------------
 
-MediaPipe can be installed directly via pip:
+#. **Create a virtual environment**
 
-.. code-block:: bash
+   A virtual environment keeps MediaPipe separated from system libraries
+   and prevents version conflicts with other projects.
 
-   pip install mediapipe
+   .. code-block:: bash
 
-.. .. note::
-
-..    - For Raspberry Pi OS, `mediapipe` has supported ARM64 since version 0.10.0.
-..    - If you encounter an "unsupported platform" error, please check if your Python and system architecture are 64-bit.
-..    - You can confirm the architecture using the following commands:
-
-..      .. code-block:: bash
-
-..         uname -m
-..         python3 -V
+      python3 -m venv ~/mediapipe_env --system-site-packages
 
 
-Then the installation is successful! 
+#. **Activate the virtual environment**
+
+   This switches Python into the isolated environment you just created.
+
+   .. code-block:: bash
+
+      source ~/mediapipe_env/bin/activate
 
 
-At this point, the MediaPipe runtime environment on your Raspberry Pi is set up.
-The next section will introduce how to use MediaPipe for real-time face detection.
+#. **Upgrade pip**
+
+   Updating pip reduces installation issues and ensures compatibility
+   with the latest MediaPipe wheel packages.
+
+   .. code-block:: bash
+
+      pip install --upgrade pip
 
 
-----------------------------------------------------------------
-4. Common Installation Issues and Solutions
-----------------------------------------------------------------
+#. **Install MediaPipe**
 
-.. list-table::
-   :header-rows: 1
+   Install MediaPipe directly using pip.  
+   On Raspberry Pi OS (Bookworm, ARM64), this will download the correct wheel.
 
-   * - Issue
-     - Possible Cause
-     - Solution
-   * - ``mediapipe`` installation fails
-     - Python or system architecture incompatibility
-     - Ensure it's the Raspberry Pi OS Bookworm Debian 12 64-bit system
-   * - Camera cannot be opened
-     - Driver not enabled
-     - Run ``sudo raspi-config`` → Interface Options → Enable Camera
-   * - OpenCV error
-     - pip version incompatibility
-     - Use ``sudo apt install python3-opencv`` or upgrade pip
-   * - Error importing mediapipe
-     - pip version is too old
-     - Run ``pip install --upgrade pip setuptools wheel``
+   .. code-block:: bash
 
-------------------------------------
-5. Verify MediaPipe Installation
-------------------------------------
+      pip install mediapipe
 
-.. code-block:: bash
 
-   python3 - <<EOF
-   import mediapipe as mp
-   print("MediaPipe version:", mp.__version__)
-   EOF
+#. **Verify the installation**
 
-If the terminal outputs a version number, for example:
+   Run a quick test to confirm that MediaPipe is installed properly.
 
-::
+   .. code-block:: bash
 
-   MediaPipe version: 0.10.18
+      python3 - <<EOF
+      import mediapipe as mp
+      print("MediaPipe version:", mp.__version__)
+      EOF
 
+   Expected output:
+
+   ::
+
+      MediaPipe version: 0.10.18
+
+
+Common Issues & Solutions
+-------------------------
+
+* **Problem:** MediaPipe installation fails
+
+  This usually happens when using an unsupported system. MediaPipe currently works **only on Raspberry Pi OS Bookworm (Debian 12, 64-bit)**.  
+  The newer Raspberry Pi OS Trixie (Python 3.13) is not supported.
+
+  **Solution:** Install or switch to Raspberry Pi OS Bookworm.
+* **Problem:** Camera cannot be opened in MediaPipe or OpenCV
+
+  This usually happens when the Raspberry Pi camera interface has not been enabled in the system.
+
+  **Solution:** Enable the camera using ``raspi-config`` (Interface Options → Enable Camera):
+
+* **Problem:** OpenCV import errors
+
+  Some pip-installed versions of OpenCV may be incompatible with Raspberry Pi OS libraries.
+
+  **Solution:** Install the stable APT version of OpenCV:
+
+  .. code-block:: bash
+
+     sudo apt install python3-opencv
+
+* **Problem:** MediaPipe cannot be imported after installation 
+
+  This may happen if pip, setuptools, or wheel are outdated.
+
+  **Solution:** Upgrade your Python packaging tools:
+
+  .. code-block:: bash
+
+     pip install --upgrade pip setuptools wheel
+
+
+Your MediaPipe environment is now ready.  
+You can proceed to the next section to run real-time face detection using the Raspberry Pi camera.
