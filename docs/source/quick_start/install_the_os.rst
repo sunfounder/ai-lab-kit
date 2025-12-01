@@ -15,7 +15,7 @@
 
 .. _install_os_sd:
 
-2. Installing the Operating System
+Installing the Operating System
 ===================================
 
 Before using your Raspberry Pi, you need to install **Raspberry Pi OS** onto a microSD card.  
@@ -57,6 +57,14 @@ This guide explains how to do that using **Raspberry Pi Imager** in a simple, be
 
    .. image:: img/imager_os.png
       :width: 90%
+
+
+
+.. warning::
+   
+   The MediaPipe project does not support Debian 13 (Trixie) at this time.
+   Please use Raspberry Pi OS (Bookworm, Debian 12) to ensure full compatibility.
+
 
 #. In the **Storage** section, select your microSD card. For safety, unplug other USB drives so only the SD card appears in the list.
 

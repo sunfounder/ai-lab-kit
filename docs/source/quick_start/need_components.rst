@@ -12,7 +12,7 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-1. What Else Do You Need?
+What Else Do You Need?
 ===============================
 
 Before we start playing with this kit, let’s prepare the essential hardware.

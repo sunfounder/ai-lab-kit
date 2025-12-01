@@ -14,7 +14,7 @@
 
 .. _setup_pi:
 
-4. Set up Your Raspberry Pi
+Set up Your Raspberry Pi
 ============================
 
 To start programming and controlling, you first need to access your Raspberry Pi.

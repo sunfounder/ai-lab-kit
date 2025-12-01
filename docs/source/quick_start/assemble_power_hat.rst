@@ -1,6 +1,6 @@
 .. _assemble_hat:
 
-3. Assemble and Power on Fusion HAT (Important)
+Assemble and Power on Fusion HAT (Important)
 =======================================================
 
 Connect Fusion HAT to Raspberry Pi

@@ -15,7 +15,7 @@
 
 .. _install_all_modules:
 
-5. Configure Power & Install Software (Important)
+Configure Power & Install Software (Important)
 ================================================================
 
 In this chapter, you’ll install the related software, configure audio, set up safe power management and learn how to handle shutdowns.
@@ -34,7 +34,7 @@ Download the complete set of example code for the kit:
    .. code-block::
 
       cd ~/
-      git clone https://github.com/sunfounder/ai-lab-kit.git
+      git clone https://github.com/sunfounder/ai-lab-kit.git --depth 1
 
 .. _install_fusion_hat:
 
