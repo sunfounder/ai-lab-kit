@@ -25,13 +25,30 @@ This chapter further introduces **MediaPipe Tasks' Gesture Recognizer model** to
 4. Obtain for each hand: candidate gesture list (category + confidence), normalized hand landmarks, handedness (left/right);
 5. Draw the top-1 gesture as a "label + score" above the bounding box of the corresponding hand.
 
-.. note::
+.. .. note::
 
-   - This chapter uses the Tasks API from **MediaPipe 0.10+**.
-   - Gesture Recognizer requires a model file (``gesture_recognizer.task``); we have placed it in the example code directory, please use it directly.
+..    - This chapter uses the Tasks API from **MediaPipe 0.10+**.
+
 
 ------------------------
-1. Run the Code
+1. Model
+------------------------
+
+Gesture Recognizer requires a model file (``gesture_recognizer.task``); we have placed it in the example code directory, please use it directly.
+
+The Gesture classification model bundle can recognize these common hand gestures:
+
+* 0 - Unrecognized gesture, label: Unknown
+* 1 - Closed fist, label: Closed_Fist
+* 2 - Open palm, label: Open_Palm
+* 3 - Pointing up, label: Pointing_Up
+* 4 - Thumbs down, label: Thumb_Down
+* 5 - Thumbs up, label: Thumb_Up
+* 6 - Victory, label: Victory
+* 7 - Love, label: ILoveYou
+
+------------------------
+2. Run the Code
 ------------------------
 
 Please make sure that:
@@ -48,7 +65,7 @@ Open the terminal in VNC and enter the following command:
    sudo ~/mediapipe_env/bin/python3 ~/ai-lab-kit/mediapipe/mp_hand_gesture.py
 
 -----------------------------
-2. Code Example
+3. Code Example
 -----------------------------
 
 .. code-block:: python
@@ -200,7 +217,7 @@ After running the script, the window will display the hand skeleton (optional) a
 - Confidence score (0~1)
 
 -----------------------------
-3. Code Explanation
+4. Code Explanation
 -----------------------------
 
 **High-level flow:**
@@ -424,7 +441,7 @@ Using the helper with recognizer output
 - Always release the camera and destroy windows when finishing.
 
 -----------------------------
-4. Parameters and Tuning
+5. Parameters and Tuning
 -----------------------------
 
 .. list-table::
@@ -447,7 +464,7 @@ Using the helper with recognizer output
      - Recommended 640×480 or lower on Raspberry Pi for better FPS
 
 -------------------------------------------------------
-5. Common Issues and Troubleshooting
+6. Common Issues and Troubleshooting
 -------------------------------------------------------
 
 .. list-table::
@@ -470,7 +487,7 @@ Using the helper with recognizer output
      - Reduce resolution, disable skeleton drawing, use lightweight system environment
 
 -----------------------------
-6.  Summary
+7.  Summary
 -----------------------------
 
 - **Gesture Recognizer** enables real-time semantic gesture recognition on Raspberry Pi;
