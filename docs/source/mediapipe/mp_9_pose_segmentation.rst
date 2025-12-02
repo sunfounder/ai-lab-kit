@@ -64,7 +64,7 @@ If you want to use MediaPipe Pose with a recorded video, you can run the followi
    # Initialize the Pose model
    pose = mp_pose.Pose(
       static_image_mode=False,  # Set to False for processing video frames
-      model_complexity=2,
+      model_complexity=1,
       enable_segmentation=True,
    )
 

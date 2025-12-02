@@ -19,7 +19,7 @@
 import sphinx_rtd_theme
 import time
 
-project = 'SunFounder AI Fusion Lab Kit for Raspberry Pi 5'
+project = 'SunFounder AI Fusion Lab Kit'
 copyright = f'{time.localtime().tm_year}, SunFounder'
 author = 'www.sunfounder.com'
 

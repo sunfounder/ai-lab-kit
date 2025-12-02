@@ -148,13 +148,13 @@ After running the program, the camera feed will display a real-time human skelet
 
   pose = mp_pose.Pose(
       static_image_mode=False,  # Continuous video mode
-      model_complexity=2,
+      model_complexity=1,
       enable_segmentation=True,
   )
 
 * ``static_image_mode=False``: Indicates the input is a continuous video stream, not a single image. Tracks after initial detection for faster speed. Usually set to False.
 
-* ``model_complexity=2``: Model complexity, 0=light, 1=medium, 2=high accuracy (slower). Set to 1 or 2 if Raspberry Pi performance allows.
+* ``model_complexity=1``: Model complexity, 0=light, 1=medium, 2=high accuracy (slower). Set to 1 or 2 if Raspberry Pi performance allows.
 
 * ``enable_segmentation=True``: Outputs human segmentation mask, can distinguish foreground person from background. When True, enables effects like background replacement, chroma keying. This usage will be explained in subsequent documentation: :ref:`mp_pose_segmentation`
 
@@ -324,21 +324,74 @@ These points can be used for **posture judgment**, **action counting** (e.g., sq
 6. Common Issues and Troubleshooting
 ----------------------------------------------------
 
-.. list-table::
-   :header-rows: 1
 
-   * - Issue
-     - Cause
-     - Solution
-   * - No human detected
-     - Person not in frame / Poor lighting
-     - Adjust angle, increase lighting
-   * - High latency
-     - Resolution or model complexity too high
-     - Reduce resolution or lower model_complexity
-   * - Jittery detection
-     - Unstable computation
-     - Use smoothing algorithms or inter-frame filtering
+This section provides quick answers to the most common issues when running MediaPipe Pose on Raspberry Pi.
+
+
+**6.1 The program runs, but no human is detected. What should I do?**
+
+* Ensure the person is fully inside the camera frame.
+* Improve lighting (avoid backlight).
+* Keep an appropriate distance (1–2 meters).
+
+
+**6.2 The video is slow or lagging. How to improve performance?**
+
+* Use 640×480 resolution.
+* Keep ``model_complexity = 1`` (default in this tutorial).
+* Disable segmentation unless needed.
+* Close other background programs.
+
+
+**6.3 The program crashes with “Segmentation fault”. Why?**
+
+Most segmentation faults are caused by **system architecture and mediapipe wheel mismatch**.
+
+Check your system:
+
+.. code-block:: bash
+
+
+  uname -m
+
+
+Expected output: ``aarch64``
+
+
+If you see ``armv7l`` or ``armhf`` → you are using **32-bit Raspberry Pi OS**, which is not compatible with the official mediapipe wheel.
+
+Also check in Python:
+
+.. code-block:: python
+
+
+  import platform
+  print(platform.machine())
+
+
+Must also be: ``aarch64``
+
+
+**6.4 I am using aarch64 but still get Segmentation Fault. What now?**
+
+This can occur if certain TensorFlow Lite XNNPACK kernels are not fully compatible with your mediapipe wheel.
+
+Solutions:
+
+1. Use the safe setting (already used in the example): ``model_complexity = 1``
+2. Ensure mediapipe is installed inside the correct virtual environment.
+3. If the crash persists, install a Raspberry Pi–optimized wheel such as: **mediapipe-bin** (from PINTO0309).
+
+
+**6.5 Why does “model_complexity = 2” crash, but “1” works?**
+
+* Complexity 2 loads a larger model that triggers advanced CPU optimizations.
+* On Raspberry Pi, some of these optimized TensorFlow Lite kernels may not be fully supported.
+* Complexity 1 avoids those kernels → **stable and fast**.
+
+This is why the tutorial uses ``model_complexity = 1`` by default.
+
+
 
 -----------------------------
 7.  Summary

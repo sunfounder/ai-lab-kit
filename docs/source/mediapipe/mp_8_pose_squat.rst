@@ -62,7 +62,7 @@ Here is the complete squat counter implementation:
    # Initialize the Pose model
    pose = mp_pose.Pose(
       static_image_mode=False,
-      model_complexity=2,
+      model_complexity=1,
       enable_segmentation=True,
    )
 
@@ -218,10 +218,10 @@ Use a simple state machine for reliable counting:
      - Description
      - Adjustment Suggestion
    * - DOWN_TH
-     - Squat action判定阈值
+     - Squat action threshold
      - Higher value requires deeper squat to count
    * - UP_TH
-     - Stand up action判定阈值
+     - Stand up action threshold
      - Lower value requires standing more upright
    * - model_complexity
      - Pose model complexity
