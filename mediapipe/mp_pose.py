@@ -4,11 +4,13 @@ import mediapipe.python.solutions.pose as mp_pose
 import mediapipe.python.solutions.drawing_utils as drawing
 import mediapipe.python.solutions.drawing_styles as drawing_styles
 
-# Initialize the Pose model
+
+# Initialize the Pose model2
 pose = mp_pose.Pose(
     static_image_mode=False,  # Set to False for processing video frames
-    model_complexity=2,
+    model_complexity=1,
     enable_segmentation=True,
+    #smooth_landmarks=True,
 )
 
 # Open the camera
@@ -54,6 +56,6 @@ while True:
         break
 
 # Release the camera
-picam2.stop_preview()
+# picam2.stop_preview()
 picam2.stop()
 cv2.destroyAllWindows()

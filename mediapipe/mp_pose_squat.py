@@ -7,7 +7,7 @@ import mediapipe.python.solutions.drawing_styles as drawing_styles
 # Initialize the Pose model
 pose = mp_pose.Pose(
     static_image_mode=False,
-    model_complexity=2,
+    model_complexity=1,
     enable_segmentation=True,
 )
 
