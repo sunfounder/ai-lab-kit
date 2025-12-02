@@ -155,7 +155,7 @@ For example:
 - Blue → H close to 120
 
 
-3. **Filter Red Using ``cv2.inRange``**
+3. **Filter Red Using** ``cv2.inRange``
 
 .. code-block:: python
 

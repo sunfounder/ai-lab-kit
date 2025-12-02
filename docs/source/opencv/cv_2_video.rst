@@ -14,7 +14,7 @@ In this section, we will achieve the following goals:
 - Read and display video frame by frame
 - Automatically restart the video after it ends
 - Control the playback frame rate using processing time calculations
-- Press the `q` key to exit playback
+- Press the ``q`` key to exit playback
 
 .. image:: img/opencv_video.png
    :alt: Video playback interface illustration
@@ -90,16 +90,16 @@ Open the terminal in VNC and enter the following command:
 4. Execution Result
 -------------------
 
-After successfully running the code, a window will pop up playing `sample2.mp4`.
+After successfully running the code, a window will pop up playing ``sample2.mp4``.
 
 - The video will automatically restart when it reaches the end.  
 - Playback speed will be close to the original FPS.  
-- Press `q` to exit the program.
+- Press ``q`` to exit the program.
 
 .. note::
 
    - Make sure the video file path is correct.  
-   - If the video cannot be played, check the video codec format or try using common formats such as `.mp4` or `.avi`.  
+   - If the video cannot be played, check the video codec format or try using common formats such as ``.mp4`` or ``.avi``.  
    - If the playback speed seems off, print ``cap.get(cv2.CAP_PROP_FPS)`` to confirm the FPS.
 
 
@@ -108,7 +108,7 @@ After successfully running the code, a window will pop up playing `sample2.mp4`.
 
 - ``cap = cv2.VideoCapture('sample2.mp4')``  
 
-  Opens the video file `sample2.mp4`. If the path is incorrect, the video cannot be read.
+  Opens the video file ``sample2.mp4``. If the path is incorrect, the video cannot be read.
 
 - ``ret, frame = cap.read()``  
 
