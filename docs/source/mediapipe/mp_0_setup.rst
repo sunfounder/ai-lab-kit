@@ -1,7 +1,7 @@
 .. _mediapipe_install:
 
 MediaPipe Installation Guide (Raspberry Pi)
-==========================================
+====================================================================
 
 .. warning::
    
@@ -14,6 +14,13 @@ MediaPipe Installation Guide (Raspberry Pi)
 
    Please use **Raspberry Pi OS Bookworm 64-bit** for full compatibility.  
    This tutorial will be updated once Trixie becomes supported.
+
+   If you would like to encourage official MediaPipe support for Python 3.13, you can submit your request through:
+
+   * GitHub Issues: https://github.com/google-ai-edge/mediapipe/issues/5708
+   * Official Support Page: https://ai.google.dev/edge/mediapipe/support
+
+   Your feedback will help accelerate the compatibility update process.
 
 
 Before You Start
@@ -36,33 +43,33 @@ These preparations ensure MediaPipe can run with full graphical and camera funct
 Installation Steps
 ------------------
 
-#. **Create a virtual environment**
+.. #. **Create a virtual environment**
 
-   A virtual environment keeps MediaPipe separated from system libraries
-   and prevents version conflicts with other projects.
+..    A virtual environment keeps MediaPipe separated from system libraries
+..    and prevents version conflicts with other projects.
 
-   .. code-block:: bash
+..    .. code-block:: bash
 
-      python3 -m venv ~/mediapipe_env --system-site-packages
-
-
-#. **Activate the virtual environment**
-
-   This switches Python into the isolated environment you just created.
-
-   .. code-block:: bash
-
-      source ~/mediapipe_env/bin/activate
+..       python3 -m venv ~/mediapipe_env --system-site-packages
 
 
-#. **Upgrade pip**
+.. #. **Activate the virtual environment**
 
-   Updating pip reduces installation issues and ensures compatibility
-   with the latest MediaPipe wheel packages.
+..    This switches Python into the isolated environment you just created.
 
-   .. code-block:: bash
+..    .. code-block:: bash
 
-      pip install --upgrade pip
+..       source ~/mediapipe_env/bin/activate
+
+
+.. #. **Upgrade pip**
+
+..    Updating pip reduces installation issues and ensures compatibility
+..    with the latest MediaPipe wheel packages.
+
+..    .. code-block:: bash
+
+..       pip install --upgrade pip
 
 
 #. **Install MediaPipe**
@@ -72,7 +79,7 @@ Installation Steps
 
    .. code-block:: bash
 
-      pip install mediapipe
+      pip install mediapipe --break
 
 
 #. **Verify the installation**
@@ -102,6 +109,8 @@ Common Issues & Solutions
   The newer Raspberry Pi OS Trixie (Python 3.13) is not supported.
 
   **Solution:** Install or switch to Raspberry Pi OS Bookworm.
+
+
 * **Problem:** Camera cannot be opened in MediaPipe or OpenCV
 
   This usually happens when the Raspberry Pi camera interface has not been enabled in the system.
@@ -129,5 +138,5 @@ Common Issues & Solutions
      pip install --upgrade pip setuptools wheel
 
 
-Your MediaPipe environment is now ready.  
+Your MediaPipe is now ready.  
 You can proceed to the next section to run real-time face detection using the Raspberry Pi camera.

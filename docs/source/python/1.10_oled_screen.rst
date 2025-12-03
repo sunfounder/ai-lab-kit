@@ -64,20 +64,20 @@ Follow these steps to build the circuit:
 
 **Setup Steps**
 
-#. Create and activate an isolated environment for this project:
+.. #. Create and activate an isolated environment for this project:
 
-   .. raw:: html
+..    .. raw:: html
    
-      <run></run>
+..       <run></run>
    
-   .. code-block:: shell
+..    .. code-block:: shell
       
-      cd ~
-      python3 -m venv 1.10_oled_env --system-site-packages
-      source 1.10_oled_env/bin/activate
+..       cd ~
+..       python3 -m venv 1.10_oled_env --system-site-packages
+..       source 1.10_oled_env/bin/activate
    
-   .. note::
-      It is recommended to create a separate virtual environment for each project to avoid dependency conflicts.
+..    .. note::
+..       It is recommended to create a separate virtual environment for each project to avoid dependency conflicts.
 
 
 #. Install the SSD1306 driver library:
@@ -90,7 +90,7 @@ Follow these steps to build the circuit:
    
    .. code-block:: shell
    
-       pip3 install adafruit-circuitpython-ssd1306
+      pip3 install adafruit-circuitpython-ssd1306 --break
    
 
 #. All example programs are included in the ``ai-lab-kit`` directory. Run the OLED example as follows:
@@ -102,7 +102,7 @@ Follow these steps to build the circuit:
    .. code-block:: shell
    
       cd ~/ai-lab-kit/python/
-      sudo ~/1.10_oled_env/bin/python3 1.10_OLED_Display.py
+      sudo python3 1.10_OLED_Display.py
 
 
 #. When the example runs, the OLED screen will display a framed box with the text **“Hello World!”** centered inside it.  

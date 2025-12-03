@@ -33,13 +33,13 @@ Please make sure that:
 1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
 2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
 3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** environment (see :ref:`mediapipe_install`).
+4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
 Open the terminal in VNC and enter the following command:
 
 .. code-block:: bash
 
-   sudo ~/mediapipe_env/bin/python3 ~/ai-lab-kit/mediapipe/mp_hand.py
+   sudo python3 ~/ai-lab-kit/mediapipe/mp_hand.py
 
 -----------------------------
 2. Code Example

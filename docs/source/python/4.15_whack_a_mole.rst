@@ -65,17 +65,17 @@ Refer to the wiring diagram for assembling the components:
 
 **Setup Steps**
 
-#. Create and activate a virtual environment:
+.. #. Create and activate a virtual environment:
 
-   .. raw:: html
+..    .. raw:: html
 
-      <run></run>
+..       <run></run>
 
-   .. code-block:: shell
+..    .. code-block:: shell
 
-      cd ~
-      python3 -m venv 4.15_whack_a_mole_env --system-site-packages
-      source 4.15_whack_a_mole_env/bin/activate
+..       cd ~
+..       python3 -m venv 4.15_whack_a_mole_env --system-site-packages
+..       source 4.15_whack_a_mole_env/bin/activate
 
 #. Install the required libraries:
 
@@ -85,7 +85,7 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      pip3 install pillow adafruit-circuitpython-ssd1306
+      pip3 install adafruit-circuitpython-ssd1306 --break
 
 #. Run the game from the ``ai-lab-kit`` directory:
 
@@ -96,7 +96,7 @@ Refer to the wiring diagram for assembling the components:
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python/
-      sudo ~/4.15_whack_a_mole_env/bin/python3 4.15_WhackAMole.py
+      sudo python3 4.15_WhackAMole.py
 
 #. When the script runs:
 

@@ -59,21 +59,21 @@ Refer to the wiring diagram for assembling the components:
 
 **Setup Steps**
 
-#. Create and activate an isolated environment for this project:
+.. #. Create and activate an isolated environment for this project:
 
-   .. raw:: html
+..    .. raw:: html
 
-      <run></run>
+..       <run></run>
 
-   .. code-block:: shell
+..    .. code-block:: shell
 
-      cd ~
-      python3 -m venv 4.11_servo_angle_env --system-site-packages
-      source 4.11_servo_angle_env/bin/activate
+..       cd ~
+..       python3 -m venv 4.11_servo_angle_env --system-site-packages
+..       source 4.11_servo_angle_env/bin/activate
 
-   .. note::
+..    .. note::
 
-      Each project should have its own virtual environment to prevent dependency conflicts.
+..       Each project should have its own virtual environment to prevent dependency conflicts.
 
 #. Install the required libraries:
 
@@ -83,7 +83,7 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      pip3 install adafruit-circuitpython-ssd1306
+      pip3 install adafruit-circuitpython-ssd1306 --break
 
 #. All example code used in this tutorial is available in the ``ai-lab-kit`` directory:
 
@@ -94,7 +94,7 @@ Refer to the wiring diagram for assembling the components:
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python/
-      sudo ~/4.11_servo_angle_env/bin/python3 4.11_ServoAngleMeter.py
+      sudo python3 4.11_ServoAngleMeter.py
 
 #. When the script runs:
 
@@ -109,9 +109,6 @@ Refer to the wiring diagram for assembling the components:
 Here is the Python script for the Servo Angle Meter:
 
 .. code-block:: python
-
-   #!/usr/bin/env python3
-   # -*- coding: utf-8 -*-
 
    from fusion_hat.adc import ADC
    from fusion_hat.servo import Servo

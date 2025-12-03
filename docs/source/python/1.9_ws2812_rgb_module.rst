@@ -57,21 +57,21 @@ To complete this project, you will need the following components:
 
 **Setup Steps**
 
-#. Create and activate an isolated environment for this project:
+.. #. Create and activate an isolated environment for this project:
 
-   .. raw:: html
+..    .. raw:: html
    
-      <run></run>
+..       <run></run>
    
-   .. code-block:: shell
+..    .. code-block:: shell
 
-      cd ~
-      python3 -m venv 1.9_ws2812_env --system-site-packages
-      source 1.9_ws2812_env/bin/activate
+..       cd ~
+..       python3 -m venv 1.9_ws2812_env --system-site-packages
+..       source 1.9_ws2812_env/bin/activate
 
-   .. note:: 
+..    .. note:: 
    
-      For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
+..       For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
 
 #. Before running the code, you need to install the required library:
 
@@ -83,7 +83,7 @@ To complete this project, you will need the following components:
    
    .. code-block:: shell
    
-      pip3 install adafruit-circuitpython-neopixel-spi
+      pip3 install adafruit-circuitpython-neopixel-spi --break
    
 
 #. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
@@ -95,7 +95,7 @@ To complete this project, you will need the following components:
    .. code-block:: shell
       
       cd ~/ai-lab-kit/python/
-      sudo ~/1.9_ws2812_env/bin/python3 1.9_NeoPixel.py
+      sudo python3 1.9_NeoPixel.py
 
 #. When this script runs, the WS2812 LED module cycles through three solid colors:
 
@@ -179,7 +179,7 @@ This Python script demonstrates basic control of a 12-LED WS2812 ring using the 
 
 1. **Library Import**
 
-   The script uses the `neopixel_spi` library to control WS2812 LEDs through Raspberry Pi’s SPI interface.
+   The script uses the ``neopixel_spi`` library to control WS2812 LEDs through Raspberry Pi’s SPI interface.
 
    .. code-block:: python
 

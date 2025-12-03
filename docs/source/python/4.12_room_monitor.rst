@@ -62,17 +62,17 @@ Refer to the wiring diagram for assembling the components:
 
 **Setup Steps**
 
-#. Create and activate a virtual environment for this project:
+.. #. Create and activate a virtual environment for this project:
 
-   .. raw:: html
+..    .. raw:: html
 
-      <run></run>
+..       <run></run>
 
-   .. code-block:: shell
+..    .. code-block:: shell
 
-      cd ~
-      python3 -m venv 4.12_room_monitor_env --system-site-packages
-      source 4.12_room_monitor_env/bin/activate
+..       cd ~
+..       python3 -m venv 4.12_room_monitor_env --system-site-packages
+..       source 4.12_room_monitor_env/bin/activate
 
 #. Install the required libraries:
 
@@ -82,7 +82,7 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      pip3 install adafruit-circuitpython-ssd1306
+      pip3 install adafruit-circuitpython-ssd1306 --break
 
 #. Run the example code from the ``ai-lab-kit`` directory:
 
@@ -93,7 +93,7 @@ Refer to the wiring diagram for assembling the components:
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python/
-      sudo ~/4.12_room_monitor_env/bin/python3 4.12_RoomMonitor.py
+      sudo python3 4.12_RoomMonitor.py
 
 #. When the script runs:
 
