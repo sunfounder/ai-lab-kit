@@ -36,7 +36,7 @@ Its voice sounds robotic, but it is highly configurable: you can adjust volume, 
 
   .. code-block:: bash
   
-      cd ~/fusion-hat/examples
+      cd ~/ai-lab-kit/llm
       sudo python3 tts_espeak.py
 
   * You should hear the Fusion HAT+ say: “Hello! I'm Espeak TTS.”
@@ -85,7 +85,7 @@ This makes Pico2Wave a great choice when you want clear and smooth speech withou
 
   .. code-block:: bash
   
-      cd ~/fusion-hat/examples
+      cd ~/ai-lab-kit/llm
       sudo python3 tts_pico2wave.py
 
 * You should hear the Fusion HAT+ say: “Hello! I'm Pico2Wave TTS.”  

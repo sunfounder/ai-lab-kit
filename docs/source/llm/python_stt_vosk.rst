@@ -75,7 +75,7 @@ Before using speech recognition, make sure your USB microphone works correctly.
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples
+      cd ~/ai-lab-kit/llm
       sudo python3 stt_vosk_stream.py
 
 The first time you run this code with a new language, Vosk will:

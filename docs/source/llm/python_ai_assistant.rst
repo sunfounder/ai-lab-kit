@@ -40,7 +40,7 @@ Run the Example
 
 .. code-block:: bash
 
-   cd ~/fusion-hat/examples/
+   cd ~/ai-lab-kit/llm/
    sudo python3 voice_assistant.py
 
 **Configuration used by the code:**

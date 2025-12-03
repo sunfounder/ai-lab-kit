@@ -124,7 +124,7 @@ Once Ollama is installed and your model is ready, you can quickly test it with a
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples/
+      cd ~/ai-lab-kit/llm/
       sudo nano llm_ollama.py
 
 #. Update the parameters as needed:
@@ -139,7 +139,7 @@ Once Ollama is installed and your model is ready, you can quickly test it with a
 
   .. code-block:: bash
   
-      cd ~/fusion-hat/examples
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_ollama.py
 
 Now you can chat with Fusion HAT+ directly from the terminal.
@@ -211,7 +211,7 @@ This is a minimal “see & tell” baseline you can later extend with color/face
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples
+      cd ~/ai-lab-kit/llm
       python3 llm_ollama_with_image.py
 
 #. What happens when it runs:

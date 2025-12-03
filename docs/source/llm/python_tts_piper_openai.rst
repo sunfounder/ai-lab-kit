@@ -37,7 +37,7 @@ It supports multiple **languages** and **voices**, making it a powerful option f
 
   .. code-block:: bash
   
-      cd ~/fusion-hat/examples
+      cd ~/ai-lab-kit/llm
       sudo python3 tts_piper.py
 
 * The first time you run it, the selected **voice model** will be downloaded automatically.  
@@ -96,7 +96,7 @@ It supports multiple **languages** and **voices**, making it a powerful option f
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Paste your key into the file like this:
@@ -111,7 +111,7 @@ It supports multiple **languages** and **voices**, making it a powerful option f
 
 .. code-block:: bash
   
-  cd ~/fusion-hat/examples
+  cd ~/ai-lab-kit/llm
   sudo python3 tts_openai.py
 
 * The program will connect to OpenAI’s TTS service, and the Fusion HAT+ will speak using **natural, expressive voice output**.  

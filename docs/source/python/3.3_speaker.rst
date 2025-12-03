@@ -109,7 +109,7 @@ Text-to-Speech (TTS) Demo
 
 .. code-block:: bash
 
-   cd ~/fusion-hat/examples
+   cd ~/ai-lab-kit/llm
    sudo python3 tts_espeak.py
 
 You should hear: **“Hello! I'm Espeak TTS.”**

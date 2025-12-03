@@ -47,7 +47,7 @@ Run the Code
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples/
+      cd ~/ai-lab-kit/llm/
       sudo nano local_voice_chatbot.py
 
 #. Update the parameters as needed:
@@ -63,7 +63,7 @@ Run the Code
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples/
+      cd ~/ai-lab-kit/llm/
       sudo python3 local_voice_chatbot.py
 
 #. After running, you should see:

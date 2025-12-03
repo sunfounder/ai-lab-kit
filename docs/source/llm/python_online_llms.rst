@@ -55,7 +55,7 @@ Here's how to set it up:
 
    .. code-block:: bash
    
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Paste your key into the file like this:
@@ -82,7 +82,7 @@ Here's how to set it up:
 
    .. code-block:: bash
    
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano llm_openai.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``gpt-4o``):
@@ -138,7 +138,7 @@ Gemini is Google's family of AI models. It's fast and great for general-purpose 
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Paste the key:
@@ -161,7 +161,7 @@ Go to the official |link_gemini_model| page, here you’ll see the list of model
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano llm_gemini.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``gemini-2.5-flash``):
@@ -241,7 +241,7 @@ Mainland China users can instead use the **Bailian (百炼)** console.
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Paste your key like this:
@@ -259,7 +259,7 @@ Mainland China users can instead use the **Bailian (百炼)** console.
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano llm_qwen.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``qwen-plus``):
@@ -307,7 +307,7 @@ Grok is xAI’s conversational AI, created by Elon Musk’s team. You can connec
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Paste your key like this:
@@ -331,7 +331,7 @@ Go to the Models page in the xAI console. Here you can see all the models availa
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano llm_grok.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``grok-4-latest``):
@@ -378,7 +378,7 @@ DeepSeek is a Chinese LLM provider that offers affordable and capable models.
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Add your key:
@@ -407,7 +407,7 @@ At the time of writing (2025-09-12), DeepSeek offers:
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano llm_deepseek.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``deepseek-chat``):
@@ -458,7 +458,7 @@ Doubao is ByteDance's AI model platform (Volcengine Ark).
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
 #. Add your key:
@@ -496,7 +496,7 @@ Doubao is ByteDance's AI model platform (Volcengine Ark).
 
    .. code-block:: bash
 
-       cd ~/fusion-hat/examples
+       cd ~/ai-lab-kit/llm
        sudo nano llm_doubao.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``doubao-seed-1-6-250615``):
@@ -545,7 +545,7 @@ For those platforms, you will need to manually obtain your **API Key** and the c
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples/
+      cd ~/ai-lab-kit/llm/
       nano secret.py
 
 #. Add your key into ``secret.py``:
@@ -565,7 +565,7 @@ For those platforms, you will need to manually obtain your **API Key** and the c
 
    .. code-block:: bash
 
-      cd ~/fusion-hat/examples/
+      cd ~/ai-lab-kit/llm/
       sudo nano llm_others.py
 
 #. Replace the content of a Python file with the following example, and fill in the correct ``base_url`` and ``model`` for your platform:
