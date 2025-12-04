@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.stt import STT
+from fusion_hat.stt import STT
 
 WAKE_WORDS = [
     "hey robot",

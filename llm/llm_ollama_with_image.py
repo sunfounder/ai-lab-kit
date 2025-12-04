@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import Ollama
+from fusion_hat.llm import Ollama
 from picamera2 import Picamera2
 import time
 

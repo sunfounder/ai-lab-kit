@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import Deepseek
+from fusion_hat.llm import Deepseek
 from secret import DEEPSEEK_API_KEY
 
 INSTRUCTIONS = "You are a helpful assistant."

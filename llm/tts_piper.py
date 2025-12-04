@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.tts import Piper
+from fusion_hat.tts import Piper
 
 tts = Piper()
 

@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import Qwen
+from fusion_hat.llm import Qwen
 from secret import QWEN_API_KEY
 
 INSTRUCTIONS = "You are a helpful assistant."

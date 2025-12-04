@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import Gemini
+from fusion_hat.llm import Gemini
 from secret import GEMINI_API_KEY
 
 INSTRUCTIONS = "You are a helpful assistant."

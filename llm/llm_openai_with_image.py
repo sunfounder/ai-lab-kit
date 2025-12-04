@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import OpenAI
+from fusion_hat.llm import OpenAI
 from secret import OPENAI_API_KEY
 from picamera2 import Picamera2
 import time

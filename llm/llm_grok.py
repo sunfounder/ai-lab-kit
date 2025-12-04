@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import Grok
+from fusion_hat.llm import Grok
 from secret import GROK_API_KEY
 
 INSTRUCTIONS = "You are a helpful assistant."

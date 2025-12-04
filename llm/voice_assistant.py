@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.voice_assistant import VoiceAssistant
+from fusion_hat.voice_assistant import VoiceAssistant
 from pidog.llm import OpenAI as LLM
 from secret import OPENAI_API_KEY as API_KEY
 

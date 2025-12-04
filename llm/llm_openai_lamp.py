@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import re
-from sunfounder_voice_assistant.llm import OpenAI
+from fusion_hat.llm import OpenAI
 from fusion_hat.modules import RGB_LED
 from fusion_hat.pwm import PWM
 from secret import OPENAI_API_KEY

@@ -1,4 +1,4 @@
-from sunfounder_voice_assistant.llm import LLM
+from fusion_hat.llm import LLM
 from secret import API_KEY
 
 # Register OpenAI API
