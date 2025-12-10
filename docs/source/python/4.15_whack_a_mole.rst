@@ -43,14 +43,6 @@ The following components are required for this project:
     *   - Raspberry Pi
         - \-
 
-.. ----------------------------------------------
-
-.. **Circuit Diagram**
-
-.. .. image:: img/fzz/4.15_whack_a_mole_sch.png
-..    :width: 80%
-..    :align: center
-
 ----------------------------------------------
 
 **Wiring Diagram**
@@ -65,18 +57,6 @@ Refer to the wiring diagram for assembling the components:
 
 **Setup Steps**
 
-.. #. Create and activate a virtual environment:
-
-..    .. raw:: html
-
-..       <run></run>
-
-..    .. code-block:: shell
-
-..       cd ~
-..       python3 -m venv 4.15_whack_a_mole_env --system-site-packages
-..       source 4.15_whack_a_mole_env/bin/activate
-
 #. Install the required libraries:
 
    .. raw:: html
@@ -85,7 +65,7 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      pip3 install adafruit-circuitpython-ssd1306 --break
+      sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
 #. Run the game from the ``ai-lab-kit`` directory:
 

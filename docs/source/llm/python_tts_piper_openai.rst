@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _tts_piper_openai:
+
 2. TTS with Piper and OpenAI
 ========================================================
 

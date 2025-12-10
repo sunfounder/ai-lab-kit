@@ -83,7 +83,7 @@ To complete this project, you will need the following components:
    
    .. code-block:: shell
    
-      pip3 install adafruit-circuitpython-neopixel-spi --break
+      sudo pip3 install adafruit-circuitpython-neopixel-spi --break
    
 
 #. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
@@ -259,7 +259,7 @@ Troubleshooting
   
   .. code-block:: bash
 
-      pip3 install adafruit-circuitpython-neopixel-spi
+      sudo pip3 install adafruit-circuitpython-neopixel-spi --break
 
 Extendable Ideas
 ------------------

@@ -83,7 +83,7 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      pip3 install adafruit-circuitpython-ssd1306 --break
+      sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
 #. All example code used in this tutorial is available in the ``ai-lab-kit`` directory:
 

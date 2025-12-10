@@ -8,15 +8,30 @@ Connect Fusion HAT to Raspberry Pi
 
 Here, we'll teach you how to assemble the Fusion HAT.
 
-#. Connect the camera module to the Raspberry Pi using an FPC cable.
-#. Screw the nylon standoffs onto the Raspberry Pi.
-#. Plug the Fusion HAT into the 40-pin connector on the Raspberry Pi. Secure it with screws.
-#. Insert the battery.
+#. Assemble the base.
+#. Stick the battery to the base.
+#. Secure the Raspberry Pi with with standoffs.
+#. Connect the FPC cable to the Raspberry Pi. (We will assemble it and the Camera Module when assembled the pan-tilt.)
+#. Plug the Fusion HAT into the 40-pin connector on the Raspberry Pi. 
+#. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT will not work.)
+
+
+For the details of the assembly, please check the video below.
+
+.. raw:: html
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
 
 Charge
 -------------------
 
 Before the first use, it is recommended to fully charge the battery. You can use the included USB Type-C charging cable, or your own USB-C charger.  
+
+.. note::
+
+  Plug the USB-C to Fusion HAT, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
 
 * We recommend using a **5V 3A power supply**, such as the official Raspberry Pi 15W adapter.  
 * You can also use a **USB-C PD (Power Delivery)** charger or a **QC 2.0 fast charger**.  
@@ -57,13 +72,14 @@ When charging, one of the LEDs will blink to indicate charging progress:
 
 After fully charged:
 
-* **If the car is ON**, both LEDs will remain lit.  
-* **If the car is OFF**, both LEDs will turn off.  
+* **If the project is ON**, both LEDs will remain lit.  
+* **If the project is OFF**, both LEDs will turn off.  
 
 .. note::
 
-   For extended programming or debugging sessions, you can keep the PiCar-X powered  
-   by connecting the USB-C cable, which will charge the battery and run the car at the same time.
+   For extended programming or debugging sessions, you can keep the Fusion HAT powered  
+   by connecting the USB-C cable, which will charge the battery and run the project at the same time. 
+   Even if you run the project while the charer is connected, the battery **cannot** be removed.
 
 Power ON
 ----------------------
