@@ -4,6 +4,7 @@ import time
 import re
 import random
 import threading
+import textwrap
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_ssd1306
 import board
@@ -17,8 +18,13 @@ class AIPet:
         # Initialize OLED display
         self.WIDTH = 128
         self.HEIGHT = 64
-        self.i2c = board.I2C()
-        self.oled = adafruit_ssd1306.SSD1306_I2C(self.WIDTH, self.HEIGHT, self.i2c, addr=0x3C)
+        try:
+            self.i2c = board.I2C()
+            self.oled = adafruit_ssd1306.SSD1306_I2C(self.WIDTH, self.HEIGHT, self.i2c, addr=0x3C)
+            self.oled_available = True
+        except Exception as e:
+            print(f"OLED not available: {e}")
+            self.oled_available = False
         
         # Load fonts
         try:
@@ -28,9 +34,10 @@ class AIPet:
             self.font = ImageFont.load_default()
             self.large_font = ImageFont.load_default()
         
-        # Clear display
-        self.oled.fill(0)
-        self.oled.show()
+        # Clear display if available
+        if self.oled_available:
+            self.oled.fill(0)
+            self.oled.show()
         
         # Initialize STT
         self.stt = STT(language="en-us")
@@ -51,13 +58,24 @@ class AIPet:
         self.energy = 100
         self.hunger = 0
         self.last_fed = time.time()
-        self.mood_map = {
-            "happy": "😊",
-            "sad": "😢",
-            "hungry": "🍕",
-            "sleepy": "😴",
-            "playful": "🎾",
-            "curious": "🤔"
+        
+        # Kaomoji (text emoticons) for different moods
+        self.kaomoji_map = {
+            "happy": "^_^",
+            "sad": "T_T",
+            "hungry": "(;_;)",
+            "sleepy": "(-_-) zzz",
+            "playful": "o(^▽^)o",
+            "curious": "(?_?)",
+            "angry": ">_<",
+            "excited": "\\o/",
+            "love": "<3",
+            "shy": "(/ω＼)",
+            "cool": "B-)",
+            "confused": "(O_O)",
+            "surprised": ":O",
+            "laugh": ":D",
+            "thinking": "(-_-)"
         }
         
         # Pet memories
@@ -97,7 +115,7 @@ class AIPet:
         
         Format your response as: [MOOD] Your message here
         
-        Available moods: happy, sad, curious, playful, sleepy, hungry
+        Available moods: happy, sad, curious, playful, sleepy, hungry, angry, excited, love, shy
         
         Recent memories: {self.memories[-3:] if self.memories else 'None'}"""
         
@@ -122,7 +140,11 @@ class AIPet:
             elif time.time() - self.last_fed > 3600:  # 1 hour
                 self.energy = min(100, self.energy + 2)
                 if random.random() < 0.3:
-                    self.mood = random.choice(["happy", "playful"])
+                    self.mood = random.choice(["happy", "playful", "excited"])
+            
+            # Random mood changes
+            if random.random() < 0.1:  # 10% chance
+                self.mood = random.choice(list(self.kaomoji_map.keys()))
             
             # Update display
             self.update_display()
@@ -130,53 +152,61 @@ class AIPet:
     
     def update_display(self):
         """Update OLED display with pet status"""
+        if not self.oled_available:
+            return
+            
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
         
         # Clear display
         draw.rectangle((0, 0, self.oled.width, self.oled.height), outline=0, fill=0)
         
-        # Pet name and mood (top line)
-        draw.text((5, 5), f"{self.pet_name} {self.mood_map.get(self.mood, '🤖')}", font=self.large_font, fill=255)
+        # Get kaomoji for current mood
+        kaomoji = self.kaomoji_map.get(self.mood, "^_^")
+        
+        # Display pet name and mood with kaomoji
+        # Split if kaomoji is too long
+        if len(kaomoji) > 8:
+            # Display name and mood text
+            mood_text = self.mood.upper()
+            draw.text((5, 5), f"{self.pet_name}: {mood_text}", font=self.large_font, fill=255)
+            # Display kaomoji on second line
+            draw.text((5, 20), kaomoji, font=self.font, fill=255)
+        else:
+            # Display everything on one line
+            display_text = f"{self.pet_name} {kaomoji}"
+            draw.text((5, 5), display_text, font=self.large_font, fill=255)
         
         # Status bars (middle section)
-        draw.text((5, 25), "Energy:", font=self.font, fill=255)
+        draw.text((5, 35), "Energy:", font=self.font, fill=255)
         energy_bar = int((self.energy / 100) * 50)
-        draw.rectangle((50, 25, 50 + energy_bar, 35), outline=255, fill=255)
+        draw.rectangle((50, 35, 50 + energy_bar, 45), outline=255, fill=255)
         
-        draw.text((5, 40), "Hunger:", font=self.font, fill=255)
+        draw.text((5, 50), "Hunger:", font=self.font, fill=255)
         hunger_bar = int((self.hunger / 100) * 50)
-        draw.rectangle((50, 40, 50 + hunger_bar, 50), outline=255, fill=255)
-        
-        # Status text (bottom line)
-        status_text = "Say hello!"
-        if self.listening:
-            status_text = "Listening..."
-        elif len(self.memories) > 0:
-            # Show last interaction summary
-            last_memory = self.memories[-1]
-            if len(last_memory) > 20:
-                status_text = last_memory[:17] + "..."
-            else:
-                status_text = last_memory
-        
-        draw.text((5, 55), status_text, font=self.font, fill=255)
+        draw.rectangle((50, 50, 50 + hunger_bar, 60), outline=255, fill=255)
         
         self.oled.image(image)
         self.oled.show()
     
     def show_welcome(self):
         """Show welcome message on OLED"""
+        if not self.oled_available:
+            print(" Welcome to Digital Pet!")
+            print(f" Pet Name: {self.pet_name}")
+            print(" Speak to me!")
+            return
+            
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
         
         # Clear screen
         draw.rectangle((0, 0, self.oled.width, self.oled.height), outline=0, fill=0)
         
-        # Welcome message
-        draw.text((15, 10), "DIGITAL PET", font=self.large_font, fill=255)
-        draw.text((25, 30), f"Name: {self.pet_name}", font=self.font, fill=255)
-        draw.text((30, 45), "Speak to me!", font=self.font, fill=255)
+        # Welcome message with kaomoji
+        draw.text((10, 10), "DIGITAL PET", font=self.large_font, fill=255)
+        draw.text((15, 25), f"{self.pet_name} ^_^", font=self.large_font, fill=255)
+        draw.text((20, 45), "Speak to me!", font=self.font, fill=255)
         
         self.oled.image(image)
         self.oled.show()
@@ -191,23 +221,33 @@ class AIPet:
         
         if match:
             mood, text = match.groups()
-            if mood.lower() in self.mood_map:
+            if mood.lower() in self.kaomoji_map:
                 self.mood = mood.lower()
                 self.update_llm_instructions()
             return text.strip()
         
         # If no mood tag, try to detect mood from text
-        text = response.strip()
-        if "happy" in text.lower() or "😊" in text or "good" in text.lower():
+        text = response.strip().lower()
+        if "happy" in text or "good" in text or "joy" in text:
             self.mood = "happy"
-        elif "sad" in text.lower() or "😢" in text or "bad" in text.lower():
+        elif "sad" in text or "bad" in text or "upset" in text:
             self.mood = "sad"
-        elif "hungry" in text.lower() or "🍕" in text or "food" in text.lower():
+        elif "hungry" in text or "food" in text or "eat" in text:
             self.mood = "hungry"
-        elif "sleep" in text.lower() or "😴" in text or "tired" in text.lower():
+        elif "sleep" in text or "tired" in text or "bed" in text:
             self.mood = "sleepy"
+        elif "play" in text or "game" in text or "fun" in text:
+            self.mood = "playful"
+        elif "curious" in text or "wonder" in text or "question" in text:
+            self.mood = "curious"
+        elif "angry" in text or "mad" in text or "annoy" in text:
+            self.mood = "angry"
+        elif "excite" in text or "wow" in text or "awesome" in text:
+            self.mood = "excited"
+        elif "love" in text or "heart" in text or "affection" in text:
+            self.mood = "love"
         
-        return text
+        return response.strip()
     
     def interact_with_ai(self, user_input):
         """Interact with AI pet"""
@@ -249,18 +289,24 @@ class AIPet:
             
         except Exception as e:
             error_msg = f"Oops, something went wrong: {str(e)[:20]}"
+            print(f"AI interaction error: {e}")
             return error_msg
     
     def show_listening_display(self, partial_text=""):
         """Update display during listening"""
+        if not self.oled_available:
+            if partial_text:
+                print(f"Listening: {partial_text}")
+            return
+            
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
         
         # Clear screen
         draw.rectangle((0, 0, self.oled.width, self.oled.height), outline=0, fill=0)
         
-        # Listening indicator
-        draw.text((20, 10), "🎤 LISTENING", font=self.large_font, fill=255)
+        # Listening indicator with kaomoji
+        draw.text((15, 10), "LISTENING (O_O)", font=self.large_font, fill=255)
         
         # Partial text
         if partial_text:
@@ -268,24 +314,31 @@ class AIPet:
                 display_text = partial_text[:17] + "..."
             else:
                 display_text = partial_text
-            draw.text((10, 35), display_text, font=self.font, fill=255)
+            draw.text((10, 30), display_text, font=self.font, fill=255)
         
         # Instruction
-        draw.text((10, 55), "Say 'stop' to end", font=self.font, fill=255)
+        draw.text((10, 50), "Say 'stop' to end", font=self.font, fill=255)
         
         self.oled.image(image)
         self.oled.show()
     
     def show_response_display(self, response):
         """Show AI response on display"""
+        if not self.oled_available:
+            print(f"{self.pet_name}: {response}")
+            return
+            
         image = Image.new("1", (self.oled.width, self.oled.height))
         draw = ImageDraw.Draw(image)
         
         # Clear screen
         draw.rectangle((0, 0, self.oled.width, self.oled.height), outline=0, fill=0)
         
-        # Pet speaking
-        draw.text((5, 5), f"{self.pet_name}:", font=self.large_font, fill=255)
+        # Get current kaomoji
+        kaomoji = self.kaomoji_map.get(self.mood, "^_^")
+        
+        # Pet speaking with kaomoji
+        draw.text((5, 5), f"{self.pet_name} {kaomoji}:", font=self.large_font, fill=255)
         
         # Wrap response text
         wrapped_text = textwrap.wrap(response, width=20)
@@ -299,11 +352,50 @@ class AIPet:
         time.sleep(5)  # Show response for 5 seconds
         self.update_display()
     
+    def speak_response(self, response):
+        """Convert text to speech"""
+        try:
+            print(f"Speaking: {response[:50]}...")
+            
+            # Set TTS instructions based on mood
+            tts_instructions = "speak warmly and playfully"
+            if self.mood == "sad":
+                tts_instructions = "speak sadly and softly"
+            elif self.mood == "hungry":
+                tts_instructions = "speak with hunger in your voice"
+            elif self.mood == "sleepy":
+                tts_instructions = "speak sleepily and slowly"
+            elif self.mood == "angry":
+                tts_instructions = "speak with frustration"
+            elif self.mood == "excited":
+                tts_instructions = "speak excitedly and quickly"
+            elif self.mood == "curious":
+                tts_instructions = "speak with curiosity and interest"
+            
+            print(f"Mood: {self.mood}, TTS instructions: {tts_instructions}")
+            
+            # Call TTS
+            self.tts.say(response, instructions=tts_instructions)
+            print("TTS completed")
+            
+        except Exception as e:
+            print(f"TTS error: {e}")
+            try:
+                # Fallback: direct say method
+                self.tts.say(response)
+                print("TTS completed (fallback)")
+            except Exception as e2:
+                print(f"TTS fallback also failed: {e2}")
+    
     def voice_interaction(self):
         """Main voice interaction loop"""
-        print("\n🎤 Voice interaction started!")
-        print("💬 Speak to your digital pet")
-        print("🛑 Say 'stop' to end voice mode\n")
+        print("\n Voice interaction started!")
+        print("Speak to your digital pet")
+        print("Say 'stop' to end voice mode")
+        print("Available moods and kaomoji:")
+        for mood, kaomoji in self.kaomoji_map.items():
+            print(f"  - {mood}: {kaomoji}")
+        print()
         
         while True:
             self.listening = True
@@ -331,18 +423,10 @@ class AIPet:
                             print(f"{self.pet_name}: {response}")
                             
                             # Show response on OLED
-                            self.show_response_display(response[:50])  # Truncate for display
+                            self.show_response_display(response[:50])
                             
                             # Speak response
-                            tts_instructions = "speak warmly and playfully"
-                            if self.mood == "sad":
-                                tts_instructions = "speak sadly and softly"
-                            elif self.mood == "hungry":
-                                tts_instructions = "speak with hunger in your voice"
-                            elif self.mood == "sleepy":
-                                tts_instructions = "speak sleepily and slowly"
-                            
-                            self.tts.say(response, instructions=tts_instructions)
+                            self.speak_response(response)
                         
                         break
                     else:
@@ -367,13 +451,14 @@ class AIPet:
     def run(self):
         """Main program loop"""
         print("\n" + "="*50)
-        print("🐾 DIGITAL PET v2.0")
+        print("DIGITAL PET")
         print("="*50)
         print(f"Pet Name: {self.pet_name}")
-        print("📟 OLED Display: Shows pet status and responses")
-        print("🎤 Voice: Speak to interact with your pet")
-        print("🗣️  TTS: Pet responds with voice")
-        print("🛑 Say 'stop' to end voice interaction")
+        print(f"Current Mood: {self.mood} {self.kaomoji_map.get(self.mood, '^_^')}")
+        print("  OLED Display: " + ("Connected" if self.oled_available else "Not available"))
+        print("  Voice: Speak to interact with your pet")
+        print("   TTS: Pet responds with voice")
+        print("  Say 'stop' to end voice interaction")
         print("="*50)
         print("\nInitializing...")
         
@@ -382,23 +467,25 @@ class AIPet:
             self.voice_interaction()
             
             # If we exit voice mode, show goodbye
-            image = Image.new("1", (self.oled.width, self.oled.height))
-            draw = ImageDraw.Draw(image)
-            draw.rectangle((0, 0, self.oled.width, self.oled.height), outline=0, fill=0)
-            draw.text((20, 20), "Goodbye!", font=self.large_font, fill=255)
-            draw.text((30, 40), "Come back soon!", font=self.font, fill=255)
-            self.oled.image(image)
-            self.oled.show()
-            time.sleep(3)
+            if self.oled_available:
+                image = Image.new("1", (self.oled.width, self.oled.height))
+                draw = ImageDraw.Draw(image)
+                draw.rectangle((0, 0, self.oled.width, self.oled.height), outline=0, fill=0)
+                draw.text((15, 20), "Goodbye!", font=self.large_font, fill=255)
+                draw.text((10, 40), "(^_^)/~~", font=self.large_font, fill=255)
+                self.oled.image(image)
+                self.oled.show()
+                time.sleep(3)
             
         except KeyboardInterrupt:
-            print("\n👋 Goodbye!")
+            print("\nGoodbye!")
         
         finally:
             # Clear display
-            self.oled.fill(0)
-            self.oled.show()
-            print("✅ Cleanup complete")
+            if self.oled_available:
+                self.oled.fill(0)
+                self.oled.show()
+            print("Cleanup complete")
 
 if __name__ == "__main__":
     pet = AIPet()

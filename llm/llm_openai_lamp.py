@@ -214,15 +214,8 @@ class AILEDControllerPro(AILEDController):
         
         return None
 
+
 if __name__ == "__main__":
-    print("Select mode:")
-    print("1. Basic mode (AI control)")
-    print("2. Enhanced mode (AI + direct commands)")
-    choice = input("Enter 1 or 2: ").strip()
-    
-    if choice == "2":
-        controller = AILEDControllerPro()
-    else:
-        controller = AILEDController()
-    
+    # Create an instance of the controller
+    controller = AILEDControllerPro()
     controller.run()

@@ -78,16 +78,11 @@ class BookCoverAnalyzer:
         if color_name in color_map:
             self.rgb_led.color(color_map[color_name])
     
-    def encode_image(self, image_path):
-        """Encode image to base64 for OpenAI API"""
-        with open(image_path, "rb") as image_file:
-            return base64.b64encode(image_file.read()).decode('utf-8')
-    
     def capture_photo(self):
         """Capture a photo and return the filepath"""
         with self.photo_lock:
             filepath = self.pictures_dir / f"book_cover_{self.photo_index:03d}.jpg"
-            print(f"\n📸 Capturing photo: {filepath}")
+            print(f"\nCapturing photo: {filepath}")
             
             # LED feedback: yellow for capturing
             self.set_led_color("yellow")
@@ -98,46 +93,33 @@ class BookCoverAnalyzer:
             # Increment counter for next photo
             self.photo_index += 1
             
-            print("✅ Photo captured successfully")
+            print("Photo captured successfully")
             return str(filepath)
     
     def analyze_book_cover(self, image_path):
         """Send book cover image to OpenAI for analysis"""
-        print("\n🤔 Analyzing book cover...")
+        print("\n Analyzing book cover...")
         
         # LED feedback: purple for processing
         self.set_led_color("purple")
         
         try:
-            # Encode the image
-            base64_image = self.encode_image(image_path)
+            # use fusion_hat.llm's prompt method to process the image
+            prompt_text = "Please analyze this book cover and tell me about the book. Provide: 1) Book title if identifiable, 2) Author if identifiable, 3) Brief summary, 4) Overall rating/reception. Keep under 100 words."
             
-            # Prepare messages for OpenAI with image
-            messages = [
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": "Please analyze this book cover and tell me about the book in under 100 words."},
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{base64_image}"
-                            }
-                        }
-                    ]
-                }
-            ]
+            print("Sending to AI for analysis...")
             
-            # Get analysis from OpenAI
-            print("🔄 Sending to AI for analysis...")
-            response = self.llm._openai.chat.completions.create(
-                model="gpt-4o",
-                messages=messages,
-                max_tokens=150  # Limit response length
-            )
+            # method1: non-streaming response
+            response = self.llm.prompt(prompt_text, image_path=image_path)
             
-            analysis = response.choices[0].message.content
-            print(f"\n📚 Analysis:\n{analysis}")
+            # if the response is a string, use it directly
+            if isinstance(response, str):
+                analysis = response
+            else:
+                # if response is not a string, try to convert it to a string
+                analysis = str(response)
+            
+            print(f"\n Analysis:\n{analysis}")
             
             # LED feedback: green for success
             self.set_led_color("green")
@@ -145,21 +127,44 @@ class BookCoverAnalyzer:
             return analysis
             
         except Exception as e:
-            print(f"❌ Error analyzing image: {e}")
-            # LED feedback: red for error
-            self.set_led_color("red")
-            return f"Sorry, I couldn't analyze the book cover. Error: {str(e)}"
+            print(f"Error analyzing image: {e}")
+            print(f"Error type: {type(e)}")
+            
+            # method2: streaming response
+            try:
+                print("Trying stream method...")
+                stream_response = self.llm.prompt(prompt_text, stream=True, image_path=image_path)
+                
+                # receive the stream response
+                analysis_parts = []
+                for next_word in stream_response:
+                    if next_word:
+                        analysis_parts.append(next_word)
+                
+                analysis = ''.join(analysis_parts)
+                print(f"\n Analysis (stream):\n{analysis}")
+                
+                # LED feedback: green for success
+                self.set_led_color("green")
+                return analysis
+                
+            except Exception as e2:
+                print(f"Stream method also failed: {e2}")
+                
+                # LED feedback: red for error
+                self.set_led_color("red")
+                return "Sorry, I couldn't analyze the book cover. Please make sure the book cover is clearly visible and try again."
     
     def speak_response(self, text):
         """Convert text to speech"""
-        print("\n🔊 Speaking response...")
+        print("\nSpeaking response...")
         
         # Clean up text for TTS (remove markdown, etc.)
         clean_text = re.sub(r'[*_\[\]()#]', '', text)
         
         # Speak with friendly instructions
         self.tts.say(clean_text, instructions="speak clearly and warmly")
-        print("✅ Response spoken")
+        print("Response spoken")
         
         # Return to ready state
         self.set_led_color("blue")
@@ -167,13 +172,13 @@ class BookCoverAnalyzer:
     def button_handler(self):
         """Handle button press: capture photo, analyze, and speak"""
         print("\n" + "="*50)
-        print("🔄 Processing request...")
+        print("Processing request...")
         
         # Step 1: Capture photo
         try:
             image_path = self.capture_photo()
         except Exception as e:
-            print(f"❌ Failed to capture photo: {e}")
+            print(f"Failed to capture photo: {e}")
             self.set_led_color("red")
             self.tts.say("Sorry, I couldn't take a photo. Please try again.")
             self.set_led_color("blue")
@@ -185,7 +190,7 @@ class BookCoverAnalyzer:
         # Step 3: Speak the analysis
         self.speak_response(analysis)
         
-        print(f"✅ Complete! Photo saved at: {image_path}")
+        print(f"Complete! Photo saved at: {image_path}")
         print("="*50 + "\n")
     
     def run(self):
@@ -194,7 +199,7 @@ class BookCoverAnalyzer:
         self.btn.set_on_click(self.button_handler)
         
         # Start camera preview
-        print("📷 Starting camera preview...")
+        print("Starting camera preview...")
         self.camera.start_preview(Preview.QT)
         self.camera.start()
         
@@ -208,11 +213,11 @@ class BookCoverAnalyzer:
         print("Press the USR button to capture and analyze a book cover")
         print("I will speak the analysis aloud")
         print("LED colors:")
-        print("   🔵 Blue: Ready")
-        print("   🟡 Yellow: Capturing photo")
-        print("   🟣 Purple: Analyzing with AI")
-        print("   🟢 Green: Analysis successful")
-        print("   🔴 Red: Error occurred")
+        print("   Blue: Ready")
+        print("   Yellow: Capturing photo")
+        print("   Purple: Analyzing with AI")
+        print("   Green: Analysis successful")
+        print("   Red: Error occurred")
         print(f"Photos saved to: {self.pictures_dir}")
         print("Press Ctrl+C to exit")
         print("="*50 + "\n")
@@ -223,15 +228,16 @@ class BookCoverAnalyzer:
                 time.sleep(0.1)
                 
         except KeyboardInterrupt:
-            print("\n👋 Exiting...")
+            print("\nExiting...")
             
         finally:
             # Cleanup
             self.camera.stop_preview()
             self.camera.close()
             self.set_led_color("off")
-            print("✅ Cleanup complete")
+            print("Cleanup complete")
 
 if __name__ == "__main__":
     analyzer = BookCoverAnalyzer()
     analyzer.run()
+
