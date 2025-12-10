@@ -31,6 +31,7 @@ Before the first use, it is recommended to fully charge the battery. You can use
 
 .. note::
 
+  The battery may arrive with low charge because Amazon requires it to be below 30% before air shipment. You **MUST** fully charge it before use to prevent over-discharge and damage.
   Plug the USB-C to Fusion HAT, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
 
 * We recommend using a **5V 3A power supply**, such as the official Raspberry Pi 15W adapter.  
@@ -92,3 +93,19 @@ When the battery has sufficient charge, press the **power button** on the Fusion
 
 .. image:: img/power_button.jpg
     :width: 400
+
+
+
+Assemble the Gimbal (For Camera Mount) 
+------------------------------------------------------
+
+.. note:: 
+  
+  Assembling the gimbal may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+
+
+For the details of the assembly, please check the video below.
+
+.. raw:: html
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/mDCNKVzNLkg?si=2gYJ1feopWgglekR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

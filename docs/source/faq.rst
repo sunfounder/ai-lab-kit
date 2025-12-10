@@ -71,6 +71,21 @@ AI Features
     Check your microphone connection and reduce background noise. Some models
     may require additional language packs or configuration adjustments.
 
+**Show 'Error querying device -1' in the Vosk STT module.**
+
+    .. code-block:: bash
+
+        stt = STT(language="en-us")
+                ^^^^^^^^^^^^^^^^^^^^^
+        File "/usr/local/lib/python3.11/dist-packages/sunfounder_voice_assistant/stt/vosk.py", line 52, in __init__
+            device_info = sd.query_devices(self._device, "input")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/usr/local/lib/python3.11/dist-packages/sounddevice.py", line 572, in query_devices
+            raise PortAudioError(f'Error querying device {device}')
+        sounddevice.PortAudioError: Error querying device -1
+
+    Please execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
+
 Computer Vision / MediaPipe
 ---------------------------
 
