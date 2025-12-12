@@ -26,9 +26,9 @@ By the end of this chapter, your Fusion HAT will be fully prepared and ready for
 .. toctree::
     :maxdepth: 1
 
-    need_components
+    /_shared/pi_start/need_components_fusion_hat
     install_the_os
     assemble_power_hat
-    set_up_your_raspberry_pi
+    /_shared/pi_start/set_up_pi
     run_installer
 

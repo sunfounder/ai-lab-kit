@@ -95,14 +95,19 @@ When the battery has sufficient charge, press the **power button** on the Fusion
     :width: 400
 
 
+.. _assemble_fusion_hat_gimbal:
 
-Assemble the Gimbal (For Camera Mount) 
+Assemble the Gimbal (For Camera) 
 ------------------------------------------------------
+
+To make using the camera module easier, you can assemble a gimbal.
 
 .. note:: 
   
   Assembling the gimbal may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
 
+
+.. image:: img/gimbal_assemble.png
 
 For the details of the assembly, please check the video below.
 

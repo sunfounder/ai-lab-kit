@@ -4,6 +4,9 @@
 In the previous chapters, we learned how to read and play local video files.  
 In this chapter, we will take it a step further by using the **Raspberry Pi camera** for real-time video capture and applying **color space conversion** with OpenCV.
 
+- Please connect the camera to the Raspberry Pi and make sure the camera is working properly.
+- To use camera module conveniently, :ref:`assemble_fusion_hat_gimbal` is recommended.
+
 
 1. Project Objectives
 ---------------------

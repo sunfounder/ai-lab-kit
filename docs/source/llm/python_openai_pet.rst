@@ -1,6 +1,6 @@
 .. _py_digital_pet:
 
-Digital Pet
+(Example) Digital Pet
 ==============================
 
 **Introduction**
@@ -32,10 +32,6 @@ The following components are required for this project:
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - USB Microphone
-        - |link_usb_microphone_buy|
-    *   - :ref:`cpn_speaker`
-        - |link_speaker_buy|
     *   - Raspberry Pi
         - \-
 
@@ -45,7 +41,7 @@ The following components are required for this project:
 
 Connect the components to your Raspberry Pi:
 
-.. image:: img/fzz/4.19_digital_pet_bb.png
+.. image:: img/fzz/llm_pet_bb.png
    :width: 80%
    :align: center
 
@@ -765,7 +761,7 @@ Here is the full Python script for the Digital Pet:
 
 - **"OLED display not showing"**
 
-  - Check I2C connection: ``fusion_hat scan_i2c``(should show 0x3C)
+  - Check I2C connection: ``fusion_hat scan_i2c`` (should show 0x3C)
   - Verify OLED is powered (3.3V or 5V depending on model)
   - Ensure correct I2C address in code (0x3C or 0x3D)
 

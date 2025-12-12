@@ -44,7 +44,7 @@ The following components are required for this project:
         - |link_wires_buy|
     *   - :ref:`cpn_rotary_encoder`
         - |link_rotary_encoder_buy| 
-    *   - :ref:`cpn_ws2812_module`
+    *   - :ref:`cpn_circular_ws2812_module`
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \- 

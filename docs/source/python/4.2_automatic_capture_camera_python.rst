@@ -70,6 +70,12 @@ Below is the circuit diagram for this project:
 
 **Wiring Diagram**
 
+
+Please connect the camera to the Raspberry Pi and make sure the camera is working properly.
+
+To use camera module conveniently, :ref:`assemble_fusion_hat_gimbal` is recommended.
+
+
 Follow this wiring diagram to set up the circuit:
 
 

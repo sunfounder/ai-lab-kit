@@ -30,3 +30,13 @@ Here you will explore text-to-speech (TTS), speech-to-text (STT), and large lang
     python_online_llms
     python_local_chatbot
     python_ai_assistant
+
+Here are some example project that you can try, there all are using the OpenAI API, and you can use the other llm APIs as well.
+
+.. toctree:: 
+    :maxdepth: 1
+
+    python_openai_lamp.rst 
+    python_openai_book.rst 
+    python_openai_pet.rst 
+    python_openai_weather.rst

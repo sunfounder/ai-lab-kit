@@ -30,32 +30,32 @@ Below is the introduction to each component, which contains the operating princi
 .. toctree::
     :maxdepth: 1
 
-    component_fusion_hat
-    component_breadboard
-    component_resistor
-    component_transistor
-    component_capacitor
-    component_diode
-    component_wires
-    component_battery_3pin
+    ../_shared/component/cpn_fusion_hat
+    ../_shared/component/cpn_breadboard
+    ../_shared/component/cpn_resistor
+    ../_shared/component/cpn_transistor
+    ../_shared/component/cpn_capacitor
+    ../_shared/component/cpn_diode
+    ../_shared/component/cpn_wires
+    ../_shared/component/cpn_battery_3pin
 
 **Chip**
 
 .. toctree::
     :maxdepth: 1
 
-    component_74hc595
+    ../_shared/component/cpn_74hc595
 
 **Display**
 
 .. toctree::
     :maxdepth: 1
 
-    component_led
-    component_rgb_led
-    component_4_digit
-    component_oled
-    component_ws2812_module
+    ../_shared/component/cpn_led
+    ../_shared/component/cpn_rgb_led
+    ../_shared/component/cpn_4_digit
+    ../_shared/component/cpn_oled_module
+    ../_shared/component/cpn_ws2812_module
 
 
 **Sound**
@@ -63,16 +63,16 @@ Below is the introduction to each component, which contains the operating princi
 .. toctree::
     :maxdepth: 1
 
-    component_buzzer
+    ../_shared/component/cpn_buzzer
 
 **Driver**
 
 .. toctree::
     :maxdepth: 1
 
-    component_motor_xh254
-    component_servo_metal
-    component_relay
+    ../_shared/component/cpn_motor_xh254
+    ../_shared/component/cpn_servo_metal
+    ../_shared/component/cpn_relay_6pin
     
 
 **Controller**
@@ -80,25 +80,25 @@ Below is the introduction to each component, which contains the operating princi
 .. toctree::
     :maxdepth: 1
 
-    component_button
-    component_micro_switch
-    component_slide_switch
-    component_potentiometer
-    component_joystick
+    ../_shared/component/cpn_button
+    ../_shared/component/cpn_micro_switch
+    ../_shared/component/cpn_slide_switch
+    ../_shared/component/cpn_potentiometer
+    ../_shared/component/cpn_joystick_module
 
 **Sensor**
 
 .. toctree::
     :maxdepth: 1
 
-    component_photoresistor
-    component_thermistor
-    component_tilt_switch
-    component_touch_switch
-    component_reed_switch
-    component_pir
-    component_ultrasonic_sensor
-    component_rotary_encoder
-    component_humiture_sensor
-    component_camera_module
-    component_gy87_module
+    ../_shared/component/cpn_photoresistor
+    ../_shared/component/cpn_thermistor
+    ../_shared/component/cpn_tilt_switch
+    ../_shared/component/cpn_touch_switch_module
+    ../_shared/component/cpn_reed_switch_module
+    ../_shared/component/cpn_pir_module
+    ../_shared/component/cpn_ultrasonic_module
+    ../_shared/component/cpn_rotary_encoder_module
+    ../_shared/component/cpn_dht11_module
+    ../_shared/component/cpn_camera_module
+    ../_shared/component/cpn_gy87_module

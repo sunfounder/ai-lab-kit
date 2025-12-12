@@ -35,6 +35,10 @@ Before installing MediaPipe, make sure:
   * or remotely through VNC software (see :ref:`remote_desktop`).
 
 * You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
+* Please connect the camera to the Raspberry Pi and make sure the camera is working properly.
+* To use camera module conveniently, :ref:`assemble_fusion_hat_gimbal` is recommended.
+
+
 
 These preparations ensure MediaPipe can run with full graphical and camera functionality on your Raspberry Pi.
 

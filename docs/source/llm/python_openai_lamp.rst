@@ -1,6 +1,6 @@
 .. _py_ai_led_controller:
 
-AI-powered LED Controller
+(Example) AI-powered LED Controller
 ======================================
 
 **Introduction**
@@ -40,11 +40,12 @@ The following components are required for this project:
 
 Connect the RGB LED to the Fusion HAT as follows:
 
-.. image:: img/fzz/4.16_ai_led_controller_bb.png
+.. image:: img/fzz/llm_book_bb.png
    :width: 80%
    :align: center
 
 **RGB LED Connection Guide:**
+
 - **Red pin** → Fusion HAT PWM port 0
 - **Green pin** → Fusion HAT PWM port 1  
 - **Blue pin** → Fusion HAT PWM port 2

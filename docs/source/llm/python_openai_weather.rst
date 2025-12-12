@@ -1,6 +1,6 @@
 .. _py_smart_weather_station:
 
-4.18 Smart Weather Station
+(Example) Smart Weather Station
 =============================================
 
 **Introduction**
@@ -34,10 +34,10 @@ The following components are required for this project:
 
     *   - COMPONENT
         - PURCHASE LINK
-    *   - :ref:`cpn_dht11`
-        - |link_dht11_buy|
-    *   - :ref:`cpn_ldr`
-        - |link_ldr_buy|
+    *   - :ref:`cpn_humiture_sensor`
+        - |link_humiture_buy|
+    *   - :ref:`cpn_photoresistor`
+        - |link_photoresistor_buy|
     *   - :ref:`cpn_button`
         - |link_button_buy|
     *   - :ref:`cpn_oled`
@@ -57,7 +57,7 @@ The following components are required for this project:
 
 Connect the components to the Fusion HAT as follows:
 
-.. image:: img/fzz/4.18_smart_weather_station_bb.png
+.. image:: img/fzz/llm_weather_bb.png
    :width: 80%
    :align: center
 
@@ -170,12 +170,9 @@ Connect the components to the Fusion HAT as follows:
 
 #. Add the copied API Key:
 
-   .. raw:: html
-
-      <run></run>
    
    .. code-block:: shell
-      :emphasize-lines: 2
+      :emphasize-lines: 1
 
       OPENWEATHER_API_KEY = "732exxxxxxxxxxxxxxxxxxxxx919b"
 

@@ -34,7 +34,7 @@ To complete this project, you will need the following components:
    *   - COMPONENT
        - PURCHASE LINK
 
-   *   - :ref:`cpn_ws2812_module`
+   *   - :ref:`cpn_circular_ws2812_module`
        - \-
    *   - :ref:`cpn_wires`
        - |link_wires_buy|
