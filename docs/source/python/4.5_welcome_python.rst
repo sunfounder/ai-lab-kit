@@ -89,7 +89,7 @@ Follow the wiring diagram to assemble the circuit:
 
    Adjust the potentiometers on the PIR sensor module for optimal sensitivity and detection range. Rotate both potentiometers fully counterclockwise for best performance.
 
-.. image:: ../python/img/4.1.8_PIR_TTE.png
+.. image:: ../python/img/PIR_TTE.png
    :width: 400
    :align: center
 

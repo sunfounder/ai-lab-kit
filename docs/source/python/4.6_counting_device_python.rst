@@ -84,7 +84,7 @@ Follow the wiring diagram to connect the components correctly:
 
    Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
 
-.. image:: ../python/img/4.1.7_PIR_TTE.png
+.. image:: ../python/img/PIR_TTE.png
    :width: 400
    :align: center
 
