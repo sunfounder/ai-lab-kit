@@ -19,7 +19,7 @@ MPU6050 Sensor
 
 **Introduction**
 
-In this lesson, we focus on the MPU6050 sensor built into the GY-87 module. The MPU6050 is a 6-axis IMU that includes a 3-axis accelerometer and a 3-axis gyroscope. Using the Fusion HAT, you will learn how to read acceleration, rotation, and temperature data from the sensor. This serves as a foundation for motion-related projects such as gesture detection, balancing robots, and orientation tracking.
+In this lesson, we focus on the MPU6050 sensor built into the GY-87 module. The MPU6050 is a 6-axis IMU that includes a 3-axis accelerometer and a 3-axis gyroscope. Using the Fusion HAT+, you will learn how to read acceleration, rotation, and temperature data from the sensor. This serves as a foundation for motion-related projects such as gesture detection, balancing robots, and orientation tracking.
 
 ----------------------------------------------
 

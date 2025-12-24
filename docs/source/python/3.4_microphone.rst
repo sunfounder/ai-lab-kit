@@ -21,7 +21,7 @@
 
 **Introduction**
 
-The Fusion HAT includes a built-in microphone, making it ideal for audio input applications such as voice recognition, sound detection, or recording logs in AI/IoT projects.
+The Fusion HAT+ includes a built-in microphone, making it ideal for audio input applications such as voice recognition, sound detection, or recording logs in AI/IoT projects.
 
 This guide will help you check if the microphone is recognized by the system and show you how to perform a basic recording test.
 
@@ -73,7 +73,7 @@ If you see the ``voicehat-hifi`` listed, it means the microphone hardware is det
 .. **Enable the Audio Module**
 
 
-.. For protection purposes, the audio module on the Fusion HAT is **disabled by default**. To enable it, run:
+.. For protection purposes, the audio module on the Fusion HAT+ is **disabled by default**. To enable it, run:
  
 .. .. raw:: html
 

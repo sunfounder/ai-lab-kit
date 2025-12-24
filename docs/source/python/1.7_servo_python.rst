@@ -170,7 +170,7 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 2. **Servo Movement is Erratic or Unresponsive**  
 
    - **Cause**: Insufficient power supply to the servo.  
-   - **Solution**: Use an external power source for the servo if the Fusion HAT does not provide enough power.
+   - **Solution**: Use an external power source for the servo if the Fusion HAT+ does not provide enough power.
 
 ----------------------------------------------
 

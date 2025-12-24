@@ -7,7 +7,7 @@
 **Introduction**
 
 In this lesson, you will build a **Servo Angle Meter** — a visual servo angle indicator that uses a potentiometer to control a servo motor, while displaying the current angle on an OLED screen.  
-The potentiometer provides an analog voltage through the Fusion HAT’s ADC interface.  
+The potentiometer provides an analog voltage through the Fusion HAT+’s ADC interface.  
 The servo receives commands based on this reading, and a 128×64 I2C OLED screen shows the numeric servo angle and a graphical bar that moves smoothly across the display.
 
 As you rotate the potentiometer, the servo sweeps between approximately -90° and +90°, and the OLED updates in real time.

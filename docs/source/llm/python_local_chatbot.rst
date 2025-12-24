@@ -17,7 +17,7 @@
 
 In this lesson, you will combine everything you've learned — **speech recognition (STT)**,  
 **text-to-speech (TTS)**, and a **local LLM (Ollama)** — to build a fully offline **voice chatbot**  
-that runs on your Fusion HAT.
+that runs on your Fusion HAT+.
 
 The workflow is simple:
 

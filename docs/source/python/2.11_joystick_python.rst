@@ -144,9 +144,9 @@ Below is the Python code used for this project:
       pass
 
 
-This Python script read and display real-time joystick data on a Fusion HAT. When executed:
+This Python script read and display real-time joystick data on a Fusion HAT+. When executed:
 
-1. The script continuously reads the X and Y values from the Fusion HAT.
+1. The script continuously reads the X and Y values from the Fusion HAT+.
 2. It monitors the button connected to GPIO pin 17 to detect whether it is pressed or not.
 3. The X, Y, and button state values are printed to the console in the format ``X: <value>  Y: <value>  Btn: <value>``, where:
 
@@ -251,4 +251,4 @@ This Python script read and display real-time joystick data on a Fusion HAT. Whe
 
 **Conclusion**
 
-This experiment demonstrates how to interface a joystick with a Fusion HAT for analog-to-digital conversion. By understanding how to read and interpret joystick inputs, you can build interactive systems for gaming, robotics, or other applications.
+This experiment demonstrates how to interface a joystick with a Fusion HAT+ for analog-to-digital conversion. By understanding how to read and interpret joystick inputs, you can build interactive systems for gaming, robotics, or other applications.

@@ -30,7 +30,7 @@ Make sure you have:
 * :ref:`test_piper` — Piper voice works (e.g., you can play “Hello”).  
 * :ref:`test_vosk` — Vosk STT works for your language (e.g., ``en-us``).  
 * :ref:`py_online_llm` — Your **OpenAI API key** saved in ``secret.py`` as ``OPENAI_API_KEY``.  
-* A working **microphone** and **speaker** on Fusion HAT.  
+* A working **microphone** and **speaker** on Fusion HAT+.  
 * A stable network connection (LLM is online).
 
 ----

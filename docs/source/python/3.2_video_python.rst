@@ -67,7 +67,7 @@ Below are the components required for this project:
 
       sudo python3 3.2_Video.py
 
-4. After the script starts, press the **Fusion HAT USR button** to control recording.
+4. After the script starts, press the **Fusion HAT+ USR button** to control recording.
 
    .. image:: img/3.1_user_button.png
       :width: 50%
@@ -105,7 +105,7 @@ Below is the Python code used for this project:
    from picamera2 import Picamera2, Preview
    from picamera2.encoders import H264Encoder
    from picamera2.outputs import FfmpegOutput
-   from fusion_hat.user_button import UserButton  # Fusion HAT USR button
+   from fusion_hat.user_button import UserButton  # Fusion HAT+ USR button
 
    # Resolve the correct user's home directory (works even when using sudo)
    REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
@@ -167,7 +167,7 @@ Below is the Python code used for this project:
       camera.start()
 
       print("Video preview is running.")
-      print("Press the Fusion HAT USR button to START/STOP recording.")
+      print("Press the Fusion HAT+ USR button to START/STOP recording.")
       print(f"Videos will be saved in: {VIDEOS_DIR}")
       print("Press Ctrl+C to exit.\n")
 
@@ -312,7 +312,7 @@ Below is the Python code used for this project:
 
 2. **USR Button Not Working**
 
-   - **Cause:** Fusion HAT not connected or insufficient permissions.
+   - **Cause:** Fusion HAT+ not connected or insufficient permissions.
    - **Fix:** Reseat the HAT, run the script with ``sudo``, and print debug logs in ``toggle_recording()`` if needed.
 
 3. **Video Not Saved**
@@ -334,6 +334,6 @@ Below is the Python code used for this project:
 
 **Conclusion**
 
-This script lets you start and stop video recording using the Fusion HAT USR button while viewing a live preview. Videos are saved automatically to ``~/Videos`` with timestamped filenames.
+This script lets you start and stop video recording using the Fusion HAT+ USR button while viewing a live preview. Videos are saved automatically to ``~/Videos`` with timestamped filenames.
 
 It provides a simple foundation for button-controlled video capture and can be extended for DIY cameras, classroom demos, or sensor-triggered recording projects.

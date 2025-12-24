@@ -68,7 +68,7 @@ Below are the components required for this project:
 
       sudo python3 3.1_Photograph.py
 
-4. After the script starts, press the **Fusion HAT USR button** to take photos.
+4. After the script starts, press the **Fusion HAT+ USR button** to take photos.
 
    .. image:: img/3.1_user_button.png
       :width: 50%
@@ -102,7 +102,7 @@ Below is the Python code used for this project:
    import time
    import threading
    from picamera2 import Picamera2, Preview
-   from fusion_hat.user_button import UserButton   # Fusion HAT USR button
+   from fusion_hat.user_button import UserButton   # Fusion HAT+ USR button
 
    # Resolve the correct user's home directory
    # Works correctly even when running with sudo
@@ -144,7 +144,7 @@ Below is the Python code used for this project:
       camera.start()
 
       print("Camera preview is running.")
-      print("Press the Fusion HAT USR button to take a photo.")
+      print("Press the Fusion HAT+ USR button to take a photo.")
       print(f"Photos will be saved to: {PICTURES_DIR}")
       print("Press Ctrl+C to exit.\n")
 
@@ -179,7 +179,7 @@ Below is the Python code used for this project:
       from fusion_hat.user_button import UserButton
 
    These modules handle file paths, timing, safe multithreading,
-   camera control, and reading the Fusion HAT USR button.
+   camera control, and reading the Fusion HAT+ USR button.
 
 
 2. **Resolving the Correct User Home Directory**
@@ -256,7 +256,7 @@ Below is the Python code used for this project:
 
          ...
 
-   - ``UserButton()`` creates an instance that listens to the Fusion HAT USR button via Linux input events.
+   - ``UserButton()`` creates an instance that listens to the Fusion HAT+ USR button via Linux input events.
    - ``btn.set_on_click(take_photo)`` registers the callback so that each button press triggers a photo capture.
    - ``camera.start_preview(Preview.QT)`` opens a Qt-based preview window on the screen.
    - ``camera.start()`` begins the camera pipeline so frames are continuously captured.
@@ -275,7 +275,7 @@ Below is the Python code used for this project:
 
 2. **USR Button Not Working**
 
-   - **Cause:** Fusion HAT not seated correctly, button not detected, or wrong photo folder checked.
+   - **Cause:** Fusion HAT+ not seated correctly, button not detected, or wrong photo folder checked.
    - **Fix:** Reconnect HAT, run script with ``sudo``, and check photos under ``~/Pictures``.
 
 3. **Photos Saved to Wrong Location**
@@ -292,5 +292,5 @@ Below is the Python code used for this project:
 
 **Conclusion**
 
-This script lets you capture photos using the Fusion HAT USR button and save them automatically to ``~/Pictures``.  
+This script lets you capture photos using the Fusion HAT+ USR button and save them automatically to ``~/Pictures``.  
 The setup is ideal for simple camera projects and can be extended for timelapses, DIY camera builds, or classroom demos.

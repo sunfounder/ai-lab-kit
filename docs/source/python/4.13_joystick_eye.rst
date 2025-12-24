@@ -6,7 +6,7 @@
 **Introduction**
 
 In this lesson, you will build a **Joystick-Controlled Eye**, displayed on a 128×64 SSD1306 OLED screen.  
-A two-axis analog joystick provides X/Y movement, which is read using the Fusion HAT’s ADC channels.  
+A two-axis analog joystick provides X/Y movement, which is read using the Fusion HAT+’s ADC channels.  
 The OLED shows a stylized “eye” whose pupil smoothly follows the direction of the joystick.
 
 The project demonstrates:

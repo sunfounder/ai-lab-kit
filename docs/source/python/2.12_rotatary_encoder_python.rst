@@ -21,7 +21,7 @@
 
 **Introduction**
 
-A rotary encoder is an input device that converts rotational motion into digital signals. It’s commonly used for navigating menus, adjusting values, or scrolling through items. In this project, you’ll connect a rotary encoder (with an integrated push-button) to a Raspberry Pi via the Fusion HAT, read rotation steps, and reset the counter with the encoder’s switch.
+A rotary encoder is an input device that converts rotational motion into digital signals. It’s commonly used for navigating menus, adjusting values, or scrolling through items. In this project, you’ll connect a rotary encoder (with an integrated push-button) to a Raspberry Pi via the Fusion HAT+, read rotation steps, and reset the counter with the encoder’s switch.
 
 This experiment illustrates how to interface a rotary encoder using event callbacks for smooth, low-latency input handling.
 
@@ -256,4 +256,4 @@ Below is the Python code used for this project:
 
 **Conclusion**
 
-This experiment shows how to read a rotary encoder and its integrated button using event-driven callbacks on the Fusion HAT. With this pattern, you can build responsive interfaces such as menu navigators, dial-controlled settings, and jog wheels for real-time control in your Raspberry Pi projects.
+This experiment shows how to read a rotary encoder and its integrated button using event-driven callbacks on the Fusion HAT+. With this pattern, you can build responsive interfaces such as menu navigators, dial-controlled settings, and jog wheels for real-time control in your Raspberry Pi projects.

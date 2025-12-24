@@ -50,7 +50,7 @@ Connect the components to your Raspberry Pi:
 - **OLED Display**: Connect via I2C (SDA to GPIO 2, SCL to GPIO 3)
 - **USB Microphone**: Plug into any USB port
 - **Speaker/Headphones**: Connect to 3.5mm audio jack or USB audio
-- **Fusion HAT**: Mount on GPIO header (provides library support)
+- **Fusion HAT+**: Mount on GPIO header (provides library support)
 
 *Note: Ensure proper power supply as voice processing requires significant CPU resources.*
 

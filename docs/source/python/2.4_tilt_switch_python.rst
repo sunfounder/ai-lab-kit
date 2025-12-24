@@ -290,4 +290,4 @@ This Python script uses a tilt sensor to control two LEDs and display status mes
 
 **Conclusion**
 
-This project demonstrates how to use a tilt switch with a Fusion HAT to detect inclinations and control LEDs. Tilt switches are a cost-effective solution for simple motion and angle detection, offering practical applications in robotics and home automation.
+This project demonstrates how to use a tilt switch with a Fusion HAT+ to detect inclinations and control LEDs. Tilt switches are a cost-effective solution for simple motion and angle detection, offering practical applications in robotics and home automation.

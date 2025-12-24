@@ -155,7 +155,7 @@ The ``pathlib`` library provides tools for working with file paths in a consiste
 
    os.system("fusion_hat enable_speaker")
 
-This line enables the speaker and microphone on the Fusion HAT.
+This line enables the speaker and microphone on the Fusion HAT+.
 
 
 

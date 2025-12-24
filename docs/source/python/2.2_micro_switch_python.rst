@@ -268,4 +268,4 @@ This Python script controls two LEDs based on the state of a micro switch connec
 
 **Conclusion**
 
-This project demonstrates how to use a Micro Switch to control LEDs with the Fusion HAT. Micro Switches are versatile components widely used in safety systems, user interfaces, and industrial controls. Experimenting with them can open up opportunities for creating more advanced projects.
+This project demonstrates how to use a Micro Switch to control LEDs with the Fusion HAT+. Micro Switches are versatile components widely used in safety systems, user interfaces, and industrial controls. Experimenting with them can open up opportunities for creating more advanced projects.

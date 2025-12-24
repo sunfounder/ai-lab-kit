@@ -22,7 +22,7 @@
 **Introduction**
 
 In this lesson, you will build a **Hue Knob** — an interactive color controller that uses a rotary encoder to adjust the hue of a circular WS2812 LED module.  
-This WS2812 LED module contains 12 individually addressable WS2812 RGB LEDs, driven through the Fusion HAT’s SPI-based NeoPixel interface.  
+This WS2812 LED module contains 12 individually addressable WS2812 RGB LEDs, driven through the Fusion HAT+’s SPI-based NeoPixel interface.  
 The external rotary encoder provides real-time user input via standard GPIO pins.
 
 As you rotate the encoder, the 12 LEDs smoothly cycle through the full RGB color spectrum.  
@@ -212,7 +212,7 @@ Here is the Python script for the traffic light simulation:
 2. **LED (WS2812) Setup**
 
    The DIY LED module contains 12 WS2812 RGB LEDs arranged in a ring.  
-   They are controlled using the Fusion HAT’s SPI-based NeoPixel interface.
+   They are controlled using the Fusion HAT+’s SPI-based NeoPixel interface.
 
    .. code-block:: python
 
@@ -296,7 +296,7 @@ Here is the Python script for the traffic light simulation:
 - **LEDs do not light up**
 
   - Check wiring to the WS2812 LED module.
-  - Ensure the Fusion HAT SPI NeoPixel interface is enabled.
+  - Ensure the Fusion HAT+ SPI NeoPixel interface is enabled.
   - Make sure you are using a supported WS2812/WS2812B LED module.
 
 - **Colors change too quickly or too slowly**

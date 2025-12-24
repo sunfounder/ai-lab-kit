@@ -291,4 +291,4 @@ This Python script demonstrates an interactive setup where a button controls an 
 
 **Conclusion**
 
-This project demonstrates how to use a button to control an LED with a Fusion HAT. Buttons are versatile components and can be integrated into various applications, from basic circuits to complex interactive systems.
+This project demonstrates how to use a button to control an LED with a Fusion HAT+. Buttons are versatile components and can be integrated into various applications, from basic circuits to complex interactive systems.

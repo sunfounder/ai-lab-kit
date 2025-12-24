@@ -20,7 +20,7 @@ Getting Started (Important)
 This is the very first chapter of this kit course.  
 Here you will set up your Raspberry Pi, install the required software, charge and power on your Fusion.
 
-By the end of this chapter, your Fusion HAT will be fully prepared and ready for the upcoming lessons.  
+By the end of this chapter, your Fusion HAT+ will be fully prepared and ready for the upcoming lessons.  
 
 
 .. toctree::

@@ -1,19 +1,19 @@
 .. _assemble_hat:
 
-Assemble and Power on Fusion HAT (Important)
+Assemble and Power on Fusion HAT+ (Important)
 =======================================================
 
-Connect Fusion HAT to Raspberry Pi
+Connect Fusion HAT+ to Raspberry Pi
 ----------------------------------------
 
-Here, we'll teach you how to assemble the Fusion HAT.
+Here, we'll teach you how to assemble the Fusion HAT+.
 
 #. Assemble the base.
 #. Stick the battery to the base.
 #. Secure the Raspberry Pi with with standoffs.
 #. Connect the FPC cable to the Raspberry Pi. (We will assemble it and the Camera Module when assembled the pan-tilt.)
-#. Plug the Fusion HAT into the 40-pin connector on the Raspberry Pi. 
-#. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT will not work.)
+#. Plug the Fusion HAT+ into the 40-pin connector on the Raspberry Pi. 
+#. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT+ will not work.)
 
 
 For the details of the assembly, please check the video below.
@@ -32,7 +32,7 @@ Before the first use, it is recommended to fully charge the battery. You can use
 .. note::
 
   The battery may arrive with low charge because Amazon requires it to be below 30% before air shipment. You **MUST** fully charge it before use to prevent over-discharge and damage.
-  Plug the USB-C to Fusion HAT, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
+  Plug the USB-C to Fusion HAT+, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
 
 * We recommend using a **5V 3A power supply**, such as the official Raspberry Pi 15W adapter.  
 * You can also use a **USB-C PD (Power Delivery)** charger or a **QC 2.0 fast charger**.  
@@ -42,7 +42,7 @@ Before the first use, it is recommended to fully charge the battery. You can use
    :width: 400
    :align: center
 
-The Fusion HAT includes **two battery indicator LEDs**, showing the battery voltage level:  
+The Fusion HAT+ includes **two battery indicator LEDs**, showing the battery voltage level:  
 
 .. list-table::
    :header-rows: 1
@@ -78,14 +78,14 @@ After fully charged:
 
 .. note::
 
-   For extended programming or debugging sessions, you can keep the Fusion HAT powered  
+   For extended programming or debugging sessions, you can keep the Fusion HAT+ powered  
    by connecting the USB-C cable, which will charge the battery and run the project at the same time. 
    Even if you run the project while the charer is connected, the battery **cannot** be removed.
 
 Power ON
 ----------------------
 
-When the battery has sufficient charge, press the **power button** on the Fusion HAT briefly. 
+When the battery has sufficient charge, press the **power button** on the Fusion HAT+ briefly. 
 
 * The **PWR LED** will turn on.  
 * The **battery LEDs** will also light up.  

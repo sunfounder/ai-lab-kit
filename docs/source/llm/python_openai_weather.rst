@@ -55,7 +55,7 @@ The following components are required for this project:
 
 **Wiring Diagram**
 
-Connect the components to the Fusion HAT as follows:
+Connect the components to the Fusion HAT+ as follows:
 
 .. image:: img/fzz/llm_weather_bb.png
    :width: 80%
@@ -66,7 +66,7 @@ Connect the components to the Fusion HAT as follows:
 - **DHT11:**
 
   - VCC → 3.3V
-  - DATA → GPIO 17 (Fusion HAT)
+  - DATA → GPIO 17 (Fusion HAT+)
   - GND → Ground
 
 - **LDR (Light Dependent Resistor):**

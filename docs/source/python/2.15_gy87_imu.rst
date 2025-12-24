@@ -138,7 +138,7 @@ Below is the complete Python script used to read data from BMP180, MPU6050, and 
    from time import sleep
    import math
 
-   # Import Fusion HAT sensor modules
+   # Import Fusion HAT+ sensor modules
    from fusion_hat.modules import bmp180, MPU6050
    from fusion_hat.modules.magnetometer import Magnetometer
 

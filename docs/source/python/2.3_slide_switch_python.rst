@@ -142,7 +142,7 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
       # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
       pass
 
-This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT. When executed:
+This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT+. When executed:
 
 1. **Slide Switch Activated**:
 
@@ -264,4 +264,4 @@ This Python script demonstrates the use of a slide switch to control two LEDs on
 
 **Conclusion**
 
-This project demonstrates how to use a Slide Switch with the Fusion HAT to control LEDs. Slide Switches are versatile and durable components, often employed in user interfaces and control systems. Experimenting with them opens up possibilities for creating advanced and interactive projects.
+This project demonstrates how to use a Slide Switch with the Fusion HAT+ to control LEDs. Slide Switches are versatile and durable components, often employed in user interfaces and control systems. Experimenting with them opens up possibilities for creating advanced and interactive projects.

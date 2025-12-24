@@ -206,7 +206,7 @@ The ``os`` and ``subprocess`` libraries are used for file operations and executi
 
    os.system("fusion_hat enable_speaker")
 
-This line enables the speaker and microphone on the Fusion HAT.
+This line enables the speaker and microphone on the Fusion HAT+.
 
 
 .. code-block:: python

@@ -56,7 +56,7 @@ Here are the components required for this project:
 
 **Circuit Diagram**
 
-Below are the schematic diagrams illustrating how to connect the thermistor to the Fusion HAT:
+Below are the schematic diagrams illustrating how to connect the thermistor to the Fusion HAT+:
 
 
 .. image:: img/fzz/2.2.2_sch.png
@@ -77,7 +77,7 @@ Build the circuit as shown in the wiring diagram below:
 
 Ensure that:
 
-* The thermistor is correctly connected to the Fusion HAT.
+* The thermistor is correctly connected to the Fusion HAT+.
 * Power and ground connections are secure.
 * All wiring is consistent with the diagram to ensure proper functionality.
 
@@ -274,4 +274,4 @@ This Python script reads an analog signal from a thermistor via the fusion hat a
 
 **Conclusion**
 
-This experiment demonstrates how to use a thermistor with an Fusion HAT to measure ambient temperature accurately. By understanding the principles of analog-to-digital conversion and the Steinhart-Hart equation, you can build advanced temperature monitoring and control systems for various applications.
+This experiment demonstrates how to use a thermistor with an Fusion HAT+ to measure ambient temperature accurately. By understanding the principles of analog-to-digital conversion and the Steinhart-Hart equation, you can build advanced temperature monitoring and control systems for various applications.

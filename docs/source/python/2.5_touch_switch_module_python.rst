@@ -270,4 +270,4 @@ This Python script uses a touch sensor to control two LEDs connected to a Raspbe
 
 **Conclusion**
 
-This project demonstrates how to use a Touch Switch Module with the Fusion HAT to control LEDs. Touch switches are versatile and reliable components, often used in modern devices for seamless and intuitive interaction.
+This project demonstrates how to use a Touch Switch Module with the Fusion HAT+ to control LEDs. Touch switches are versatile and reliable components, often used in modern devices for seamless and intuitive interaction.

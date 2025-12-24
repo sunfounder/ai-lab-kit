@@ -38,7 +38,7 @@ The following components are required for this project:
 
 **Wiring Diagram**
 
-Connect the RGB LED to the Fusion HAT as follows:
+Connect the RGB LED to the Fusion HAT+ as follows:
 
 .. image:: img/fzz/llm_book_bb.png
    :width: 80%
@@ -46,9 +46,9 @@ Connect the RGB LED to the Fusion HAT as follows:
 
 **RGB LED Connection Guide:**
 
-- **Red pin** → Fusion HAT PWM port 0
-- **Green pin** → Fusion HAT PWM port 1  
-- **Blue pin** → Fusion HAT PWM port 2
+- **Red pin** → Fusion HAT+ PWM port 0
+- **Green pin** → Fusion HAT+ PWM port 1  
+- **Blue pin** → Fusion HAT+ PWM port 2
 - **Common cathode** → Ground (GND)
 
 *Note: Add appropriate current-limiting resistors (220Ω recommended) in series with each LED color channel.*

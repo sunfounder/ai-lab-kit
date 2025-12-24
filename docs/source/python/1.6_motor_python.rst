@@ -19,7 +19,7 @@
 
 **Introduction**
 
-In this project, we will learn how to use the Fusion HAT to control a DC motor, making it rotate clockwise and counterclockwise.
+In this project, we will learn how to use the Fusion HAT+ to control a DC motor, making it rotate clockwise and counterclockwise.
 
 ----------------------------------------------
 
@@ -190,7 +190,7 @@ The following Python code controls the motor’s rotation direction and timing:
 2. **Only One Direction Works**
 
    - **Cause**: Faulty connection to the forward or backward pin.  
-   - **Solution**: Ensure the pins are securely connected to the Fusion HAT.
+   - **Solution**: Ensure the pins are securely connected to the Fusion HAT+.
 
 3. **Motor Spins Continuously Without Stopping**  
 
@@ -233,4 +233,4 @@ The following Python code controls the motor’s rotation direction and timing:
 
 **Conclusion**
 
-This project demonstrates how to control a DC motor using the Fusion HAT. Understanding motor control is essential for building robotics and other motion-based electronic projects.
+This project demonstrates how to control a DC motor using the Fusion HAT+. Understanding motor control is essential for building robotics and other motion-based electronic projects.

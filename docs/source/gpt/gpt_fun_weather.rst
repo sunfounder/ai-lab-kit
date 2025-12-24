@@ -373,7 +373,7 @@ Follow these steps to run the example:
    thread = client.beta.threads.create()
    recognizer = sr.Recognizer()
 
-* Speaker Initialization: Enables the speaker on the Fusion HAT.
+* Speaker Initialization: Enables the speaker on the Fusion HAT+.
 * LCD Initialization: Sets up the LCD with the I2C address and enables the backlight.
 * OpenAI Assistant: Creates a GPT-4 assistant tailored to provide weather-based recommendations.
 * Thread and Recognizer: Initializes a thread for the assistant and a recognizer for speech-to-text conversion.

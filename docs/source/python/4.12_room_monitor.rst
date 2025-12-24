@@ -10,7 +10,7 @@ In this lesson, you will build an **Environment Monitor Dashboard** that reads t
 This project uses:
 
 - **DHT11 sensor** to measure temperature and humidity  
-- **LDR (Light Dependent Resistor)** connected to the Fusion HAT ADC to measure light level  
+- **LDR (Light Dependent Resistor)** connected to the Fusion HAT+ ADC to measure light level  
 - **SSD1306 OLED** to display environmental data and a dynamic light bar  
 
 The screen updates continuously and shows a status indicator (``OK`` or ``TIMEOUT``) depending on whether the DHT11 provides a valid reading.

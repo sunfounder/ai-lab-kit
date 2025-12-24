@@ -47,7 +47,7 @@ The following components are required for this project:
 
 **Wiring Diagram**
 
-Connect the components to the Fusion HAT as follows:
+Connect the components to the Fusion HAT+ as follows:
 
 .. image:: img/fzz/llm_book_bb.png
    :width: 80%
@@ -61,12 +61,12 @@ Connect the components to the Fusion HAT as follows:
 
 **RGB LED Connection:**
 
-- **Red pin** → Fusion HAT PWM port 0
-- **Green pin** → Fusion HAT PWM port 1  
-- **Blue pin** → Fusion HAT PWM port 2
+- **Red pin** → Fusion HAT+ PWM port 0
+- **Green pin** → Fusion HAT+ PWM port 1  
+- **Blue pin** → Fusion HAT+ PWM port 2
 - **Common cathode** → Ground (GND)
 
-*Note: The User Button is already integrated into the Fusion HAT and doesn't require additional wiring. It is near by the BATTERY port.*
+*Note: The User Button is already integrated into the Fusion HAT+ and doesn't require additional wiring. It is near by the BATTERY port.*
 
 .. image:: img/3.1_user_button.png
    :width: 50%
@@ -135,7 +135,7 @@ You are using a display. Otherwise, please install Raspberry Pi Connect (|link_r
    * A camera preview window will open
    * The RGB LED will glow blue, indicating ready state
    * Place a book cover in front of the camera
-   * Press the USR Button on the Fusion HAT (which is near the BATTERY port)
+   * Press the USR Button on the Fusion HAT+ (which is near the BATTERY port)
    * The system will:
 
      1. Capture a photo (LED turns yellow 🟡)
@@ -531,7 +531,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
 - **"Button press not detected"**
 
   - Check if the User Button LED lights up when pressed
-  - Ensure the Fusion HAT is properly seated on the GPIO pins
+  - Ensure the Fusion HAT+ is properly seated on the GPIO pins
   - Verify the button callback is set correctly
 
 - **"Image analysis returns generic responses"**

@@ -228,7 +228,7 @@ This example builds upon :ref:`gpt_easy_tts`, with the main difference being the
             content=text_send,
          )
 
-The photoresistor is a sensor whose resistance varies with ambient light intensity. Using the Fusion HAT, its analog signal is converted into a digital value that the AI can process. For more details about using the ADC module, refer to :ref:`py_potentiometer`.
+The photoresistor is a sensor whose resistance varies with ambient light intensity. Using the Fusion HAT+, its analog signal is converted into a digital value that the AI can process. For more details about using the ADC module, refer to :ref:`py_potentiometer`.
 
 In this project, the AI receives the photoresistor value along with a user query, enabling it to determine whether the environment is suitable for reading.
 

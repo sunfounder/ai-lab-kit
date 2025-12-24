@@ -286,7 +286,7 @@ Here is the Python script for the gravity-referenced cube:
 
 1. **IMU Initialization**
 
-   The script creates an ``MPU6050`` instance from the Fusion HAT module.  
+   The script creates an ``MPU6050`` instance from the Fusion HAT+ module.  
    The accelerometer provides raw X, Y, Z acceleration values in units of g.
 
 2. **Gravity-Referenced Angles**
