@@ -25,14 +25,14 @@ import adafruit_ssd1306
 import board
 
 # ===================== Port map (EDIT HERE) =====================
-# 4 PWM LED ports of Fusion HAT
+# 4 PWM LED ports of Fusion HAT+
 LED_PORTS = ['P0', 'P1', 'P2', 'P3']
 
 # 4 button pins (BCM numbering). Example here uses 17/4/27/22.
 # Buttons are configured as PULL_DOWN, so pressed -> value==1
 BTN_PINS = [17, 4, 27, 22]
 
-# Buzzer on a PWM-capable Fusion HAT port
+# Buzzer on a PWM-capable Fusion HAT+ port
 BUZZER_PORT = 'P4'
 # ===============================================================
 

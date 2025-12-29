@@ -57,7 +57,7 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 1, cv2.LINE_AA)
 
     # Show the frame
-    cv2.imshow("red-mask", mask)
+    # cv2.imshow("red-mask", mask)
     cv2.imshow("cv2.imshow", frame_bgr)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):

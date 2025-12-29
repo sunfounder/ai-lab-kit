@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Record video using the Fusion HAT USR button and Picamera2.
+Record video using the Fusion HAT+ USR button and Picamera2.
 
 - Shows a live preview window.
 - First USR button press: start recording.
@@ -15,7 +15,7 @@ import threading
 from picamera2 import Picamera2, Preview
 from picamera2.encoders import H264Encoder
 from picamera2.outputs import FfmpegOutput
-from fusion_hat.user_button import UserButton  # Fusion HAT USR button
+from fusion_hat.user_button import UserButton  # Fusion HAT+ USR button
 
 # Resolve the correct user's home directory (works even when using sudo)
 REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
@@ -77,7 +77,7 @@ def main():
     camera.start()
 
     print("Video preview is running.")
-    print("Press the Fusion HAT USR button to START/STOP recording.")
+    print("Press the Fusion HAT+ USR button to START/STOP recording.")
     print(f"Videos will be saved in: {VIDEOS_DIR}")
     print("Press Ctrl+C to exit.\n")
 

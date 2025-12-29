@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Take photos using the Fusion HAT USR button and Picamera2.
+Take photos using the Fusion HAT+ USR button and Picamera2.
 
 - Shows a live preview window.
 - Each press of the USR button captures a new image.
@@ -12,7 +12,7 @@ import os
 import time
 import threading
 from picamera2 import Picamera2, Preview
-from fusion_hat.user_button import UserButton   # Fusion HAT USR button
+from fusion_hat.user_button import UserButton   # Fusion HAT+ USR button
 
 # Resolve the correct user's home directory
 # Works correctly even when running with sudo
@@ -54,7 +54,7 @@ def main():
     camera.start()
 
     print("Camera preview is running.")
-    print("Press the Fusion HAT USR button to take a photo.")
+    print("Press the Fusion HAT+ USR button to take a photo.")
     print(f"Photos will be saved to: {PICTURES_DIR}")
     print("Press Ctrl+C to exit.\n")
 
