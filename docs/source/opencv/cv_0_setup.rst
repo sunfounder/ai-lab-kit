@@ -9,7 +9,7 @@ This tutorial will guide you through installing OpenCV on a Raspberry Pi and con
 To play with OpenCV:
 
    - Please connect the camera to the Raspberry Pi and make sure the camera is working properly.
-   - To use camera module conveniently, :ref:`assemble_fusion_hat_gimbal` is recommended.
+   - To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
 
 

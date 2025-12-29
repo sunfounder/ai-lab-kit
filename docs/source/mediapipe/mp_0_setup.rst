@@ -36,7 +36,7 @@ Before installing MediaPipe, make sure:
 
 * You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
 * Please connect the camera to the Raspberry Pi and make sure the camera is working properly.
-* To use camera module conveniently, :ref:`assemble_fusion_hat_gimbal` is recommended.
+* To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
 
 

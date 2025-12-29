@@ -180,6 +180,19 @@ Connect the components to the Fusion HAT+ as follows:
 #. Press ``Ctrl + X``, ``Y``, and then ``Enter`` to save the file and exit.
 
 
+---------------------------------------------
+
+**Run the Code**
+   
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/llm   
+      sudo python3 llm_openai_weather.py
+
 ----------------------------------------------
 
 **Code**

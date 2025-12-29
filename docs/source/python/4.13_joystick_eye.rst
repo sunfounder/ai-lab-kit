@@ -41,13 +41,6 @@ The following components are required for this project:
     *   - Raspberry Pi
         - \-
 
-.. ----------------------------------------------
-
-.. **Circuit Diagram**
-
-.. .. image:: img/fzz/4.13_joystick_eye_sch.png
-..    :width: 80%
-..    :align: center
 
 ----------------------------------------------
 
@@ -63,17 +56,6 @@ Refer to the wiring diagram for assembling the components:
 
 **Setup Steps**
 
-.. #. Create and activate a virtual environment:
-
-..    .. raw:: html
-
-..       <run></run>
-
-..    .. code-block:: shell
-
-..       cd ~
-..       python3 -m venv 4.13_joystick_eye_env --system-site-packages
-..       source 4.13_joystick_eye_env/bin/activate
 
 #. Install the required libraries:
 

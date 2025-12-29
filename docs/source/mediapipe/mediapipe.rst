@@ -20,3 +20,4 @@ This section is about how to use MediaPipe.
    mp_8_pose_squat.rst 
    mp_9_pose_segmentation.rst 
    mp_10_object.rst
+   mp_11_object_track.rst

@@ -95,7 +95,7 @@ When the battery has sufficient charge, press the **power button** on the Fusion
     :width: 400
 
 
-.. _assemble_fusion_hat_gimbal:
+.. _assemble_fusion_hat_pan_tilt:
 
 Assemble the Pan-tilt (For Camera) 
 ------------------------------------------------------

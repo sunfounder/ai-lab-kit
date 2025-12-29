@@ -21,7 +21,7 @@
 
 Beyond taking photos, the Raspberry Pi Camera Module also allows you to record high-quality videos. This project demonstrates how to set up the camera module to record videos with configurable resolution, frame rate, and bitrate, saving them directly to your Raspberry Pi.
 
-To use camera module conveniently, :ref:`assemble_fusion_hat_gimbal` is recommended.
+To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
 
 ----------------------------------------------

@@ -56,7 +56,7 @@ Connect the components to the Fusion HAT+ as follows:
 **Camera Connection:**
 
 - Connect the camera to the Raspberry Pi
-- :ref:`assemble_fusion_hat_gimbal`
+- :ref:`assemble_fusion_hat_pan_tilt`
 
 
 **RGB LED Connection:**
@@ -127,7 +127,8 @@ You are using a display. Otherwise, please install Raspberry Pi Connect (|link_r
       <run></run>
    
    .. code-block:: shell
-   
+
+      cd ~/ai-lab-kit/llm   
       sudo python3 llm_openai_bookexpert.py
 
 **When the script runs:**

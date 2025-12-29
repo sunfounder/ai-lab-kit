@@ -107,6 +107,7 @@ Connect the components to your Raspberry Pi:
    
    .. code-block:: shell
    
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_pet.py
 
 **When the script runs:**

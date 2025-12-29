@@ -25,3 +25,4 @@ You’ll learn how to load and display images, work with video streams, access a
    cv_6_camshift.rst 
    cv_7_canny.rst 
    cv_8_face.rst
+   cv_9_color_track.rst

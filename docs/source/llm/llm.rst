@@ -40,3 +40,4 @@ Here are some example project that you can try, there all are using the OpenAI A
     python_openai_book.rst 
     python_openai_pet.rst 
     python_openai_weather.rst
+    python_openai_homewok.rst

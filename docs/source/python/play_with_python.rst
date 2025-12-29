@@ -92,3 +92,4 @@ Play with Python (Electronics Basics)
    4.13_joystick_eye.rst 
    4.14_cube.rst 
    4.15_whack_a_mole.rst
+   4.16_pan_tilt_camera.rst

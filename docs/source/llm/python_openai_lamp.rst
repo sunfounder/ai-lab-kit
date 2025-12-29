@@ -107,6 +107,7 @@ Connect the RGB LED to the Fusion HAT+ as follows:
 
    .. code-block:: shell
 
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_lamp.py
 
 #. When the script runs:
