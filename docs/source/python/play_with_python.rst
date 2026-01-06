@@ -58,7 +58,7 @@ Play with Python (Electronics Basics)
    2.12_rotatary_encoder_python.rst 
    2.13_ultrasonic_sensor_module_python.rst 
    2.14_dht_python.rst 
-   2.15_gy87_imu.rst
+   2.15_10-axis.rst
 
 **Media**
 

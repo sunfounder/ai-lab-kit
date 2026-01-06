@@ -83,7 +83,7 @@ To complete this project, you will need the following components:
    
    .. code-block:: shell
    
-      sudo pip3 install adafruit-circuitpython-neopixel-spi --break
+      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages
    
 
 #. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:

@@ -6,7 +6,7 @@
 
 **Introduction**
 
-In this lesson, you will build a **gravity-referenced 3D cube** displayed on a 128×64 SSD1306 OLED, driven by an **MPU6050 (GY-87) IMU**.  
+In this lesson, you will build a **gravity-referenced 3D cube** displayed on a 128×64 SSD1306 OLED, driven by an **IMU**.  
 The cube tilts according to the board’s orientation relative to gravity, using accelerometer-only roll and pitch.  
 
 Key features:
@@ -32,7 +32,7 @@ The following components are required for this project:
         - PURCHASE LINK
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
-    *   - :ref:`cpn_gy87`
+    *   - :ref:`cpn_10axis_imu`
         - \-
     *   - :ref:`cpn_oled`
         - \-
@@ -55,7 +55,7 @@ The following components are required for this project:
 
 Refer to the wiring diagram for assembling the components:
 
-.. image:: img/fzz/4.14_cube_bb.png
+.. image:: img/fzz/4.14_cube2_bb.png
    :width: 80%
    :align: center
 
@@ -75,7 +75,7 @@ Refer to the wiring diagram for assembling the components:
 ..       python3 -m venv 4.14_gravity_cube_env --system-site-packages
 ..       source 4.14_gravity_cube_env/bin/activate
 
-#. Install the required libraries:
+#. Install the OLED libraries:
 
    .. raw:: html
 
@@ -84,6 +84,17 @@ Refer to the wiring diagram for assembling the components:
    .. code-block:: shell
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
+
+#. Install the IMU libraries:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block:: shell
+
+      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+
 
 #. Run the example from the ``ai-lab-kit`` directory:
 
@@ -94,11 +105,11 @@ Refer to the wiring diagram for assembling the components:
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python/
-      sudo python3 4.14_GravityCube.py
+      sudo python3 4.14_Cube.py
 
 #. When the script runs:
 
-   * The MPU6050 accelerometer provides gravity-referenced X/Y/Z data.  
+   * The accelerometer provides gravity-referenced X/Y/Z data.  
    * The code computes roll and pitch relative to an initial baseline (current orientation becomes 0°, 0°).  
    * A wireframe cube with a **filled front face** is drawn on the OLED.  
    * Tilting the board rotates the cube on screen.  
@@ -112,21 +123,12 @@ Here is the Python script for the gravity-referenced cube:
 
 .. code-block:: python
 
-   """
-   MPU6050(GY87) + SSD1306 OLED
-   Gravity-referenced cube with one filled face and user-selectable X/Y flip.
-   - Accelerometer-only tilt (roll/pitch) relative to an initial baseline
-   - Orthographic projection (no perspective distortion)
-   - Front face is filled for orientation feedback
-   - Two flags at top let you flip X(Y) directions to match your physical setup
-   """
-
    import time
    import math
-   from fusion_hat.modules import MPU6050
    from PIL import Image, ImageDraw, ImageFont
    import adafruit_ssd1306
    import board
+   from sunfounder_imu import IMU
 
    # ========== User-configurable axis flip ==========
    # Flip X/Y to match your physical mounting and perceived motion on the OLED.
@@ -146,10 +148,8 @@ Here is the Python script for the gravity-referenced cube:
    draw = ImageDraw.Draw(image)
    font = ImageFont.load_default()
 
-   # ========== IMU ==========
-   mpu = MPU6050()
-   # If your driver exposes range setters, you can uncomment:
-   # mpu.set_accel_range(MPU6050.ACCEL_RANGE_2G)
+   # ========== IMU initialization ==========
+   imu = IMU()
 
    # ========== Cube model ==========
    CUBE_SIZE = 9  # smaller cube for 128x64 OLED
@@ -196,12 +196,17 @@ Here is the Python script for the gravity-referenced cube:
 
    def accel_to_rp(ax, ay, az):
       """
-      Convert accelerometer (g) to roll/pitch in radians (gravity-referenced).
+      Convert accelerometer (m/s²) to roll/pitch in radians (gravity-referenced).
       roll  = rotation around X (right-hand rule)
       pitch = rotation around Y
       """
-      g = math.sqrt(ax*ax + ay*ay + az*az) + 1e-9
-      axn, ayn, azn = ax / g, ay / g, az / g
+      # Convert from m/s² to g (9.80665 m/s² = 1g)
+      ax_g = ax / 9.80665
+      ay_g = ay / 9.80665
+      az_g = az / 9.80665
+      
+      g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
+      axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
       roll  = math.atan2(ayn, azn)
       pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
       return roll, pitch
@@ -227,7 +232,6 @@ Here is the Python script for the gravity-referenced cube:
          rdeg = math.degrees(roll)
          pdeg = math.degrees(pitch)
          draw.text((2, 2), f"R:{rdeg:+.0f}  P:{pdeg:+.0f}", font=font, fill=255)
-         # draw.text((2, 12), "Yaw: n/a (gravity only)", font=font, fill=255)
 
    # ========== Baseline & smoothing ==========
    baseline_set = False
@@ -239,8 +243,13 @@ Here is the Python script for the gravity-referenced cube:
 
    try:
       while True:
-         # Read accelerometer (in g)
-         ax, ay, az = mpu.get_accel_data()
+         # Read IMU data
+         data = imu.read()
+         
+         # Extract accelerometer data (in m/s²)
+         ax = data['accel_x']
+         ay = data['accel_y']
+         az = data['accel_z']
 
          # Absolute roll/pitch from gravity
          roll_abs, pitch_abs = accel_to_rp(ax, ay, az)
@@ -286,8 +295,8 @@ Here is the Python script for the gravity-referenced cube:
 
 1. **IMU Initialization**
 
-   The script creates an ``MPU6050`` instance from the Fusion HAT+ module.  
-   The accelerometer provides raw X, Y, Z acceleration values in units of g.
+   The script creates an ``IMU`` instance from the Fusion HAT+ module.  
+   The accelerometer provides raw X, Y, Z acceleration values in units of m/s².
 
 2. **Gravity-Referenced Angles**
 
@@ -302,15 +311,20 @@ Here is the Python script for the gravity-referenced cube:
 
       def accel_to_rp(ax, ay, az):
          """
-         Convert accelerometer (g) to roll/pitch in radians (gravity-referenced).
+         Convert accelerometer (m/s²) to roll/pitch in radians (gravity-referenced).
          roll  = rotation around X (right-hand rule)
          pitch = rotation around Y
          """
-         g = math.sqrt(ax*ax + ay*ay + az*az) + 1e-9
-         axn, ayn, azn = ax / g, ay / g, az / g
+         # Convert from m/s² to g (9.80665 m/s² = 1g)
+         ax_g = ax / 9.80665
+         ay_g = ay / 9.80665
+         az_g = az / 9.80665
+         
+         g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
+         axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
          roll  = math.atan2(ayn, azn)
          pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
-         return roll, pitch  
+         return roll, pitch
 
 3. **Baseline Orientation**
 
@@ -333,7 +347,7 @@ Here is the Python script for the gravity-referenced cube:
    - Set ``FLIP_X = True`` if roll feels reversed on the display  
    - Set ``FLIP_Y = True`` if pitch feels reversed  
 
-   This is helpful if your MPU6050 board is rotated or wired in a different orientation.
+   This is helpful if your IMU is rotated or wired in a different orientation.
 
 5. **Smoothing (EMA)**
 
@@ -421,7 +435,7 @@ Here is the Python script for the gravity-referenced cube:
             rdeg = math.degrees(roll)
             pdeg = math.degrees(pitch)
             draw.text((2, 2), f"R:{rdeg:+.0f}  P:{pdeg:+.0f}", font=font, fill=255)
-            # draw.text((2, 12), "Yaw: n/a (gravity only)", font=font, fill=255)
+
 
 
 
@@ -431,9 +445,8 @@ Here is the Python script for the gravity-referenced cube:
 
 - **Cube does not move**
 
-  - Check GY87 Module wiring (power, GND, SDA, SCL).  
   - Confirm I2C is enabled on Raspberry Pi.  
-  - Verify the correct I2C address is used by your MPU6050 driver.
+  - Verify the correct I2C address is used by your IMU driver.
 
 - **Motion looks reversed**
 
