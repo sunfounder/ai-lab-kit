@@ -37,6 +37,8 @@ OpenAI provides powerful models like **GPT-4o** and **GPT-4.1** that can be used
 
 Here's how to set it up:
 
+.. start_setup_openai
+
 **Get and Save your API Key**
 
 #. Go to |link_openai_platform| and log in. On the **API keys** page, click **Create new secret key**.
@@ -75,6 +77,9 @@ Here's how to set it up:
 #. Then go to the **Limits** page to check which models are available for your account and copy the exact model ID to use in your code.  
 
    .. image:: img/llm_openai_models.png
+
+
+.. end_setup_openai
 
 **Test with example code**
 

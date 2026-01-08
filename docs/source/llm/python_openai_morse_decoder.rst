@@ -75,44 +75,9 @@ Connect the components to the Raspberry Pi as follows:
 
 ----------------------------------------------
 
-**Get and Save your API Key**
-
-#. Go to |link_openai_platform| and log in. On the **API keys** page, click **Create new secret key**.
-
-   .. image:: img/llm_openai_create.png
-
-#. Fill in the details (Owner, Name, Project, and permissions if needed), then click **Create secret key**.
-
-   .. image:: img/llm_openai_create_confirm.png
-
-#. Once the key is created, copy it right away — you won't be able to see it again. If you lose it, you'll need to generate a new one.
-
-   .. image:: img/llm_openai_copy.png
-
-#. In your project folder (for example: ``~/ai-lab-kit/llm/``), ensure you have the ``secret.py`` file:
-
-   .. code-block:: bash
-   
-       cd ~/ai-lab-kit/llm
-       sudo nano secret.py
-
-#. Verify your key is in the file:
-
-   .. code-block:: python
-   
-       # secret.py
-       # Store secrets here. Never commit this file to Git.
-       OPENAI_API_KEY = "sk-xxx"
-
-**Enable billing and check models**
-
-#. Before using the key, go to the **Billing** page in your OpenAI account, add your payment details, and top up a small amount of credits.  
-
-   .. image:: img/llm_openai_billing.png
-
-#. Then go to the **Limits** page to check which models are available for your account and copy the exact model ID to use in your code.  
-
-   .. image:: img/llm_openai_models.png
+.. include:: python_online_llms.rst
+   :start-after: start_setup_openai
+   :end-before: end_setup_openai
 
 ----------------------------------------------
 

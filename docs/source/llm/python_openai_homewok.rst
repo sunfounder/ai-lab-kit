@@ -69,45 +69,9 @@ Assemble the pan-tilt module, camera module, and servo module as shown in :ref:`
 
 ----------------------------------------------
 
-
-**Get and Save your API Key**
-
-#. Go to |link_openai_platform| and log in. On the **API keys** page, click **Create new secret key**.
-
-   .. image:: img/llm_openai_create.png
-
-#. Fill in the details (Owner, Name, Project, and permissions if needed), then click **Create secret key**.
-
-   .. image:: img/llm_openai_create_confirm.png
-
-#. Once the key is created, copy it right away — you won't be able to see it again. If you lose it, you'll need to generate a new one.
-
-   .. image:: img/llm_openai_copy.png
-
-#. In your project folder (for example: ``/``), create a file called ``secret.py``:
-
-   .. code-block:: bash
-   
-       cd ~/ai-lab-kit/llm
-       sudo nano secret.py
-
-#. Paste your key into the file like this:
-
-   .. code-block:: python
-   
-       # secret.py
-       # Store secrets here. Never commit this file to Git.
-       OPENAI_API_KEY = "sk-xxx"
-
-**Enable billing and check models**
-
-#. Before using the key, go to the **Billing** page in your OpenAI account, add your payment details, and top up a small amount of credits.  
-
-   .. image:: img/llm_openai_billing.png
-
-#. Then go to the **Limits** page to check which models are available for your account and copy the exact model ID to use in your code.  
-
-   .. image:: img/llm_openai_models.png
+.. include:: python_online_llms.rst
+   :start-after: start_setup_openai
+   :end-before: end_setup_openai
 
 ----------------------------------------------
 
