@@ -32,7 +32,7 @@ The following components are required for this project:
         - PURCHASE LINK
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
-    *   - :ref:`cpn_10axis_imu`
+    *   - :ref:`cpn_10_axis_imu`
         - \-
     *   - :ref:`cpn_oled`
         - \-

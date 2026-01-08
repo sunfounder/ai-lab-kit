@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _py_stt_whisper:
+
 3. STT with Vosk (Offline)
 ==============================================
 

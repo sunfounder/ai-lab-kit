@@ -20,12 +20,10 @@ Here are the components required for this project:
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
-    *   - :ref:`cpn_10axis_imu`
+    *   - :ref:`cpn_10_axis_imu`
         - \-
     *   - Raspberry Pi
         - \-
-    *   - I2C Connection Cable
-        - |link_i2c_cable_buy|
 
 .. ----------------------------------------------
 

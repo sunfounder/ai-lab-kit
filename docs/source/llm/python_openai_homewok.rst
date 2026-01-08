@@ -41,11 +41,9 @@ The following components are required for this project:
     *   - Pan-Tilt
         - 
     *   - :ref:`cpn_camera_module`
-        - |link_camera_module_buy|
+        - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - :ref:`cpn_wires`
-        - |link_wires_buy|
     *   - Raspberry Pi
         - \-
     *   - Homework sample (printed or handwritten)

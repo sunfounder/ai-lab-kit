@@ -36,6 +36,10 @@ Here are some example project that you can try, there all are using the OpenAI A
 .. toctree:: 
     :maxdepth: 1
 
+    python_openai_health.rst 
+    python_openai_fan.rst 
+    python_openai_blindfolded_game.rst 
+    python_openai_morse_decoder.rst
     python_openai_lamp.rst 
     python_openai_book.rst 
     python_openai_pet.rst 
