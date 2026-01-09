@@ -1,3 +1,8 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
 .. _mp_pose_segmentation:
 
 9. Green Screen

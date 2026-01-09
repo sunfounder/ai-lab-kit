@@ -1,3 +1,7 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
 .. _py_ai_health_assistant:
 
 (Example) AI Health Assistant with Temperature Monitoring

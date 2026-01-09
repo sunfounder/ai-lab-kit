@@ -1,3 +1,7 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
 .. _play_with_opencv:
 
 Play with OpenCV (Computer Vision Basics)

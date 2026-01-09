@@ -1,3 +1,7 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
 .. _py_smart_weather_station:
 
 (Example) Smart Weather Station

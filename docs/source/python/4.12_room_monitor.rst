@@ -1,3 +1,8 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
 .. _py_room_monitor:
 
 4.12 Environment Monitor

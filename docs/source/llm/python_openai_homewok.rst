@@ -1,3 +1,7 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
 .. _py_homework_grading_demo:
 
 (Example) Homework Grading Demo with Pan-Tilt Camera

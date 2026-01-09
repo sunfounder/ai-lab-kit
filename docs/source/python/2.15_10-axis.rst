@@ -1,3 +1,9 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_10-axis:
+
 2.14 10-Axis IMU Sensor Module
 ===============================
 

@@ -1,3 +1,8 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
 .. _py_whack_a_mole:
 
 4.15 Whack-a-Mole Game

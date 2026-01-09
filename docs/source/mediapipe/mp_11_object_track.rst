@@ -1,3 +1,7 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
 .. _mp_tracking:
 
 11. Object Tracking with Pan-Tilt Camera
