@@ -87,7 +87,7 @@ Installation Steps
 
    .. code-block:: bash
 
-      pip install mediapipe --break
+      sudo pip install mediapipe --break
 
 
 #. **Verify the installation**
@@ -143,7 +143,7 @@ Common Issues & Solutions
 
   .. code-block:: bash
 
-     pip install --upgrade pip setuptools wheel
+     sudo pip install --upgrade pip setuptools wheel
 
 
 Your MediaPipe is now ready.  
