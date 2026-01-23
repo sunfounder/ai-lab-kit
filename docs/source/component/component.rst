@@ -91,4 +91,4 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_rotary_encoder_module
     ../_shared/component/cpn_dht11_module
     ../_shared/component/cpn_camera_module
-    ../_shared/component/cpn_gy87_module
+    ../_shared/component/cpn_10_axis_imu
