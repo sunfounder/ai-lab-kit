@@ -25,7 +25,14 @@ For the details of the assembly, please check the video below.
 
 .. raw:: html
 
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <iframe width="100%" 
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+</iframe>
 
 
 
@@ -118,4 +125,11 @@ For the details of the assembly, please check the video below.
 
 .. raw:: html
 
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/mDCNKVzNLkg?si=2gYJ1feopWgglekR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <iframe width="100%" 
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/mDCNKVzNLkg?si=2gYJ1feopWgglekR" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+</iframe>
