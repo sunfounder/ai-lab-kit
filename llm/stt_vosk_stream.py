@@ -1,4 +1,4 @@
-from fusion_hat.stt import STT
+from fusion_hat.stt import Vosk as STT
 
 stt = STT(language="en-us")
 

@@ -5,7 +5,7 @@ from secret import OPENAI_API_KEY
 # export OPENAI_API_KEY="sk-proj-xxxxxx"
 
 tts = OpenAI_TTS(api_key=OPENAI_API_KEY)
-tts.set_voice(tts.Voice.ALLOY)
+tts.set_voice('alloy')
 
 msg = "Hello! I'm OpenAI TTS."
 print(f"Say: {msg}")
