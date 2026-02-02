@@ -82,15 +82,16 @@ Open the terminal in VNC and enter the following command:
 
 .. code-block:: bash
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_tracking.py
+   sudo python3 ~/ai-lab-kit/mediapipe/mp_track_object.py
 
 .. note::
 
    Use ``sudo`` for GPIO/servo access. The script will:
-   1. Initialize servos to center (0°);
-   2. Start camera preview;
-   3. Begin tracking "banana" by default, you can change the object to track by modifying the ``object_name`` variable in the code;
-   4. Display tracking window with status.
+
+      1. Initialize servos to center (0°);
+      2. Start camera preview;
+      3. Begin tracking "banana" by default, you can change the object to track by modifying the ``object_name`` variable in the code;
+      4. Display tracking window with status.
 
 -----------------------------
 4. Code Implementation
