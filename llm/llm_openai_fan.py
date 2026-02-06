@@ -203,4 +203,8 @@ while True:
                 print("No speed change detected in response")
                 
         else:
+<<<<<<< HEAD
             print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
+=======
+            print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
+>>>>>>> 6d14a431b175d236c22c6a8115b97439b2abb9c1
