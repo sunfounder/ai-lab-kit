@@ -1,28 +1,54 @@
 #!/usr/bin/env python3
-from fusion_hat.modules import Rotary_Encoder
+"""
+Rotary Encoder (simple polling)
+- 1 physical detent (click) = 1 count
+- Clean output: updates on the same line (no repeated lines)
+"""
+
 from fusion_hat.pin import Pin, Mode, Pull
-from signal import pause  # Import pause function from signal module
+import time
 
+# GPIO pins (BCM numbering)
+CLK_PIN = 17
+DT_PIN  = 4
+SW_PIN  = 27
 
-# Initialize the rotary encoder and button (sw)
-encoder = Rotary_Encoder(clk=17, dt=4)  # Rotary Encoder connected to GPIO pins 17 (CLK) and 4 (DT)
-sw = Pin(27, mode=Mode.IN, pull=Pull.UP)  # Button (sw) connected to GPIO pin 27
+# Initialize pins with internal pull-ups
+clk = Pin(CLK_PIN, mode=Mode.IN, pull=Pull.UP)
+dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
+sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)  # Button is active LOW
 
+raw = 0                 # Raw quadrature transitions
+last_clk = clk.value()  # Previous CLK state
+last_detent = None      # Last displayed detent value
 
-def rotary_change():
-    """ Update the counter based on the rotary encoder's rotation. """
-    print('Counter =', encoder.steps())  # Display current counter value
+print("Rotate the knob. Press the button to reset. CTRL + C to exit.")
+try:
+    while True:
+        c = clk.value()
+        if c != last_clk:
+            # Direction: DT != CLK means one direction, else the other
+            raw += 1 if dt.value() != c else -1
 
-def reset_counter():
-    """ Reset the counter to zero when the button (sw) is pressed. """
-    encoder.reset()  # Reset the counter
-    print('Counter reset')  # Indicate counter reset
+            # Most encoders generate 2 transitions per detent (click)
+            detent = raw // 2
 
-# Set up event handlers for the rotary encoder and button (sw)
-encoder.when_rotated = rotary_change
-sw.when_activated = reset_counter
+            # Only update output when the detent value changes
+            if detent != last_detent:
+                print(f"\rCounter: {detent}   ", end="", flush=True)
+                last_detent = detent
 
+            last_clk = c
 
-# Run an event loop that waits for button (sw) events and keeps the script running
-print("CTRL + C to exit")
-pause()
+        # Reset when button is pressed
+        if sw.value() == 0:
+            raw = 0
+            detent = 0
+            print("\rCounter: 0   ", end="", flush=True)
+            last_detent = 0
+            time.sleep(0.25)  # Button debounce
+
+        time.sleep(0.001)  # Polling interval (1 ms)
+
+except KeyboardInterrupt:
+    print("\nExit")

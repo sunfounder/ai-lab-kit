@@ -3,9 +3,7 @@ import time
 import colorsys
 import board
 import neopixel_spi as neopixel
-from fusion_hat.modules import Rotary_Encoder
 from fusion_hat.pin import Pin, Mode, Pull
-from signal import pause
 
 # ---------------------------
 # NeoPixel (SPI) setup
@@ -25,60 +23,91 @@ strip.fill(0)
 strip.show()
 
 # ---------------------------
-# Rotary Encoder
+# Rotary Encoder (polling, stable)
 # ---------------------------
-# CLK -> GPIO17, DT -> GPIO4, SW -> GPIO27 (pull-up)
-encoder = Rotary_Encoder(clk=17, dt=4)
-sw = Pin(27, mode=Mode.IN, pull=Pull.UP)
+CLK_PIN = 17
+DT_PIN  = 4
+SW_PIN  = 27
 
-# You can tweak how many encoder steps you want per full hue cycle.
-# If your encoder has 24 'detents', 24 or 48 feel good.
-STEPS_PER_CYCLE = 120  # higher = finer control
+clk = Pin(CLK_PIN, mode=Mode.IN, pull=Pull.UP)
+dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
+sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)  # button active LOW
 
-_last_hue_idx = 0
+# How many "detents" (clicks) to complete a full hue cycle (0~360).
+# Bigger value = finer control.
+DETENTS_PER_CYCLE = 120
+
+# Many encoders generate 2 transitions per detent (sometimes 4).
+# If your counting feels too fast/too slow, try 2 or 4.
+TRANSITIONS_PER_DETENT = 2
+
+raw = 0
+last_clk = clk.value()
+last_detent = None
+last_hue_idx = None
 
 def hue_to_rgb(h: float):
     """h in [0.0, 1.0] -> (R, G, B) 0..255"""
     r, g, b = colorsys.hsv_to_rgb(h, 1.0, 1.0)
     return int(r * 255), int(g * 255), int(b * 255)
 
-def apply_color_from_steps(steps: int):
-    global _last_hue_idx
-    # Map steps to [0..STEPS_PER_CYCLE-1]
-    hue_idx = steps % STEPS_PER_CYCLE
-    if hue_idx == _last_hue_idx:
-        return  # no visual update needed
-    _last_hue_idx = hue_idx
+def apply_color_from_detent(detent: int):
+    """Update LED color only when detent changes."""
+    global last_hue_idx
 
-    hue = hue_idx / STEPS_PER_CYCLE  # 0.0..1.0
+    hue_idx = detent % DETENTS_PER_CYCLE
+    if hue_idx == last_hue_idx:
+        return
+
+    last_hue_idx = hue_idx
+    hue = hue_idx / DETENTS_PER_CYCLE
     color = hue_to_rgb(hue)
 
     strip.fill(color)
     strip.show()
-    print(f"Hue: {int(hue * 360)}°, Steps: {steps}, Color: {color}")
 
-def rotary_change():
-    apply_color_from_steps(encoder.steps())
+    # Print compact info (optional)
+    print(f"\rHue: {int(hue * 360):3d}°  Detent: {detent:6d}  RGB: {color}   ", end="", flush=True)
 
-def reset_counter():
-    encoder.reset()
-    apply_color_from_steps(0)
-    print("Counter reset (Hue -> 0°)")
-
-# Event bindings
-encoder.when_rotated = rotary_change
-sw.when_activated = reset_counter
+def reset_all():
+    """Reset counter and hue to 0."""
+    global raw, last_detent, last_hue_idx
+    raw = 0
+    last_detent = 0
+    last_hue_idx = None
+    apply_color_from_detent(0)
 
 # Initialize to 0°
-apply_color_from_steps(0)
+reset_all()
+print("\nRotate to change hue. Press button to reset. CTRL+C to exit.")
 
-print("Rotate to change hue. Press button to reset. CTRL+C to exit.")
 try:
-    pause()
+    while True:
+        c = clk.value()
+        if c != last_clk:
+            # Direction: DT != CLK means one direction, else the other
+            raw += 1 if dt.value() != c else -1
+
+            detent = raw // TRANSITIONS_PER_DETENT
+            if detent != last_detent:
+                last_detent = detent
+                apply_color_from_detent(detent)
+
+            last_clk = c
+
+        # Button reset (active LOW)
+        if sw.value() == 0:
+            reset_all()
+            # debounce + wait release
+            time.sleep(0.05)
+            while sw.value() == 0:
+                time.sleep(0.01)
+
+        time.sleep(0.001)
+
 except KeyboardInterrupt:
     pass
 finally:
-    # Turn off LEDs on exit
     strip.fill(0)
     strip.show()
-    print("Exited and cleared LEDs.")
+    print("\nExited and cleared LEDs.")

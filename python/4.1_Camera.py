@@ -1,59 +1,103 @@
 #!/usr/bin/env python3
 
+import os
+import time
+import threading
 from picamera2 import Picamera2, Preview
 from fusion_hat.pin import Pin, Mode, Pull
-import time
-import os
 
-# Get the current user's login name and home directory
-user = os.getlogin()
-user_home = os.path.expanduser(f'~{user}')
+# Resolve the correct user's home directory (works with sudo)
+REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+USER_HOME = f"/home/{REAL_USER}"
+PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
+os.makedirs(PICTURES_DIR, exist_ok=True)
 
-# Initialize the camera
+# Initialize camera
 camera = Picamera2()
-camera.start()
+camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
 
-# Initialize a variable to track the camera's status
-global status
-status = False
+# Photo counter with thread safety
+photo_index = 1
+photo_lock = threading.Lock()
 
-# Set up LED and button with their GPIO pin numbers
+# Track whether preview was started successfully
+preview_started = False
+
+# Initialize LED and button
 led = Pin(17, mode=Mode.OUT)
 button = Pin(4, mode=Mode.IN, pull=Pull.DOWN)
 
-def takePhotos(pin):
-    """Function to set the camera's status to True when the button is pressed."""
-    global status
-    status = True
+def take_photo():
+   """Capture one photo and increment the index."""
+   global photo_index
+   with photo_lock:
+      filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
+      print(f"\nCapturing: {filepath}")
+      camera.capture_file(filepath)
+      print("Saved.")
+      photo_index += 1
 
-try:
-    # Assign the function to be called when the button is pressed
-    button.when_activated = takePhotos
-    
-    # Main loop
-    while True:
-        # Check if the button has been pressed
-        if status:
-            # Blink the LED five times
-            for i in range(5):
-                led.on()
-                time.sleep(0.1)
-                led.off()
-                time.sleep(0.1)
-            # Capture and save a photo
-            camera.capture_file(f'{user_home}/my_photo.jpg')
-            print('Take a photo!')          
-            # Reset the status
-            status = False
-        else:
-            # Turn off the LED if not capturing
+def main():
+   global preview_started
+
+   # Start preview only when a GUI display is available (remote SSH often has no DISPLAY)
+   preview_started = False
+   if os.getenv("DISPLAY"):
+      try:
+            camera.start_preview(Preview.QT)
+            preview_started = True
+      except Exception as e:
+            preview_started = False
+            print(f"Preview start failed (continue without preview): {e}")
+   else:
+      print("No DISPLAY detected (running headless without preview).")
+
+   camera.start()
+
+   print("Camera is running.")
+   print("Press the button to take a photo.")
+   print(f"Photos will be saved to: {PICTURES_DIR}")
+   print("Press Ctrl+C to exit.\n")
+
+   try:
+      while True:
+            if button.value():         # Button pressed (HIGH)
+               led.on()               # LED on
+               take_photo()           # Take photo
+               time.sleep(0.3)        # Simple debounce (avoid multiple shots)
+               while button.value():  # Wait until button is released
+                  time.sleep(0.01)
+               led.off()              # LED off after release
+
+            time.sleep(0.01)
+
+   except KeyboardInterrupt:
+      print("\nExiting...")
+
+   finally:
+      # Turn off LED
+      try:
             led.off()
-        
-        # Wait for a short period before checking the button status again
-        time.sleep(1)
+      except Exception:
+            pass
 
-except KeyboardInterrupt:
-    # Stop the camera and turn off the LED if a KeyboardInterrupt occurs
-    camera.stop_preview()
-    led.off()
-    pass
+      # Stop the camera first
+      try:
+            camera.stop()
+      except Exception:
+            pass
+
+      # Stop preview only if it was started
+      if preview_started:
+            try:
+               camera.stop_preview()
+            except Exception:
+               pass
+
+      try:
+            camera.close()
+      except Exception:
+            pass
+
+if __name__ == "__main__":
+   main()

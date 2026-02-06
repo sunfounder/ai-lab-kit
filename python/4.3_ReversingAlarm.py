@@ -4,45 +4,57 @@ import time
 from fusion_hat.modules import Ultrasonic, Buzzer
 from fusion_hat.pin import Pin
 
-# Trigger pin is connected to GPIO 27, Echo pin to GPIO 22
+# Ultrasonic sensor: Trig -> GPIO 27, Echo -> GPIO 22
 sensor = Ultrasonic(trig=Pin(27), echo=Pin(22))
 
-# Initialize the buzzer connected to GPIO pin 17
+# Buzzer connected to GPIO 17
 buzzer = Buzzer(Pin(17))
 
-
-def distance():
-    # Calculate and return the distance measured by the sensor
-    dis = sensor.read() # Convert distance to centimeters
-    print('Distance: {:.2f} cm'.format(dis))  # Print distance with two decimal places
-    time.sleep(0.3)  # Wait for 0.3 seconds before next measurement
+def get_distance():
+    """
+    Read distance from ultrasonic sensor and print it.
+    Returns distance in centimeters.
+    """
+    dis = sensor.read()
+    print(f"Distance: {dis:.2f} cm")
     return dis
 
-def loop():
-    # Continuously measure distance and update buzzer
-    while True:
-        dis = distance()  # Get the current distance
 
-        # Adjust buzzer frequency based on distance
+def beep(times, on_time, off_time):
+    """
+    Make the buzzer beep with given timing.
+    """
+    for _ in range(times):
+        buzzer.on()
+        time.sleep(on_time)
+        buzzer.off()
+        time.sleep(off_time)
+
+
+def loop():
+    """
+    Continuously measure distance and control buzzer frequency.
+    """
+    while True:
+        dis = get_distance()
+
         if dis >= 50:
+            # Far distance: buzzer silent
             time.sleep(0.5)
+
         elif 20 < dis < 50:
-            # Medium distance: medium buzzer frequency
-            for _ in range(2):
-                buzzer.on()
-                time.sleep(0.05)
-                buzzer.off()
-                time.sleep(0.2)
-        elif dis <= 20:
-            # Close distance: high buzzer frequency
-            for _ in range(5):
-                buzzer.on()
-                time.sleep(0.05)
-                buzzer.off()
-                time.sleep(0.05)
+            # Medium distance: slow beeping
+            beep(times=2, on_time=0.05, off_time=0.2)
+
+        else:
+            # Close distance (<= 20 cm): fast beeping
+            beep(times=5, on_time=0.05, off_time=0.05)
+
+        time.sleep(0.3)  # Measurement interval
+
 
 try:
-    loop()      # Start the measurement loop
+    loop()
 except KeyboardInterrupt:
-    # Turn off buzzer (e.g., Ctrl+C)
     buzzer.off()
+    print("\nProgram stopped, buzzer turned off.")

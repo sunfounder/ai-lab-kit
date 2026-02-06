@@ -13,7 +13,7 @@ led2 = Pin(27,mode=Mode.OUT)
 try:
       # Continuously monitor the state of the reed switch and control LEDs accordingly
       while True:
-         if reed.value() == 1:  # Check if the reed switch is activated
+         if reed.value() == 0:  # Check if the reed switch is activated
             led1.off()  # Turn off LED1
             led2.on()   # Turn on LED2
          else:  # If the sensor is not activated

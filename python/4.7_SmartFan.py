@@ -3,102 +3,96 @@
 from fusion_hat.motor import Motor
 from fusion_hat.pin import Pin, Mode, Pull
 from fusion_hat.adc import ADC
-from time import sleep
+from time import sleep, time
 import math
 
-# Initialize GPIO pins for the button and motor control
 BtnPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
-motor = Motor('M0')
-thermistor = ADC('A3')
+motor = Motor("M0")
+thermistor = ADC("A3")
 
-# Initialize variables to track the motor speed level and temperatures
 level = 0
-currentTemp = 0
-markTemp = 0
+currentTemp = None
+markTemp = None
 
-def temperature():
-    """
-    Reads and calculates the current temperature from the sensor.
-    Returns:
-        float: The current temperature in Celsius.
-    """
-    # Read analog value from the thermistor
-    analogVal = thermistor.read()
-    # Convert analog value to voltage and then to resistance
-    Vr = 3.3 * float(analogVal) / 4095
-    if 3.3 - Vr <= 0.1:
-        print("Please check the sensor")
-        return None
-    Rt = 10000 * Vr / (3.3 - Vr)
-    # Calculate temperature in Celsius
-    temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25)))
-    Cel = temp - 273.15
-    return Cel
+PRINT_INTERVAL = 1.0
+_last_print = 0.0
 
-def motor_run(level):
-    """
-    Adjusts the motor speed based on the specified level.
-    Args:
-        level (int): Desired motor speed level.
-    Returns:
-        int: Adjusted motor speed level.
-    """
-    # Stop the motor if the level is 0
-    if level == 0:
-        motor.speed(0)
-        return 0
-    # Cap the level at 4 for maximum speed
-    if level >= 4:
-        level = 4
-    # Set the motor speed
-    motor.speed(level*25)
-    return level
+button_event = False  # flag: button was pressed
+
+def temperature(samples=5, delay=0.01):
+    """Read thermistor multiple times and return averaged Celsius (float) or None."""
+    vals = []
+    for _ in range(samples):
+        analogVal = thermistor.read()
+        Vr = 3.3 * float(analogVal) / 4095.0
+        if (3.3 - Vr) <= 0.1:
+            return None
+        Rt = 10000.0 * Vr / (3.3 - Vr)
+        tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+        vals.append(tempK - 273.15)
+        sleep(delay)
+    return sum(vals) / len(vals)
+
+def motor_run(lv):
+    lv = max(0, min(4, lv))
+    motor.power(0 if lv == 0 else lv * 25)
+    return lv
 
 def changeLevel():
-    """
-    Changes the motor speed level when the button is pressed and updates the reference temperature.
-    """
-    global level, currentTemp, markTemp
-    
-    # Cycle through levels 0-4
+    """Button press: cycle level 0~4 and set a flag for main loop to print."""
+    global level, button_event
     level = (level + 1) % 5
-    print("Button pressed, level changed to:", level)
-    # Update the reference temperature
-    markTemp = currentTemp
+    button_event = True
 
-# Bind the button press event to changeLevel function
 BtnPin.when_activated = changeLevel
 
 def main():
-    """
-    Main function to continuously monitor and respond to temperature changes.
-    """
-    global level, currentTemp, markTemp
-    # Set initial reference temperature
+    global level, currentTemp, markTemp, _last_print, button_event
+
     markTemp = temperature()
     while True:
-        # Continuously read current temperature
         currentTemp = temperature()
-        if currentTemp == None:
+        if currentTemp is None:
+            print("Sensor read failed. Please check the sensor.")
+            sleep(0.5)
             continue
-        # Adjust motor level based on temperature difference
+
+        # Handle button event in main loop (stable timing)
+        if button_event:
+            button_event = False
+            markTemp = currentTemp
+            print(f"[Button] Level -> {level} | Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C")
+
+        # Periodic temperature print
+        now = time()
+        if now - _last_print >= PRINT_INTERVAL:
+            if markTemp is None:
+                markTemp = currentTemp
+            print(f"Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C | Level: {level}")
+            _last_print = now
+
+        # Auto adjust level based on ±5°C
+        if markTemp is None:
+            markTemp = currentTemp
+
         if level != 0:
-            if currentTemp - markTemp <= -5:
-                level -= 1
+            diff = currentTemp - markTemp
+            if diff <= -5:
+                level = max(0, level - 1)
                 markTemp = currentTemp
-                print("Temperature decreased, level changed to:", level," ,temperature:",currentTemp)
-            elif currentTemp - markTemp >= 5:
-                if level < 4:
-                    level += 1
+                print(f"[Auto] Temp down -> Level {level} (Temp: {currentTemp:.2f} °C)")
+            elif diff >= 5:
+                level = min(4, level + 1)
                 markTemp = currentTemp
-                print("Temperature increased, level changed to:", level," ,temperature:",currentTemp)
-        # Run the motor at the adjusted level
+                print(f"[Auto] Temp up   -> Level {level} (Temp: {currentTemp:.2f} °C)")
+
         level = motor_run(level)
         sleep(0.5)
 
-# Run the main function and handle KeyboardInterrupt
 try:
     main()
 except KeyboardInterrupt:
-    # Stop the motor when the script is interrupted
-    motor.speed(0)
+    print("\nExiting...")
+finally:
+    motor.stop()
+    sleep(0.1)

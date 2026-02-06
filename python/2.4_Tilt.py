@@ -12,7 +12,7 @@ def detect():
     Turns on the red LED and turns off the green LED when tilted.
     Turns off the red LED and turns on the green LED when not tilted.
     """
-    if TiltPin.value() == 1:  # Check if the sensor is tilted
+    if TiltPin.value() == 0:  # Check if the sensor is tilted
         print('    *************')
         print('    *   Tilt!   *')
         print('    *************')

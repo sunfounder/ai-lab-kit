@@ -18,50 +18,69 @@ MORSECODE = {
     '!': '101011', '@': '011010', ':': '111000',
 }
 
+# Timing (seconds)
+UNIT = 0.25                 # base unit
+DOT = UNIT / 2              # dot length
+DASH = UNIT                 # dash length
+INTRA_SYMBOL_GAP = UNIT / 2 # gap between dot/dash in one letter
+LETTER_GAP = UNIT           # gap between letters
+WORD_GAP = UNIT * 2         # gap between words (space)
+
 def on():
-    """ Turn on the buzzer and LED. """
+    """Turn on the buzzer and LED."""
     BeepPin.on()
     ALedPin.on()
 
 def off():
-    """ Turn off the buzzer and LED. """
+    """Turn off the buzzer and LED."""
     BeepPin.off()
     ALedPin.off()
 
-def beep(dt):  # dt for delay time.
-    """
-    Produce a beep sound and LED flash for the specified duration.
-    :param dt: Duration for the beep and flash.
-    """
+def beep(duration):
+    """Beep (and flash LED) for 'duration' seconds."""
     on()
-    time.sleep(dt)
+    time.sleep(duration)
     off()
-    time.sleep(dt)
 
-def morsecode(code):
+def play_symbol(symbol):
+    """Play one morse symbol: '0' (dot) or '1' (dash)."""
+    if symbol == '0':
+        beep(DOT)
+    elif symbol == '1':
+        beep(DASH)
+    time.sleep(INTRA_SYMBOL_GAP)
+
+def morsecode(text):
     """
-    Convert the input code into Morse code and signal it using the buzzer and LED.
-    :param code: The text to be converted to Morse code.
+    Convert text to Morse code and output via buzzer+LED.
+    Supports spaces between words and ignores unsupported characters.
     """
-    pause = 0.25
-    for letter in code:
-        for tap in MORSECODE[letter]:
-            if tap == '0':
-                beep(pause / 2)  # Short beep for dot
-            if tap == '1':
-                beep(pause)      # Long beep for dash
-        time.sleep(pause)  # Pause between letters
+    for ch in text:
+        if ch == ' ':
+            # Space means word gap
+            time.sleep(WORD_GAP)
+            continue
+
+        # Skip unsupported characters instead of crashing
+        if ch not in MORSECODE:
+            continue
+
+        pattern = MORSECODE[ch]
+        for sym in pattern:
+            play_symbol(sym)
+
+        # Pause between letters
+        time.sleep(LETTER_GAP)
 
 def destroy():
-    """ Clean up resources on script termination. """
-    print("")
+    """Ensure buzzer and LED are turned off."""
     BeepPin.off()
     ALedPin.off()
+    print("")
 
 try:
     while True:
-        code = input("Please input the messenger:")
-        code = code.upper()  # Convert to uppercase for Morse code lookup
+        code = input("Please input the messenger:").upper()
         print(code)
         morsecode(code)
 except KeyboardInterrupt:
