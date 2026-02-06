@@ -47,22 +47,6 @@ To complete this project, you will need the following components:
 
 **Setup Steps**
 
-.. #. Create and activate an isolated environment for this project:
-
-..    .. raw:: html
-   
-..       <run></run>
-   
-..    .. code-block:: shell
-
-..       cd ~
-..       python3 -m venv 1.9_ws2812_env --system-site-packages
-..       source 1.9_ws2812_env/bin/activate
-
-..    .. note:: 
-   
-..       For each different project, you need to create a new virtual environment and install the necessary libraries. This is to avoid conflicts between different projects.
-
 #. Before running the code, you need to install the required library:
 
    This library provides the necessary functions to control NeoPixel LEDs using SPI communication.
@@ -73,8 +57,7 @@ To complete this project, you will need the following components:
    
    .. code-block:: shell
    
-      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages
-   
+        sudo pip3 install adafruit-circuitpython-neopixel-spi --break
 
 #. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
 
@@ -101,6 +84,10 @@ To complete this project, you will need the following components:
 **Code**
 
 The following Python code controls a NeoPixel LED strip, cycling through different colors:
+
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 
@@ -247,7 +234,11 @@ Troubleshooting
   - **Cause:** Missing dependency  
   - **Solution:**
   
-  .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
       sudo pip3 install adafruit-circuitpython-neopixel-spi --break
 

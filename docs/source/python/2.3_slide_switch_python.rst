@@ -90,6 +90,22 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.3_SlideSwitch.py 
 
+This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT+. When executed:
+
+1. **Slide Switch Activated**:
+
+   - Turns off LED1 (connected to GPIO pin 22).
+   - Turns on LED2 (connected to GPIO pin 27).
+
+2. **Slide Switch Not Activated**:
+
+   - Turns on LED1.
+   - Turns off LED2.
+
+3. The program continuously checks the state of the slide switch every 0.5 seconds and adjusts the LEDs accordingly.
+
+4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+
 ----------------------------------------------
 
 **Code**
@@ -132,21 +148,6 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
       # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
       pass
 
-This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT+. When executed:
-
-1. **Slide Switch Activated**:
-
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
-
-2. **Slide Switch Not Activated**:
-
-   - Turns on LED1.
-   - Turns off LED2.
-
-3. The program continuously checks the state of the slide switch every 0.5 seconds and adjusts the LEDs accordingly.
-
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
 
 
 

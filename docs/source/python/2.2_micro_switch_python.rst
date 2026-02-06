@@ -45,7 +45,7 @@ To complete this project, you will need the following components:
 
 **Circuit Diagram**
 
-The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 and GPIO27. When the Micro Switch is pressed, the yellow LED lights up; when released, the red LED turns on.
+The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 and GPIO27. When the Micro Switch is pressed, the red LED lights up; when released, the yellow LED turns on.
 
 
 .. image:: img/fzz/2.1.2_sch.png
@@ -87,6 +87,22 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.2_MicroSwitch.py
 
+This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
+
+1. **Micro Switch Pressed**:
+
+   - LED1 (connected to GPIO pin 22) turns on.
+   - LED2 (connected to GPIO pin 27) turns off.
+
+2. **Micro Switch Released**:
+
+   - LED1 turns off.
+   - LED2 turns on.
+
+3. The program continuously checks the micro switch's state every 0.5 seconds and adjusts the LEDs accordingly.
+
+4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+
 ----------------------------------------------
 
 **Code**
@@ -127,21 +143,6 @@ The following Python code toggles between two LEDs based on the state of the Mic
       # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
       pass
 
-This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
-
-1. **Micro Switch Pressed**:
-
-   - LED1 (connected to GPIO pin 22) turns on.
-   - LED2 (connected to GPIO pin 27) turns off.
-
-2. **Micro Switch Released**:
-
-   - LED1 turns off.
-   - LED2 turns on.
-
-3. The program continuously checks the micro switch's state every 0.5 seconds and adjusts the LEDs accordingly.
-
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
 
 
 ----------------------------------------------

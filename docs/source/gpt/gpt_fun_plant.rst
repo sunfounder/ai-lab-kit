@@ -46,8 +46,6 @@ The following components are required for this project:
         - |link_photoresistor_buy|
     *   - :ref:`cpn_humiture_sensor`
         - |link_humiture_buy|
-    *   - :ref:`cpn_soil_moisture`
-        - |link_soil_moisture_buy|
     *   - :ref:`cpn_fusion_hat`
         - 
     *   - Raspberry Pi

@@ -13,7 +13,7 @@ Now, let’s take a big step forward and try two **more advanced TTS options** t
 * **Piper** — a fast, neural network–based TTS engine that runs **completely offline** on Raspberry Pi.  
 * **OpenAI TTS** — an online service that provides **very natural and human-like voices**, perfect for expressive speech.
 
-These engines will make your Fusion HAT+ sound more realistic and lifelike. 🚀
+These engines will make your Fusion HAT+ sound more realistic and lifelike.
 
 ----
 

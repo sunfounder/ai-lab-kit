@@ -81,6 +81,7 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.2_RGBLED.py 
 
+After running the program, the RGB LED lights up red, then green, then purple, each for 1 second, and finally turns off. Pressing ``Ctrl + C`` will also turn the LED off.
 
 ----------------------------------------------
 

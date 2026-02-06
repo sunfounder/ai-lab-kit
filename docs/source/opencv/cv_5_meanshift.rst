@@ -8,11 +8,8 @@
 MeanShift is a classic histogram-based object tracking algorithm.  
 In this lesson, we’ll not only implement a complete **MeanShift tracking** example, but also explain **why** each step is taken and **what’s happening under the hood**.
 
-
-
-
 1. What is MeanShift?
----------------------
+-------------------------
 
 MeanShift iteratively shifts a window according to probability density to **find the most likely location of the target**.
 
@@ -28,264 +25,268 @@ This process doesn’t rely on deep learning and requires no pre-training—it�
 2. Run the Code
 ------------------------
 
+.. important::
 
+   Before you start, make sure:
 
-Please make sure that:
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
+   For detailed instructions, see :ref:`opencv_install`.
 
-Open the terminal in VNC and enter the following command:
+#. Open the terminal and enter the following command:
 
+   .. code-block:: bash
 
+      cd ~/ai-lab-kit/opencv_python
+      python3 cv_5_meanshift.py
 
-.. code-block:: bash
+#. When you run the program, an OpenCV window named **MeanShift Tracker** will appear and start playing the video file ``sample2.mp4``.  
 
-   cd ~/ai-lab-kit/opencv_python
-   python3 cv_meanshift.py
-
+   A green rectangle will be drawn around the target object and updated in real time using the MeanShift tracking algorithm.
+   
+   The tracking window will move as the object moves in the video.
+   
+   You can exit the program in two ways:
+   
+   * Press the **q** key on the keyboard  
+   * Close the window by clicking the close button (X)  
+   
+   After exiting, the video playback stops and all OpenCV windows are closed.
 
 3. Complete Code
-----------------
+-----------------------
 
-Below is the full MeanShift tracking script (``cv_meanshift.py``):
+Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
 
 .. code-block:: python
-
-   # Python program to demonstrate
-   # meanshift 
 
    import numpy as np
    import cv2
 
-   # read video
-   cap = cv2.VideoCapture('sample2.mp4')
-   
-   # Retrieve the first frame from the video
+   cap = cv2.VideoCapture("sample2.mp4")
+
+   # Read the first frame
    ret, frame = cap.read()
+   if not ret:
+      raise RuntimeError("Cannot read the video file.")
 
-   # Set the initial region for tracking window (x, y, width, height)
-   # Adjust these values according to your needs
-   x, y, w, h = 80,100, 80, 80 
+   # Initial tracking window (x, y, w, h)
+   x, y, w, h = 80, 100, 80, 80
    track_window = (x, y, w, h)
 
-   # Create the region of interest
-   roi = frame[y:y+h, x:x+w]
+   # Convert the first frame to HSV
+   hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-   # converting BGR to HSV format
-   hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-   
-   # apply mask on the HSV frame
-   mask = cv2.inRange(hsv, np.array((0., 61., 33.)), np.array((180., 255., 255.)))
+   # Extract ROI in HSV (ONLY the selected area)
+   roi_hsv = hsv_frame[y:y+h, x:x+w]
 
-   # get histogram for hsv channel
-   roi = cv2.calcHist([hsv], [0], mask, [180], [0, 180])
+   # Create a mask for ROI (filter out low saturation/value pixels)
+   roi_mask = cv2.inRange(
+      roi_hsv,
+      np.array((0, 61, 33), dtype=np.uint8),
+      np.array((180, 255, 255), dtype=np.uint8)
+   )
 
-   # normalize the retrieved values
-   cv2.normalize(roi, roi, 0, 255, cv2.NORM_MINMAX)
-   
-   # termination criteria, either 15 
-   # iteration or by at least 2 pt
-   termination = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 15, 2 )
-   
-   while(True):
-      start_time = cv2.getTickCount()
-      ret, frame = cap.read()
-      
-      if not ret:
-         cap.set(cv2.CAP_PROP_POS_FRAMES,0)
-         continue
+   # Compute histogram of ROI (Hue channel)
+   roi_hist = cv2.calcHist([roi_hsv], [0], roi_mask, [180], [0, 180])
 
-      # convert BGR to HSV format
-      hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-      
-      bp = cv2.calcBackProject([hsv], [0], roi, [0, 180], 1)
-   
-      # applying meanshift to get the new region
-      ret, track_window = cv2.meanShift(bp, track_window, termination)
-   
-      # Draw track window on the frame
-      x, y, w, h = track_window
-      frame = cv2.rectangle(frame, (x, y), (x + w, y + h), 255, 2)
-      
-      # Display tracking information
-      cv2.putText(frame, 'MeanShift Tracker', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-      
-      # show results
-      cv2.imshow('MeanShift Tracker', frame)
-   
-      # Calculate delay to maintain desired FPS
-      expected_delay = max(1, int(1000 / cap.get(cv2.CAP_PROP_FPS)))
-      process_time = (cv2.getTickCount() - start_time) / cv2.getTickFrequency()
-      delay = int(expected_delay - process_time)
-      
-      # Ensure delay is non-negative
-      delay = max(0, delay)
-
-      # Wait for the next frame
-      k = cv2.waitKey(delay) & 0xff
-      if k == ord('q'):
-         break
-         
-   # release cap object
-   cap.release()
-
-   # destroy all opened windows
-   cv2.destroyAllWindows()
-
-4. Results
------------------------------
-
-When you run the program, you’ll see:
-
-- A rectangle locked on the target region  
-- The rectangle moves as the target moves  
-- The algorithm estimates the target location via color probability distribution  
-- Press ``q`` to quit
-
-
-5. Explanation
----------------------------
-
-1. Define the initial tracking region
-
-.. code-block:: python
-
-   x, y, w, h = 215, 295, 20, 20
-   track_window = (x, y, w, h)
-   roi = frame[y:y+h, x:x+w]
-
-This tells the algorithm the **initial target location**.  
-MeanShift doesn’t “auto-detect” the target—it relies on an **initial window** you provide (e.g., a ball, an object, or a face).
-
-2. Convert to HSV color space
-
-.. code-block:: python
-
-   hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-HSV is well-suited for color-based tasks because the Hue (H) component is relatively stable under lighting changes.  
-
-Examples: Red ≈ 0, Green ≈ 60, Blue ≈ 120.
-
-3. Filter colors with ``cv2.inRange``
-
-.. code-block:: python
-
-   mask = cv2.inRange(hsv, np.array((0., 61., 33.)), np.array((180., 255., 255.)))
-
-**This is a key step!**
-
-What ``cv2.inRange`` does:
-
-- Iterate over every pixel in the HSV image  
-- Check whether each pixel’s HSV value lies within the given range  
-- If yes → the corresponding pixel in the mask is **white (255)**  
-- If no → it’s **black (0)**
-
-This is essentially “color filtering.”
-
-.. image:: img/opencv_meanshift_mask.png
-   :alt: Before/after inRange illustration
-   :align: center
-
-The HSV range here is:
-
-* H 0–180 → covers the entire hue range: effectively no hue restriction; any color can be selected.
-* S 61–255 → removes very low-saturation colors (near gray/white): keeps vivid colors (red/green/blue/yellow, etc.).
-* V 33–255 → removes very dark pixels: excludes near-black regions.
-
-So it selects regions that are colorful and sufficiently bright, excluding dark and grayish parts.
-
-If you want to track a specific color or exclude certain colors, adjust the HSV range, e.g.:
-
-.. code-block:: python
-
-   # Red
-   lower = np.array([0, 120, 70])
-   upper = np.array([10, 255, 255])
-   mask = cv2.inRange(hsv, lower, upper)
-
-.. code-block:: python
-
-   # Green
-   lower = np.array([50, 100, 100])
-   upper = np.array([70, 255, 255])
-   mask = cv2.inRange(hsv, lower, upper)
-
-.. code-block:: python
-
-   # Blue
-   lower = np.array([110, 50, 50])
-   upper = np.array([130, 255, 255])
-   mask = cv2.inRange(hsv, lower, upper)
-
-
-4. Compute the ROI color histogram
-
-.. code-block:: python
-
-   roi_hist = cv2.calcHist([hsv], [0], mask, [180], [0, 180])
-
-We need to tell MeanShift “what the target looks like.”  
-Here we extract the target’s color features by computing the **Hue-channel histogram** over the target region.
-
-The mask also matters here: it ensures the histogram is computed only from the color of interest, not the entire image.
-
-
-5. Normalize the histogram
-
-.. code-block:: python
-
+   # Normalize histogram for better tracking
    cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
 
-Normalization scales histogram values into a consistent range (0–255), improving robustness against lighting or size changes and stabilizing the subsequent matching.
+   # Termination criteria: max 15 iterations or move by at least 2 pixels
+   termination = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 15, 2)
 
+   # FPS settings (fallback if FPS is unavailable)
+   fps = cap.get(cv2.CAP_PROP_FPS)
+   if not fps or fps <= 1e-3:
+      fps = 30.0
+   delay_ms = int(1000 / fps)
 
-6. Back projection
+   WINDOW_NAME = "MeanShift Tracker"
 
-.. code-block:: python
+   while True:
+      ret, frame = cap.read()
 
-   back_proj = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], 1)
+      # Loop video
+      if not ret:
+         cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+         continue
 
-This is the heart of MeanShift.  
-It produces a “probability map”:
+      # Convert frame to HSV
+      hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-- White → pixel color is very similar to the target  
-- Black → not similar
+      # Back projection: probability map of where the ROI histogram appears in the frame
+      bp = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], scale=1)
 
-Think of it as: “On this map, the target is most likely where it’s white.”
+      # Apply meanShift to update tracking window
+      _, track_window = cv2.meanShift(bp, track_window, termination)
 
-.. image:: img/opencv_meanshift_bp.png
-   :alt: Back projection visualization
-   :align: center
+      # Draw tracking window
+      x, y, w, h = track_window
+      cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+      cv2.putText(frame, "MeanShift Tracker", (10, 30),
+                  cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-7. Run MeanShift
+      cv2.imshow(WINDOW_NAME, frame)
 
-.. code-block:: python
+      # Handle keyboard input and GUI events
+      key = cv2.waitKey(delay_ms) & 0xFF
+      if key == ord("q"):
+         break
 
-   ret, track_window = cv2.meanShift(back_proj, track_window, termination)
+      # Exit if window is closed
+      if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+         break
 
-On this probability map, MeanShift starts from the initial ``track_window``,  
-continually computes the “center of mass” of colors within the window, and moves the window there,  
-eventually converging on the target area.
+   cap.release()
+   cv2.destroyAllWindows()
 
-That’s how it “follows the color.”
+4. Explanation
+---------------------------
 
+#. Open the video file:
 
-8. Draw the rectangle
+   .. code-block:: python
 
-.. code-block:: python
+      cap = cv2.VideoCapture("sample2.mp4")
 
-   x, y, w, h = track_window
-   cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+   This creates a video capture object so OpenCV can read frames from the file.
 
-This visualizes the tracking result with a rectangle that moves with the target.
+#. Read the first frame and make sure it works:
 
+   .. code-block:: python
 
-6. MeanShift vs. CAMShift
--------------------------
+      ret, frame = cap.read()
+      if not ret:
+          raise RuntimeError("Cannot read the video file.")
+
+   MeanShift tracking needs an initial frame to learn what to track.
+
+#. Set the initial tracking window (the object you want to track):
+
+   .. code-block:: python
+
+      x, y, w, h = 80, 100, 80, 80
+      track_window = (x, y, w, h)
+
+   This rectangle is the starting position of the target (ROI).  
+   You usually adjust these values to match the object in the first frame.
+
+#. Convert the first frame to HSV and extract the ROI:
+
+   .. code-block:: python
+
+      hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+      roi_hsv = hsv_frame[y:y+h, x:x+w]
+
+   HSV is commonly used for tracking because the Hue channel describes color more consistently than RGB/BGR.
+
+#. Build a mask to ignore weak/invalid pixels in the ROI:
+
+   .. code-block:: python
+
+      roi_mask = cv2.inRange(
+          roi_hsv,
+          np.array((0, 61, 33), dtype=np.uint8),
+          np.array((180, 255, 255), dtype=np.uint8)
+      )
+
+   This filters out pixels with very low saturation/value (often shadows or noise), improving tracking stability.
+
+#. Compute and normalize the ROI histogram (Hue channel):
+
+   .. code-block:: python
+
+      roi_hist = cv2.calcHist([roi_hsv], [0], roi_mask, [180], [0, 180])
+      cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
+
+   - The histogram describes the target’s color distribution (Hue).
+   - Normalization makes the histogram scale consistent across different lighting or ROI sizes.
+
+#. Define termination criteria for MeanShift:
+
+   .. code-block:: python
+
+      termination = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 15, 2)
+
+   MeanShift will stop when either:
+   - it runs 15 iterations, or
+   - the window movement is smaller than 2 pixels.
+
+#. Set a playback delay based on the video FPS:
+
+   .. code-block:: python
+
+      fps = cap.get(cv2.CAP_PROP_FPS)
+      if not fps or fps <= 1e-3:
+          fps = 30.0
+      delay_ms = int(1000 / fps)
+
+   This keeps playback close to the original video speed.  
+   If FPS cannot be read, it falls back to 30 FPS.
+
+#. Convert each frame to HSV (for tracking):
+
+   .. code-block:: python
+
+      hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+   Tracking is performed in HSV so we can match the target’s Hue histogram.
+
+#. Back projection (find where the target color is likely to be):
+
+   .. code-block:: python
+
+      bp = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], scale=1)
+
+   Back projection produces a probability map: bright areas are more likely to match the ROI histogram.
+
+#. Update the tracking window using MeanShift:
+
+   .. code-block:: python
+
+      _, track_window = cv2.meanShift(bp, track_window, termination)
+
+   MeanShift moves the tracking window toward the highest-density area in the probability map, updating the target position frame by frame.
+
+#. Draw the tracking result:
+
+   .. code-block:: python
+
+      x, y, w, h = track_window
+      cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+   This draws the current tracking rectangle on the video frame.
+
+#. Display the window and exit conditions:
+
+   .. code-block:: python
+
+      key = cv2.waitKey(delay_ms) & 0xFF
+      if key == ord("q"):
+          break
+
+      if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+          break
+
+   - Press ``q`` to quit.
+   - Closing the window also exits safely.
+
+#. Release resources:
+
+   .. code-block:: python
+
+      cap.release()
+      cv2.destroyAllWindows()
+
+   Always release the video and close windows to free system resources.
+
+5. MeanShift vs. CAMShift
+----------------------------
 
 .. list-table::
    :header-rows: 1
@@ -308,17 +309,7 @@ This visualizes the tracking result with a rectangle that moves with the target.
      - Practical tracking, surveillance, recognition
 
 
-
-
-
-7. Extensions and Practice
---------------------------
-
-- Change the thresholds in ``cv2.inRange`` to track different colors  
-- Combine with color detection to automatically determine the initial tracking window  
-
-
-8. Advanced: Select ROI with the Mouse
+6. Advanced: Select ROI with the Mouse
 --------------------------------------
 
 Previously, we used fixed values:
@@ -334,39 +325,58 @@ OpenCV provides ``cv2.selectROI`` so you can **select the target region interact
 
 **Modified initialization code**
 
-Run ``cv_meanshift_auto.py`` for the modified code.
+Run ``cv_5_meanshift_auto.py`` for the modified code.
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/opencv_python
-   python3 cv_meanshift_auto.py
+   python3 cv_5_meanshift_auto.py
 
 
 .. code-block:: python
-   :emphasize-lines: 10-12
+   :emphasize-lines: 24,25
 
    import numpy as np
    import cv2
+   from pathlib import Path
 
-   cap = cv2.VideoCapture('sample2.mp4')
+   # -----------------------------
+   # Load video
+   # -----------------------------
+   BASE_DIR = Path(__file__).resolve().parent
+   video_path = str(BASE_DIR / "sample3.mp4")
+
+   cap = cv2.VideoCapture(video_path)
+   if not cap.isOpened():
+      raise RuntimeError("Error opening video file")
+
+   # Read the first frame (needed for ROI selection and building the target model)
    ret, frame = cap.read()
+   if not ret:
+      raise RuntimeError("Cannot read the first frame from the video")
 
-   ##### Select the region of interest (ROI) with mouse ####
-   # Press Enter or Space to confirm the selection
-   # Press Esc to exit the selection
+   # -----------------------------
+   # Select ROI with mouse
+   # -----------------------------
+   # Press Enter/Space to confirm, press Esc to cancel
    roi_box = cv2.selectROI("Select ROI", frame, fromCenter=False, showCrosshair=True)
    cv2.destroyWindow("Select ROI")
-   x, y, w, h = roi_box
-   track_window = (x, y, w, h)
-
-   hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
    ...
 
-The program pauses at the first frame and opens a selection window:
+When you run the program, the first frame of the video will be displayed and you will be asked to select a Region of Interest (ROI) using the mouse.
 
-- Drag a box with the mouse around the target you want to track (e.g., a red ball or a person).  
-- Press ``Enter`` or ``Space`` to confirm, or ``Esc`` to cancel.  
-- The algorithm then starts tracking that region.
+Drag the mouse to draw a rectangle around the target object, then press **Enter** or **Space** to confirm the selection.  
+Press **Esc** to cancel the selection.
+
+After confirming the ROI, a window named **MeanShift Tracker** will appear.  
+The selected object will be tracked with a green bounding box, and the box will move as the object moves in the video.
+
+To stop the program:
+
+* Press the **q** key on the keyboard  
+* Or close the display window using the close button (X)  
+
+After exiting, the video playback stops and all OpenCV windows are closed.
 
 .. image:: img/opencv_meanshift_mouse.png
    :alt: Interactive ROI selection window
@@ -379,52 +389,62 @@ It returns ``(x, y, w, h)``, which is fully compatible with ``track_window``, so
 This lets you reuse the same program on different videos and targets.
 
 
-9. Advanced II: Dynamically Compute HSV Thresholds for the ROI
+7. Advanced II: Dynamically Compute HSV Thresholds for the ROI
 --------------------------------------------------------------
 
-The original ``cv_meanshift.py`` uses manually set HSV thresholds, suitable when the target color is fixed and lighting is stable.
-
+The original ``cv_5_meanshift.py`` uses manually set HSV thresholds, suitable when the target color is fixed and lighting is stable.
 
 
 .. code-block:: python
 
    # apply mask on the HSV frame
-   mask = cv2.inRange(hsv, np.array((0., 61., 33.)), np.array((180., 255., 255.)))
+   roi_mask = cv2.inRange(roi_hsv, lower, upper)
 
 If lighting varies significantly or the target color isn’t fixed, hard-coded ``inRange`` bounds may be suboptimal.  
 A smarter approach is to **automatically compute the HSV lower/upper bounds from the selected ROI**.
 
 **Example: Auto-computing HSV thresholds**
 
-Run ``cv_meanshift_auto.py`` for the modified code.
+Run ``cv_5_meanshift_auto.py`` for the modified code.
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/opencv_python
-   python3 cv_meanshift_auto.py
+   python3 cv_5_meanshift_auto.py
 
 .. code-block:: python
 
-   # Extract ROI HSV channels
-   h_roi = hsv[y:y+h, x:x+w, 0]
-   s_roi = hsv[y:y+h, x:x+w, 1]
-   v_roi = hsv[y:y+h, x:x+w, 2]
+   hsv0 = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+   roi_hsv = hsv0[y:y + h, x:x + w]
 
-   # Compute lower & upper bounds using percentile
-   h_low,  h_high = np.percentile(h_roi, [5, 95])
-   s_low,  s_high = np.percentile(s_roi, [5, 95])
-   v_low,  v_high = np.percentile(v_roi, [5, 95])
+   # Split ROI HSV channels
+   h_roi = roi_hsv[:, :, 0]
+   s_roi = roi_hsv[:, :, 1]
+   v_roi = roi_hsv[:, :, 2]
 
+   # Use percentiles to get robust ranges (ignore outliers)
+   h_low, h_high = np.percentile(h_roi, [5, 95])
+   s_low, s_high = np.percentile(s_roi, [5, 95])
+   v_low, v_high = np.percentile(v_roi, [5, 95])
+
+   # Add padding so the range is not too tight
    pad_h, pad_s, pad_v = 10, 20, 20
-   lower = np.array([max(h_low - pad_h, 0),
-                     max(s_low - pad_s, 0),
-                     max(v_low - pad_v, 0)], dtype=np.uint8)
-   upper = np.array([min(h_high + pad_h, 180),
-                     min(s_high + pad_s, 255),
-                     min(v_high + pad_v, 255)], dtype=np.uint8)
 
-   # Create mask for the selected region
-   mask = cv2.inRange(hsv, lower, upper)
+   lower = np.array([
+      max(int(h_low) - pad_h, 0),
+      max(int(s_low) - pad_s, 0),
+      max(int(v_low) - pad_v, 0)
+   ], dtype=np.uint8)
+
+   upper = np.array([
+      min(int(h_high) + pad_h, 180),
+      min(int(s_high) + pad_s, 255),
+      min(int(v_high) + pad_v, 255)
+   ], dtype=np.uint8)
+
+   # Mask ONLY the ROI (do not use the whole frame mask)
+   roi_mask = cv2.inRange(roi_hsv, lower, upper)
+
 
 When selecting very dark or very bright targets, you no longer need to tweak thresholds manually; it also adapts quickly to different lighting and colors.
 

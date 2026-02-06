@@ -85,6 +85,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.7_PIR.py
 
+This Python script monitors a PIR (Passive Infrared) motion sensor based on motion detection. When executed:
+
+1. **When Motion is Detected**: Prints "Detected Barrier!" to the console.
+
+2. **When No Motion is Detected**: Prints "No Barrier" to the console.
+
+3. The program runs indefinitely, waiting for motion events. It can be terminated by pressing Ctrl+C.
 
 
 ----------------------------------------------
@@ -126,13 +133,6 @@ Below is the Python code for this project:
       # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
       pass
 
-This Python script monitors a PIR (Passive Infrared) motion sensor based on motion detection. When executed:
-
-1. **When Motion is Detected**: Prints "Detected Barrier!" to the console.
-
-2. **When No Motion is Detected**: Prints "No Barrier" to the console.
-
-3. The program runs indefinitely, waiting for motion events. It can be terminated by pressing Ctrl+C.
 
 ----------------------------------------------
 

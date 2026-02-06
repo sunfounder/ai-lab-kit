@@ -26,39 +26,73 @@ This extends basic color detection into an active tracking system that can follo
 - Provide **adjustable parameters** for fine-tuning tracking behavior
 
 
-2. Mechanical Assembly
--------------------------
+2. Run the Code
+--------------------
 
-Assemble the pan-tilt module, camera module, and servo module as shown in :ref:`assemble_fusion_hat_pan_tilt` .
+.. important::
 
-- **Pan Servo (Horizontal):** Channel 2 on Fusion HAT+
+   Before you start, make sure:
 
-   - Signal (yellow/orange) → PWM output
-   - Power (red) → 5V
-   - Ground (brown/black) → GND
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-- **Tilt Servo (Vertical):** Channel 3 on Fusion HAT+
+   For detailed instructions, see :ref:`opencv_install`.
 
-   - Signal (yellow/orange) → PWM output
-   - Power (red) → 5V
-   - Ground (brown/black) → GND
+#. Open the terminal and enter the following command:
+
+   .. code-block:: bash
+
+        cd ~/ai-lab-kit/opencv_python
+        python3 cv_9_track_color.py
+
+3. Execution Result
+---------------------------------
+
+When running successfully, you should see:
+
+**1. OpenCV Window:**
+
+- "Red Object Tracking": Shows the camera feed with tracking overlay
+
+**2. Visual elements in the tracking window:**
+
+- Yellow crosshair at frame center
+- Blue rectangle showing the deadzone (no-movement zone)
+- Red circle marking the detected object center
+- Green line connecting object to frame center
+- Real-time information overlay:
+
+  - Object position coordinates
+  - Current servo angles
+  - Tracking mode (Simple 4-Direction)
+  - Movement step and deadzone settings
+
+**3. Console output:**
+
+- FPS (frames per second)
+- Current servo positions
+- Object detection status
+- Movement step adjustments
+
+**4. Servo behavior:**
+
+- Servos will move in fixed steps to keep red objects centered
+- No movement when object is within the deadzone
+- Servos return to center position when 'r' key is pressed
 
 
-3. Run the Code
----------------
+**Controls:**
 
-Open the terminal and navigate to your project directory:
-
-.. code-block:: bash
-
-   cd ~/ai-lab-kit/opencv_python
-   python3 cv_track_color.py
-
-**Important:** Ensure you are running on a display or through remote desktop. The program requires OpenCV windows to display tracking information.
-
+- Press **'q'** to quit the program
+- Press **'r'** to reset servos to center position
+- Press **'+'** to increase movement speed
+- Press **'-'** to decrease movement speed
 
 4. Complete Code
-----------------
+-------------------------------
 
 Below is the complete Python program for red object tracking:
 
@@ -426,316 +460,225 @@ Below is the complete Python program for red object tracking:
        main()
 
 
-5. Execution Result
--------------------
+5. Code Explanation
+----------------------------------
 
-When running successfully, you should see:
+#. ``simple_tracking(x, y)``
 
-**1. OpenCV Window:**
+   This function decides how the servos should move based on the detected object position.
 
-- "Red Object Tracking": Shows the camera feed with tracking overlay
+   - If no object is detected (``x`` or ``y`` is ``None``), it returns ``(0, 0)`` (no movement).
+   - If the object is outside the deadzone, it returns a small movement step:
 
-**2. Visual elements in the tracking window:**
+     - Object left  → ``pan_move = +MOVE_STEP``
+     - Object right → ``pan_move = -MOVE_STEP``
+     - Object up    → ``tilt_move = -MOVE_STEP``
+     - Object down  → ``tilt_move = +MOVE_STEP``
 
-- Yellow crosshair at frame center
-- Blue rectangle showing the deadzone (no-movement zone)
-- Red circle marking the detected object center
-- Green line connecting object to frame center
-- Real-time information overlay:
+   The deadzone prevents the camera from shaking when the object is already near the center.
 
-  - Object position coordinates
-  - Current servo angles
-  - Tracking mode (Simple 4-Direction)
-  - Movement step and deadzone settings
+#. ``update_servo_position(pan_move, tilt_move)``
 
-**3. Console output:**
+   This function updates the pan/tilt servo angles safely.
 
-- FPS (frames per second)
-- Current servo positions
-- Object detection status
-- Movement step adjustments
+   - Adds the movement step to the current servo angles.
+   - Clamps the angles to safe limits (``PAN_MIN/PAN_MAX`` and ``TILT_MIN/TILT_MAX``).
+   - Sends servo commands only when the angle actually changes.
 
-**4. Servo behavior:**
+   This protects the hardware from over-rotation.
 
-- Servos will move in fixed steps to keep red objects centered
-- No movement when object is within the deadzone
-- Servos return to center position when 'r' key is pressed
+#. ``find_red_object(frame)``
 
+   This function detects the largest red object in the camera frame.
 
-**Controls:**
+   Main steps:
 
-- Press **'q'** to quit the program
-- Press **'r'** to reset servos to center position
-- Press **'+'** to increase movement speed
-- Press **'-'** to decrease movement speed
+   - Converts the frame from BGR to HSV.
+   - Creates a binary mask for red pixels using two HSV ranges.
+   - Cleans the mask using morphology (OPEN + CLOSE).
+   - Finds contours and selects the largest one.
+   - Filters out small blobs using ``MIN_CONTOUR_AREA``.
+   - Uses image moments to compute the object center.
 
+   It returns:
 
-6. Code Explanation
--------------------
+   - ``center_x, center_y``: the object center position (or ``None, None``)
+   - ``mask``: the binary mask showing red areas
 
-**6.1 System Initialization**
+#. ``draw_debug_info(frame, object_x, object_y, mask, pan_angle, tilt_angle)``
 
-.. code-block:: python
+   This function draws helpful tracking information on the video frame, including:
 
-   # Initialize servos and camera
-   pan_servo = Servo(PAN_CHANNEL)
-   tilt_servo = Servo(TILT_CHANNEL)
-   picam2 = Picamera2()
+   - Center crosshair
+   - Deadzone rectangle
+   - Detected object position
+   - Servo angles (pan and tilt)
+   - Tracking mode and step size
+   - Key instructions
 
-The system starts by initializing hardware components. Servos are centered, and the camera is configured for the specified resolution (640×480).
+   This makes it easy to see how the tracker is working.
 
-**6.2 Simplified 4-Direction Tracking Algorithm**
+#. ``cleanup()``
 
-.. code-block:: python
+   This function safely shuts down the system before exiting.
 
-   def simple_tracking(x, y):
-       # Check if object is left of center (outside deadzone)
-       if x < CENTER_X - DEADZONE_X:
-           # Object is left, move camera right (positive pan)
-           pan_move = MOVE_STEP
-       elif x > CENTER_X + DEADZONE_X:
-           # Object is right, move camera left (negative pan)
-           pan_move = -MOVE_STEP
-       
-       # Check vertical position similarly...
+   - Moves servos back to the center position.
+   - Stops the camera.
+   - Closes all OpenCV windows.
 
-This simplified tracking algorithm replaces the proportional control with a straightforward 4-direction approach:
+   This prevents the camera from being left in a strange position.
 
-1. **Check horizontal position**: If object is left of deadzone, move right; if right, move left
-2. **Check vertical position**: If object is above deadzone, move down; if below, move up
-3. **Fixed step size**: Move by MOVE_STEP degrees per adjustment
-4. **Deadzone**: No movement if object is within deadzone around center
+#. ``main()``
 
-**6.3 Color Detection Pipeline**
+   This is the main tracking loop.
 
-.. code-block:: python
+   Each iteration does:
 
-   def find_red_object(frame):
-       # Convert BGR to HSV
-       hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-       
-       # Create masks for red color
-       mask1 = cv2.inRange(hsv, LOWER_RED1, UPPER_RED1)
-       mask2 = cv2.inRange(hsv, LOWER_RED2, UPPER_RED2)
-       mask = cv2.bitwise_or(mask1, mask2)
-       
-       # Clean up mask
-       mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, KERNEL, iterations=1)
-       mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, KERNEL, iterations=2)
-       
-       # Find and analyze contours
-       contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+   - Capture a camera frame.
+   - Detect the red object.
+   - Decide how to move the servos.
+   - Update servo angles.
+   - Draw debug information.
+   - Display the result window.
 
-This function follows the standard color detection pipeline:
+   It also supports runtime controls:
 
-1. **BGR to HSV conversion** for better color separation
-2. **Dual-range masking** for red (which wraps around HSV hue)
-3. **Morphological filtering** to remove noise
-4. **Contour detection** to find object boundaries
-5. **Moment calculation** to find object center
+   - ``q`` to quit
+   - ``r`` to reset servos
+   - ``+`` / ``-`` to adjust tracking speed
+
+   The program always calls ``cleanup()`` in the ``finally`` block to ensure safe shutdown.
 
 
-**6.4 Servo Control with Safety Limits**
-
-.. code-block:: python
-
-   def update_servo_position(pan_move, tilt_move):
-       global current_pan, current_tilt
-       
-       # Calculate new positions
-       new_pan = current_pan + pan_move
-       new_tilt = current_tilt + tilt_move
-       
-       # Apply angle limits
-       new_pan = max(min(new_pan, PAN_MAX), PAN_MIN)
-       new_tilt = max(min(new_tilt, TILT_MAX), TILT_MIN)
-       
-       # Move servos
-       if new_pan != current_pan:
-           pan_servo.angle(new_pan)
-           current_pan = new_pan
-
-This ensures servos never exceed their mechanical limits and only move when necessary.
-
-**6.5 Interactive Control**
-
-.. code-block:: python
-
-   elif key == ord('+'):
-       # Increase movement speed
-       MOVE_STEP = min(MOVE_STEP + 0.5, 5)
-       print(f"Movement step increased to {MOVE_STEP}°")
-   elif key == ord('-'):
-       # Decrease movement speed
-       MOVE_STEP = max(MOVE_STEP - 0.5, 0.5)
-       print(f"Movement step decreased to {MOVE_STEP}°")
-
-New interactive controls allow real-time adjustment of movement speed without restarting the program.
-
-**6.6 Debug Visualization**
-
-.. code-block:: python
-
-   def draw_debug_info(frame, object_x, object_y, mask, pan_angle, tilt_angle):
-       # Draw center crosshair, deadzone, object marker
-       # Display position, servo angles, mode, and settings
-
-The visualization helps understand system behavior and is essential for tuning parameters.
-
-
-7. Key Parameters and Tuning
+6. Key Parameters and Tuning
 ----------------------------
 
-**7.1 Color Detection Parameters**
+#. Color Detection Parameters
 
-.. code-block:: python
+   .. code-block:: python
+   
+      # HSV thresholds for red detection
+      LOWER_RED1 = np.array([0, 100, 80])     # [Hue, Saturation, Value]
+      UPPER_RED1 = np.array([10, 255, 255])
+      LOWER_RED2 = np.array([170, 100, 80])
+      UPPER_RED2 = np.array([180, 255, 255])
+   
+      # Minimum object size
+      MIN_CONTOUR_AREA = 500
+   
+   Tuning tips:
+   
+   - Adjust Hue values for different colors
+   - Increase Saturation/Value minimums in bright environments
+   - Adjust ``MIN_CONTOUR_AREA`` based on expected object size
 
-   # HSV thresholds for red detection
-   LOWER_RED1 = np.array([0, 100, 80])     # [Hue, Saturation, Value]
-   UPPER_RED1 = np.array([10, 255, 255])
-   LOWER_RED2 = np.array([170, 100, 80])
-   UPPER_RED2 = np.array([180, 255, 255])
+#. Tracking Parameters
 
-   # Minimum object size
-   MIN_CONTOUR_AREA = 500
+   .. code-block:: python
+   
+      # Deadzone size (pixels)
+      DEADZONE_X = 50    # Larger = less jitter, but less precision
+      DEADZONE_Y = 50
+   
+      # Movement step size (degrees)
+      MOVE_STEP = 2      # Larger = faster tracking, but may overshoot
+   
+   Tuning tips:
+   
+   - Start with larger deadzone (50-100px) for stable operation
+   - Adjust MOVE_STEP based on tracking requirements (0.5-5°)
+   - Use '+' and '-' keys to adjust speed during runtime
 
-Tuning tips:
+#. Servo Parameters
 
-- Adjust Hue values for different colors
-- Increase Saturation/Value minimums in bright environments
-- Adjust ``MIN_CONTOUR_AREA`` based on expected object size
-
-**7.2 Tracking Parameters**
-
-.. code-block:: python
-
-   # Deadzone size (pixels)
-   DEADZONE_X = 50    # Larger = less jitter, but less precision
-   DEADZONE_Y = 50
-
-   # Movement step size (degrees)
-   MOVE_STEP = 2      # Larger = faster tracking, but may overshoot
-
-Tuning tips:
-
-- Start with larger deadzone (50-100px) for stable operation
-- Adjust MOVE_STEP based on tracking requirements (0.5-5°)
-- Use '+' and '-' keys to adjust speed during runtime
-
-**7.3 Servo Parameters**
-
-.. code-block:: python
-
-   # Servo limits (calibrate for your hardware)
-   PAN_MIN = -90   # Maximum left
-   PAN_MAX = 90    # Maximum right
-   TILT_MIN = -45  # Maximum down
-   TILT_MAX = 45   # Maximum up
-
-.. note:: Calibrate these values for your specific hardware to prevent damage.
-
-
-8. System Architecture Overview
--------------------------------
+   .. code-block:: python
+   
+      # Servo limits (calibrate for your hardware)
+      PAN_MIN = -90   # Maximum left
+      PAN_MAX = 90    # Maximum right
+      TILT_MIN = -45  # Maximum down
+      TILT_MAX = 45   # Maximum up
+   
+   .. note:: Calibrate these values for your specific hardware to prevent damage.
 
 
-**Data Flow:**
-
-1. **Perception**: Camera captures image → color detection identifies red objects
-2. **Processing**: Calculate object position relative to deadzone
-3. **Control**: Determine movement direction using 4-direction logic
-4. **Actuation**: Move servos by fixed step size
-5. **Interactive Control**: Adjust parameters in real-time
-
-
-9. Common Issues and Troubleshooting
+7. Common Issues and Troubleshooting
 ------------------------------------
 
-**9.1 Servo Not Moving**
+* Servo Not Moving
 
-- **Cause**: Object within deadzone or MIN_CONTOUR_AREA too high
-- **Solution**: Check object position, reduce MIN_CONTOUR_AREA, or decrease deadzone
+  - **Cause**: Object within deadzone or MIN_CONTOUR_AREA too high
+  - **Solution**: Check object position, reduce MIN_CONTOUR_AREA, or decrease deadzone
 
-**9.2 Servo Movement Too Slow**
+* Servo Movement Too Slow
 
-- **Cause**: MOVE_STEP too small
-- **Solution**: Press '+' key to increase movement speed
+  - **Cause**: MOVE_STEP too small
+  - **Solution**: Press '+' key to increase movement speed
 
-**9.3 Servo Movement Too Jerky**
+* Servo Movement Too Jerky
 
-- **Cause**: MOVE_STEP too large
-- **Solution**: Press '-' key to decrease movement speed
+  - **Cause**: MOVE_STEP too large
+  - **Solution**: Press '-' key to decrease movement speed
 
-**9.4 False Object Detection**
+* False Object Detection
 
-- **Cause**: HSV thresholds too broad or lighting issues
-- **Solution**: Adjust HSV ranges, improve lighting, increase MIN_CONTOUR_AREA
+  - **Cause**: HSV thresholds too broad or lighting issues
+  - **Solution**: Adjust HSV ranges, improve lighting, increase MIN_CONTOUR_AREA
 
-**9.5 Low FPS (Below 10 FPS)**
+* Low FPS (Below 10 FPS)
 
-- **Cause**: Processing overload or camera settings
-- **Solution**: Reduce frame resolution, simplify debug drawing
+  - **Cause**: Processing overload or camera settings
+  - **Solution**: Reduce frame resolution, simplify debug drawing
 
-
-10. Extensions and Advanced Features
+8. Extensions and Advanced Features
 ------------------------------------
 
-**10.1 Multiple Object Tracking**
+#. Multiple Object Tracking
 
-.. code-block:: python
+   .. code-block:: python
+   
+      # Instead of taking the largest contour:
+      for contour in contours:
+          if cv2.contourArea(contour) > MIN_CONTOUR_AREA:
+              # Track multiple objects
 
-   # Instead of taking the largest contour:
-   for contour in contours:
-       if cv2.contourArea(contour) > MIN_CONTOUR_AREA:
-           # Track multiple objects
+#. Return to Proportional Control
 
-**10.2 Return to Proportional Control**
+   .. code-block:: python
+   
+      # Re-implement proportional control if desired
+      KP_PAN = 0.3
+      pan_move = -x_error * KP_PAN / CENTER_X
 
-.. code-block:: python
+#. Object Size-Based Speed Adjustment
 
-   # Re-implement proportional control if desired
-   KP_PAN = 0.3
-   pan_move = -x_error * KP_PAN / CENTER_X
+   .. code-block:: python
+   
+      # Adjust movement speed based on object size
+      object_size = cv2.contourArea(largest_contour)
+      if object_size > 1000:  # Large object
+          adjusted_step = MOVE_STEP * 0.5  # Move slower
+      else:  # Small object
+          adjusted_step = MOVE_STEP * 1.5  # Move faster
 
-**10.3 Object Size-Based Speed Adjustment**
+#. Logging and Data Recording
 
-.. code-block:: python
+   .. code-block:: python
+   
+      # Record tracking data for analysis
+      with open('tracking_log.csv', 'a') as f:
+          f.write(f"{time.time()},{obj_x},{obj_y},{pan_angle},{tilt_angle}\n")
 
-   # Adjust movement speed based on object size
-   object_size = cv2.contourArea(largest_contour)
-   if object_size > 1000:  # Large object
-       adjusted_step = MOVE_STEP * 0.5  # Move slower
-   else:  # Small object
-       adjusted_step = MOVE_STEP * 1.5  # Move faster
+#. Network Streaming
 
-**10.4 Logging and Data Recording**
-
-.. code-block:: python
-
-   # Record tracking data for analysis
-   with open('tracking_log.csv', 'a') as f:
-       f.write(f"{time.time()},{obj_x},{obj_y},{pan_angle},{tilt_angle}\n")
-
-**10.5 Network Streaming**
-
-.. code-block:: python
-
-   # Stream video over network
-   import socket
-   # Add network streaming code
-
-
-11. Safety Considerations
--------------------------
-
-1. **Power Supply**: Use external power for servos, not Raspberry Pi GPIO
-2. **Mechanical Limits**: Ensure servo limits prevent physical damage
-3. **Emergency Stop**: Consider adding a physical kill switch
-4. **Overheating**: Monitor servo temperature during extended use
-5. **Cable Management**: Secure cables to prevent entanglement
+   .. code-block:: python
+   
+      # Stream video over network
+      import socket
+      # Add network streaming code
 
 
-12. Learning Outcomes
+9. Learning Outcomes
 ---------------------
 
 After completing this project, you should understand:

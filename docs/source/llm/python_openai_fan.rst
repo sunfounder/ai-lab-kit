@@ -5,7 +5,7 @@
 .. _py_voice_controlled_fan:
 
 (Example) Voice-Controlled Smart Fan
-====================================
+==================================================
 
 **Introduction**
 
@@ -27,7 +27,7 @@ You can combine various input and output modules to create voice-controlled smar
 
 ----------------------------------------------
 
-**What You'll Need**
+**What You'll need**
 
 The following components are required for this project:
 
@@ -60,48 +60,69 @@ Connect the components to the Fusion HAT+ as follows:
    :width: 80%
    :align: center
 
-**Component Connections:**
-
-- **Motor:**
-
-  - Connect to Motor Port M0
-
-- **Button:**
-
-  - Connect between GPIO 17 and 3.3V (pull-up configuration)
-  - Other side to Ground
-
-- **Buzzer:**
-
-  - Positive leg to GPIO 4
-  - Negative leg to Ground
-
 ----------------------------------------------
+
 .. include:: python_online_llms.rst
    :start-after: start_setup_openai
    :end-before: end_setup_openai
 
 ----------------------------------------------
 
-**Run the Code**
-   
+**Run the Example**
+
+
+#. Run the code
+
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
-      cd ~/ai-lab-kit/llm   
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_fan.py
 
-----------------------------------------------
+#. Control the fan
+
+   You can control the fan using voice commands, the button, or natural language.
+
+   * Voice Commands:
+
+     - "Make it faster" / "Increase speed" → Sets to maximum (100%)
+     - "Slow down" / "Reduce speed" → Sets to low (25%)
+     - "Medium speed please" → Sets to medium (50%)
+     - "Turn off" / "Stop" → Stops motor (0%)
+     - "What's the current speed?" → Reports current speed
+     - "Make it cooler" → Interprets as a request for higher speed
+
+   * Button Control:
+
+     - Each press increases speed by 10%
+     - At 100%, the next press cycles back to 0%
+     - An audible beep confirms each press
+     - The current speed percentage is displayed on screen
+
+   * Natural Language Understanding:
+
+     The AI can also understand variations such as:
+
+     - "I'm feeling hot, can you make it faster?"
+     - "Could you please turn the fan down a bit?"
+     - "It's too windy in here!"
+     - "Set it to half speed"
+
+--------
 
 **Code**
 
 Here is the full Python script for the Voice-Controlled Smart Fan:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
-   :linenos:
+   
    
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
@@ -301,7 +322,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
 
 **Understanding the Code**
 
-1. **Speech-to-Text Initialization**
+1. Speech-to-Text Initialization
 
    The system uses STT (Speech-to-Text) for voice recognition:
    
@@ -317,7 +338,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
 
    This provides real-time speech recognition with partial results as you speak.
 
-2. **Motor Control Setup**
+2. Motor Control Setup
 
    The fan motor is controlled via PWM on port M0:
    
@@ -331,7 +352,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
       # Stop the motor completely
       motor.stop()
 
-3. **Button with Debounce**
+3. Button with Debounce
 
    The button includes debounce to prevent multiple triggers:
    
@@ -346,7 +367,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               return
           last_triggered = time.time()
 
-4. **Auditory Feedback**
+4. Auditory Feedback
 
    A buzzer provides audible confirmation:
    
@@ -359,7 +380,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
           time.sleep(0.1)
           buzzer.off()
 
-5. **Keyword Parsing Function**
+5. Keyword Parsing Function
 
    The system parses AI responses for speed commands:
    
@@ -380,7 +401,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
           
           return -1  # No speed change
 
-6. **Contextual Input to AI**
+6. Contextual Input to AI
 
    The current speed is included in the prompt for context-aware responses:
    
@@ -389,7 +410,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
       contextual_input = f"Current speed is {speed}%. User says: {input_text}"
       response = llm.prompt(contextual_input, stream=True)
 
-7. **Streaming Response Processing**
+7. Streaming Response Processing
 
    AI responses are processed word-by-word:
    
@@ -401,7 +422,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               print(next_word, end="", flush=True)
               full_response += next_word
 
-8. **Dual Control Logic**
+8. Dual Control Logic
 
    The system supports both voice and button control:
    
@@ -420,7 +441,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               speed = 0
           motor.power(speed)
 
-9. **Clear Terminal Output**
+9. Clear Terminal Output
 
    Uses ANSI escape codes for clean console display:
    
@@ -433,7 +454,7 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
    - ``end=""``: No newline
    - ``flush=True``: Immediate display
 
-10. **Intelligent AI Instructions**
+10. Intelligent AI Instructions
 
     The AI is specifically instructed to be decisive and avoid clarification questions:
     
@@ -449,163 +470,52 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
 
 ----------------------------------------------
 
-**Control Methods**
-
-**Voice Commands:**
-
-- "Make it faster" / "Increase speed" → Sets to maximum (100%)
-- "Slow down" / "Reduce speed" → Sets to low (25%)
-- "Medium speed please" → Sets to medium (50%)
-- "Turn off" / "Stop" → Stops motor (0%)
-- "What's the current speed?" → Reports current speed
-- "Make it cooler" → Interprets as request for higher speed
-
-**Button Control:**
-
-- Each press increases speed by 10%
-- At 100%, next press cycles back to 0%
-- Audible beep confirms each press
-- Visual speed percentage displayed
-
-**Natural Language Understanding:**
-
-The AI understands variations like:
-- "I'm feeling hot, can you make it faster?"
-- "Could you please turn the fan down a bit?"
-- "It's too windy in here!"
-- "Set it to half speed"
-
-----------------------------------------------
-
 **Troubleshooting**
 
-
-- **"Motor not spinning"**
+- Motor not spinning
 
   - Verify motor connections: M0 port, correct polarity
   - Test motor directly: ``motor.power(50)`` should spin at 50%
   - Ensure speed variable is being set (0-100 range)
 
-- **"Button not responding"**
+- Button not responding
 
   - Check wiring: GPIO 17 to button, other side to 3.3V
   - Verify pull-up configuration
   - Test with simple script: print when button state changes
   - Check debounce time (0.5 seconds may be too long)
 
-- **"No buzzer sound"**
+- No buzzer sound
 
   - Test buzzer directly: ``buzzer.on()`` should produce continuous tone
   - Check if buzzer is piezo (needs PWM) or active (works with DC)
 
-- **"AI not understanding commands"**
+- AI not understanding commands
 
   - Check API key in ``secret.py``
   - Verify internet connection
   - Examine AI instructions: ensure they're properly formatted
   - Test with simpler commands first
 
-- **"Speed changes unexpectedly"**
+- Speed changes unexpectedly
 
   - Check button debounce: may be triggering multiple times
   - Verify keyword parsing: some phrases may trigger unintended speeds
   - Add print statements to trace speed changes
 
-- **"Poor speech recognition accuracy"**
+- Poor speech recognition accuracy
 
   - Reduce background noise
   - Speak clearly and at moderate pace
   - Consider using external USB microphone for better quality
   - Adjust STT parameters if available
 
-- **"Motor makes noise but doesn't spin"**
+- Motor makes noise but doesn't spin
 
   - Check if motor is stuck or blocked
   - Verify power supply voltage matches motor requirements
   - Some motors need capacitor across terminals for smooth operation
 
 ----------------------------------------------
-
-**Try It Yourself**
-
-1. **Temperature-Based Control**  
-
-   Add temperature sensor to automatically adjust fan speed based on room temperature.
-
-2. **Schedule Programming**  
-
-   Add time-based scheduling: "Turn on at 3 PM" or "Run for 30 minutes."
-
-3. **Voice Profile Recognition**  
-
-   Implement voice recognition to identify different users with personalized settings.
-
-4. **Oscillation Control**  
-
-   Add servo motor to control fan direction: "Swing left and right."
-
-5. **Energy Monitoring**  
-
-   Add power meter to track electricity usage and provide efficiency suggestions.
-
-6. **Mobile App Integration**  
-
-   Create smartphone app for remote control and monitoring.
-
-7. **Gesture Control**  
-
-   Add camera or IR sensor for hand gesture control.
-
-8. **Natural Wake-up Mode**  
-
-   Gradually increase fan speed in the morning as a gentle alarm.
-
-9. **Sleep Mode**  
-
-   Automatically reduce speed during nighttime hours.
-
-10. **Multiple Fan Zones**  
-
-    Control multiple fans in different rooms with zone-based commands.
-
-11. **Air Quality Integration**  
-
-    Add air quality sensor and adjust fan based on CO2 or particulate levels.
-
-12. **Weather Adaptation**  
-
-    Connect to weather API to adjust based on outdoor temperature and humidity.
-
-13. **Child Lock Feature**  
-
-    Voice recognition to prevent unauthorized speed changes.
-
-14. **Fan Speed Presets**  
-
-    Save custom speed profiles: "Movie mode," "Sleep mode," "Workout mode."
-
-15. **Power Failure Recovery**  
-
-    Remember previous settings and restore after power outage.
-
-16. **Voice Volume Adaptation**  
-
-    Adjust fan speed based on ambient noise level.
-
-17. **Maintenance Alerts**  
-
-    Track motor hours and remind when cleaning or maintenance is due.
-
-18. **Multi-Language Support**  
-
-    Support voice commands in multiple languages.
-
-19. **Voice Effects**  
-
-    Add fun voice effects or celebrity voice modes for responses.
-
-20. **Integration with Smart Home**  
-
-    Connect to Alexa, Google Home, or Home Assistant for unified control.
 
 This voice-controlled fan demonstrates how natural language processing, physical controls, and intelligent systems can create intuitive and accessible smart home devices that respond to human needs and preferences!

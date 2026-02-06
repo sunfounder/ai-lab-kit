@@ -86,6 +86,12 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.1_Button.py
 
+This Python script demonstrates an interactive setup where a button controls an LED. When executed:
+
+1. Pressing the button (connected to GPIO pin 17) turns the LED (connected to GPIO pin 22) on.
+2. Releasing the button turns the LED off.
+3. The program runs indefinitely, listening for button press and release events to control the LED.
+
 ----------------------------------------------
 
 **Code**
@@ -118,11 +124,6 @@ The following Python code toggles the LED based on button presses and releases:
    print("CTRL + C to exit")
    pause()
 
-This Python script demonstrates an interactive setup where a button controls an LED. When executed:
-
-1. Pressing the button (connected to GPIO pin 17) turns the LED (connected to GPIO pin 22) on.
-2. Releasing the button turns the LED off.
-3. The program runs indefinitely, listening for button press and release events to control the LED.
 
 
 ----------------------------------------------

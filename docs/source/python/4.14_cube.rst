@@ -67,18 +67,6 @@ Refer to the wiring diagram for assembling the components:
 
 **Setup Steps**
 
-.. #. Create and activate a virtual environment for this project:
-
-..    .. raw:: html
-
-..       <run></run>
-
-..    .. code-block:: shell
-
-..       cd ~
-..       python3 -m venv 4.14_gravity_cube_env --system-site-packages
-..       source 4.14_gravity_cube_env/bin/activate
-
 #. Install the OLED libraries:
 
    .. raw:: html
@@ -124,6 +112,10 @@ Refer to the wiring diagram for assembling the components:
 **Code**
 
 Here is the Python script for the gravity-referenced cube:
+
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 

@@ -57,7 +57,7 @@ Below are the components required for this project:
 Below is the circuit diagram for this project:
 
 .. image:: img/fzz/4.1.5_sch.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 
@@ -71,7 +71,7 @@ Follow the wiring diagram to assemble the circuit:
 
 
 .. image:: img/fzz/4.1.5_bb.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 
@@ -80,7 +80,7 @@ Follow the wiring diagram to assemble the circuit:
    Adjust the potentiometers on the PIR sensor module for optimal sensitivity and detection range. Rotate both potentiometers fully counterclockwise for best performance.
 
 .. image:: ../python/img/PIR_TTE.png
-   :width: 400
+   :width: 300
    :align: center
 
 

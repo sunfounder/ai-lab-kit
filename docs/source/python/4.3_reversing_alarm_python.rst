@@ -52,7 +52,7 @@ Below are the components required for this project:
 The system uses an ultrasonic sensor to measure the distance to obstacles. The buzzer emits warning tones of varying frequency depending on the distance.
 
 .. image:: img/fzz/4.1.6_sch.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 
@@ -65,7 +65,7 @@ Follow this wiring diagram to set up your system:
 
 
 .. image:: img/fzz/4.1.6_bb.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 
@@ -88,13 +88,24 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 4.3_ReversingAlarm.py
 
+This Python script integrates an ultrasonic distance sensor and a buzzer to create a real-time distance monitoring system. When executed:
+
+
+1. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
+
+
+2. **Buzzer Alerts**: Based on the measured distance:
+
+     - **More than 50 cm**: No buzzer sound.
+     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
+     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
+
 ----------------------------------------------
 
 
 **Code**
 
 Here is the Python code for the project:
-
 
 
 .. raw:: html
@@ -109,78 +120,76 @@ Here is the Python code for the project:
     from fusion_hat.modules import Ultrasonic, Buzzer
     from fusion_hat.pin import Pin
 
-    # Trigger pin is connected to GPIO 27, Echo pin to GPIO 22
+    # Ultrasonic sensor: Trig -> GPIO 27, Echo -> GPIO 22
     sensor = Ultrasonic(trig=Pin(27), echo=Pin(22))
 
-    # Initialize the buzzer connected to GPIO pin 17
+    # Buzzer connected to GPIO 17
     buzzer = Buzzer(Pin(17))
 
-
-    def distance():
-        # Calculate and return the distance measured by the sensor
-        dis = sensor.read() # Convert distance to centimeters
-        print('Distance: {:.2f} cm'.format(dis))  # Print distance with two decimal places
-        time.sleep(0.3)  # Wait for 0.3 seconds before next measurement
+    def get_distance():
+        """
+        Read distance from ultrasonic sensor and print it.
+        Returns distance in centimeters.
+        """
+        dis = sensor.read()
+        print(f"Distance: {dis:.2f} cm")
         return dis
 
-    def loop():
-        # Continuously measure distance and update buzzer
-        while True:
-            dis = distance()  # Get the current distance
 
-            # Adjust buzzer frequency based on distance
+    def beep(times, on_time, off_time):
+        """
+        Make the buzzer beep with given timing.
+        """
+        for _ in range(times):
+            buzzer.on()
+            time.sleep(on_time)
+            buzzer.off()
+            time.sleep(off_time)
+
+
+    def loop():
+        """
+        Continuously measure distance and control buzzer frequency.
+        """
+        while True:
+            dis = get_distance()
+
             if dis >= 50:
+                # Far distance: buzzer silent
                 time.sleep(0.5)
+
             elif 20 < dis < 50:
-                # Medium distance: medium buzzer frequency
-                for _ in range(2):
-                    buzzer.on()
-                    time.sleep(0.05)
-                    buzzer.off()
-                    time.sleep(0.2)
-            elif dis <= 20:
-                # Close distance: high buzzer frequency
-                for _ in range(5):
-                    buzzer.on()
-                    time.sleep(0.05)
-                    buzzer.off()
-                    time.sleep(0.05)
+                # Medium distance: slow beeping
+                beep(times=2, on_time=0.05, off_time=0.2)
+
+            else:
+                # Close distance (<= 20 cm): fast beeping
+                beep(times=5, on_time=0.05, off_time=0.05)
+
+            time.sleep(0.3)  # Measurement interval
 
     try:
-        loop()      # Start the measurement loop
+        loop()
     except KeyboardInterrupt:
-        # Turn off buzzer (e.g., Ctrl+C)
         buzzer.off()
-
-
-This Python script integrates an ultrasonic distance sensor and a buzzer to create a real-time distance monitoring system. When executed:
-
-
-1. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
-
-
-2. **Buzzer Alerts**: Based on the measured distance:
-
-     - **More than 50 cm**: No buzzer sound.
-     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
-     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
-
+        print("\nProgram stopped, buzzer turned off.")
 
 ----------------------------------------------
 
 **Understanding the Code**
 
-
 1. **Distance Measurement:** The ultrasonic sensor calculates the distance.
 
    .. code-block:: python
 
-      def distance():
-         # Calculate and return the distance measured by the sensor
-         dis = sensor.read() # Convert distance to centimeters
-         print('Distance: {:.2f} cm'.format(dis))  # Print distance with two decimal places
-         time.sleep(0.3)  # Wait for 0.3 seconds before next measurement
-         return dis
+        def get_distance():
+            """
+            Read distance from ultrasonic sensor and print it.
+            Returns distance in centimeters.
+            """
+            dis = sensor.read()
+            print(f"Distance: {dis:.2f} cm")
+            return dis
 
 2. **Auditory Alerts:** The buzzer's frequency changes based on the proximity of obstacles:
 
@@ -188,14 +197,29 @@ This Python script integrates an ultrasonic distance sensor and a buzzer to crea
    * **20-50 cm:** Beeps twice with medium intervals.
    * **≤20 cm:** Rapid beeping for urgent warning.
 
+   .. code-block:: python
 
+        def loop():
+            while True:
+                dis = get_distance()
 
+                if dis >= 50:
+                    # Far distance: buzzer silent
+                    time.sleep(0.5)
+
+                elif 20 < dis < 50:
+                    # Medium distance: slow beeping
+                    beep(times=2, on_time=0.05, off_time=0.2)
+
+                else:
+                    # Close distance (<= 20 cm): fast beeping
+                    beep(times=5, on_time=0.05, off_time=0.05)
+
+                time.sleep(0.3)  # Measurement interval
 
 ----------------------------------------------
 
 **Troubleshooting**
-
-
 
 1. **Distance Not Measured**:
 
@@ -218,7 +242,6 @@ This Python script integrates an ultrasonic distance sensor and a buzzer to crea
            buzzer.on()
            time.sleep(1)
            buzzer.off()
-
 
 ----------------------------------------------
 

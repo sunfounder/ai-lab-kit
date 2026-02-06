@@ -28,235 +28,252 @@ For example, when the target approaches the camera, the tracking box grows; when
 2. Run the Code
 ------------------------
 
+.. important::
 
+   Before you start, make sure:
 
-Please make sure that:
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
+   For detailed instructions, see :ref:`opencv_install`.
 
-Open the terminal in VNC and enter the following command:
+#. Open the terminal and enter the following command:
 
+   .. code-block:: bash
 
+      cd ~/ai-lab-kit/opencv_python
+      python3 cv_6_camshift.py
 
-.. code-block:: bash
+#. When you run the program, an OpenCV window named **CAMShift Tracker** will appear and start playing the video file *sample3.mp4*.  
 
-   cd ~/ai-lab-kit/opencv_python
-   python3 cv_camshift.py
+   The program tracks the black cat using the CAMShift (Continuously Adaptive Mean Shift) algorithm.
 
+   A green rotated bounding box will be drawn around the tracked object.  
+   As the cat moves or changes its size and orientation, the tracking window will automatically adapt its position, size, and angle.
 
+   You can exit the program in two ways:
+
+   * Press the **q** key on the keyboard  
+   * Close the window by clicking the close button (X)  
+
+   After exiting, the video playback stops and all OpenCV windows are closed.
 
 3. Complete Code
-----------------
+---------------------
 
-Open ``cv_camshift.py`` to view the full code.
+Open ``cv_6_camshift.py`` to view the full code.
 
 .. code-block:: python
 
-   # Python program to demonstrate CAMShift (Continuously Adaptive Mean Shift)
+   # Python program to demonstrate CAMShift (tracking a dark object)
    import numpy as np
    import cv2
 
    # Read video
-   cap = cv2.VideoCapture('sample3.mp4')
+   cap = cv2.VideoCapture("sample3.mp4")
 
    # Retrieve the first frame from the video
    ret, frame = cap.read()
+   if not ret:
+      raise RuntimeError("Cannot read the video file.")
 
    # Set the initial region for tracking window (x, y, width, height)
-   # Adjust these values according to your needs
-   x, y, w, h = 100,200, 40, 40 
+   x, y, w, h = 100, 200, 40, 40
    track_window = (x, y, w, h)
 
-   # Convert BGR to HSV format
+   # Convert first frame to HSV
    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-   # Apply mask on the HSV frame
-   mask = cv2.inRange(hsv, np.array([0, 0, 0]), np.array([180, 255, 80])) 
+   # Extract ROI (only the target area) in HSV
+   hsv_roi = hsv[y:y+h, x:x+w]
 
-   # Calculate histogram for HSV channel
-   roi_hist = cv2.calcHist([hsv], [2], mask, [180], [0, 180])
+   # For tracking a black object, we keep dark pixels (low V) inside ROI
+   # V channel is hsv[..., 2], so we build a mask based on V <= 80
+   roi_mask = cv2.inRange(hsv_roi, np.array((0, 0, 0)), np.array((180, 255, 80)))
 
-   # Normalize the histogram values
+   # Build histogram on V channel (channel index 2) within ROI
+   # Use 256 bins for V (0~256) to match back projection range
+   roi_hist = cv2.calcHist([hsv_roi], [2], roi_mask, [256], [0, 256])
    cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
 
    # Termination criteria for CAMShift
-   termination_criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
+   term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
+
+   # FPS delay (fallback if FPS is unavailable)
+   fps = cap.get(cv2.CAP_PROP_FPS)
+   if not fps or fps <= 1e-3:
+      fps = 30.0
+   delay_ms = int(1000 / fps)
+
+   WINDOW_NAME = "CAMShift Tracker"
 
    while True:
-      start_time = cv2.getTickCount()
       ret, frame = cap.read()
-      
+
       # If video ends, restart from beginning
       if not ret:
          cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
          continue
 
-      # Convert BGR to HSV format
+      # Convert frame to HSV
       hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-      
-      # Calculate back projection based on histogram
+
+      # Back projection on V channel using ROI histogram (range 0~256)
       back_proj = cv2.calcBackProject([hsv], [2], roi_hist, [0, 256], 1)
 
-      # Apply CAMShift to get the new rotated rectangle and track window
-      ret, track_window = cv2.CamShift(back_proj, track_window, termination_criteria)
-      
-      # Draw tracking results on the frame
-      # CAMShift returns a rotated rectangle, so we can draw it as an ellipse or polygon
-      pts = cv2.boxPoints(ret)
-      pts = np.int0(pts)
-      
+      # Apply CAMShift
+      rot_rect, track_window = cv2.CamShift(back_proj, track_window, term_crit)
+
       # Draw rotated rectangle
-      frame = cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
+      pts = cv2.boxPoints(rot_rect).astype(np.int32)
+      cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
 
-      # Display tracking information
-      cv2.putText(frame, 'CAMShift Tracker', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-      
-      # Show results
-      cv2.imshow('CAMShift Tracker', frame)
+      cv2.putText(frame, "CAMShift Tracker", (10, 30),
+                  cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-      # Calculate delay to maintain desired FPS
-      expected_delay = max(1, int(1000 / cap.get(cv2.CAP_PROP_FPS)))
-      process_time = (cv2.getTickCount() - start_time) / cv2.getTickFrequency()
-      delay = int(expected_delay - process_time)
-      
-      # Ensure delay is non-negative
-      delay = max(0, delay)
-      
-      # Wait for the next frame
-      k = cv2.waitKey(delay) & 0xff
-      if k == ord('q'):
+      cv2.imshow(WINDOW_NAME, frame)
+
+      # Keyboard + GUI events
+      key = cv2.waitKey(delay_ms) & 0xFF
+      if key == ord("q"):
          break
-         
-   # Release video capture object
-   cap.release()
 
-   # Destroy all opened windows
+      # Exit if user closes the window (click X)
+      if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+         break
+
+   cap.release()
    cv2.destroyAllWindows()
 
-
-
-4. Results
-----------
-
-After running the program, you’ll see:
-
-- The initial rectangle automatically follows the moving target  
-- The box grows when the target approaches and shrinks when it moves away  
-- The box rotates as the target rotates  
-- Press ``q`` to exit
-
-
-5. Code Explanation
+4. Code Explanation
 ---------------------------
 
-1. Initial Window and ROI
+#. Open the video file and read the first frame:
 
-.. code-block:: python
+   .. code-block:: python
 
-   x, y, w, h = 150, 200, 80, 80
-   track_window = (x, y, w, h)
+      cap = cv2.VideoCapture("sample3.mp4")
+      ret, frame = cap.read()
+      if not ret:
+          raise RuntimeError("Cannot read the video file.")
 
-- Like MeanShift, CAMShift requires an **initial tracking window**.  
+   CAMShift needs an initial frame to learn what to track.
 
-This initial region defines the target appearance we want to “remember.”
+#. Set the initial tracking window (ROI):
+
+   .. code-block:: python
+
+      x, y, w, h = 100, 200, 40, 40
+      track_window = (x, y, w, h)
+
+   This rectangle should cover the target object in the first frame.  
+   CAMShift will update this window automatically during tracking.
+
+#. Convert the first frame to HSV and extract the ROI:
+
+   .. code-block:: python
+
+      hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+      hsv_roi = hsv[y:y+h, x:x+w]
+
+   HSV is convenient for tracking because you can choose specific channels (like V for brightness).
+
+#. Build a mask for a dark object (low V values):
+
+   .. code-block:: python
+
+      roi_mask = cv2.inRange(hsv_roi, np.array((0, 0, 0)), np.array((180, 255, 80)))
+
+   This keeps only “dark” pixels in the ROI.  
+   For black/dark objects, brightness (V) is usually the most useful feature.
+
+#. Compute and normalize a histogram of the V channel:
+
+   .. code-block:: python
+
+      roi_hist = cv2.calcHist([hsv_roi], [2], roi_mask, [256], [0, 256])
+      cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
+
+   - Channel ``2`` means the **V (Value/brightness)** channel in HSV.
+   - The histogram describes how “dark/bright” the target ROI is.
+   - Normalization makes tracking more stable.
+
+#. Set the termination criteria for CAMShift:
+
+   .. code-block:: python
+
+      term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
+
+   CAMShift stops updating when it reaches 10 iterations or the movement is smaller than 1 pixel.
+
+#. Set playback speed using FPS:
+
+   .. code-block:: python
+
+      fps = cap.get(cv2.CAP_PROP_FPS)
+      if not fps or fps <= 1e-3:
+          fps = 30.0
+      delay_ms = int(1000 / fps)
+
+   This sets a delay so the video plays close to its original FPS.
+
+#. Create a probability map using back projection (V channel):
+
+   .. code-block:: python
+
+      back_proj = cv2.calcBackProject([hsv], [2], roi_hist, [0, 256], 1)
+
+   Back projection highlights pixels in the frame whose V values match the ROI histogram.  
+   Brighter values in ``back_proj`` mean “more likely to be the target”.
+
+#. Track using CAMShift and update the window:
+
+   .. code-block:: python
+
+      rot_rect, track_window = cv2.CamShift(back_proj, track_window, term_crit)
+
+   CAMShift is based on MeanShift, but it can also adapt the **size and rotation** of the tracking window.
+
+   - ``track_window`` is updated each frame.
+   - ``rot_rect`` contains a rotated rectangle (center, size, angle).
+
+#. Draw the rotated tracking box:
+
+   .. code-block:: python
+
+      pts = cv2.boxPoints(rot_rect).astype(np.int32)
+      cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
+
+   This converts the rotated rectangle into four corner points and draws it on the frame.
+
+#. Exit conditions (keyboard + window close):
+
+   .. code-block:: python
+
+      key = cv2.waitKey(delay_ms) & 0xFF
+      if key == ord("q"):
+          break
+
+      if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
+          break
+
+   Press ``q`` to quit, or close the window to stop safely.
+
+#. Release resources:
+
+   .. code-block:: python
+
+      cap.release()
+      cv2.destroyAllWindows()
+
+   Always release the video file and close windows at the end.
 
 
-2. Convert Color Space
-
-.. code-block:: python
-
-   hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
-HSV makes color recognition less sensitive to lighting changes.  
-H (Hue) represents color, S (Saturation) indicates purity, and V (Value) describes brightness.
-
-
-3. Generate a Mask with ``cv2.inRange``
-
-.. code-block:: python
-
-   mask = cv2.inRange(hsv, np.array([0, 0, 0]), np.array([180, 255, 80])) 
-
-``inRange`` labels pixels within the specified range as white (255) and others as black (0).
-
-Here we set a range to filter the target. The output is a binary image (mask).
-
-.. image:: img/opencv_camshift_inrange.png
-   :alt: inRange mask effect
-   :align: center
-
-.. tip::
-
-   Note that the target in this video is a pure black cat, so this ``inRange`` selects the darker regions in the frame.
-
-   * H passes through all → no hue restriction  
-   * S passes through all → no saturation restriction  
-   * V limited to 0–80 → selects low-brightness pixels, e.g., black cat, black clothes, shadows, etc.
-
-
-4. Compute and Normalize the Histogram
-
-.. code-block:: python
-
-   roi_hist = cv2.calcHist([hsv], [2], mask, [180], [0, 180])
-   cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
-
-- ``calcHist``: counts the color distribution within the ROI  
-- ``normalize``: standardizes value ranges to reduce the impact of brightness variations
-
-This step essentially **teaches CAMShift what our target looks like**.
-
-.. tip::
-
-   Here we use the V channel (brightness). To track a colorful object, you typically use the H or S channel.  
-   You can change the second argument to ``[0]`` for H or ``[1]`` for S.
-
-
-5. Back Projection
-
-.. code-block:: python
-
-   back_proj = cv2.calcBackProject([hsv], [2], roi_hist, [0, 256], 1)
-
-- “Maps” the histogram back onto the entire image  
-- Whiter areas → more likely where the target appears
-
-This is like creating a “heatmap” over the frame.
-
-.. image:: img/opencv_camshift_bp.png
-   :alt: Back projection visualization
-   :align: center
-
-
-6. CAMShift Tracking
-
-.. code-block:: python
-
-   ret, track_window = cv2.CamShift(back_proj, track_window, termination_criteria)
-
-Compared with MeanShift, CAMShift adds:
-
-- **Adaptive window size** → grows/shrinks with target scale  
-- **Orientation** → rotates with the target  
-- Returns a rotated bounding box
-
-
-7. Draw the Rotated Rectangle
-
-.. code-block:: python
-
-   pts = cv2.boxPoints(ret)
-   pts = np.intp(pts)
-   frame = cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
-
-``cv2.boxPoints`` extracts the four vertices of the rotated rectangle from ``CamShift``’s return value.  
-Connecting them with ``polylines`` gives a rotated box that follows the target.
-
-
-6. CAMShift vs. MeanShift
--------------------------
+5. CAMShift vs. MeanShift
+--------------------------------------
 
 .. list-table::
    :header-rows: 1
@@ -281,60 +298,73 @@ Connecting them with ``polylines`` gives a rotated box that follows the target.
 CAMShift is an upgrade over MeanShift,  
 better handling target deformation, rotation, and distance changes—well-suited for real-world scenarios.
 
-
-
-7. Extensions and Practice
---------------------------
+6. Extensions and Practice
+-------------------------------------------
 
 - Adjust the ``inRange`` thresholds to track green or blue targets  
 - Combine with live camera input to build a real-time color-based tracking system
 
 
-8. Advanced: Interactive ROI Selection and Auto-Adjusting HSV Thresholds
+7. Advanced: Interactive ROI Selection and Auto-Adjusting HSV Thresholds
 -------------------------------------------------------------------------
 
 As in the previous section, this project can also use mouse interaction to select the ROI and automatically adjust HSV thresholds.
 
-
-Run ``cv_camshift_auto.py`` for the modified code.
+Run ``cv_6_camshift_auto.py`` for the modified code.
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/opencv_python
-   python3 cv_camshift_auto.py
+   python3 cv_6_camshift_auto.py
+
+When you run the program, the first frame of the video will be displayed, and you will be asked to select a Region of Interest (ROI) with the mouse.
+
+Drag the mouse to draw a rectangle around the target object, then press **Enter** or **Space** to confirm the selection.  
+Press **Esc** to cancel the selection.
+
+After selecting the ROI, a window named **CAMShift Tracker** will appear.  
+The selected object will be tracked with a green rotated rectangle, and the tracking window will automatically adapt its position, size, and orientation as the object moves.
+
+To stop the program:
+
+* Press the **q** key on the keyboard  
+* Or close the display window using the close button (X)  
+
+After exiting, the video playback stops and all OpenCV windows are closed.
+
 
 .. code-block:: python
 
-   #### Select the region of interest (ROI) with mouse ####
-   # Press Enter or Space to confirm the selection
-   # Press Esc to exit the selection
-   roi_box = cv2.selectROI("Select ROI", frame, fromCenter=False, showCrosshair=True)
-   cv2.destroyWindow("Select ROI")
-   x, y, w, h = roi_box
-   track_window = (x, y, w, h)
+   hsv0 = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+   roi_hsv = hsv0[y:y + h, x:x + w]
 
-   # Convert BGR to HSV format
-   hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+   # Split ROI HSV channels
+   h_roi = roi_hsv[:, :, 0]
+   s_roi = roi_hsv[:, :, 1]
+   v_roi = roi_hsv[:, :, 2]
 
-   #### automatically select the HSV of the ROI####
-   h_roi = hsv[y:y+h, x:x+w, 0]
-   s_roi = hsv[y:y+h, x:x+w, 1]
-   v_roi = hsv[y:y+h, x:x+w, 2]
+   # Use percentiles to get robust ranges (ignore outliers)
+   h_low, h_high = np.percentile(h_roi, [5, 95])
+   s_low, s_high = np.percentile(s_roi, [5, 95])
+   v_low, v_high = np.percentile(v_roi, [5, 95])
 
-   h_low,  h_high  = np.percentile(h_roi, [5, 95])
-   s_low,  s_high  = np.percentile(s_roi, [5, 95])
-   v_low,  v_med   = np.percentile(v_roi, [5, 95])
-
+   # Add padding so the range is not too tight
    pad_h, pad_s, pad_v = 10, 20, 20
-   lower = np.array([max(h_low - pad_h, 0),
-                     max(s_low - pad_s, 0),
-                     max(v_low - pad_v, 0)], dtype=np.uint8)
-   upper = np.array([min(h_high + pad_h, 180),
-                     min(s_high + pad_s, 255),
-                     min(v_med  + pad_v,  255)], dtype=np.uint8)
 
-   # create a mask for the selected region
-   mask = cv2.inRange(hsv, lower, upper)
+   lower = np.array([
+      max(int(h_low) - pad_h, 0),
+      max(int(s_low) - pad_s, 0),
+      max(int(v_low) - pad_v, 0)
+   ], dtype=np.uint8)
+
+   upper = np.array([
+      min(int(h_high) + pad_h, 180),
+      min(int(s_high) + pad_s, 255),
+      min(int(v_high) + pad_v, 255)
+   ], dtype=np.uint8)
+
+   # Mask ONLY the ROI (do not use the whole frame mask)
+   roi_mask = cv2.inRange(roi_hsv, lower, upper)
 
    ...
 

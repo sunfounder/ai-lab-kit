@@ -4,95 +4,64 @@
 
 .. _mediapipe_install:
 
-MediaPipe Installation Guide (Raspberry Pi)
+0. Setup MediaPipe
 ====================================================================
 
+About the OS Version
+-------------------------------
+
 .. warning::
-   
-   To ensure full functionality of this project, the required MediaPipe and Picamera2 libraries are only fully compatible with **Raspberry Pi OS (Debian 12 / Bookworm , 64-bit)**.
 
-   The new Raspberry Pi OS Trixie (Debian 13) uses Python 3.13 as the system Python, but:
+   **Recommended OS**: Raspberry Pi OS Bookworm (Debian 12, 64-bit)
 
-   * MediaPipe is not yet compatible with Python 3.13.
-   * Picamera2 (used for camera access) only works with the system Python.
+   Raspberry Pi OS Trixie (Debian 13) is not recommended because:
 
-   Please use **Raspberry Pi OS Bookworm 64-bit** for full compatibility.  
-   This tutorial will be updated once Trixie becomes supported.
+   * MediaPipe does not yet support Python 3.13.
+   * Picamera2 only works with the system Python.
 
-   If you would like to encourage official MediaPipe support for Python 3.13, you can submit your request through:
+This tutorial will be updated once Trixie becomes supported.
 
-   * GitHub Issues: https://github.com/google-ai-edge/mediapipe/issues/5708
-   * Official Support Page: https://ai.google.dev/edge/mediapipe/support
+If you would like to request official MediaPipe support for Python 3.13, you can submit feedback here:
 
-   Your feedback will help accelerate the compatibility update process.
+* GitHub Issue: https://github.com/google-ai-edge/mediapipe/issues/5708
+* Support Page: https://ai.google.dev/edge/mediapipe/support
+
 
 
 Before You Start
 ----------------
 
-Before installing MediaPipe, make sure:
-
-* OpenCV has been installed on your Raspberry Pi (see :ref:`opencv_install`).
-* You can access the Raspberry Pi desktop through a display.
-
-  * or remotely via **Raspberry Pi Connect** (|link_rpi_connect|)  
-  * or remotely through VNC software (see :ref:`remote_desktop`).
-
-* You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-* Please connect the camera to the Raspberry Pi and make sure the camera is working properly.
-* To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+.. important::
 
 
+   Before you start, make sure:
+
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
+
+   For detailed instructions, see :ref:`opencv_install`.
 
 These preparations ensure MediaPipe can run with full graphical and camera functionality on your Raspberry Pi.
 
 
-
 Installation Steps
-------------------
+----------------------------------
 
-.. #. **Create a virtual environment**
+#. Install MediaPipe
 
-..    A virtual environment keeps MediaPipe separated from system libraries
-..    and prevents version conflicts with other projects.
-
-..    .. code-block:: bash
-
-..       python3 -m venv ~/mediapipe_env --system-site-packages
-
-
-.. #. **Activate the virtual environment**
-
-..    This switches Python into the isolated environment you just created.
-
-..    .. code-block:: bash
-
-..       source ~/mediapipe_env/bin/activate
-
-
-.. #. **Upgrade pip**
-
-..    Updating pip reduces installation issues and ensures compatibility
-..    with the latest MediaPipe wheel packages.
-
-..    .. code-block:: bash
-
-..       pip install --upgrade pip
-
-
-#. **Install MediaPipe**
-
-   Install MediaPipe directly using pip.  
-   On Raspberry Pi OS (Bookworm, ARM64), this will download the correct wheel.
+   Install MediaPipe using pip. On Raspberry Pi OS Bookworm (Debian 12, 64-bit),
+   pip will download the correct wheel automatically.
 
    .. code-block:: bash
 
-      sudo pip install mediapipe --break
+      sudo pip install mediapipe --break-system-packages
 
+#. Verify the installation
 
-#. **Verify the installation**
-
-   Run a quick test to confirm that MediaPipe is installed properly.
+   Run the following command to confirm that MediaPipe is installed correctly.
 
    .. code-block:: bash
 
@@ -103,7 +72,7 @@ Installation Steps
 
    Expected output:
 
-   ::
+   .. code-block:: text
 
       MediaPipe version: 0.10.18
 
@@ -111,39 +80,43 @@ Installation Steps
 Common Issues & Solutions
 -------------------------
 
-* **Problem:** MediaPipe installation fails
+#. MediaPipe installation fails
 
-  This usually happens when using an unsupported system. MediaPipe currently works **only on Raspberry Pi OS Bookworm (Debian 12, 64-bit)**.  
-  The newer Raspberry Pi OS Trixie (Python 3.13) is not supported.
+   This usually happens when using an unsupported OS version.
 
-  **Solution:** Install or switch to Raspberry Pi OS Bookworm.
+   Solution:
 
+   * MediaPipe currently works only on Raspberry Pi OS Bookworm (Debian 12, 64-bit).
+   * Raspberry Pi OS Trixie (Debian 13, Python 3.13) is not supported.
 
-* **Problem:** Camera cannot be opened in MediaPipe or OpenCV
+#. Camera cannot be opened in MediaPipe or OpenCV
 
-  This usually happens when the Raspberry Pi camera interface has not been enabled in the system.
+   This usually happens when the Raspberry Pi camera interface is not enabled.
 
-  **Solution:** Enable the camera using ``raspi-config`` (Interface Options → Enable Camera):
+   Solution:
 
-* **Problem:** OpenCV import errors
+   * Enable the camera in ``raspi-config``:
+     Interface Options → Camera → Enable
 
-  Some pip-installed versions of OpenCV may be incompatible with Raspberry Pi OS libraries.
+#. OpenCV import errors
 
-  **Solution:** Install the stable APT version of OpenCV:
+   Some pip-installed versions of OpenCV may be incompatible with Raspberry Pi OS libraries.
 
-  .. code-block:: bash
+   Solution:
 
-     sudo apt install python3-opencv
+   .. code-block:: bash
 
-* **Problem:** MediaPipe cannot be imported after installation 
+      sudo apt install python3-opencv
 
-  This may happen if pip, setuptools, or wheel are outdated.
+#. MediaPipe cannot be imported after installation
 
-  **Solution:** Upgrade your Python packaging tools:
+   This may happen if pip, setuptools, or wheel are outdated.
 
-  .. code-block:: bash
+   Solution:
 
-     sudo pip install --upgrade pip setuptools wheel
+   .. code-block:: bash
+
+      sudo pip install --upgrade pip setuptools wheel
 
 
 Your MediaPipe is now ready.  

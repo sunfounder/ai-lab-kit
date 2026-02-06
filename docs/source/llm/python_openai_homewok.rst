@@ -57,19 +57,14 @@ The following components are required for this project:
 
 **Hardware Setup**
 
-Assemble the pan-tilt module, camera module, and servo module as shown in :ref:`assemble_fusion_hat_pan_tilt` .
+To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
-- **Pan Servo (Horizontal):** Channel 2 on Fusion HAT+
-
-   - Signal (yellow/orange) → PWM output
-   - Power (red) → 5V
-   - Ground (brown/black) → GND
-
-- **Tilt Servo (Vertical):** Channel 3 on Fusion HAT+
-
-   - Signal (yellow/orange) → PWM output
-   - Power (red) → 5V
-   - Ground (brown/black) → GND
+   .. note:: 
+     
+     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
 
 ----------------------------------------------
 
@@ -81,26 +76,26 @@ Assemble the pan-tilt module, camera module, and servo module as shown in :ref:`
 
 **Running the Code**
 
-#. **Create Homework Sample:**
+#. Create Homework Sample:
 
    - Write or print a simple math problem with answer
    - Example: "5 + 3 = 8" (correct) or "5 + 3 = 7" (incorrect)
    - Ensure clear handwriting or printing
 
-#. **Run the Program:**
+#. Run the Program:
    
    .. code-block:: bash
    
       cd ~/ai-lab-kit/llm
       python3 llm_openai_homework.py
 
-#. **Follow On-Screen Instructions:**
+#. Follow On-Screen Instructions:
 
    - Position homework under camera
    - Press User Button (USR) on Fusion HAT+
    - Watch for servo response
 
-#. **Expected Output:**
+#. Expected Output:
    
    .. code-block:: text
    
@@ -133,8 +128,12 @@ Assemble the pan-tilt module, camera module, and servo module as shown in :ref:`
 
 Here is the full Python script for the Homework Grading Demo:
 
+
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
-   :linenos:
    
    #!/usr/bin/env python3
    """
@@ -341,7 +340,7 @@ Here is the full Python script for the Homework Grading Demo:
 
 **Understanding the Code**
 
-1. **LLM Configuration and Setup**
+1. LLM Configuration and Setup
 
    The system uses OpenAI's GPT-4o with Vision capabilities to analyze images:
    
@@ -358,7 +357,7 @@ Here is the full Python script for the Homework Grading Demo:
       # Limit conversation history to manage tokens
       llm.set_max_messages(5)
 
-2. **Hardware Initialization**
+2. Hardware Initialization
 
    Three hardware components are initialized: servos, camera, and button:
    
@@ -378,7 +377,7 @@ Here is the full Python script for the Homework Grading Demo:
       # User button for interaction
       user_button = UserButton()
 
-3. **Servo Animation Functions**
+3. Servo Animation Functions
 
    Natural-looking movements for nodding and shaking:
    
@@ -402,7 +401,7 @@ Here is the full Python script for the Homework Grading Demo:
           time.sleep(0.15)
           pan_servo.angle(PAN_CENTER)  # Return to center
 
-4. **Image Capture and AI Analysis**
+4. Image Capture and AI Analysis
 
    The main grading workflow:
    
@@ -424,7 +423,7 @@ Here is the full Python script for the Homework Grading Demo:
           elif "CORRECT" in response_text:
               nod_head()
 
-5. **Button Event Handling**
+5. Button Event Handling
 
    Simple callback system for user interaction:
    
@@ -437,7 +436,7 @@ Here is the full Python script for the Homework Grading Demo:
       # Assign callback to button
       user_button.set_on_click(on_button_click)
 
-6. **Main Application Loop**
+6. Main Application Loop
 
    Minimal main loop that waits for button presses:
    
@@ -454,7 +453,7 @@ Here is the full Python script for the Homework Grading Demo:
           except KeyboardInterrupt:
               print("\nDemo stopped by user")
 
-7. **Resource Cleanup**
+7. Resource Cleanup
 
    Proper shutdown procedure:
    
@@ -472,7 +471,7 @@ Here is the full Python script for the Homework Grading Demo:
 
 **Troubleshooting**
 
-- **"No module named 'picamera2'"**
+- No module named ``picamera2``
 
   Install the required library:
   
@@ -481,45 +480,45 @@ Here is the full Python script for the Homework Grading Demo:
      sudo apt update
      sudo apt install python3-picamera2
 
-- **"Camera not detected"**
+- Camera not detected
 
   1. Check camera connection: ensure ribbon cable is inserted correctly
   2. Verify camera is enabled: ``sudo raspi-config`` → Interface Options → Camera
   3. Test camera independently: ``libcamera-hello``
 
-- **"Servos not moving"**
+- Servos not moving
 
   1. Check power connections: servos need 5V power
   2. Verify servo channels match code (Channels 2 and 3)
   3. Test servos independently with simple angle commands
 
-- **"AI not responding or error"**
+- AI not responding or error
 
   1. Verify API key in ``secret.py`` is correct
   2. Check internet connection: ``ping 8.8.8.8``
   3. Ensure you have credits in your OpenAI account
   4. Verify model "gpt-4o" is available in your account
 
-- **"Incorrect servo movements"**
+- Incorrect servo movements
 
   1. Check if pan and tilt servos are swapped
   2. Adjust angle values in ``nod_head()`` and ``shake_head()`` functions
   3. Verify servo center positions (may need calibration)
 
-- **"Image too blurry or dark"**
+- Image too blurry or dark
 
   1. Ensure adequate lighting on homework
   2. Adjust camera focus if adjustable
   3. Position camera 15-30cm from paper
   4. Use high-contrast pen/marker for handwriting
 
-- **"Button not responding"**
+- Button not responding
 
   1. Check if User Button LED lights when pressed
   2. Verify button callback is registered
   3. Test button with simple print statement
 
-- **"AI returns unexpected response"**
+- AI returns unexpected response
 
   1. Check prompt formatting in code
   2. Ensure image clearly shows question AND answer
@@ -527,86 +526,5 @@ Here is the full Python script for the Homework Grading Demo:
 
 ----------------------------------------------
 
-**Try It Yourself**
-
-1. **Multiple Choice Grading**  
-
-   Extend to grade multiple choice questions with A/B/C/D options.
-
-2. **Voice Feedback**  
-
-   Add text-to-speech to announce "Correct!" or "Try again!" 
-
-3. **Score Tracking**  
-
-   Keep track of correct/incorrect answers and display score on LED matrix.
-
-4. **Subject Specialization**  
-
-   Create different modes for math, science, language arts with specialized prompts.
-
-5. **Step-by-Step Evaluation**  
-
-   Ask AI to identify which step in a multi-step problem contains the error.
-
-6. **Handwriting Improvement**  
-
-   Use AI to give feedback on handwriting legibility.
-
-7. **Multiple Languages**  
-
-   Support grading homework in different languages.
-
-8. **Timer Mode**  
-
-   Add timed tests with automatic grading at the end.
-
-9. **Progress Reports**  
-
-   Generate weekly progress reports based on grading history.
-
-10. **Peer Comparison**  
-
-   Anonymously compare performance with class averages (simulated).
-
-11. **Adaptive Difficulty**  
-
-   Adjust question difficulty based on student performance.
-
-12. **Emotional Recognition**  
-
-   Add emotion detection to provide encouragement when frustrated.
-
-13. **AR Overlays**  
-
-   Use augmented reality to show corrections directly on the homework.
-
-14. **Parent Notifications**  
-
-   Send email summaries to parents with performance metrics.
-
-15. **Study Recommendations**  
-
-   Suggest specific topics to study based on incorrect answers.
-
-16. **Group Competition**  
-
-   Multi-station setup for classroom competitions.
-
-17. **Accessibility Features**  
-
-   Audio descriptions for visually impaired students.
-
-18. **Historical Analysis**  
-
-   Track improvement over time with graphs and statistics.
-
-19. **Cross-Subject Integration**  
-
-   Connect math problems to real-world science applications.
-
-20. **Gamification**  
-
-   Add points, badges, and achievements for learning milestones.
 
 This homework grading demo showcases how AI vision models can interact with physical hardware to create engaging educational experiences, blending digital intelligence with tangible feedback mechanisms!

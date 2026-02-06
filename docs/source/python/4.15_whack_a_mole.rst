@@ -100,6 +100,10 @@ Refer to the wiring diagram for assembling the components:
 
 Here is the full Python script for the Whack-a-Mole game:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
 
    #!/usr/bin/env python3
@@ -335,54 +339,7 @@ Here is the full Python script for the Whack-a-Mole game:
                                     duration: float = 1.0,
                                     step: float = 0.01,
                                     gamma: float = 1.8) -> (bool, Optional[List[int]]):
-         """
-         Fade one LED (active_idx) with triangle brightness over 'duration' seconds.
-         While fading, poll buttons at 'step' interval:
-            - If matching button pressed (rising edge) -> immediately turn off LED, return (True, new_states).
-            - If non-matching button pressed (rising edge) -> game over: return (False, new_states) and let caller handle.
-         If no press -> return (None, new_states) to continue game.
-         Returns:
-            (hit, states)
-            hit=True  -> correct hit
-            hit=False -> wrong button (game over)
-            hit=None  -> no button pressed in this cycle
-         """
-         t0 = time.monotonic()
-         states = prev_states[:]
-
-         while True:
-            t = time.monotonic() - t0
-            if t > duration:
-                  break
-
-            # Triangle brightness 0..1 then 1..0
-            u = triangle01(t / duration)
-            # Gamma correction for perceived linearity
-            level = u ** gamma
-            duty = 3 + 97 * level   # keep a tiny floor so LED is visible at the start
-
-            led_set(active_idx, duty)
-
-            # Poll buttons and detect rising edges
-            curr = read_buttons()
-            for i, (p, c) in enumerate(zip(states, curr)):
-                  if p == 0 and c == 1:  # rising edge = just pressed
-                     if i == active_idx:
-                        # Correct hit
-                        all_leds_off()
-                        beep_hit()
-                        return True, curr
-                     else:
-                        # Wrong hole -> game over
-                        all_leds_off()
-                        beep_miss()
-                        return False, curr
-            states = curr
-            time.sleep(step)
-
-         # Finished fade with no press
-         all_leds_off()
-         return None, states
+         ...
 
 2. **Button Edge Detection**
 
@@ -438,17 +395,7 @@ Here is the full Python script for the Whack-a-Mole game:
          # Run a 1.0s fade cycle, checking button presses
          hit, states = fade_led_with_button_check(idx, states, duration=1.0, step=0.01, gamma=1.8)
 
-         if hit is False:
-               # Wrong button pressed -> Game Over
-               draw_game_over(score)
-               break
-         elif hit is True:
-               # Correct hit -> score++
-               score += 1
-               draw_score(score)
-         else:
-               # No press during this mole -> no score change; continue
-               pass
+         ...
 
 
 5. **OLED Display**
@@ -467,17 +414,7 @@ Here is the full Python script for the Whack-a-Mole game:
          oled.image(image)
          oled.show()
 
-      def draw_game_over(score: int):
-         """Render GAME OVER screen with final score."""
-         draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
-         title = "GAME OVER"
-         tw, th = font.getbbox(title)[2:]
-         draw.text(((WIDTH - tw) // 2, 8), title, font=font, fill=255)
-         line = f"Score: {score}"
-         lw, lh = font.getbbox(line)[2:]
-         draw.text(((WIDTH - lw) // 2, 8 + th + 8), line, font=font, fill=255)
-         oled.image(image)
-         oled.show()
+         ...
 
 
 

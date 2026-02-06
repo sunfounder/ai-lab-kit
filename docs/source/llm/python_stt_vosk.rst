@@ -15,60 +15,17 @@ In this lesson, we will:
 * Check the microphone on Raspberry Pi.  
 * Install and test Vosk with a chosen language model.  
 
-1. Check Your Microphone
---------------------------
-
-Before using speech recognition, make sure your USB microphone works correctly.
-
-#. List available recording devices:
-
-   .. code-block:: bash
-
-      arecord -l
-
-   Look for a line like ``card 1: ... device 0``.  
-
-#. Record a short sample (replace ``1,0`` with the numbers you found):
-
-   .. code-block:: bash
-
-      arecord -D plughw:1,0 -f S16_LE -r 16000 -d 3 test.wav
-
-   * Example: if your device is ``card 2, device 0``, use:
-
-   .. code-block:: bash
-
-      arecord -D plughw:2,0 -f S16_LE -r 16000 -d 3 test.wav
-
-#. Play it back to confirm the recording:
-
-   .. code-block:: bash
-
-      aplay test.wav
-
-#. Adjust microphone volume if needed:
-
-   .. code-block:: bash
-
-      alsamixer
-
-   * Press **F6** to select your USB microphone.  
-   * Find the **Mic** or **Capture** channel.  
-   * Make sure it is not muted (**[MM]** means mute, press ``M`` to unmute → should show **[OO]**).  
-   * Use ↑ / ↓ arrow keys to change the recording volume.
-
+.. start_mic
 
 .. _test_vosk:
 
-2. Test Vosk
+Run the program
 --------------------------
 
-**Run the program**
+.. code-block:: bash
 
-   .. code-block:: bash
-
-      cd ~/ai-lab-kit/llm
-      sudo python3 stt_vosk_stream.py
+   cd ~/ai-lab-kit/llm
+   sudo python3 stt_vosk_stream.py
 
 The first time you run this code with a new language, Vosk will:
 
@@ -96,7 +53,8 @@ This means:
 * Choose a **model that matches your language and accent**.  
 * Use a quiet environment to improve recognition.
 
-**Code**
+Code
+---------------
 
 .. code-block:: python
 
@@ -136,17 +94,6 @@ Troubleshooting
 
   and replace ``1,0`` with the numbers shown for your USB microphone.
 
-* **Recorded file has no sound**
-
-  Open the mixer and check the microphone volume:
-
-  .. code-block:: bash
-
-     alsamixer
-
-  * Press **F6** to select your USB mic.  
-  * Make sure **Mic/Capture** is not muted (**[OO]** instead of **[MM]**).  
-  * Increase the level with ↑.
 
 * **Vosk does not recognize speech**
 
@@ -158,3 +105,5 @@ Troubleshooting
 
   * The default auto-download is a **small model** (faster, but less accurate).  
   * If it’s still slow, close other programs to free CPU.  
+
+.. end_mic

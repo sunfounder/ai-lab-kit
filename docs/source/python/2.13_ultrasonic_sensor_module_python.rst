@@ -66,7 +66,6 @@ Ensure the connections are secure, with the Echo pin connected to GPIO 22 and th
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
-
 .. raw:: html
 
    <run></run>
@@ -74,7 +73,14 @@ Follow these steps to run the example:
 .. code-block:: shell
    
    cd ~/ai-lab-kit/python/
-   sudo python3 2.16_Ultrasonic.py
+   sudo python3 2.13_Ultrasonic.py
+
+This Python script uses an ultrasonic distance sensor to measure the distance to an object and displays the result on the console. When executed:
+
+1. The sensor, connected to GPIO pins 27 (trigger) and 22 (echo), continuously measures the distance to the nearest object.
+2. The distance is calculated in meters and converted to centimeters, then displayed in the format: ``Distance: <value> cm`` with two decimal places of precision.
+3. The distance is updated every 0.3 seconds, allowing for near real-time monitoring.
+4. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point it exits gracefully.
 
 ----------------------------------------------
 
@@ -110,12 +116,6 @@ Below is the Python code for this project:
       # Handle KeyboardInterrupt (Ctrl+C) to gracefully exit the loop
       pass
 
-This Python script uses an ultrasonic distance sensor to measure the distance to an object and displays the result on the console. When executed:
-
-1. The sensor, connected to GPIO pins 27 (trigger) and 22 (echo), continuously measures the distance to the nearest object.
-2. The distance is calculated in meters and converted to centimeters, then displayed in the format: ``Distance: <value> cm`` with two decimal places of precision.
-3. The distance is updated every 0.3 seconds, allowing for near real-time monitoring.
-4. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point it exits gracefully.
 
 
 ----------------------------------------------

@@ -68,7 +68,6 @@ Build the circuit as shown in the wiring diagram below:
 All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
 Follow these steps to run the example:
 
-
 .. raw:: html
 
    <run></run>
@@ -76,10 +75,15 @@ Follow these steps to run the example:
 .. code-block:: shell
    
    cd ~/ai-lab-kit/python/
-   sudo python3 2.17_DHT.py
+   sudo python3 2.14_DHT.py
+
+This Python script reads temperature and humidity data from a DHT11 sensor connected to a Fusion HAT+ using GPIO pin 17. When executed:
+
+1. Data is printed to the console every 1 seconds, providing real-time updates.
+2. If the data reading is not successful, the script outputs “time out” , indicating an error in data reading.
+
 
 ----------------------------------------------
-
 
 **Code**
 
@@ -118,11 +122,6 @@ Below is the Python code used for this project:
 
       # Wait 1 second before the next reading
       sleep(1)
-
-This Python script reads temperature and humidity data from a DHT11 sensor connected to a Fusion HAT+ using GPIO pin 17. When executed:
-
-1. Data is printed to the console every 1 seconds, providing real-time updates.
-2. If the data reading is not successful, the script outputs “time out” , indicating an error in data reading.
 
 
 ----------------------------------------------

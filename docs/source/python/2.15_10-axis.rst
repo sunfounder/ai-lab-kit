@@ -4,7 +4,7 @@
 
 .. _py_10-axis:
 
-2.14 10-Axis IMU Sensor Module
+2.15 10-Axis IMU Sensor Module
 ===============================
 
 **Introduction**
@@ -109,6 +109,22 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.15_10axis_imu.py
 
+This Python script reads comprehensive motion and environmental data from the 10-Axis IMU module. When executed:
+
+1. The script initializes communication with all three integrated sensors via I2C.
+2. Each sensor is detected and its I2C address is displayed for verification.
+3. The main loop continuously reads and displays data including:
+
+   - Altitude (from barometric pressure)
+   - Compass heading (azimuth)
+   - 3-axis acceleration
+   - 3-axis angular velocity (gyroscope)
+   - 3-axis magnetic field strength
+   - Temperature and atmospheric pressure
+
+4. Data updates every 0.5 seconds, providing real-time motion tracking.
+5. The program runs until interrupted with ``Ctrl+C``, then exits gracefully.
+
 ----------------------------------------------
 
 **Code**
@@ -177,21 +193,6 @@ Below is the Python code for reading data from the 10-Axis IMU module:
    if __name__ == "__main__":
        main()
 
-This Python script reads comprehensive motion and environmental data from the 10-Axis IMU module. When executed:
-
-1. The script initializes communication with all three integrated sensors via I2C.
-2. Each sensor is detected and its I2C address is displayed for verification.
-3. The main loop continuously reads and displays data including:
-
-   - Altitude (from barometric pressure)
-   - Compass heading (azimuth)
-   - 3-axis acceleration
-   - 3-axis angular velocity (gyroscope)
-   - 3-axis magnetic field strength
-   - Temperature and atmospheric pressure
-
-4. Data updates every 0.5 seconds, providing real-time motion tracking.
-5. The program runs until interrupted with ``Ctrl+C``, then exits gracefully.
 
 ----------------------------------------------
 

@@ -2,12 +2,10 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-
 .. _faq:
 
-
 FAQ
-===
+=====================
 
 
 Below are some of the most common questions users may encounter while using the
@@ -44,6 +42,29 @@ General Questions
 
 Software / Installation
 -----------------------
+
+**RuntimeError: Failed to add edge detection / RuntimeError: Cannot determine SOC peripheral base address**
+
+    This issue is usually caused by a conflict between the system-installed ``RPi.GPIO`` library and the GPIO library used by Fusion HAT.  
+    To solve it, please manually remove the system ``RPi.GPIO`` package files and then run the program again.
+
+    1. Remove the system ``RPi.GPIO`` files:
+
+       .. code-block:: bash
+
+          sudo pip3 uninstall RPi.GPIO --break
+          sudo rm -rf /usr/lib/python3/dist-packages/RPi.GPIO*
+
+    2. Reboot the Raspberry Pi:
+
+       .. code-block:: bash
+
+          sudo reboot
+
+    3. Run the example again (do not use sudo unless required):
+
+After removing the conflicting ``RPi.GPIO`` files, the interrupt-based button example should work normally.
+
 
 **The installation script failed. What should I do?**
 

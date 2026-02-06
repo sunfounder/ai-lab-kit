@@ -80,9 +80,16 @@ Follow these steps to run the example:
 .. code-block:: shell
    
    cd ~/ai-lab-kit/python/
-   sudo python3 2.9_Potentiometer.py
+   sudo python3 2.8_Potentiometer.py
 
-   
+This Python script uses an Fusion HAT+ to read analog input and control the brightness of a PWM LED. When executed:
+
+1. The Fusion HAT+ continuously reads an analog signal, converting it to a digital value between 0 and 4095.
+2. This value is mapped to a range between 0 and 100, representing the brightness percentage of the LED.
+3. The brightness of the PWM LED is dynamically adjusted based on the mapped value.
+4. The raw ADC value and voltage is printed to the console in real time.
+5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+ 
 ----------------------------------------------
 
 **Code**
@@ -134,13 +141,6 @@ Below is the code for the experiment:
       led.pulse_width_percent(0)  # Turn off the LED
 
 
-This Python script uses an Fusion HAT+ to read analog input and control the brightness of a PWM LED. When executed:
-
-1. The Fusion HAT+ continuously reads an analog signal, converting it to a digital value between 0 and 4095.
-2. This value is mapped to a range between 0 and 100, representing the brightness percentage of the LED.
-3. The brightness of the PWM LED is dynamically adjusted based on the mapped value.
-4. The raw ADC value and voltage is printed to the console in real time.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
 
 
 ----------------------------------------------

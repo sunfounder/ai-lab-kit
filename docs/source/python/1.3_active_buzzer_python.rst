@@ -85,6 +85,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.3_ActiveBuzzer.py 
 
+This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi. When executed:
+
+1. The buzzer alternates between turning on and off every 0.1 seconds, producing a beeping sound.
+2. The program prints "Buzzer On" and "Buzzer Off" to the console in sync with the buzzer's operation.
+3. The buzzing continues indefinitely until the user interrupts the script by pressing ``Ctrl+C``.
+
+
 ----------------------------------------------
 
 **Code**
@@ -122,13 +129,7 @@ The following Python code drives the active buzzer to beep on and off in a loop:
       # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
       pass
 
-This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi. When executed:
-
-1. The buzzer alternates between turning on and off every 0.1 seconds, producing a beeping sound.
-2. The program prints "Buzzer On" and "Buzzer Off" to the console in sync with the buzzer's operation.
-3. The buzzing continues indefinitely until the user interrupts the script by pressing ``Ctrl+C``.
-
-
+After running the script, the buzzer connected to the Raspberry Pi will repeatedly beep by turning on and off every 0.1 seconds. At the same time, the console will display “Buzzer On” and “Buzzer Off” messages that match the buzzer’s sound. The buzzer will keep beeping until you stop the program by pressing Ctrl + C.
 
 ----------------------------------------------
 

@@ -11,11 +11,7 @@
 
 This project introduces you to using the Raspberry Pi camera module to capture a photograph. The camera module can take high-quality still images and videos, making it a versatile tool for projects ranging from photography to computer vision.
 
-
-To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
-
 ----------------------------------------------
-
 
 **What You’ll Need**
 
@@ -35,46 +31,60 @@ Below are the components required for this project:
     *   - Raspberry Pi
         - \-
 
-
-
 ----------------------------------------------
 
 **Experimental Procedures**
 
-1. Access the Raspberry Pi Desktop:
+#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+
+   .. note:: 
+     
+     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
+
+#. Access the Raspberry Pi Desktop:
 
    * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
    * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
 
-2. Open a Terminal and go to the code folder:
+#. Open a Terminal and go to the code folder:
 
-   .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
-3. Run the script to start the camera:
+#. Run the script to start the camera:
 
-   .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
       sudo python3 3.1_Photograph.py
 
-4. After the script starts, press the **Fusion HAT+ USR button** to take photos.
+#. After the script starts, press the **Fusion HAT+ USR button** to take photos.
 
    .. image:: img/3.1_user_button.png
       :width: 50%
 
    * Each press captures a picture.
-   * Photos are saved in ``~/Pictures`` as ``photo_001.jpg``, ``photo_002.jpg``, etc.
+   * Photos are saved in ``~/user/Pictures`` as ``my_photo.jpg``.
    * Press ``Ctrl+C`` to stop the script.
 
    .. image:: img/3.1_take_photo.jpg
       :width: 70%
 
 .. note::
-
-   * You can also open ``3.1_Photograph.py`` in a Python IDE and use the Run/Stop buttons.
-   * To download photos to your PC, see the :ref:`filezilla` guide.
-
+   QT preview requires a desktop environment.
+   If the preview cannot be started (for example, over SSH),
+   the camera can still capture and save photos normally.
 
 ----------------------------------------------
 
@@ -83,75 +93,54 @@ Below are the components required for this project:
 
 Below is the Python code used for this project:
 
+.. raw:: html
 
+   <run></run>
+   
 .. code-block:: python
 
    #!/usr/bin/env python3
-
-   import os
-   import time
-   import threading
+   import os, time, pwd
    from picamera2 import Picamera2, Preview
-   from fusion_hat.user_button import UserButton   # Fusion HAT+ USR button
+   from fusion_hat.user_button import UserButton
 
-   # Resolve the correct user's home directory
-   # Works correctly even when running with sudo
-   REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
-   USER_HOME = f"/home/{REAL_USER}"
-   PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
-   os.makedirs(PICTURES_DIR, exist_ok=True)
+   u = os.getenv("SUDO_USER")
+   home = pwd.getpwnam(u).pw_dir if u else os.path.expanduser("~")
+   os.makedirs(f"{home}/Pictures", exist_ok=True)
+   photo = f"{home}/Pictures/my_photo.jpg"
 
-   # Initialize camera
    camera = Picamera2()
-   camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
+   camera.configure(camera.create_preview_configuration())
 
-   # Global photo counter with thread safety
-   photo_index = 1
-   photo_lock = threading.Lock()
+   def shot():
+      camera.capture_file(photo)
+      print(f"Saved: {photo}")
 
-   # Button event handler
-   def take_photo():
-      """
-      Called automatically whenever the USR button is clicked.
-      Captures a photo and saves it with an incrementing filename.
-      """
-      global photo_index
-      with photo_lock:
-         filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
-         print(f"\nCapturing: {filepath}")
-         camera.capture_file(filepath)
-         print("Saved.")
-         photo_index += 1
+   UserButton().set_on_click(shot)
 
-   # Main program logic
-   def main():
-      # Start button listener
-      btn = UserButton()
-      btn.set_on_click(take_photo)
-
-      # Start preview
-      camera.start_preview(Preview.QT)
-      camera.start()
-
-      print("Camera preview is running.")
-      print("Press the Fusion HAT+ USR button to take a photo.")
-      print(f"Photos will be saved to: {PICTURES_DIR}")
-      print("Press Ctrl+C to exit.\n")
-
+   # Start preview only when a GUI display is available
+   preview_started = False
+   if os.getenv("DISPLAY"):
       try:
-         while True:
-               time.sleep(0.1)  # Keep program alive
-      except KeyboardInterrupt:
-         print("\nExiting...")
+         camera.start_preview(Preview.QT)
+         preview_started = True
+      except Exception as e:
+         print(f"Preview disabled: {e}")
 
-      finally:
-         camera.stop_preview()
-         camera.close()
-
-   if __name__ == "__main__":
-      main()
-
-
+   camera.start()
+   print("Press USR to take photo. Ctrl+C to exit.")
+   try:
+      while True: time.sleep(0.1)
+   except KeyboardInterrupt:
+      pass
+   finally:
+      try: camera.stop()
+      except: pass
+      if preview_started:
+         try: camera.stop_preview()
+         except: pass
+      try: camera.close()
+      except: pass
 
 
 ----------------------------------------------
@@ -162,96 +151,120 @@ Below is the Python code used for this project:
 
    .. code-block:: python
 
-      import os
-      import time
-      import threading
+      import os, time, pwd
       from picamera2 import Picamera2, Preview
       from fusion_hat.user_button import UserButton
 
-   These modules handle file paths, timing, safe multithreading,
-   camera control, and reading the Fusion HAT+ USR button.
+   These modules provide:
+   
+   - ``os`` and ``pwd``: used to correctly locate the real user’s home directory,
+     even when the program is run with ``sudo``.
+   - ``time``: keeps the program running in a loop.
+   - ``Picamera2`` and ``Preview``: control the Raspberry Pi camera and preview modes.
+   - ``UserButton``: reads the Fusion HAT+ USR button.
 
-
-2. **Resolving the Correct User Home Directory**
+2. **Resolving the Save Path**
 
    .. code-block:: python
 
-      REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
-      USER_HOME = f"/home/{REAL_USER}"
-      PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
-      os.makedirs(PICTURES_DIR, exist_ok=True)
+      u = os.getenv("SUDO_USER")
+      home = pwd.getpwnam(u).pw_dir if u else os.path.expanduser("~")
+      os.makedirs(f"{home}/Pictures", exist_ok=True)
+      photo = f"{home}/Pictures/my_photo.jpg"
 
-   - ``SUDO_USER`` is used if the script is run with ``sudo``, ensuring the photos are saved under the **real** logged-in user, not ``root``.
-   - ``USER_HOME`` builds the path like ``/home/daisy``.
-   - ``PICTURES_DIR`` points to ``~/Pictures``.
-   - ``os.makedirs(..., exist_ok=True)`` creates the ``Pictures`` directory if it does not exist yet.
+   This section determines where photos are saved:
 
+   - If the script is run with ``sudo``, ``SUDO_USER`` is used to find the
+     original user’s home directory.
+   - Otherwise, the current user’s home directory is used.
+   - A ``Pictures`` folder is created if it does not already exist.
+   - All photos are saved as ``my_photo.jpg`` (each new photo overwrites the last).
 
 3. **Camera Initialization**
 
    .. code-block:: python
 
       camera = Picamera2()
-      camera.configure(
-          camera.create_preview_configuration(
-              main={"size": (800, 600)}
-          )
-      )
+      camera.configure(camera.create_preview_configuration())
 
-   - Creates a ``Picamera2`` instance to control the camera.
-   - Configures a preview stream with resolution ``800x600``.
-   - This configuration is used later when the preview is started.
+   The camera object is created and configured with a default preview setup.
+   This configuration works both with and without a visible preview window.
 
-
-4. **Global Photo Counter and Lock**
+4. **Photo Capture Function**
 
    .. code-block:: python
 
-      photo_index = 1
-      photo_lock = threading.Lock()
+      def shot():
+          camera.capture_file(photo)
+          print(f"Saved: {photo}")
 
-   - ``photo_index`` tracks the next file number (``001``, ``002``, etc.).
-   - ``photo_lock`` ensures that, if the button is pressed rapidly, only one capture runs at a time to avoid file naming conflicts or overlapping captures.
+   This function is called whenever the USR button is pressed.
+   It captures a photo and saves it to the predefined path, then prints
+   the save location.
 
-
-5. **USR Button Callback: ``take_photo()``**
-
-   .. code-block:: python
-
-      def take_photo():
-          global photo_index
-          with photo_lock:
-              filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
-              print(f"\n📸 Capturing photo: {filepath}")
-              camera.capture_file(filepath)
-              print(" Saved.")
-              photo_index += 1
-
-   - This function is called automatically whenever the USR button is clicked.
-   - It constructs a filename like ``photo_001.jpg`` in the ``Pictures`` folder.
-   - ``camera.capture_file(...)`` grabs the current frame and saves it as a JPEG file.
-   - After saving, ``photo_index`` is incremented so the next image gets a new filename.
-
-
-6. **Main Function: Setting Up Button and Preview**
+5. **USR Button Binding**
 
    .. code-block:: python
 
-      def main():
-          btn = UserButton()
-          btn.set_on_click(take_photo)
+      UserButton().set_on_click(shot)
 
-          camera.start_preview(Preview.QT)
-          camera.start()
+   The Fusion HAT+ USR button is linked to the ``shot`` function.
+   Each button press triggers a photo capture.
 
-         ...
+6. **Conditional Preview Start**
 
-   - ``UserButton()`` creates an instance that listens to the Fusion HAT+ USR button via Linux input events.
-   - ``btn.set_on_click(take_photo)`` registers the callback so that each button press triggers a photo capture.
-   - ``camera.start_preview(Preview.QT)`` opens a Qt-based preview window on the screen.
-   - ``camera.start()`` begins the camera pipeline so frames are continuously captured.
-   - The ``while True`` loop keeps the script running; the button event handling runs in a background thread.
-   - ``KeyboardInterrupt`` (Ctrl+C) is handled gracefully, stopping the preview and closing the camera device.
+   .. code-block:: python
+
+      preview_started = False
+      if os.getenv("DISPLAY"):
+          try:
+              camera.start_preview(Preview.QT)
+              preview_started = True
+          except Exception as e:
+              print(f"Preview disabled: {e}")
+
+   - The program checks whether a graphical display is available.
+   - If a display exists, it attempts to start a QT preview window.
+   - If no display is available (for example, when running over SSH),
+     the preview is skipped without stopping the program.
+
+7. **Camera Start and Main Loop**
+
+   .. code-block:: python
+
+      camera.start()
+      print("Press USR to take photo. Ctrl+C to exit.")
+
+      try:
+          while True:
+              time.sleep(0.1)
+
+   The camera is started, and the program enters an infinite loop to
+   keep running and listening for button presses.
+
+8. **Clean Exit and Resource Cleanup**
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+          pass
+      finally:
+          try: camera.stop()
+          except: pass
+          if preview_started:
+              try: camera.stop_preview()
+              except: pass
+          try: camera.close()
+          except: pass
+
+   When ``Ctrl+C`` is pressed:
+
+   - The camera is stopped.
+   - The preview is stopped only if it was successfully started.
+   - The camera resources are released cleanly.
+
+   This ensures the program exits without error messages, regardless of
+   whether a preview window was used.
 
 -------------------------
 

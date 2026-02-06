@@ -9,6 +9,7 @@
 
 **Introduction**
 
+
 This project creates an intelligent **AI Health Assistant** that combines body temperature sensing with voice interaction to provide personalized health assessments. The system integrates:
 
 1. **Thermistor-based Temperature Sensing** for accurate body temperature measurement
@@ -59,19 +60,6 @@ Connect the components to the Fusion HAT+ as follows:
    :width: 80%
    :align: center
 
-**Thermistor Circuit:**
-
-- Connect thermistor and 10kΩ resistor in series between 3.3V and GND
-- Connect the middle point (voltage divider) to ADC Channel 3 (A3)
-- **Thermistor Pinout:**
-
-  - One leg → 3.3V
-  - Other leg → ADC A3 AND to 10kΩ resistor
-  - Other end of 10kΩ resistor → GND
-
-
-
-*Note: The thermistor uses a voltage divider circuit. Ensure the 10kΩ resistor matches the thermistor's nominal resistance at 25°C.*
 
 ----------------------------------------------
 
@@ -81,25 +69,79 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Code**
-   
+**Run the Example**
+
+#. Run the Code
+
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
-      cd ~/ai-lab-kit/llm   
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_health.py
 
-----------------------------------------------
+#. Check the Result
+
+   When the program starts, it will prompt you to speak. It will then estimate your body
+   temperature and provide health advice.
+
+   Typical console output:
+
+   .. code-block:: text
+
+      Hello, I am a health assistant. Please hold your thermometer and I will assess your
+      body temperature based on the thermistor reading. If you feel unwell, please provide
+      your symptoms and I will provide appropriate health advice.
+
+      Say something
+      partial: I feel
+      partial: I feel very
+      partial: I feel very warm
+      final: I feel very warm and tired
+
+      Your body temperature is 38.7°C, which indicates a mild fever. Please rest, stay
+      hydrated, and monitor your symptoms. If the fever persists or worsens, consider
+      seeking medical attention.
+
+#. Example Scenarios
+
+   * Normal Temperature (36.5°C):
+
+     .. code-block:: text
+
+        User: "How's my temperature?"
+        AI: "Your body temperature is 36.5°C, which is within the normal range. You're
+        doing well, but continue to monitor how you feel."
+
+   * High Fever (39.2°C):
+
+     .. code-block:: text
+
+        User: "I have a headache and feel hot"
+        AI: "Your body temperature is 39.2°C, indicating a high fever. Please rest
+        immediately, stay hydrated, and consider seeking medical advice as soon as possible."
+
+   * Low Temperature (34.2°C):
+
+     .. code-block:: text
+
+        User: "I feel cold and shivering"
+        AI: "Your body temperature is 34.2°C, which is below normal and may indicate
+        hypothermia. Please warm up immediately with blankets and warm drinks."
+
 
 **Code**
 
 Here is the full Python script for the AI Health Assistant:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
-   :linenos:
+   
    
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
@@ -223,57 +265,9 @@ Here is the full Python script for the AI Health Assistant:
 
 ----------------------------------------------
 
-**Running Example**
-
-**Typical Console Output:**
-
-.. code-block:: text
-
-   Hello, I am a health assistant. Please hold your thermometer and I will assess your 
-   body temperature based on the thermistor reading. If you feel unwell, please provide 
-   your symptoms and I will provide appropriate health advice.
-   
-   Say something
-   partial: I feel
-   partial: I feel very
-   partial: I feel very warm
-   final: I feel very warm and tired
-   
-   Your body temperature is 38.7°C, which indicates a mild fever. Please rest, stay 
-   hydrated, and monitor your symptoms. If the fever persists or worsens, consider 
-   seeking medical attention.
-
-**Different Scenarios:**
-
-1. **Normal Temperature (36.5°C):**
-   
-   .. code-block:: text
-   
-      User: "How's my temperature?"
-      AI: "Your body temperature is 36.5°C, which is within the normal range. You're 
-      doing well, but continue to monitor how you feel."
-
-2. **High Fever (39.2°C):**
-   
-   .. code-block:: text
-   
-      User: "I have a headache and feel hot"
-      AI: "Your body temperature is 39.2°C, indicating a high fever. Please rest 
-      immediately, stay hydrated, and consider seeking medical advice as soon as possible."
-
-3. **Low Temperature (34.2°C):**
-   
-   .. code-block:: text
-   
-      User: "I feel cold and shivering"
-      AI: "Your body temperature is 34.2°C, which is below normal and may indicate 
-      hypothermia. Please warm up immediately with blankets and warm drinks."
-
-----------------------------------------------
-
 **Understanding the Code**
 
-1. **Temperature Sensor Initialization**
+1. Temperature Sensor Initialization
 
    The thermistor is connected to ADC channel A3:
    
@@ -283,7 +277,7 @@ Here is the full Python script for the AI Health Assistant:
       
    This reads analog values from 0-4095 representing voltage levels.
 
-2. **Steinhart-Hart Temperature Conversion**
+2. Steinhart-Hart Temperature Conversion
 
    The thermistor uses the Steinhart-Hart equation for accurate temperature calculation:
    
@@ -304,7 +298,7 @@ Here is the full Python script for the AI Health Assistant:
       # Convert Kelvin to Celsius
       Cel = temp - 273.15
 
-3. **Sensor Error Checking**
+3. Sensor Error Checking
 
    The code includes basic error detection:
    
@@ -316,7 +310,7 @@ Here is the full Python script for the AI Health Assistant:
       
    This detects if the thermistor is disconnected or shorted.
 
-4. **Speech Recognition Setup**
+4. Speech Recognition Setup
 
    Both STT and TTS are configured for English:
    
@@ -326,7 +320,7 @@ Here is the full Python script for the AI Health Assistant:
       tts.set_lang('en-US')
       stt = STT(language="en-us")
 
-5. **Contextual Input Construction**
+5. Contextual Input Construction
 
    Temperature data is combined with user query:
    
@@ -337,7 +331,7 @@ Here is the full Python script for the AI Health Assistant:
       
    Format: ``"thermistor: 37.2, message: I feel dizzy"``
 
-6. **Medical Classification Logic**
+6. Medical Classification Logic
 
    The AI instructions define temperature ranges:
    
@@ -349,7 +343,7 @@ Here is the full Python script for the AI Health Assistant:
       # 37.5-38.5°C: Mild fever
       # > 38.5°C: High fever
 
-7. **Real-time Speech Processing**
+7. Real-time Speech Processing
 
    The system shows partial recognition results:
    
@@ -363,7 +357,7 @@ Here is the full Python script for the AI Health Assistant:
               # Partial recognition
               print(f"partial: {result['partial']}", end="", flush=True)
 
-8. **Streaming AI Response**
+8. Streaming AI Response
 
    AI response is streamed and spoken simultaneously:
    
@@ -379,7 +373,7 @@ Here is the full Python script for the AI Health Assistant:
       
       tts.say(string)  # Speak complete response
 
-9. **Temperature Formatting**
+9. Temperature Formatting
 
    Temperature is formatted to one decimal place:
    
@@ -389,7 +383,7 @@ Here is the full Python script for the AI Health Assistant:
       
    This ensures consistent precision (e.g., 36.5°C instead of 36.512345°C).
 
-10. **Clear Console Display**
+10. Clear Console Display
 
     Uses ANSI escape codes for clean output:
     
@@ -403,266 +397,78 @@ Here is the full Python script for the AI Health Assistant:
 
 ----------------------------------------------
 
-**Temperature Ranges and Medical Significance**
-
-**Normal Body Temperature Ranges:**
-
-- **Oral:** 36.5-37.5°C (97.7-99.5°F)
-- **Rectal:** 37.0-38.0°C (98.6-100.4°F)
-- **Axillary (armpit):** 35.5-37.0°C (95.9-98.6°F)
-- **Ear:** 35.8-38.0°C (96.4-100.4°F)
-
-**Fever Classification:**
-
-- **Low-grade fever:** 37.5-38.3°C (99.5-100.9°F)
-- **Moderate fever:** 38.4-39.4°C (101.1-102.9°F)
-- **High fever:** 39.5-40.0°C (103.1-104.0°F)
-- **Hyperpyrexia:** > 40.0°C (> 104.0°F) - Medical emergency
-
-**Hypothermia Classification:**
-
-- **Mild:** 32-35°C (89.6-95.0°F)
-- **Moderate:** 28-32°C (82.4-89.6°F)
-- **Severe:** < 28°C (< 82.4°F) - Life-threatening
-
-----------------------------------------------
-
-**How It Works - Step by Step**
-
-1. **Initialization:**
-
-   - System prints welcome message
-   - Thermistor circuit is ready
-   - Speech recognition is active
-
-2. **User Interaction:**
-
-   - User speaks symptoms: "I feel feverish and have a headache"
-   - System shows partial recognition as user speaks
-   - Final text is captured when user stops speaking
-
-3. **Temperature Measurement:**
-
-   - Thermistor circuit measures resistance
-   - ADC converts to digital value (0-4095)
-   - Steinhart-Hart equation converts to Celsius
-   - Temperature formatted to one decimal place
-
-4. **AI Processing:**
-
-   - Temperature and query combined: "thermistor: 38.7, message: I feel feverish..."
-   - Sent to OpenAI GPT with medical instructions
-   - AI classifies temperature range
-   - Generates appropriate health advice
-
-5. **Response Delivery:**
-
-   - AI response streams to console
-   - Text-to-speech converts to audio
-   - User hears spoken health recommendations
-
-6. **Continuous Operation:**
-
-   - System returns to listening mode
-   - Ready for next health assessment
-   - Maintains conversation history (20 messages)
-
-----------------------------------------------
-
-**Thermistor Calibration**
-
-For accurate readings, calibrate your thermistor:
-
-1. **Calculate Actual Beta Value:**
-   
-   .. code-block:: python
-   
-      # Measure resistance at two known temperatures
-      # R1 at T1, R2 at T2
-      # B = ln(R1/R2) / (1/T1 - 1/T2)
-      
-      # Example: 10kΩ at 25°C, 3.5kΩ at 50°C
-      B = math.log(10000/3500) / (1/(273+25) - 1/(273+50))
-
-2. **Add Calibration Offset:**
-   
-   .. code-block:: python
-   
-      # If readings are consistently off by 0.5°C
-      Cel = temp - 273.15 + 0.5  # Add calibration offset
-
-3. **Multi-point Calibration:**
-
-   - Measure at ice water (0°C)
-   - Measure at room temperature (known)
-   - Measure at body temperature (medical thermometer)
-   - Create lookup table or linear correction
-
-----------------------------------------------
-
 **Troubleshooting**
 
-- **"Temperature readings inaccurate"**
+- Temperature readings inaccurate
 
   - Check thermistor wiring: proper voltage divider configuration
   - Verify resistor value: should match thermistor's nominal resistance
   - Calibrate with known temperature source
   - Check ADC reference voltage (should be 3.3V stable)
 
-- **"No speech recognition"**
+- No speech recognition
 
   - Test microphone: ``arecord --duration=3 test.wav && aplay test.wav``
   - Check audio device selection in STT initialization
   - Ensure background noise is minimal
   - Speak clearly and at moderate pace
 
-- **"AI not responding"**
+- AI not responding
 
   - Check internet connection
   - Verify OpenAI API key in ``secret.py``
   - Ensure billing is enabled on OpenAI account
   - Check if API rate limits are exceeded
 
-- **"Temperature jumps erratically"**
+- Temperature jumps erratically
 
   - Add software filtering: moving average of readings
   - Check for loose connections
   - Add capacitor (0.1µF) across thermistor for noise reduction
   - Ensure thermistor is making good thermal contact
 
-- **"Text-to-speech not working"**
+- Text-to-speech not working
 
   - Test audio output: ``speaker-test -t sine -f 440``
   - Verify language setting: ``tts.set_lang('en-US')``
   - Check volume: ``alsamixer``
   - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
 
-- **"Sensor reading shows 0 or 4095"**
+- Sensor reading shows 0 or 4095
 
   - Check wiring: thermistor may be shorted (0) or open (4095)
   - Verify voltage divider calculation
   - Test ADC with known voltage source
   - Check ADC channel (should be A3)
 
-- **"Response too slow"**
-
-  - Reduce streaming complexity
-  - Pre-measure temperature before speech ends
-  - Implement local temperature assessment as fallback
-  - Check network latency
-
-- **"Medical advice seems generic"**
-
-  - Enhance AI instructions with more specific guidance
-  - Include common symptoms and responses
-  - Add follow-up question capability
-  - Implement severity scoring system
-
-----------------------------------------------
-
 **Safety and Medical Disclaimer**
 
-.. warning:: This project is for educational and demonstration purposes only. It is NOT a medical device and should NOT be used for actual medical diagnosis or treatment.
+.. warning::
 
-**Critical Safety Guidelines:**
+   This project is for educational and demonstration purposes only.  
+   It is **NOT** a medical device and must **NOT** be used for real medical diagnosis or treatment.
 
-1. **NOT FOR MEDICAL USE:** Do not rely on this system for health decisions
-2. **EMERGENCY SITUATIONS:** Always seek professional medical help for serious symptoms
-3. **ACCURACY LIMITS:** Thermistor accuracy is limited compared to medical thermometers
-4. **CALIBRATION REQUIRED:** Regular calibration against medical thermometers is essential
-5. **SUPERVISION NEEDED:** Use under adult supervision if intended for educational purposes
+#. Safety guidelines
 
-**When to Seek Medical Attention:**
+   * Not for medical use: Do not rely on this system for any health or treatment decisions.
+   * Emergency situations: Always seek professional medical help for serious symptoms.
+   * Accuracy limitations: Thermistor accuracy is limited compared to medical thermometers.
+   * Calibration required: Regular calibration against a medical thermometer is essential.
+   * Supervision needed: Adult supervision is recommended when used for educational purposes.
 
-- Temperature > 39.5°C (103.1°F) in adults
-- Temperature > 38.0°C (100.4°F) in infants under 3 months
-- Fever lasting more than 3 days
-- Difficulty breathing or chest pain
-- Severe headache or stiff neck
-- Confusion or seizures
+#. When to seek medical attention
+
+   Seek professional medical help if any of the following occur:
+
+   * Temperature > 39.5°C (103.1°F) in adults
+   * Temperature > 38.0°C (100.4°F) in infants under 3 months
+   * Fever lasting more than 3 days
+   * Difficulty breathing or chest pain
+   * Severe headache or stiff neck
+   * Confusion or seizures
+
+
 
 ----------------------------------------------
-
-**Try It Yourself**
-
-1. **Multiple Vital Signs**  
-
-   Add heart rate sensor (pulse oximeter) and blood pressure monitor.
-
-2. **Symptom Checker**  
-
-   Expand to full symptom assessment with decision tree logic.
-
-3. **Medical History Integration**  
-
-   Store user medical history for personalized recommendations.
-
-4. **Medication Reminder**  
-
-   Add medication scheduling and reminder system.
-
-5. **Telemedicine Integration**  
-
-   Connect to telemedicine platforms for remote consultations.
-
-6. **Emergency Alert System**  
-
-   Automatically alert emergency contacts for critical readings.
-
-7. **Multi-user Profiles**  
-
-   Support multiple family members with individual profiles.
-
-8. **Health Trend Analysis**  
-
-   Track temperature over time and identify patterns.
-
-9. **Environmental Monitoring**  
-
-   Add room temperature and humidity sensors for context.
-
-10. **Nutrition Advisor**  
-
-   Provide dietary recommendations based on health status.
-
-11. **Exercise Recommendations**  
-
-   Suggest appropriate physical activity based on health metrics.
-
-12. **Sleep Monitoring**  
-
-   Integrate sleep tracking with temperature correlation.
-
-13. **Allergy Tracker**  
-
-   Monitor symptoms and identify potential allergens.
-
-14. **Vaccination Reminder**  
-
-   Track vaccination schedules and send reminders.
-
-15. **First Aid Guide**  
-
-   Provide step-by-step first aid instructions.
-
-16. **Mental Health Assessment**  
-
-   Include mood tracking and mental wellness recommendations.
-
-17. **Chronic Condition Management**  
-
-   Specialized tracking for diabetes, hypertension, etc.
-
-18. **Medical Dictionary**  
-
-   Explain medical terms and conditions in simple language.
-
-19. **Health Goal Setting**  
-
-   Help users set and track health improvement goals.
-
-20. **Integration with Wearables**  
-
-   Connect to smartwatches and fitness trackers for comprehensive data.
 
 This AI Health Assistant demonstrates how sensor technology, voice interaction, and artificial intelligence can work together to create accessible health monitoring tools, while emphasizing the importance of professional medical consultation for serious health concerns!

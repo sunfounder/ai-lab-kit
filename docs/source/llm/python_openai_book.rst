@@ -19,7 +19,6 @@ The project combines multiple technologies:
 - RGB LED for visual status feedback
 - Physical button for intuitive interaction
 
-
 To use the other llm model, please refer to :ref:`py_online_llm` .
 
 ----------------------------------------------
@@ -51,29 +50,25 @@ The following components are required for this project:
 
 **Wiring Diagram**
 
-Connect the components to the Fusion HAT+ as follows:
+#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
-.. image:: img/fzz/llm_book_bb.png
-   :width: 80%
-   :align: center
+   .. note:: 
+     
+     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
 
-**Camera Connection:**
+#. Connect the components to the Fusion HAT+ as follows:
 
-- Connect the camera to the Raspberry Pi
-- :ref:`assemble_fusion_hat_pan_tilt`
+   .. image:: img/fzz/llm_book_bb.png
+      :width: 80%
+      :align: center
 
+#. The User Button is already integrated into the Fusion HAT+ and doesn't require additional wiring. It is near by the BATTERY port.*
 
-**RGB LED Connection:**
-
-- **Red pin** → Fusion HAT+ PWM port 0
-- **Green pin** → Fusion HAT+ PWM port 1  
-- **Blue pin** → Fusion HAT+ PWM port 2
-- **Common cathode** → Ground (GND)
-
-*Note: The User Button is already integrated into the Fusion HAT+ and doesn't require additional wiring. It is near by the BATTERY port.*
-
-.. image:: img/3.1_user_button.png
-   :width: 50%
+   .. image:: img/3.1_user_button.png
+      :width: 50%
 
 ----------------------------------------------
 
@@ -81,15 +76,15 @@ Connect the components to the Fusion HAT+ as follows:
    :start-after: start_setup_openai
    :end-before: end_setup_openai
 
------------------------------------------------------------
+**Running the Example**
 
-**Access the Raspberry Pi desktop**
+#. Access the Raspberry Pi Desktop:
 
-You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
+   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
+   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
 
+#. Open a Terminal and go to the code folder:
 
-**Run the Code**
-   
    .. raw:: html
    
       <run></run>
@@ -99,7 +94,7 @@ You are using a display. Otherwise, please install Raspberry Pi Connect (|link_r
       cd ~/ai-lab-kit/llm   
       sudo python3 llm_openai_bookexpert.py
 
-**When the script runs:**
+#. When the script runs:
    
    * A camera preview window will open
    * The RGB LED will glow blue, indicating ready state
@@ -121,6 +116,10 @@ You are using a display. Otherwise, please install Raspberry Pi Connect (|link_r
 **Code**
 
 Here is the full Python script for the AI Book Cover Analyzer:
+
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 
@@ -371,7 +370,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
 
 **Understanding the Code**
 
-1. **Camera Initialization**
+1. Camera Initialization
 
    The Picamera2 library provides a modern interface for Raspberry Pi camera control, supporting both image capture and preview.
 
@@ -384,7 +383,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
       self.camera.start_preview(Preview.QT)
       self.camera.start()
 
-2. **Image Capture with Thread Safety**
+2. Image Capture with Thread Safety
 
    The capture_photo method uses threading locks to prevent multiple simultaneous captures and ensures proper file naming.
 
@@ -397,7 +396,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
               self.photo_index += 1
               return str(filepath)
 
-3. **Vision AI Analysis**
+3. Vision AI Analysis
 
    The system uses GPT-4o's vision capabilities to analyze book covers. Two methods (streaming and non-streaming) are implemented for robustness.
 
@@ -412,7 +411,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
           # Method 2: Fallback to streaming if needed
           stream_response = self.llm.prompt(prompt_text, stream=True, image_path=image_path)
 
-4. **Text-to-Speech Conversion**
+4. Text-to-Speech Conversion
 
    OpenAI's TTS API converts the AI's analysis into natural-sounding speech with configurable voice options.
 
@@ -425,7 +424,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
           clean_text = re.sub(r'[*_\[\]()#]', '', text)  # Remove markdown
           self.tts.say(clean_text, instructions="speak clearly and warmly")
 
-5. **Status Feedback System**
+5. Status Feedback System
 
    The RGB LED provides visual feedback throughout the process using color coding:
 
@@ -441,7 +440,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
           }
           self.rgb_led.color(color_map[color_name])
 
-6. **Button Event Handling**
+6. Button Event Handling
 
    The User Button triggers the entire analysis workflow through an event callback.
 
@@ -458,7 +457,7 @@ Here is the full Python script for the AI Book Cover Analyzer:
       # Set callback
       self.btn.set_on_click(self.button_handler)
 
-7. **File Management**
+7. File Management
 
    Photos are automatically organized in dated folders with sequential numbering.
 
@@ -473,37 +472,37 @@ Here is the full Python script for the AI Book Cover Analyzer:
 
 **Troubleshooting**
 
-- **"Camera not detected" error**
+- "Camera not detected" error
 
   - Ensure the camera ribbon cable is properly inserted (gold contacts facing the correct direction)
   - Run ``sudo raspi-config`` and enable the camera interface
   - Reboot after enabling the camera
 
-- **"No preview window appears"**
+- "No preview window appears"
 
   - Ensure you're running on a Raspberry Pi with a desktop environment
   - For headless operation, remove or modify the preview code
   - Check if you have sufficient GPU memory allocated
 
-- **"OpenAI API error"**
+- "OpenAI API error"
 
   - Verify your API key in ``secret.py`` is correct and has sufficient credits
   - Check internet connectivity: ``ping 8.8.8.8``
   - Ensure your account has access to GPT-4o and the TTS API
 
-- **"TTS audio not playing"**
+- "TTS audio not playing"
 
   - Check if audio output is configured: ``sudo raspi-config`` → **System Options** → **Audio**
   - Test audio with: ``speaker-test -t sine -f 440``
   - Ensure your speaker/headphones are connected to the correct audio jack
 
-- **"Button press not detected"**
+- "Button press not detected"
 
   - Check if the User Button LED lights up when pressed
   - Ensure the Fusion HAT+ is properly seated on the GPIO pins
   - Verify the button callback is set correctly
 
-- **"Image analysis returns generic responses"**
+- "Image analysis returns generic responses"
 
   - Ensure good lighting when capturing book covers
   - Position the book cover squarely in the camera frame
@@ -511,67 +510,5 @@ Here is the full Python script for the AI Book Cover Analyzer:
   - Clean the camera lens if blurry
 
 ----------------------------------------------
-
-**Try It Yourself**
-
-1. **Multi-Language Support**  
-
-   Modify the system to detect and respond in different languages based on the book's language or user preference.
-
-2. **Database Integration**  
-
-   Connect to a book database (like Google Books API or Open Library) to fetch additional details like reviews, publication dates, and similar books.
-
-3. **Barcode/ISBN Scanning**  
-
-   Add barcode detection to scan ISBN numbers for more accurate book identification.
-
-4. **Reading Recommendations**  
-
-   After analyzing a book, suggest similar books or authors the user might enjoy.
-
-5. **Batch Processing Mode**  
-
-   Create a mode to scan multiple books sequentially and generate a reading list summary.
-
-6. **Accessibility Features**  
-
-   Add voice command recognition for hands-free operation or Braille output support.
-
-7. **Book Club Assistant**  
-
-   Expand to analyze multiple books and compare themes, genres, or difficulty levels for book club selection.
-
-8. **Educational Mode**  
-
-   Add quizzes or discussion questions based on the analyzed book's content.
-
-9. **Augmented Reality**  
-
-   Use AR to overlay book information directly onto the camera view when pointing at books.
-
-10. **Personal Library Catalog**  
-
-   Create a complete catalog system that organizes analyzed books into a searchable digital library.
-
-11. **Book Condition Assessment**  
-
-   Add analysis of book condition (new, used, damaged) for collectors or resellers.
-
-12. **Genre Classification**  
-
-   Implement automatic genre detection and categorization of books.
-
-13. **Reading Level Analysis**  
-
-   Estimate the reading difficulty level appropriate for different age groups.
-
-14. **Thematic Analysis**  
-
-   Identify common themes, motifs, or symbols present in the book's cover design.
-
-15. **Historical Context**  
-
-   Provide historical context about when the book was published and its cultural significance.
 
 This project demonstrates the powerful combination of computer vision, natural language processing, and physical computing to create an intelligent book analysis system. It showcases how AI can enhance everyday interactions with physical objects like books, making information more accessible and engaging!

@@ -39,28 +39,33 @@ The following components are required for this project:
     *   - Raspberry Pi
         - \-
 
-----------------------------------------------
 
-**Hardware Connection**
+--------------------
 
-Connect the components as follows:
+**Circuit Diagram**
 
-1. **Servo**:
+.. image:: img/fzz/2.1.9_sch.png
+   :width: 80%
+   :align: center
 
-   - Pan Servo (horizontal movement): Connect to channel 2 of the Fusion HAT servo ports
-   - Tilt Servo (vertical movement): Connect to channel 3 of the Fusion HAT servo ports
+---------------
 
-2. **Joystick**:
+**Wiring Diagram**
 
-   - X-axis (horizontal): Connect to ADC pin A1
-   - Y-axis (vertical): Connect to ADC pin A0
-   - Button: Connect to GPIO 17
+#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
-3. **Camera**:
+   .. note:: 
+     
+     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
 
-   - Connect the Raspberry Pi Camera Module to the CSI port on the Raspberry Pi
+#. Follow this wiring diagram to set up the circuit:
 
-**Note**: Ensure all connections are secure before powering on the system.
+   .. image:: img/fzz/4.16_joystick_camera_bb.png
+      :width: 100%
+      :align: center
 
 ----------------------------------------------
 
@@ -74,15 +79,33 @@ Connect the components as follows:
 
 2. Open a Terminal and go to the code folder:
 
-   .. code-block:: bash
+   .. raw:: html
 
-      cd ~/ai-lab-kit/python
+        <run></run>
+
+   .. code-block:: shell
+
+       cd ~/ai-lab-kit/python
 
 3. Run the script to start the camera:
 
-   .. code-block:: bash
+   .. raw:: html
 
-      sudo python3 pan_tilt_camera.py
+        <run></run>
+
+   .. code-block:: shell
+
+       sudo python3 pan_tilt_camera.py
+
+4. After running the script, the pan-tilt camera system starts and initializes the camera and servos. 
+
+   * If a display is available, a live camera preview is shown; otherwise, the program runs normally in headless mode.
+
+   * Moving the joystick left or right rotates the camera horizontally (pan), while moving it up or down tilts the camera vertically (tilt). 
+
+   * When the joystick button is pressed, the camera captures a photo and saves it to the ``Pictures/camera_pan_tilt`` directory using a simple sequential filename such as ``photo_001.jpg``.
+
+   * The system continues running and responding to user input until you stop the program by pressing Ctrl + C.
 
 ----------------------------------------------
 
@@ -90,393 +113,216 @@ Connect the components as follows:
 
 Below is the Python script used in this project:
 
-.. .. raw:: html
+.. raw:: html
 
-..    <run></run>
+   <run></run>
 
 .. code-block:: python
 
-   #!/usr/bin/env python3
-   """
-   Pan-Tilt Camera Control System
-   Control camera direction with joystick, take photos with joystick button
-   Simple version for beginners
-   """
+    #!/usr/bin/env python3
+    import os, time
+    from picamera2 import Picamera2, Preview
+    from fusion_hat.adc import ADC
+    from fusion_hat.pin import Pin, Mode, Pull
+    from fusion_hat.servo import Servo
 
-   import os
-   import time
-   from fusion_hat.adc import ADC
-   from fusion_hat.pin import Pin, Mode, Pull
-   from fusion_hat.servo import Servo
-   from picamera2 import Picamera2, Preview
+    # Servo channels for pan (horizontal) and tilt (vertical)
+    PAN_CHANNEL, TILT_CHANNEL = 2, 3
 
-   # ========== HARDWARE SETTINGS ==========
-   # Servo channels for pan (horizontal) and tilt (vertical)
-   PAN_CHANNEL = 2
-   TILT_CHANNEL = 3
+    # Joystick ADC pins (X/Y axis) and button pin
+    X_PIN, Y_PIN = "A1", "A0"
+    BTN_PIN = 17
 
-   # Joystick ADC pins
-   X_PIN = 'A1'  # Horizontal control
-   Y_PIN = 'A0'  # Vertical control
+    # Angle limits to protect servos
+    PAN_MIN, PAN_MAX = -90, 90
+    TILT_MIN, TILT_MAX = -45, 45
 
-   # Joystick button pin
-   BTN_PIN = 17
+    # Deadzone ignores small joystick movement
+    DEADZONE = 15
+    MOVE_SPEED = 3
+    LOOP_DELAY = 0.05
 
-   # ========== CONTROL SETTINGS ==========
-   # Angle limits for safety
-   PAN_MIN = -90    # Leftmost position
-   PAN_MAX = 90     # Rightmost position
-   TILT_MIN = -45   # Downward limit
-   TILT_MAX = 45    # Upward limit
+    # Photo save directory (works with sudo)
+    REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+    PHOTO_DIR = os.path.join(f"/home/{REAL_USER}", "Pictures", "camera_pan_tilt")
+    os.makedirs(PHOTO_DIR, exist_ok=True)
 
-   # Joystick deadzone (ignore small movements)
-   DEADZONE = 15
+    # Initialize servos
+    pan_servo = Servo(PAN_CHANNEL)
+    tilt_servo = Servo(TILT_CHANNEL)
 
-   # Movement speed (degrees per update)
-   MOVE_SPEED = 3
+    # Initialize joystick and button (active-low)
+    x_adc = ADC(X_PIN)
+    y_adc = ADC(Y_PIN)
+    joystick_button = Pin(BTN_PIN, mode=Mode.IN, pull=Pull.UP)  # pressed -> 0
 
-   # ========== CAMERA SETTINGS ==========
-   # Photo save location
-   REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
-   USER_HOME = f"/home/{REAL_USER}"
-   PHOTO_DIR = os.path.join(USER_HOME, "Pictures", "camera_pan_tilt")
-   os.makedirs(PHOTO_DIR, exist_ok=True)
+    # Initialize camera
+    camera = Picamera2()
+    camera.configure(camera.create_preview_configuration(main={"size": (1280, 720)}))
 
-   # ========== INITIALIZE HARDWARE ==========
-   print("Initializing Pan-Tilt Camera System...")
+    preview_started = False
+    photo_count = 1
+    current_pan = 0
+    current_tilt = 0
+    last_button_state = 1  # Used for edge detection
 
-   # Initialize servos
-   print("Setting up servos...")
-   pan_servo = Servo(PAN_CHANNEL)   # Horizontal rotation servo
-   tilt_servo = Servo(TILT_CHANNEL) # Vertical rotation servo
+    def clamp(v, vmin, vmax):
+        # Limit value to a safe range
+        return max(vmin, min(vmax, v))
 
-   # Initialize joystick
-   print("Setting up joystick...")
-   joystick_button = Pin(BTN_PIN, mode=Mode.IN, pull=Pull.UP)
-   x_adc = ADC(X_PIN)
-   y_adc = ADC(Y_PIN)
+    def map_value(value, in_min, in_max, out_min, out_max):
+        # Map ADC value to a new range
+        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   # Initialize camera
-   print("Setting up camera...")
-   camera = Picamera2()
-   # Configure camera for preview
-   camera_config = camera.create_preview_configuration(main={"size": (1280, 720)})
-   camera.configure(camera_config)
+    def apply_deadzone(v, dz):
+        # Ignore small joystick movement
+        return 0 if (-dz < v < dz) else v
 
-   # ========== GLOBAL VARIABLES ==========
-   # Current camera angles
-   current_pan = 0    # Horizontal angle (-90 to 90)
-   current_tilt = 0   # Vertical angle (-45 to 45)
+    def read_joystick():
+        # Read joystick X/Y position
+        x = map_value(x_adc.read(), 0, 4095, -100, 100)
+        y = map_value(y_adc.read(), 0, 4095, -100, 100)
+        return x, y
 
-   # Photo counter
-   photo_count = 1
+    def check_button_press():
+        # Detect button press (HIGH -> LOW)
+        global last_button_state
+        current_state = joystick_button.value()
+        if last_button_state == 1 and current_state == 0:
+            last_button_state = current_state
+            return True
+        last_button_state = current_state
+        return False
 
-   # Program running flag
-   running = True
+    def take_photo():
+        # Capture and save one photo
+        global photo_count
+        filename = f"photo_{photo_count:03d}.jpg"
+        filepath = os.path.join(PHOTO_DIR, filename)
+        camera.capture_file(filepath)
+        print("Saved:", filepath)
+        photo_count += 1
 
-   # Previous button state (for detecting button press)
-   last_button_state = 1  # 1 = not pressed, 0 = pressed
+    def start_preview_if_available():
+        # Start camera preview only if a display is available
+        global preview_started
+        preview_started = False
+        if os.getenv("DISPLAY"):
+            try:
+                camera.start_preview(Preview.QT)
+                preview_started = True
+            except Exception:
+                preview_started = False
 
-   # ========== HELPER FUNCTIONS ==========
-   def map_value(value, in_min, in_max, out_min, out_max):
-       """
-       Convert value from one range to another
-       Example: map 0-4095 to -100 to 100
-       """
-       return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+    def cleanup():
+        # Safely stop camera and release resources
+        try:
+            camera.stop()
+        except Exception:
+            pass
+        if preview_started:
+            try:
+                camera.stop_preview()
+            except Exception:
+                pass
+        try:
+            camera.close()
+        except Exception:
+            pass
 
-   def read_joystick():
-       """
-       Read joystick position
-       Returns: x_value (-100 to 100), y_value (-100 to 100)
-       """
-       # Read ADC values (0 to 4095)
-       x_raw = x_adc.read()
-       y_raw = y_adc.read()
-       
-       # Convert to -100 to 100 range
-       x_value = map_value(x_raw, 0, 4095, -100, 100)
-       y_value = map_value(y_raw, 0, 4095, -100, 100)
-       
-       return x_value, y_value
+    def main():
+        global current_pan, current_tilt
 
-   def apply_deadzone(value, deadzone):
-       """
-       Ignore small joystick movements to prevent drifting
-       """
-       if -deadzone < value < deadzone:
-           return 0
-       return value
+        start_preview_if_available()
+        camera.start()
 
-   def move_camera(x_value, y_value):
-       """
-       Move camera based on joystick position
-       """
-       global current_pan, current_tilt
-       
-       # Apply deadzone to ignore small movements
-       x_value = apply_deadzone(x_value, DEADZONE)
-       y_value = apply_deadzone(y_value, DEADZONE)
-       
-       # Calculate new angles
-       new_pan = current_pan
-       new_tilt = current_tilt
-       
-       # Move left or right (pan)
-       if x_value < -DEADZONE:      # Left
-           new_pan = current_pan - MOVE_SPEED
-       elif x_value > DEADZONE:     # Right
-           new_pan = current_pan + MOVE_SPEED
-       
-       # Move up or down (tilt)
-       if y_value < -DEADZONE:      # Down
-           new_tilt = current_tilt - MOVE_SPEED
-       elif y_value > DEADZONE:     # Up
-           new_tilt = current_tilt + MOVE_SPEED
-       
-       # Check angle limits for pan
-       if new_pan < PAN_MIN:
-           new_pan = PAN_MIN
-       elif new_pan > PAN_MAX:
-           new_pan = PAN_MAX
-       
-       # Check angle limits for tilt
-       if new_tilt < TILT_MIN:
-           new_tilt = TILT_MIN
-       elif new_tilt > TILT_MAX:
-           new_tilt = TILT_MAX
-       
-       # Move servos only if angle changed
-       if new_pan != current_pan:
-           pan_servo.angle(new_pan)
-           current_pan = new_pan
-           print(f"Pan: {current_pan} degrees", end="  ")
-       
-       if new_tilt != current_tilt:
-           tilt_servo.angle(new_tilt)
-           current_tilt = new_tilt
-           print(f"Tilt: {current_tilt} degrees", end="  ")
-       
-       # Print new line if something moved
-       if new_pan != current_pan or new_tilt != current_tilt:
-           print()
+        # Center camera at startup
+        pan_servo.angle(0)
+        tilt_servo.angle(0)
 
-   def check_button_press():
-       """
-       Check if joystick button is pressed
-       Returns: True if button was just pressed
-       """
-       global last_button_state
-       
-       current_state = joystick_button.value()
-       
-       # Button is pressed when it goes from 1 to 0
-       if last_button_state == 1 and current_state == 0:
-           last_button_state = current_state
-           return True
-       
-       last_button_state = current_state
-       return False
+        try:
+            while True:
+                # Read joystick and move camera
+                x, y = read_joystick()
+                x = apply_deadzone(x, DEADZONE)
+                y = apply_deadzone(y, DEADZONE)
 
-   def take_photo():
-       """
-       Capture and save a photo
-       """
-       global photo_count
-       
-       # Create filename with angle information
-       filename = f"photo_{photo_count:03d}_pan{current_pan:+03d}_tilt{current_tilt:+03d}.jpg"
-       filepath = os.path.join(PHOTO_DIR, filename)
-       
-       print(f"\nTaking photo #{photo_count}...")
-       print(f"   Camera angles: Pan={current_pan} degrees, Tilt={current_tilt} degrees")
-       print(f"   Saving to: {filepath}")
-       
-       try:
-           # Capture photo
-           camera.capture_file(filepath)
-           print("Photo saved successfully!")
-           
-           # Simple visual feedback
-           print("Photo captured!")
-           
-           # Increment photo counter
-           photo_count += 1
-           
-       except Exception as e:
-           print(f"Error taking photo: {e}")
+                new_pan = current_pan + (MOVE_SPEED if x > DEADZONE else -MOVE_SPEED if x < -DEADZONE else 0)
+                new_tilt = current_tilt + (MOVE_SPEED if y > DEADZONE else -MOVE_SPEED if y < -DEADZONE else 0)
 
-   def reset_camera():
-       """
-       Reset camera to center position
-       """
-       global current_pan, current_tilt
-       
-       print("\nResetting camera to center position...")
-       
-       current_pan = 0
-       current_tilt = 0
-       
-       pan_servo.angle(current_pan)
-       tilt_servo.angle(current_tilt)
-       
-       print(f"Camera centered: Pan={current_pan} degrees, Tilt={current_tilt} degrees")
+                new_pan = clamp(new_pan, PAN_MIN, PAN_MAX)
+                new_tilt = clamp(new_tilt, TILT_MIN, TILT_MAX)
 
-   def print_instructions():
-       """
-       Display control instructions
-       """
-       print("\n" + "="*60)
-       print("PAN-TILT CAMERA CONTROL SYSTEM")
-       print("="*60)
-       print("CONTROLS:")
-       print("  Joystick LEFT/RIGHT  -> Move camera horizontally (Pan)")
-       print("  Joystick UP/DOWN     -> Move camera vertically (Tilt)")
-       print("  Joystick BUTTON      -> Take a photo")
-       print("\nINFORMATION:")
-       print(f"  Photos saved to: {PHOTO_DIR}")
-       print(f"  Pan range: {PAN_MIN} to {PAN_MAX} degrees")
-       print(f"  Tilt range: {TILT_MIN} to {TILT_MAX} degrees")
-       print("\nPress Ctrl+C to exit the program")
-       print("="*60 + "\n")
+                if new_pan != current_pan:
+                    current_pan = new_pan
+                    pan_servo.angle(current_pan)
 
-   def cleanup():
-       """
-       Clean up resources before exiting
-       """
-       global running
-       
-       print("\nShutting down system...")
-       running = False
-       
-       # Reset servos to center
-       print("Centering servos...")
-       pan_servo.angle(0)
-       tilt_servo.angle(0)
-       time.sleep(0.5)
-       
-       # Stop camera
-       print("Stopping camera...")
-       camera.stop_preview()
-       camera.close()
-       
-       print("System shutdown complete!")
-       print(f"Total photos taken: {photo_count-1}")
+                if new_tilt != current_tilt:
+                    current_tilt = new_tilt
+                    tilt_servo.angle(current_tilt)
 
-   # ========== MAIN PROGRAM ==========
-   def main():
-       """
-       Main program loop
-       """
-       global running
-       
-       # Start camera preview
-       print("Starting camera preview...")
-       camera.start_preview(Preview.QT)
-       camera.start()
-       
-       # Reset camera to center
-       reset_camera()
-       
-       # Show instructions
-       print_instructions()
-       
-       print("System ready! Start controlling the camera...\n")
-       
-       # Main control loop
-       try:
-           while running:
-               # Read joystick position
-               x_val, y_val = read_joystick()
-               
-               # Move camera based on joystick
-               move_camera(x_val, y_val)
-               
-               # Check if joystick button is pressed
-               if check_button_press():
-                   take_photo()
-               
-               # Small delay to prevent CPU overload
-               time.sleep(0.05)
-               
-       except KeyboardInterrupt:
-           print("\n\nProgram interrupted by user")
-       
-       finally:
-           # Clean up before exiting
-           cleanup()
+                # Take photo when button is pressed
+                if check_button_press():
+                    take_photo()
 
-   # ========== PROGRAM START ==========
-   if __name__ == "__main__":
-       print("Starting Pan-Tilt Camera Control System")
-       print("==========================================")
-       main()
+                time.sleep(LOOP_DELAY)
 
-This Python script creates a complete pan-tilt camera control system with the following features:
+        except KeyboardInterrupt:
+            pass
+        finally:
+            cleanup()
 
-1. **Camera Control**: 
+    if __name__ == "__main__":
+        main()
 
-   - Pan (horizontal movement) controlled by joystick left/right
-   - Tilt (vertical movement) controlled by joystick up/down
-   - Servo motors provide precise angular control
-
-2. **Real-time Preview**: 
-
-   - Live camera feed displayed on screen using Picamera2
-   - Preview window shows exactly what the camera sees
-
-3. **Photo Capture**:
-
-   - Press the joystick button to capture photos
-   - Photos automatically saved with timestamp and angle information
-   - Organized storage in user's Pictures directory
-
-4. **Safety Features**:
-
-   - Angle limits prevent servo damage
-   - Deadzone prevents unintended movements
-   - Smooth servo movement control
-
-5. **Clean Shutdown**:
-
-   - Graceful cleanup on program exit
-   - Servos return to center position
-   - Camera resources properly released
 
 ----------------------------------------------
 
 **Understanding the Code**
 
-1. **Hardware Initialization**:
+#. **Hardware Initialization**
 
-   - The script initializes two servo motors for pan and tilt control
-   - The joystick is configured with ADC for analog reading and GPIO for button
-   - Camera module is set up with preview configuration
+   - Two servo motors are initialized to control camera pan (horizontal) and tilt (vertical) movement
+   - The joystick uses ADC channels to read X and Y analog values, and a GPIO pin to detect button presses
+   - The camera module is initialized and configured for preview mode, supporting both display and headless operation
 
-2. **Joystick Reading**:
+#. **Joystick Reading and Processing**
 
-   - ``read_joystick()`` reads analog values from X and Y axes
-   - ``map_value()`` converts ADC readings to -100 to 100 range
-   - ``apply_deadzone()`` ignores small joystick movements to prevent drifting
+   - ``read_joystick()`` reads raw analog values from the joystick’s X and Y axes
+   - ``map_value()`` converts ADC values (0–4095) into a usable range of −100 to 100
+   - ``apply_deadzone()`` filters out small joystick movements to prevent unwanted camera drift
 
-3. **Camera Movement**:
+#. **Camera Movement Control**
 
-   - ``move_camera()`` calculates new angles based on joystick input
-   - Speed is controlled by ``MOVE_SPEED`` constant
-   - Angle limits prevent servo damage
+   - Joystick input is translated into incremental changes in pan and tilt angles
+   - ``clamp()`` ensures the angles stay within safe limits to protect the servo motors
+   - Servos are updated only when the angle changes, providing smooth and stable motion
 
-4. **Photo Capture**:
+#. **Button Press Detection**
 
-   - ``check_button_press()`` detects button presses
-   - ``take_photo()`` captures and saves images with metadata
-   - Photos include pan and tilt angles in filename
+   - The joystick button is configured as an active-low input using a pull-up resistor
+   - ``check_button_press()`` detects a button press using edge detection (HIGH → LOW)
+   - This ensures only one photo is taken per button press, even if the button is held
 
-5. **Main Loop**:
+#. **Photo Capture and Storage**
 
-   - Continuously reads joystick input
-   - Updates camera position in real-time
-   - Checks for button presses to capture photos
-   - Provides smooth control with small delays
+   - ``take_photo()`` captures an image using the camera module
+   - Photos are saved with sequential filenames (for example, ``photo_001.jpg``)
+   - All images are stored in the user’s ``Pictures/camera_pan_tilt`` directory
+
+#. **Camera Preview Handling**
+
+
+   - A live camera preview is started only when a graphical display is available
+   - The script continues to function normally when running without a display
+
+#. **Main Loop and Cleanup**
+
+
+   - The main loop continuously reads joystick input and responds in real time
+   - When the program exits using ``Ctrl + C``, the camera is safely stopped
+   - All hardware resources are properly released to ensure a clean shutdown
+
 
 ----------------------------------------------
 
@@ -562,49 +408,6 @@ This Python script creates a complete pan-tilt camera control system with the fo
               pan, tilt = PRESETS[preset_name]
               pan_servo.angle(pan)
               tilt_servo.angle(tilt)
-
-3. **Motion Tracking**: Add motion detection to automatically track moving objects:
-
-   .. code-block:: python
-
-      import cv2
-      def detect_motion(frame):
-          # Implement motion detection logic
-          # Return coordinates of motion
-          pass
-
-4. **Web Interface**: Create a web interface for remote control:
-
-   .. code-block:: python
-
-      from flask import Flask, render_template
-      app = Flask(__name__)
-
-      @app.route('/left')
-      def move_left():
-          # Move camera left
-          return 'Moving left'
-
-5. **Time-lapse Photography**: Add time-lapse mode for interval photography:
-
-   .. code-block:: python
-
-      def timelapse_mode(interval_seconds, total_photos):
-          for i in range(total_photos):
-              take_photo()
-              time.sleep(interval_seconds)
-
-6. **Voice Control**: Integrate voice commands for hands-free operation:
-
-   .. code-block:: python
-
-      import speech_recognition as sr
-      def listen_for_command():
-          r = sr.Recognizer()
-          with sr.Microphone() as source:
-              audio = r.listen(source)
-              command = r.recognize_google(audio)
-              return command.lower()
 
 ----------------------------------------------
 

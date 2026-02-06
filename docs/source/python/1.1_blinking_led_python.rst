@@ -57,12 +57,6 @@ Here’s the list of components and their purposes:
 
 **Circuit Diagram**
 
-Here’s how the circuit should look:
-
-* **GPIO Pin 17** connects to the anode (long pin) of the LED.
-* The cathode (short pin) of the LED connects to one leg of the resistor.
-* The other leg of the resistor connects to the **GND** (Ground) pin.
-
 The resistor limits the current flowing through the LED, preventing it from burning out. Without a resistor, the LED may draw too much current, which can damage both the LED and the Raspberry Pi.
 
 .. image:: img/fzz/1.1.1_sch.png

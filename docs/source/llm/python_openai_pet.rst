@@ -49,55 +49,53 @@ Connect the components to your Raspberry Pi:
    :width: 80%
    :align: center
 
-**Connection Guide:**
-
-- **OLED Display**: Connect via I2C (SDA to GPIO 2, SCL to GPIO 3)
-- **USB Microphone**: Plug into any USB port
-- **Speaker/Headphones**: Connect to 3.5mm audio jack or USB audio
-- **Fusion HAT+**: Mount on GPIO header (provides library support)
-
-*Note: Ensure proper power supply as voice processing requires significant CPU resources.*
-
 ----------------------------------------------
 
 .. include:: python_online_llms.rst
    :start-after: start_setup_openai
    :end-before: end_setup_openai
 
-
 ---------------------------------------------------
 
-**Run the Digital Pet:**
-   
+**Run the Example**
+
+#. Run the Code
+
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-   
+
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_pet.py
 
-**When the script runs:**
-   
-   * The OLED will show a welcome screen with your pet's name
-   * A status display will appear showing mood, energy, and hunger
-   * The system will start listening for your voice
-   * Speak naturally to your pet:
+#. Interact with your pet
 
-     - "How are you feeling?"
-     - "Let's play a game!"
-     - "Are you hungry?"
-     - "Tell me a story!"
+   When the script starts:
 
-   * Your pet will respond with:
+   * The OLED shows a welcome screen with your pet's name.
+   * A status display appears showing mood, energy, and hunger.
+   * The system starts listening for your voice.
 
-     - Voice output through speakers
-     - Emotional display on OLED
-     - Status updates based on interaction
-     
-   * Say "stop" to end voice interaction
-   * Press Ctrl+C to exit completely
+   You can speak naturally to your pet, for example:
+
+   * "How are you feeling?"
+   * "Let's play a game!"
+   * "Are you hungry?"
+   * "Tell me a story!"
+
+   Your pet responds with:
+
+   * Voice output through speakers
+   * Emotional display on the OLED
+   * Status updates based on your interaction
+
+#. Exit the program
+
+   * Say "stop" to end voice interaction.
+   * Press ``Ctrl+C`` to exit completely.
+
 
 ----------------------------------------------
 
@@ -105,8 +103,11 @@ Connect the components to your Raspberry Pi:
 
 Here is the full Python script for the Digital Pet:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
-   :linenos:
    
    #!/usr/bin/env python3
    import os
@@ -567,7 +568,7 @@ Here is the full Python script for the Digital Pet:
 
 **Understanding the Code**
 
-1. **Voice Recognition (STT)**
+1. Voice Recognition (STT)
 
    The system uses Vosk for speech-to-text with streaming capabilities for real-time feedback:
 
@@ -582,7 +583,7 @@ Here is the full Python script for the Digital Pet:
               partial = result["partial"]
               # Show partial text on display
 
-2. **AI Personality System**
+2. AI Personality System
 
    The pet has a dynamic personality with emotional states managed through kaomoji:
 
@@ -596,7 +597,7 @@ Here is the full Python script for the Digital Pet:
           # ... more emotions
       }
 
-3. **Dynamic LLM Instructions**
+3. Dynamic LLM Instructions
 
    The AI's instructions update based on current pet state and memories:
 
@@ -607,7 +608,7 @@ Here is the full Python script for the Digital Pet:
           CURRENT STATE: Mood: {self.mood}, Energy: {self.energy}, Hunger: {self.hunger}
           Recent memories: {self.memories[-3:] if self.memories else 'None'}"""
 
-4. **Status Management System**
+4. Status Management System
 
    Background thread manages pet's needs and emotional state:
 
@@ -623,7 +624,7 @@ Here is the full Python script for the Digital Pet:
               if random.random() < 0.1:
                   self.mood = random.choice(list(self.kaomoji_map.keys()))
 
-5. **Emotion-Driven TTS**
+5. Emotion-Driven TTS
 
    Text-to-speech adapts based on pet's current mood:
 
@@ -638,7 +639,7 @@ Here is the full Python script for the Digital Pet:
           # ...
           self.tts.say(response, instructions=tts_instructions)
 
-6. **OLED Display Management**
+6. OLED Display Management
 
    Multiple display modes for different states:
 
@@ -657,7 +658,7 @@ Here is the full Python script for the Digital Pet:
           # Response display with text wrapping
           wrapped_text = textwrap.wrap(response, width=20)
 
-7. **Interactive State Changes**
+7. Interactive State Changes
 
    User interactions affect pet's status:
 
@@ -673,7 +674,7 @@ Here is the full Python script for the Digital Pet:
           self.hunger = min(100, self.hunger + 10)
           self.mood = "playful"
 
-8. **Memory System**
+8. Memory System
 
    Keeps track of recent conversations:
 
@@ -684,7 +685,7 @@ Here is the full Python script for the Digital Pet:
       if len(self.memories) > 10:
           self.memories.pop(0)
 
-9. **Response Parsing**
+9. Response Parsing
 
    Extracts mood from AI responses and updates pet state:
 
@@ -699,7 +700,7 @@ Here is the full Python script for the Digital Pet:
                   self.mood = mood.lower()
               return text.strip()
 
-10. **Main Interaction Loop**
+10. Main Interaction Loop
 
     Coordinates all components in a clean workflow:
 
@@ -724,134 +725,47 @@ Here is the full Python script for the Digital Pet:
 **Troubleshooting**
 
 
-- **"Audio input not detected"**
+- Audio input not detected
 
   - Execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
 
-- **"OLED display not showing"**
+- OLED display not showing
 
   - Check I2C connection: ``fusion_hat scan_i2c`` (should show 0x3C)
   - Verify OLED is powered (3.3V or 5V depending on model)
   - Ensure correct I2C address in code (0x3C or 0x3D)
 
-- **"TTS not working"**
+- TTS not working
 
   - Verify OpenAI API key has TTS credits
   - Ensure internet connection for API calls
   - Execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
 
-- **"Speech recognition inaccurate"**
+- Speech recognition inaccurate
 
   - Speak clearly and at moderate volume
   - Reduce background noise
   - Adjust microphone gain: ``alsamixer``
   - Try different language models
 
-- **"AI responses too slow"**
+- AI responses too slow
 
   - Check internet connection speed
   - Reduce response complexity in instructions
   - Use a faster OpenAI model (gpt-3.5-turbo)
 
-- **"Energy/hunger bars not updating"**
+- Energy/hunger bars not updating
 
   - Check status thread is running
   - Verify OLED display is connected
   - Check for console error messages
 
-- **"Pet not remembering conversations"**
+- Pet not remembering conversations
 
   - Memory list only keeps last 10 conversations
   - Check if memories are being added correctly
   - Ensure memory text is being passed to LLM
 
-
 ----------------------------------------------
-
-**Try It Yourself**
-
-1. **Multiple Pets**  
-
-   Create a multi-pet system where different pets have unique personalities and interact with each other.
-
-2. **Visual Pet Animation**  
-
-   Replace kaomoji with simple pixel art animations showing pet actions and emotions.
-
-3. **Training System**  
-
-   Implement a training system where pet learns new words or tricks based on positive reinforcement.
-
-3. **Physical Sensors Integration**  
-
-   Add sensors (temperature, light) that affect pet's mood and behavior.
-
-4. **Health Monitoring** 
-
-   Track pet's "health" with sickness states that require care and attention.
-
-5. **Evolution System** 
-
-   Pets evolve or change appearance based on care level and age.
-
-6. **Multi-Language Support**  
-
-   Support different languages for speech recognition and responses.
-
-7. **Voice Commands**  
-
-   Specific voice commands for actions: "sit", "fetch", "dance", etc.
-
-8. **Weather-Aware Pet**  
-
-   Pet's mood changes based on real weather data from API.
-
-9. **Pet Games**  
-
-   Interactive games you can play with your pet using voice commands.
-
-10. **Customization System**  
-
-    Allow users to customize pet's name, colors, and personality traits.
-
-11. **Social Features**  
-
-    Connect multiple digital pets across different devices for "play dates".
-
-12. **Achievement System**  
-
-    Unlock achievements for consistent care and interaction.
-
-13. **Voice Emotion Detection**  
-
-    Detect user's emotional state from voice tone and adjust pet's response.
-
-14. **Pet Diary**  
-
-    Automatic logging of daily interactions and pet's status changes.
-
-15. **Remote Access**  
-
-    Web interface to check on and interact with pet remotely.
-
-16. **Sound Effects**  
-
-    Add pet sounds (barks, meows, chirps) based on emotional state.
-
-17. **Daily Challenges** 
-
-    Daily tasks or challenges to complete with your pet.
-
-18. **Pet Growth**  
-
-    Pet ages and changes needs/personality over real time.
-
-19. **Environment Simulation**  
-
-    Simulate day/night cycles and weather affecting pet's behavior.
-
-20. **Educational Mode**  
-
-    Pet helps teach languages, math, or other subjects through interaction.
 
 This digital pet project demonstrates the power of combining multiple AI technologies (STT, LLM, TTS) with hardware interfaces to create engaging, emotional, and interactive experiences. It's a perfect example of how AI can create meaningful connections through technology!

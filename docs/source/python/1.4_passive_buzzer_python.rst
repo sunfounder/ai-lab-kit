@@ -80,6 +80,8 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.4_PassiveBuzzer.py
 
+After running the script, the passive buzzer plays a short musical tune through PWM 0. Each note is played in sequence for its set duration, and the current note is printed to the console as it plays. When the tune finishes, the buzzer stops automatically, with silent pauses where the note is None. You can also stop the program at any time by pressing Ctrl + C.
+
 ----------------------------------------------
 
 **Code**

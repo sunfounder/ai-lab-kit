@@ -54,22 +54,6 @@ Follow these steps to build the circuit:
 
 **Setup Steps**
 
-.. #. Create and activate an isolated environment for this project:
-
-..    .. raw:: html
-   
-..       <run></run>
-   
-..    .. code-block:: shell
-      
-..       cd ~
-..       python3 -m venv 1.10_oled_env --system-site-packages
-..       source 1.10_oled_env/bin/activate
-   
-..    .. note::
-..       It is recommended to create a separate virtual environment for each project to avoid dependency conflicts.
-
-
 #. Install the SSD1306 driver library:
    
    This library enables communication with SSD1306 OLED displays using Python.

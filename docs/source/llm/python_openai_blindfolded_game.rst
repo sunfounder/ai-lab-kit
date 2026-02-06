@@ -58,16 +58,6 @@ Connect the components to the Fusion HAT+ as follows:
    :width: 80%
    :align: center
 
-**Component Connections:**
-
-- **Joystick:**
-
-  - VRx (X-axis) → ADC Channel 1 (A1)
-  - VRy (Y-axis) → ADC Channel 0 (A0)
-  - SW (Button) → GPIO 17
-  - VCC → 3.3V
-  - GND → Ground
-
 ----------------------------------------------
 
 .. include:: python_online_llms.rst
@@ -78,25 +68,69 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Code**
-   
+**Run the Example**
+
+#. Run the code
+
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
-      cd ~/ai-lab-kit/llm   
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_blindfolded_game.py
 
-----------------------------------------------
+#. Play the game
+
+   After the script starts, the game will randomly place a watermelon on the 20×20 meter field.
+   Use the joystick to move step by step, and listen to the AI assistant for direction guidance.
+
+   When you think you have reached the watermelon position, press the button to smash.
+   If your coordinates match the watermelon exactly, you win the game.
+
+#. Understand the game mechanics
+
+   * Coordinate System:
+
+     - The game field is a 20×20 meter grid
+     - Coordinates range from (-10,-10) to (10,10)
+     - Positive X = East, Negative X = West
+     - Positive Y = South, Negative Y = North (inverted Y-axis)
+     - Center point is (0,0)
+
+   * Movement Rules:
+
+     - Joystick right → X+1 (East)
+     - Joystick left → X-1 (West)
+     - Joystick up → Y-1 (North)
+     - Joystick down → Y+1 (South)
+     - Each movement changes position by 1 meter
+
+   * Winning Condition:
+
+     - Player must be at exact watermelon coordinates
+     - Press button to "smash" at current position
+     - Exact match ends game with victory message
+
+   * AI Assistant Role:
+
+     - Receives both player and watermelon coordinates
+     - Provides cardinal direction guidance (N, NE, E, SE, S, SW, W, NW)
+     - Gives distance approximation in meters
+     - Keeps responses brief for audio playback
+
 
 **Code**
 
 Here is the full Python script for the Blindfolded Watermelon Smashing Game:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
-   :linenos:
+   
    
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
@@ -207,7 +241,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
 
 **Understanding the Code**
 
-1. **Text-to-Speech Setup**
+1. Text-to-Speech Setup
 
    The game uses Pico2Wave for audio feedback:
    
@@ -218,7 +252,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
    
    This converts the AI's text responses into spoken English instructions.
 
-2. **Joystick Input Handling**
+2. Joystick Input Handling
 
    The joystick uses two ADC channels for X and Y axis reading:
    
@@ -234,7 +268,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       x_val = MAP(x_axis.read(), 0, 4095, -100, 100)
       y_val = MAP(y_axis.read(), 0, 4095, -100, 100)
 
-3. **Button Setup with Interrupt**
+3. Button Setup with Interrupt
 
    The button uses an interrupt callback for immediate response:
    
@@ -250,7 +284,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
    
    When pressed, it sets ``smash_tips`` to ``True``, triggering the smash action in the main loop.
 
-4. **OpenAI LLM Configuration**
+4. OpenAI LLM Configuration
 
    The AI assistant is configured with specific game instructions:
    
@@ -268,7 +302,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       llm.set_instructions(INSTRUCTIONS)  # Set game rules
       llm.set_welcome(WELCOME)       # Set initial greeting
 
-5. **Game State Management**
+5. Game State Management
 
    The game maintains player and target positions:
    
@@ -291,7 +325,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       elif y_val < -80:
           player_y += 1      # Move down (positive Y)
 
-6. **Smash Action and AI Response**
+6. Smash Action and AI Response
 
    When the button is pressed, the game checks for a hit or requests AI guidance:
    
@@ -320,7 +354,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
               print("AI: " + string)
               tts.say(string)  # Speak the guidance
 
-7. **Streaming Response Processing**
+7. Streaming Response Processing
 
    The AI response is processed word-by-word for potential real-time display:
    
@@ -335,7 +369,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
               # print(next_word, end="", flush=True)
               string += next_word
 
-8. **Movement Logic with Dead Zone**
+8. Movement Logic with Dead Zone
 
    The joystick has an 80-unit dead zone to prevent accidental movements:
    
@@ -349,7 +383,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       if y_val > 80:    # Up
       elif y_val < -80: # Down
 
-9. **Game Loop Structure**
+9. Game Loop Structure
 
    The main game loop continuously:
    
@@ -361,42 +395,9 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
 
 ----------------------------------------------
 
-**Game Mechanics**
-
-**Coordinate System:**
-
-- The game field is a 20×20 meter grid
-- Coordinates range from (-10,-10) to (10,10)
-- Positive X = East, Negative X = West
-- Positive Y = South, Negative Y = North (inverted Y-axis)
-- Center point is (0,0)
-
-**Movement Rules:**
-
-- Joystick right → X+1 (East)
-- Joystick left → X-1 (West)
-- Joystick up → Y-1 (North)
-- Joystick down → Y+1 (South)
-- Each movement changes position by 1 meter
-
-**Winning Condition:**
-
-- Player must be at exact watermelon coordinates
-- Press button to "smash" at current position
-- Exact match ends game with victory message
-
-**AI Assistant Role:**
-
-- Receives both player and watermelon coordinates
-- Provides cardinal direction guidance (N, NE, E, SE, S, SW, W, NW)
-- Gives distance approximation in meters
-- Keeps responses brief for audio playback
-
-----------------------------------------------
-
 **Troubleshooting**
 
-- **"No response from joystick"**
+- No response from joystick
 
   - Verify ADC connections: A0 for Y-axis, A1 for X-axis
   - Check power: VCC to 3.3V, GND to ground
@@ -404,7 +405,7 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
   - Ensure joystick is centered (should read ~2048)
 
 
-- **"No audio from TTS"**
+- No audio from TTS
 
   - Check audio output: ``sudo raspi-config`` → **System Options** → **Audio**
   - Test speaker: ``speaker-test -t sine -f 440``
@@ -412,108 +413,26 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
   - Check volume: ``alsamixer``
   - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
 
-- **"OpenAI API errors"**
+- OpenAI API errors
 
   - Verify API key in ``secret.py``
   - Check internet connection: ``ping 8.8.8.8``
   - Ensure billing is enabled on OpenAI account
   - Verify model "gpt-4o" is available to your account
 
-- **"Player moves too fast/slow"**
+- Player moves too fast/slow
 
   - Adjust movement threshold (currently 80): higher = more joystick deflection needed
   - Modify movement increment (currently 1): change to 0.5 for finer control
   - Adjust sleep time (currently 0.3s): longer = slower movement response
 
 
-- **"AI responses too long"**
+- AI responses too long
 
   - Emphasize brevity in INSTRUCTIONS
   - Add "Respond in 10 words or less" to instructions
   - Implement response length checking in code
 
 ----------------------------------------------
-
-**Try It Yourself**
-
-1. **Multiple Difficulty Levels**  
-
-   Add beginner (5×5 grid), intermediate (10×10), and expert (20×20) modes.
-
-2. **Timer and Score System**  
-
-   Track time taken to find watermelon and award points based on speed.
-
-3. **Multiple Watermelons**  
-
-   Place several targets on the map for the player to find sequentially.
-
-4. **Obstacles and Hazards**  
-
-   Add obstacles that reset player position or deduct points when hit.
-
-5. **Compass Directions**  
-
-   Display cardinal direction (N, NE, E, etc.) on screen or via LED indicators.
-
-6. **Distance Feedback**  
-
-   Add audio cues that change frequency based on proximity to target.
-
-7. **Power-ups**  
-
-   Include temporary abilities like "radar scan" or "teleport" with limited uses.
-
-8. **Multiplayer Mode**  
-
-   Create two-player version where one guides verbally and the other moves blindfolded.
-
-9. **Different Game Maps**  
-
-   Implement various map layouts: circular, maze, or irregular shapes.
-
-10. **Voice Command Integration**  
-
-    Add speech recognition for commands like "where am I?" or "how far?".
-
-11. **Haptic Feedback**  
-
-    Connect vibration motor to provide tactile feedback for proximity.
-
-12. **Visual Mode**  
-
-    Add optional visual display showing player and watermelon positions.
-
-13. **Procedural Generation**  
-
-    Create infinite randomly generated maps with increasing difficulty.
-
-14. **Obstacle Sounds**  
-
-    Add distinctive sounds when approaching obstacles or boundaries.
-
-15. **Weather Effects**  
-
-    Implement "wind" that occasionally pushes player off course.
-
-16. **Treasure Hunt Mode**  
-
-    Hide multiple items to collect before finding the main watermelon.
-
-17. **GPS Integration**  
-
-    Use real GPS coordinates for outdoor augmented reality version.
-
-18. **Bluetooth Controller Support**  
-
-    Add compatibility with game controllers or smartphone tilt controls.
-
-19. **Custom AI Personalities**  
-
-    Implement different AI assistants with unique speaking styles.
-
-20. **Level Editor**  
-
-    Create tool to design custom maps with specific challenges.
 
 This blindfolded watermelon game demonstrates how physical controls, AI guidance, and audio feedback can create an engaging sensory-based gaming experience that challenges spatial awareness and listening skills!

@@ -54,7 +54,7 @@ Below is the circuit diagram for the project:
 
 
 .. image:: img/fzz/4.1.4_sch.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 ----------------------------------------------
@@ -75,7 +75,7 @@ Follow the wiring diagram to connect the components correctly:
    Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
 
 .. image:: ../python/img/PIR_TTE.png
-   :width: 400
+   :width: 300
    :align: center
 
 ----------------------------------------------
@@ -95,6 +95,21 @@ Follow these steps to run the example:
    
    cd ~/ai-lab-kit/python/
    sudo python3 4.6_CountingDevice.py 
+
+This Python script integrates a PIR motion sensor and a 7-segment display driven by a 74HC595 shift register. The script performs the following:
+
+1. **Motion Detection**: A PIR motion sensor connected to GPIO 26 detects motion. Each motion detection increments a counter.
+
+2. **Number Display**: 
+
+   - The current counter value is displayed on a 4-digit 7-segment display.
+   - The display updates dynamically as motion is detected, incrementing the value.
+
+3. **Continuous Monitoring**: The script continuously monitors for motion and updates the display in real-time.
+
+4. **Graceful Exit**: On ``Ctrl+C``, all pins are turned off, ensuring a clean shutdown of the script.
+
+
 
 ----------------------------------------------
 
@@ -204,20 +219,6 @@ Below is the Python script used in this project:
       SRCLK.low()
       RCLK.low()
       pass
-
-
-This Python script integrates a PIR motion sensor and a 7-segment display driven by a 74HC595 shift register. The script performs the following:
-
-1. **Motion Detection**: A PIR motion sensor connected to GPIO 26 detects motion. Each motion detection increments a counter.
-
-2. **Number Display**: 
-
-   - The current counter value is displayed on a 4-digit 7-segment display.
-   - The display updates dynamically as motion is detected, incrementing the value.
-
-3. **Continuous Monitoring**: The script continuously monitors for motion and updates the display in real-time.
-
-4. **Graceful Exit**: On ``Ctrl+C``, all pins are turned off, ensuring a clean shutdown of the script.
 
 
 ----------------------------------------------

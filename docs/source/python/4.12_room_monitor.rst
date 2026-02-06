@@ -60,7 +60,7 @@ The following components are required for this project:
 Refer to the wiring diagram for assembling the components:
 
 .. image:: img/fzz/4.12_room_monitor_bb.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 ----------------------------------------------
@@ -113,6 +113,10 @@ Refer to the wiring diagram for assembling the components:
 **Code**
 
 Here is the Python script for the environment monitor dashboard:
+
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 

@@ -51,7 +51,7 @@ The following components are required:
 The schematic diagram is shown below:
 
 .. image:: img/fzz/4.1.13_sch.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 
@@ -79,13 +79,17 @@ Follow these steps to run the example:
 
 .. raw:: html
 
-   <run></run>
+    <run></run>
 
 .. code-block:: shell
    
-   cd ~/ai-lab-kit/python/
-   sudo python3 4.4_MorseCodeGenerator.py
+    cd ~/ai-lab-kit/python/
+    sudo python3 4.4_MorseCodeGenerator.py
 
+* After running the script, you can type a message in the terminal and the system will output it as Morse code using a buzzer and an LED. 
+* Each dot is indicated by a short beep/flash, and each dash by a longer beep/flash. 
+* Letters are separated by a brief pause, and spaces in the message create a longer pause between words. 
+* The program keeps waiting for new input messages and will stop safely when you press ``Ctrl + C``, turning off both the buzzer and the LED.
 
 ----------------------------------------------
 
@@ -94,15 +98,19 @@ Follow these steps to run the example:
 Below is the Python code for this project:
 
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat import Pin
+   from fusion_hat.pin import Pin, Mode
    import time
 
    # Initialize Buzzer and LED to GPIO pins
-   BeepPin = Pin(22, Pin.OUT)
-   ALedPin = Pin(17, Pin.OUT)
+   BeepPin = Pin(22, mode=Mode.OUT)
+   ALedPin = Pin(17, mode=Mode.OUT)
 
    # Morse code representation for characters
    MORSECODE = {
@@ -116,54 +124,74 @@ Below is the Python code for this project:
       '!': '101011', '@': '011010', ':': '111000',
    }
 
+   # Timing (seconds)
+   UNIT = 0.25                 # base unit
+   DOT = UNIT / 2              # dot length
+   DASH = UNIT                 # dash length
+   INTRA_SYMBOL_GAP = UNIT / 2 # gap between dot/dash in one letter
+   LETTER_GAP = UNIT           # gap between letters
+   WORD_GAP = UNIT * 2         # gap between words (space)
+
    def on():
-      """ Turn on the buzzer and LED. """
+      """Turn on the buzzer and LED."""
       BeepPin.on()
       ALedPin.on()
 
    def off():
-      """ Turn off the buzzer and LED. """
+      """Turn off the buzzer and LED."""
       BeepPin.off()
       ALedPin.off()
 
-   def beep(dt):  # dt for delay time.
-      """
-      Produce a beep sound and LED flash for the specified duration.
-      :param dt: Duration for the beep and flash.
-      """
+   def beep(duration):
+      """Beep (and flash LED) for 'duration' seconds."""
       on()
-      time.sleep(dt)
+      time.sleep(duration)
       off()
-      time.sleep(dt)
 
-   def morsecode(code):
+   def play_symbol(symbol):
+      """Play one morse symbol: '0' (dot) or '1' (dash)."""
+      if symbol == '0':
+         beep(DOT)
+      elif symbol == '1':
+         beep(DASH)
+      time.sleep(INTRA_SYMBOL_GAP)
+
+   def morsecode(text):
       """
-      Convert the input code into Morse code and signal it using the buzzer and LED.
-      :param code: The text to be converted to Morse code.
+      Convert text to Morse code and output via buzzer+LED.
+      Supports spaces between words and ignores unsupported characters.
       """
-      pause = 0.25
-      for letter in code:
-         for tap in MORSECODE[letter]:
-               if tap == '0':
-                  beep(pause / 2)  # Short beep for dot
-               if tap == '1':
-                  beep(pause)      # Long beep for dash
-         time.sleep(pause)  # Pause between letters
+      for ch in text:
+         if ch == ' ':
+               # Space means word gap
+               time.sleep(WORD_GAP)
+               continue
+
+         # Skip unsupported characters instead of crashing
+         if ch not in MORSECODE:
+               continue
+
+         pattern = MORSECODE[ch]
+         for sym in pattern:
+               play_symbol(sym)
+
+         # Pause between letters
+         time.sleep(LETTER_GAP)
 
    def destroy():
-      """ Clean up resources on script termination. """
-      print("")
+      """Ensure buzzer and LED are turned off."""
       BeepPin.off()
       ALedPin.off()
+      print("")
 
    try:
       while True:
-         code = input("Please input the messenger:")
-         code = code.upper()  # Convert to uppercase for Morse code lookup
+         code = input("Please input the messenger:").upper()
          print(code)
          morsecode(code)
    except KeyboardInterrupt:
       destroy()
+
 
 
 This Python script converts a user-provided message into Morse code and signals it using a buzzer and LED. Here's how it works:
@@ -261,14 +289,6 @@ This Python script converts a user-provided message into Morse code and signals 
 
          with open("morse_log.txt", "a") as log_file:
              log_file.write(f"{message} -> {morse_sequence}\n")
-
-4. **Real-Time Translation**: Display the Morse code as dots and dashes in the console during output.
-
-5. **Input Validation**: Notify users if unsupported characters are included in the input.
-
-6. **Interactive Features**: Add a mode where users can input Morse code (via a button) and decode it into text.
-
-7. **Wireless Morse Communication**: Use RF modules to transmit Morse code signals wirelessly to another device.
 
 ----------------------------------------------
 

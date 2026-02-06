@@ -51,7 +51,7 @@ Below is the list of components required for this project:
 Below is the schematic diagram for the "10 Second Challenge":
 
 .. image:: img/fzz/4.1.15_sch.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 
@@ -86,6 +86,13 @@ Follow these steps to run the example:
    
    cd ~/ai-lab-kit/python/
    sudo python3 4.8_GAME_10Second.py
+
+When the script runs:
+
+* Shake the wand to start the timer on the 4-digit segment display.
+* Shake the wand again to stop the timer.
+* If the timer reads 10.00 seconds, you win the round!
+* Shake the wand one more time to reset the game and start a new round.
 
 ----------------------------------------------
 
@@ -222,13 +229,6 @@ Here is the Python code for the project:
       if timer1:
          timer1.cancel()                    # Cleanly stop timer on exit
 
-#. Shake the wand to start the timer on the 4-digit segment display.
-
-#. Shake the wand again to stop the timer.
-
-#. If the timer reads 10.00 seconds, you win the round!
-
-#. Shake the wand one more time to reset the game and start a new round.
 
 ----------------------------------------------
 

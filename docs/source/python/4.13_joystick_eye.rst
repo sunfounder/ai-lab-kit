@@ -53,7 +53,7 @@ The following components are required for this project:
 Refer to the wiring diagram for assembling the components:
 
 .. image:: img/fzz/4.13_joystick_eye_bb.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 ----------------------------------------------
@@ -94,6 +94,10 @@ Refer to the wiring diagram for assembling the components:
 **Code**
 
 Here is the Python script for the Joystick-Controlled Eye:
+
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 
@@ -314,35 +318,7 @@ Here is the Python script for the Joystick-Controlled Eye:
          dx = rx - ADC_CENTER_X
          dy = ry - ADC_CENTER_Y
 
-         # Deadzone
-         if abs(dx) < DEADZONE: dx = 0.0
-         if abs(dy) < DEADZONE: dy = 0.0
-
-         # Normalize to [-1, 1]
-         # Use the larger of (center-min) / (max-center) to reduce asymmetry
-         span_x_pos = ADC_MAX - ADC_CENTER_X
-         span_x_neg = ADC_CENTER_X - ADC_MIN
-         span_y_pos = ADC_MAX - ADC_CENTER_Y
-         span_y_neg = ADC_CENTER_Y - ADC_MIN
-
-         nx = dx / (span_x_pos if dx >= 0 else span_x_neg) if dx != 0 else 0.0
-         ny = dy / (span_y_pos if dy >= 0 else span_y_neg) if dy != 0 else 0.0
-
-         # Invert Y so pushing stick up moves pupil up
-         ny = -ny
-
-         # Clamp to [-1, 1]
-         nx = clamp(nx, -1.0, 1.0)
-         ny = clamp(ny, -1.0, 1.0)
-
-         # Exponential smoothing
-         nx_smooth = SMOOTH_ALPHA * nx + (1.0 - SMOOTH_ALPHA) * nx_smooth
-         ny_smooth = SMOOTH_ALPHA * ny + (1.0 - SMOOTH_ALPHA) * ny_smooth
-
-         # Re-clamp after smoothing
-         nx_smooth_clamped = clamp(nx_smooth, -1.0, 1.0)
-         ny_smooth_clamped = clamp(ny_smooth, -1.0, 1.0)
-         return nx_smooth_clamped, ny_smooth_clamped
+      ...
 
 2. **Eye Geometry**
 
@@ -369,20 +345,7 @@ Here is the Python script for the Joystick-Controlled Eye:
          x1 = EYE_CX + EYE_W // 2
          y1 = EYE_CY + EYE_H // 2
 
-         # Border: draw multiple outlines to simulate thickness
-         for t in range(BORDER):
-            draw.ellipse((x0 - t, y0 - t, x1 + t, y1 + t), outline=1, fill=0)
-         # Filled sclera (white)
-         draw.ellipse((x0 + 1, y0 + 1, x1 - 1, y1 - 1), outline=0, fill=1)
-
-         # Optional iris ring (white ring around pupil); comment out if undesired
-         if IRIS_R > PUPIL_R:
-            draw.ellipse((cx - IRIS_R, cy - IRIS_R, cx + IRIS_R, cy + IRIS_R), outline=0, fill=0)
-            draw.ellipse((cx - (IRIS_R - 2), cy - (IRIS_R - 2), cx + (IRIS_R - 2), cy + (IRIS_R - 2)), outline=0, fill=1)
-
-         # Pupil (black)
-         draw.ellipse((cx - PUPIL_R, cy - PUPIL_R, cx + PUPIL_R, cy + PUPIL_R), outline=0, fill=0)
-
+         ... 
 
 3. **Pupil Movement Constraint**
 
@@ -406,16 +369,7 @@ Here is the Python script for the Joystick-Controlled Eye:
 
          # Check ellipse boundary; if outside, project back
          if (px*px) / (MAX_X*MAX_X) + (py*py) / (MAX_Y*MAX_Y) > 1.0:
-            # Normalize direction to ellipse edge
-            # Scale so that (px/MAX_X, py/MAX_Y) lies on unit circle
-            k = 1.0 / sqrt((px*px) / (MAX_X*MAX_X) + (py*py) / (MAX_Y*MAX_Y))
-            px *= k
-            py *= k
-
-         # Final pupil center
-         cx = int(EYE_CX + px)
-         cy = int(EYE_CY + py)
-         return cx, cy
+         ...
 
 
 4. **Rendering**

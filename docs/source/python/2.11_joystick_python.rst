@@ -40,8 +40,6 @@ Below are the components required for this project:
 
 **Circuit Diagram**
 
-When using a joystick, the data for the X and Y axes are analog values that require an ADC (Analog-to-Digital Converter) like the ADC0834 to be converted to digital values. The button (Z-axis or SW) is digital and can be directly read using a GPIO pin.
-
 
 .. image:: img/fzz/2.1.9_sch.png
    :width: 80%
@@ -83,8 +81,18 @@ Follow these steps to run the example:
 .. code-block:: shell
    
    cd ~/ai-lab-kit/python/
-   sudo python3 2.13_Joystick.py
+   sudo python3 2.11_Joystick.py
 
+This Python script read and display real-time joystick data on a Fusion HAT+. When executed:
+
+1. The script continuously reads the X and Y values from the Fusion HAT+.
+2. It monitors the button connected to GPIO pin 17 to detect whether it is pressed or not.
+3. The X, Y, and button state values are printed to the console in the format ``X: <value>  Y: <value>  Btn: <value>``, where:
+
+   - ``X`` and ``Y`` are the analog readings from the ADC chip.
+   - ``Btn`` is ``1`` when the button is not pressed and ``0`` when it is pressed.
+
+4. The script updates every 0.2 seconds, running continuously until interrupted with ``Ctrl+C``.
 
 ----------------------------------------------
 
@@ -134,19 +142,7 @@ Below is the Python code used for this project:
       pass
 
 
-This Python script read and display real-time joystick data on a Fusion HAT+. When executed:
-
-1. The script continuously reads the X and Y values from the Fusion HAT+.
-2. It monitors the button connected to GPIO pin 17 to detect whether it is pressed or not.
-3. The X, Y, and button state values are printed to the console in the format ``X: <value>  Y: <value>  Btn: <value>``, where:
-
-   - ``X`` and ``Y`` are the analog readings from the ADC0834.
-   - ``Btn`` is ``1`` when the button is not pressed and ``0`` when it is pressed.
-
-4. The script updates every 0.2 seconds, running continuously until interrupted with ``Ctrl+C``.
-
-
-----------------------------------------------
+---------------------------------------------
 
 **Understanding the Code**
 

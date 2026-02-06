@@ -94,189 +94,177 @@ Refer to the wiring diagram for assembling the components:
 
 Here is the Python script for the traffic light simulation:
 
+.. raw:: html
+
+   <run></run>
+
 .. code-block:: python
 
-   import time
-   import colorsys
-   import board
-   import neopixel_spi as neopixel
-   from fusion_hat.modules import Rotary_Encoder
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.motor import Motor
    from fusion_hat.pin import Pin, Mode, Pull
-   from signal import pause
+   from fusion_hat.adc import ADC
+   from time import sleep, time
+   import math
 
-   # ---------------------------
-   # NeoPixel (SPI) setup
-   # ---------------------------
-   LED_COUNT = 12
-   PIXEL_ORDER = neopixel.GRB
+   BtnPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
+   motor = Motor("M0")
+   thermistor = ADC("A3")
 
-   spi = board.SPI()
-   strip = neopixel.NeoPixel_SPI(
-      spi,
-      LED_COUNT,
-      pixel_order=PIXEL_ORDER,
-      auto_write=False,
-   )
-   time.sleep(0.01)
-   strip.fill(0)
-   strip.show()
+   level = 0
+   currentTemp = None
+   markTemp = None
 
-   # ---------------------------
-   # Rotary Encoder
-   # ---------------------------
-   # CLK -> GPIO17, DT -> GPIO4, SW -> GPIO27 (pull-up)
-   encoder = Rotary_Encoder(clk=17, dt=4)
-   sw = Pin(27, mode=Mode.IN, pull=Pull.UP)
+   PRINT_INTERVAL = 1.0
+   _last_print = 0.0
 
-   # You can tweak how many encoder steps you want per full hue cycle.
-   # If your encoder has 24 'detents', 24 or 48 feel good.
-   STEPS_PER_CYCLE = 120  # higher = finer control
+   button_event = False  # flag: button was pressed
 
-   _last_hue_idx = 0
+   def temperature(samples=5, delay=0.01):
+      """Read thermistor multiple times and return averaged Celsius (float) or None."""
+      vals = []
+      for _ in range(samples):
+         analogVal = thermistor.read()
+         Vr = 3.3 * float(analogVal) / 4095.0
+         if (3.3 - Vr) <= 0.1:
+               return None
+         Rt = 10000.0 * Vr / (3.3 - Vr)
+         tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+         vals.append(tempK - 273.15)
+         sleep(delay)
+      return sum(vals) / len(vals)
 
-   def hue_to_rgb(h: float):
-      """h in [0.0, 1.0] -> (R, G, B) 0..255"""
-      r, g, b = colorsys.hsv_to_rgb(h, 1.0, 1.0)
-      return int(r * 255), int(g * 255), int(b * 255)
+   def motor_run(lv):
+      lv = max(0, min(4, lv))
+      motor.power(0 if lv == 0 else lv * 25)
+      return lv
 
-   def apply_color_from_steps(steps: int):
-      global _last_hue_idx
-      # Map steps to [0..STEPS_PER_CYCLE-1]
-      hue_idx = steps % STEPS_PER_CYCLE
-      if hue_idx == _last_hue_idx:
-         return  # no visual update needed
-      _last_hue_idx = hue_idx
+   def changeLevel():
+      """Button press: cycle level 0~4 and set a flag for main loop to print."""
+      global level, button_event
+      level = (level + 1) % 5
+      button_event = True
 
-      hue = hue_idx / STEPS_PER_CYCLE  # 0.0..1.0
-      color = hue_to_rgb(hue)
+   BtnPin.when_activated = changeLevel
 
-      strip.fill(color)
-      strip.show()
-      print(f"Hue: {int(hue * 360)}°, Steps: {steps}, Color: {color}")
+   def main():
+      global level, currentTemp, markTemp, _last_print, button_event
 
-   def rotary_change():
-      apply_color_from_steps(encoder.steps())
+      markTemp = temperature()
+      while True:
+         currentTemp = temperature()
+         if currentTemp is None:
+               print("Sensor read failed. Please check the sensor.")
+               sleep(0.5)
+               continue
 
-   def reset_counter():
-      encoder.reset()
-      apply_color_from_steps(0)
-      print("Counter reset (Hue -> 0°)")
+         # Handle button event in main loop (stable timing)
+         if button_event:
+               button_event = False
+               markTemp = currentTemp
+               print(f"[Button] Level -> {level} | Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C")
 
-   # Event bindings
-   encoder.when_rotated = rotary_change
-   sw.when_activated = reset_counter
+         # Periodic temperature print
+         now = time()
+         if now - _last_print >= PRINT_INTERVAL:
+               if markTemp is None:
+                  markTemp = currentTemp
+               print(f"Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C | Level: {level}")
+               _last_print = now
 
-   # Initialize to 0°
-   apply_color_from_steps(0)
+         # Auto adjust level based on ±5°C
+         if markTemp is None:
+               markTemp = currentTemp
 
-   print("Rotate to change hue. Press button to reset. CTRL+C to exit.")
+         if level != 0:
+               diff = currentTemp - markTemp
+               if diff <= -5:
+                  level = max(0, level - 1)
+                  markTemp = currentTemp
+                  print(f"[Auto] Temp down -> Level {level} (Temp: {currentTemp:.2f} °C)")
+               elif diff >= 5:
+                  level = min(4, level + 1)
+                  markTemp = currentTemp
+                  print(f"[Auto] Temp up   -> Level {level} (Temp: {currentTemp:.2f} °C)")
+
+         level = motor_run(level)
+         sleep(0.5)
+
    try:
-      pause()
+      main()
    except KeyboardInterrupt:
-      pass
+      print("\nExiting...")
    finally:
-      # Turn off LEDs on exit
-      strip.fill(0)
-      strip.show()
-      print("Exited and cleared LEDs.")
-
+      motor.stop()
+      sleep(0.1)
 
 -------------------------
 
 **Understanding the Code**
 
+1. **NeoPixel Initialization**
 
-1. **Imports**
+   - The script uses SPI to control a NeoPixel LED ring/strip (``LED_COUNT = 12``).
+   - ``auto_write=False`` is enabled so the LEDs update only when ``strip.show()`` is called, which prevents flicker and improves performance.
+   - The LEDs are cleared at startup using ``strip.fill(0)`` and ``strip.show()``.
 
-   The script uses several modules:
+2. **Rotary Encoder Hardware Setup**
 
-   - ``colorsys`` for converting hue values into RGB colors  
-   - ``neopixel_spi`` to drive WS2812 LEDs via SPI  
-   - ``Rotary_Encoder`` and ``Pin`` for reading encoder rotation and button presses  
-   - ``pause()`` to keep the script running  
+   - Three GPIO pins are used:
+     - ``CLK_PIN`` and ``DT_PIN`` provide the quadrature signals for rotation direction and steps.
+     - ``SW_PIN`` is the encoder button input.
+   - All pins use internal pull-ups (``Pull.UP``), and the button is **active LOW** (pressed = ``0``).
 
-   These modules together allow real-time LED control based on encoder input.
+3. **Key Parameters (Tuning Behavior)**
 
-2. **LED (WS2812) Setup**
+   - ``DETENTS_PER_CYCLE`` defines how many physical “clicks” are needed to complete a full hue rotation (0–360°).
+     - A larger value gives finer color control.
+   - ``TRANSITIONS_PER_DETENT`` converts raw quadrature transitions into “one detent = one count”.
+     - Many encoders output 2 transitions per detent, but some produce 4. Adjusting this value improves accuracy.
 
-   The DIY LED module contains 12 WS2812 RGB LEDs arranged in a ring.  
-   They are controlled using the Fusion HAT+’s SPI-based NeoPixel interface.
+4. ``hue_to_rgb()``
 
-   .. code-block:: python
+   - Converts a hue value in the range ``0.0 ~ 1.0`` into an RGB tuple ``(R, G, B)`` with values ``0 ~ 255``.
+   - This makes it easy to generate smooth color changes using the HSV color model.
 
-      LED_COUNT = 12
-      strip = neopixel.NeoPixel_SPI(spi, LED_COUNT, ...)
+5. ``apply_color_from_detent()`` 
 
-   - LEDs are cleared at startup  
-   - ``auto_write=False`` ensures updates occur only when ``strip.show()`` is called
+   - Maps the encoder detent count to a hue index using modulo:
+     - ``hue_idx = detent % DETENTS_PER_CYCLE``
+   - Converts the hue into an RGB color and updates all LEDs with ``strip.fill(color)`` followed by ``strip.show()``.
+   - Uses ``last_hue_idx`` to avoid refreshing the LEDs when the calculated hue does not change, which reduces unnecessary updates.
+   - Prints the current hue angle, detent value, and RGB color for debugging/feedback.
 
-3. **Rotary Encoder Setup**
+6. ``reset_all()``
 
-   The external rotary encoder is connected to GPIO:
+   - Resets the internal counter state:
+     - ``raw`` (raw transition count)
+     - ``last_detent`` (last displayed detent)
+     - ``last_hue_idx`` (last displayed hue index)
+   - Calls ``apply_color_from_detent(0)`` to immediately restore the LEDs to the starting color (Hue = 0°).
 
-   - ``CLK`` → GPIO17  
-   - ``DT`` → GPIO4  
-   - ``SW`` (button) → GPIO27  
+7. **Main Loop (Polling + Direction Detection)**
 
-   .. code-block:: python
+   - The program polls ``CLK`` continuously and checks for changes:
+     - If ``CLK`` changes, the encoder moved one step in the quadrature sequence.
+   - Direction is determined by comparing DT to CLK:
+     - ``dt.value() != c`` means one rotation direction (increment)
+     - otherwise decrement
+   - The raw transition count is converted into detents:
+     - ``detent = raw // TRANSITIONS_PER_DETENT``
+   - The LED color is updated only when the detent value changes.
 
-      encoder = Rotary_Encoder(clk=17, dt=4)
-      sw = Pin(27, Pin.IN, pull=Pin.PULL_UP)
+8. **Button Reset and Debounce**
 
-   The encoder provides step counts, while the button triggers a reset.
+   - When the button is pressed (``sw.value() == 0``), the program calls ``reset_all()``.
+   - A short debounce delay is applied, and the script waits until the button is released to prevent multiple resets from a single press.
 
-4. **Hue Calculation**
+9. **Clean Exit**
 
-   Hue values are stored in a circular range:
-
-   .. code-block:: python
-
-      STEPS_PER_CYCLE = 120
-
-   - More steps = finer rotation control  
-   - Hue is mapped from ``0.0`` to ``1.0`` (full color wheel)
-
-   ``hue_to_rgb()`` converts the hue into a 0–255 RGB tuple.
-
-5. **Updating LED Colors**
-
-   ``apply_color_from_steps()`` maps encoder steps → hue → RGB color.
-
-   .. code-block:: python
-
-      hue_idx = steps % STEPS_PER_CYCLE
-      hue = hue_idx / STEPS_PER_CYCLE
-      color = hue_to_rgb(hue)
-      strip.fill(color)
-
-   - LEDs update only when the hue changes  
-   - The ring displays the selected color instantly  
-   - A message is printed in the terminal showing hue and RGB values
-
-6. **Encoder Event Handlers**
-
-   Two callbacks are defined:
-
-   - ``rotary_change()`` → updates color when encoder is rotated  
-   - ``reset_counter()`` → resets hue to 0° when encoder button is pressed  
-
-   .. code-block:: python
-
-      encoder.when_rotated = rotary_change
-      sw.when_activated = reset_counter
-
-7. **Initialization and Main Loop**
-
-   - LEDs start at hue **0°** (pure red)  
-   - ``pause()`` keeps the script alive until Ctrl+C  
-   - On exit, LEDs are cleared to avoid leaving them on
-
-   .. code-block:: python
-
-      apply_color_from_steps(0)
-      pause()
-
-   The script gracefully handles shutdown and turns off all LEDs.
+   - Pressing ``Ctrl + C`` exits the program.
+   - In the ``finally`` block, all LEDs are turned off (``strip.fill(0)`` and ``strip.show()``) so the hardware is left in a safe state.
 
 **Troubleshooting**
 -------------------

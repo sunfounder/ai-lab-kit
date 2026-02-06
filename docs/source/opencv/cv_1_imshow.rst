@@ -31,80 +31,80 @@ After successfully running this code, an image window will pop up on your screen
 2. Run the Code
 ------------------------
 
-.. 1. Make sure you have installed OpenCV on your Raspberry Pi (see the previous chapter).  
-.. 2. Make sure you have installed ``realVNC`` and can connect to your Raspberry Pi through it.  
-.. 3. Make sure you have downloaded the ``ai-lab-kit`` project (see :ref:`download_code`).  
-.. 4. In RealVNC, navigate to the project directory ``ai-lab-kit/opencv_python``, where you will find several existing scripts.  
-.. 5. In this project, open the ``cv_imgshow.py`` file to see the effect.
+.. important::
+
+   Before you start, make sure:
+
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
+
+   For detailed instructions, see :ref:`opencv_install`.
 
 
+#. Open the terminal and enter the following command:
 
-Please make sure that:
+   .. code-block:: bash
+   
+      cd ~/ai-lab-kit/opencv_python
+      python3 cv_1_imgshow.py
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
+#. After running the script, OpenCV opens a window titled ``Picture`` and displays the image loaded from ``my_photo.jpg``.  
 
-Open the terminal in VNC and enter the following command:
-
-
-.. code-block:: bash
-
-   cd ~/ai-lab-kit/opencv_python
-   python3 cv_imgshow.py
+   The window will remain open until the user quits the program.
+   
+   To exit the program, you can:
+   
+   * Press **q** on the keyboard  
+   * Close the window by clicking the close button  
+   
+   Once the window is closed, all OpenCV resources are released and the program exits.
 
 3. Complete Code
-----------------
+-------------------
 
 .. code-block:: python
 
-   # Python code to read image
+   # Python code to read and display an image using OpenCV
    import cv2
+   from pathlib import Path
 
-   # To read image from disk, we use
-   # cv2.imread function, in below method,
-   img = cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)
+   # Get the directory of the current Python file
+   BASE_DIR = Path(__file__).resolve().parent
 
-   # Creating GUI window to display an image on screen
-   # first Parameter is window title (should be in string format)
-   # Second Parameter is image array
+   # Read image from disk
+   # cv2.imread loads the image as a NumPy array
+   img = cv2.imread(str(BASE_DIR / "my_photo.jpg"), cv2.IMREAD_COLOR)
+
+   # Create a GUI window to display the image
+   # First parameter: window title
+   # Second parameter: image array
    cv2.imshow("Picture", img)
 
-   # To hold the window on screen, we use cv2.waitKey method
-   # Once it detects the close input, it will release the control
-   # To the next line
-   # First Parameter is for holding screen for specified milliseconds
-   # It should be positive integer. If 0 is passed as parameter, then it will
-   # hold the screen until user closes it.
-   cv2.waitKey(0)
+   # Keep the window open until the user closes it or presses 'q'
+   # cv2.waitKey only listens for keyboard events, not the close button
+   # Therefore, we use a loop to detect both window close and key press
+   while True:
+      # Check if the window has been closed
+      if cv2.getWindowProperty("Picture", cv2.WND_PROP_VISIBLE) < 1:
+         break
 
-   # It is for removing/deleting created GUI window from screen
-   # and memory
+      # Wait for 1 ms and check for key press
+      # Press 'q' to exit the program
+      if cv2.waitKey(1) & 0xFF == ord("q"):
+         break
+
+   # Destroy all OpenCV windows and release memory
    cv2.destroyAllWindows()
 
-
-
-4. Execution Result
--------------------
-
-When you run the code, an image window will pop up displaying `my_photo.jpg`.
-
-.. note::
-
-   - If you see an “image cannot be loaded” error, make sure `my_photo.jpg` exists in the current working directory.  
-   - You can also try reading the image using an absolute path, for example:
-
-     ::
-
-        img = cv2.imread("/home/<USER_NAME>/ai-lab-kit/opencv_python/my_photo.jpg", cv2.IMREAD_COLOR)
-
-
-5. Code Explanation
--------------------
+4. Code Explanation
+----------------------
 
 - ``cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)``  
 
-  Reads the image named `my_photo.jpg` and loads it in color mode.
+  Reads the image named ``my_photo.jpg`` and loads it in color mode.
 
 - ``cv2.imshow("Picture", img)``  
 
@@ -112,16 +112,19 @@ When you run the code, an image window will pop up displaying `my_photo.jpg`.
 
 - ``cv2.waitKey(0)``  
 
-  When the parameter is `0`, the program will wait indefinitely until you close the window or press any key.
+  When the parameter is ``0``, the program will wait indefinitely until you close the window or press any key.
+
+- ``cv2.getWindowProperty()``
+
+  Gets a property value of the specified window (for example, whether the window is still visible).
+
 
 - ``cv2.destroyAllWindows()``  
 
   Closes all OpenCV windows and releases resources.
 
-
-
-6. Further Practice
--------------------
+5. Further Practice
+-----------------------
 
 - Try changing the window title in ``imshow`` to “My First OpenCV Window”.  
 - Replace the image with a different one and observe the result.  

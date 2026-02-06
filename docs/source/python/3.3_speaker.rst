@@ -33,78 +33,51 @@ This lesson shows you how to enable, test, and use the speaker with text-to-spee
     * - Raspberry Pi
       - \-
 
-
 ------------------------------------------------------------
 
-Speaker Setup
-------------------------------------------------------------
 
-**1. Check if the Speaker Is Recognized**
+**Check if the Speaker Is Recognized**
 
-Run the following command:
+Check whether the Fusion HAT+ audio device is detected by the system:
 
 .. raw:: html
 
    <run></run>
 
-.. code-block:: bash
+.. code-block:: shell
 
    aplay -l
 
-You should see a sound device similar to:
+You should see an audio device similar to:
 
 .. code-block:: text
 
-   card 0: sndrpigooglevoi [... voicehat-hifi-0 ...]
+   card 3: voicehat [Fusion HAT+ Audio], device 0: ...
 
-If a device appears under **card 0** or another card number, the Fusion HAT+ audio hardware is detected.
-
-**2. Testing the Speaker**
-
-#. Play a stereo test sound:
-
-   .. raw:: html
-   
-      <run></run>
-   
-   .. code-block:: bash
-   
-      speaker-test -t wav -c 2
-
-   You should hear “Front Left / Front Right”. Press **Ctrl+C** to stop.
-
-#. Play a audio file.
-
-   .. raw:: html
-      
-      <run></run>
-   
-   .. code-block:: bash
-   
-      cd ~/ai-lab-kit/music/
-      aplay doorbell.wav
-   
-   You should hear a doorbell tone.
-   
-   .. tip::
-   
-      You can play any compatible ``.wav`` file using ``aplay``.
-
+If a device named ``voicehat`` (or similar) appears under **any card number**,  
+the Fusion HAT+ audio hardware is successfully recognized.
 
 ------------------------------------------------------------
-Text-to-Speech (TTS) Demo
-------------------------------------------------------------
+
 
 **Run the Example Program**
 
-.. code-block:: bash
+The most reliable way to test the speaker is to run the text-to-speech example.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
 
    cd ~/ai-lab-kit/llm
    sudo python3 tts_espeak.py
 
-You should hear: **“Hello! I'm Espeak TTS.”**
+You should hear: “Hello! I’m Espeak TTS.”
 
 Try adjusting the TTS parameters in the script to hear different voice effects.
+
+------------------------------------------------------------
 
 **Example Code**
 
@@ -136,62 +109,64 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
 
 ------------------------------------------------------------
 
-Troubleshooting
-------------------------------------------------------------
+**Troubleshooting**
 
 * **No sound output**
 
-  - Check audio volume with:
-  
-    .. code-block:: bash
-  
-       alsamixer
-  
-  - Confirm your Pi sees the audio device:
-  
-    .. code-block:: bash
+  - Make sure the Fusion HAT+ audio device is detected:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
        aplay -l
 
-* **Speaker not recognized**
+    You should see an audio device named ``voicehat`` (or similar).
+    If the device is not listed, power off the Raspberry Pi, reseat the
+    Fusion HAT+, and reboot.
 
-  - Reseat the Fusion HAT+  
-  - Reboot the Raspberry Pi  
-  - Ensure drivers are installed  
-  - Or rerun:
+  - If the device is still not detected, reinstall the audio driver:
 
-  .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
-     sudo /opt/setup_fusion_hat_audio.sh
+       sudo /opt/setup_fusion_hat_audio.sh
 
-* **Espeak sounds too fast / robotic**
+* **Text-to-speech sounds too fast or robotic**
 
-  - Adjust values:
+  - Adjust the speech parameters in the code:
 
     .. code-block:: python
 
        tts.set_speed(120)
        tts.set_pitch(60)
 
-* **Permission denied**
+* **Permission denied error**
 
-  - Run with sudo:
+  - Run the script with superuser privileges:
 
-    .. code-block:: bash
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
 
        sudo python3 tts_espeak.py
 
 
+
 ------------------------------------------------------------
 
-Summary
-------------------------------------------------------------
+**Summary**
 
 In this lesson, you learned how to:
 
-- Verify that the Fusion HAT+ speaker is recognized  
-- Enable and test the speaker using ALSA tools  
-- Play audio files  
+- Verify that the Fusion HAT+ speaker is recognized   
 - Use Espeak TTS to generate speech on the Raspberry Pi
 
 The Fusion HAT+ speaker provides a simple and powerful way to add audio to your Raspberry Pi projects.

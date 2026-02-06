@@ -58,7 +58,7 @@ Follow these steps to build the circuit:
 
 
 .. image:: img/fzz/1.3.3_relay_bb.png
-   :width: 80%
+   :width: 90%
    :align: center
 
 ----------------------------------------------
@@ -76,6 +76,8 @@ Follow these steps to run the example:
    
    cd ~/ai-lab-kit/python/
    sudo python3 1.5_Relay.py 
+
+After running the script, the relay connected to GPIO 17 repeatedly switches on and off every second. When the relay is turned on, the console displays “Relay open…”, and when it is turned off, “…Relay close” is shown. This cycle continues until you press Ctrl + C, at which point the program stops and the relay is safely turned off.
 
 ----------------------------------------------
 

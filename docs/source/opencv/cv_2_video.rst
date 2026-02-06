@@ -28,120 +28,173 @@ In this section, we will achieve the following goals:
 2. Run the Code
 ------------------------
 
+.. important::
 
+   Before you start, make sure:
 
-Please make sure that:
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
+   For detailed instructions, see :ref:`opencv_install`.
 
-Open the terminal in VNC and enter the following command:
+#. Open the terminal and enter the following command:
 
+   .. code-block:: bash
 
+      cd ~/ai-lab-kit/opencv_python
+      python3 cv_2_video.py
 
-.. code-block:: bash
+#. After running the script, OpenCV opens a window titled **Video** and displays the video frames in real time.  
 
-   cd ~/ai-lab-kit/opencv_python
-   python3 cv_video.py
+   If the video reaches the end, it will restart automatically from the beginning.
+   
+   To stop the program, you can:
+   
+   * Press **q** on the keyboard to quit playback  
+   * Close the window by clicking the close button  
 
+   Once the window is closed, all OpenCV resources are released and the program exits.
 
 
 3. Complete Code
-----------------
+------------------------------
 
 .. code-block:: python
 
-   import cv2
+  import cv2
 
-   # Read video
-   cap = cv2.VideoCapture('sample2.mp4')
+  # Open the video file
+  cap = cv2.VideoCapture("sample2.mp4")
 
-   while True:
-       start_time = cv2.getTickCount()
-       ret, frame = cap.read()
-       
-       # If video ends, restart from beginning
-       if not ret:
-           cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-           continue
+  while True:
+      # Read one frame from the video
+      ret, frame = cap.read()
 
-       # Resize frame for better display
-       frame = cv2.resize(frame, (640, 480), interpolation=cv2.INTER_CUBIC)
-       
-       # Show results
-       cv2.imshow('Video', frame)
+      # If the video ends, restart from the beginning
+      if not ret:
+          cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+          continue
 
-       # Calculate delay to maintain desired FPS
-       expected_delay = max(1, int(1000 / cap.get(cv2.CAP_PROP_FPS)))
-       process_time = (cv2.getTickCount() - start_time) / cv2.getTickFrequency()
-       delay = int(expected_delay - process_time)
-       
-       # Ensure delay is non-negative
-       delay = max(0, delay)
-       
-       # Wait for the next frame
-       k = cv2.waitKey(delay) & 0xff
-       if k == ord('q'):
-           break
+      # Resize the frame for better display performance
+      frame = cv2.resize(frame, (640, 480))
 
-   # Release video capture object
-   cap.release()
+      # Display the frame in a window named "Video"
+      cv2.imshow("Video", frame)
 
-   # Destroy all opened windows
-   cv2.destroyAllWindows()
+      # Wait 30 ms between frames (~30 FPS)
+      # This also processes GUI events (keyboard and window events)
+      key = cv2.waitKey(30) & 0xFF
 
-4. Execution Result
--------------------
+      # Press 'q' to exit the program
+      if key == ord("q"):
+          break
 
-After successfully running the code, a window will pop up playing ``sample2.mp4``.
+      # Exit if the user closes the window (click the close button)
+      if cv2.getWindowProperty("Video", cv2.WND_PROP_VISIBLE) < 1:
+          break
 
-- The video will automatically restart when it reaches the end.  
-- Playback speed will be close to the original FPS.  
-- Press ``q`` to exit the program.
+  # Release the video capture object
+  cap.release()
 
-.. note::
-
-   - Make sure the video file path is correct.  
-   - If the video cannot be played, check the video codec format or try using common formats such as ``.mp4`` or ``.avi``.  
-   - If the playback speed seems off, print ``cap.get(cv2.CAP_PROP_FPS)`` to confirm the FPS.
+  # Close all OpenCV windows
+  cv2.destroyAllWindows()
 
 
-5. Code Explanation
--------------------
+4. Code Explanation
+-----------------------
 
-- ``cap = cv2.VideoCapture('sample2.mp4')``  
+#. Open the video file:
 
-  Opens the video file ``sample2.mp4``. If the path is incorrect, the video cannot be read.
+   .. code-block:: python
 
-- ``ret, frame = cap.read()``  
+      cap = cv2.VideoCapture("sample2.mp4")
 
-  Reads the video frame by frame. ``ret`` indicates whether the read was successful, and ``frame`` stores the current frame.
+   This opens the video file and creates a ``VideoCapture`` object for reading frames.
 
-- ``if not ret: cap.set(cv2.CAP_PROP_POS_FRAMES, 0)``  
+#. Read one frame from the video:
 
-  When the video reaches the end, the frame pointer is reset to the beginning to enable looped playback.
+   .. code-block:: python
 
-- ``frame = cv2.resize(frame, (640, 480))``  
+      ret, frame = cap.read()
 
-  Resizes the video frame to 640×480 for consistent display.
+   - ``ret`` is ``True`` if a frame is read successfully.
+   - ``ret`` becomes ``False`` when the video ends or reading fails.
+   - ``frame`` is the image data (a NumPy array).
 
-- ``expected_delay = 1000 / FPS`` + processing time calculation  
+#. Loop the video when it ends:
 
-  Calculates the expected delay for each frame and adjusts it dynamically based on actual processing time to maintain smooth playback.
+   .. code-block:: python
 
-- ``cv2.waitKey(delay)``  
+      if not ret:
+          cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+          continue
 
-  Controls how long each frame stays on the screen. Press `q` to quit the playback.
+   When the video ends, this resets the playback position to the first frame so the video can restart.
 
-- ``cap.release()`` and ``cv2.destroyAllWindows()``  
+#. Resize the frame:
 
-  Release the video capture object and close all OpenCV windows.
+   .. code-block:: python
+
+      frame = cv2.resize(frame, (640, 480))
+
+   This resizes each frame to 640×480 for smoother display and lower CPU usage on Raspberry Pi.
+
+#. Display the frame:
+
+   .. code-block:: python
+
+      cv2.imshow("Video", frame)
+
+   This displays the current frame in a window named ``Video``.
+
+#. Control playback speed and read keyboard input:
+
+   .. code-block:: python
+
+      key = cv2.waitKey(30) & 0xFF
+
+   This waits about 30 ms between frames (around 30 FPS) and processes GUI events.
+
+#. Exit by pressing ``q``:
+
+   .. code-block:: python
+
+      if key == ord("q"):
+          break
+
+   Press ``q`` to stop the program.
+
+#. Exit when the window is closed:
+
+   .. code-block:: python
+
+      if cv2.getWindowProperty("Video", cv2.WND_PROP_VISIBLE) < 1:
+          break
+
+   This checks whether the window is still visible.  
+   If the user closes the window, the program exits safely.
+
+#. Release the video capture object:
+
+   .. code-block:: python
+
+      cap.release()
+
+   This releases the video file resource.
+
+#. Close all OpenCV windows:
+
+   .. code-block:: python
+
+      cv2.destroyAllWindows()
+
+   This closes all OpenCV windows and releases GUI resources.
 
 
-
-
-6. Further Practice
+5. Further Practice
 -------------------
 
 - Try changing the window size to see how it affects image clarity.  

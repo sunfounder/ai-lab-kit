@@ -88,8 +88,14 @@ Follow these steps to run the example:
 .. code-block:: shell
    
    cd ~/ai-lab-kit/python/
-   sudo python3 2.11_Thermistor.py 
+   sudo python3 2.10_Thermistor.py 
 
+This Python script reads an analog signal from a thermistor via the fusion hat and calculates the corresponding temperature. When executed:
+
+1. The script continuously reads the voltage.
+2. It calculates the thermistor resistance (``Rt``), and determines the temperature in Kelvin, Celsius, and Fahrenheit.
+3. The calculated temperatures are printed to the console in both Celsius and Fahrenheit, formatted to two decimal places, as ``Celsius: <value> C  Fahrenheit: <value> F``.
+4. The process repeats every 0.2 seconds until the script is interrupted with ``Ctrl+C``.
 
 ----------------------------------------------
 
@@ -140,12 +146,6 @@ Below is the Python code used for this project:
       pass
 
 
-This Python script reads an analog signal from a thermistor via the fusion hat and calculates the corresponding temperature. When executed:
-
-1. The script continuously reads the voltage.
-2. It calculates the thermistor resistance (``Rt``), and determines the temperature in Kelvin, Celsius, and Fahrenheit.
-3. The calculated temperatures are printed to the console in both Celsius and Fahrenheit, formatted to two decimal places, as ``Celsius: <value> C  Fahrenheit: <value> F``.
-4. The process repeats every 0.2 seconds until the script is interrupted with ``Ctrl+C``.
 
 
 ----------------------------------------------

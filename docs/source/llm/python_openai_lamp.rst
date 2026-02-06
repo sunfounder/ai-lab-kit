@@ -48,14 +48,6 @@ Connect the RGB LED to the Fusion HAT+ as follows:
    :width: 80%
    :align: center
 
-**RGB LED Connection Guide:**
-
-- **Red pin** → Fusion HAT+ PWM port 0
-- **Green pin** → Fusion HAT+ PWM port 1  
-- **Blue pin** → Fusion HAT+ PWM port 2
-- **Common cathode** → Ground (GND)
-
-*Note: Add appropriate current-limiting resistors (220Ω recommended) in series with each LED color channel.*
 
 ----------------------------------------------
 
@@ -97,6 +89,10 @@ Connect the RGB LED to the Fusion HAT+ as follows:
 **Code**
 
 Here is the full Python script for the AI LED Controller:
+
+.. raw:: html
+
+   <run></run>
 
 .. code-block:: python
 
@@ -326,7 +322,7 @@ Here is the full Python script for the AI LED Controller:
 
 **Understanding the Code**
 
-1. **AI Assistant Initialization**
+1. AI Assistant Initialization
 
    The system uses OpenAI's GPT-4o model with custom instructions to ensure it generates LED control commands in a specific format.
 
@@ -343,7 +339,7 @@ Here is the full Python script for the AI LED Controller:
       
       self.llm.set_instructions(self.instructions)
 
-2. **RGB LED Control**
+2. RGB LED Control
 
    The RGB_LED class from fusion_hat.modules provides an interface to control the three color channels via PWM.
 
@@ -357,7 +353,7 @@ Here is the full Python script for the AI LED Controller:
       # Set color using hex value
       self.rgb_led.color(0xFF0000)  # Also red
 
-3. **Command Parsing with Regular Expressions**
+3. Command Parsing with Regular Expressions
 
    The system uses regex to extract LED control commands from the AI's response.
 
@@ -376,7 +372,7 @@ Here is the full Python script for the AI LED Controller:
           
           return led_command, display_text
 
-4. **Multiple Color Format Support**
+4. Multiple Color Format Support
 
    The controller accepts various color specification formats for maximum flexibility.
 
@@ -392,7 +388,7 @@ Here is the full Python script for the AI LED Controller:
           # 4. Hex numbers (0xFF0000)
           # 5. Direct integers (16711680)
 
-5. **Streaming Response**
+5. Streaming Response
 
    The AI's response is streamed word by word for a more natural conversation experience.
 
@@ -406,7 +402,7 @@ Here is the full Python script for the AI LED Controller:
               print(word, end="", flush=True)
               full_response += word
 
-6. **Enhanced Pro Version**
+6. Enhanced Pro Version
 
    The AILEDControllerPro class adds direct command preprocessing for faster response to common requests.
 
@@ -424,7 +420,7 @@ Here is the full Python script for the AI LED Controller:
 
 **Troubleshooting**
 
-- **"No module named 'openai'" error**
+- No module named 'openai'" error**
 
    Ensure the fusion-hat package is installed:  
 
@@ -433,72 +429,30 @@ Here is the full Python script for the AI LED Controller:
       curl -sSL https://raw.githubusercontent.com/sunfounder/sunfounder-installer-scripts/main/install-fusion-hat.sh | sudo bash
 
 
-- **"Invalid API key" error**
+- “Invalid API key" error
 
   Verify your API key in ``secret.py`` is correct and hasn't expired.  
   Check your OpenAI account for active API keys.
 
-- **LED doesn't light up**
+- LED doesn't light up
 
   - Verify wiring connections (RGB pins to correct PWM ports)  
   - Check if common cathode is connected to ground  
   - Ensure current-limiting resistors are properly installed  
   - Test each color channel individually using simple test code
 
-- **AI doesn't respond with [LED:...] tags**
+- AI doesn't respond with [LED:...] tags
 
   - Check the system instructions are being set correctly  
   - Try more explicit color commands  
   - Ensure the AI model (gpt-4o) is available on your account
 
-- **Streaming response appears choppy**
+- Streaming response appears choppy
 
   - Check internet connection stability  
   - Reduce stream delay by adjusting network timeouts  
   - Consider using non-streaming mode for testing
 
 ----------------------------------------------
-
-**Try It Yourself**
-
-1. **Extended Color Palette**  
-
-   Add more color names to the ``color_map`` dictionary like 'teal', 'lavender', 'magenta', or 'gold'.
-
-2. **Color Transitions**  
-
-   Implement smooth color transitions when changing between colors instead of instant changes.
-
-3. **Multiple LEDs**  
-
-   Expand the system to control multiple RGB LEDs independently based on positional commands like "left light blue, right light red".
-
-4. **Voice Input**  
-
-   Integrate speech recognition so you can control the LED with voice commands instead of typing.
-
-5. **Preset Scenes**  
-
-   Create preset lighting scenes (reading, relaxing, party) that can be activated with single commands.
-
-6. **Schedule Automation**  
-
-   Add scheduling functionality: "turn red at 6 PM", "dim lights at 10 PM", etc.
-
-7. **Color Temperature Control**  
-
-   Implement warm-to-cool white temperature adjustment based on commands like "warmer light" or "cooler light".
-
-8. **API Endpoint**  
-
-   Create a web API endpoint to control the LED remotely via HTTP requests.
-
-9. **Emotion-Based Lighting**  
-
-   Make the LED respond to emotional language: "I'm feeling calm" → soft blue, "I'm excited" → bright orange.
-
-10. **Integration with Other Sensors**  
-
-   Combine with light sensors to create adaptive lighting that adjusts based on ambient light levels.
 
 This project demonstrates how AI can bridge natural language understanding with physical hardware control, opening possibilities for intuitive human-machine interfaces!

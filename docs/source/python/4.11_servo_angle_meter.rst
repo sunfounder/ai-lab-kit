@@ -56,28 +56,12 @@ The following components are required for this project:
 Refer to the wiring diagram for assembling the components:
 
 .. image:: img/fzz/4.11_servo_angle_meter_bb.png
-   :width: 80%
+   :width: 100%
    :align: center
 
 ----------------------------------------------
 
 **Setup Steps**
-
-.. #. Create and activate an isolated environment for this project:
-
-..    .. raw:: html
-
-..       <run></run>
-
-..    .. code-block:: shell
-
-..       cd ~
-..       python3 -m venv 4.11_servo_angle_env --system-site-packages
-..       source 4.11_servo_angle_env/bin/activate
-
-..    .. note::
-
-..       Each project should have its own virtual environment to prevent dependency conflicts.
 
 #. Install the required libraries:
 
@@ -111,6 +95,10 @@ Refer to the wiring diagram for assembling the components:
 **Code**
 
 Here is the Python script for the Servo Angle Meter:
+
+.. raw:: html
+   
+   <run></run>
 
 .. code-block:: python
 

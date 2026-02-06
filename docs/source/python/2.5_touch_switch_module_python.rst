@@ -47,9 +47,22 @@ To complete this project, you will need the following components:
 Below is the schematic diagram showing how to connect the Touch Switch Module to the Raspberry Pi and LEDs:
 
 .. image:: img/fzz/2.1.3_sch.png
-   :width: 80%
+   :width: 100%
    :align: center
 
+------------------------------------
+
+**Wiring Diagram**
+
+Follow these steps to build the circuit:
+
+1. Connect the Touch Switch Module output pin to GPIO17.
+2. Connect LED1 anode to GPIO22 and LED2 anode to GPIO27 via appropriate resistors.
+3. Connect the cathodes of both LEDs and the Touch Switch ground pin to GND.
+
+.. image:: img/fzz/2.1.3_bb.png
+   :width: 80%
+   :align: center
 
 
 ----------------------------------------------
@@ -70,20 +83,22 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.5_TouchSwitch.py
 
-----------------------------------------------
+This Python script uses a touch sensor to control two LEDs connected to a Raspberry Pi. When executed:
 
-**Wiring Diagram**
+1. **Touch Sensor Pressed**:
 
-Follow these steps to build the circuit:
+   - Prints "You touch it!" to the console.
+   - Turns off LED1 (connected to GPIO pin 22).
+   - Turns on LED2 (connected to GPIO pin 27).
 
-1. Connect the Touch Switch Module output pin to GPIO17.
-2. Connect LED1 anode to GPIO22 and LED2 anode to GPIO27 via appropriate resistors.
-3. Connect the cathodes of both LEDs and the Touch Switch ground pin to GND.
+2. **Touch Sensor Not Pressed**:
 
-.. image:: img/fzz/2.1.3_bb.png
-   :width: 80%
-   :align: center
+   - LED1 turns on.
+   - LED2 turns off.
 
+3. The program continuously monitors the touch sensor's state every 0.5 seconds and adjusts the LEDs accordingly.
+
+4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
 
 
 ----------------------------------------------
@@ -128,23 +143,6 @@ The following Python code controls two LEDs based on the state of the Touch Swit
    except KeyboardInterrupt:
       # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
       pass
-
-This Python script uses a touch sensor to control two LEDs connected to a Raspberry Pi. When executed:
-
-1. **Touch Sensor Pressed**:
-
-   - Prints "You touch it!" to the console.
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
-
-2. **Touch Sensor Not Pressed**:
-
-   - LED1 turns on.
-   - LED2 turns off.
-
-3. The program continuously monitors the touch sensor's state every 0.5 seconds and adjusts the LEDs accordingly.
-
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
 
 ----------------------------------------------
 

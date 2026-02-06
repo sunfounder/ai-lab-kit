@@ -81,7 +81,9 @@ Follow these steps to run the example:
 .. code-block:: shell
 
    cd ~/ai-lab-kit/python/
-   sudo python3 2.15_RotaryEncoder.py
+   sudo python3 2.12_RotaryEncoder.py
+
+After running the script, rotating the rotary encoder will increase or decrease a counter, and the current counter value is printed to the console in real time. Pressing the encoder’s button resets the counter to zero and displays a reset message. The program keeps running and responding to user input until you press Ctrl + C to exit.
 
 ----------------------------------------------
 
@@ -96,33 +98,55 @@ Below is the Python code used for this project:
 .. code-block:: python
 
    #!/usr/bin/env python3
-   from fusion_hat.modules import Rotary_Encoder
+
    from fusion_hat.pin import Pin, Mode, Pull
-   from signal import pause  # Import pause function from signal module
+   import time
 
+   # GPIO pins (BCM numbering)
+   CLK_PIN = 17
+   DT_PIN  = 4
+   SW_PIN  = 27
 
-   # Initialize the rotary encoder and button (sw)
-   encoder = Rotary_Encoder(clk=17, dt=4)  # Rotary Encoder connected to GPIO pins 17 (CLK) and 4 (DT)
-   sw = Pin(27, mode=Mode.IN, pull=Pull.UP)  # Button (sw) connected to GPIO pin 27
+   # Initialize pins with internal pull-ups
+   clk = Pin(CLK_PIN, mode=Mode.IN, pull=Pull.UP)
+   dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
+   sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)  # Button is active LOW
 
+   raw = 0                 # Raw quadrature transitions
+   last_clk = clk.value()  # Previous CLK state
+   last_detent = None      # Last displayed detent value
 
-   def rotary_change():
-      """ Update the counter based on the rotary encoder's rotation. """
-      print('Counter =', encoder.steps())  # Display current counter value
+   print("Rotate the knob. Press the button to reset. CTRL + C to exit.")
+   try:
+      while True:
+         c = clk.value()
+         if c != last_clk:
+               # Direction: DT != CLK means one direction, else the other
+               raw += 1 if dt.value() != c else -1
 
-   def reset_counter():
-      """ Reset the counter to zero when the button (sw) is pressed. """
-      encoder.reset()  # Reset the counter
-      print('Counter reset')  # Indicate counter reset
+               # Most encoders generate 2 transitions per detent (click)
+               detent = raw // 2
 
-   # Set up event handlers for the rotary encoder and button (sw)
-   encoder.when_rotated = rotary_change
-   sw.when_activated = reset_counter
+               # Only update output when the detent value changes
+               if detent != last_detent:
+                  print(f"\rCounter: {detent}   ", end="", flush=True)
+                  last_detent = detent
 
+               last_clk = c
 
-   # Run an event loop that waits for button (sw) events and keeps the script running
-   print("CTRL + C to exit")
-   pause()
+         # Reset when button is pressed
+         if sw.value() == 0:
+               raw = 0
+               detent = 0
+               print("\rCounter: 0   ", end="", flush=True)
+               last_detent = 0
+               time.sleep(0.25)  # Button debounce
+
+         time.sleep(0.001)  # Polling interval (1 ms)
+
+   except KeyboardInterrupt:
+      print("\nExit")
+
 
 
 ----------------------------------------------
@@ -133,48 +157,95 @@ Below is the Python code used for this project:
 
    .. code-block:: python
 
-      from fusion_hat.modules import Rotary_Encoder
       from fusion_hat.pin import Pin, Mode, Pull
-      from signal import pause  # Import pause function from signal module
+      import time
 
-   - ``Rotary_Encoder`` handles quadrature decoding of the rotary signals.
-   - ``Pin`` provides GPIO configuration and event support.
-   - ``pause`` blocks the main thread while letting callbacks execute on events.
+   - ``Pin`` is used to configure and read GPIO pins for the rotary encoder.
+   - ``Mode`` and ``Pull`` define the pin direction and internal pull-up resistors.
+   - ``time`` is used to control polling intervals and button debounce timing.
 
-2. **Hardware Setup**
-
-   .. code-block:: python
-
-      encoder = Rotary_Encoder(clk=17, dt=4)  # Rotary Encoder connected to GPIO pins 17 (CLK) and 4 (DT)
-      sw = Pin(27, mode=Mode.IN, pull=Pull.UP)  # Button (sw) connected to GPIO pin 27
-
-   - The encoder’s two channels (CLK/DT) feed the quadrature decoder.
-   - The switch uses an internal pull-up; pressing it pulls the line to GND.
-
-3. **Callbacks**
+2. **GPIO Pin Setup**
 
    .. code-block:: python
 
-      def rotary_change():
-          print('Counter =', encoder.steps())
+      CLK_PIN = 17
+      DT_PIN  = 4
+      SW_PIN  = 27
 
-      def reset_counter():
-          encoder.reset()
-          print('Counter reset')
+      clk = Pin(CLK_PIN, mode=Mode.IN, pull=Pull.UP)
+      dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
+      sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)
 
-   - ``encoder.steps()`` returns the accumulated step count (positive/negative depending on direction).
-   - ``encoder.reset()`` clears the count to zero.
+   - ``CLK`` and ``DT`` are the two quadrature signal pins of the rotary encoder.
+   - ``SW`` is the built-in push button of the encoder.
+   - Internal pull-up resistors keep the signal stable when the encoder is idle.
+   - The button is active LOW and reads ``0`` when pressed.
 
-4. **Event Binding and Loop**
+3. **State Variables**
 
    .. code-block:: python
 
-      encoder.when_rotated = rotary_change
-      sw.when_activated = reset_counter
-      pause()
+      raw = 0
+      last_clk = clk.value()
+      last_detent = None
 
-   - Assign functions to the event properties; no manual polling is required.
-   - ``pause()`` keeps the process alive to service interrupts.
+   - ``raw`` counts low-level quadrature transitions from the encoder.
+   - ``last_clk`` stores the previous CLK state to detect signal changes.
+   - ``last_detent`` keeps track of the last displayed counter value to avoid repeated output.
+
+4. **Rotation Detection**
+
+   .. code-block:: python
+
+      c = clk.value()
+      if c != last_clk:
+          raw += 1 if dt.value() != c else -1
+
+   - The script continuously polls the CLK pin.
+   - A change in CLK indicates encoder movement.
+   - The rotation direction is determined by comparing DT with CLK.
+
+5. **Detent (Click) Calculation**
+
+   .. code-block:: python
+
+      detent = raw // 2
+
+   - Most rotary encoders generate two signal transitions per physical click.
+   - Dividing by 2 converts raw transitions into clean detent counts.
+
+6. **Clean Console Output**
+
+   .. code-block:: python
+
+      if detent != last_detent:
+          print(f"\\rCounter: {detent}   ", end="", flush=True)
+
+   - Output is updated only when the counter value changes.
+   - ``\\r`` moves the cursor back to the beginning of the line for in-place updates.
+   - ``flush=True`` ensures immediate display on the terminal.
+
+7. **Button Reset Handling**
+
+   .. code-block:: python
+
+      if sw.value() == 0:
+          raw = 0
+          detent = 0
+          print("\\rCounter: 0   ", end="", flush=True)
+          time.sleep(0.25)
+
+   - Pressing the button resets the counter to zero.
+   - A short delay is used for button debounce to prevent multiple triggers.
+
+8. **Polling Interval and Program Exit**
+
+   .. code-block:: python
+
+      time.sleep(0.001)
+
+   - A 1 ms polling delay balances responsiveness and CPU usage.
+   - Pressing ``Ctrl + C`` exits the program gracefully.
 
 ----------------------------------------------
 

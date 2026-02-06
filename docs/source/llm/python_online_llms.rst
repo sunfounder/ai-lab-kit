@@ -78,7 +78,7 @@ Here's how to set it up:
    .. code-block:: bash
    
        cd ~/ai-lab-kit/llm
-       sudo nano llm_openai.py
+       sudo nano llm_test.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``gpt-4o``):
 
@@ -101,8 +101,9 @@ Here's how to set it up:
 
    .. code-block:: bash
    
-       sudo python3 llm_openai.py
+       sudo python3 llm_test.py
    
+Now you can chat with Fusion HAT+ directly from the terminal.
 
 ----
 
@@ -157,7 +158,7 @@ Go to the official |link_gemini_model| page, here you’ll see the list of model
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
-       sudo nano llm_gemini.py
+       sudo nano llm_test.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``gemini-2.5-flash``):
 
@@ -178,7 +179,9 @@ Go to the official |link_gemini_model| page, here you’ll see the list of model
 
    .. code-block:: bash
 
-       sudo python3 llm_gemini.py
+       sudo python3 llm_test.py
+
+Now you can chat with Fusion HAT+ directly from the terminal.
 
 ----
 
@@ -255,7 +258,7 @@ Mainland China users can instead use the **Bailian (百炼)** console.
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
-       sudo nano llm_qwen.py
+       sudo nano llm_test.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``qwen-plus``):
 
@@ -276,7 +279,9 @@ Mainland China users can instead use the **Bailian (百炼)** console.
 
    .. code-block:: bash
    
-       sudo python3 llm_qwen.py
+       sudo python3 llm_test.py
+
+Now you can chat with Fusion HAT+ directly from the terminal.
 
 Grok (xAI)
 ------------------
@@ -327,7 +332,7 @@ Go to the Models page in the xAI console. Here you can see all the models availa
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
-       sudo nano llm_grok.py
+       sudo nano llm_test.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``grok-4-latest``):
 
@@ -348,8 +353,10 @@ Go to the Models page in the xAI console. Here you can see all the models availa
 
    .. code-block:: bash
    
-       sudo python3 llm_grok.py
-   
+       sudo python3 llm_test.py
+
+Now you can chat with Fusion HAT+ directly from the terminal.
+
 ----
 
 DeepSeek
@@ -403,7 +410,7 @@ At the time of writing (2025-09-12), DeepSeek offers:
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
-       sudo nano llm_deepseek.py
+       sudo nano llm_test.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``deepseek-chat``):
 
@@ -425,7 +432,9 @@ At the time of writing (2025-09-12), DeepSeek offers:
 
    .. code-block:: bash
    
-       sudo python3 llm_deepseek.py
+       sudo python3 llm_test.py
+
+Now you can chat with Fusion HAT+ directly from the terminal.
 
 ----
 
@@ -492,7 +501,7 @@ Doubao is ByteDance's AI model platform (Volcengine Ark).
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
-       sudo nano llm_doubao.py
+       sudo nano llm_test.py
 
 #. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``doubao-seed-1-6-250615``):
 
@@ -513,8 +522,9 @@ Doubao is ByteDance's AI model platform (Volcengine Ark).
 
    .. code-block:: bash
    
-       sudo python3 llm_doubao.py
+       sudo python3 llm_test.py
 
+Now you can chat with Fusion HAT+ directly from the terminal.
 
 General
 --------------

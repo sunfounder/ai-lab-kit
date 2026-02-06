@@ -78,6 +78,14 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.6_ReedSwitch.py 
 
+This Python script creates a magnetic field detection system using a reed switch and two status LEDs. When executed:
+
+1. The script continuously monitors the state of the reed switch
+2. When a magnet is detected (reed switch closed), LED1 turns off and LED2 turns on
+3. When no magnet is detected (reed switch open), LED1 turns on and LED2 turns off
+4. This creates a clear visual indication of the magnetic field presence
+5. The program can be interrupted gracefully using ``Ctrl+C``
+
 ----------------------------------------------
 
 **Code**
@@ -105,7 +113,7 @@ The following Python code monitors a reed switch and controls two LEDs based on 
     try:
         # Continuously monitor the state of the reed switch and control LEDs accordingly
         while True:
-            if reed.value() == 1:  # Check if the reed switch is activated
+            if reed.value() == 0:  # Check if the reed switch is activated
                 led1.off()  # Turn off LED1
                 led2.on()   # Turn on LED2
             else:  # If the sensor is not activated
@@ -116,13 +124,6 @@ The following Python code monitors a reed switch and controls two LEDs based on 
         # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
         pass
 
-This Python script creates a magnetic field detection system using a reed switch and two status LEDs. When executed:
-
-1. The script continuously monitors the state of the reed switch
-2. When a magnet is detected (reed switch closed), LED1 turns off and LED2 turns on
-3. When no magnet is detected (reed switch open), LED1 turns on and LED2 turns off
-4. This creates a clear visual indication of the magnetic field presence
-5. The program can be interrupted gracefully using ``Ctrl+C``
 
 ----------------------------------------------
 
@@ -164,7 +165,7 @@ This Python script creates a magnetic field detection system using a reed switch
    .. code-block:: python
 
       while True:
-          if reed.value() == 1:  # Check if the reed switch is activated
+          if reed.value() == 0:  # Check if the reed switch is activated
               led1.off()  # Turn off LED1
               led2.on()   # Turn on LED2
           else:  # If the sensor is not activated
@@ -215,7 +216,7 @@ This Python script creates a magnetic field detection system using a reed switch
       buzzer = Buzzer(PWM('P0'))
       
       while True:
-          if reed.value() == 0:  # Door opened (magnet moved away)
+          if reed.value() == 1:  # Door opened (magnet moved away)
               buzzer.play('C6', 0.5)  # Sound alarm
               led1.on()  # Red alert LED
           else:

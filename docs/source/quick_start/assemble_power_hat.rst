@@ -85,14 +85,14 @@ When charging, one of the LEDs will blink to indicate charging progress:
 
 After fully charged:
 
-* **If the project is ON**, both LEDs will remain lit.  
-* **If the project is OFF**, both LEDs will turn off.  
+* **If the Fusion HAT+ is ON**, both LEDs will remain lit.  
+* **If the Fusion HAT+ is OFF**, both LEDs will turn off.  
 
 .. note::
 
    For extended programming or debugging sessions, you can keep the Fusion HAT+ powered  
-   by connecting the USB-C cable, which will charge the battery and run the project at the same time. 
-   Even if you run the project while the charer is connected, the battery **cannot** be removed.
+   by connecting the USB-C cable, which will charge the battery and run the Fusion HAT+ at the same time. 
+   Even if you run the Fusion HAT+ while the charer is connected, the battery **cannot** be removed.
 
 Power ON
 ----------------------

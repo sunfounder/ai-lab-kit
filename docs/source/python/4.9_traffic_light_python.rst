@@ -97,7 +97,6 @@ Follow these steps to run the example:
 Here is the Python script for the traffic light simulation:
 
 
-
 .. raw:: html
 
    <run></run>
