@@ -20,6 +20,13 @@ In this chapter, we extend MediaPipe's object detection capabilities to create a
 - Implement basic proportional tracking logic;
 - Provide visual feedback with OpenCV overlays.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_11.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach:**
 
 1. Initialize pan and tilt servos to center position;

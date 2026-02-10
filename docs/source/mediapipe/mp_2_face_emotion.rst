@@ -25,6 +25,13 @@ This section will further utilize the **468 landmark coordinates** from Face Mes
   - 😠 Angry
   - 😐 Neutral
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1.  Use ``Picamera2`` + ``MediaPipe FaceMesh`` to obtain 468 facial landmarks.

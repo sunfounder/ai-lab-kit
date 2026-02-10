@@ -22,6 +22,13 @@ Using it, we can implement **two-hand detection** and **annotation of 21 hand la
 - Identify and track both hands, achieving stable landmark visualization.
 - Serve as a foundation for subsequent gesture recognition and interactive control.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_4.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1.  Call the Hands module for detection.

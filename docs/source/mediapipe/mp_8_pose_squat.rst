@@ -21,6 +21,13 @@ This is a typical example of "action recognition + counting" applications, usabl
 - Use a state machine and thresholds to avoid duplicate counting;
 - Overlay results in real-time on the camera feed.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_8.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Use MediaPipe Pose to detect 33 human body keypoints.

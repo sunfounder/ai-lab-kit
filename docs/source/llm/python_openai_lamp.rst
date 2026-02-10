@@ -15,6 +15,13 @@ When you say commands like "turn on red light" or "show warm yellow light," the 
 
 To use the other llm model, please refer to :ref:`py_online_llm` .
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Ai_Powered_Led_Controller.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 ----------------------------------------------
 
 **What You'll Need**

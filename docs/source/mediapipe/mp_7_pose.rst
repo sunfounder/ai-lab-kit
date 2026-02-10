@@ -21,6 +21,13 @@ Using the Pose module, we can detect 33 skeletal keypoints of the human body in 
 - Draw 33 keypoints and skeleton connections on the camera feed;
 - Lay the foundation for subsequent human action recognition, posture correction, or fitness detection.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_7.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Initialize the MediaPipe Pose model, setting model complexity and segmentation options.

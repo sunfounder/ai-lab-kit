@@ -17,6 +17,13 @@ This project creates an interactive **Blindfolded Watermelon Smashing Game** whe
 4. **Random target generation** for watermelon placement
 5. **Interactive button** for smashing actions
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Blindfolded_Watermelon_Smashing_Game.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 The player starts at the center (0,0) and must find a randomly placed watermelon using only audio directions from the AI assistant, creating an engaging sensory-deprived gaming experience.
 
 You can combine various input devices with LLM modules to create interactive AI games. See:

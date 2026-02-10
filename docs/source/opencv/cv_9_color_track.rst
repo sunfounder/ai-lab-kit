@@ -8,6 +8,13 @@
 Object tracking combined with mechanical control forms the foundation of many robotics and computer vision applications.  
 In this chapter, we will create a system that **detects red objects in real-time and controls pan-tilt servos** to keep the object centered in the camera view.
 
+.. raw:: html
+
+      <video width="400" loop muted controls>
+          <source src="../_static/video/Opencv_9.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 This extends basic color detection into an active tracking system that can follow moving objects autonomously.
 
 .. image:: img/color_track.png

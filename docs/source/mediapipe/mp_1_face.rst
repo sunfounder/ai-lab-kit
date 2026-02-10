@@ -15,6 +15,13 @@ This section introduces how to use the **MediaPipe Face Mesh** module on a **Ras
 
 MediaPipe is a cross-platform machine learning pipeline framework developed by Google, supporting real-time processing of video streams and images. The Face Mesh module is a model provided by MediaPipe for real-time face detection and landmark tracking, which can be used to build various facial recognition and interaction applications.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/media_1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 Compared to OpenCV's Haar detection, MediaPipe uses a deep learning model for detection, offering:
 
 -  Higher accuracy

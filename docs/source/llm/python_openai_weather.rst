@@ -17,6 +17,13 @@ This project creates a comprehensive **Smart Weather Station** that combines loc
 4. **Visual display** on a 128x64 OLED screen
 5. **Interactive button** for on-demand AI weather insights
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Smart_Weather_Station.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 The weather station automatically compares local conditions with forecast data and provides intelligent recommendations through voice output, creating a complete environmental monitoring solution.
 
 You can use the other LLM modules and TTS modules to build your own smart devices. 

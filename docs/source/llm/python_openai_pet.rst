@@ -18,6 +18,13 @@ Create an interactive **Digital Pet** that lives on an OLED display and communic
 5. **Visual Feedback**: OLED display shows pet's mood and status
 6. **Voice Responses**: Pet speaks back using natural-sounding TTS
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Digital_Pet.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 Your digital pet remembers conversations, has emotional states, and responds differently based on its needs - creating a truly interactive companion experience!
 
 ----------------------------------------------

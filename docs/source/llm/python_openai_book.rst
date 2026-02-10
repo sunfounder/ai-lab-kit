@@ -19,6 +19,13 @@ The project combines multiple technologies:
 - RGB LED for visual status feedback
 - Physical button for intuitive interaction
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Book_Expert.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 To use the other llm model, please refer to :ref:`py_online_llm` .
 
 ----------------------------------------------

@@ -10,8 +10,6 @@ In this section, we introduce **CAMShift (Continuously Adaptive Mean Shift)**,
 which extends MeanShift by **automatically adapting the window size and orientation**, making it more practical for real-world applications.  
 Additionally, in this example we’ll track a target **based on brightness rather than color**, which is also very common in practice.
 
-
-
 1. Algorithm Features
 ---------------------
 

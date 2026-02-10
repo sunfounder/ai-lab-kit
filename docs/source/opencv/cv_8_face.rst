@@ -8,6 +8,13 @@
 In this chapter, we will use the Raspberry Pi’s Picamera2 to capture video and apply OpenCV’s Haar feature classifiers for **real-time face and eye detection**.  
 This approach is lightweight and highly practical—great for beginners deploying on a Raspberry Pi.
 
+.. raw:: html
+
+      <video width="400" loop muted controls>
+          <source src="../_static/video/Opencv_8.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 1. Haar Features and Detection Principles
 -----------------------------------------
 

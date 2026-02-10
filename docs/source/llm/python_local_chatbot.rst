@@ -9,6 +9,13 @@ In this lesson, you will combine everything you've learned — **speech recognit
 **text-to-speech (TTS)**, and a **local LLM (Ollama)** — to build a fully offline **voice chatbot**  
 that runs on your Fusion HAT+.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Local_Voice_Chatbot.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 The workflow is simple:
 
 #. **Listen** — The microphone captures your speech and transcribes it with **Vosk**.  

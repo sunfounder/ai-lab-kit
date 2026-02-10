@@ -24,6 +24,13 @@ By drawing only the contours and iris features, we can achieve a cleaner and mor
 - Improve drawing efficiency and reduce annotation redundancy.
 - Lay the foundation for advanced tasks like "pupil tracking" and "gaze point detection".
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_3.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Initialize the MediaPipe FaceMesh model.

@@ -22,6 +22,13 @@ This chapter demonstrates how to use the ``efficientdet_lite0.tflite`` model on 
 - Detect and visualize objects in the image;
 - Adapt to embedded devices for real-time, smooth operation.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_10.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Initialize the ObjectDetector and load the EfficientDet model;

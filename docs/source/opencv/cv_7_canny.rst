@@ -8,6 +8,12 @@
 In this chapter, we will capture real-time video using Raspberry Pi + Picamera2 and perform edge detection with OpenCV’s **Canny algorithm**.  
 Edge detection is a fundamental part of computer vision, and the Canny algorithm is widely regarded as one of the most stable and noise-robust methods.
 
+.. raw:: html
+
+      <video width="700" loop muted controls>
+          <source src="../_static/video/Opencv_7.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
 
 1. What Does the Canny Algorithm Do?
 --------------------------------------------------

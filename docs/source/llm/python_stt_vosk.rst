@@ -10,6 +10,13 @@
 Vosk is a lightweight speech-to-text (STT) engine that supports many languages and runs fully **offline** on Raspberry Pi.  
 You only need internet access once to download a language model. After that, everything works without a network connection.  
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Stt_With_Vosk.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 In this lesson, we will:  
 
 * Check the microphone on Raspberry Pi.  

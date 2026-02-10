@@ -21,6 +21,13 @@ This chapter further introduces **MediaPipe Tasks' Gesture Recognizer model** to
 - Output gesture category and confidence for each hand in the video stream;
 - Overlay the skeleton and gesture text for clear teaching/demonstration effects.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_6.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Use **Picamera2** to capture video frames;

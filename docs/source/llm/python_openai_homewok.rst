@@ -20,6 +20,13 @@ This project creates an interactive **AI Homework Grading Assistant** that combi
    
 4. **Uses simple interaction** triggered by a single button press
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Homework_Grading_Demo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 This demonstration showcases how AI can interact with the physical world, creating an engaging educational tool that provides immediate visual feedback on homework accuracy.
 
 You can use other LLM modules and hardware components to build your own AI-assisted learning devices. See:

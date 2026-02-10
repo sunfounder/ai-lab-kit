@@ -20,6 +20,13 @@ This separates the subject from the background, facilitating subsequent tasks li
 - Replace the background with solid green (Chroma Key green screen) for later keying in NLE/OBS;
 - Provide threshold tuning and edge smoothing suggestions for cleaner cutout effects.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_9.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Initialize the Pose model with ``enable_segmentation=True``;

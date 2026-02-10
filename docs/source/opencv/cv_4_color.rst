@@ -11,6 +11,13 @@ In this chapter, we will use step-by-step code and explanations to **detect red 
 
 This forms the foundation for more advanced object tracking techniques (e.g., CAMShift).
 
+.. raw:: html
+
+      <video width="400" loop muted controls>
+          <source src="../_static/video/Opencv_4.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 1. Objective and Approach
 --------------------------------------------
 

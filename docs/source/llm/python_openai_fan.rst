@@ -17,6 +17,13 @@ This project creates an intelligent **Voice-Controlled Smart Fan** that combines
 4. **Auditory Feedback** with a buzzer for button presses
 5. **Dual Control Interface** supporting both voice and physical interaction
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Voice_Controlled_Smart_Fan.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 The smart fan understands commands like "make it faster," "slow down please," or "turn off the fan" and responds with appropriate actions and verbal confirmation.
 
 You can combine various input and output modules to create voice-controlled smart devices. See:

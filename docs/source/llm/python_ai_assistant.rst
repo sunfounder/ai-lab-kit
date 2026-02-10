@@ -10,6 +10,13 @@
 This lesson turns your Fusion HAT+ into a **voice-first AI assistant**.  
 With the provided code, the robot will: **wait for a wake word**, **transcribe your speech** with Vosk, send it to an **OpenAI LLM**, and **speak back** using Piper TTS.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Ai_Voice_Assistant.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 ----
 
 Before You Start

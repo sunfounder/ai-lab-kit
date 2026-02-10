@@ -17,6 +17,13 @@ This project creates an intelligent **Morse Code Decoder** that uses AI to inter
 4. **Dual-button Interface** separate input and control buttons
 5. **Real-time Feedback** displaying timing data as you input
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Ai_Powered_Morse_Code_Decoder.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 The system records button press durations, sends the timing data to AI for interpretation, and accurately decodes Morse code sequences like the universal distress signal "SOS."
 
 You can combine timing-sensitive inputs with AI interpretation for various coding systems. See:

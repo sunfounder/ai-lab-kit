@@ -18,6 +18,13 @@ This project creates an intelligent **AI Health Assistant** that combines body t
 4. **Text-to-Speech Feedback** providing audible health recommendations
 5. **Real-time Monitoring** with continuous temperature conversion
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Ai_Health_Assistant.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 The health assistant measures body temperature through a thermistor circuit, analyzes the reading with AI, and provides appropriate health advice based on established medical temperature ranges.
 
 

@@ -12,6 +12,13 @@ In this chapter, we will take it a step further by using the **Raspberry Pi came
 1. Project Objectives
 --------------------------------------
 
+.. raw:: html
+
+      <video width="700" loop muted controls>
+          <source src="../_static/video/Opencv_3.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 - Use **Picamera2** to capture real-time camera frames  
 - Convert the camera output from BGRA format to BGR format  
 - Use OpenCV for real-time preview  

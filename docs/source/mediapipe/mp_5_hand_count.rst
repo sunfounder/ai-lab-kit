@@ -21,6 +21,13 @@ This section will further introduce how to use **finger landmark positions** to 
 - Analyze the positional relationship between the thumb and other fingers to determine if fingers are extended.
 - Count the number of extended fingers and display it in real-time.
 
+.. raw:: html
+
+      <video width="500" loop muted controls>
+          <source src="../_static/video/Media_5.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
 **Approach：**
 
 1. Initialize the MediaPipe Hands model.
