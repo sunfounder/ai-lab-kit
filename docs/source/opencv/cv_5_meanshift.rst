@@ -8,6 +8,13 @@
 MeanShift is a classic histogram-based object tracking algorithm.  
 In this lesson, we’ll not only implement a complete **MeanShift tracking** example, but also explain **why** each step is taken and **what’s happening under the hood**.
 
+.. raw:: html
+
+      <video width="400" loop muted controls>
+          <source src="../_static/video/Opencv_5.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+   
 1. What is MeanShift?
 -------------------------
 

@@ -22,8 +22,8 @@ In this chapter, we extend MediaPipe's object detection capabilities to create a
 
 .. raw:: html
 
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_11.mp4" type="video/mp4">
+      <video width="300" loop muted controls>
+          <source src="../_static/video/object_tracking.mp4" type="video/mp4">
           Your browser does not support the video tag.
       </video>
 

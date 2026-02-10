@@ -10,6 +10,13 @@ In this section, we introduce **CAMShift (Continuously Adaptive Mean Shift)**,
 which extends MeanShift by **automatically adapting the window size and orientation**, making it more practical for real-world applications.  
 Additionally, in this example we’ll track a target **based on brightness rather than color**, which is also very common in practice.
 
+.. raw:: html
+
+      <video width="400" loop muted controls>
+          <source src="../_static/video/Opencv_6.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+   
 1. Algorithm Features
 ---------------------
 
