@@ -17,9 +17,6 @@ To play with OpenCV:
    - To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
 
 
-
-.. _opencv_install:
-
 1. Installing OpenCV
 --------------------------------------
 

@@ -8,67 +8,122 @@
 10. Object Detection
 =================================
 
-In addition to specialized models for face, hands, and pose, MediaPipe also provides a **Object Detector** based on TFLite for general-purpose object detection.
-This chapter demonstrates how to use the ``efficientdet_lite0.tflite`` model on a Raspberry Pi to achieve efficient, real-time object detection.
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
+
+In addition to specialized models for face, hands, and pose,
+MediaPipe also provides a general-purpose **Object Detector**
+based on TensorFlow Lite.
+
+This chapter demonstrates how to use the
+``efficientdet_lite0.tflite`` model on Raspberry Pi
+to perform real-time object detection and visualize results
+on the camera feed.
 
 .. image:: img/mp_object.png
-   :alt: Real-time Object Detection Example
+   :width: 500
    :align: center
 
-**Objective：**
+This module can be used for:
 
-- Use MediaPipe Tasks to load a local TFLite object detection model;
-- Use the Picamera2 video stream as input;
-- Detect and visualize objects in the image;
-- Adapt to embedded devices for real-time, smooth operation.
+- Real-time object recognition demos
+- Smart home / robotics perception
+- Simple safety monitoring
+- Embedded vision projects
 
-.. raw:: html
 
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_10.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
+------------------------------------------------------------
+2. How It Works
+------------------------------------------------------------
 
-**Approach：**
+The program performs the following steps:
 
-1. Initialize the ObjectDetector and load the EfficientDet model;
-2. Convert the camera feed to a MediaPipe ``mp.Image``;
-3. Call the ``detect_for_video`` method for real-time detection;
-4. Use OpenCV to draw detected bounding boxes and labels;
-5. Control the maximum number of drawn detections to ensure clear display and stable performance.
+1. Initialize the MediaPipe Tasks **ObjectDetector**
+   and load the ``efficientdet_lite0.tflite`` model.
+2. Capture frames from the Picamera2 video stream.
+3. Convert each frame to a MediaPipe ``mp.Image`` object.
+4. Call ``detect_for_video`` to run real-time object detection.
+5. Draw bounding boxes and labels using OpenCV.
+6. Limit the number of displayed detections to keep the output clear
+   and maintain stable performance on Raspberry Pi.
 
 -----------------------------
-1. Model Preparation
+3. Model Preparation
 -----------------------------
 
-We use the **EfficientDet Lite0** model (TFLite format), suitable for Raspberry Pi and embedded devices.
+This example uses the **EfficientDet Lite0** model
+in TensorFlow Lite (TFLite) format.
 
-We have placed ``efficientdet_lite0.tflite`` in your project directory for direct use.
-Lite0 is relatively small and performs well; for higher accuracy, you can switch to Lite1/Lite2. Please check the `Model Download Address <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
+EfficientDet Lite0 is lightweight and optimized for
+embedded devices such as Raspberry Pi.
+It provides a good balance between speed and accuracy.
 
-.. note::
+The file ``efficientdet_lite0.tflite`` is included in the project directory
+and can be used directly.
 
-   You can also use self-trained TFLite models.
+* `Official model download page <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
+
+If higher accuracy is required and hardware performance allows,
+you may switch to:
+
+- EfficientDet Lite1
+- EfficientDet Lite2
+
+You can also replace the model with your own self-trained
+TFLite object detection model, as long as it follows
+MediaPipe Tasks Object Detector format requirements.
+
 
 ------------------------
-2. Run the Code
+4. Run the Code
 ------------------------
 
-Please make sure that:
+.. important::
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
-Open the terminal in VNC and enter the following command:
+   Before you start, make sure:
 
-.. code-block:: bash
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_object.py
+   For detailed instructions, see :ref:`opencv_install`.
+
+#. Open the terminal and enter the following command:
+
+   .. code-block:: bash
+
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_object.py
+
+
+#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+
+   .. raw:: html
+   
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_10.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+
+   For each video frame, the Object Detector model (``efficientdet_lite0.tflite``) runs in real time and searches for recognizable objects in the scene.
+   
+   When objects are detected:
+   
+   - A rectangular bounding box is drawn around each object.
+   - A label and confidence score are shown above the box in the format ``name: score`` (for example, ``person: 0.87``).
+   - Only detections above ``SCORE_THRESHOLD`` (default 0.5) are displayed.
+   - To keep the display clear and maintain performance, the program draws up to ``MAX_DRAW`` detections (default 20) per frame.
+   
+   As the camera view changes, the bounding boxes and labels update continuously in real time.
+   
+   Press ``q`` to exit the program.  
+   The camera stops and the OpenCV window closes automatically.
 
 -----------------------------
-3. Code Implementation
+5. Complete Code
 -----------------------------
 
 .. code-block:: python
@@ -179,7 +234,7 @@ After running the script, the camera feed will display:
 - Real-time detection (can achieve about 10~20 FPS on Raspberry Pi)
 
 -----------------------------
-4. Code Explanation
+6. Code Explanation
 -----------------------------
 
 **Configuration**
@@ -330,7 +385,7 @@ After running the script, the camera feed will display:
 Always release the camera and destroy windows to avoid locking the device.
 
 ------------------------------------------------------
-5. Performance and Applications
+7. Performance and Applications
 ------------------------------------------------------
 
 .. list-table::
@@ -350,30 +405,35 @@ Always release the camera and destroy windows to avoid locking the device.
      - Use ``MAX_DRAW`` to limit
 
 ------------------------------------------------------
-6. Common Issues and Troubleshooting
+8. Troubleshooting
 ------------------------------------------------------
 
-.. list-table::
-   :header-rows: 1
+- No detection results
 
-   * - Issue
-     - Possible Cause
-     - Solution
-   * - No detection results
-     - Confidence threshold too high
-     - Lower SCORE_THRESHOLD
-   * - Low frame rate
-     - Model too large / Resolution too high
-     - Switch to lite0 or reduce resolution
-   * - Detection box offset
-     - Coordinates not clamped
-     - Code already fixes boundaries
-   * - Detection chaos
-     - Too many detected objects
-     - Limit with MAX_DRAW
+  If nothing is detected, the confidence threshold may be too high.
+
+  Try lowering ``SCORE_THRESHOLD`` (for example, from 0.5 to 0.3) and test again.
+
+- Low frame rate
+
+  If the video feels slow, the model or resolution may be too heavy for the Raspberry Pi.
+
+  Use a lighter model (``efficientdet_lite0.tflite``) and reduce the resolution (for example, 640×480 or 320×240). Closing other background processes can also improve performance.
+
+- Detection box offset
+
+  If bounding boxes look shifted or go out of frame, it is usually caused by coordinate conversion issues.
+
+  Make sure bounding box coordinates are clamped to the image boundaries. This example already clamps ``x1, y1, x2, y2`` to prevent out-of-range drawing.
+
+- Detection looks chaotic
+
+  If too many objects are detected and the screen becomes cluttered, it may be hard to read the results.
+
+  Limit the number of drawn detections using ``MAX_DRAW`` (for example, 10–20) to keep the visualization clear and stable.
 
 -----------------------------
-7.  Summary
+9. Summary
 -----------------------------
 
 - This chapter implemented general-purpose object detection based on MediaPipe Tasks;

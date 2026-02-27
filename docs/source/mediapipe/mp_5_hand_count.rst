@@ -7,54 +7,102 @@
 5. Hand Gesture Counting
 ==============================================
 
-In the previous section, we implemented **real-time detection and landmark drawing** for both hands.
-This section will further introduce how to use **finger landmark positions** to implement a simple and efficient function:
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
 
-**Count the number of raised fingers** to achieve hand gesture number recognition (0~5).
+In the previous section, we implemented real-time hand
+detection and landmark visualization.
+
+This section extends that functionality by using
+finger landmark positions to count the number of
+raised fingers (0–5).
+
+By analyzing the relative positions of finger tips
+and their corresponding joints, we can determine
+whether each finger is extended.
 
 .. image:: img/mp_hand_count.png
    :align: center
 
-**Objective：**
 
-- Use MediaPipe Hands to detect 21 landmarks.
-- Analyze the positional relationship between the thumb and other fingers to determine if fingers are extended.
-- Count the number of extended fingers and display it in real-time.
+------------------------------------------------------------
+2. How It Works
+------------------------------------------------------------
 
-.. raw:: html
-
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_5.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
-
-**Approach：**
+The program follows these steps:
 
 1. Initialize the MediaPipe Hands model.
-2. Capture camera video stream and perform hand landmark detection.
-3. Use coordinates of finger tips and proximal joints for logical judgment.
-4. Count the number of raised fingers and draw it on the frame.
-5. Achieve real-time number gesture recognition effect.
+2. Capture video frames from the Raspberry Pi camera.
+3. Detect 21 hand landmarks in real time.
+4. Compare fingertip coordinates with their proximal joints.
+5. Determine whether each finger is extended.
+6. Count the number of raised fingers.
+7. Display the result on the video frame.
+
+This method is:
+
+- Lightweight and efficient
+- Suitable for Raspberry Pi
+- A foundation for gesture control and interactive systems
 
 ------------------------
-1. Run the Code
+3. Run the Code
 ------------------------
 
-Please make sure that:
+.. important::
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
-Open the terminal in VNC and enter the following command:
+   Before you start, make sure:
 
-.. code-block:: bash
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count.py
+   For detailed instructions, see :ref:`opencv_install`.
+
+#. Open the terminal and enter the following command:
+
+   .. code-block:: bash
+
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count.py
+
+#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+
+   .. raw:: html
+
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_5.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+
+   When a hand appears in front of the camera:
+
+   - MediaPipe detects the hand in real time.
+   - 21 landmark points and connection lines are drawn on the hand.
+   - The program analyzes the positions of the fingertips and joints.
+   - The number of raised fingers (0–5) is calculated.
+
+   The detected finger count is displayed in the top-left corner
+   of the screen as:
+
+      Fingers: X
+
+   As you extend or fold your fingers, the number updates
+   instantly in real time.
+
+   If no hand is detected, only the normal camera feed
+   is displayed without a finger count.
+
+   Press ``q`` to exit the program.
+   The camera stops and the OpenCV window closes automatically.
+
+
 
 -----------------------------
-2. Code Example
+4. Complete Code
 -----------------------------
 
 .. code-block:: python
@@ -150,81 +198,93 @@ In each loop iteration, it determines whether each of the 5 fingers is extended 
 - 🖐️ All five fingers open → Count 5
 
 --------------------------------------------------------------
-3. Detection Logic Explanation
+5. Detection Logic and Extensions
 --------------------------------------------------------------
 
 MediaPipe Hands returns 21 landmarks.
-We primarily use the following two sets to determine if fingers are extended:
+We use fingertip and joint positions to determine whether
+each finger is extended.
 
 .. code-block:: python
 
    finger_tips = [4, 8, 12, 16, 20]
    finger_dips = [2, 6, 10, 14, 18]
 
-- ``finger_tips``: Fingertip positions (Thumb=4, Index=8, Middle=12, Ring=16, Pinky=20)
-- ``finger_dips``: Corresponding proximal joints (Thumb=2, Index=6, Middle=10, Ring=14, Pinky=18)
+- ``finger_tips`` → Fingertip indices  
+  (Thumb=4, Index=8, Middle=12, Ring=16, Pinky=20)
 
-The judgment rules are as follows:
+- ``finger_dips`` → Corresponding proximal joints  
+  (Thumb=2, Index=6, Middle=10, Ring=14, Pinky=18)
 
-.. code:: python
+------------------------------------------------------------
 
-   # Count the number of fingers raised (right hand)
+Finger counting logic:
+
+.. code-block:: python
+
    landmarks = hand_landmarks.landmark
    finger_count = 0
 
-   # Check if thumb is up
+   # Check thumb (right hand)
    if landmarks[finger_tips[0]].x > landmarks[finger_dips[0]].x:
-         finger_count += 1
+       finger_count += 1
 
-   # Check if the other fingers are up
+   # Check other four fingers
    for i in range(1, 5):
-         if landmarks[finger_tips[i]].y < landmarks[finger_dips[i]].y:
-            finger_count += 1
+       if landmarks[finger_tips[i]].y < landmarks[finger_dips[i]].y:
+           finger_count += 1
 
-   # Display the number of fingers raised
-   cv2.putText(frame, f"Fingers: {finger_count}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+   cv2.putText(frame, f"Fingers: {finger_count}", (10, 30),
+               cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-- **Thumb**: Check if ``tip.x`` is greater than ``dip.x`` (for right hand).
-- **Other four fingers**: Check if ``tip.y`` is less than ``dip.y``.
-  - If the tip is higher than the dip, the finger is considered extended.
+Logic explanation:
 
-Each condition met increases the count by ``+1``.
+- **Thumb** → Compare ``tip.x`` and ``dip.x`` (for right hand).
+- **Other fingers** → Compare ``tip.y`` and ``dip.y``.
+- If the fingertip is above (or outward from) the joint,
+  the finger is considered extended.
+- Each satisfied condition increases the count by ``+1``.
+
+------------------------------------------------------------
+
+Extension tips:
+
+- To support both left and right hands,
+  use ``hands_detected.multi_handedness`` to determine hand type,
+  and reverse the thumb x-axis comparison accordingly.
+
+- This logic can be extended to implement:
+
+  - OK gesture recognition
+  - Thumbs-up detection
+  - Rock–paper–scissors interaction
+  - Custom gesture-based controls
+
+------------------------------------------------------------
+6. Troubleshooting
+------------------------------------------------------------
+
+- Thumb detection inaccurate
+
+  Thumb detection may be inaccurate because the logic differs for left and right hands. The horizontal comparison used for the thumb depends on hand orientation.
+
+  Use ``multi_handedness`` to determine whether the detected hand is left or right, and adjust the thumb detection logic accordingly.
+
+- Unstable detection
+
+  If finger counting appears unstable, lighting may be insufficient or the background may be cluttered.
+
+  Improve the lighting conditions and use a plain background to increase detection stability.
+
+- High latency
+
+  If the response feels slow, the resolution may be too high or the CPU may be overloaded.
+
+  Reduce the resolution (for example, 320×240) and close unnecessary background processes. You can also simplify the finger counting logic if needed.
+
 
 -----------------------------
-4. Advanced Tips
------------------------------
-
-- To support both left and right hands:
-  - Use ``hands_detected.multi_handedness`` to determine left/right hand.
-  - Adjust the x-axis judgment direction for the thumb accordingly.
-
-- Can be extended to include:
-  - 🆗 OK gesture recognition
-  - 👍 Thumbs up recognition
-  - ✊✋✌ Game interactions
-
------------------------------------------------------
-5. Common Issues and Troubleshooting
------------------------------------------------------
-
-.. list-table::
-   :header-rows: 1
-
-   * - Issue
-     - Cause
-     - Solution
-   * - Thumb detection inaccurate
-     - Different directions for left/right hands
-     - Use ``multi_handedness`` to determine left/right and adjust logic
-   * - Unstable detection
-     - Insufficient lighting, cluttered background
-     - Improve lighting or change background
-   * - High latency
-     - Resolution too high or CPU overloaded
-     - Reduce resolution or optimize algorithm
-
------------------------------
-6.  Summary
+7. Summary
 -----------------------------
 
 - Using MediaPipe Hands, we can quickly implement **real-time gesture recognition**.

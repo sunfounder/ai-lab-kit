@@ -8,58 +8,100 @@
 9. Green Screen
 ====================================
 
-This chapter utilizes the **person segmentation** feature of MediaPipe Pose to achieve **person cutout** + **background replacement with green** (green screen).
-This separates the subject from the background, facilitating subsequent tasks like virtual backgrounds, chroma key compositing, live streaming effects, etc.
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
+
+This chapter uses the **person segmentation** capability of
+MediaPipe Pose to implement a simple **green screen effect**.
+
+By separating the person from the background,
+we can replace the original background with a solid green color.
+This enables:
+
+- Virtual background applications
+- Chroma key compositing (OBS / NLE)
+- Live streaming effects
+- AR-style scene replacement
 
 .. image:: img/mp_pose_green.png
    :align: center
 
-**Objective：**
 
-- Use MediaPipe Pose's ``segmentation_mask`` to separate the person from the background;
-- Replace the background with solid green (Chroma Key green screen) for later keying in NLE/OBS;
-- Provide threshold tuning and edge smoothing suggestions for cleaner cutout effects.
+------------------------------------------------------------
+2. How It Works
+------------------------------------------------------------
 
-.. raw:: html
+The green screen effect is implemented using the following steps:
 
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_9.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
+1. Initialize the Pose model with ``enable_segmentation=True``.
+2. For each frame, obtain ``results.segmentation_mask``.
+3. The mask is a single-channel probability map (range 0–1).
+4. Apply a threshold (e.g., 0.5) to separate foreground and background.
+5. Replace background pixels with solid green.
+6. Optionally apply blur or morphological filtering to smooth edges.
 
-**Approach：**
-
-1. Initialize the Pose model with ``enable_segmentation=True``;
-2. Obtain ``results.segmentation_mask`` per frame (single-channel probability map, range 0~1);
-3. Binarize the probability map using a threshold (e.g., 0.5) to get foreground/background regions;
-4. Replace the background with solid green (or other colors/images/video frames);
-5. (Optional) Apply blur/morphological processing to the mask to improve edges.
+This method is lightweight and runs in real time on Raspberry Pi,
+while providing a practical example of human segmentation.
 
 ------------------------
-1. Run the Code
+3. Run the Code
 ------------------------
 
-Please make sure that:
+.. important::
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
-Open the terminal in VNC and enter the following command:
+   Before you start, make sure:
 
-.. code-block:: bash
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation.py
+   For detailed instructions, see :ref:`opencv_install`.
 
-If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+#. Open the terminal and enter the following command:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation_video.py
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation.py
+
+   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+
+   .. code-block:: bash
+
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation_video.py
+
+#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+
+   .. raw:: html
+
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_9.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+
+   A trackbar named ``Mask`` appears in the same window. It controls the segmentation threshold (0–100), with the default value set to 50 (0.5).
+
+   When a person appears in front of the camera:
+
+   - MediaPipe Pose generates a ``segmentation_mask`` for each frame.
+   - Pixels with mask values above the threshold are treated as the foreground (person).
+   - All other pixels are replaced with a solid green background (green screen effect).
+
+   As you move the ``Mask`` trackbar:
+
+   - Increasing the threshold keeps only the most confident foreground area (less background leak, but may cut off some body parts).
+   - Decreasing the threshold includes more pixels as foreground (more complete silhouette, but may include background noise).
+
+   If no segmentation mask is available, the program simply shows the normal camera feed without background replacement.
+
+   Press ``q`` to exit the program.  
+   The camera stops and the OpenCV window closes automatically.
 
 -----------------------------
-2. Code Example
+4. Complete Code
 -----------------------------
 
 .. code-block:: python
@@ -148,7 +190,7 @@ After running the script, the person (foreground) is preserved, and the backgrou
 It can be directly used for subsequent keying with **Chroma Key** in OBS, Premiere, DaVinci Resolve, etc.
 
 -------------------------------------
-3. Key Points Explanation
+5. Key Points Explanation
 -------------------------------------
 
 ``segmentation_mask`` is a **single-channel float image** (range 0~1) with the same size as the input frame:
@@ -189,7 +231,7 @@ Then we can use ``np.where(condition, frame, background)`` to replace the backgr
    frame = np.where(condition, frame, bg)
 
 ----------------------------------------------------
-4. Effect and Edge Optimization
+6. Effect and Edge Optimization
 ----------------------------------------------------
 
 Direct binarization can cause jagged edges or small holes around hair and clothing edges.
@@ -215,7 +257,7 @@ Direct binarization can cause jagged edges or small holes around hair and clothi
    - Don't make the blur kernel too large, otherwise the person's boundary will "leak green".
 
 ----------------------------------------------------
-5. Using Custom Background (Image/Video)
+7. Using Custom Background (Image/Video)
 ----------------------------------------------------
 
 Replace solid green with a custom background image:
@@ -229,7 +271,7 @@ Replace solid green with a custom background image:
 Or use another video as the background (read the next frame ``bg_frame``, resize to the same dimensions, then replace).
 
 ----------------------------------------------------
-6. Performance and Quality Balance
+8. Performance and Quality Balance
 ----------------------------------------------------
 
 .. list-table::
@@ -248,31 +290,37 @@ Or use another video as the background (read the next frame ``bg_frame``, resize
      - Too much blur/morphology can "swallow edges/leak green"
      - Small kernel + few iterations, observe edge effect
 
-----------------------------------------------------
-7. Common Issues and Troubleshooting
-----------------------------------------------------
+------------------------------------------------------------
+9. Troubleshooting
+------------------------------------------------------------
 
-.. list-table::
-   :header-rows: 1
+- Jagged edges or visible seams around the person
 
-   * - Issue
-     - Possible Cause
-     - Solution
-   * - Jagged edges/visible seams on person's boundary
-     - Caused by direct hard thresholding
-     - Lower or raise threshold; add slight blur/closing operation
-   * - Missing parts of the person
-     - Weak lighting/clothing color similar to background
-     - Add fill light; adjust threshold; change background
-   * - Low frame rate
-     - Resolution too high/model too complex
-     - Reduce resolution; lower ``model_complexity``
-   * - Green spills onto the subject
-     - Green screen replacement conflicts with subject color
-     - Use blue/gray background, or change background image
+  This usually happens because the mask is applied with a hard threshold, which creates sharp boundaries. 
+  
+  Try adjusting the threshold using the ``Mask`` trackbar. For smoother edges, apply a small blur to the segmentation mask or use a simple morphological closing operation before compositing.
+
+- Missing parts of the person
+
+  If parts of the body are cut out, the lighting may be too weak, or the clothing color may blend into the background. 
+  
+  Improve lighting, adjust the threshold, and try using a simpler background with higher contrast against the subject.
+
+- Low frame rate
+
+  If the video feels slow, the resolution may be too high or the model may be too complex. 
+  
+  Reduce the camera resolution (for example, 640×480 or 320×240) and keep ``model_complexity`` at 1 for better performance.
+
+- Green spills onto the subject
+
+  If the green background appears on the subject, the segmentation boundary may be inaccurate, or the subject color may cause visual confusion. 
+  
+  Try switching to a different replacement color (blue or gray), or replace the background with an image instead of a solid color for a more natural result.
+
 
 -----------------------------
-8.  Summary
+10. Summary
 -----------------------------
 
 - Using ``segmentation_mask``, we can quickly achieve "person cutout + background replacement";

@@ -7,64 +7,99 @@
 2. Emotion Detection
 ==========================================
 
-In the previous section, we implemented **Face Mesh detection** based on MediaPipe.
-This section will further utilize the **468 landmark coordinates** from Face Mesh to determine the basic facial expression state by calculating the relative geometric features of the mouth and eyes.
+-----------------------------
+1. Overview
+-----------------------------
+
+In this section, we extend Face Mesh detection to perform
+basic emotion recognition.
+
+Instead of using deep learning models, this method uses
+facial landmark geometry (eyes and mouth ratios) to classify
+expressions in real time.
 
 .. image:: img/mp_face_emotion_happy.png
    :align: center
 
-**Objective：**
+Recognizable emotions:
 
-- Use FaceMesh to obtain landmark positions and achieve real-time emotion recognition.
-- Does not rely on deep learning models; classification is done solely through **geometric features + threshold judgment**.
-- Capable of recognizing common basic emotions:
-
-  - 😮 Surprised
-  - 😀 Happy
-  - 😢 Sad
-  - 😠 Angry
-  - 😐 Neutral
-
-.. raw:: html
-
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_2.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
-
-**Approach：**
-
-1.  Use ``Picamera2`` + ``MediaPipe FaceMesh`` to obtain 468 facial landmarks.
-2.  Select key **feature points in the eye and mouth regions**.
-3.  Calculate eye openness, mouth width, and mouth openness ratios (normalized to avoid distance effects).
-4.  Classify expressions using preset thresholds.
-5.  Use OpenCV to draw the recognition results in real-time on the video feed.
-
-This method does not rely on neural network inference, therefore:
-
--  Fast speed, low latency (suitable for Raspberry Pi)
--  Easy to adjust thresholds based on project requirements
--  Accuracy is lower than trained deep learning emotion recognition models, but it is lightweight and efficient
-
-------------------------
-1. Run the Code
-------------------------
-
-Please make sure that:
-
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
-
-Open the terminal in VNC and enter the following command:
-
-.. code-block:: bash
-
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_face_emotion.py
+- 😮 Surprised
+- 😀 Happy
+- 😢 Sad
+- 😠 Angry
+- 😐 Neutral
 
 -----------------------------
-2. Code Example
+2. How it Works
+-----------------------------
+
+The program follows these steps:
+
+1. Use ``Picamera2`` + ``MediaPipe FaceMesh`` to obtain 468 landmarks.
+2. Select key feature points around the eyes and mouth.
+3. Calculate normalized ratios:
+   
+   - Eye openness
+   - Mouth width
+   - Mouth openness
+
+4. Compare values with preset thresholds.
+5. Display the detected emotion using OpenCV.
+
+Advantages of this approach:
+
+- Fast and lightweight (suitable for Raspberry Pi)
+- No neural network required
+- Easy to adjust thresholds
+
+------------------------
+3. Run the Code
+------------------------
+
+.. important::
+
+
+   Before you start, make sure:
+
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
+
+   For detailed instructions, see :ref:`opencv_install`.
+
+#. Open the terminal and enter the following command:
+
+   .. code-block:: bash
+
+        sudo python3 ~/ai-lab-kit/mediapipe/mp_face_emotion.py
+#. After running the program, a video window opens and displays the live camera feed.
+
+   .. raw:: html
+   
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_2.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+
+   When a face appears in front of the camera, the system:
+   
+   - Detects 468 facial landmarks in real time  
+   - Calculates eye openness and mouth openness ratios  
+   - Classifies the current facial expression  
+   
+   The detected emotion label (such as ``Happy``, ``Surprised``, ``Sad``, ``Angry`` or ``Neutral``) is displayed on the video screen.
+   
+   As the user changes facial expressions, the emotion label updates instantly.
+   
+   If no face is detected, the program continues showing the normal camera feed without an emotion label.
+   
+   Press ``q`` to exit the program. The camera will stop and the OpenCV window will close automatically.
+
+
+-----------------------------
+4. Complete Code
 -----------------------------
 
 .. code-block:: python
@@ -181,105 +216,133 @@ Open the terminal in VNC and enter the following command:
 After running, the recognized emotion category will be displayed in real-time on the camera feed, along with debug information including mouth width, mouth openness, eye openness, etc.
 
 -----------------------------
-3. Key Steps Explanation
+5. Key Steps Explanation
 -----------------------------
 
-**Select Key Points**
+#. Select key points
 
-.. code:: python
+   .. code-block:: python
 
-   # Keypoint Index (MediaPipe 468 points)
-   L_EYE_TOP, L_EYE_BOT = 159, 145
-   R_EYE_TOP, R_EYE_BOT = 386, 374
-   L_EYE_CENTER, R_EYE_CENTER = 33, 263
-   MOUTH_LEFT, MOUTH_RIGHT = 61, 291
-   LIP_UP, LIP_DOWN = 13, 14
+      # Keypoint Index (MediaPipe 468 points)
+      L_EYE_TOP, L_EYE_BOT = 159, 145
+      R_EYE_TOP, R_EYE_BOT = 386, 374
+      L_EYE_CENTER, R_EYE_CENTER = 33, 263
+      MOUTH_LEFT, MOUTH_RIGHT = 61, 291
+      LIP_UP, LIP_DOWN = 13, 14
 
-- 159, 145: Upper and lower edges of the left eye
-- 386, 374: Upper and lower edges of the right eye
-- 33, 263: Left and right eye centers (used for normalization)
-- 61, 291: Left and right corners of the mouth
-- 13, 14: Midpoints of the upper and lower lips
+   These indices correspond to:
 
-.. image:: img/mp_face_point.jpg
+   - 159, 145 → Upper and lower edges of the left eye
+   - 386, 374 → Upper and lower edges of the right eye
+   - 33, 263 → Eye centers (used for normalization)
+   - 61, 291 → Mouth corners
+   - 13, 14 → Upper and lower lip midpoints
 
-**Normalization**
+   .. image:: img/mp_face_point.jpg
+      :align: center
 
-To prevent camera distance from affecting measurements, use the **distance between eye centers** as the normalization scale:
+#. Normalize distances
 
-.. code-block:: python
+   To reduce the influence of camera distance,
+   use the distance between the two eye centers
+   as the normalization scale.
 
-   def euclidean(p1, p2):
-       return np.linalg.norm(np.array([p1.x, p1.y]) - np.array([p2.x, p2.y]))
+   .. code-block:: python
 
-   io = euclidean(landmarks[L_EYE_CENTER], landmarks[R_EYE_CENTER])
+      def euclidean(p1, p2):
+          return np.linalg.norm(
+              np.array([p1.x, p1.y]) -
+              np.array([p2.x, p2.y])
+          )
 
-**Calculate Geometric Features**
+      io = euclidean(
+          landmarks[L_EYE_CENTER],
+          landmarks[R_EYE_CENTER]
+      )
 
-.. code-block:: python
+#. Calculate geometric features
 
-   mouth_width = euclidean(landmarks[MOUTH_LEFT], landmarks[MOUTH_RIGHT]) / io
-   mouth_open  = euclidean(landmarks[LIP_UP], landmarks[LIP_DOWN]) / io
-   eye_open_L  = euclidean(landmarks[L_EYE_TOP], landmarks[L_EYE_BOT]) / io
-   eye_open_R  = euclidean(landmarks[R_EYE_TOP], landmarks[R_EYE_BOT]) / io
-   eye_open    = 0.5 * (eye_open_L + eye_open_R)
+   .. code-block:: python
 
-- Mouth width ``mouth_width``
-- Mouth openness ``mouth_open``
-- Average eye openness ``eye_open``
+      mouth_width = euclidean(
+          landmarks[MOUTH_LEFT],
+          landmarks[MOUTH_RIGHT]
+      ) / io
 
-**④ Simple Threshold Classification**
+      mouth_open = euclidean(
+          landmarks[LIP_UP],
+          landmarks[LIP_DOWN]
+      ) / io
 
-.. code-block:: python
+      eye_open_L = euclidean(
+          landmarks[L_EYE_TOP],
+          landmarks[L_EYE_BOT]
+      ) / io
 
-   if mouth_open > 0.08 and eye_open > 0.055:
-      label = "Surprised"
-   elif mouth_width > 0.48 and mouth_open > 0.035:
-      label = "Happy"
-   elif mouth_open < 0.018 and mouth_width < 0.36 and eye_open < 0.03:
-      label = "Sad"
-   elif mouth_open < 0.02 and eye_open < 0.028:
-      label = "Angry"
-   else:
-      label = "Neutral"
+      eye_open_R = euclidean(
+          landmarks[R_EYE_TOP],
+          landmarks[R_EYE_BOT]
+      ) / io
 
-Determine emotion using empirical values:
+      eye_open = 0.5 * (eye_open_L + eye_open_R)
 
-- Surprised: Mouth and eyes are wide open
-- Happy: Mouth is wide open, eyes are normal
-- Sad / Angry: High degree of closure for both mouth and eyes
-- Neutral: Does not meet the above conditions
+   Calculated features:
+
+   - ``mouth_width`` → Horizontal mouth width
+   - ``mouth_open`` → Vertical mouth opening
+   - ``eye_open`` → Average eye openness
+
+#. Classify emotion using thresholds
+
+   .. code-block:: python
+
+      if mouth_open > 0.08 and eye_open > 0.055:
+          label = "Surprised"
+      elif mouth_width > 0.48 and mouth_open > 0.035:
+          label = "Happy"
+      elif mouth_open < 0.018 and mouth_width < 0.36 and eye_open < 0.03:
+          label = "Sad"
+      elif mouth_open < 0.02 and eye_open < 0.028:
+          label = "Angry"
+      else:
+          label = "Neutral"
+
+   Emotion rules (empirical thresholds):
+
+   - Surprised → Mouth and eyes are wide open
+   - Happy → Mouth wide, eyes normal
+   - Sad / Angry → Mouth and eyes mostly closed
+   - Neutral → Does not match other conditions
 
 -----------------------------------------------------
-4. Threshold and Robustness Adjustment
+6. Threshold and Robustness Adjustment
 -----------------------------------------------------
 
 - Thresholds like ``0.08``, ``0.035``, ``0.018`` are based on empirical values at 640×480 resolution.
 - If the camera is closer or the resolution is different, adjust the thresholds using the debug information (mw/mo/eo).
 - Emotion judgment logic can be modified to be more complex or use trained models for higher accuracy, such as calculating the relative position of mouth corners, mouth shape, and other features.
 
---------------------------------------------------------
-5. Common Issue Troubleshooting
---------------------------------------------------------
+------------------------------------------------------------
+7. Troubleshooting
+------------------------------------------------------------
 
-.. list-table::
-   :header-rows: 1
+- Emotion recognition not sensitive
 
-   * - Issue
-     - Cause
-     - Solution
-   * - Emotion recognition not sensitive
-     - Thresholds not suitable for current distance
-     - Adjust ``mouth_open`` and ``eye_open`` thresholds
-   * - Detection latency
-     - Resolution too high
-     - Reduce resolution or turn off refine_landmarks
-   * - Cannot recognize emotion
-     - Insufficient light / Face angle too skewed
-     - Improve lighting, face the camera directly
+  Thresholds may not match the current camera distance.  
+  Adjust ``mouth_open`` and ``eye_open`` values.
+
+- Detection latency
+
+  Resolution may be too high.  
+  Reduce resolution or disable ``refine_landmarks``.
+
+- Cannot recognize emotion
+
+  Lighting may be insufficient or the face angle is skewed.  
+  Improve lighting and face the camera directly.
 
 -----------------------------
-6.  Summary
+8.  Summary
 -----------------------------
 
 - This chapter implemented lightweight emotion recognition based on **geometric features + FaceMesh landmarks**.

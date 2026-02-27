@@ -8,59 +8,106 @@
 7. Human Pose Estimation
 ================================
 
-Following our completion of hand and gesture recognition, this chapter introduces **MediaPipe Pose** — a lightweight yet powerful **real-time pose estimation** module.
-Using the Pose module, we can detect 33 skeletal keypoints of the human body in real-time and draw the skeleton on the video feed.
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
+
+Following the implementation of hand and gesture recognition,
+this chapter introduces **MediaPipe Pose** —
+a lightweight yet powerful real-time human pose estimation module.
+
+Using MediaPipe Pose, we can detect **33 body landmarks**
+in real time and draw the full-body skeleton on the video feed.
 
 .. image:: img/mp_pose.png
-   :alt: MediaPipe Pose
+   :width: 400
    :align: center
 
-**Objective：**
+This module can be used for:
 
-- Detect human pose on Raspberry Pi using MediaPipe Pose;
-- Draw 33 keypoints and skeleton connections on the camera feed;
-- Lay the foundation for subsequent human action recognition, posture correction, or fitness detection.
+- Action recognition
+- Posture correction
+- Fitness monitoring
+- Motion analysis
 
-.. raw:: html
+------------------------------------------------------------
+2. How It Works
+------------------------------------------------------------
 
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_7.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
+The program performs the following steps:
 
-**Approach：**
+1. Initialize the MediaPipe Pose model
+   (configure model complexity and optional segmentation).
+2. Capture video frames using ``Picamera2``.
+3. Convert frames to RGB format (required by MediaPipe).
+4. Run the Pose model to obtain 33 body keypoints.
+5. Draw keypoints and skeleton connections using OpenCV.
+6. Display the annotated video stream in real time.
 
-1. Initialize the MediaPipe Pose model, setting model complexity and segmentation options.
-2. Use Picamera2 to capture camera images.
-3. Feed video frames into the Pose model to obtain keypoint predictions.
-4. Use OpenCV to draw keypoints and skeleton connections.
-5. Display detection results in real-time.
+This chapter lays the foundation for more advanced
+human–computer interaction and body motion analysis tasks.
+
 
 ------------------------
-1. Run the Code
+3. Run the Code
 ------------------------
 
-Please make sure that:
+.. important::
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
-Open the terminal in VNC and enter the following command:
+   Before you start, make sure:
 
-.. code-block:: bash
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_pose.py
+   For detailed instructions, see :ref:`opencv_install`.
 
-If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+#. Open the terminal and enter the following command:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_video.py
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_pose.py
+
+   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+
+   .. code-block:: bash
+   
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_video.py
+
+#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+
+   .. raw:: html
+   
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_7.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+         
+   When a person appears in front of the camera:
+   
+   - MediaPipe Pose detects 33 body landmarks in real time.
+   - A full-body skeleton is drawn on the video frame.
+   - Key joints such as shoulders, elbows, wrists, hips, knees, and ankles are connected with lines.
+   
+   As the person moves:
+   
+   - The skeletal keypoints follow the body motion smoothly.
+   - The skeleton updates continuously in real time.
+   
+   If background segmentation is enabled (``enable_segmentation=True``),
+   the model internally computes a segmentation mask, although in this example
+   only the skeleton is displayed.
+   
+   If no person is detected, the program simply shows the normal camera feed without annotations.
+   
+   Press ``q`` to exit the program.
+   The camera stops and the OpenCV window closes automatically.
 
 -----------------------------
-2. Code Example
+4. Complete Code
 -----------------------------
 
 Here is a basic human pose detection program:
@@ -128,7 +175,7 @@ After running the program, the camera feed will display a real-time human skelet
 - Skeleton follows movement when the person moves
 
 -----------------------------
-3. Code Explanation
+5. Code Explanation
 -----------------------------
 
 **1. Import Libraries**
@@ -282,7 +329,7 @@ Exit the loop when the 'q' key is pressed.
 Stop preview, release camera, close all OpenCV windows.
 
 -----------------------------
-4. Pose Model Introduction
+6. Pose Model Introduction
 -----------------------------
 
 The MediaPipe Pose module returns **33 keypoints**, covering areas like the head, torso, arms, and legs:
@@ -312,7 +359,7 @@ The MediaPipe Pose module returns **33 keypoints**, covering areas like the head
 These points can be used for **posture judgment**, **action counting** (e.g., squats, push-ups, yoga pose detection), etc.
 
 -----------------------------
-5. Performance and Tuning
+7. Performance and Tuning
 -----------------------------
 
 .. list-table::
@@ -331,81 +378,59 @@ These points can be used for **posture judgment**, **action counting** (e.g., sq
      - Increases GPU/CPU load
      - Recommended to disable if background replacement is not needed
 
-----------------------------------------------------
-6. Common Issues and Troubleshooting
-----------------------------------------------------
+------------------------------------------------------------
+8. Troubleshooting
+------------------------------------------------------------
 
+- No human detected
 
-This section provides quick answers to the most common issues when running MediaPipe Pose on Raspberry Pi.
+  If the program runs but no person is detected, make sure the entire body is inside the camera frame. Avoid strong backlight and improve lighting conditions. Keep a distance of about 1–2 meters from the camera for best results.
 
+- Video is slow or lagging
 
-**6.1 The program runs, but no human is detected. What should I do?**
+  If the frame rate is low, try reducing the resolution to 640×480 or lower. Set ``model_complexity = 1`` for better performance. Disable segmentation if it is not required, and close other background programs to free system resources.
 
-* Ensure the person is fully inside the camera frame.
-* Improve lighting (avoid backlight).
-* Keep an appropriate distance (1–2 meters).
+- Segmentation fault occurs
 
+  Most segmentation faults are caused by a mismatch between the system architecture and the installed MediaPipe wheel.
 
-**6.2 The video is slow or lagging. How to improve performance?**
+  Check your system architecture:
 
-* Use 640×480 resolution.
-* Keep ``model_complexity = 1`` (default in this tutorial).
-* Disable segmentation unless needed.
-* Close other background programs.
+  .. code-block:: bash
 
+     uname -m
 
-**6.3 The program crashes with “Segmentation fault”. Why?**
+  The output should be ``aarch64``.
 
-Most segmentation faults are caused by **system architecture and mediapipe wheel mismatch**.
+  If you see ``armv7l`` or ``armhf``, you are using 32-bit Raspberry Pi OS, which is not compatible with the official MediaPipe wheel.
 
-Check your system:
+  You can also verify in Python:
 
-.. code-block:: bash
+  .. code-block:: python
 
+     import platform
+     print(platform.machine())
 
-  uname -m
+  The result must also be ``aarch64``.
 
+- Using aarch64 but still getting segmentation fault
 
-Expected output: ``aarch64``
+  This may happen if some TensorFlow Lite XNNPACK kernels are not fully compatible with your MediaPipe build.
 
+  Possible solutions:
 
-If you see ``armv7l`` or ``armhf`` → you are using **32-bit Raspberry Pi OS**, which is not compatible with the official mediapipe wheel.
+  - Use ``model_complexity = 1`` (recommended in this tutorial).
+  - Make sure MediaPipe is installed in the correct virtual environment.
+  - Install a Raspberry Pi–optimized wheel such as ``mediapipe-bin`` (PINTO0309 version).
 
-Also check in Python:
+- ``model_complexity = 2`` crashes but ``1`` works
 
-.. code-block:: python
-
-
-  import platform
-  print(platform.machine())
-
-
-Must also be: ``aarch64``
-
-
-**6.4 I am using aarch64 but still get Segmentation Fault. What now?**
-
-This can occur if certain TensorFlow Lite XNNPACK kernels are not fully compatible with your mediapipe wheel.
-
-Solutions:
-
-1. Use the safe setting (already used in the example): ``model_complexity = 1``
-2. Ensure mediapipe is installed inside the correct virtual environment.
-3. If the crash persists, install a Raspberry Pi–optimized wheel such as: **mediapipe-bin** (from PINTO0309).
-
-
-**6.5 Why does “model_complexity = 2” crash, but “1” works?**
-
-* Complexity 2 loads a larger model that triggers advanced CPU optimizations.
-* On Raspberry Pi, some of these optimized TensorFlow Lite kernels may not be fully supported.
-* Complexity 1 avoids those kernels → **stable and fast**.
-
-This is why the tutorial uses ``model_complexity = 1`` by default.
+  Complexity 2 loads a larger model that may trigger advanced CPU optimizations. On Raspberry Pi, some optimized TensorFlow Lite kernels may not be fully supported. Complexity 1 avoids those kernels and is generally more stable and faster on Raspberry Pi.
 
 
 
 -----------------------------
-7.  Summary
+9. Summary
 -----------------------------
 
 - This chapter implemented **real-time human skeleton detection** based on MediaPipe Pose;

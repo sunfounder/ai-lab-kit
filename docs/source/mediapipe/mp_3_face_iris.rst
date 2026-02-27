@@ -7,57 +7,97 @@
 3. Facial Contours and Iris Detection
 =================================================================
 
-In the previous sections, we implemented basic face mesh detection and simple emotion recognition based on landmarks.
-This section will further explain **the more detailed feature connection methods provided by MediaPipe FaceMesh**:
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
 
-- ``FACEMESH_CONTOURS`` — Facial contour lines (face edges, outer contours of facial features)
-- ``FACEMESH_IRISES`` — Iris (eyeball) region detection and drawing
+In the previous sections, we implemented basic face mesh detection
+and simple emotion recognition.
 
-By drawing only the contours and iris features, we can achieve a cleaner and more lightweight visual effect, facilitating subsequent tasks like facial feature extraction and eye movement interaction.
+This section focuses on the detailed feature connection methods
+provided by MediaPipe FaceMesh:
+
+- ``FACEMESH_CONTOURS`` — Draws facial contour lines
+  (face edges and outer feature boundaries)
+
+- ``FACEMESH_IRISES`` — Draws iris regions of both eyes
+
+By drawing only contours and iris regions, the visualization becomes
+cleaner and more lightweight. This is useful for:
+
+- Facial feature extraction
+- Eye tracking
+- Pupil tracking
+- Gaze interaction
 
 .. image:: img/mp_face_iris.png
    :align: center
 
-**Objective：**
+------------------------------------------------------------
+2. How it Works
+------------------------------------------------------------
 
-- Use the FaceMesh module to draw only **facial contours and iris regions**, facilitating facial feature analysis and eye tracking.
-- Improve drawing efficiency and reduce annotation redundancy.
-- Lay the foundation for advanced tasks like "pupil tracking" and "gaze point detection".
-
-.. raw:: html
-
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_3.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
-
-**Approach：**
+The program performs the following steps:
 
 1. Initialize the MediaPipe FaceMesh model.
-2. Capture camera video frames and convert them to MediaPipe-compatible RGB format.
-3. Draw the outer facial contour lines using ``FACEMESH_CONTOURS``.
-4. Draw the iris regions of both eyes using ``FACEMESH_IRISES``.
-5. Display only key areas for cleaner and clearer annotations.
+2. Capture video frames from the Raspberry Pi camera.
+3. Convert the image to RGB format (required by MediaPipe).
+4. Draw facial contour lines using ``FACEMESH_CONTOURS``.
+5. Draw iris landmarks using ``FACEMESH_IRISES``.
+6. Display only key areas for clearer visualization.
 
 ------------------------
-1. Run the Code
+3. Run the Code
 ------------------------
 
-Please make sure that:
+.. important::
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
-Open the terminal in VNC and enter the following command:
+   Before you start, make sure:
 
-.. code-block:: bash
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_face_iris.py
+   For detailed instructions, see :ref:`opencv_install`.
+
+#. Open the terminal and enter the following command:
+
+   .. code-block:: bash
+
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_face_iris.py
+
+#. After running the program, a video window titled "Show Video" opens and displays the live camera feed.
+
+   .. raw:: html
+   
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_3.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+         
+   When a face appears in front of the camera:
+   
+   - MediaPipe detects facial landmarks in real time.
+   - Only the facial contour lines are drawn (face outline, eyebrows, lips, etc.).
+   - The iris regions of both eyes are highlighted with circular landmark connections.
+   
+   Unlike the full face mesh, the screen shows only key contours and iris features, making the visualization cleaner and less crowded.
+   
+   As the user moves their head or eyes:
+   
+   - The contour lines follow the face smoothly.
+   - The iris landmarks track eye movement in real time.
+   
+   If no face is detected, the window continues displaying the normal camera feed without annotations.
+   
+   Press ``q`` to exit the program.  
+   The camera stops and the OpenCV window closes automatically.
 
 -----------------------------
-2. Code Example
+4. Complete Code
 -----------------------------
 
 .. code-block:: python
@@ -125,76 +165,105 @@ Open the terminal in VNC and enter the following command:
 After running the program, only facial contours and iris regions of both eyes will be displayed on the screen.
 
 -----------------------------
-3. Key Steps Explanation
+5. Key Steps Explanation
 -----------------------------
 
-The code in this section is basically the same as the code in :ref:`mp_face`. The main difference lies in the choice of drawing method. Here we can see that in the main loop, we call the ``draw_landmarks`` function twice, drawing FACEMESH_CONTOURS and FACEMESH_IRISES respectively. You can comment out one of them to see how the effect differs.
+The code in this section is almost the same as
+:ref:`mp_face`.
+
+The main difference is the drawing method used
+inside the main loop. The function ``draw_landmarks()``
+is called twice:
+
+- Once with ``FACEMESH_CONTOURS``
+- Once with ``FACEMESH_IRISES``
+
+You can comment out either drawing block
+to observe the difference in visual effect.
+
+------------------------------------------------------------
 
 ``FACEMESH_CONTOURS``
 
-- This is a connection method provided by MediaPipe
+- A connection set provided by MediaPipe.
 - Mainly draws:
 
   - Outer facial contour
-  - Edges of facial features like eyes, nose, lips
-- Suitable for simplified visualization of face detection results, making it easier to observe contour changes.
+  - Edges of eyes
+  - Nose outline
+  - Lip contours
+
+This method produces a simplified visualization,
+making it easier to observe facial contour changes.
+
+------------------------------------------------------------
 
 ``FACEMESH_IRISES``
 
-- Specifically draws the iris regions of both eyes.
-- Includes keypoints and connection lines for left and right eye irises.
-- Can be used for subsequent tasks like eye tracking and gaze detection.
+- Draws the iris regions of both eyes.
+- Includes iris keypoints and circular connection lines.
+- Useful for:
 
-``landmark_drawing_spec = None``
+  - Eye tracking
+  - Pupil tracking
+  - Gaze detection
 
-- Disables drawing individual points, keeping only connection lines for a cleaner effect.
-- If you need to display both points and lines, you can define a ``DrawingSpec``.
+------------------------------------------------------------
+
+``landmark_drawing_spec=None``
+
+- Disables drawing individual landmark points.
+- Only connection lines are displayed,
+  resulting in a cleaner visual effect.
+
+If you want to display both points and lines,
+define a custom ``DrawingSpec``.
+
+------------------------------------------------------------
 
 ``drawing_styles.get_default_face_mesh_contours_style()``
 
-- Gets the default contour drawing style.
+- Returns the default contour drawing style.
 
 ``drawing_styles.get_default_face_mesh_iris_connections_style()``
 
-- Gets the default iris connection line drawing style.
+- Returns the default iris connection line style.
 
---------------------------------------------------
-4. Advantages and Application Scenarios
---------------------------------------------------
 
-- **Lightweight Drawing** — Lower rendering burden compared to the full FaceMesh grid.
-- **More Focused Features** — Facilitates facial feature localization and iris tracking.
-- **High Extensibility** — Can be directly integrated with gaze estimation algorithms or other interaction modules.
+------------------------------------------------------------
+6. Troubleshooting
+------------------------------------------------------------
 
-**Application Examples:**
+- Iris not detected
 
-- Intelligent interaction systems
-- Gaze tracking and eye-controlled interaction
-- Expression and pose estimation
-- Virtual avatar facial driving
+  If the iris is not detected, the lighting may be insufficient,
+  the face may be too far from the camera,
+  or ``refine_landmarks`` may not be enabled.
 
------------------------------------------------------
-5. Common Issues and Troubleshooting
------------------------------------------------------
+  Improve the lighting, move closer to the camera,
+  and make sure ``refine_landmarks=True`` is set
+  when initializing FaceMesh.
 
-.. list-table::
-   :header-rows: 1
+- Contour lines jittery
 
-   * - Issue
-     - Cause
-     - Solution
-   * - Iris not detected
-     - Insufficient light or face too far
-     - Increase lighting or move closer to camera
-   * - Contour lines jittery
-     - Low detection confidence
-     - Increase min_detection_confidence
-   * - High latency
-     - High resolution or refine_landmarks consuming resources
-     - Reduce resolution or turn off refine_landmarks
+  If the contour lines appear unstable,
+  the detection confidence may be too low,
+  or lighting and head movement may be affecting tracking.
 
+  Try increasing ``min_detection_confidence``,
+  improving lighting, and keeping head movements slower and smoother.
+
+- High latency
+
+  If the video response feels slow,
+  the resolution may be too high
+  or ``refine_landmarks`` may be consuming additional resources.
+
+  Reduce the resolution (for example, 320×240),
+  or disable ``refine_landmarks`` if iris detection is not required.
+  
 -----------------------------
-6.  Summary
+7. Summary
 -----------------------------
 
 - ``FACEMESH_CONTOURS`` and ``FACEMESH_IRISES`` are two important connection methods provided by MediaPipe.

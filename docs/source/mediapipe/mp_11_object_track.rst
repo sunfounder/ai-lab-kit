@@ -7,101 +7,119 @@
 11. Object Tracking with Pan-Tilt Camera
 =============================================
 
-In this chapter, we extend MediaPipe's object detection capabilities to create a **simple object tracking system** that automatically follows a specified object using pan-tilt servos. The system detects a target object (such as a "banana") and moves two servos to keep the object centered in the camera view.
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
+
+In this chapter, we extend MediaPipe object detection
+to build a simple **object tracking system**
+using a pan-tilt servo platform.
+
+The system detects a specified target object
+(for example, a "banana")
+and automatically adjusts two servos
+to keep the object centered in the camera view.
 
 .. image:: img/mp_object_track.png
-   :alt: Object Tracking with Pan-Tilt Servos
+   :width: 500
    :align: center
 
-**Objective:**
+This project combines:
 
-- Use MediaPipe Tasks for real-time object detection;
-- Control pan and tilt servos based on object position;
-- Implement basic proportional tracking logic;
-- Provide visual feedback with OpenCV overlays.
+- Real-time object detection
+- Servo motor control
+- Proportional tracking logic
+- Visual feedback overlay
 
-.. raw:: html
-
-      <video width="300" loop muted controls>
-          <source src="../_static/video/object_tracking.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
-
-**Approach:**
-
-1. Initialize pan and tilt servos to center position;
-2. Configure Raspberry Pi camera for video capture;
-3. Load EfficientDet Lite0 model for object detection;
-4. Process each frame to detect target object;
-5. Calculate object position relative to frame center;
-6. Move servos to center object in view;
-7. Display tracking status and visual guides.
-
------------------------------
-1. Hardware Setup
------------------------------
+It demonstrates how computer vision can directly drive
+physical hardware in real time.
 
 
+------------------------------------------------------------
+2. How It Works
+------------------------------------------------------------
 
-**Wiring Diagram:**
+The tracking system follows these steps:
 
-.. code-block:: none
+1. Initialize pan and tilt servos to the center position.
+2. Configure the Raspberry Pi camera for video streaming.
+3. Load the EfficientDet Lite0 model for object detection.
+4. Detect objects in each frame using MediaPipe Tasks.
+5. Identify the target object (e.g., "banana").
+6. Compute the object's offset relative to the frame center.
+7. Adjust servo angles using proportional control.
+8. Display tracking guides and status on the screen.
 
-   Servo 1 (Pan) → Channel 2 on Fusion HAT
-   Servo 2 (Tilt) → Channel 3 on Fusion HAT
-   Power → 5V supply (external recommended for two servos)
-   Ground → Common ground
-
-**Mechanical Assembly:**
-
-Assemble the pan-tilt module, camera module, and servo module as shown in :ref:`assemble_fusion_hat_pan_tilt` .
-
-- **Pan Servo (Horizontal):** Channel 2 on Fusion HAT+
-
-   - Signal (yellow/orange) → PWM output
-   - Power (red) → 5V
-   - Ground (brown/black) → GND
-
-- **Tilt Servo (Vertical):** Channel 3 on Fusion HAT+
-
-   - Signal (yellow/orange) → PWM output
-   - Power (red) → 5V
-   - Ground (brown/black) → GND
-
-----------------------------------------
-2. Installation Requirements
-----------------------------------------
-
-Please make sure that:
-
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
-
+This example shows how vision-based feedback
+can be used to control hardware movement dynamically.
 
 ------------------------
 3. Run the Code
 ------------------------
 
+.. important::
 
-Open the terminal in VNC and enter the following command:
 
-.. code-block:: bash
+   Before you start, make sure:
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_track_object.py
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-.. note::
+   For detailed instructions, see :ref:`opencv_install`.
 
-   Use ``sudo`` for GPIO/servo access. The script will:
+#. Open the terminal and enter the following command:
 
-      1. Initialize servos to center (0°);
-      2. Start camera preview;
-      3. Begin tracking "banana" by default, you can change the object to track by modifying the ``object_name`` variable in the code;
-      4. Display tracking window with status.
+   .. code-block:: bash
+
+       sudo python3 ~/ai-lab-kit/mediapipe/mp_track_object.py
+
+#. After running the program, the camera window opens and begins real-time object detection.
+
+   .. raw:: html
+   
+         <video width="300" loop muted controls>
+             <source src="../_static/video/object_tracking.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+   
+   The system searches for the specified target object (default: ``banana``).
+   A yellow crosshair is displayed at the center of the screen as a reference point.
+   
+   When the target object appears in the frame:
+   
+   - MediaPipe detects the object using the EfficientDet Lite0 model.
+   - The center of the detected bounding box is calculated.
+   - If the object is outside the center deadzone, the pan and tilt servos move step-by-step.
+   - The camera physically rotates to keep the object near the center of the frame.
+   - A green tracking box is drawn around the object.
+   - The screen displays:
+   
+     - ``Tracking banana`` (status)
+     - Current servo angles (Pan / Tilt)
+   
+   When the object is not detected:
+   
+   - The servos stop moving.
+   - The status text changes to ``No banana found`` (displayed in red).
+   
+   The tracking logic uses a simple 4-direction deadzone control:
+   the servos only move when the object is sufficiently far from the center,
+   preventing jitter.
+   
+   Press ``q`` to stop the program.
+   
+   When exiting:
+   
+   - Both servos return to the center position.
+   - The camera stops.
+   - The display window closes.
+   - A message is printed: ``Tracking stopped. Servos centered.``
 
 -----------------------------
-4. Code Implementation
+4. Complete Code
 -----------------------------
 
 .. code-block:: python

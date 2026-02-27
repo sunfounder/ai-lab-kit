@@ -7,57 +7,108 @@
 8. Squat Counter
 ==========================================
 
-In the previous chapter, we implemented basic human pose estimation. This chapter will utilize the **keypoints detected by Pose** to implement a **Squat Counter**.
-This is a typical example of "action recognition + counting" applications, usable in smart fitness systems.
+------------------------------------------------------------
+1. Overview
+------------------------------------------------------------
+
+In the previous chapter, we implemented basic human pose estimation.
+This chapter builds on that foundation to implement a simple
+**Squat Counter** using MediaPipe Pose.
+
+This is a practical example of combining:
+
+- Pose detection
+- Action recognition
+- Real-time counting
+
+It can be used in smart fitness systems,
+home workout assistants, or motion analysis applications.
 
 .. image:: img/mp_pose_s2.png
    :alt: Squat Count Example
    :align: center
 
-**Objective：**
 
-- Use MediaPipe Pose to recognize human keypoints;
-- Detect hip position in real-time to determine if a squat action is completed;
-- Use a state machine and thresholds to avoid duplicate counting;
-- Overlay results in real-time on the camera feed.
+------------------------------------------------------------
+2. How It Works
+------------------------------------------------------------
 
-.. raw:: html
+The squat counter is implemented using the following logic:
 
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Media_8.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
-
-**Approach：**
-
-1. Use MediaPipe Pose to detect 33 human body keypoints.
-2. Select the y-coordinates of Shoulder, Hip, and Ankle to calculate the relative height of the hip.
-3. Set upper and lower thresholds (e.g., 0.55 and 0.45) to count via "squat down - stand up" state changes.
-4. Draw the squat count and current hip value on the screen.
+1. Use MediaPipe Pose to detect 33 body keypoints.
+2. Select key joints (Shoulder, Hip, Ankle).
+3. Use the normalized y-coordinates to estimate hip height.
+4. Define upper and lower thresholds (e.g., 0.55 and 0.45).
+5. Use a simple state machine to detect the transition:
+   "standing → squatting → standing".
+6. Increase the counter when a full squat cycle is completed.
+7. Display the squat count and current hip value on the screen.
 
 .. note::
-   - This example does not use angle detection but calculates using normalized coordinates, avoiding computational complexity;
-   - Suitable for real-time operation on lightweight devices like Raspberry Pi.
+
+   - This example does not use joint angle calculation.
+   - It relies on normalized coordinates to reduce computation.
+   - The method is lightweight and suitable for Raspberry Pi.
 
 ------------------------
-1. Run the Code
+3. Run the Code
 ------------------------
 
-Please make sure that:
+.. important::
 
-1. You have installed OpenCV on your Raspberry Pi (see :ref:`opencv_install`);
-2. You are using a display. Otherwise, please install Raspberry Pi Connect (|link_rpi_connect|) or RealVNC (:ref:`remote_desktop`) and make sure you can access the Raspberry Pi desktop through one of them;
-3. You have downloaded the **ai-lab-kit** project (see :ref:`download_code`).
-4. You have installed the **mediapipe** (see :ref:`mediapipe_install`).
 
-Open the terminal in VNC and enter the following command:
+   Before you start, make sure:
 
-.. code-block:: bash
+   * The pan-tilt is assembled
+   * You can access the Raspberry Pi desktop
+   * The code package is installed
+   * Fusion HAT+ is installed and configured
+   * OpenCV is installed
 
-   sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_squat.py
+   For detailed instructions, see :ref:`opencv_install`.
+
+#. Open the terminal and enter the following command:
+
+   .. code-block:: bash
+
+      sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_squat.py
+
+#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+
+   .. raw:: html
+
+         <video width="500" loop muted controls>
+             <source src="../_static/video/Media_8.mp4" type="video/mp4">
+             Your browser does not support the video tag.
+         </video>
+
+   When a person stands in front of the camera:
+
+   - MediaPipe Pose detects 33 body landmarks in real time.
+   - A full-body skeleton is drawn on the screen.
+   - The system continuously calculates the relative hip position (HipRel).
+
+   As you perform squats:
+
+   - When you move down and your hip passes the lower threshold (DOWN_TH),
+     the system marks that you are in the "bottom" position.
+   - When you stand back up and the hip passes the upper threshold (UP_TH),
+     the squat counter increases by 1.
+
+   The screen displays:
+
+   - ``Squats: N`` — the total number of completed squats.
+   - ``HipRel: value`` — the current normalized hip position used for detection.
+
+   The counter only increases after a full movement cycle
+   (stand → squat → stand), preventing duplicate counting.
+
+   Press ``q`` to exit the program.
+   The camera stops and the OpenCV window closes automatically.
+
 
 -----------------------------
-2. Code Implementation
+4. Complete Code
 -----------------------------
 
 Here is the complete squat counter implementation:
@@ -169,7 +220,7 @@ After executing the script, the system will:
 - Display **Squats: N** and the current HipRel value on the screen in real-time.
 
 -----------------------------------------------
-3. Coordinate and State Design
+5. Coordinate and State Design
 -----------------------------------------------
 
 We use the following 6 keypoints (3 on each side):
@@ -219,7 +270,7 @@ Use a simple state machine for reliable counting:
        in_bottom = False
 
 ----------------------------------------------------
-4. Parameter Tuning and Optimization
+6. Parameter Tuning and Optimization
 ----------------------------------------------------
 
 .. list-table::
@@ -245,24 +296,27 @@ Use a simple state machine for reliable counting:
    For people of different heights, adaptive thresholds or personalized calibration can be used for more accurate counting.
 
 ---------------------------------------------------------
-5. Common Issues and Troubleshooting
+5. Troubleshooting
 ---------------------------------------------------------
 
-.. list-table::
-   :header-rows: 1
+- Inaccurate counting
 
-   * - Issue
-     - Cause
-     - Solution
-   * - Inaccurate counting
-     - Incorrect thresholds / Improper form
-     - Adjust thresholds by printing hip_rel in real-time
-   * - Person not detected
-     - Lighting or complex background
-     - Ensure frontal standing, clean background
-   * - High latency
-     - High model complexity
-     - Adjust model_complexity=1 or reduce resolution
+  If the squat count is not accurate, the threshold values may not match your body position or camera angle. 
+  
+  Try printing ``hip_rel`` in real time and adjust ``DOWN_TH`` and ``UP_TH`` accordingly.
+  Also make sure your squat form is consistent and clearly visible.
+
+- Person not detected
+
+  If the body is not detected, improve lighting conditions and avoid complex backgrounds. 
+  
+  Make sure you are standing fully inside the frame and facing the camera directly.
+
+- High latency
+
+  If the video response is slow, reduce ``model_complexity`` to 1 and lower the camera resolution (for example, 640×480 or 320×240).
+  
+  Close unnecessary background programs to improve performance.
 
 -----------------------------
 6.  Summary
