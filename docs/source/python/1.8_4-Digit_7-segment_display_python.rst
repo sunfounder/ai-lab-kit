@@ -1,21 +1,21 @@
-.. include:: /index.rst
+.. include:: /index.rst 
    :start-after: start_hello_message
    :end-before: end_hello_message
 
 .. _py_4_segment:
 
-1.8 4-Digit 7-Segment Display
+1.8 4桁7セグメントディスプレイ
 ====================================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to control a 4-digit 7-segment display to create a counter. The counter will increment by 1 every second, and the display will update accordingly. This project highlights the use of GPIO pins and a 74HC595 shift register to manage multiple digits efficiently.
+このプロジェクトでは、4桁の7セグメントディスプレイを制御してカウンターを作成する方法を学びます。カウンターは1秒ごとに1ずつ増加し、それに合わせて表示も更新されます。このプロジェクトでは、GPIOピンと74HC595シフトレジスタを使用して複数桁の表示を効率的に制御する方法を紹介します。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完了するには、以下のコンポーネントが必要です。
 
 .. list-table::
     :widths: 30 20
@@ -42,9 +42,9 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit diagram shows how to connect the 74HC595 shift register to the 4-digit 7-segment display and the Raspberry Pi GPIO pins. The shift register reduces the number of GPIO pins required, allowing efficient control of the display.
+以下の回路図は、74HC595シフトレジスタを4桁7セグメントディスプレイおよびRaspberry PiのGPIOピンに接続する方法を示しています。シフトレジスタを使用することで必要なGPIOピンの数を削減でき、効率的にディスプレイを制御することができます。
 
 .. image:: img/fzz/1.1.5_sch.png
    :width: 100%
@@ -53,14 +53,14 @@ The circuit diagram shows how to connect the 74HC595 shift register to the 4-dig
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to assemble the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Place the 4-digit 7-segment display and the 74HC595 shift register on the breadboard.
-2. Connect the output pins of the 74HC595 to the segments of the display.
-3. Use Digital pins on the Fusion HAT+ for the data input (SER also called SDI), shift register clock (SRCLK), and latch register clock (RCLK).
-4. Add resistors to limit current for the display segments.
+1. ブレッドボード上に4桁7セグメントディスプレイと74HC595シフトレジスタを配置します。
+2. 74HC595の出力ピンをディスプレイの各セグメントに接続します。
+3. データ入力（SER、SDIとも呼ばれる）、シフトレジスタクロック（SRCLK）、ラッチレジスタクロック（RCLK）には、Fusion HAT+ のデジタルピンを使用します。
+4. ディスプレイの各セグメントに流れる電流を制限するため、抵抗を追加します。
 
 .. image:: img/fzz/1.1.5_bb.png
    :width: 80%
@@ -70,11 +70,11 @@ Follow these steps to assemble the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリにあります。  
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -86,13 +86,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.8_4-Digit.py
 
-After running the script, the 4-digit 7-segment display shows a counter that increases by one every second. The current counter value is also printed to the console. This continues until you stop the program by pressing Ctrl + C.
+スクリプトを実行すると、4桁の7セグメントディスプレイに1秒ごとに1ずつ増加するカウンターが表示されます。現在のカウンター値はコンソールにも出力されます。プログラムは ``Ctrl + C`` を押して停止するまで継続して動作します。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The Python code below initializes the display, updates the counter, and manages the display refresh loop:
+以下のPythonコードは、ディスプレイの初期化、カウンターの更新、およびディスプレイ更新ループの管理を行います。
 
 
 .. raw:: html
@@ -191,22 +191,22 @@ The Python code below initializes the display, updates the counter, and manages 
 
 
 
-This Python script controls a 4-digit 7-segment display using a Raspberry Pi and a 74HC595 shift register. When executed:
+このPythonスクリプトは、Raspberry Pi と 74HC595 シフトレジスタを使用して4桁の7セグメントディスプレイを制御します。実行すると次のように動作します。
 
-1. The display shows an incrementing counter, with digits updating every second.
-2. The counter value is printed to the console for debugging purposes.
+1. ディスプレイには1秒ごとに更新されるカウンターが表示されます。
+2. カウンターの値はデバッグ用としてコンソールにも出力されます。
 
-The program runs indefinitely, incrementing the displayed counter until the user interrupts the script by pressing ``Ctrl+C``.
+ユーザーが ``Ctrl+C`` を押してスクリプトを停止するまで、プログラムは継続してカウンターを増加させながら動作します。
 
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Initialize GPIO Pins**
+1. **GPIOピンの初期化**
 
-   Assign GPIO pins for the shift register and digit selection.
+   シフトレジスタおよび桁選択用のGPIOピンを設定します。
 
    .. code-block:: python
 
@@ -218,17 +218,17 @@ The program runs indefinitely, incrementing the displayed counter until the user
       # Define GPIO pins for digit selection on the 7-segment display
       placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
-2. **Segment Codes**
+2. **セグメントコード**
 
-   The ``number`` array defines the binary representation for digits 0-9.
+   ``number`` 配列は、0〜9の各数字に対応するバイナリ表現を定義しています。
 
    .. code-block:: python
 
       number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
-3. **Display Refresh**
+3. **ディスプレイ更新処理**
 
-   The ``loop`` function continuously updates the display by selecting each digit and sending the appropriate data.
+   ``loop`` 関数は各桁を順番に選択し、対応するデータを送信してディスプレイを継続的に更新します。
 
    .. code-block:: python
 
@@ -242,9 +242,9 @@ The program runs indefinitely, incrementing the displayed counter until the user
                hc595_shift(number[digit])
                time.sleep(0.001)
 
-4. **Counter Update**
+4. **カウンター更新**
 
-   The ``timer`` function increments the counter every second.
+   ``timer`` 関数は1秒ごとにカウンターを増加させます。
 
    .. code-block:: python
 
@@ -255,9 +255,9 @@ The program runs indefinitely, incrementing the displayed counter until the user
          counter += 1
          print("%d" % counter)
 
-5. **Cleanup**
+5. **クリーンアップ**
 
-   The ``destroy`` function stops the timer and releases GPIO resources on program exit.
+   ``destroy`` 関数はプログラム終了時にタイマーを停止し、GPIOリソースを解放します。
 
    .. code-block:: python
 
@@ -271,56 +271,56 @@ The program runs indefinitely, incrementing the displayed counter until the user
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Display Shows Nothing**  
+1. **ディスプレイに何も表示されない**  
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Double-check the connections to the 74HC595 shift register and ensure the GPIO pins (17, 4, 27) match the defined variables (``SDI``, ``RCLK``, ``SRCLK``).
+   - **原因**: 配線ミス、またはGPIOピン設定の誤り。  
+   - **解決方法**: 74HC595シフトレジスタへの接続を再確認し、GPIOピン（17、4、27）が定義されている変数（ ``SDI`` 、 ``RCLK`` 、 ``SRCLK`` ）と一致していることを確認してください。
 
-2. **Digits Do Not Update Correctly**  
+2. **数字が正しく更新されない**  
 
-   - **Cause**: Timing issues or incorrect multiplexing.  
-   - **Solution**: Ensure that the ``time.sleep(0.001)`` in the ``loop()`` function is sufficient for stable display updates.
+   - **原因**: タイミングの問題、またはマルチプレクス処理の設定ミス。  
+   - **解決方法**: ``loop()`` 関数内の ``time.sleep(0.001)`` が、ディスプレイを安定して更新するのに十分であることを確認してください。
 
-3. **Counter Resets Unexpectedly**  
+3. **カウンターが予期せずリセットされる**  
 
-   - **Cause**: The ``timer1`` threading timer may not be running properly.  
-   - **Solution**: Confirm that the ``setup()`` function is executed before the main ``loop()`` and that the timer is started correctly.
+   - **原因**: ``timer1`` のスレッドタイマーが正しく動作していない可能性があります。  
+   - **解決方法**: ``setup()`` 関数がメインの ``loop()`` の前に実行され、タイマーが正しく開始されていることを確認してください。
 
-4. **KeyboardInterrupt Not Working**  
+4. **KeyboardInterrupt が機能しない**  
 
-   - **Cause**: The ``destroy()`` function may not execute properly on interruption.  
-   - **Solution**: Ensure all GPIO devices are properly closed in ``destroy()`` and that it is called in the ``except KeyboardInterrupt`` block.
+   - **原因**: 割り込み時に ``destroy()`` 関数が正しく実行されていない可能性があります。  
+   - **解決方法**: ``destroy()`` 内ですべてのGPIOデバイスが適切に閉じられていること、および ``except KeyboardInterrupt`` ブロック内で呼び出されていることを確認してください。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**発展アイデア**
 
-1. **Custom Counter Behavior**  
+1. **カウンター動作のカスタマイズ**  
 
-   Modify the counter to count down, reset at a specific value, or display specific patterns.
+   カウンターをカウントダウンに変更したり、特定の値でリセットするようにしたり、特定のパターンを表示するように変更できます。
 
-2. **Multi-Mode Display**  
+2. **マルチモード表示**  
 
-   Add different display modes, such as:
-   
-   - Static message display.
-   - Alternating between the counter and a predefined message.
+   以下のような表示モードを追加できます。
 
-3. **Variable Counter Speed**  
+   - 固定メッセージ表示  
+   - カウンター表示と事前定義メッセージの交互表示
 
-   Allow the user to change the counter increment speed dynamically:
+3. **カウンター速度の変更**  
+
+   ユーザーがカウンターの増加速度を動的に変更できるようにします。
 
    .. code-block:: python
 
       speed = float(input("Enter counter speed in seconds: "))
       timer1 = threading.Timer(speed, timer)
 
-4. **Real-Time Clock**  
+4. **リアルタイムクロック**  
 
-   Replace the counter with a real-time clock to display the current time:
+   カウンターの代わりにリアルタイムクロックを表示するように変更します。
 
    .. code-block:: python
 
@@ -332,6 +332,6 @@ The program runs indefinitely, incrementing the displayed counter until the user
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to control a 4-digit 7-segment display using a 74HC595 shift register and GPIO programming. The skills learned here can be applied to more complex displays and interactive systems.
+このプロジェクトでは、74HC595シフトレジスタとGPIOプログラミングを使用して4桁7セグメントディスプレイを制御する方法を紹介しました。ここで学んだ技術は、より複雑な表示装置やインタラクティブシステムの開発にも応用することができます。

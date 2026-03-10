@@ -5,48 +5,48 @@
 
 .. _opencv_install:
 
-0. Setup OpenCV
+0. OpenCV のセットアップ
 =========================================================================
 
-This chapter shows you how to install OpenCV on the Raspberry Pi and verify that it works correctly.
+この章では、Raspberry Pi に OpenCV をインストールし、正しく動作することを確認する方法を説明します。
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. カメラモジュールを使いやすくするため、:ref:`assemble_fusion_hat_pan_tilt` の組み立てを推奨します。
 
    .. note:: 
      
-      Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+      パンチルトを組み立てると一部のピンが隠れる場合があるため、カメラを使用する場合のみ組み立てるか、組み立て後に外側へ配置することを推奨します。
    
    
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. Raspberry Pi のデスクトップにアクセスします：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
-
-
-#. Complete the setup in :ref:`install_all_modules` (download the provided code package, and finish the Fusion HAT+ installation and configuration).
+   * :ref:`remote_desktop` : **VNC** を使ってフルデスクトップ環境にアクセスします。
+   * |link_rpi_connect| : **Raspberry Pi Connect** を使って、ブラウザから安全に Raspberry Pi へアクセスします。
 
 
-#. Now, update the Raspberry Pi software sources to ensure you get the latest packages:
+#. :ref:`install_all_modules` のセットアップを完了してください（提供されているコードパッケージをダウンロードし、Fusion HAT+ のインストールと設定を完了します）。
+
+
+#. 次に、最新のパッケージを取得できるよう、Raspberry Pi のソフトウェアソースを更新します：
 
    .. code-block:: shell
 
       sudo apt update
 
-#. Use the following command to install the Python 3 version of OpenCV:
+#. 以下のコマンドで、Python 3 用の OpenCV をインストールします：
 
    .. code-block:: bash
 
       sudo apt install python3-opencv
 
-#. Run the command below to verify that OpenCV has been installed successfully:
+#. 次のコマンドを実行して、OpenCV が正常にインストールされたことを確認します：
 
    .. code-block:: bash
 
       python3 -c "import cv2; print(cv2.__version__)"
 
-   If the OpenCV version number is displayed, the installation was successful.
+   OpenCV のバージョン番号が表示されれば、インストールは成功です。
 
    .. image:: img/install_opencv_check_version.png
       :align: center

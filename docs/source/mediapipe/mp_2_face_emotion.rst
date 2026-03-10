@@ -4,77 +4,78 @@
 
 .. _mp_face_emotion:
 
-2. Emotion Detection
+2. 表情認識（Emotion Detection）
 ==========================================
 
 -----------------------------
-1. Overview
+1. 概要
 -----------------------------
 
-In this section, we extend Face Mesh detection to perform
-basic emotion recognition.
+このセクションでは、Face Mesh の検出機能を拡張し、  
+基本的な表情認識を行います。
 
-Instead of using deep learning models, this method uses
-facial landmark geometry (eyes and mouth ratios) to classify
-expressions in real time.
+ディープラーニングモデルを使用する代わりに、  
+顔ランドマークの幾何情報（目と口の比率）を利用して  
+リアルタイムで表情を分類します。
 
 .. image:: img/mp_face_emotion_happy.png
    :align: center
 
-Recognizable emotions:
+認識できる表情：
 
-- 😮 Surprised
-- 😀 Happy
-- 😢 Sad
-- 😠 Angry
-- 😐 Neutral
+- 😮 Surprised（驚き）
+- 😀 Happy（喜び）
+- 😢 Sad（悲しみ）
+- 😠 Angry（怒り）
+- 😐 Neutral（無表情）
 
 -----------------------------
-2. How it Works
+2. 動作原理
 -----------------------------
 
-The program follows these steps:
+プログラムは次の手順で動作します：
 
-1. Use ``Picamera2`` + ``MediaPipe FaceMesh`` to obtain 468 landmarks.
-2. Select key feature points around the eyes and mouth.
-3. Calculate normalized ratios:
-   
-   - Eye openness
-   - Mouth width
-   - Mouth openness
+1. ``Picamera2`` + ``MediaPipe FaceMesh`` を使用して 468 個のランドマークを取得  
+2. 目と口の周囲にある重要な特徴点を選択  
+3. 正規化された比率を計算  
 
-4. Compare values with preset thresholds.
-5. Display the detected emotion using OpenCV.
+   - 目の開き具合  
+   - 口の横幅  
+   - 口の開き具合  
 
-Advantages of this approach:
+4. 設定済みの閾値と比較  
+5. OpenCV を使用して検出された表情を表示  
 
-- Fast and lightweight (suitable for Raspberry Pi)
-- No neural network required
-- Easy to adjust thresholds
+この方法の利点：
+
+- 高速で軽量（Raspberry Pi に適している）  
+- ニューラルネットワークが不要  
+- 閾値を簡単に調整できる  
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、以下を確認してください：
 
-   Before you start, make sure:
+   * パンチルト機構が組み立てられている  
+   * Raspberry Pi のデスクトップにアクセスできる  
+   * コードパッケージがインストールされている  
+   * Fusion HAT+ がインストールおよび設定されている  
+   * OpenCV がインストールされている  
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細な手順は :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
         sudo python3 ~/ai-lab-kit/mediapipe/mp_face_emotion.py
-#. After running the program, a video window opens and displays the live camera feed.
+
+#. プログラムを実行すると、ビデオウィンドウが開き、カメラのライブ映像が表示されます。
 
    .. raw:: html
    
@@ -83,23 +84,23 @@ Advantages of this approach:
              Your browser does not support the video tag.
          </video>
 
-   When a face appears in front of the camera, the system:
-   
-   - Detects 468 facial landmarks in real time  
-   - Calculates eye openness and mouth openness ratios  
-   - Classifies the current facial expression  
-   
-   The detected emotion label (such as ``Happy``, ``Surprised``, ``Sad``, ``Angry`` or ``Neutral``) is displayed on the video screen.
-   
-   As the user changes facial expressions, the emotion label updates instantly.
-   
-   If no face is detected, the program continues showing the normal camera feed without an emotion label.
-   
-   Press ``q`` to exit the program. The camera will stop and the OpenCV window will close automatically.
+   カメラの前に顔が現れると、システムは次の処理を行います：
+
+   - 468 個の顔ランドマークをリアルタイムで検出  
+   - 目の開き具合と口の開き具合の比率を計算  
+   - 現在の表情を分類  
+
+   検出された表情ラベル（ ``Happy`` 、 ``Surprised`` 、 ``Sad`` 、 ``Angry`` 、 ``Neutral`` など）が動画画面上に表示されます。
+
+   ユーザーの表情が変化すると、表情ラベルもリアルタイムで更新されます。
+
+   顔が検出されない場合は、通常のカメラ映像のみが表示され、表情ラベルは表示されません。
+
+   ``q`` を押すとプログラムを終了できます。カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -213,13 +214,14 @@ Advantages of this approach:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running, the recognized emotion category will be displayed in real-time on the camera feed, along with debug information including mouth width, mouth openness, eye openness, etc.
+プログラムを実行すると、カメラ映像上に認識された表情カテゴリがリアルタイムで表示されます。  
+また、口の幅・口の開き具合・目の開き具合などのデバッグ情報も同時に表示されます。
 
 -----------------------------
-5. Key Steps Explanation
+5. 主要ステップの解説
 -----------------------------
 
-#. Select key points
+#. 重要な特徴点の選択
 
    .. code-block:: python
 
@@ -230,22 +232,21 @@ After running, the recognized emotion category will be displayed in real-time on
       MOUTH_LEFT, MOUTH_RIGHT = 61, 291
       LIP_UP, LIP_DOWN = 13, 14
 
-   These indices correspond to:
+   これらのインデックスは次の部位に対応します：
 
-   - 159, 145 → Upper and lower edges of the left eye
-   - 386, 374 → Upper and lower edges of the right eye
-   - 33, 263 → Eye centers (used for normalization)
-   - 61, 291 → Mouth corners
-   - 13, 14 → Upper and lower lip midpoints
+   - 159, 145 → 左目の上端と下端  
+   - 386, 374 → 右目の上端と下端  
+   - 33, 263 → 両目の中心（正規化に使用）  
+   - 61, 291 → 口角  
+   - 13, 14 → 上唇と下唇の中央  
 
    .. image:: img/mp_face_point.jpg
       :align: center
 
-#. Normalize distances
+#. 距離の正規化
 
-   To reduce the influence of camera distance,
-   use the distance between the two eye centers
-   as the normalization scale.
+   カメラとの距離の影響を小さくするため、  
+   両目の中心間の距離を正規化スケールとして使用します。
 
    .. code-block:: python
 
@@ -260,7 +261,7 @@ After running, the recognized emotion category will be displayed in real-time on
           landmarks[R_EYE_CENTER]
       )
 
-#. Calculate geometric features
+#. 幾何特徴の計算
 
    .. code-block:: python
 
@@ -286,13 +287,13 @@ After running, the recognized emotion category will be displayed in real-time on
 
       eye_open = 0.5 * (eye_open_L + eye_open_R)
 
-   Calculated features:
+   計算される特徴量：
 
-   - ``mouth_width`` → Horizontal mouth width
-   - ``mouth_open`` → Vertical mouth opening
-   - ``eye_open`` → Average eye openness
+   - ``mouth_width`` → 口の横幅
+   - ``mouth_open`` → 口の縦方向の開き具合
+   - ``eye_open`` → 両目の平均的な開き具合
 
-#. Classify emotion using thresholds
+#. 閾値を用いた表情分類
 
    .. code-block:: python
 
@@ -307,44 +308,44 @@ After running, the recognized emotion category will be displayed in real-time on
       else:
           label = "Neutral"
 
-   Emotion rules (empirical thresholds):
+   表情判定ルール（経験的な閾値）：
 
-   - Surprised → Mouth and eyes are wide open
-   - Happy → Mouth wide, eyes normal
-   - Sad / Angry → Mouth and eyes mostly closed
-   - Neutral → Does not match other conditions
+   - Surprised → 口と目が大きく開いている
+   - Happy → 口が大きく開き、目は通常の状態
+   - Sad / Angry → 口と目が比較的閉じている
+   - Neutral → 上記のどの条件にも当てはまらない
 
 -----------------------------------------------------
-6. Threshold and Robustness Adjustment
+6. 閾値とロバスト性の調整
 -----------------------------------------------------
 
-- Thresholds like ``0.08``, ``0.035``, ``0.018`` are based on empirical values at 640×480 resolution.
-- If the camera is closer or the resolution is different, adjust the thresholds using the debug information (mw/mo/eo).
-- Emotion judgment logic can be modified to be more complex or use trained models for higher accuracy, such as calculating the relative position of mouth corners, mouth shape, and other features.
+- ``0.08`` 、 ``0.035`` 、 ``0.018`` などの閾値は、640×480 解像度での経験値に基づいています。  
+- カメラ距離や解像度が異なる場合は、デバッグ情報（mw/mo/eo）を参考に調整してください。  
+- より高精度にする場合は、口角位置や口形状などの特徴を追加したり、学習済みモデルを使用することも可能です。
 
 ------------------------------------------------------------
-7. Troubleshooting
+7. トラブルシューティング
 ------------------------------------------------------------
 
-- Emotion recognition not sensitive
+- 表情認識の感度が低い
 
-  Thresholds may not match the current camera distance.  
-  Adjust ``mouth_open`` and ``eye_open`` values.
+  閾値が現在のカメラ距離に適していない可能性があります。  
+  ``mouth_open`` や ``eye_open`` の値を調整してください。
 
-- Detection latency
+- 検出が遅い
 
-  Resolution may be too high.  
-  Reduce resolution or disable ``refine_landmarks``.
+  解像度が高すぎる可能性があります。  
+  解像度を下げるか ``refine_landmarks`` を無効にしてください。
 
-- Cannot recognize emotion
+- 表情が認識されない
 
-  Lighting may be insufficient or the face angle is skewed.  
-  Improve lighting and face the camera directly.
+  照明が不足している、または顔の角度が傾いている可能性があります。  
+  照明を改善し、カメラに正面を向けてください。
 
 -----------------------------
-8.  Summary
+8. まとめ
 -----------------------------
 
-- This chapter implemented lightweight emotion recognition based on **geometric features + FaceMesh landmarks**.
-- Offers advantages of **high real-time performance** and **adjustable thresholds**.
-- Can be used in projects like interactive art, HCI, classroom/meeting state detection.
+- 本章では **幾何特徴 + FaceMesh ランドマーク** を利用した軽量な表情認識を実装しました。  
+- **高いリアルタイム性能** と **調整可能な閾値** が特徴です。  
+- インタラクティブアート、HCI、授業や会議の状態検出などのプロジェクトに応用できます。  

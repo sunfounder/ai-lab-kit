@@ -5,28 +5,28 @@
 
 .. _py_gravity_cube:
 
-4.14 Gravity Cube
+4.14 グラビティキューブ
 =========================
 
-**Introduction**
+**はじめに**
 
-In this lesson, you will build a **gravity-referenced 3D cube** displayed on a 128×64 SSD1306 OLED, driven by an **IMU**.  
-The cube tilts according to the board’s orientation relative to gravity, using accelerometer-only roll and pitch.  
+このレッスンでは、**IMU** によって駆動される、128×64 SSD1306 OLED 上に表示される **重力基準の 3D キューブ** を作成します。  
+このキューブは、加速度センサーのみを用いて算出したロールとピッチに基づき、重力に対する基板の向きに応じて傾きます。  
 
-Key features:
+主な特徴は次のとおりです。
 
-- Orthographic 3D cube rendering (no perspective distortion)  
-- Orientation derived from the accelerometer relative to an initial baseline  
-- One cube face is filled to make front-back orientation easy to see  
-- Two configuration flags let you flip X/Y directions to match your physical mounting  
+- 正射影による 3D キューブ描画（透視歪みなし）  
+- 初期姿勢を基準とした、加速度センサー由来の姿勢推定  
+- 前後方向を把握しやすくするため、キューブの一面を塗りつぶして表示  
+- 実際の取り付け方向に合わせて X/Y の向きを反転できる 2 つの設定フラグ  
 
-As you tilt the board, the cube rotates smoothly, giving an intuitive visualization of device orientation.
+基板を傾けると、キューブが滑らかに回転し、デバイスの向きを直感的に可視化できます。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトで必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -55,9 +55,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Refer to the wiring diagram for assembling the components:
+各コンポーネントの組み立ては、以下の配線図を参照してください。
 
 .. image:: img/fzz/4.14_cube2_bb.png
    :width: 80%
@@ -65,9 +65,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**セットアップ手順**
 
-#. Install the OLED libraries:
+#. OLED 用ライブラリをインストールします。
 
    .. raw:: html
 
@@ -77,7 +77,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Install the IMU libraries:
+#. IMU 用ライブラリをインストールします。
 
    .. raw:: html
 
@@ -88,7 +88,7 @@ Refer to the wiring diagram for assembling the components:
       sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
 
 
-#. Run the example from the ``ai-lab-kit`` directory:
+#. ``ai-lab-kit`` ディレクトリからサンプルを実行します。
 
    .. raw:: html
 
@@ -99,19 +99,19 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.14_Cube.py
 
-#. When the script runs:
+#. スクリプトを実行すると、次のように動作します。
 
-   * The accelerometer provides gravity-referenced X/Y/Z data.  
-   * The code computes roll and pitch relative to an initial baseline (current orientation becomes 0°, 0°).  
-   * A wireframe cube with a **filled front face** is drawn on the OLED.  
-   * Tilting the board rotates the cube on screen.  
-   * Press **Ctrl+C** to exit; the OLED is cleared.
+   * 加速度センサーが重力基準の X/Y/Z データを提供します。  
+   * コードは、初期姿勢を基準（現在の向きが 0°, 0°）としてロールとピッチを計算します。  
+   * **前面を塗りつぶした** ワイヤーフレームキューブが OLED に描画されます。  
+   * 基板を傾けると、画面上のキューブが回転します。  
+   * **Ctrl+C** を押すと終了し、OLED はクリアされます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here is the Python script for the gravity-referenced cube:
+以下は、重力基準キューブ用の Python スクリプトです。
 
 .. raw:: html
 
@@ -287,21 +287,21 @@ Here is the Python script for the gravity-referenced cube:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **IMU Initialization**
+1. **IMU の初期化**
 
-   The script creates an ``IMU`` instance from the Fusion HAT+ module.  
-   The accelerometer provides raw X, Y, Z acceleration values in units of m/s².
+   スクリプトは Fusion HAT+ モジュールから ``IMU`` インスタンスを生成します。  
+   加速度センサーは、m/s² 単位の生の X、Y、Z 加速度値を提供します。
 
-2. **Gravity-Referenced Angles**
+2. **重力基準の角度計算**
 
-   ``accel_to_rp()`` converts the accelerometer readings into **roll** and **pitch**:
+   ``accel_to_rp()`` は、加速度センサーの読み取り値を **roll** と **pitch** に変換します。
 
-   - Roll: rotation around the **X** axis  
-   - Pitch: rotation around the **Y** axis  
+   - Roll: **X** 軸まわりの回転  
+   - Pitch: **Y** 軸まわりの回転  
 
-   Only gravity is used, so yaw cannot be determined (and is fixed to 0).
+   重力のみを用いるため、yaw は求められず、常に 0 に固定されます。
 
    .. code-block:: python
 
@@ -322,37 +322,37 @@ Here is the Python script for the gravity-referenced cube:
          pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
          return roll, pitch
 
-3. **Baseline Orientation**
+3. **基準姿勢**
 
-   On the very first reading:
+   最初の読み取り時に、
 
-   - The current ``roll`` and ``pitch`` are stored as baseline (``roll0``, ``pitch0``).  
-   - Subsequent orientations are expressed as **relative** angles:
+   - 現在の ``roll`` と ``pitch`` を基準値（ ``roll0`` 、 ``pitch0`` ）として保存します。  
+   - 以後の姿勢は **相対角度** として表されます。
 
      .. code-block:: python
 
         roll_rel  = roll_abs  - roll0
         pitch_rel = pitch_abs - pitch0
 
-   This way, the device’s initial position becomes **0°, 0°**.
+   これにより、プログラム開始時のデバイスの向きが **0°, 0°** になります。
 
-4. **User-Configurable Axis Flip**
+4. **ユーザー設定可能な軸反転**
 
-   The two flags ``FLIP_X`` and ``FLIP_Y`` allow you to invert motion on each axis:
+   ``FLIP_X`` と ``FLIP_Y`` の 2 つのフラグを使うと、各軸の表示方向を反転できます。
 
-   - Set ``FLIP_X = True`` if roll feels reversed on the display  
-   - Set ``FLIP_Y = True`` if pitch feels reversed  
+   - Roll の動きが逆に感じる場合は ``FLIP_X = True``  
+   - Pitch の動きが逆に感じる場合は ``FLIP_Y = True``  
 
-   This is helpful if your IMU is rotated or wired in a different orientation.
+   IMU の取り付け方向や配線方向が異なる場合に便利です。
 
-5. **Smoothing (EMA)**
+5. **平滑化（EMA）**
 
-   The function ``ema()`` applies **exponential moving average** smoothing:
+   ``ema()`` 関数は **指数移動平均** による平滑化を行います。
 
-   - Reduces jitter caused by sensor noise  
-   - Makes cube motion look more natural  
+   - センサーノイズによる揺れを低減  
+   - キューブの動きをより自然に見せる  
 
-   ``ROLL_EMA`` and ``PITCH_EMA`` control how responsive vs. smooth the motion is.
+   ``ROLL_EMA`` と ``PITCH_EMA`` の値で、応答性と滑らかさのバランスを調整できます。
 
    .. code-block:: python
 
@@ -361,9 +361,9 @@ Here is the Python script for the gravity-referenced cube:
          return alpha * new + (1.0 - alpha) * prev
 
 
-6. **3D Cube Rotation**
+6. **3D キューブの回転**
 
-   ``rotate_point()`` applies rotation matrices to each cube vertex:
+   ``rotate_point()`` は、各キューブ頂点に回転行列を適用します。
 
       .. code-block:: python
 
@@ -382,10 +382,10 @@ Here is the Python script for the gravity-referenced cube:
                x, y = (x*cz - y*sz), (x*sz + y*cz)
             return (x, y, z)   
 
-   - ``Rx(roll)`` followed by ``Ry(pitch)`` (yaw kept at 0)  
-   - Produces rotated 3D coordinates  
+   - ``Rx(roll)`` の後に ``Ry(pitch)`` を適用します（yaw は 0 のまま）  
+   - これにより回転後の 3D 座標が得られます  
 
-   ``project_point()`` then converts 3D coordinates to 2D OLED positions using **orthographic projection**.
+   その後、 ``project_point()`` により、 **正射影** を用いて 3D 座標を 2D の OLED 座標へ変換します。
 
       .. code-block:: python
 
@@ -398,15 +398,15 @@ Here is the Python script for the gravity-referenced cube:
             return int(cx + scale * x), int(cy - scale * y)
 
 
-7. **Drawing the Cube**
+7. **キューブの描画**
 
-   ``draw_cube()``:
+   ``draw_cube()`` は次の処理を行います。
 
-   - Clears the screen  
-   - Rotates and projects all 8 cube vertices  
-   - Draws all edges as a wireframe  
-   - Fills one face (``FRONT_FACE``) so you can easily see which side is pointing toward you  
-   - Optionally shows roll and pitch in degrees at the top left
+   - 画面をクリアする  
+   - 8 個すべての頂点を回転・投影する  
+   - 全エッジをワイヤーフレームとして描画する  
+   - 1 つの面（ ``FRONT_FACE`` ）を塗りつぶして、どの面が手前を向いているか分かりやすくする  
+   - 必要に応じて左上に roll と pitch を度数で表示する  
 
    .. code-block:: python
 
@@ -437,65 +437,63 @@ Here is the Python script for the gravity-referenced cube:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-- **Cube does not move**
+- **キューブが動かない**
 
-  - Confirm I2C is enabled on Raspberry Pi.  
-  - Verify the correct I2C address is used by your IMU driver.
+  - Raspberry Pi で I2C が有効になっていることを確認してください。  
+  - 使用している IMU ドライバで正しい I2C アドレスが使われていることを確認してください。
 
-- **Motion looks reversed**
+- **動きが逆に見える**
 
-  - Toggle ``FLIP_X`` or ``FLIP_Y`` to invert directions.  
-  - Try placing the board flat, then slowly tilt along one axis to identify which flip is needed.
+  - ``FLIP_X`` または ``FLIP_Y`` を切り替えて方向を反転してください。  
+  - 基板を水平に置いた状態から、1 軸ずつゆっくり傾けて、どちらを反転すべきか確認してください。
 
-- **Cube is too jittery**
+- **キューブの動きが揺れすぎる**
 
-  - Increase smoothing by lowering ``ROLL_EMA`` / ``PITCH_EMA`` (e.g., 0.1).  
-  - Make sure the board is mechanically stable and cables are not tugging it.
+  - ``ROLL_EMA`` / ``PITCH_EMA`` を小さくして平滑化を強めてください（例: 0.1）。  
+  - 基板がしっかり固定され、ケーブルに引っ張られていないことを確認してください。
 
-- **Cube tilts when resting flat**
+- **平らに置いているのにキューブが傾いて見える**
 
-  - Hold the board steady and restart the script; the initial reading becomes the baseline.  
-  - Ensure the board is truly flat when the program starts.
+  - 基板を静止させた状態でスクリプトを再起動してください。最初の読み取り値が基準になります。  
+  - プログラム開始時に基板が本当に水平であることを確認してください。
 
-- **OLED shows nothing**
+- **OLED に何も表示されない**
 
-  - Check OLED I2C address (commonly ``0x3C``).  
-  - Verify wiring and that the display contrast is adequate.  
-  - Confirm that ``adafruit-circuitpython-ssd1306`` is installed.
+  - OLED の I2C アドレス（一般的には ``0x3C``）を確認してください。  
+  - 配線とコントラスト設定を確認してください。  
+  - ``adafruit-circuitpython-ssd1306`` が正しくインストールされていることを確認してください。
 
 ----------------------------------------------
 
-**Try It Yourself**
+**試してみよう**
 
-1. **Add Yaw from Gyro**
+1. **ジャイロから Yaw を追加する**
 
-   Combine gyro integration with accelerometer data (a complementary filter) to add a yaw axis
-   and allow full 3D cube rotation.
+   ジャイロ積分と加速度センサーのデータを組み合わせたコンプリメンタリフィルタを使い、yaw 軸を追加して完全な 3D 回転を実現します。
 
-2. **Change Cube Size or Position**
+2. **キューブのサイズや位置を変更する**
 
-   Adjust ``CUBE_SIZE`` or the projection center to move the cube or make it larger/smaller:
+   ``CUBE_SIZE`` や投影中心を調整して、キューブの位置や大きさを変更できます。
 
-   - Zoom in for a more dramatic effect  
-   - Shift it slightly upward to leave more room for text
+   - 拡大してより迫力のある表示にする  
+   - 少し上へ移動して文字表示用のスペースを増やす  
 
-3. **Add a Wireframe Grid**
+3. **ワイヤーフレームのグリッドを追加する**
 
-   Draw a simple “floor” grid behind the cube to emphasize 3D motion.
+   キューブの背後に簡単な「床」グリッドを描いて、3D の動きをより分かりやすくします。
 
-4. **Add Auto-Recenter Function**
+4. **自動再センタリング機能を追加する**
 
-   Long-press a button (or use a key input) to reset the baseline orientation during runtime.
+   ボタンの長押しやキー入力で、実行中に基準姿勢をリセットできるようにします。
 
-5. **Multiple Display Modes**
+5. **複数の表示モード**
 
-   Toggle between:
+   次のモードを切り替えられるようにします。
 
-   - Wireframe only  
-   - Filled face only  
-   - Face shading based on tilt angle  
+   - ワイヤーフレームのみ  
+   - 塗りつぶし面のみ  
+   - 傾き角度に応じた面のシェーディング  
 
-These enhancements turn the simple gravity cube into a rich 3D IMU visualization tool.
-
+これらの拡張により、シンプルな重力キューブを高機能な 3D IMU 可視化ツールへ発展させることができます。

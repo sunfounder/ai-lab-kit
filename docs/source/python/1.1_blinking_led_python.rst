@@ -5,39 +5,39 @@
 .. _py_led:
 
 
-1.1 Blinking LED
+1.1 LEDの点滅
 ==================
 
-**Introduction**
+**はじめに**
 
-Welcome to your first project! In this tutorial, we will learn how to make an LED blink using Python programming and the GPIO pins. This project is an excellent introduction to hardware and software integration, demonstrating how simple code can interact with real-world components.
+最初のプロジェクトへようこそ！ このチュートリアルでは、Python プログラミングと GPIO ピンを使って LED を点滅させる方法を学びます。このプロジェクトは、ハードウェアとソフトウェアの連携を理解するための優れた入門編であり、シンプルなコードで現実の電子部品を制御できることを体験できます。
 
-Before we start, let’s briefly explain the basics:
+始める前に、まず基本を簡単に確認しておきましょう。
 
-* **What is an LED?**  
+* **LEDとは？**  
 
-  An LED (Light Emitting Diode) is a small electronic component that lights up when an electrical current flows through it. LEDs are widely used in electronics because they are efficient and long-lasting.
+  LED（Light Emitting Diode、発光ダイオード）は、電流が流れると点灯する小型の電子部品です。LED は高効率で長寿命なため、さまざまな電子機器で広く使われています。
   
-* **What is a GPIO Pin?**  
+* **GPIOピンとは？**  
 
-  GPIO stands for **General Purpose Input/Output**. These pins allow the Raspberry Pi to communicate with external devices, such as LEDs, sensors, or buttons. Each pin can be programmed to send signals (output) or read signals (input).
+  GPIO は **General Purpose Input/Output** の略です。これらのピンを使うことで、Raspberry Pi は LED、センサー、ボタンなどの外部デバイスとやり取りできます。各ピンは、信号を出力したり（output）、信号を読み取ったり（input）するようにプログラムできます。
 
-In this tutorial, we’ll connect an LED to a GPIO pin and write a Python program to make it blink. Let’s get started!
+このチュートリアルでは、LED を GPIO ピンに接続し、Python プログラムを書いて点滅させます。では、始めましょう！
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Here’s the list of components and their purposes:
+このプロジェクトで使用する部品とその用途は次のとおりです。
 
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 部品
+        - 購入リンク
         
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -55,9 +55,9 @@ Here’s the list of components and their purposes:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-The resistor limits the current flowing through the LED, preventing it from burning out. Without a resistor, the LED may draw too much current, which can damage both the LED and the Raspberry Pi.
+抵抗は LED に流れる電流を制限し、LED が焼損するのを防ぎます。抵抗を入れないと、LED に過大な電流が流れ、LED と Raspberry Pi の両方を損傷する可能性があります。
 
 .. image:: img/fzz/1.1.1_sch.png
    :width: 80%
@@ -67,9 +67,9 @@ The resistor limits the current flowing through the LED, preventing it from burn
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Follow the wiring diagram below to connect your components:
+以下の配線図を参考にして、各部品を接続してください。
 
 .. image:: img/fzz/1.1.1_bb.png
    :width: 80%
@@ -77,13 +77,13 @@ Follow the wiring diagram below to connect your components:
 
 ----------------------------------------------
 
-**Run the Code**
+**コード**
 
-Let’s write the Python code to control the LED. You’ll create a script that turns the LED on and off at regular intervals.
+それでは、LED を制御する Python コードを書いてみましょう。一定間隔で LED を点灯・消灯するスクリプトを作成します。
 
-1. **Navigate to the Code Directory:**  
+1. **コードディレクトリへ移動する：**  
 
-   Open your terminal and type:
+   ターミナルを開き、次のコマンドを入力します。
 
    .. raw:: html
    
@@ -93,9 +93,9 @@ Let’s write the Python code to control the LED. You’ll create a script that 
 
       cd ~/ai-lab-kit/python
 
-2. **Run the Program:**  
+2. **プログラムを実行する：**  
 
-   Use the following command to execute the script:
+   以下のコマンドでスクリプトを実行します。
 
    .. raw:: html
    
@@ -105,11 +105,11 @@ Let’s write the Python code to control the LED. You’ll create a script that 
 
       sudo python3 1.1_LED.py
 
-   You should see the LED blinking on and off at regular intervals.
+   LED が一定間隔で点滅するはずです。
 
-3. **Edit the Code (Optional):**  
+3. **コードを編集する（任意）：**  
 
-   To modify the program, open the code file in a text editor:
+   プログラムを変更したい場合は、テキストエディタでコードファイルを開きます。
 
    .. raw:: html
    
@@ -119,15 +119,15 @@ Let’s write the Python code to control the LED. You’ll create a script that 
 
        nano 1.1_LED.py
 
-   Make your changes, then press ``Ctrl+X`` to exit. Save your modifications by typing ``Y`` when prompted. Run the script again to see your changes.
+   変更を加えたら、 ``Ctrl+X`` を押して終了します。保存するかどうか尋ねられたら ``Y`` を入力してください。もう一度スクリプトを実行して、変更内容を確認しましょう。
 
 
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
-Here’s the complete Python script for this project:
+以下が、このプロジェクトの完全な Python スクリプトです。
 
 
 .. raw:: html
@@ -165,67 +165,67 @@ Here’s the complete Python script for this project:
       pass
 
 
-This Python script controls an LED connected to GPIO pin 17 of a Raspberry Pi. When executed, the LED alternates between turning on and off in half-second intervals. Simultaneously, the console prints "LED is ON" and "LED is OFF" to indicate the LED's current state. The program runs indefinitely until interrupted by a user pressing ``Ctrl+C``.
+この Python スクリプトは、Raspberry Pi の GPIO 17 に接続された LED を制御します。実行すると、LED は一定間隔で点灯と消灯を繰り返します。同時に、コンソールには LED の現在の状態を示すために "LED is ON" と "LED is OFF" が表示されます。ユーザーが ``Ctrl+C`` を押して中断するまで、プログラムは継続して動作します。
 
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. **Imports:**  
+1. **インポート:**  
 
-   The ``fusion_hat`` library simplifies controlling GPIO devices. The ``Pin`` class allows you to control an LED with basic methods like ``on()`` and ``off()``. The ``sleep`` function introduces delays between commands.
+   ``fusion_hat`` ライブラリを使うと、GPIO デバイスの制御を簡単に行えます。 ``Pin`` クラスを使えば、 ``on()`` や ``off()`` のような基本的なメソッドで LED を制御できます。 ``sleep`` 関数は、各コマンドの間に待機時間を入れるために使います。
 
-   .. note:: For the usage of fusion-hat, please refer to the |link_api_fusion_hat|.
-
-
-2. **Initialization:**  
-
-   The line ``led = Pin(17,mode=Mode.OUT)`` tells the Raspberry Pi that an LED is connected to GPIO pin 17.
-
-3. **Main Loop:**  
-
-   Inside the ``while True`` loop: The LED turns on (``led.on()``) and off (``led.off()``) with a 0.5-second pause (``sleep(0.5)``) in between.
-
-4. **Graceful Exit:**  
-
-   The ``try...except`` block ensures the program stops cleanly when interrupted (e.g., by pressing ``Ctrl+C``).
+   .. note:: fusion-hat の使い方については、|link_api_fusion_hat| を参照してください。
 
 
+2. **初期化:**  
 
-----------------------------------------------
+   ``led = Pin(17,mode=Mode.OUT)`` という行は、LED が GPIO 17 に接続されていることを Raspberry Pi に知らせています。
 
+3. **メインループ:**  
 
-**Troubleshooting**
+   ``while True`` ループの中では、LED を点灯（ ``led.on()`` ）し、消灯（ ``led.off()`` ）し、その間に 0.5 秒の待機（ ``sleep(0.5)`` ）を入れています。
 
-1. **LED Does Not Light Up**  
+4. **安全な終了:**  
 
-   - **Cause**: Incorrect GPIO pin or faulty wiring.  
-   - **Solution**: Double-check the LED's connection to GPIO pin 17 and ensure the resistor is correctly placed to prevent damage to the LED.
+   ``try...except`` ブロックにより、プログラムは中断された場合（たとえば ``Ctrl+C`` を押した場合）でも安全に終了できます。
 
-
-2. **KeyboardInterrupt Not Working**  
-
-   - **Cause**: The program does not exit gracefully.  
-   - **Solution**: Ensure the script is running in a terminal where ``Ctrl+C`` is captured, not as a background process.
-
-3. **Incorrect GPIO Setup**  
-
-   - **Cause**: ``fusion_hat`` library is not installed.  
-   - **Solution**: See :ref:`install_fusion_hat`.
-
-4. **LED Flickers or Behaves Erratically**  
-
-   - **Cause**: Unstable power supply or poor connections.  
-   - **Solution**: Ensure a stable power source and secure wiring.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
 
-1. **Variable Blink Speed**: Add user input to control the LED's blinking speed dynamically:  
+**トラブルシューティング**
+
+1. **LEDが点灯しない**  
+
+   - **原因**: GPIO ピンの指定ミス、または配線不良。  
+   - **対処方法**: LED が GPIO 17 に正しく接続されているか確認し、抵抗が正しい位置に入っているかも確認してください。抵抗がないと LED が破損する可能性があります。
+
+
+2. **KeyboardInterrupt が機能しない**  
+
+   - **原因**: プログラムが正常に終了できていない。  
+   - **対処方法**: スクリプトをバックグラウンド実行ではなく、 ``Ctrl+C`` を受け取れるターミナル上で実行してください。
+
+3. **GPIOの設定が正しくない**  
+
+   - **原因** : ``fusion_hat`` ライブラリがインストールされていない。  
+   - **対処方法** ：:ref:`install_fusion_hat` を参照してください。
+
+4. **LEDがちらつく、または不安定に動作する**  
+
+   - **原因**: 電源が不安定、または接続が不十分。  
+   - **対処方法**: 安定した電源を使用し、配線がしっかり接続されていることを確認してください。
+
+
+----------------------------------------------
+
+**発展アイデア**
+
+1. **点滅速度を可変にする**: ユーザー入力によって LED の点滅速度を動的に変更できるようにします。  
 
    .. code-block:: python
         
@@ -238,12 +238,12 @@ This Python script controls an LED connected to GPIO pin 17 of a Raspberry Pi. W
             sleep(interval)
 
 
-2. **Multi-LED Control**: Connect multiple LEDs to different GPIO pins and control them in patterns (e.g., sequential lighting or simultaneous blinking).
+2. **複数LEDの制御**: 複数の LED を別々の GPIO ピンに接続し、順番に点灯させたり、同時に点滅させたりするパターン制御を試してみましょう。
 
 
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-Congratulations! You’ve completed your first Raspberry Pi project. By controlling an LED, you’ve learned how to use GPIO pins and write Python scripts to interact with hardware. This foundational knowledge will serve as a stepping stone for more complex projects. Keep experimenting and exploring!
+おめでとうございます！ これで最初の Raspberry Pi プロジェクトが完了しました。LED を制御することで、GPIO ピンの使い方と、ハードウェアを操作する Python スクリプトの書き方を学びました。この基礎知識は、より高度なプロジェクトへ進むための大切な土台になります。ぜひ引き続き、いろいろ試しながら学んでいってください。

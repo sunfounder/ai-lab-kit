@@ -4,13 +4,13 @@
 
 .. _get_start:
 
-Getting Started (Important)
+はじめに（重要）
 ===============================
 
-This is the very first chapter of this kit course.  
-Here you will set up your Raspberry Pi, install the required software, charge and power on your Fusion.
+これは本キットコースの最初の章です。  
+ここでは、Raspberry Pi のセットアップ、必要なソフトウェアのインストール、Fusion の充電および電源投入を行います。
 
-By the end of this chapter, your Fusion HAT+ will be fully prepared and ready for the upcoming lessons.  
+この章を完了すると、Fusion HAT+ の準備が整い、次のレッスンをすぐに開始できる状態になります。  
 
 
 .. toctree::

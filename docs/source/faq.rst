@@ -4,101 +4,101 @@
 
 .. _faq:
 
-FAQ
+よくある質問（FAQ）
 =====================
 
 
-Below are some of the most common questions users may encounter while using the
-AI Fusion Lab Kit. If your issue is not listed here, please refer to the
-troubleshooting notes in each chapter or contact support.
+以下は、AI Fusion Lab Kit を使用する際によく寄せられる質問です。  
+ここに記載されていない問題については、各章のトラブルシューティングを参照するか、サポートまでお問い合わせください。
 
-General Questions
+
+一般的な質問
 -----------------
 
-**Where can I download the system image?**
+**システムイメージはどこでダウンロードできますか？**
 
-    You can find the recommended Raspberry Pi system image and setup
-    instructions in the :ref:`get_start` section. The documentation also
-    provides step-by-step installation guidance for beginners.
+    推奨される Raspberry Pi システムイメージおよびセットアップ手順は  
+    :ref:`get_start` セクションで確認できます。  
+    ドキュメントには、初心者向けのステップバイステップのインストールガイドも掲載されています。
 
-**Do I need an internet connection to use the kit?**
+**キットを使用するためにインターネット接続は必要ですか？**
 
-    Basic Python and hardware examples do not require internet access.
-    However, cloud-based LLMs and some AI features do require an active
-    internet connection.
+    基本的な Python およびハードウェアのサンプルは、インターネット接続がなくても実行できます。  
+    ただし、クラウドベースの LLM や一部の AI 機能を使用する場合は、インターネット接続が必要です。
 
-**Which Raspberry Pi models are supported?**
+**どの Raspberry Pi モデルがサポートされていますか？**
 
-    The kit officially supports Raspberry Pi 4B and Raspberry Pi 5.
-    Other models may work but are not guaranteed due to performance
-    or compatibility limitations.
+    本キットは **Raspberry Pi 4B** および **Raspberry Pi 5** を公式にサポートしています。  
+    その他のモデルでも動作する場合がありますが、性能や互換性の制限により保証はされません。
 
-**Do I need to power the FusionHAT separately?**
+**FusionHAT に別途電源は必要ですか？**
 
-    Yes. *The FusionHAT requires its own power supply*. The Raspberry Pi power
-    input does not supply power to the FusionHAT. If the FusionHAT is not
-    powered, certain functions — such as the speaker or other onboard modules —
-    may not work properly.
+    はい。 *FusionHAT は専用の電源供給が必要です* 。  
+    Raspberry Pi の電源入力から FusionHAT に電力は供給されません。  
+    FusionHAT に電源が供給されていない場合、スピーカーなどのオンボードモジュールを含む一部の機能が正常に動作しない可能性があります。
 
-Software / Installation
------------------------
+
+
+
+ソフトウェア / インストール
+----------------------------
 
 **RuntimeError: Failed to add edge detection / RuntimeError: Cannot determine SOC peripheral base address**
 
-    This issue is usually caused by a conflict between the system-installed ``RPi.GPIO`` library and the GPIO library used by Fusion HAT.  
-    To solve it, please manually remove the system ``RPi.GPIO`` package files and then run the program again.
+    この問題は、システムにインストールされている ``RPi.GPIO`` ライブラリと  
+    Fusion HAT が使用する GPIO ライブラリとの競合によって発生することが多いです。  
+    以下の手順でシステムの ``RPi.GPIO`` パッケージを削除してから、再度プログラムを実行してください。
 
-    1. Remove the system ``RPi.GPIO`` files:
+    1. システムの ``RPi.GPIO`` ファイルを削除します：
 
        .. code-block:: bash
 
           sudo pip3 uninstall RPi.GPIO --break
           sudo rm -rf /usr/lib/python3/dist-packages/RPi.GPIO*
 
-    2. Reboot the Raspberry Pi:
+    2. Raspberry Pi を再起動します：
 
        .. code-block:: bash
 
           sudo reboot
 
-    3. Run the example again (do not use sudo unless required):
+    3. 再度サンプルを実行します（必要な場合を除き sudo は使用しないでください）：
 
-After removing the conflicting ``RPi.GPIO`` files, the interrupt-based button example should work normally.
+ ``RPi.GPIO`` の競合ファイルを削除すると、割り込みベースのボタン例は正常に動作するようになります。
 
 
-**The installation script failed. What should I do?**
+**インストールスクリプトが失敗しました。どうすればよいですか？**
 
-    Ensure that your Raspberry Pi OS is up-to-date and that you have a stable
-    network connection during installation. Try running the setup script again.
-    If the issue persists, reboot the system and recheck your Python version.
+    Raspberry Pi OS が最新の状態であること、およびインストール中に安定したネットワーク接続があることを確認してください。  
+    セットアップスクリプトをもう一度実行してみてください。  
+    問題が解決しない場合は、システムを再起動し、Python のバージョンを再確認してください。
 
-**Python examples cannot run. What might be the cause?**
+**Python のサンプルが実行できません。原因は何ですか？**
 
-    This is usually related to missing Python libraries or incorrect
-    environment setup. Verify that the dependencies were installed
-    through the setup guide in :ref:`get_start`.
+    多くの場合、Python ライブラリが不足しているか、環境設定が正しくないことが原因です。  
+    :ref:`get_start` のセットアップガイドに従って依存関係がインストールされているか確認してください。
 
-**The camera is not detected.**
+**カメラが認識されません。**
 
-    Make sure the ribbon cable is firmly connected and not inserted backwards.
-    Also confirm that the camera interface is enabled in the Raspberry Pi
-    configuration settings.
+    リボンケーブルが正しく接続されているか、逆向きに挿入されていないか確認してください。  
+    また、Raspberry Pi の設定でカメラインターフェースが有効になっていることを確認してください。
 
-AI Features
+
+
+AI 機能
 -----------
 
-**LLM responses are slow or not returning.**
+**LLM の応答が遅い、または返ってこない。**
 
-    This often indicates poor internet connectivity or API-rate limits from
-    the selected model provider. Try switching networks or testing with a
-    different model.
+    インターネット接続が不安定であるか、使用しているモデルプロバイダーの API 制限に達している可能性があります。  
+    ネットワークを変更するか、別のモデルで試してみてください。
 
-**Speech-to-Text (STT) is inaccurate.**
+**Speech-to-Text (STT) の精度が低い。**
 
-    Check your microphone connection and reduce background noise. Some models
-    may require additional language packs or configuration adjustments.
+    マイクの接続を確認し、周囲のノイズを減らしてください。  
+    一部のモデルでは、追加の言語パックや設定の調整が必要な場合があります。
 
-**Show 'Error querying device -1' in the Vosk STT module.**
+**Vosk STT モジュールで 'Error querying device -1' が表示される。**
 
     .. code-block:: bash
 
@@ -111,45 +111,45 @@ AI Features
             raise PortAudioError(f'Error querying device {device}')
         sounddevice.PortAudioError: Error querying device -1
 
-    Please execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
+    音声設定を再構成するために、次のコマンドを実行してください： ``sudo /opt/setup_fusion_hat_audio.sh``
 
-Computer Vision / MediaPipe
----------------------------
+コンピュータビジョン / MediaPipe
+----------------------------------
 
-**OpenCV examples show errors when accessing the camera.**
+**OpenCV のサンプルでカメラアクセス時にエラーが表示される。**
 
-    Only one process can access the camera at a time. Ensure that no other
-    camera applications are running in the background.
+    カメラは同時に 1 つのプロセスのみが使用できます。  
+    バックグラウンドで他のカメラアプリケーションが動作していないか確認してください。
 
-**MediaPipe examples run slowly.**
+**MediaPipe のサンプルの動作が遅い。**
 
-    Real-time computer vision requires significant processing power. Consider
-    reducing the input resolution or closing other processes to free system
-    resources.
+    リアルタイムのコンピュータビジョン処理には高い処理能力が必要です。  
+    入力解像度を下げるか、他のプロセスを終了してシステムリソースを確保してください。
 
-**MediaPipe projects do not work on the latest Raspberry Pi OS.**
+**最新の Raspberry Pi OS で MediaPipe プロジェクトが動作しない。**
 
-    MediaPipe currently does not support the newest (Trixie version) Raspberry Pi system
-    releases due to dependency and architecture changes. Please use the legecy version
-    (Bookworm version) that supports all MediaPipe-based examples.
+    MediaPipe は依存関係およびアーキテクチャの変更により、  
+    最新の Raspberry Pi OS（Trixie）を現在サポートしていません。  
+    MediaPipe を使用する例では、**Legacy バージョン（Bookworm）** を使用してください。
 
-Hardware Issues
----------------
 
-**A component does not respond.**
+ハードウェアの問題
+--------------------
 
-    Recheck your wiring connections and ensure proper orientation.
-    Refer to the :ref:`cpn_list` section for pin descriptions and sample diagrams.
+**コンポーネントが反応しません。**
 
-**The device suddenly stops working.**
+    配線が正しいか、接続方向が正しいかを確認してください。  
+    ピンの説明や接続図については :ref:`cpn_list` を参照してください。
 
-    This may be caused by power instability. Please ensure your power supply
-    meets the recommended specifications for the Raspberry Pi model in use.
+**デバイスが突然動作しなくなりました。**
 
-Contact and Support
+    電源の不安定が原因の可能性があります。  
+    使用している Raspberry Pi モデルに推奨されている電源仕様を満たしているか確認してください。
+
+サポートについて
 -------------------
 
-**How can I get additional help?**
+**追加のサポートを受けるには？**
 
-    You may consult the documentation for detailed troubleshooting steps.
-    If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
+    まずはドキュメントのトラブルシューティング手順をご確認ください。  
+    ご質問がある場合は、 **service@sunfounder.com** までお気軽にお問い合わせください。サポートチームが対応いたします。

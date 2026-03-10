@@ -4,20 +4,21 @@
 
 .. _py_fun_10s:
 
-4.8 GAME - 10 Second Challenge
+4.8 GAME - 10秒チャレンジ
 =================================
 
-**Introduction**
+**はじめに**
 
-Test your focus and timing with the "10 Second Challenge" game! In this project, you'll create a magic wand by attaching a tilt switch to a stick. Shake the wand to start a timer on a 4-digit segment display. Shake it again to stop the timer. The goal is to stop the timer as close to **10.00 seconds** as possible. Compete with friends to see who is the ultimate time wizard!
+「10秒チャレンジ」ゲームで、あなたの集中力とタイミング感覚を試してみましょう！  
+このプロジェクトでは、傾斜スイッチを棒に取り付けて魔法の杖を作ります。杖を振ると、4桁のセグメントディスプレイ上でタイマーがスタートします。もう一度振るとタイマーが停止します。目標は、**10.00秒** にできるだけ近いところでタイマーを止めることです。誰が究極のタイムウィザードか、友達と競ってみましょう！
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Below is the list of components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -46,9 +47,9 @@ Below is the list of components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the schematic diagram for the "10 Second Challenge":
+以下は「10秒チャレンジ」の回路図です。
 
 .. image:: img/fzz/4.1.15_sch.png
    :width: 100%
@@ -59,9 +60,9 @@ Below is the schematic diagram for the "10 Second Challenge":
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Follow the wiring instructions shown below to set up the circuit:
+以下の配線図に従って回路を組み立ててください。
 
 
 .. image:: img/fzz/4.1.15_bb.png
@@ -71,11 +72,11 @@ Follow the wiring instructions shown below to set up the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -87,19 +88,19 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 4.8_GAME_10Second.py
 
-When the script runs:
+スクリプトを実行すると、次のように動作します。
 
-* Shake the wand to start the timer on the 4-digit segment display.
-* Shake the wand again to stop the timer.
-* If the timer reads 10.00 seconds, you win the round!
-* Shake the wand one more time to reset the game and start a new round.
+* 杖を振ると、4桁のセグメントディスプレイ上でタイマーがスタートします。
+* もう一度杖を振ると、タイマーが停止します。
+* タイマー表示が 10.00 秒なら、そのラウンドの勝ちです。
+* さらにもう一度杖を振ると、ゲームがリセットされ、新しいラウンドが始まります。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
 
-Here is the Python code for the project:
+以下は、このプロジェクトで使用する Python コードです。
 
 
 .. raw:: html
@@ -232,79 +233,79 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Button Input:**  
-   The tilt switch is connected to GPIO pin 22, which detects when the wand is shaken.
+1. **ボタン入力:**  
+   傾斜スイッチは GPIO22 に接続されており、杖が振られたことを検出します。
 
-2. **74HC595 Shift Register:**  
-   The shift register controls which digits are illuminated on the 7-segment display.
+2. **74HC595 シフトレジスタ:**  
+   シフトレジスタは、7セグメントディスプレイのどの桁を点灯させるかを制御します。
 
-3. **Timer Logic:**  
-   A threading timer increments the counter every 0.01 seconds, ensuring precise timing.
+3. **タイマー処理:**  
+   ``threading.Timer`` を使用して 0.01 秒ごとにカウンターを増加させ、高い精度で時間を計測します。
 
-4. **State Management:**  
-   The game switches between states (start, stop) based on button input, resetting the counter as needed.
+4. **状態管理:**  
+   ゲームはボタン入力に応じて状態（開始、停止）を切り替え、必要に応じてカウンターをリセットします。
 
-5. **Display Update:**  
-   The 7-segment display shows the timer value, formatted to two decimal places.
+5. **表示更新:**  
+   7セグメントディスプレイには、タイマーの値が小数点以下 2 桁まで表示されます。
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **7-Segment Display Not Showing Numbers**:
+1. **7セグメントディスプレイに数字が表示されない**:
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+   - **原因**: 配線ミス、または GPIO ピン設定の誤り。
+   - **対処方法**:
 
-     - Verify connections to the 74HC595 shift register and 7-segment display.
-     - Ensure the ``number`` segment codes match the display's configuration.
+     - 74HC595 シフトレジスタと 7 セグメントディスプレイの接続を確認してください。
+     - ``number`` のセグメントコードが、使用しているディスプレイの仕様に合っていることを確認してください。
 
-2. **Switch Tilts Not Detected**:
+2. **傾斜スイッチの動きが検出されない**:
 
-   - **Cause**: Tilt switch wiring or debounce issues.
-   - **Solution**:
+   - **原因**: 傾斜スイッチの配線不良、またはチャタリングの影響。
+   - **対処方法**:
 
-     - Confirm the tilt switch is connected to GPIO 22.
-     - Add a short debounce delay in the ``loop()`` function:
+     - 傾斜スイッチが GPIO22 に接続されていることを確認してください。
+     - ``loop()`` 関数内に短いデバウンス遅延を追加してください。
 
        .. code-block:: python
 
            time.sleep(0.05)
 
-3. **Counter Not Incrementing**:
+3. **カウンターが増加しない**:
 
-   - **Cause**: Timer function not starting correctly.
-   - **Solution**:
+   - **原因**: タイマー関数が正しく開始されていません。
+   - **対処方法**:
 
-     - Check the ``timer()`` function and ensure ``timer1.start()`` is called.
-     - Debug by printing the ``counter`` value inside ``timer()``.
+     - ``timer()`` 関数を確認し、 ``timer1.start()`` が呼び出されていることを確認してください。
+     - ``timer()`` の中で ``counter`` を表示してデバッグしてください。
 
-4. **Display Shows Incorrect Digits**:
+4. **ディスプレイに誤った数字が表示される**:
 
-   - **Cause**: Segment codes in the ``number`` list do not match the hardware.
-   - **Solution**: Test individual digits with static segment codes to verify the mapping.
-
-
-----------------------------------------------
-
-**Extendable Ideas**
-
-1. **Adjustable Timer Speed**: Add a mechanism to change the timer's increment rate (e.g., using a second button to switch between 0.01, 0.1, and 1-second increments).
-
-2. **Countdown Mode**: Implement a countdown mode where the counter starts at a predefined value and decrements to 0.
-
-3. **Pause and Resume**: Add a separate button to pause and resume the counter without resetting.
-
-4. **Audio Feedback**: Use a buzzer to emit beeps when the counter reaches certain milestones (e.g., multiples of 10).
-
+   - **原因**: ``number`` リスト内のセグメントコードが実際のハードウェア構成と一致していません。
+   - **対処方法**: 各数字を固定表示して、セグメントの対応関係を確認してください。
 
 
 ----------------------------------------------
 
+**拡張アイデア**
 
-**Conclusion**
+1. **タイマー速度の調整**: 2つ目のボタンを追加し、0.01 秒、0.1 秒、1 秒単位など、タイマーの増加速度を切り替えられるようにします。
 
-The "10 Second Challenge" demonstrates how simple components like a tilt switch and a 7-segment display can create an engaging interactive game. This project highlights the use of GPIO control, timers, and state management in Python, making it a fun and educational experience. Challenge yourself and your friends to achieve perfect timing!
+2. **カウントダウンモード**: あらかじめ設定した値から 0 まで減少するカウントダウンモードを実装します。
+
+3. **一時停止と再開**: 別のボタンを追加し、リセットせずにカウンターを一時停止・再開できるようにします。
+
+4. **音によるフィードバック**: カウンターが特定の節目（たとえば 10 の倍数）に到達したとき、ブザーで音を鳴らします。
+
+
+
+----------------------------------------------
+
+
+**まとめ**
+
+「10秒チャレンジ」は、傾斜スイッチや 7 セグメントディスプレイのようなシンプルな部品を使って、楽しいインタラクティブゲームを作れることを示しています。このプロジェクトでは、GPIO 制御、タイマー処理、状態管理を Python で扱う方法を学ぶことができ、楽しみながら実践的に理解を深められます。ぜひ自分自身や友達と競い合い、完璧なタイミングを目指してみてください。

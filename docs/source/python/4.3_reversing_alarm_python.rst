@@ -4,20 +4,20 @@
 
 .. _py_fun_alarm:
 
-4.3 Reversing Alarm
+4.3 バックアラーム
 ==============================
 
-**Introduction**
+**はじめに**
 
-Parking a car safely into a garage often requires careful navigation, especially in tight spaces. In this project, you’ll create a reversing alarm system using an ultrasonic sensor, and a buzzer. This system mimics the functionality of a real-world parking sensor, providing auditory feedback about the distance to obstacles.
+車をガレージに安全に駐車するには、特に狭い場所では慎重な操作が必要です。このプロジェクトでは、超音波センサーとブザーを使ってバックアラームシステムを作成します。このシステムは実際の駐車支援センサーのように動作し、障害物までの距離に応じて音でフィードバックを返します。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Below are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -47,9 +47,9 @@ Below are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The system uses an ultrasonic sensor to measure the distance to obstacles. The buzzer emits warning tones of varying frequency depending on the distance.
+このシステムでは、超音波センサーを使って障害物までの距離を測定します。ブザーは距離に応じて異なる頻度で警告音を出します。
 
 .. image:: img/fzz/4.1.6_sch.png
    :width: 100%
@@ -59,9 +59,9 @@ The system uses an ultrasonic sensor to measure the distance to obstacles. The b
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Follow this wiring diagram to set up your system:
+以下の配線図に従ってシステムを組み立ててください。
 
 
 .. image:: img/fzz/4.1.6_bb.png
@@ -72,11 +72,11 @@ Follow this wiring diagram to set up your system:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -88,24 +88,24 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 4.3_ReversingAlarm.py
 
-This Python script integrates an ultrasonic distance sensor and a buzzer to create a real-time distance monitoring system. When executed:
+このPythonスクリプトは、超音波距離センサーとブザーを組み合わせて、リアルタイム距離監視システムを構築します。実行すると、次のように動作します。
 
 
-1. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
+1. **距離測定**: 超音波センサーが前方の最も近い物体までの距離を測定し、その値をセンチメートルに変換します。
 
 
-2. **Buzzer Alerts**: Based on the measured distance:
+2. **ブザー警告**: 測定した距離に応じて次のように動作します。
 
-     - **More than 50 cm**: No buzzer sound.
-     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
-     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
+     - **50 cmより大きい**: ブザーは鳴りません。
+     - **20 cmから50 cmの間**: 短い間隔を空けて2回ブザーが鳴ります。
+     - **20 cm以下**: 接近を示すためにブザーがすばやく連続して鳴ります。
 
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
-Here is the Python code for the project:
+以下は、このプロジェクトで使用するPythonコードです。
 
 
 .. raw:: html
@@ -176,9 +176,9 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Distance Measurement:** The ultrasonic sensor calculates the distance.
+1. **距離測定:** 超音波センサーが距離を計算します。
 
    .. code-block:: python
 
@@ -191,11 +191,11 @@ Here is the Python code for the project:
             print(f"Distance: {dis:.2f} cm")
             return dis
 
-2. **Auditory Alerts:** The buzzer's frequency changes based on the proximity of obstacles:
+2. **音による警告:** 障害物との距離に応じて、ブザーの鳴り方が変化します。
 
-   * **>50 cm:** No sound.
-   * **20-50 cm:** Beeps twice with medium intervals.
-   * **≤20 cm:** Rapid beeping for urgent warning.
+   * **50 cm超:** 音は鳴りません。
+   * **20〜50 cm:** 中程度の間隔で2回鳴ります。
+   * **20 cm以下:** 緊急警告としてすばやく連続して鳴ります。
 
    .. code-block:: python
 
@@ -219,23 +219,23 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Distance Not Measured**:
+1. **距離が測定されない**:
 
-   - **Cause**: Incorrect wiring or sensor malfunction.
-   - **Solution**:
+   - **原因**: 配線ミス、またはセンサーの故障。
+   - **対処方法**:
 
-     - Ensure the ultrasonic sensor's ``echo`` and ``trigger`` pins are connected to GPIO 22 and GPIO 27, respectively.
-     - Test the sensor independently to confirm functionality.
+     - 超音波センサーの ``echo`` ピンと ``trigger`` ピンが、それぞれ GPIO22 と GPIO27 に接続されていることを確認してください。
+     - センサー単体でテストし、正常に動作することを確認してください。
 
-2. **Buzzer Does Not Sound**:
+2. **ブザーが鳴らない**:
 
-   - **Cause**: Buzzer not connected or faulty.
-   - **Solution**:
+   - **原因**: ブザーが接続されていない、または故障している。
+   - **対処方法**:
 
-     - Verify the buzzer is connected to GPIO 17 and ground.
-     - Test the buzzer by turning it on manually:
+     - ブザーが GPIO17 と GND に正しく接続されていることを確認してください。
+     - 次のコードでブザーを手動テストしてください。
        
        .. code-block:: python
 
@@ -245,22 +245,22 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Adjustable Alert Thresholds**: Allow users to set custom distance thresholds for the buzzer alerts.
+1. **警告しきい値の調整**: ブザー警告の距離しきい値をユーザーが自由に設定できるようにします。
 
-2. **Data Logging**: Log distance measurements to a file for later analysis:
+2. **データログ記録**: 距離測定値をファイルに保存して後で分析できます。
 
    .. code-block:: python
 
       with open("distance_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, {dis:.2f} cm\n")
 
-3. **Visual Alerts**: Use LEDs of different colors to indicate proximity levels (e.g., green for safe, yellow for caution, red for danger).
+3. **視覚的な警告**: 距離レベルに応じて色の異なるLEDを使用します（例：安全は緑、注意は黄、危険は赤）。
 
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates a practical application of ultrasonic sensors, combining auditory feedback for an intuitive reversing alarm system. Such systems are valuable in vehicles and robotics, offering insights into proximity detection and IoT integrations. Extend its functionality to suit your innovative ideas!
+このプロジェクトでは、超音波センサーを活用した実用的なバックアラームシステムを紹介しました。音によるフィードバックを組み合わせることで、直感的に距離を把握できます。このようなシステムは車両やロボティクス分野で非常に有用であり、近接検知やIoT連携の理解にも役立ちます。ぜひ機能を拡張し、独自のアイデアに発展させてください。

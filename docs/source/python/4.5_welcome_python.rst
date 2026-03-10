@@ -8,17 +8,18 @@
 4.5 Welcome
 ==============================
 
-**Introduction**
+**はじめに**
 
-Have you ever noticed the automatic doors in convenience stores that open with a welcoming chime when someone approaches? This project replicates that functionality on a smaller scale. Using a PIR sensor, servo motor, LED, and buzzer, you’ll create a miniature "automatic door" system. When motion is detected, the system lights an LED, "opens" the door using a servo, and plays a welcoming chime with a buzzer.
+コンビニエンスストアの自動ドアが、人が近づくとチャイムとともに開くのを見たことはありませんか？  
+このプロジェクトでは、その仕組みを小規模に再現します。PIR センサー、サーボモーター、LED、ブザーを使って、ミニチュアの「自動ドア」システムを作成します。動きを検出すると、システムは LED を点灯し、サーボでドアを「開け」、さらにブザーで歓迎音を鳴らします。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Below are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -52,9 +53,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the circuit diagram for this project:
+以下は、このプロジェクトの回路図です。
 
 .. image:: img/fzz/4.1.5_sch.png
    :width: 100%
@@ -65,9 +66,9 @@ Below is the circuit diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Follow the wiring diagram to assemble the circuit:
+以下の配線図に従って回路を組み立ててください。
 
 
 .. image:: img/fzz/4.1.5_bb.png
@@ -77,7 +78,7 @@ Follow the wiring diagram to assemble the circuit:
 
 .. note::
 
-   Adjust the potentiometers on the PIR sensor module for optimal sensitivity and detection range. Rotate both potentiometers fully counterclockwise for best performance.
+   最適な感度と検出範囲を得るために、PIR センサーモジュール上の可変抵抗を調整してください。最適な動作のため、両方の可変抵抗を反時計回りいっぱいまで回してください。
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 300
@@ -86,11 +87,11 @@ Follow the wiring diagram to assemble the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -105,9 +106,9 @@ Follow these steps to run the example:
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
-Below is the Python script for the project:
+以下は、このプロジェクトで使用する Python スクリプトです。
 
 
 
@@ -194,78 +195,78 @@ Below is the Python script for the project:
       buzPin.off()
       ledPin.off()
 
-This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer to create an automated welcoming system. When executed:
+この Python スクリプトは、PIR モーションセンサー、サーボモーター、LED、ブザーを組み合わせて、自動歓迎システムを作成します。実行すると、次のように動作します。
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO pin 22 detects motion.
+1. **動きの検出**: GPIO22 に接続された PIR モーションセンサーが動きを検出します。
 
-2. **Door Automation**: When motion is detected:
+2. **ドアの自動動作**: 動きが検出されると、次の動作が実行されます。
 
-     - The servo motor (on PWM 4) opens a door by moving from 0° to 180°.
-     - The LED (on GPIO pin 17) turns on.
-     - A welcoming chime is played through the buzzer (on PWM 0).
-     - The servo motor closes the door by moving back from 180° to 0°.
-     - The LED turns off.
+     - サーボモーター（PWM 4）が 0° から 180° まで動いてドアを開きます。
+     - LED（GPIO17）が点灯します。
+     - ブザー（PWM 0）で歓迎音が鳴ります。
+     - その後、サーボモーターが 180° から 0° に戻ってドアを閉じます。
+     - LED が消灯します。
 
-3. **Continuous Monitoring**: The system continuously monitors for motion and triggers the above sequence whenever motion is detected.
+3. **継続的な監視**: システムは常に動きを監視し、動きが検出されるたびに上記の動作を繰り返します。
 
-4. **Graceful Exit**: On ``Ctrl+C``, the buzzer and LED are turned off, and the script exits cleanly.
-
-
-----------------------------------------------
-
-**Understanding the Code**
-
-1. **Motion Detection:** The PIR sensor detects motion and triggers the system.
-
-2. **Servo Control:** The servo motor opens and closes the door using angles from 0° to 180°.
-
-3. **Buzzer Melody:** A welcoming tune is played using the ``Buzzer``.
-
-4. **Reset:** After the chime, the system closes the door and turns off the LED, ready for the next event.
-
+4. **安全な終了**: ``Ctrl+C`` を押すと、ブザーと LED をオフにしてスクリプトを安全に終了します。
 
 
 ----------------------------------------------
 
+**コードの解説**
 
-**Troubleshooting**
+1. **動きの検出:** PIR センサーが動きを検出し、システムを動作させます。
 
-1. **Motion Not Detected**:
+2. **サーボ制御:** サーボモーターは 0° から 180° まで動いてドアを開き、その後元に戻ってドアを閉じます。
 
-   - **Cause**: PIR sensor not wired correctly or environmental interference.
-   - **Solution**:
+3. **ブザーのメロディ:** ``Buzzer`` を使って歓迎メロディを再生します。
 
-     - Ensure the PIR sensor is connected to GPIO pin 22, power, and ground.
-     - Adjust the sensor's sensitivity and delay potentiometers if available.
+4. **リセット:** チャイム再生後、システムはドアを閉じて LED を消灯し、次の検出に備えます。
 
-2. **Servo Not Moving**:
 
-   - **Cause**: Incorrect servo configuration or power supply issues.
-   - **Solution**:
-
-     - Verify the servo is connected to P4 and powered correctly.
-
-3. **Chime Not Playing**:
-
-   - **Cause**: Buzzer misconfiguration or incorrect tune format.
-   - **Solution**:
-
-     - Ensure the buzzer is connected to P0.
-     - Verify the ``tune`` list contains valid note and duration pairs.
-
-4. **LED Not Turning On**:
-
-   - **Cause**: LED wiring or GPIO configuration issues.
-   - **Solution**: Verify the LED is connected to GPIO pin 17 with an appropriate resistor.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**トラブルシューティング**
 
-1. **Adjustable Chime**: Add more melodies or allow the user to select different chimes for different events.
+1. **動きが検出されない**:
 
-2. **Time-Based Operation**: Disable the system during specific hours (e.g., at night):
+   - **原因**: PIR センサーの配線ミス、または周囲環境による干渉。
+   - **対処方法**:
+
+     - PIR センサーが GPIO22、電源、GND に正しく接続されていることを確認してください。
+     - 必要に応じて、センサーの感度や遅延時間の可変抵抗を調整してください。
+
+2. **サーボが動かない**:
+
+   - **原因**: サーボ設定の誤り、または電源供給の問題。
+   - **対処方法**:
+
+     - サーボが P4 に接続され、正しく給電されていることを確認してください。
+
+3. **チャイムが鳴らない**:
+
+   - **原因**: ブザー設定の誤り、またはメロディデータの形式が正しくない。
+   - **対処方法**:
+
+     - ブザーが P0 に接続されていることを確認してください。
+     - ``tune`` リストに有効な音階と時間の組が含まれていることを確認してください。
+
+4. **LED が点灯しない**:
+
+   - **原因**: LED の配線、または GPIO 設定の問題。
+   - **対処方法**: LED が適切な抵抗を介して GPIO17 に接続されていることを確認してください。
+
+----------------------------------------------
+
+
+**拡張アイデア**
+
+1. **チャイムの変更**: より多くのメロディを追加したり、イベントごとに異なるチャイムを選べるようにします。
+
+2. **時間帯による制御**: 特定の時間帯（たとえば夜間）にはシステムを無効化します。
 
      .. code-block:: python
 
@@ -273,18 +274,18 @@ This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer 
          if 8 <= datetime.now().hour < 22:  # Operate only between 8 AM and 10 PM
              opendoor()
 
-3. **Data Logging**: Log motion detection events and timestamps to a file for analysis:
+3. **データログ記録**: 動き検出のイベントと時刻をファイルに保存して分析できるようにします。
 
      .. code-block:: python
 
          with open("motion_log.txt", "a") as log_file:
              log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - Motion detected\n")
 
-4. **Voice Greetings**: Replace the buzzer chime with pre-recorded voice messages using a speaker.
+4. **音声によるあいさつ**: ブザーのチャイムの代わりに、スピーカーを使って録音済みの音声メッセージを再生します。
 
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project replicates the functionality of automatic doors in a fun and educational way. It introduces concepts like motion detection, servo control, and sound generation, making it a great entry point for IoT and automation projects. Try expanding it by adding features like remote notifications or cloud integration for real-time monitoring.
+このプロジェクトでは、自動ドアの仕組みを楽しく学べる形で再現しました。動き検出、サーボ制御、音の出力といった基本要素を扱うため、IoT や自動化プロジェクトの入門として最適です。リモート通知やクラウド連携などの機能を追加して、リアルタイム監視システムへ発展させてみてください。

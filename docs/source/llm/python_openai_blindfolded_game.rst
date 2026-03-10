@@ -4,18 +4,18 @@
    
 .. _py_blindfolded_watermelon_game:
 
-(Example) Blindfolded Watermelon Smashing Game
+(Example) 目隠しスイカ割りゲーム
 ====================================================
 
-**Introduction**
+**はじめに**
 
-This project creates an interactive **Blindfolded Watermelon Smashing Game** where players navigate a 20×20 meter grid using a joystick while relying on an AI assistant for directional guidance. The system integrates:
+このプロジェクトでは、インタラクティブな **目隠しスイカ割りゲーム** を作成します。プレイヤーはジョイスティックで 20×20 メートルのグリッド上を移動し、AI アシスタントの音声ガイドだけを頼りに方向を判断します。システムは次の要素で構成されます：
 
-1. **Joystick controls** for player movement on X/Y axes
-2. **AI-powered guidance** using OpenAI's GPT-4
-3. **Text-to-speech feedback** using Pico2Wave
-4. **Random target generation** for watermelon placement
-5. **Interactive button** for smashing actions
+1. X/Y 軸によるプレイヤー移動の **ジョイスティック操作**
+2. OpenAI の GPT-4 による **AIガイダンス**
+3. Pico2Wave による **Text-to-Speech フィードバック**
+4. スイカ位置の **ランダム生成**
+5. スマッシュ動作のための **ボタン入力**
 
 .. raw:: html
 
@@ -24,9 +24,9 @@ This project creates an interactive **Blindfolded Watermelon Smashing Game** whe
           Your browser does not support the video tag.
       </video>
 
-The player starts at the center (0,0) and must find a randomly placed watermelon using only audio directions from the AI assistant, creating an engaging sensory-deprived gaming experience.
+プレイヤーは中心点 (0,0) からスタートし、AI アシスタントが音声で提示する方向情報だけを手がかりに、ランダムに配置されたスイカを探します。視覚を使わない没入型のゲーム体験を楽しめます。
 
-You can combine various input devices with LLM modules to create interactive AI games. See:
+さまざまな入力デバイスと LLM モジュールを組み合わせることで、インタラクティブな AI ゲームを作成できます。以下も参照してください：
 
 * :ref:`py_online_llm` 
 * :ref:`tts_espeak_pico2wave`
@@ -34,9 +34,9 @@ You can combine various input devices with LLM modules to create interactive AI 
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -57,9 +57,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the components to the Fusion HAT+ as follows:
+以下のように部品を Fusion HAT+ に接続します：
 
 .. image:: img/fzz/watermelon_game_bb.png
    :width: 80%
@@ -75,9 +75,9 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**サンプルの実行**
 
-#. Run the code
+#. コードを実行する
 
    .. raw:: html
 
@@ -88,44 +88,44 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_blindfolded_game.py
 
-#. Play the game
+#. ゲームをプレイする
 
-   After the script starts, the game will randomly place a watermelon on the 20×20 meter field.
-   Use the joystick to move step by step, and listen to the AI assistant for direction guidance.
+   スクリプトを起動すると、ゲームは 20×20 メートルのフィールド内にスイカをランダムに配置します。  
+   ジョイスティックで 1 歩ずつ移動し、AI アシスタントの方向ガイダンスを聞きながら進めてください。
 
-   When you think you have reached the watermelon position, press the button to smash.
-   If your coordinates match the watermelon exactly, you win the game.
+   スイカの位置に到達したと思ったら、ボタンを押してスマッシュします。  
+   現在座標がスイカ座標と完全一致していれば、ゲームに勝利します。
 
-#. Understand the game mechanics
+#. ゲームの仕組みを理解する
 
-   * Coordinate System:
+   * 座標系：
 
-     - The game field is a 20×20 meter grid
-     - Coordinates range from (-10,-10) to (10,10)
-     - Positive X = East, Negative X = West
-     - Positive Y = South, Negative Y = North (inverted Y-axis)
-     - Center point is (0,0)
+     - ゲームフィールドは 20×20 メートルのグリッド
+     - 座標範囲は (-10,-10) から (10,10)
+     - 正の X = 東、負の X = 西
+     - 正の Y = 南、負の Y = 北（Y軸が反転）
+     - 中心点は (0,0)
 
-   * Movement Rules:
+   * 移動ルール：
 
-     - Joystick right → X+1 (East)
-     - Joystick left → X-1 (West)
-     - Joystick up → Y-1 (North)
-     - Joystick down → Y+1 (South)
-     - Each movement changes position by 1 meter
+     - ジョイスティック右 → X+1（東）
+     - ジョイスティック左 → X-1（西）
+     - ジョイスティック上 → Y-1（北）
+     - ジョイスティック下 → Y+1（南）
+     - 1 回の移動で 1 メートル進む
 
-   * Winning Condition:
+   * 勝利条件：
 
-     - Player must be at exact watermelon coordinates
-     - Press button to "smash" at current position
-     - Exact match ends game with victory message
+     - プレイヤーがスイカ座標に完全一致している必要がある
+     - ボタンを押して現在位置で「スマッシュ」する
+     - 完全一致で勝利メッセージを表示して終了
 
-   * AI Assistant Role:
+   * AI アシスタントの役割：
 
-     - Receives both player and watermelon coordinates
-     - Provides cardinal direction guidance (N, NE, E, SE, S, SW, W, NW)
-     - Gives distance approximation in meters
-     - Keeps responses brief for audio playback
+     - プレイヤー座標とスイカ座標の両方を受け取る
+     - 方角（N, NE, E, SE, S, SW, W, NW）で誘導する
+     - 距離の目安（メートル）を提示する
+     - 音声再生のため、回答は短く保つ
 
 
 **Code**
@@ -246,22 +246,22 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. Text-to-Speech Setup
+1. Text-to-Speech の設定
 
-   The game uses Pico2Wave for audio feedback:
+   ゲームでは Pico2Wave を音声フィードバックに使用します：
    
    .. code-block:: python
    
       tts = Pico2Wave()
       tts.set_lang('en-US')
    
-   This converts the AI's text responses into spoken English instructions.
+   これにより、AI のテキスト応答が英語音声の指示として読み上げられます。
 
-2. Joystick Input Handling
+2. ジョイスティック入力の処理
 
-   The joystick uses two ADC channels for X and Y axis reading:
+   ジョイスティックは X/Y 軸の読み取りに 2 つの ADC チャンネルを使用します：
    
    .. code-block:: python
    
@@ -275,9 +275,9 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       x_val = MAP(x_axis.read(), 0, 4095, -100, 100)
       y_val = MAP(y_axis.read(), 0, 4095, -100, 100)
 
-3. Button Setup with Interrupt
+3. 割り込みによるボタン設定
 
-   The button uses an interrupt callback for immediate response:
+   ボタンは割り込みコールバックにより即時反応します：
    
    .. code-block:: python
    
@@ -289,11 +289,11 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
               
       btn_pin.when_activated = activate
    
-   When pressed, it sets ``smash_tips`` to ``True``, triggering the smash action in the main loop.
+   押下されると ``smash_tips`` が ``True`` になり、メインループでスマッシュ動作が実行されます。
 
-4. OpenAI LLM Configuration
+4. OpenAI LLM の設定
 
-   The AI assistant is configured with specific game instructions:
+   AI アシスタントはゲーム用の指示文で構成されます：
    
    .. code-block:: python
    
@@ -309,9 +309,9 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       llm.set_instructions(INSTRUCTIONS)  # Set game rules
       llm.set_welcome(WELCOME)       # Set initial greeting
 
-5. Game State Management
+5. ゲーム状態の管理
 
-   The game maintains player and target positions:
+   ゲームはプレイヤー位置とターゲット位置を保持します：
    
    .. code-block:: python
    
@@ -332,9 +332,9 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       elif y_val < -80:
           player_y += 1      # Move down (positive Y)
 
-6. Smash Action and AI Response
+6. スマッシュ動作と AI 応答
 
-   When the button is pressed, the game checks for a hit or requests AI guidance:
+   ボタンが押されると、命中判定を行い、外れた場合は AI へガイダンスを要求します：
    
    .. code-block:: python
    
@@ -361,9 +361,9 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
               print("AI: " + string)
               tts.say(string)  # Speak the guidance
 
-7. Streaming Response Processing
+7. ストリーミング応答の処理
 
-   The AI response is processed word-by-word for potential real-time display:
+   AI の応答は、リアルタイム表示に対応できるよう単語（トークン）単位で処理されます：
    
    .. code-block:: python
    
@@ -376,9 +376,9 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
               # print(next_word, end="", flush=True)
               string += next_word
 
-8. Movement Logic with Dead Zone
+8. デッドゾーン付きの移動ロジック
 
-   The joystick has an 80-unit dead zone to prevent accidental movements:
+   ジョイスティックには誤動作を防ぐため、80 ユニットのデッドゾーンがあります：
    
    .. code-block:: python
    
@@ -390,56 +390,56 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
       if y_val > 80:    # Up
       elif y_val < -80: # Down
 
-9. Game Loop Structure
+9. ゲームループの構造
 
-   The main game loop continuously:
+   メインループは継続的に次を実行します：
    
-   1. Reads joystick position
-   2. Updates player coordinates if joystick is pushed
-   3. Checks for smash button press
-   4. Processes AI responses when needed
-   5. Provides audio feedback via TTS
+   1. ジョイスティック位置の読み取り
+   2. ジョイスティックが押された場合の座標更新
+   3. スマッシュボタン押下の確認
+   4. 必要に応じて AI 応答の取得と処理
+   5. TTS による音声フィードバック
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-- No response from joystick
+- ジョイスティックが反応しない
 
-  - Verify ADC connections: A0 for Y-axis, A1 for X-axis
-  - Check power: VCC to 3.3V, GND to ground
-  - Test ADC reading: ``print(x_axis.read())`` should show 0-4095
-  - Ensure joystick is centered (should read ~2048)
-
-
-- No audio from TTS
-
-  - Check audio output: ``sudo raspi-config`` → **System Options** → **Audio**
-  - Test speaker: ``speaker-test -t sine -f 440``
-  - Ensure Pico2Wave is installed: ``pico2wave --help``
-  - Check volume: ``alsamixer``
-  - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
-
-- OpenAI API errors
-
-  - Verify API key in ``secret.py``
-  - Check internet connection: ``ping 8.8.8.8``
-  - Ensure billing is enabled on OpenAI account
-  - Verify model "gpt-4o" is available to your account
-
-- Player moves too fast/slow
-
-  - Adjust movement threshold (currently 80): higher = more joystick deflection needed
-  - Modify movement increment (currently 1): change to 0.5 for finer control
-  - Adjust sleep time (currently 0.3s): longer = slower movement response
+  - ADC 配線を確認：Y 軸は A0、X 軸は A1
+  - 電源を確認：VCC は 3.3V、GND はグラウンドへ
+  - ADC 読み取りテスト： ``print(x_axis.read())`` が 0〜4095 を表示すること
+  - ジョイスティックが中央に戻っていること（~2048 付近になるはず）
 
 
-- AI responses too long
+- TTS から音が出ない
 
-  - Emphasize brevity in INSTRUCTIONS
-  - Add "Respond in 10 words or less" to instructions
-  - Implement response length checking in code
+  - 音声出力を確認： ``sudo raspi-config`` → **System Options** → **Audio**
+  - スピーカーテスト： ``speaker-test -t sine -f 440``
+  - Pico2Wave のインストール確認： ``pico2wave --help``
+  - 音量確認： ``alsamixer``
+  - 音声セットアップスクリプトを再実行： ``sudo /opt/setup_fusion_hat_audio.sh``
+
+- OpenAI API エラー
+
+  - ``secret.py`` の API キーを確認
+  - ネット接続確認： ``ping 8.8.8.8``
+  - OpenAI アカウントで課金が有効になっていること
+  - モデル "gpt-4o" がアカウントで利用可能であること
+
+- プレイヤーの移動が速すぎる／遅すぎる
+
+  - 移動しきい値（現在 80）を調整：大きいほど強く倒さないと移動しない
+  - 移動量（現在 1）を調整：0.5 にすればより細かい制御が可能
+  - sleep 時間（現在 0.3s）を調整：長くすると反応が遅くなる
+
+
+- AI の回答が長すぎる
+
+  - INSTRUCTIONS で短さを強調する
+  - 指示に "Respond in 10 words or less" を追加する
+  - コード側で応答長をチェックする
 
 ----------------------------------------------
 
-This blindfolded watermelon game demonstrates how physical controls, AI guidance, and audio feedback can create an engaging sensory-based gaming experience that challenges spatial awareness and listening skills!
+この目隠しスイカ割りゲームは、物理入力、AI の誘導、音声フィードバックを組み合わせることで、空間認識と聴覚を頼りに挑戦する、感覚ベースの没入型ゲーム体験を実現できることを示しています！

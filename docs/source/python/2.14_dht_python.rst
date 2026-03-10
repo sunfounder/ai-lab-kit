@@ -7,17 +7,17 @@
 2.14 DHT-11
 ================
 
-**Introduction**
+**はじめに**
 
-In this lesson, you will learn how to connect and read data from a DHT11 temperature and humidity sensor using a Raspberry Pi. The DHT11 is a reliable, low-cost digital sensor used in various applications, such as weather monitoring and environmental control. This project introduces you to interfacing with external sensors, handling real-time data, and basic exception handling in Python. By the end, you will know how to read temperature (in both Celsius and Fahrenheit) and humidity values.
+このレッスンでは、Raspberry Piを使用してDHT11温湿度センサーを接続し、データを読み取る方法を学びます。DHT11は、気象観測や環境制御など、さまざまな用途で使用される、信頼性が高く低コストなデジタルセンサーです。このプロジェクトでは、外部センサーとの接続方法、リアルタイムデータの処理、そしてPythonにおける基本的な例外処理を学びます。最終的には、温度（摂氏および華氏）と湿度の値を読み取れるようになります。
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -38,9 +38,9 @@ Here are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the schematic diagram for connecting the DHT11 sensor:
+以下は、DHT11センサーを接続するための回路図です。
 
 .. image:: img/fzz/2.2.3_sch.png
    :width: 80%
@@ -51,9 +51,9 @@ Below is the schematic diagram for connecting the DHT11 sensor:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Build the circuit as shown in the wiring diagram below:
+以下の配線図を参考に回路を組み立ててください。
 
 .. image:: img/fzz/2.2.3_bb.png
    :width: 80%
@@ -62,11 +62,11 @@ Build the circuit as shown in the wiring diagram below:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順に従ってサンプルを実行してください。
 
 .. raw:: html
 
@@ -77,18 +77,18 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.14_DHT.py
 
-This Python script reads temperature and humidity data from a DHT11 sensor connected to a Fusion HAT+ using GPIO pin 17. When executed:
+このPythonスクリプトは、GPIO17を使用してFusion HAT+に接続されたDHT11センサーから温度と湿度のデータを読み取ります。実行すると、次のように動作します。
 
-1. Data is printed to the console every 1 seconds, providing real-time updates.
-2. If the data reading is not successful, the script outputs “time out” , indicating an error in data reading.
+1. データは1秒ごとにコンソールへ表示され、リアルタイムで更新されます。
+2. データの読み取りに失敗した場合は、 ``time out`` と表示され、読み取りエラーであることを示します。
 
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
 
-Below is the Python code used for this project:
+以下は、このプロジェクトで使用するPythonコードです。
 
 
 .. raw:: html
@@ -126,9 +126,9 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Import:**
+1. **インポート:**
 
    .. code-block:: python
 
@@ -137,17 +137,17 @@ Below is the Python code used for this project:
       # Import sleep function for delays
       from time import sleep
 
-   These lines import the necessary modules for the script.
+   これらの行では、このスクリプトに必要なモジュールをインポートしています。
 
-2. **Sensor Initialization:**
+2. **センサーの初期化:**
 
    .. code-block:: python
 
       dht11 = DHT11(pin=17)
 
-   This line initializes the DHT11 sensor on GPIO pin 17.
+   この行では、GPIO17に接続されたDHT11センサーを初期化しています。
 
-3. **Data Reading:**
+3. **データの読み取り:**
 
    .. code-block:: python
 
@@ -160,37 +160,37 @@ Below is the Python code used for this project:
             print("time out")
          sleep(1)
 
-   The ``read`` method sends a start signal to the DHT11.
+   ``read`` メソッドは、DHT11に開始信号を送信してデータを取得します。
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **No Output or Constant 0.0°C and 0.0% Values**:
+1. **何も表示されない、または常に0.0°Cと0.0%が表示される**:
 
-   - **Cause**: Sensor connection issues.
-   - **Solution**: Ensure the DHT11 sensor is properly connected to GPIO pin 17, power, and ground.
+   - **原因**: センサーの接続に問題がある可能性があります。
+   - **対処方法**: DHT11センサーがGPIO17、電源、GNDに正しく接続されていることを確認してください。
 
-2. **Script Crashes with ValueError**:
+2. **スクリプトがValueErrorでクラッシュする**:
 
-   - **Cause**: Corrupt or incomplete data from the sensor.
-   - **Solution**: Check for stable connections and ensure the DHT11 is functioning properly. Ensure the data line is not noisy or floating.
+   - **原因**: センサーからのデータが破損している、または不完全である可能性があります。
+   - **対処方法**: 接続が安定していることを確認し、DHT11が正常に動作していることを確認してください。また、データラインにノイズが入っていないこと、信号が浮いていないことも確認してください。
 
-3. **High CPU Usage**:
+3. **CPU使用率が高い**:
 
-   - **Cause**: Continuous polling of the GPIO pin without delays.
-   - **Solution**: The code already has built-in delays (e.g., ``time.sleep(2)``). Ensure these are not removed.
+   - **原因**: GPIOピンを待機なしで連続的にポーリングしている可能性があります。
+   - **対処方法**: このコードにはすでに遅延（例: ``time.sleep(2)``）が含まれています。これらを削除しないようにしてください。
 
-4. **Incorrect Temperature or Humidity Values**:
+4. **温度や湿度の値が正しくない**:
 
-   - **Cause**: Calibration issue or sensor malfunction.
-   - **Solution**: Test the DHT11 in a controlled environment to verify accuracy. Replace the sensor if the issue persists.
+   - **原因**: キャリブレーションの問題、またはセンサーの故障。
+   - **対処方法**: DHT11を安定した環境でテストし、精度を確認してください。問題が続く場合はセンサーを交換してください。
 
-5. **Script Does Not Exit Gracefully**:
+5. **スクリプトが安全に終了しない**:
 
-   - **Cause**: The script lacks proper exception handling for manual interruptions.
-   - **Solution**: Wrap the main loop in a ``try...except KeyboardInterrupt`` block to allow clean termination.
+   - **原因**: 手動中断に対する適切な例外処理が実装されていません。
+   - **対処方法**: メインループを ``try...except KeyboardInterrupt`` ブロックで囲むことで、安全に終了できるようにします。
 
    .. code-block:: python
 
@@ -205,9 +205,9 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Data Logging**: Save the temperature and humidity readings to a file for analysis:
+1. **データログ記録**: 温度と湿度の読み取り値をファイルに保存して分析できます。
   
   .. code-block:: python
 
@@ -215,7 +215,7 @@ Below is the Python code used for this project:
           log_file.write(f"{time.time():.3f}, {temperature}°C, {humidity}%\n")
 
 
-2. **Threshold-Based Alerts**: Trigger an alert when the temperature or humidity exceeds specific thresholds:
+2. **しきい値アラート**: 温度や湿度が設定したしきい値を超えたときに警告を出すことができます。
   
   .. code-block:: python
 
@@ -226,6 +226,6 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to interface with the DHT11 temperature and humidity sensor using a Fusion HAT+. By understanding how to read and process sensor data, you can integrate such sensors into various practical applications, from weather stations to automated climate control systems.
+このプロジェクトでは、Fusion HAT+を使用してDHT11温湿度センサーと接続する方法を学びました。センサーデータの読み取りと処理の方法を理解することで、気象観測システムから自動気候制御システムまで、さまざまな実用的アプリケーションにこの種のセンサーを組み込めるようになります。

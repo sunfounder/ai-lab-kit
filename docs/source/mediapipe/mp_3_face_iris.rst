@@ -4,72 +4,72 @@
 
 .. _mp_face_iris:
 
-3. Facial Contours and Iris Detection
+3. 顔輪郭と虹彩検出（Facial Contours and Iris Detection）
 =================================================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-In the previous sections, we implemented basic face mesh detection
-and simple emotion recognition.
+これまでのセクションでは、基本的な Face Mesh 検出と  
+シンプルな表情認識を実装しました。
 
-This section focuses on the detailed feature connection methods
-provided by MediaPipe FaceMesh:
+このセクションでは、MediaPipe FaceMesh が提供する  
+より詳細な特徴接続方法に焦点を当てます：
 
-- ``FACEMESH_CONTOURS`` — Draws facial contour lines
-  (face edges and outer feature boundaries)
+- ``FACEMESH_CONTOURS`` — 顔の輪郭線を描画  
+  （顔の外周や主要な特徴の境界）
 
-- ``FACEMESH_IRISES`` — Draws iris regions of both eyes
+- ``FACEMESH_IRISES`` — 両目の虹彩領域を描画
 
-By drawing only contours and iris regions, the visualization becomes
-cleaner and more lightweight. This is useful for:
+輪郭と虹彩のみを描画することで、可視化がよりシンプルで軽量になります。  
+これは次のような用途に適しています：
 
-- Facial feature extraction
-- Eye tracking
-- Pupil tracking
-- Gaze interaction
+- 顔特徴の抽出
+- 視線追跡
+- 瞳孔追跡
+- 視線インタラクション
 
 .. image:: img/mp_face_iris.png
    :align: center
 
 ------------------------------------------------------------
-2. How it Works
+2. 動作原理
 ------------------------------------------------------------
 
-The program performs the following steps:
+プログラムは次の手順で処理を行います：
 
-1. Initialize the MediaPipe FaceMesh model.
-2. Capture video frames from the Raspberry Pi camera.
-3. Convert the image to RGB format (required by MediaPipe).
-4. Draw facial contour lines using ``FACEMESH_CONTOURS``.
-5. Draw iris landmarks using ``FACEMESH_IRISES``.
-6. Display only key areas for clearer visualization.
+1. MediaPipe FaceMesh モデルを初期化する  
+2. Raspberry Pi カメラから動画フレームを取得する  
+3. 画像を RGB 形式に変換する（MediaPipe の要求）  
+4. ``FACEMESH_CONTOURS`` を使用して顔の輪郭線を描画する  
+5. ``FACEMESH_IRISES`` を使用して虹彩ランドマークを描画する  
+6. 主要部分のみを表示して、より見やすい可視化を行う  
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルト機構が組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_face_iris.py
 
-#. After running the program, a video window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのビデオウィンドウが開き、カメラのライブ映像が表示されます。
 
    .. raw:: html
    
@@ -78,26 +78,28 @@ The program performs the following steps:
              Your browser does not support the video tag.
          </video>
          
-   When a face appears in front of the camera:
-   
-   - MediaPipe detects facial landmarks in real time.
-   - Only the facial contour lines are drawn (face outline, eyebrows, lips, etc.).
-   - The iris regions of both eyes are highlighted with circular landmark connections.
-   
-   Unlike the full face mesh, the screen shows only key contours and iris features, making the visualization cleaner and less crowded.
-   
-   As the user moves their head or eyes:
-   
-   - The contour lines follow the face smoothly.
-   - The iris landmarks track eye movement in real time.
-   
-   If no face is detected, the window continues displaying the normal camera feed without annotations.
-   
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   カメラの前に顔が現れると：
+
+   - MediaPipe が顔ランドマークをリアルタイムで検出します。  
+   - 顔の輪郭線（顔の外周、眉、唇など）のみが描画されます。  
+   - 両目の虹彩領域が円形のランドマーク接続で強調表示されます。  
+
+   フル Face Mesh と異なり、画面には主要な輪郭と虹彩のみが表示されるため、  
+   可視化がよりシンプルで見やすくなります。
+
+   ユーザーが頭や目を動かすと：
+
+   - 輪郭線が顔の動きに滑らかに追従します。  
+   - 虹彩ランドマークが目の動きをリアルタイムで追跡します。  
+
+   顔が検出されない場合は、通常のカメラ映像のみが表示され、  
+   注釈は描画されません。
+
+   ``q`` を押すとプログラムを終了できます。  
+   カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -162,110 +164,107 @@ The program performs the following steps:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, only facial contours and iris regions of both eyes will be displayed on the screen.
+プログラムを実行すると、画面には顔の輪郭と両目の虹彩領域のみが表示されます。
 
 -----------------------------
-5. Key Steps Explanation
+5. 主要ステップの解説
 -----------------------------
 
-The code in this section is almost the same as
-:ref:`mp_face`.
+このセクションのコードは :ref:`mp_face` とほぼ同じです。
 
-The main difference is the drawing method used
-inside the main loop. The function ``draw_landmarks()``
-is called twice:
+主な違いは、メインループ内で使用する描画方法です。  
+``draw_landmarks()`` 関数が 2 回呼び出されます：
 
-- Once with ``FACEMESH_CONTOURS``
-- Once with ``FACEMESH_IRISES``
+- 1 回目： ``FACEMESH_CONTOURS``  
+- 2 回目： ``FACEMESH_IRISES``  
 
-You can comment out either drawing block
-to observe the difference in visual effect.
+どちらかの描画ブロックをコメントアウトすると、  
+表示結果の違いを確認できます。
 
 ------------------------------------------------------------
 
 ``FACEMESH_CONTOURS``
 
-- A connection set provided by MediaPipe.
-- Mainly draws:
+- MediaPipe が提供する接続セットです。  
+- 主に次の要素を描画します：
 
-  - Outer facial contour
-  - Edges of eyes
-  - Nose outline
-  - Lip contours
+  - 顔の外周
+  - 目の輪郭
+  - 鼻の輪郭
+  - 唇の輪郭
 
-This method produces a simplified visualization,
-making it easier to observe facial contour changes.
+この方法により、顔輪郭の変化を観察しやすい  
+簡略化された可視化が得られます。
 
 ------------------------------------------------------------
 
 ``FACEMESH_IRISES``
 
-- Draws the iris regions of both eyes.
-- Includes iris keypoints and circular connection lines.
-- Useful for:
+- 両目の虹彩領域を描画します。  
+- 虹彩のキーポイントと円形の接続線が含まれます。  
+- 次の用途に適しています：
 
-  - Eye tracking
-  - Pupil tracking
-  - Gaze detection
+  - 視線追跡
+  - 瞳孔追跡
+  - 視線検出
 
 ------------------------------------------------------------
 
 ``landmark_drawing_spec=None``
 
-- Disables drawing individual landmark points.
-- Only connection lines are displayed,
-  resulting in a cleaner visual effect.
+- 個々のランドマーク点の描画を無効にします。  
+- 接続線のみが表示されるため、  
+  よりシンプルで見やすい表示になります。
 
-If you want to display both points and lines,
-define a custom ``DrawingSpec``.
+点と線の両方を表示したい場合は、  
+カスタム ``DrawingSpec`` を定義してください。
 
 ------------------------------------------------------------
 
 ``drawing_styles.get_default_face_mesh_contours_style()``
 
-- Returns the default contour drawing style.
+- デフォルトの輪郭描画スタイルを返します。
 
 ``drawing_styles.get_default_face_mesh_iris_connections_style()``
 
-- Returns the default iris connection line style.
+- デフォルトの虹彩接続線スタイルを返します。
 
 
 ------------------------------------------------------------
-6. Troubleshooting
+6. トラブルシューティング
 ------------------------------------------------------------
 
-- Iris not detected
+- 虹彩が検出されない
 
-  If the iris is not detected, the lighting may be insufficient,
-  the face may be too far from the camera,
-  or ``refine_landmarks`` may not be enabled.
+  虹彩が検出されない場合、照明が不足している、  
+  顔がカメラから遠すぎる、または ``refine_landmarks`` が  
+  有効になっていない可能性があります。
 
-  Improve the lighting, move closer to the camera,
-  and make sure ``refine_landmarks=True`` is set
-  when initializing FaceMesh.
+  照明を改善し、カメラに近づき、  
+  FaceMesh 初期化時に ``refine_landmarks=True`` が  
+  設定されていることを確認してください。
 
-- Contour lines jittery
+- 輪郭線が不安定
 
-  If the contour lines appear unstable,
-  the detection confidence may be too low,
-  or lighting and head movement may be affecting tracking.
+  輪郭線が揺れる場合、検出信頼度が低すぎる、  
+  または照明や頭の動きが追跡に影響している可能性があります。
 
-  Try increasing ``min_detection_confidence``,
-  improving lighting, and keeping head movements slower and smoother.
+  ``min_detection_confidence`` を高く設定し、  
+  照明を改善し、頭の動きをゆっくり滑らかにしてください。
 
-- High latency
+- 遅延が大きい
 
-  If the video response feels slow,
-  the resolution may be too high
-  or ``refine_landmarks`` may be consuming additional resources.
+  映像の応答が遅い場合、解像度が高すぎる、  
+  または ``refine_landmarks`` が追加の計算負荷を  
+  発生させている可能性があります。
 
-  Reduce the resolution (for example, 320×240),
-  or disable ``refine_landmarks`` if iris detection is not required.
-  
+  解像度を下げる（例：320×240）か、  
+  虹彩検出が不要な場合は ``refine_landmarks`` を無効にしてください。
+
 -----------------------------
-7. Summary
+7. まとめ
 -----------------------------
 
-- ``FACEMESH_CONTOURS`` and ``FACEMESH_IRISES`` are two important connection methods provided by MediaPipe.
-- Compared to full mesh drawing, they are more lightweight and intuitive, suitable for practical interaction scenarios.
-- The next chapter will introduce how to use these features for gaze tracking and blink detection.
+- ``FACEMESH_CONTOURS`` と ``FACEMESH_IRISES`` は MediaPipe が提供する重要な接続方法です。
+- フルメッシュ描画と比べて軽量で直感的なため、実用的なインタラクション用途に適しています。
+- 次の章では、これらの機能を利用した視線追跡や瞬き検出の方法を紹介します。

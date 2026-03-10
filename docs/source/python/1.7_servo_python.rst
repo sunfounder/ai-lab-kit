@@ -1,21 +1,21 @@
-.. include:: /index.rst
+.. include:: /index.rst 
    :start-after: start_hello_message
    :end-before: end_hello_message
 
 .. _py_servo:
 
-1.7 Servo
+1.7 サーボ
 ==============================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to control a servo motor using a Raspberry Pi. Servo motors are commonly used in robotics and automation for precise control of angular motion.
+このプロジェクトでは、Raspberry Pi を使用してサーボモーターを制御する方法を学びます。サーボモーターは、角度の動きを高精度に制御できるため、ロボティクスや自動化分野で広く使用されています。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完了するには、以下のコンポーネントが必要です。
 
 .. list-table::
     :widths: 30 20
@@ -34,9 +34,9 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit diagram below shows the connections required for controlling the servo motor.
+以下の回路図は、サーボモーターを制御するために必要な接続を示しています。
 
 .. image:: img/fzz/1.3.2_sch.png
    :width: 80%
@@ -46,7 +46,7 @@ The circuit diagram below shows the connections required for controlling the ser
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
 
 .. image:: img/fzz/1.3.2_bb.png
@@ -55,11 +55,11 @@ The circuit diagram below shows the connections required for controlling the ser
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは、``ai-lab-kit`` ディレクトリに用意されています。  
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -71,13 +71,14 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.7_Servo.py 
 
-After running the script, the servo connected to PWM 0 smoothly sweeps from −90° to 90° in 10-degree steps, pausing briefly at each position. It then moves back from 90° to −90° in the same way. This back-and-forth motion repeats continuously.
+スクリプトを実行すると、PWM 0 に接続されたサーボが −90° から 90° まで 10 度刻みで滑らかに動き、各位置で短時間停止します。  
+その後、同じ方法で 90° から −90° へ戻ります。この往復動作が継続的に繰り返されます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code demonstrates how to control the servo motor by moving it between various angles:
+以下の Python コードは、サーボモーターをさまざまな角度に動かして制御する方法を示しています。
 
 
 .. raw:: html
@@ -111,21 +112,21 @@ The following Python code demonstrates how to control the servo motor by moving 
       sleep(0.1)
 
 
-This Python script controls a servo motor connected to PWM 0. When executed:
+この Python スクリプトは、PWM 0 に接続されたサーボモーターを制御します。実行すると次のように動作します。
 
-1. The servo moves from -90 degrees to 90 degrees in 10-degree increments.
-2. It pauses for 0.1 seconds between each movement.
-3. It then reverses the direction and moves from 90 degrees to -90 degrees in 10-degree increments.
-4. The process repeats indefinitely.
+1. サーボは -90 度から 90 度まで、10 度刻みで移動します。  
+2. 各動作の間に 0.1 秒の待機時間が入ります。  
+3. その後、方向を反転し、90 度から -90 度まで 10 度刻みで移動します。  
+4. この動作が無限ループで繰り返されます。
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``fusion_hat`` library simplifies GPIO interactions, while the ``time`` library provides delay functions.
+   ``fusion_hat`` ライブラリは GPIO 操作を簡単に扱えるようにし、 ``time`` ライブラリは待機時間を実現するための関数を提供します。
 
    .. code-block:: python
 
@@ -133,17 +134,17 @@ This Python script controls a servo motor connected to PWM 0. When executed:
       from time import sleep               # Import sleep for timing delays
 
 
-2. **Servo Initialization**
+2. **サーボの初期化**
 
-   The ``Servo`` object is initialized with PWM 0.
+   ``Servo`` オブジェクトは PWM 0 を指定して初期化されます。
 
    .. code-block:: python
 
       servo = Servo(0)
 
-3. **Servo Movement**
+3. **サーボの動作**
 
-   The servo is moved to different angles in a loop. The ``angle`` method sets the servo's position, and ``sleep`` pauses the loop for a specified duration.
+   サーボはループ内でさまざまな角度へ移動します。 ``angle`` メソッドはサーボの位置を設定し、 ``sleep`` は指定した時間だけ処理を一時停止します。
 
    .. code-block:: python
 
@@ -161,27 +162,27 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Servo Does Not Move**  
+1. **サーボが動作しない**  
 
-   - **Cause**: Incorrect GPIO pin connection or power supply issues.  
-   - **Solution**: Ensure the servo is connected to PWM 0 and verify the power supply.
+   - **原因**: GPIO ピンの接続ミス、または電源供給の問題。  
+   - **解決方法**: サーボが PWM 0 に正しく接続されていること、および電源供給が正常であることを確認してください。
 
-2. **Servo Movement is Erratic or Unresponsive**  
+2. **サーボの動作が不安定、または反応しない**  
 
-   - **Cause**: Insufficient power supply to the servo.  
-   - **Solution**: Use an external power source for the servo if the Fusion HAT+ does not provide enough power.
+   - **原因**: サーボへの電源供給が不足している可能性があります。  
+   - **解決方法**: Fusion HAT+ の電源が不足している場合は、サーボ用に外部電源を使用してください。
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**発展アイデア**
 
 
-1. **User-Controlled Servo**  
+1. **ユーザー操作によるサーボ制御**  
 
-   Allow users to control the servo position interactively through keyboard input:
+   キーボード入力を使用して、ユーザーがサーボの位置を対話的に制御できるようにします。
 
    .. code-block:: python
 
@@ -190,9 +191,9 @@ This Python script controls a servo motor connected to PWM 0. When executed:
          servo.angle(position)
 
 
-2. **Servo Position Tracking**  
+2. **サーボ位置の記録**  
 
-   Record the servo position over time and plot the trajectory:
+   時間経過に伴うサーボの位置を記録し、その軌跡をグラフとして表示します。
 
    .. code-block:: python
 
@@ -207,6 +208,6 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to control a servo motor. Understanding servo control opens the door to building robots, mechanical arms, and other motion-based projects.
+このプロジェクトでは、サーボモーターを制御する基本的な方法を紹介しました。サーボ制御を理解することで、ロボットやロボットアームなど、さまざまなモーション制御プロジェクトへ応用することが可能になります。

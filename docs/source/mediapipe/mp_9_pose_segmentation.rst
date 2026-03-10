@@ -5,75 +5,75 @@
 
 .. _mp_pose_segmentation:
 
-9. Green Screen
+9. グリーンスクリーン
 ====================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-This chapter uses the **person segmentation** capability of
-MediaPipe Pose to implement a simple **green screen effect**.
+この章では、MediaPipe Pose の **人物セグメンテーション** 機能を使って、
+シンプルな **グリーンスクリーン効果** を実装します。
 
-By separating the person from the background,
-we can replace the original background with a solid green color.
-This enables:
+人物と背景を分離することで、
+元の背景を単色のグリーンに置き換えることができます。
+これにより、次のような用途に応用できます：
 
-- Virtual background applications
-- Chroma key compositing (OBS / NLE)
-- Live streaming effects
-- AR-style scene replacement
+- バーチャル背景アプリケーション
+- クロマキー合成（OBS / NLE）
+- ライブ配信エフェクト
+- AR 風のシーン置換
 
 .. image:: img/mp_pose_green.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The green screen effect is implemented using the following steps:
+グリーンスクリーン効果は、次の手順で実装されます：
 
-1. Initialize the Pose model with ``enable_segmentation=True``.
-2. For each frame, obtain ``results.segmentation_mask``.
-3. The mask is a single-channel probability map (range 0–1).
-4. Apply a threshold (e.g., 0.5) to separate foreground and background.
-5. Replace background pixels with solid green.
-6. Optionally apply blur or morphological filtering to smooth edges.
+1. ``enable_segmentation=True`` で Pose モデルを初期化する
+2. 各フレームについて ``results.segmentation_mask`` を取得する
+3. マスクは単一チャンネルの確率マップ（範囲 0～1）である
+4. 閾値（例：0.5）を適用して前景と背景を分離する
+5. 背景ピクセルを単色のグリーンに置き換える
+6. 必要に応じて、ぼかしやモルフォロジー処理で境界を滑らかにする
 
-This method is lightweight and runs in real time on Raspberry Pi,
-while providing a practical example of human segmentation.
+この方法は軽量で、Raspberry Pi 上でもリアルタイムに動作し、
+人物セグメンテーションの実用例としても分かりやすい構成です。
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation.py
 
-   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+   録画済み動画に対して MediaPipe Pose を使用したい場合は、次のコマンドを実行できます：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation_video.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのウィンドウが開き、ライブカメラ映像が表示されます。
 
    .. raw:: html
 
@@ -82,26 +82,31 @@ while providing a practical example of human segmentation.
              Your browser does not support the video tag.
          </video>
 
-   A trackbar named ``Mask`` appears in the same window. It controls the segmentation threshold (0–100), with the default value set to 50 (0.5).
+   同じウィンドウ内に ``Mask`` という名前のトラックバーも表示されます。  
 
-   When a person appears in front of the camera:
+   これはセグメンテーションの閾値（0～100）を調整するもので、デフォルト値は 50（0.5）です。
 
-   - MediaPipe Pose generates a ``segmentation_mask`` for each frame.
-   - Pixels with mask values above the threshold are treated as the foreground (person).
-   - All other pixels are replaced with a solid green background (green screen effect).
+   カメラの前に人物が現れると：
 
-   As you move the ``Mask`` trackbar:
+   - MediaPipe Pose が各フレームに対して ``segmentation_mask`` を生成します。
+   - マスク値が閾値を超えるピクセルは前景（人物）として扱われます。
+   - それ以外のピクセルは単色のグリーン背景に置き換えられます。
 
-   - Increasing the threshold keeps only the most confident foreground area (less background leak, but may cut off some body parts).
-   - Decreasing the threshold includes more pixels as foreground (more complete silhouette, but may include background noise).
+   ``Mask`` トラックバーを動かすと：
 
-   If no segmentation mask is available, the program simply shows the normal camera feed without background replacement.
+   - 閾値を上げると、信頼度の高い前景領域だけが残ります  
+     （背景漏れは減りますが、体の一部が欠けることがあります）
+   - 閾値を下げると、より多くのピクセルが前景に含まれます  
+     （シルエットは完全になりやすいですが、背景ノイズも入りやすくなります）
 
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   セグメンテーションマスクが利用できない場合は、
+   背景置換を行わず、通常のカメラ映像のみを表示します。
+
+   ``q`` を押すとプログラムを終了できます。  
+   カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -186,25 +191,28 @@ while providing a practical example of human segmentation.
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the person (foreground) is preserved, and the background is replaced with solid green.
-It can be directly used for subsequent keying with **Chroma Key** in OBS, Premiere, DaVinci Resolve, etc.
+スクリプトを実行すると、人物（前景）は保持され、
+背景は単色のグリーンに置き換えられます。  
+そのまま OBS、Premiere、DaVinci Resolve などで **Chroma Key** による後処理に利用できます。
 
 -------------------------------------
-5. Key Points Explanation
+5. 重要ポイントの解説
 -------------------------------------
 
-``segmentation_mask`` is a **single-channel float image** (range 0~1) with the same size as the input frame:
+``segmentation_mask`` は、入力フレームと同じサイズの  
+**単一チャンネル float 画像** （範囲 0～1）です：
 
-- Value **close to 1**: High probability of being **foreground (person)**;
-- Value **close to 0**: High probability of being **background**.
+- 値が **1 に近い** ： **前景（人物）** である確率が高い
+- 値が **0 に近い** ： **背景** である確率が高い
 
-The usual approach is to set a threshold **T** (e.g., 0.5) and create a condition mask:
+一般的には、閾値 **T** （例：0.5）を設定し、
+条件マスクを作成します：
 
 .. code-block:: python
 
    condition = (mask > T)[..., None]
 
-Here we set up a trackbar to adjust the threshold in real-time:
+ここではトラックバーを使って、閾値をリアルタイムで調整できるようにしています：
 
 .. code-block:: python
 
@@ -220,7 +228,8 @@ Here we set up a trackbar to adjust the threshold in real-time:
       # Create a condition mask
       condition = (mask > threshold/100.0)[..., None]  # [H, W, 1]
 
-Then we can use ``np.where(condition, frame, background)`` to replace the background; here we replace it with green:
+その後、 ``np.where(condition, frame, background)`` を使って背景を置き換えます。  
+このサンプルではグリーン背景に置き換えています：
 
 .. code-block:: python
 
@@ -231,11 +240,11 @@ Then we can use ``np.where(condition, frame, background)`` to replace the backgr
    frame = np.where(condition, frame, bg)
 
 ----------------------------------------------------
-6. Effect and Edge Optimization
+6. 表示効果と境界最適化
 ----------------------------------------------------
 
-Direct binarization can cause jagged edges or small holes around hair and clothing edges.
-**Light post-processing** can improve edges:
+単純な二値化だけでは、髪の毛や服の縁にギザギザや小さな穴が生じることがあります。  
+**軽い後処理** を加えることで、境界をより自然にできます：
 
 .. code-block:: python
 
@@ -253,14 +262,14 @@ Direct binarization can cause jagged edges or small holes around hair and clothi
 
 .. tip::
 
-   - **Recommended T value range 0.3~0.7**: Can be appropriately lowered in dark environments/conservative models; can be raised with more noise.
-   - Don't make the blur kernel too large, otherwise the person's boundary will "leak green".
+   - **推奨 T 値の範囲は 0.3～0.7**：暗い環境や保守的なモデルでは少し下げ、ノイズが多い場合は上げるとよいです。
+   - ぼかしカーネルを大きくしすぎると、人物の境界にグリーンがにじみやすくなります。
 
 ----------------------------------------------------
-7. Using Custom Background (Image/Video)
+7. カスタム背景（画像 / 動画）の使用
 ----------------------------------------------------
 
-Replace solid green with a custom background image:
+単色のグリーンではなく、任意の背景画像に置き換えることもできます：
 
 .. code-block:: python
 
@@ -268,10 +277,11 @@ Replace solid green with a custom background image:
    bg_img = cv2.resize(bg_img, (frame.shape[1], frame.shape[0]))
    frame = np.where(condition, frame, bg_img)
 
-Or use another video as the background (read the next frame ``bg_frame``, resize to the same dimensions, then replace).
+別の動画を背景として使うことも可能です  
+（次のフレーム ``bg_frame`` を読み込み、同じサイズにリサイズしてから置き換えます）。
 
 ----------------------------------------------------
-8. Performance and Quality Balance
+8. パフォーマンスと画質のバランス
 ----------------------------------------------------
 
 .. list-table::
@@ -281,49 +291,50 @@ Or use another video as the background (read the next frame ``bg_frame``, resize
      - Impact
      - Suggestion
    * - Resolution
-     - Higher resolution gives finer edges but slower speed
-     - Start with 640×480; increase if clearer image needed
+     - 解像度が高いほど境界は細かくなるが速度は遅くなる
+     - まずは 640×480 で開始し、必要なら上げる
    * - model_complexity
-     - Higher is more precise but slower
-     - Recommended 1~2 on Raspberry Pi
+     - 高いほど精度は上がるが遅くなる
+     - Raspberry Pi では 1～2 を推奨
    * - Post-processing strength
-     - Too much blur/morphology can "swallow edges/leak green"
-     - Small kernel + few iterations, observe edge effect
+     - ぼかしやモルフォロジーが強すぎると境界が潰れたりグリーン漏れが発生する
+     - 小さなカーネル + 少ない反復回数で様子を見る
 
 ------------------------------------------------------------
-9. Troubleshooting
+9. トラブルシューティング
 ------------------------------------------------------------
 
-- Jagged edges or visible seams around the person
+- 人物の周囲にギザギザや境界線が見える
 
-  This usually happens because the mask is applied with a hard threshold, which creates sharp boundaries. 
+  これは通常、マスクに硬い閾値を適用しているため、境界が急になっていることが原因です。  
   
-  Try adjusting the threshold using the ``Mask`` trackbar. For smoother edges, apply a small blur to the segmentation mask or use a simple morphological closing operation before compositing.
+  ``Mask`` トラックバーで閾値を調整してみてください。より滑らかな境界にしたい場合は、合成前にセグメンテーションマスクへ軽いぼかしや簡単なモルフォロジー閉処理を加えてください。
 
-- Missing parts of the person
+- 人物の一部が欠ける
 
-  If parts of the body are cut out, the lighting may be too weak, or the clothing color may blend into the background. 
+  体の一部が切り取られてしまう場合、照明が弱すぎるか、服の色が背景と混ざっている可能性があります。  
   
-  Improve lighting, adjust the threshold, and try using a simpler background with higher contrast against the subject.
+  照明を改善し、閾値を調整し、被写体とのコントラストが高いシンプルな背景を使用してください。
 
-- Low frame rate
+- フレームレートが低い
 
-  If the video feels slow, the resolution may be too high or the model may be too complex. 
+  動画が遅く感じる場合、解像度が高すぎるか、モデルが重すぎる可能性があります。  
   
-  Reduce the camera resolution (for example, 640×480 or 320×240) and keep ``model_complexity`` at 1 for better performance.
+  カメラ解像度を下げ（例：640×480 または 320×240）、 ``model_complexity`` は 1 にするとパフォーマンスが向上します。
 
-- Green spills onto the subject
+- グリーンが人物側にはみ出す
 
-  If the green background appears on the subject, the segmentation boundary may be inaccurate, or the subject color may cause visual confusion. 
+  グリーン背景が人物にかぶって見える場合、セグメンテーション境界が不正確か、被写体の色によって視覚的な混乱が生じている可能性があります。  
   
-  Try switching to a different replacement color (blue or gray), or replace the background with an image instead of a solid color for a more natural result.
+  置き換え色をグリーン以外（ブルーやグレー）に変更するか、単色ではなく背景画像に置き換えることで、より自然な見た目になります。
 
 
 -----------------------------
-10. Summary
+10. まとめ
 -----------------------------
 
-- Using ``segmentation_mask``, we can quickly achieve "person cutout + background replacement";
-- Obtain more natural edges through thresholds and lightweight post-processing;
-- Suitable for virtual backgrounds, live streaming keying, remote teaching, etc.;
-- Next steps could combine **pose skeleton** and **segmentation** for more interactive effects (e.g., only replace background, don't replace foreground overlay skeleton).
+- ``segmentation_mask`` を使うことで、「人物切り抜き + 背景置換」を素早く実現できます
+- 閾値調整と軽い後処理によって、より自然な境界を得られます
+- バーチャル背景、ライブ配信のクロマキー、遠隔授業などに適しています
+- 次のステップとして、 **姿勢骨格** と **セグメンテーション** を組み合わせれば、より高度なインタラクティブ効果も実装できます
+  （例：背景だけを置き換え、前景の骨格オーバーレイはそのまま残す）

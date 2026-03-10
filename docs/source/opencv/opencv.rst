@@ -4,16 +4,16 @@
 
 .. _play_with_opencv:
 
-Play with OpenCV (Computer Vision Basics)
+OpenCVで遊ぼう（コンピュータビジョンの基礎）
 ==================================================
 
-This mini-course is a hands-on introduction to computer vision with **OpenCV** in **Python**.  
-You’ll learn how to load and display images, work with video streams, access a Raspberry Pi camera, detect colors, track objects with MeanShift/CAMShift, extract edges with Canny, and run lightweight face/eye detection with Haar cascades.
+このミニコースでは、 **Python** の **OpenCV** を使って、コンピュータビジョンを実践的に学びます。  
+画像の読み込みと表示、動画ストリームの処理、Raspberry Pi カメラへのアクセス、色検出、MeanShift/CAMShift による物体追跡、Canny によるエッジ抽出、そして Haar カスケードを用いた軽量な顔・目検出まで、一通り体験できます。
 
 .. note::
 
-   Most chapters include both **concept explanations** and a **complete code block**.  
-   Start each chapter by running the provided script, then tweak parameters (thresholds, kernel sizes, ROI) to see immediate effects.
+   ほとんどの章には、**概念の説明** と **完全なコードブロック** の両方が含まれています。  
+   まずは各章で用意されたスクリプトを実行し、その後にパラメータ（しきい値、カーネルサイズ、ROI など）を調整して、結果がどのように変化するかを確認してみてください。
 
 
 .. toctree::

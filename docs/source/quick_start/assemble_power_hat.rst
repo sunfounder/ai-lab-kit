@@ -5,23 +5,23 @@
 
 .. _assemble_hat:
 
-Assemble and Power on Fusion HAT+ (Important)
+Fusion HAT+ の組み立てと電源投入（重要）
 =======================================================
 
-Connect Fusion HAT+ to Raspberry Pi
+Fusion HAT+ を Raspberry Pi に接続する
 ----------------------------------------
 
-Here, we'll teach you how to assemble the Fusion HAT+.
+ここでは、Fusion HAT+ の組み立て方法を説明します。
 
-#. Assemble the base.
-#. Stick the battery to the base.
-#. Secure the Raspberry Pi with with standoffs.
-#. Connect the FPC cable to the Raspberry Pi. (We will assemble it and the Camera Module when assembled the pan-tilt.)
-#. Plug the Fusion HAT+ into the 40-pin connector on the Raspberry Pi. 
-#. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT+ will not work.)
+#. ベースを組み立てます。
+#. バッテリーをベースに貼り付けます。
+#. スタンドオフを使用して Raspberry Pi を固定します。
+#. FPC ケーブルを Raspberry Pi に接続します。（パン・チルトを組み立てる際に、カメラモジュールと一緒に取り付けます。）
+#. Fusion HAT+ を Raspberry Pi の 40 ピンコネクタに差し込みます。
+#. **バッテリーを挿入します。** （これは非常に重要です。バッテリーを挿入しないと、Fusion HAT+ は動作しません。）
 
 
-For the details of the assembly, please check the video below.
+組み立ての詳細については、以下の動画をご覧ください。
 
 .. raw:: html
 
@@ -36,72 +36,72 @@ For the details of the assembly, please check the video below.
 
 
 
-Charge
+充電
 -------------------
 
-Before the first use, it is recommended to fully charge the battery. You can use the included USB Type-C charging cable, or your own USB-C charger.  
+初めて使用する前に、バッテリーを完全に充電することを推奨します。付属の USB Type-C 充電ケーブル、またはお手持ちの USB-C 充電器を使用できます。
 
 .. note::
 
-  The battery may arrive with low charge because Amazon requires it to be below 30% before air shipment. You **MUST** fully charge it before use to prevent over-discharge and damage.
-  Plug the USB-C to Fusion HAT+, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
+  Amazon の航空輸送規定により、出荷時のバッテリー残量は 30% 未満になっている場合があります。過放電や損傷を防ぐため、使用前に **必ず** 完全に充電してください。  
+  USB-C ケーブルを Fusion HAT+ に接続すると、自動的にバッテリーの充電が開始されます。Raspberry Pi に別途電源を接続する必要はありません。
 
-* We recommend using a **5V 3A power supply**, such as the official Raspberry Pi 15W adapter.  
-* You can also use a **USB-C PD (Power Delivery)** charger or a **QC 2.0 fast charger**.  
-* Charging from 0% to full typically takes about **2 hours**.  
+* **5V 3A の電源アダプター** （例：Raspberry Pi 公式 15W アダプター）の使用を推奨します。  
+* **USB-C PD（Power Delivery）充電器** や **QC 2.0 急速充電器** も使用できます。  
+* 0% から満充電までは通常 **約 2 時間** かかります。
 
 .. image:: img/power_charge.jpg
    :width: 400
    :align: center
 
-The Fusion HAT+ includes **two battery indicator LEDs**, showing the battery voltage level:  
+Fusion HAT+ には **2 つのバッテリーインジケーター LED** があり、バッテリー電圧レベルを表示します。
 
 .. list-table::
    :header-rows: 1
    :widths: 40 40
 
-   * - LED Status
-     - Battery Voltage
-   * - 2 LEDs ON
+   * - LED 状態
+     - バッテリー電圧
+   * - LED 2 個点灯
      - > 7.4V
-   * - 1 LED ON
+   * - LED 1 個点灯
      - < 7.4V
-   * - Both LEDs OFF
+   * - 両方の LED 消灯
      - < 6.5V
 
-When charging, one of the LEDs will blink to indicate charging progress:  
+充電中は、LED の 1 つが点滅して充電の進行状況を示します。
 
 .. list-table::
    :header-rows: 1
    :widths: 40 40
 
-   * - LED Status
-     - Battery Voltage
-   * - 1 LED ON, 1 LED Blinking
+   * - LED 状態
+     - バッテリー電圧
+   * - LED 1 個点灯、もう 1 個点滅
      - > 7.4V
-   * - Only 1 LED Blinking
+   * - LED 1 個のみ点滅
      - < 7.4V
 
 
-After fully charged:
+満充電になると：
 
-* **If the Fusion HAT+ is ON**, both LEDs will remain lit.  
-* **If the Fusion HAT+ is OFF**, both LEDs will turn off.  
+* **Fusion HAT+ が ON の場合**、2 つの LED は点灯したままになります。  
+* **Fusion HAT+ が OFF の場合**、2 つの LED は消灯します。
 
 .. note::
 
-   For extended programming or debugging sessions, you can keep the Fusion HAT+ powered  
-   by connecting the USB-C cable, which will charge the battery and run the Fusion HAT+ at the same time. 
-   Even if you run the Fusion HAT+ while the charer is connected, the battery **cannot** be removed.
+   長時間のプログラミングやデバッグを行う場合は、USB-C ケーブルを接続したまま使用することで、  
+   バッテリーを充電しながら Fusion HAT+ を動作させることができます。  
+   充電器を接続した状態で Fusion HAT+ を動作させる場合でも、バッテリーを **取り外すことはできません**。
 
-Power ON
+電源を入れる
 ----------------------
 
-When the battery has sufficient charge, press the **power button** on the Fusion HAT+ briefly. 
+バッテリーが十分に充電されている状態で、Fusion HAT+ の **電源ボタン** を短く押します。
 
-* The **PWR LED** will turn on.  
-* The **battery LEDs** will also light up.  
-* The Raspberry Pi will power on automatically.  
+* **PWR LED** が点灯します。  
+* **バッテリー LED** も点灯します。  
+* Raspberry Pi は自動的に起動します。
 
 .. image:: img/power_button.jpg
     :width: 400
@@ -109,19 +109,19 @@ When the battery has sufficient charge, press the **power button** on the Fusion
 
 .. _assemble_fusion_hat_pan_tilt:
 
-Assemble the Pan-tilt (For Camera) 
+パン・チルトの組み立て（カメラ用）
 ------------------------------------------------------
 
-To make using the camera module easier, you can assemble a pan-tilt.
+カメラモジュールをより使いやすくするために、パン・チルト機構を組み立てることができます。
 
 .. note:: 
   
-  Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+  パン・チルトを組み立てると一部のピンが隠れる場合があります。そのため、カメラを使用する場合のみ組み立てるか、組み立て後に外側へ配置することを推奨します。
 
 
 .. image:: img/gimbal_assemble.png
 
-For the details of the assembly, please check the video below.
+組み立ての詳細については、以下の動画をご覧ください。
 
 .. raw:: html
 

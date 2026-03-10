@@ -2,11 +2,11 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-5. MeanShift Object Tracking
+5. MeanShift による物体追跡
 ===============================
 
-MeanShift is a classic histogram-based object tracking algorithm.  
-In this lesson, we’ll not only implement a complete **MeanShift tracking** example, but also explain **why** each step is taken and **what’s happening under the hood**.
+MeanShift は、ヒストグラムに基づく古典的な物体追跡アルゴリズムです。  
+このレッスンでは、完全な **MeanShift 追跡** の実装例を示すだけでなく、 **なぜ** 各手順を行うのか、そして内部で **何が起きているのか** も説明します。
 
 .. raw:: html
 
@@ -15,59 +15,59 @@ In this lesson, we’ll not only implement a complete **MeanShift tracking** exa
           Your browser does not support the video tag.
       </video>
    
-1. What is MeanShift?
+1. MeanShift とは？
 -------------------------
 
-MeanShift iteratively shifts a window according to probability density to **find the most likely location of the target**.
+MeanShift は、確率密度に基づいてウィンドウを反復的に移動させ、 **ターゲットが最も存在しそうな位置** を見つけるアルゴリズムです。
 
-In plain words:  
-You first give the algorithm an “initial target region.” It computes the color features of this region (e.g., the target’s color histogram), and then in each subsequent frame finds the area most similar to that color and moves the rectangle there.
+簡単に言えば、  
+まずアルゴリズムに「初期ターゲット領域」を与えます。すると、その領域の色情報（たとえばターゲットの色ヒストグラム）を計算し、以降の各フレームで、その色に最も近い領域を探して矩形をそこへ移動させます。
 
-This process doesn’t rely on deep learning and requires no pre-training—it’s very lightweight.
+この処理はディープラーニングに依存せず、事前学習も不要なため、とても軽量です。
 
 .. image:: img/opencv_meanshift.png
    :alt: MeanShift tracking
    :align: center
 
-2. Run the Code
+2. コードの実行
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   開始する前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールされ、設定されている
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_5_meanshift.py
 
-#. When you run the program, an OpenCV window named **MeanShift Tracker** will appear and start playing the video file ``sample2.mp4``.  
+#. プログラムを実行すると、 **MeanShift Tracker** という名前の OpenCV ウィンドウが表示され、動画ファイル ``sample2.mp4`` の再生が始まります。  
 
-   A green rectangle will be drawn around the target object and updated in real time using the MeanShift tracking algorithm.
+   ターゲット物体の周囲には緑色の矩形が描画され、MeanShift 追跡アルゴリズムによってリアルタイムで更新されます。
    
-   The tracking window will move as the object moves in the video.
+   動画内で物体が移動すると、その追跡ウィンドウも一緒に移動します。
    
-   You can exit the program in two ways:
+   プログラムを終了する方法は 2 つあります：
    
-   * Press the **q** key on the keyboard  
-   * Close the window by clicking the close button (X)  
+   * キーボードの **q** キーを押す  
+   * ウィンドウの閉じるボタン（X）をクリックして閉じる  
    
-   After exiting, the video playback stops and all OpenCV windows are closed.
+   終了すると、動画の再生が停止し、すべての OpenCV ウィンドウが閉じられます。
 
-3. Complete Code
+3. 完全なコード
 -----------------------
 
-Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
+以下は、MeanShift 追跡スクリプト（ ``cv_5_meanshift.py`` ）の完全なコードです：
 
 .. code-block:: python
 
@@ -152,18 +152,18 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
    cap.release()
    cv2.destroyAllWindows()
 
-4. Explanation
+4. 解説
 ---------------------------
 
-#. Open the video file:
+#. 動画ファイルを開く：
 
    .. code-block:: python
 
       cap = cv2.VideoCapture("sample2.mp4")
 
-   This creates a video capture object so OpenCV can read frames from the file.
+   これにより動画キャプチャオブジェクトが作成され、OpenCV がファイルからフレームを読み込めるようになります。
 
-#. Read the first frame and make sure it works:
+#. 最初のフレームを読み込み、正常に取得できたか確認する：
 
    .. code-block:: python
 
@@ -171,28 +171,28 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
       if not ret:
           raise RuntimeError("Cannot read the video file.")
 
-   MeanShift tracking needs an initial frame to learn what to track.
+   MeanShift で追跡を始めるには、まず最初のフレームから追跡対象を学習する必要があります。
 
-#. Set the initial tracking window (the object you want to track):
+#. 初期追跡ウィンドウ（追跡したい物体）を設定する：
 
    .. code-block:: python
 
       x, y, w, h = 80, 100, 80, 80
       track_window = (x, y, w, h)
 
-   This rectangle is the starting position of the target (ROI).  
-   You usually adjust these values to match the object in the first frame.
+   この矩形はターゲット（ROI）の初期位置です。  
+   通常は、最初のフレーム内の対象物に合わせてこれらの値を調整します。
 
-#. Convert the first frame to HSV and extract the ROI:
+#. 最初のフレームを HSV に変換し、ROI を取り出す：
 
    .. code-block:: python
 
       hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
       roi_hsv = hsv_frame[y:y+h, x:x+w]
 
-   HSV is commonly used for tracking because the Hue channel describes color more consistently than RGB/BGR.
+   HSV は、RGB/BGR よりも Hue（色相）チャンネルで色を安定して表現できるため、追跡によく使われます。
 
-#. Build a mask to ignore weak/invalid pixels in the ROI:
+#. ROI 内の弱い画素や無効な画素を無視するためにマスクを作る：
 
    .. code-block:: python
 
@@ -202,29 +202,29 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
           np.array((180, 255, 255), dtype=np.uint8)
       )
 
-   This filters out pixels with very low saturation/value (often shadows or noise), improving tracking stability.
+   これにより、彩度や明度が極端に低い画素（影やノイズになりやすい部分）が除外され、追跡の安定性が向上します。
 
-#. Compute and normalize the ROI histogram (Hue channel):
+#. ROI のヒストグラム（Hue チャンネル）を計算し、正規化する：
 
    .. code-block:: python
 
       roi_hist = cv2.calcHist([roi_hsv], [0], roi_mask, [180], [0, 180])
       cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
 
-   - The histogram describes the target’s color distribution (Hue).
-   - Normalization makes the histogram scale consistent across different lighting or ROI sizes.
+   - ヒストグラムはターゲットの色分布（Hue）を表します。
+   - 正規化によって、照明の違いや ROI サイズの違いがあっても比較しやすくなります。
 
-#. Define termination criteria for MeanShift:
+#. MeanShift の終了条件を定義する：
 
    .. code-block:: python
 
       termination = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 15, 2)
 
-   MeanShift will stop when either:
-   - it runs 15 iterations, or
-   - the window movement is smaller than 2 pixels.
+   MeanShift は次のいずれかで停止します：
+   - 15 回繰り返したとき
+   - ウィンドウの移動量が 2 ピクセル未満になったとき
 
-#. Set a playback delay based on the video FPS:
+#. 動画の FPS に基づいて再生待機時間を設定する：
 
    .. code-block:: python
 
@@ -233,43 +233,44 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
           fps = 30.0
       delay_ms = int(1000 / fps)
 
-   This keeps playback close to the original video speed.  
-   If FPS cannot be read, it falls back to 30 FPS.
+   これにより、再生速度が元の動画に近くなるよう調整されます。  
+   FPS を取得できない場合は、30 FPS を既定値として使います。
 
-#. Convert each frame to HSV (for tracking):
+#. 各フレームを HSV に変換する（追跡のため）：
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-   Tracking is performed in HSV so we can match the target’s Hue histogram.
+   追跡は HSV 空間で行われ、ターゲットの Hue ヒストグラムとの一致を利用します。
 
-#. Back projection (find where the target color is likely to be):
+#. バックプロジェクション（ターゲット色が存在しそうな場所を求める）：
 
    .. code-block:: python
 
       bp = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], scale=1)
 
-   Back projection produces a probability map: bright areas are more likely to match the ROI histogram.
+   バックプロジェクションは確率マップを生成します。  
+   明るい領域ほど、ROI のヒストグラムに近い可能性が高いことを示します。
 
-#. Update the tracking window using MeanShift:
+#. MeanShift を使って追跡ウィンドウを更新する：
 
    .. code-block:: python
 
       _, track_window = cv2.meanShift(bp, track_window, termination)
 
-   MeanShift moves the tracking window toward the highest-density area in the probability map, updating the target position frame by frame.
+   MeanShift は、確率マップの中で密度が最も高い方向へ追跡ウィンドウを移動し、フレームごとにターゲット位置を更新します。
 
-#. Draw the tracking result:
+#. 追跡結果を描画する：
 
    .. code-block:: python
 
       x, y, w, h = track_window
       cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-   This draws the current tracking rectangle on the video frame.
+   これにより、現在の追跡矩形が動画フレーム上に描画されます。
 
-#. Display the window and exit conditions:
+#. ウィンドウ表示と終了条件：
 
    .. code-block:: python
 
@@ -280,20 +281,20 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
       if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   - Press ``q`` to quit.
-   - Closing the window also exits safely.
+   - ``q`` を押すと終了します。
+   - ウィンドウを閉じても安全に終了します。
 
-#. Release resources:
+#. リソースを解放する：
 
    .. code-block:: python
 
       cap.release()
       cv2.destroyAllWindows()
 
-   Always release the video and close windows to free system resources.
+   システムリソースを解放するため、必ず動画を閉じてウィンドウを破棄してください。
 
-5. MeanShift vs. CAMShift
-----------------------------
+5. MeanShift と CAMShift の比較
+-----------------------------------
 
 .. list-table::
    :header-rows: 1
@@ -303,36 +304,36 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
      - MeanShift
      - CAMShift
    * - Window size
-     - Fixed
-     - Auto-adjusts (adapts to target scale)
+     - 固定
+     - 自動調整（ターゲットのスケールに追従）
    * - Rotating target
-     - Not supported
-     - Supported
+     - 非対応
+     - 対応
    * - Suitable scenarios
-     - Target size relatively stable
-     - Target may scale/rotate
+     - ターゲットサイズが比較的安定している場合
+     - ターゲットが拡大縮小・回転する可能性がある場合
    * - Applications
-     - Simple tracking, balls, markers
-     - Practical tracking, surveillance, recognition
+     - シンプルな追跡、ボール、マーカー
+     - 実用的な追跡、監視、認識
 
 
-6. Advanced: Select ROI with the Mouse
+6. 応用: マウスで ROI を選択する
 --------------------------------------
 
-Previously, we used fixed values:
+これまでは、次のように固定値を使っていました：
 
 .. code-block:: python
 
    x, y, w, h = 150, 200, 80, 80
 
-That’s simple but not flexible.  
-If you switch videos or the target starts elsewhere, you’d have to change the code.
+これは簡単ですが、柔軟性に欠けます。  
+動画を変えたり、ターゲットの初期位置が異なったりすると、コードを書き換える必要があります。
 
-OpenCV provides ``cv2.selectROI`` so you can **select the target region interactively on the first frame** with the mouse, and the program will obtain ``(x, y, w, h)`` automatically.
+OpenCV には ``cv2.selectROI`` が用意されており、**最初のフレーム上でマウスを使ってターゲット領域を対話的に選択** できます。すると、プログラムが自動的に ``(x, y, w, h)`` を取得します。
 
-**Modified initialization code**
+**初期化コードの変更版**
 
-Run ``cv_5_meanshift_auto.py`` for the modified code.
+変更後のコードは ``cv_5_meanshift_auto.py`` を実行してください。
 
 .. code-block:: bash
 
@@ -370,20 +371,20 @@ Run ``cv_5_meanshift_auto.py`` for the modified code.
    cv2.destroyWindow("Select ROI")
    ...
 
-When you run the program, the first frame of the video will be displayed and you will be asked to select a Region of Interest (ROI) using the mouse.
+プログラムを実行すると、動画の最初のフレームが表示され、マウスで ROI（関心領域）を選択するよう求められます。
 
-Drag the mouse to draw a rectangle around the target object, then press **Enter** or **Space** to confirm the selection.  
-Press **Esc** to cancel the selection.
+マウスをドラッグしてターゲット物体を囲む矩形を描き、 **Enter** または **Space** を押して選択を確定します。  
+**Esc** を押すと選択をキャンセルできます。
 
-After confirming the ROI, a window named **MeanShift Tracker** will appear.  
-The selected object will be tracked with a green bounding box, and the box will move as the object moves in the video.
+ROI を確定すると、 **MeanShift Tracker** という名前のウィンドウが表示されます。  
+選択した物体は緑色のバウンディングボックスで追跡され、動画内で動くとその矩形も一緒に移動します。
 
-To stop the program:
+プログラムを停止するには：
 
-* Press the **q** key on the keyboard  
-* Or close the display window using the close button (X)  
+* キーボードの **q** キーを押す  
+* または表示ウィンドウを閉じるボタン（X）で閉じる  
 
-After exiting, the video playback stops and all OpenCV windows are closed.
+終了すると、動画の再生が停止し、すべての OpenCV ウィンドウが閉じられます。
 
 .. image:: img/opencv_meanshift_mouse.png
    :alt: Interactive ROI selection window
@@ -391,15 +392,15 @@ After exiting, the video playback stops and all OpenCV windows are closed.
 
 **Notes**
 
-``cv2.selectROI`` is OpenCV’s built-in interactive ROI selector—great for manual initialization.  
-It returns ``(x, y, w, h)``, which is fully compatible with ``track_window``, so you don’t need to change the main CAMShift/MeanShift logic.  
-This lets you reuse the same program on different videos and targets.
+``cv2.selectROI`` は、OpenCV に標準搭載されている対話型 ROI 選択機能で、手動初期化に最適です。  
+戻り値は ``(x, y, w, h)`` で、 ``track_window`` と完全に互換性があるため、CAMShift/MeanShift のメインロジックを変更する必要はありません。  
+これにより、同じプログラムを異なる動画や異なるターゲットに再利用できます。
 
 
-7. Advanced II: Dynamically Compute HSV Thresholds for the ROI
+7. 応用 II: ROI に対する HSV しきい値を動的に計算する
 --------------------------------------------------------------
 
-The original ``cv_5_meanshift.py`` uses manually set HSV thresholds, suitable when the target color is fixed and lighting is stable.
+元の ``cv_5_meanshift.py`` では、HSV のしきい値を手動で設定しています。これは、ターゲット色が固定されており、照明条件も安定している場合に適しています。
 
 
 .. code-block:: python
@@ -407,12 +408,12 @@ The original ``cv_5_meanshift.py`` uses manually set HSV thresholds, suitable wh
    # apply mask on the HSV frame
    roi_mask = cv2.inRange(roi_hsv, lower, upper)
 
-If lighting varies significantly or the target color isn’t fixed, hard-coded ``inRange`` bounds may be suboptimal.  
-A smarter approach is to **automatically compute the HSV lower/upper bounds from the selected ROI**.
+照明が大きく変化したり、ターゲット色が固定でなかったりする場合、固定の ``inRange`` 境界は最適ではないことがあります。  
+そこで、より賢い方法として、 **選択した ROI から HSV の lower / upper 境界を自動計算する** 方法があります。
 
-**Example: Auto-computing HSV thresholds**
+**例: HSV しきい値の自動計算**
 
-Run ``cv_5_meanshift_auto.py`` for the modified code.
+変更後のコードは ``cv_5_meanshift_auto.py`` を実行してください。
 
 .. code-block:: bash
 
@@ -453,17 +454,17 @@ Run ``cv_5_meanshift_auto.py`` for the modified code.
    roi_mask = cv2.inRange(roi_hsv, lower, upper)
 
 
-When selecting very dark or very bright targets, you no longer need to tweak thresholds manually; it also adapts quickly to different lighting and colors.
+暗いターゲットや明るいターゲットを選んだ場合でも、手動でしきい値を微調整する必要がなくなり、照明や色の違いにも素早く適応できます。
 
 .. note::
 
-   - ``np.percentile`` (5%–95%) trims extremes (edges, shadows, highlights, etc.) within the ROI, improving robustness.  
-   - ``pad_h``, ``pad_s``, ``pad_v`` provide tolerance so mild color shifts are still captured.  
-   - ``lower`` and ``upper`` are the dynamic HSV bounds used directly with ``cv2.inRange``.
+   - ``np.percentile`` （5%–95%）は、ROI 内の極端な値（境界、影、ハイライトなど）を除外できるため、頑健性が向上します。  
+   - ``pad_h`` , ``pad_s`` , ``pad_v`` は許容範囲を持たせるための余裕であり、軽微な色変化も捉えられるようにします。  
+   - ``lower`` と ``upper`` は、 ``cv2.inRange`` で直接使用される動的な HSV 範囲です。
 
 
 **Summary**
 
-- Use ``cv2.selectROI`` for flexible target initialization.  
-- Use ``np.percentile`` to auto-compute HSV bounds for adaptability.  
-- Combined with ``cv2.inRange`` and CAMShift/MeanShift, this approach remains stable under challenging lighting and target variations.
+- ``cv2.selectROI`` を使うことで、柔軟にターゲットを初期化できます。  
+- ``np.percentile`` を使えば、適応性の高い HSV 範囲を自動計算できます。  
+- ``cv2.inRange`` と CAMShift / MeanShift を組み合わせることで、照明変化やターゲットの違いがあっても安定した追跡を実現できます。  

@@ -1,21 +1,21 @@
-.. include:: /index.rst
+.. include:: /index.rst 
    :start-after: start_hello_message
    :end-before: end_hello_message
 
 .. _py_buton:
 
-2.1 Button
+2.1 ボタン
 ==============
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to use a button to control an LED. Buttons are fundamental input devices used in various electronic projects to interact with circuits and systems.
+このプロジェクトでは、ボタンを使ってLEDを制御する方法を学びます。ボタンは、さまざまな電子工作プロジェクトにおいて、回路やシステムとやり取りするための基本的な入力デバイスです。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを行うには、以下のコンポーネントが必要です。
 
 .. list-table::
     :widths: 30 20
@@ -43,9 +43,9 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-We will use a normally open button as an input for the Raspberry Pi. When the button is pressed, GPIO17 will receive a high-level signal (3.3V). The Raspberry Pi will detect this signal and turn the LED on. The circuit connections are shown in the diagrams below:
+このプロジェクトでは、ノーマルオープン型のボタンをRaspberry Piの入力として使用します。ボタンが押されると、GPIO17はハイレベル信号（3.3V）を受け取ります。Raspberry Piはこの信号を検出し、LEDを点灯させます。回路の接続は以下の図のとおりです。
 
 
 .. image:: img/fzz/2.1.1_sch.png
@@ -55,13 +55,13 @@ We will use a normally open button as an input for the Raspberry Pi. When the bu
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Connect the anode (long pin) of the LED to a GPIO pin (GPIO22) through a current-limiting resistor.
-2. Connect the cathode (short pin) of the LED to the ground (GND).
-3. Connect one terminal of the button to GPIO17 and the other terminal to the ground (GND).
+1. LEDのアノード（長い脚）を、電流制限用抵抗を介してGPIOピン（GPIO22）に接続します。
+2. LEDのカソード（短い脚）をGNDに接続します。
+3. ボタンの一方の端子をGPIO17に、もう一方の端子をGNDに接続します。
 
 
 .. image:: img/fzz/2.1.1_bb.png
@@ -70,11 +70,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順でサンプルを実行してください。
 
 
 .. raw:: html
@@ -86,17 +86,17 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.1_Button.py
 
-This Python script demonstrates an interactive setup where a button controls an LED. When executed:
+このPythonスクリプトは、ボタンでLEDを制御するインタラクティブな構成を示しています。実行すると、次のように動作します。
 
-1. Pressing the button (connected to GPIO pin 17) turns the LED (connected to GPIO pin 22) on.
-2. Releasing the button turns the LED off.
-3. The program runs indefinitely, listening for button press and release events to control the LED.
+1. ボタン（GPIO17に接続）を押すと、LED（GPIO22に接続）が点灯します。
+2. ボタンを離すと、LEDが消灯します。
+3. プログラムは継続的に動作し、ボタンの押下および解放イベントを監視してLEDを制御します。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code toggles the LED based on button presses and releases:
+以下のPythonコードは、ボタンの押下と解放に応じてLEDを切り替えます。
 
 
 .. raw:: html
@@ -128,11 +128,11 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``fusion_hat`` library provides a simple interface for GPIO control, and the ``signal`` module is used to keep the program running.
+   ``fusion_hat`` ライブラリはGPIO制御のためのシンプルなインターフェースを提供し、 ``signal`` モジュールはプログラムを継続実行させるために使用します。
 
    .. code-block:: python
 
@@ -141,9 +141,9 @@ The following Python code toggles the LED based on button presses and releases:
       from signal import pause  # Import pause function from signal module
 
 
-2. **Component Initialization**
+2. **コンポーネントの初期化**
 
-   The LED is connected to GPIO pin 22, and the Button is connected to GPIO pin 17.
+   LEDはGPIO22に接続し、ボタンはGPIO17に接続します。
 
    .. code-block:: python
 
@@ -152,18 +152,18 @@ The following Python code toggles the LED based on button presses and releases:
       # Initialize a Button object on GPIO pin 17
       button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-3. **Event Handling**
+3. **イベント処理**
 
-   The ``when_activated`` and ``when_deactivated`` events are linked to the LED's ``high()`` and ``low()`` methods, respectively. This ensures that the LED turns on when the button is pressed and off when the button is released.
+   ``when_activated`` と ``when_deactivated`` のイベントを、それぞれLEDの ``high()`` メソッドと ``low()`` メソッドに関連付けます。これにより、ボタンを押すとLEDが点灯し、ボタンを離すと消灯します。
 
    .. code-block:: python
 
        button.when_activated = led.high
        button.when_deactivated = led.low
 
-4. **Event Loop**
+4. **イベントループ**
 
-   The ``pause()`` function keeps the program running and listens for button press and release events.
+   ``pause()`` 関数によりプログラムを継続実行し、ボタンの押下および解放イベントを待機します。
 
    .. code-block:: python
 
@@ -171,32 +171,32 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **LED Does Not Light Up**  
+1. **LEDが点灯しない**  
 
-   - **Cause**: Incorrect GPIO pin connection or LED wiring.  
-   - **Solution**: Verify that the LED's positive leg is connected to GPIO pin 22 and its negative leg to a resistor leading to ground.
+   - **原因**: GPIOピンの接続ミス、またはLEDの配線に問題がある可能性があります。  
+   - **対処方法**: LEDのプラス側の脚がGPIO22に接続され、マイナス側の脚が抵抗を介してGNDに接続されていることを確認してください。
 
-2. **Button Press Has No Effect**  
+2. **ボタンを押しても反応しない**  
 
-   - **Cause**: Incorrect button wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the button is connected correctly to GPIO pin 17 and ground. .
+   - **原因**: ボタンの配線、またはGPIOピンの設定が正しくない可能性があります。  
+   - **対処方法**: ボタンがGPIO17とGNDに正しく接続されていることを確認してください。
 
-3. **LED Stays On or Off Regardless of Button State**  
+3. **ボタンの状態に関係なくLEDが点灯したまま、または消灯したままになる**  
 
-   - **Cause**: The button may not trigger events correctly.  
-   - **Solution**: Check the button’s functionality by directly testing its connectivity with a multimeter or simple circuit.
+   - **原因**: ボタンのイベントが正しく検出されていない可能性があります。  
+   - **対処方法**: マルチメーターや簡単な回路を使って、ボタン自体が正常に動作しているか確認してください。
 
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Toggle LED State**  
+1. **LEDの状態をトグルする**  
 
-   Modify the script to toggle the LED's state with each button press instead of turning it on/off directly:
+   ボタンを押すたびにLEDを単純に点灯・消灯するのではなく、状態を切り替えるようにスクリプトを変更できます。
 
    .. code-block:: python
     
@@ -208,9 +208,9 @@ The following Python code toggles the LED based on button presses and releases:
 
       button.when_activated = toggle
 
-2. **Multiple LEDs**  
+2. **複数のLED**  
 
-   Control multiple LEDs with a single button, cycling through different patterns:
+   1つのボタンで複数のLEDを制御し、異なる点灯パターンを切り替えることができます。
 
    .. code-block:: python
 
@@ -225,9 +225,9 @@ The following Python code toggles the LED based on button presses and releases:
 
       button.when_activated = cycle_leds
 
-3. **Button Press Duration**  
+3. **ボタンの押下時間**  
 
-   Add functionality to perform different actions based on how long the button is held:
+   ボタンを押している時間の長さに応じて、異なる動作を行う機能を追加できます。
 
    .. code-block:: python
 
@@ -250,9 +250,9 @@ The following Python code toggles the LED based on button presses and releases:
       button.when_activated = start_timer
       button.when_deactivated = check_duration
 
-4. **Debouncing**  
+4. **デバウンス処理**  
 
-   Implement software debouncing for more accurate button press detection:
+   より正確にボタン押下を検出するために、ソフトウェアデバウンスを実装できます。
 
    .. code-block:: python
 
@@ -280,6 +280,6 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use a button to control an LED with a Fusion HAT+. Buttons are versatile components and can be integrated into various applications, from basic circuits to complex interactive systems.
+このプロジェクトでは、Fusion HAT+を使ってボタンでLEDを制御する方法を紹介しました。ボタンは汎用性の高いコンポーネントであり、基本的な回路から複雑なインタラクティブシステムまで、さまざまなアプリケーションに活用できます。

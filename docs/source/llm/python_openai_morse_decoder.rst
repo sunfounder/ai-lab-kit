@@ -4,18 +4,19 @@
 
 .. _py_morse_code_decoder:
 
-(Example) AI-Powered Morse Code Decoder
+(Example) AI 搭載モールス信号デコーダー
 ========================================
 
-**Introduction**
+**はじめに**
 
-This project creates an intelligent **Morse Code Decoder** that uses AI to interpret timing patterns of button presses. The system captures precise timing data and leverages OpenAI's GPT to decode Morse code messages in real-time. The decoder features:
+このプロジェクトでは、ボタンの押下タイミングのパターンを AI で解釈するインテリジェントな **モールス信号デコーダー** を作成します。  
+システムは正確なタイミングデータを取得し、OpenAI の GPT を活用して、モールス信号のメッセージをリアルタイムでデコードします。主な機能は以下の通りです：
 
-1. **Timing-based Input** capturing precise press and release times
-2. **AI-powered Decoding** using GPT to interpret dot/dash patterns
-3. **Visual Indicator** with LED showing active decoding state
-4. **Dual-button Interface** separate input and control buttons
-5. **Real-time Feedback** displaying timing data as you input
+1. 押下・解放の正確な時刻を記録する **タイミングベース入力**
+2. GPT を用いた **AI デコード** による点・線パターンの解釈
+3. デコード中であることを示す LED の **視覚インジケーター**
+4. 入力用ボタンと制御用ボタンを分けた **2 ボタンインターフェース**
+5. 入力中のタイミングデータをその場で表示する **リアルタイムフィードバック**
 
 .. raw:: html
 
@@ -24,17 +25,17 @@ This project creates an intelligent **Morse Code Decoder** that uses AI to inter
           Your browser does not support the video tag.
       </video>
 
-The system records button press durations, sends the timing data to AI for interpretation, and accurately decodes Morse code sequences like the universal distress signal "SOS."
+このシステムはボタンの押下時間を記録し、そのタイミングデータを AI に送って解釈させることで、世界共通の救難信号である「SOS」のようなモールス信号列を正確にデコードできます。
 
-You can combine timing-sensitive inputs with AI interpretation for various coding systems. See:
+タイミングに敏感な入力と AI による解釈を組み合わせることで、さまざまな符号化システムに応用できます。以下も参照してください：
 
 * :ref:`py_online_llm` 
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -57,9 +58,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the components to the Raspberry Pi as follows:
+以下のように部品を Raspberry Pi に接続します：
 
 .. image:: img/fzz/morse_decoder_bb.png
    :width: 80%
@@ -74,9 +75,9 @@ Connect the components to the Raspberry Pi as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**サンプルの実行**
 
-#. Run the code
+#. コードを実行する
 
    .. raw:: html
 
@@ -87,19 +88,19 @@ Connect the components to the Raspberry Pi as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_morse_decoder.py
 
-#. Try a simple Morse code message (example: "SOS")
+#. 簡単なモールス信号メッセージを試す（例："SOS"）
 
-   After the program starts, press the start/stop button to begin recording.  
-   Then press the Morse button to input dots (short presses) and dashes (long presses).
+   プログラム開始後、start/stop ボタンを押して記録を開始します。  
+   その後、モールス用ボタンを使って、点（短押し）と線（長押し）を入力します。
 
-   When you finish, press the start/stop button again to stop recording and decode the message.
+   入力が終わったら、もう一度 start/stop ボタンを押して記録を終了し、メッセージをデコードします。
 
-#. Check the console output
+#. コンソール出力を確認する
 
-   The console will display the press/release timestamps, and the AI will analyze the timing data
-   and output the decoded message.
+   コンソールには押下／解放のタイムスタンプが表示され、AI がそのタイミングデータを解析して、
+   デコード結果を出力します。
 
-   **Typical console output when inputting "SOS":**
+   **"SOS" を入力したときの典型的なコンソール出力：**
 
    .. code-block:: text
 
@@ -123,18 +124,18 @@ Connect the components to the Raspberry Pi as follows:
 
       Putting it all together, the decoded message is "SOS".
 
-#. Understand the workflow
+#. ワークフローを理解する
 
-   1. Start recording: press the start/stop button (GPIO 17) and the LED turns ON
-   2. Input Morse code: use the Morse button (GPIO 22) for dots and dashes
-   3. Real-time display: the console shows press/release timestamps
-   4. Stop and decode: press the start/stop button again and the LED turns OFF
-   5. AI analysis: the timing data is sent to OpenAI GPT for interpretation
-   6. Decoded output: the AI prints the decoded message
+   1. 記録開始：start/stop ボタン（GPIO 17）を押すと LED が ON になります
+   2. モールス信号を入力：モールス用ボタン（GPIO 22）で点と線を入力します
+   3. リアルタイム表示：コンソールに押下／解放のタイムスタンプが表示されます
+   4. 停止してデコード：もう一度 start/stop ボタンを押すと LED が OFF になります
+   5. AI 解析：タイミングデータが OpenAI GPT に送られて解釈されます
+   6. デコード結果：AI が解読したメッセージを表示します
 
-**Code**
+**コード**
 
-Here is the full Python script for the AI-Powered Morse Code Decoder:
+以下は AI 搭載モールス信号デコーダーの Python スクリプト全体です：
 
 .. raw:: html
 
@@ -255,11 +256,11 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. GPIO Pin Configuration
+1. GPIO ピンの設定
 
-   Three GPIO pins are configured for different purposes:
+   3 本の GPIO ピンをそれぞれ異なる用途で設定しています：
    
    .. code-block:: python
    
@@ -267,13 +268,13 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
       start_stop_button = Pin(17, mode=Pin.IN, pull=Pin.PULL_DOWN, bounce_time=0.05)
       led = Pin(27, Pin.OUT)
    
-   - Bounce time (0.05s): Prevents multiple detections from mechanical switch bouncing
-   - Pull-down: Ensures clean LOW signal when button is not pressed
-   - Separate functions: Input vs. control buttons prevent accidental inputs
+   - バウンスタイム（0.05 秒）：メカニカルスイッチのチャタリングによる多重検出を防ぎます
+   - プルダウン：ボタン未押下時に安定した LOW 信号を保ちます
+   - 役割分離：入力ボタンと制御ボタンを分けることで誤入力を防ぎます
 
-2. Timing Data Storage
+2. タイミングデータの保存
 
-   Press/release events are stored with precise timestamps:
+   押下／解放イベントは正確なタイムスタンプとともに保存されます：
    
    .. code-block:: python
    
@@ -283,9 +284,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
       morse_events.append(('pressed', 1767773542.1257536))
       morse_events.append(('released', 1767773542.285196))
 
-3. Debounce Mechanism
+3. デバウンス機構
 
-   Prevents false triggers from switch bouncing:
+   スイッチのチャタリングによる誤検出を防ぎます：
    
    .. code-block:: python
    
@@ -295,9 +296,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
           
           morse_events.append(('released', release_time))
 
-4. State Management
+4. 状態管理
 
-   The system uses a flag to track recording state:
+   システムはフラグを使って記録状態を管理します：
    
    .. code-block:: python
    
@@ -312,9 +313,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
               input_active = True
               morse_events.clear()  # Clear previous data
 
-5. Visual Indicator
+5. 視覚インジケーター
 
-   LED provides visual feedback of recording state:
+   LED によって記録状態を視覚的に確認できます：
    
    .. code-block:: python
    
@@ -324,9 +325,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
           else:
               led.on()   # LED ON when recording
 
-6. AI Prompt Construction
+6. AI へのプロンプト構築
 
-   Timing data is converted to string for AI processing:
+   タイミングデータは AI が処理しやすいよう文字列化して送信します：
    
    .. code-block:: python
    
@@ -335,9 +336,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
       # Example format sent to AI:
       # "[('pressed', 1767773542.1257536), ('released', 1767773542.285196), ...]"
 
-7. Streaming Response
+7. ストリーミング応答
 
-   AI response is processed and displayed in real-time:
+   AI の応答はリアルタイムで処理・表示されます：
    
    .. code-block:: python
    
@@ -347,9 +348,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
           if next_word:
               print(next_word, end="", flush=True)
 
-8. Event-driven Architecture
+8. イベント駆動アーキテクチャ
 
-   Button events trigger immediate callbacks:
+   ボタンイベントに対して即時にコールバックが実行されます：
    
    .. code-block:: python
    
@@ -358,9 +359,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
       morse_input.when_activated = morse_input_pressed
       morse_input.when_deactivated = morse_input_released
 
-9. Timing Precision
+9. タイミング精度
 
-   Uses ``time.time()`` for microsecond-precise timing:
+   ``time.time()`` を使って高精度のタイミングを取得します：
    
    .. code-block:: python
    
@@ -369,9 +370,9 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
       # Calculate press duration:
       duration = release_time - start_time
 
-10. Data Clearing
+10. データのクリア
 
-    After decoding, the event list is cleared for next message:
+    デコード後は、次のメッセージ入力に備えてイベントリストをクリアします：
     
     .. code-block:: python
     
@@ -381,93 +382,93 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
 
 ----------------------------------------------
 
-**Morse Code Timing Standards**
+**モールス信号のタイミング基準**
 
-* Standard Timing (based on word PARIS):
+* 標準タイミング（単語 PARIS 基準）：
 
-  - Dot: 1 unit
-  - Dash: 3 units
-  - Intra-character gap (between dots/dashes): 1 unit
-  - Inter-character gap (between letters): 3 units
-  - Word gap (between words): 7 units
+  - 点：1 単位
+  - 線：3 単位
+  - 文字内間隔（点・線の間）：1 単位
+  - 文字間隔（文字と文字の間）：3 単位
+  - 単語間隔（単語と単語の間）：7 単位
 
-* Practical Implementation:
+* 実用上の目安：
 
-  - Dot: < 0.3 seconds (short press)
-  - Dash: > 0.5 seconds (long press)
-  - Between elements: < 0.5 seconds pause
-  - Between letters: 0.5-1.5 seconds pause
-  - Between words: > 1.5 seconds pause
+  - 点：0.3 秒未満（短押し）
+  - 線：0.5 秒超（長押し）
+  - 要素間：0.5 秒未満の間隔
+  - 文字間：0.5〜1.5 秒の間隔
+  - 単語間：1.5 秒超の間隔
 
-* Common Morse Code Letters:
+* よく使うモールス信号の文字：
 
-  - A: • — (dot-dash)
-  - B: — • • • (dash-dot-dot-dot)
-  - C: — • — • (dash-dot-dash-dot)
-  - S: • • • (dot-dot-dot)
-  - O: — — — (dash-dash-dash)
-
-----------------------------------------------
-
-**Troubleshooting**
-
-- Button presses not registering
-
-  - Check wiring: GPIO 22/17 to button, other side to Ground
-  - Verify pull-down configuration
-  - Test with simple script: ``print(Pin(22, mode=Pin.IN, pull=Pin.PULL_DOWN).read())``
-  - Check bounce time setting (0.05s may be too high)
-
-- LED not lighting up
-
-  - Verify LED polarity: anode (long leg) to GPIO 27 through resistor
-  - Check resistor value (220Ω recommended)
-  - Test LED directly: ``Pin(27, Pin.OUT).on()`` should light LED
-  - Ensure ground connection is complete
-
-- Timing data seems wrong
-
-  - Check system clock: ``date`` command
-  - Reduce debounce time if too sensitive
-  - Add print statements to verify callback execution
-  - Test with consistent press durations
-
-- AI not decoding correctly
-
-  - Check API key and internet connection
-  - Examine timing data sent to AI (print ``morse_events``)
-  - Ensure consistent press durations (dots short, dashes long)
-  - Add clearer pauses between letters
-
-- Multiple triggers from single press
-
-  - Increase bounce_time parameter (try 0.1s)
-  - Check for mechanical switch bouncing
-  - Add hardware debounce with capacitor
-  - Verify button is properly wired
-
-- System doesn't respond to start/stop
-
-  - Check if other callback is interfering
-  - Verify ``input_active`` flag logic
-  - Add debug prints to ``handle_start_stop()``
-  - Ensure no other process using GPIO
-
-- AI response too slow
-
-  - Check internet connection speed
-  - Reduce number of events (shorter messages)
-  - Consider using local decoding as fallback
-  - Implement timeout for AI responses
-
-- Can't distinguish dots from dashes
-
-  - Practice consistent timing
-  - Adjust threshold in AI instructions
-  - Add local preprocessing before sending to AI
-  - Use visual feedback during input
+  - A: • —（点・線）
+  - B: — • • •（線・点・点・点）
+  - C: — • — •（線・点・線・点）
+  - S: • • •（点・点・点）
+  - O: — — —（線・線・線）
 
 ----------------------------------------------
 
+**トラブルシューティング**
 
-This AI-powered Morse code decoder demonstrates how precise timing data combined with intelligent pattern recognition can revive and modernize historical communication methods, making them accessible and educational for new generations!
+- ボタン入力が認識されない
+
+  - 配線を確認してください：GPIO 22 / 17 からボタンへ、反対側は Ground へ接続
+  - プルダウン設定を確認してください
+  - 簡単なスクリプトでテスト： ``print(Pin(22, mode=Pin.IN, pull=Pin.PULL_DOWN).read())``
+  - バウンスタイム設定を確認してください（0.05 秒が長すぎる場合があります）
+
+- LED が点灯しない
+
+  - LED の極性を確認してください：アノード（長い脚）は抵抗を介して GPIO 27 へ
+  - 抵抗値を確認してください（220Ω 推奨）
+  - 直接テスト： ``Pin(27, Pin.OUT).on()`` で LED が点灯するはずです
+  - GND 接続が正しく完了しているか確認してください
+
+- タイミングデータがおかしい
+
+  - システムクロックを確認： ``date`` コマンド
+  - 反応が敏感すぎる場合はデバウンス時間を下げてください
+  - print を追加してコールバックが正しく実行されているか確認してください
+  - 一定の長さで押すテストを行ってください
+
+- AI が正しくデコードできない
+
+  - API キーとインターネット接続を確認してください
+  - AI に送っているタイミングデータを確認してください（ ``morse_events`` を print）
+  - 押下時間を安定させてください（点は短く、線は長く）
+  - 文字の間により明確な間隔を入れてください
+
+- 1 回押しただけで複数回トリガーされる
+
+  - ``bounce_time`` パラメータを増やしてください（0.1 秒など）
+  - メカニカルスイッチのチャタリングを確認してください
+  - コンデンサによるハードウェアデバウンスを追加してください
+  - ボタン配線が正しいか確認してください
+
+- start/stop に反応しない
+
+  - 他のコールバックが干渉していないか確認してください
+  - ``input_active`` フラグのロジックを確認してください
+  - ``handle_start_stop()`` にデバッグ用 print を追加してください
+  - 他のプロセスが GPIO を使用していないことを確認してください
+
+- AI の応答が遅い
+
+  - インターネット接続速度を確認してください
+  - イベント数を減らしてください（短いメッセージで試す）
+  - 代替としてローカルデコードの導入も検討してください
+  - AI 応答にタイムアウト処理を追加してください
+
+- 点と線を区別しにくい
+
+  - タイミングを一定にする練習をしてください
+  - AI への instructions 内の閾値を調整してください
+  - AI に送る前にローカル前処理を追加してください
+  - 入力中に視覚フィードバックを追加すると分かりやすくなります
+
+----------------------------------------------
+
+
+この AI 搭載モールス信号デコーダーは、正確なタイミングデータと高度なパターン認識を組み合わせることで、歴史ある通信手段を現代的に再解釈し、新しい世代にとって学びやすく親しみやすい形で活用できることを示しています。

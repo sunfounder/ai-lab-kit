@@ -5,22 +5,22 @@
 
 .. _py_photoresistor:
 
-2.9 Photoresistor
+2.9 フォトレジスタ
 ===========================
 
-**Introduction**
+**はじめに**
 
-A photoresistor, also known as a light-dependent resistor (LDR), is a component that detects light intensity. Its resistance decreases as the light intensity increases, making it useful in devices like automatic night lamps and ambient light controllers. 
+フォトレジスタ（Photoresistor）は、光依存抵抗（LDR: Light Dependent Resistor）とも呼ばれ、光の強さを検出する電子部品です。周囲の光が強くなるほど抵抗値が低くなる特性を持ち、自動ナイトランプや環境光制御装置などに広く利用されています。
 
-This project demonstrates how to use a photoresistor with Fusion HAT+ to adjust an LED's brightness based on ambient light levels. The working principle is similar to a potentiometer, except the input is light instead of manual adjustment.
+このプロジェクトでは、フォトレジスタをFusion HAT+と組み合わせて使用し、周囲の光の強さに応じてLEDの明るさを調整する方法を学びます。基本的な動作原理はポテンショメータと似ていますが、手動操作の代わりに光の強さが入力として利用される点が異なります。
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -47,9 +47,9 @@ Here are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below are the schematic diagrams illustrating how to connect the components:
+以下は、各コンポーネントの接続方法を示した回路図です。
 
 
 .. image:: img/fzz/2.2.1_sch.png
@@ -61,9 +61,9 @@ Below are the schematic diagrams illustrating how to connect the components:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Build the circuit as shown in the diagram below:
+以下の図を参考に回路を組み立ててください。
 
 .. image:: img/fzz/2.2.1_bb.png
    :width: 80%
@@ -71,18 +71,18 @@ Build the circuit as shown in the diagram below:
 
 
 
-Ensure that:
+以下の点を確認してください。
 
-- The photoresistor is connected to the Fusion HAT+ to convert analog signals into digital values.
-- The LED is connected to a GPIO pin for PWM control.
-- All connections are secure, and power and ground connections are properly set.
+- フォトレジスタはFusion HAT+に接続され、アナログ信号をデジタル値に変換できるようになっています。
+- LEDはPWM制御を行うためにGPIOピンへ接続されています。
+- すべての接続が確実であり、電源とGNDが正しく接続されていることを確認してください。
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。  
+以下の手順に従ってサンプルを実行してください。
 
 .. raw:: html
 
@@ -93,21 +93,21 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.9_Photoresistor.py
 
-This Python script continuously reads the photoresistor's value, maps it to a suitable range for setting the LED brightness, and adjusts the LED's brightness accordingly. The script also includes a graceful exit mechanism to turn off the LED when interrupted by the user. When executed:
+このPythonスクリプトは、フォトレジスタの値を継続的に読み取り、その値をLEDの明るさに適した範囲へ変換してLEDの明るさを調整します。また、ユーザーによって中断された場合にLEDを安全に消灯する処理も含まれています。実行すると次のように動作します。
 
-1. The Fusion HAT+ continuously reads photoresistor values from its input channel (ranging from 0 to 4095).
-2. The analog value, representing light intensity or another variable input, is printed to the console as ``result =  <value>``.
-3. The script maps the analog value to a PWM signal to adjust the brightness of the LED.
-4. The LED brightness dynamically changes based on the ADC input, with updates every 0.2 seconds.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+1. Fusion HAT+ がフォトレジスタの入力チャンネルから値（0〜4095）を継続的に読み取ります。
+2. 光の強さを表すアナログ値が ``result = <value>`` の形式でコンソールに表示されます。
+3. スクリプトはアナログ値をPWM信号に変換し、LEDの明るさを調整します。
+4. LEDの明るさはADC入力に応じて動的に変化し、0.2秒ごとに更新されます。
+5. ``Ctrl+C`` でプログラムを終了するとLEDは消灯します。
 
 
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Below is the Python code used in this project:
+以下はこのプロジェクトで使用するPythonコードです。
 
 .. raw:: html
 
@@ -156,9 +156,9 @@ Below is the Python code used in this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports:**
+1. **インポート:**
 
 
    .. code-block:: python
@@ -168,9 +168,9 @@ Below is the Python code used in this project:
       import time
 
 
-   The script imports necessary modules for reading analog values and controlling the LED brightness.
+   このスクリプトでは、アナログ値を読み取るためのモジュールとLEDの明るさを制御するためのモジュールをインポートしています。
 
-2. **Initialization:**
+2. **初期化:**
 
 
    .. code-block:: python
@@ -181,21 +181,21 @@ Below is the Python code used in this project:
       # Set up the potentiometer
       photoresistor = ADC('A0')
 
-   The LED connected to GPIO pin P0 is initialized, and the A0 is set up to read analog values from the photoresistor.
+   GPIOピン ``P0`` に接続されたLEDを初期化し、 ``A0`` ピンからフォトレジスタのアナログ値を読み取るよう設定します。
 
 
-3. **Mapping Function:**
+3. **マッピング関数:**
 
    .. code-block:: python
 
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts ADC values (0-4095) to a range suitable for PWM control (0 to 100).
+   ``MAP`` 関数は、ADCの値（0〜4095）をPWM制御に適した範囲（0〜100）へ変換します。
 
 
 
-4. **Main Loop:**
+4. **メインループ:**
 
    .. code-block:: python
 
@@ -213,12 +213,12 @@ Below is the Python code used in this project:
          # Wait for 1 seconds before reading again
          time.sleep(0.2)
 
-   - Continuously reads light intensity values from the photoresistor.
-   - Adjusts the LED brightness proportionally to the detected light intensity.
-   - Includes a short delay to reduce CPU usage and allow visible changes in LED brightness.
+   - フォトレジスタから光の強さを継続的に読み取ります。
+   - 検出された光の強さに応じてLEDの明るさを比例的に調整します。
+   - CPU負荷を抑え、LEDの変化を視覚的に確認できるよう短い待機時間を設けています。
 
 
-5. **Graceful Exit:**
+5. **安全な終了処理:**
 
    .. code-block:: python
 
@@ -227,36 +227,36 @@ Below is the Python code used in this project:
       except KeyboardInterrupt:
          led.pulse_width_percent(0)  # Turn off the LED
 
-   The program ensures the LED is turned off when the script is interrupted (e.g., via ``Ctrl+C``).
+   スクリプトが ``Ctrl+C`` などで中断された場合、LEDが確実に消灯するようにしています。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **LED Does Not Light Up**:
+1. **LEDが点灯しない**
 
-   - **Cause**: Incorrect GPIO connection or LED wiring.
-   - **Solution**: Verify the LED is connected to P0 with a resistor to prevent damage.
+   - **原因**: GPIO接続またはLED配線の誤り。
+   - **解決方法**: LEDが抵抗を介してP0に接続されていることを確認してください。
 
-2. **ADC Values Always Zero or Maximum**:
+2. **ADC値が常に0または最大値になる**
 
-   - **Cause**: Incorrect wiring.
-   - **Solution**: Check the ADC pin and ensure it is connected to photoresistor.
+   - **原因**: 配線ミス。
+   - **解決方法**: ADCピンがフォトレジスタに正しく接続されているか確認してください。
 
-3. **LED Brightness Not Changing**:
+3. **LEDの明るさが変化しない**
 
-   - **Cause**: ADC values are not correctly mapped to the PWM range.
-   - **Solution**: Ensure the mapping function correctly scales the ADC value to the PWM range (0 to 100).
+   - **原因**: ADC値がPWM範囲へ正しくマッピングされていない。
+   - **解決方法**: ``MAP`` 関数がADC値を0〜100のPWM範囲に正しく変換しているか確認してください。
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**拡張アイデア**
 
 
-1. **Threshold-Based Behavior**: Turn the LED on or off when the analog value crosses a threshold:
+1. **しきい値制御**: アナログ値が一定値を超えたときにLEDをオン／オフする機能を追加できます。
      
    .. code-block:: python
 
@@ -265,7 +265,7 @@ Below is the Python code used in this project:
       else:
          led.off()
 
-2. **Data Logging**: Log the ADC values and LED brightness to a file for analysis:
+2. **データログ記録**: ADC値やLEDの明るさをファイルに記録して分析できます。
      
      .. code-block:: python
 
@@ -276,6 +276,6 @@ Below is the Python code used in this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This experiment demonstrates how to use a photoresistor and Fusion HAT+ to control an LED's brightness based on ambient light intensity. By understanding the principles of analog-to-digital conversion and PWM control, you can expand this project to develop more complex light-responsive systems, such as automated lighting or smart devices.
+この実験では、フォトレジスタとFusion HAT+を使用して、周囲の光の強さに応じてLEDの明るさを制御する方法を学びました。アナログ-デジタル変換とPWM制御の原理を理解することで、自動照明やスマートデバイスなど、より高度な光応答システムの開発へ応用することができます。

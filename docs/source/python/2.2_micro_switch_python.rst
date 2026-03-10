@@ -4,18 +4,18 @@
 
 .. _py_micro_switch:
 
-2.2 Micro Switch
+2.2 マイクロスイッチ
 =====================
 
-**Introduction**
+**はじめに**
 
-In this project, we will explore how to use a Micro Switch to control two LEDs. A Micro Switch is a highly sensitive component that requires minimal compression to activate. It is often used in safety systems to prevent machinery or doors from operating under unsafe conditions.
+このプロジェクトでは、マイクロスイッチを使って2つのLEDを制御する方法を学びます。マイクロスイッチは、わずかな押し込みで動作する高感度な部品です。安全でない状態で機械やドアが動作しないようにするため、安全システムなどでよく使用されます。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを行うには、以下のコンポーネントが必要です。
 
 .. list-table::
     :widths: 30 20
@@ -43,9 +43,9 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 and GPIO27. When the Micro Switch is pressed, the red LED lights up; when released, the yellow LED turns on.
+マイクロスイッチはGPIO17に接続し、2つのLEDはGPIO22とGPIO27に接続します。マイクロスイッチを押すと赤色LEDが点灯し、離すと黄色LEDが点灯します。
 
 
 .. image:: img/fzz/2.1.2_sch.png
@@ -55,13 +55,13 @@ The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 an
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Connect one terminal of the Micro Switch to GPIO17 and the other to the ground (GND).
-2. Connect the anodes of the two LEDs to GPIO22 (yellow) and GPIO27 (red) through current-limiting resistors.
-3. Connect the cathodes of both LEDs to GND.
+1. マイクロスイッチの一方の端子をGPIO17に、もう一方をGNDに接続します。
+2. 2つのLEDのアノードを、電流制限用抵抗を介してGPIO22（黄色）およびGPIO27（赤色）に接続します。
+3. 両方のLEDのカソードをGNDに接続します。
 
 
 .. image:: img/fzz/2.1.2_bb.png
@@ -71,11 +71,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順でサンプルを実行してください。
 
 
 .. raw:: html
@@ -87,27 +87,27 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.2_MicroSwitch.py
 
-This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
+このPythonスクリプトは、Raspberry Piに接続されたマイクロスイッチの状態に応じて2つのLEDを制御します。実行すると、次のように動作します。
 
-1. **Micro Switch Pressed**:
+1. **マイクロスイッチが押されたとき**:
 
-   - LED1 (connected to GPIO pin 22) turns on.
-   - LED2 (connected to GPIO pin 27) turns off.
+   - LED1（GPIO22に接続）が点灯します。
+   - LED2（GPIO27に接続）が消灯します。
 
-2. **Micro Switch Released**:
+2. **マイクロスイッチが離されたとき**:
 
-   - LED1 turns off.
-   - LED2 turns on.
+   - LED1が消灯します。
+   - LED2が点灯します。
 
-3. The program continuously checks the micro switch's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. プログラムは0.5秒ごとにマイクロスイッチの状態を継続的に確認し、それに応じてLEDを切り替えます。
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. このスクリプトは ``Ctrl+C`` で中断されるまで継続して実行されます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code toggles between two LEDs based on the state of the Micro Switch:
+以下のPythonコードは、マイクロスイッチの状態に応じて2つのLEDを切り替えます。
 
 
 .. raw:: html
@@ -147,20 +147,20 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``fusion_hat`` library provides simple GPIO control, and the ``time`` library enables delays.
+   ``fusion_hat`` ライブラリはシンプルなGPIO制御機能を提供し、 ``time`` ライブラリは待機時間を設定するために使用します。
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from time import sleep  # Import sleep function for delays  
 
-2. **Component Initialization**
+2. **コンポーネントの初期化**
 
-   The Micro Switch is connected to GPIO17 with pull-up disabled, while the LEDs are connected to GPIO22 and GPIO27.
+   マイクロスイッチはプルアップを無効にした状態でGPIO17に接続し、LEDはGPIO22とGPIO27に接続します。
 
    .. code-block:: python
 
@@ -171,9 +171,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **Switch State Handling**
+3. **スイッチ状態の処理**
 
-   The program checks the state of the Micro Switch in a loop. When pressed, LED1 turns on and LED2 off. When released, LED1 turns off and LED2 on.
+   プログラムはループ内でマイクロスイッチの状態を確認します。押されるとLED1が点灯しLED2が消灯し、離されるとLED1が消灯しLED2が点灯します。
 
    .. code-block:: python
 
@@ -186,9 +186,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
             led2.on()
          sleep(0.5)
 
-4. **Interrupt Handling**
+4. **割り込み処理**
 
-   The ``try-except`` block ensures the script exits cleanly when interrupted using Ctrl+C.
+   ``try-except`` ブロックにより、Ctrl+Cで中断した場合でもスクリプトを安全に終了できます。
 
    .. code-block:: python
 
@@ -199,22 +199,22 @@ The following Python code toggles between two LEDs based on the state of the Mic
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **LEDs Do Not Respond**  
+1. **LEDが反応しない**  
 
-   - **Cause**: Incorrect GPIO wiring or pin configuration.  
-   - **Solution**: Ensure LED1 is connected to GPIO pin 22, LED2 to GPIO pin 27, and both LEDs have appropriate resistors. Verify the micro switch connection to GPIO pin 17.
+   - **原因**: GPIO配線またはピン設定が正しくない可能性があります。  
+   - **対処方法**: LED1がGPIO22、LED2がGPIO27に接続されており、両方のLEDに適切な抵抗が入っていることを確認してください。また、マイクロスイッチがGPIO17に正しく接続されていることも確認してください。
 
-2. **Micro Switch Not Detected**  
+2. **マイクロスイッチが検出されない**  
 
-   - **Cause**: The micro switch might not be configured properly or needs a pull-up/pull-down resistor.  
-   - **Solution**: Confirm that ``pull = Pin.PULL_UP`` matches your switch configuration. If the switch requires a pull-up, enable it in the initialization.
+   - **原因**: マイクロスイッチの設定が適切でない、またはプルアップ／プルダウン抵抗の設定が必要な可能性があります。  
+   - **対処方法**: ``pull = Pin.PULL_UP`` がスイッチの構成に合っているか確認してください。プルアップが必要な場合は、初期化時に有効にしてください。
 
-3. **LEDs Flicker or Behave Erratically**  
+3. **LEDがちらつく、または不安定に動作する**  
 
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce by introducing a short delay after detecting a press:
+   - **原因**: ボタンのチャタリングが発生している可能性があります。  
+   - **対処方法**: 押下を検出した後に短い遅延を追加して、ソフトウェアデバウンスを実装してください。
 
 
    .. code-block:: python
@@ -226,11 +226,11 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Adjustable Delay**  
+1. **遅延時間の調整**  
 
-   Allow the user to change the delay dynamically to fine-tune LED responsiveness:
+   遅延時間を動的に変更できるようにして、LEDの応答性を細かく調整できます。
 
    .. code-block:: python
 
@@ -240,9 +240,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 
 
-2. **Audio Feedback**  
+2. **音によるフィードバック**  
 
-   Add a buzzer to provide an audible signal when the switch is pressed or released:
+   スイッチが押されたときや離されたときに、ブザーで音による通知を追加できます。
 
    .. code-block:: python
 
@@ -257,6 +257,6 @@ The following Python code toggles between two LEDs based on the state of the Mic
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use a Micro Switch to control LEDs with the Fusion HAT+. Micro Switches are versatile components widely used in safety systems, user interfaces, and industrial controls. Experimenting with them can open up opportunities for creating more advanced projects.
+このプロジェクトでは、Fusion HAT+でマイクロスイッチを使ってLEDを制御する方法を紹介しました。マイクロスイッチは汎用性の高い部品であり、安全システム、ユーザーインターフェース、産業用制御など幅広い分野で使用されています。実際に試してみることで、より高度なプロジェクトへ発展させるためのヒントが得られるでしょう。

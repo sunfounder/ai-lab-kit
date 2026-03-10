@@ -4,19 +4,19 @@
 
 .. _py_video:
 
-3.2 Video Module
+3.2 ビデオモジュール
 =====================
 
-**Introduction**
+**はじめに**
 
-Beyond taking photos, the Raspberry Pi Camera Module also allows you to record high-quality videos. This project demonstrates how to set up the camera module to record videos with configurable resolution, frame rate, and bitrate, saving them directly to your Raspberry Pi.
+Raspberry Piカメラモジュールは、写真撮影だけでなく高品質な動画の録画にも対応しています。このプロジェクトでは、カメラモジュールを設定し、解像度、フレームレート、ビットレートを調整しながら動画を録画し、Raspberry Piに直接保存する方法を紹介します。
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Below are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -34,23 +34,23 @@ Below are the components required for this project:
 
 ----------------------------------------------
 
-**Experimental Procedures**
+**実験手順**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. カメラモジュールを便利に使用するために、:ref:`assemble_fusion_hat_pan_tilt` を推奨します。
 
    .. note:: 
      
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+     パンチルトを組み立てると一部のピンが隠れてしまう場合があるため、カメラを使用するときだけ組み立てるか、組み立て後に外側へ配置することをおすすめします。
    
    
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. Raspberry Piのデスクトップにアクセスします。
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: **VNC** を使用してフルデスクトップ環境にアクセスします。
+   * |link_rpi_connect|: **Raspberry Pi Connect** を使用して、任意のブラウザから安全にPiへアクセスします。
 
-#. Open a Terminal and navigate to the project folder:
+#. ターミナルを開き、プロジェクトフォルダへ移動します。
 
    .. raw:: html
    
@@ -60,7 +60,7 @@ Below are the components required for this project:
    
       cd ~/ai-lab-kit/python
 
-#. Run the video recording script:
+#. 動画録画スクリプトを実行します。
 
    .. raw:: html
    
@@ -70,33 +70,33 @@ Below are the components required for this project:
 
       sudo python3 3.2_Video.py
 
-#. After the script starts, press the **Fusion HAT+ USR button** to control recording.
+#. スクリプトの起動後、 **Fusion HAT+ のUSRボタン** を押して録画を操作します。
 
    .. image:: img/3.1_user_button.png
       :width: 50%
 
-   * First press → **Start recording** with a live preview.
-   * Second press → **Stop recording**.
-   * Videos are saved in your ``~/Videos`` directory with names like:
-     ``video_20250101_153045.mp4``.
-   * Press ``Ctrl+C`` in the terminal to exit the program.
+   * 1回目の押下 → **ライブプレビュー付きで録画開始**
+   * 2回目の押下 → **録画停止**
+   * 動画は ``~/Videos`` ディレクトリに、次のような名前で保存されます。
+     ``video_20250101_153045.mp4``
+   * プログラムを終了するには、ターミナルで ``Ctrl+C`` を押します。
 
    .. image:: img/3.2_record_video.png
       :width: 70%
 
 
 .. note::
-   QT preview requires a desktop environment.
-   If the preview cannot be started (for example, over SSH),
-   the camera can still capture and save photos normally.
+   QTプレビューを使用するにはデスクトップ環境が必要です。
+   たとえばSSH経由などでプレビューを開始できない場合でも、
+   カメラは通常どおり動画を記録して保存できます。
 
 
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
-Below is the Python code used for this project:
+以下は、このプロジェクトで使用するPythonコードです。
 
 .. raw:: html
 
@@ -198,12 +198,12 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports and Purpose**
+1. **インポートと役割**
 
    .. code-block:: python
 
@@ -215,17 +215,17 @@ Below is the Python code used for this project:
       from picamera2.outputs import FfmpegOutput
       from fusion_hat.user_button import UserButton
 
-   These modules are used for:
+   これらのモジュールは次の用途で使用されます。
 
-   - ``os``: reading environment variables (e.g., ``DISPLAY``, ``SUDO_USER``) and building file paths.
-   - ``time``: generating timestamped filenames and keeping the program running in a loop.
-   - ``pwd``: finding the real user's home directory when the script is run with ``sudo``.
-   - ``Picamera2`` / ``Preview``: controlling the camera pipeline and preview modes.
-   - ``H264Encoder``: encoding video frames into H.264 format.
-   - ``FfmpegOutput``: saving the encoded stream into an ``.mp4`` file using FFmpeg.
-   - ``UserButton``: reading the Fusion HAT+ USR button and binding a click callback.
+   - ``os``: 環境変数（ ``DISPLAY`` や ``SUDO_USER`` など）の取得やファイルパスの生成に使用します。
+   - ``time``: タイムスタンプ付きのファイル名を生成し、ループ内でプログラムを継続動作させるために使用します。
+   - ``pwd``: スクリプトを ``sudo`` で実行した場合に、実際のユーザーのホームディレクトリを取得するために使用します。
+   - ``Picamera2`` / ``Preview``: カメラパイプラインとプレビュー機能を制御するために使用します。
+   - ``H264Encoder``: 動画フレームをH.264形式でエンコードするために使用します。
+   - ``FfmpegOutput``: エンコードされた映像をFFmpeg経由で ``.mp4`` ファイルとして保存するために使用します。
+   - ``UserButton``: Fusion HAT+ のUSRボタンを読み取り、クリック時のコールバック関数を関連付けます。
 
-2. **Selecting the Correct Save Directory (Works with sudo)**
+2. **正しい保存ディレクトリの選択（sudo対応）**
 
    .. code-block:: python
 
@@ -234,14 +234,14 @@ Below is the Python code used for this project:
       videos_dir = os.path.join(home, "Videos")
       os.makedirs(videos_dir, exist_ok=True)
 
-   This ensures videos are saved in the *real user's* ``~/Videos`` folder:
+   この処理により、動画は実際のユーザーの ``~/Videos`` フォルダに保存されます。
 
-   - When run with ``sudo``, ``SUDO_USER`` points to the original user.
-   - ``pwd.getpwnam(...).pw_dir`` returns that user's home directory.
-   - If not using ``sudo``, it falls back to the current user’s home (``~``).
-   - ``~/Videos`` is created if it doesn't exist.
+   - ``sudo`` で実行した場合、 ``SUDO_USER`` が元のユーザー名を示します。
+   - ``pwd.getpwnam(...).pw_dir`` で、そのユーザーのホームディレクトリを取得します。
+   - ``sudo`` を使用していない場合は、現在のユーザーのホームディレクトリ（ ``~`` ）を使います。
+   - ``~/Videos`` が存在しない場合は自動的に作成します。
 
-3. **Camera and Video Encoder Initialization**
+3. **カメラと動画エンコーダーの初期化**
 
    .. code-block:: python
 
@@ -249,12 +249,12 @@ Below is the Python code used for this project:
       camera.configure(camera.create_video_configuration(main={"size": (800, 600)}, controls={"FrameRate": 30}))
       encoder = H264Encoder(bitrate=10_000_000)
 
-   - ``create_video_configuration(...)`` sets up the camera pipeline for recording video.
-   - ``size=(800, 600)`` chooses the recording resolution.
-   - ``FrameRate=30`` records at 30 FPS.
-   - ``H264Encoder`` compresses the stream to H.264 at ~10 Mbps.
+   - ``create_video_configuration(...)`` は、動画録画用のカメラ設定を行います。
+   - ``size=(800, 600)`` は録画解像度を指定します。
+   - ``FrameRate=30`` は30 FPSで録画する設定です。
+   - ``H264Encoder`` は映像を約10 MbpsのH.264形式に圧縮します。
 
-4. **Recording State Variables**
+4. **録画状態を管理する変数**
 
    .. code-block:: python
 
@@ -262,12 +262,12 @@ Below is the Python code used for this project:
       output = None
       preview_started = False
 
-   - ``is_recording`` tracks whether recording is currently active.
-   - ``output`` stores the ``FfmpegOutput`` object to keep it alive while recording.
-   - ``preview_started`` records whether a preview window was successfully started,
-     so we only stop preview if it actually exists.
+   - ``is_recording`` は、現在録画中かどうかを管理します。
+   - ``output`` は、録画中に ``FfmpegOutput`` オブジェクトを保持するために使用します。
+   - ``preview_started`` は、プレビューウィンドウが正常に開始されたかを記録し、必要な場合のみ停止処理を行うために使用します。
 
-5. **Starting a Recording**
+
+5. **録画開始処理**
 
    .. code-block:: python
 
@@ -281,13 +281,13 @@ Below is the Python code used for this project:
          is_recording = True
          print(f"\nStart recording: {path}")
 
-   When recording starts:
+   録画を開始すると、次の処理が行われます。
 
-   - A timestamped filename is generated (e.g., ``video_20260203_154500.mp4``).
-   - A new ``FfmpegOutput`` is created for that file.
-   - ``camera.start_recording(...)`` begins encoding and writing the video stream.
+   - タイムスタンプ付きのファイル名を生成します（例: ``video_20260203_154500.mp4``）。
+   - そのファイルに対応する ``FfmpegOutput`` を作成します。
+   - ``camera.start_recording(...)`` により、動画のエンコードと保存を開始します。
 
-6. **Stopping a Recording**
+6. **録画停止処理**
 
    .. code-block:: python
 
@@ -299,12 +299,12 @@ Below is the Python code used for this project:
          output = None
          print("\nStop recording.")
 
-   When recording stops:
+   録画を停止すると、次の処理が行われます。
 
-   - ``camera.stop_recording()`` finalizes the output file correctly.
-   - The output reference is cleared so the object can be released.
+   - ``camera.stop_recording()`` により、出力ファイルを正しく終了します。
+   - ``output`` の参照を解除し、オブジェクトを解放できるようにします。
 
-7. **USR Button Toggle Control**
+7. **USRボタンによる録画切り替え**
 
    .. code-block:: python
 
@@ -316,12 +316,12 @@ Below is the Python code used for this project:
 
       UserButton().set_on_click(toggle)
 
-   Each press of the Fusion HAT+ USR button toggles recording:
+   Fusion HAT+ のUSRボタンを押すたびに録画状態が切り替わります。
 
-   - First press → start recording.
-   - Second press → stop recording.
+   - 1回目の押下 → 録画開始
+   - 2回目の押下 → 録画停止
 
-8. **Preview Logic (Works With or Without a Screen)**
+8. **プレビュー処理（画面あり／なし両対応）**
 
    .. code-block:: python
 
@@ -332,11 +332,10 @@ Below is the Python code used for this project:
           except Exception:
               preview_started = False
 
-   - If a desktop GUI is available (``DISPLAY`` is set), the script attempts a QT preview.
-   - If no screen/GUI is available (such as SSH without X11), it skips preview safely
-     and recording still works normally.
+   - デスクトップGUIが利用可能な場合（ ``DISPLAY`` が設定されている場合）、QTプレビューを開始しようとします。
+   - 画面やGUIが利用できない場合（X11なしのSSHなど）は、プレビューを開始せず、安全にそのまま録画のみを続行します。
 
-9. **Main Loop and Clean Exit (Ctrl+C)**
+9. **メインループと安全な終了処理（Ctrl+C）**
 
    .. code-block:: python
 
@@ -354,23 +353,24 @@ Below is the Python code used for this project:
           camera.stop()
           camera.close()
 
-   - ``camera.start()`` starts the camera pipeline.
-   - The loop keeps the script running so it can respond to button presses.
-   - When Ctrl+C is pressed, the ``finally`` block runs:
-     - Stops recording if it is active (prevents corrupted video files).
-     - Stops preview only if it was started (prevents preview-related errors).
-     - Stops and closes the camera to release hardware resources cleanly.
+   - ``camera.start()`` でカメラパイプラインを開始します。
+   - ループによってスクリプトを継続動作させ、ボタン入力を待ちます。
+   - ``Ctrl+C`` が押されると、 ``finally`` ブロックが実行されます。
+
+     - 録画中であれば録画を停止します（破損した動画ファイルを防ぎます）。
+     - プレビューが開始されていた場合のみ、プレビューを停止します。
+     - カメラを停止して閉じ、ハードウェアリソースを安全に解放します。
 
 
 -----------
 
-**Troubleshooting**
+**トラブルシューティング**
 
 
-1. **No Preview Window**
+1. **プレビューウィンドウが表示されない**
 
-   - **Cause:** Running without a desktop environment or missing Picamera2 GUI support.
-   - **Fix:** Use Raspberry Pi Desktop/VNC and install Picamera2:
+   - **原因:** デスクトップ環境なしで実行している、またはPicamera2のGUIサポートが不足している可能性があります。
+   - **対処方法:** Raspberry Pi Desktop/VNCを使用し、Picamera2をインストールしてください。
 
    .. raw:: html
    
@@ -380,30 +380,30 @@ Below is the Python code used for this project:
 
         sudo apt install -y python3-picamera2
 
-2. **USR Button Not Working**
+2. **USRボタンが動作しない**
 
-   - **Cause:** Fusion HAT+ not connected or insufficient permissions.
-   - **Fix:** Reseat the HAT, run the script with ``sudo``, and print debug logs in ``toggle_recording()`` if needed.
+   - **原因:** Fusion HAT+ が正しく接続されていない、または権限が不足している可能性があります。
+   - **対処方法:** HATを差し直し、 ``sudo`` でスクリプトを実行し、必要に応じて ``toggle_recording()`` にデバッグ出力を追加してください。
 
-3. **Video Not Saved**
+3. **動画が保存されない**
 
-   - **Cause:** Incorrect home directory when using ``sudo`` or missing ``~/Videos`` folder.
-   - **Fix:** Check ``REAL_USER`` and ``VIDEOS_DIR`` values. Ensure ``~/Videos`` exists and is writable.
+   - **原因:** ``sudo`` 使用時にホームディレクトリが正しく解決されていない、または ``~/Videos`` フォルダが存在しない可能性があります。
+   - **対処方法:** ``REAL_USER`` と ``VIDEOS_DIR`` の値を確認してください。 ``~/Videos`` が存在し、書き込み可能であることを確認してください。
 
-4. **Recording Starts/Stops Unexpectedly**
+4. **録画が意図せず開始／停止する**
 
-   - **Cause:** Camera in use by another process or system under heavy load.
-   - **Fix:** Close other camera apps, reboot the Pi, and ensure ``ffmpeg`` is installed.
+   - **原因:** 他のプロセスがカメラを使用している、またはシステム負荷が高い可能性があります。
+   - **対処方法:** 他のカメラアプリを終了し、Raspberry Piを再起動し、 ``ffmpeg`` がインストールされていることを確認してください。
 
-5. **File Not Finalized**
+5. **ファイルが正常に確定されない**
 
-   - **Cause:** Script terminated abruptly before stopping recording.
-   - **Fix:** Always exit with ``Ctrl+C`` so the script can stop recording properly.
+   - **原因:** 録画停止前にスクリプトが強制終了された可能性があります。
+   - **対処方法:** 必ず ``Ctrl+C`` で終了し、スクリプトが録画を正常に停止できるようにしてください。
 
 ------
 
-**Conclusion**
+**まとめ**
 
-This script lets you start and stop video recording using the Fusion HAT+ USR button while viewing a live preview. Videos are saved automatically to ``~/Videos`` with timestamped filenames.
+このスクリプトでは、Fusion HAT+ のUSRボタンを使って動画の録画開始・停止を行いながら、ライブプレビューを表示できます。録画された動画は、自動的にタイムスタンプ付きファイル名で ``~/Videos`` に保存されます。
 
-It provides a simple foundation for button-controlled video capture and can be extended for DIY cameras, classroom demos, or sensor-triggered recording projects.
+ボタン操作による動画撮影のシンプルな基盤として活用でき、DIYカメラ、授業でのデモ、センサー連動型の録画プロジェクトなどへ発展させることができます。

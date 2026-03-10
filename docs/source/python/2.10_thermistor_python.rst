@@ -4,20 +4,20 @@
 
 .. _py_thermistor:
 
-2.10 Thermistor
+2.10 サーミスタ
 ====================================
 
-**Introduction**
+**はじめに**
 
-A thermistor is a temperature-sensitive resistor widely used in temperature sensing and control applications. Unlike photoresistors that detect light, thermistors respond to temperature changes by varying their resistance. This makes them ideal for projects like heat alarms, thermostats, and temperature monitoring systems. In this project, we will use a thermistor to measure ambient temperature and display it in both Celsius and Fahrenheit.
+サーミスタ（Thermistor）は温度に応じて抵抗値が変化する温度感知抵抗であり、温度測定や温度制御の用途で広く利用されています。光を検出するフォトレジスタとは異なり、サーミスタは温度の変化に応じて抵抗値が変化します。そのため、ヒートアラーム、サーモスタット、温度監視システムなどのプロジェクトに適しています。本プロジェクトでは、サーミスタを使用して周囲温度を測定し、摂氏（Celsius）と華氏（Fahrenheit）の両方で表示する方法を学びます。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -44,9 +44,9 @@ Here are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-Below are the schematic diagrams illustrating how to connect the thermistor to the Fusion HAT+:
+以下はサーミスタをFusion HAT+に接続する方法を示した回路図です。
 
 
 .. image:: img/fzz/2.2.2_sch.png
@@ -55,9 +55,9 @@ Below are the schematic diagrams illustrating how to connect the thermistor to t
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Build the circuit as shown in the wiring diagram below:
+以下の配線図を参考に回路を組み立ててください。
 
 .. image:: img/fzz/2.2.2_bb.png
    :width: 80%
@@ -65,20 +65,20 @@ Build the circuit as shown in the wiring diagram below:
 
 
 
-Ensure that:
+次の点を確認してください。
 
-* The thermistor is correctly connected to the Fusion HAT+.
-* Power and ground connections are secure.
-* All wiring is consistent with the diagram to ensure proper functionality.
+* サーミスタがFusion HAT+に正しく接続されていること。
+* 電源とGNDの接続が確実であること。
+* 配線が図と一致しており、正常に動作するように接続されていること。
 
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。  
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -90,18 +90,18 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.10_Thermistor.py 
 
-This Python script reads an analog signal from a thermistor via the fusion hat and calculates the corresponding temperature. When executed:
+このPythonスクリプトは、Fusion HAT+ を介してサーミスタからアナログ信号を読み取り、対応する温度を計算します。実行すると次のように動作します。
 
-1. The script continuously reads the voltage.
-2. It calculates the thermistor resistance (``Rt``), and determines the temperature in Kelvin, Celsius, and Fahrenheit.
-3. The calculated temperatures are printed to the console in both Celsius and Fahrenheit, formatted to two decimal places, as ``Celsius: <value> C  Fahrenheit: <value> F``.
-4. The process repeats every 0.2 seconds until the script is interrupted with ``Ctrl+C``.
+1. スクリプトは電圧値を継続的に読み取ります。
+2. サーミスタの抵抗値（ ``Rt`` ）を計算し、ケルビン（Kelvin）、摂氏（Celsius）、華氏（Fahrenheit）の温度を求めます。
+3. 計算された温度は、 ``Celsius: <value> C  Fahrenheit: <value> F`` の形式で小数点以下2桁まで表示されます。
+4. この処理は0.2秒ごとに繰り返され、 ``Ctrl+C`` が押されるまで実行されます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Below is the Python code used for this project:
+以下はこのプロジェクトで使用するPythonコードです。
 
 
 .. raw:: html
@@ -151,9 +151,9 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports:**
+1. **インポート:**
 
    .. code-block:: python
 
@@ -162,18 +162,19 @@ Below is the Python code used for this project:
       import math
 
 
-   This script imports necessary modules: ``ADC`` from the ``fusion_hat`` library for read voltage, ``time`` for sleep functionality, and ``math`` for mathematical calculations.
+   このスクリプトでは必要なモジュールをインポートします。  
+   ``fusion_hat`` ライブラリの ``ADC`` は電圧読み取りに使用し、 ``time`` は待機処理、 ``math`` は数値計算に使用します。
 
 
-2. **Initialization:**
+2. **初期化:**
 
    .. code-block:: python
 
       thermistor = ADC('A3')
 
-   Initialize the ADC object on pin A3.
+   A3ピンに接続されたADCオブジェクトを初期化します。
 
-3. **Data Processing:**
+3. **データ処理:**
 
    .. code-block:: python
 
@@ -190,64 +191,67 @@ Below is the Python code used for this project:
             Cel = temp - 273.15 # Convert Kelvin to Celsius
             Fah = Cel * 1.8 + 32 # Convert Celsius to Fahrenheit
 
-   - Reads the voltage from the thermistor.
-   - Calculates the thermistor's resistance.
-   - Uses the Steinhart-Hart equation to compute temperature in Kelvin.
-   - Converts Kelvin to Celsius and Fahrenheit.
+   - サーミスタから電圧を読み取ります。
+   - サーミスタの抵抗値を計算します。
+   - Steinhart-Hart方程式を用いてケルビン温度を求めます。
+   - ケルビンを摂氏および華氏に変換します。
 
 
-4. **Output:**
+4. **出力:**
 
    .. code-block:: python
 
       print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
       time.sleep(0.2)
 
-   The calculated temperature is displayed on the screen in both Celsius and Fahrenheit. A delay is included to allow the temperature readings to stabilize and to prevent excessive CPU usage.
-
+   計算された温度は摂氏と華氏の両方で画面に表示されます。  
+   また、読み取り値の安定化とCPU負荷軽減のため、短い待機時間を設けています。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
 
-1. **Temperature Values Are Incorrect or Erratic**:
+1. **温度値が不正確または不安定**
 
-   - **Cause**: Incorrect thermistor parameters or noisy input signal.
-   - **Solution**:
+   - **原因**: サーミスタのパラメータ設定が誤っている、または入力信号にノイズがある。
+   - **解決方法**:
 
-     - Ensure the thermistor's resistance at 25°C (``10000`` in this script) and the ``3950`` B-value are accurate for your thermistor model.
-     - Add a capacitor or software filtering to reduce signal noise.
+     - サーミスタの25°C時の抵抗値（このスクリプトでは ``10000``）と ``3950`` のB値が正しいことを確認してください。
+     - ノイズを低減するためにコンデンサやソフトウェアフィルタを追加してください。
 
-2. **Divide-by-Zero Error**:
+2. **ゼロ除算エラー**
 
-   - **Cause**: The voltage ``Vr`` is too close to 0 or 3.3V, leading to division by zero in the resistance calculation.
-   - **Solution**: Ensure the ADC input voltage stays within the 0–3.3V range, and check connections for short circuits or disconnections.
+   - **原因**: 電圧 ``Vr`` が0または3.3Vに非常に近く、抵抗計算時にゼロ除算が発生する。
+   - **解決方法**: ADC入力電圧が0〜3.3Vの範囲内であることを確認し、短絡や断線がないか配線を確認してください。
 
 ----------------------------------------------
 
+**拡張アイデア**
 
-**Extendable Ideas**
+1. **LCDやOLEDへの温度表示**  
+   LCDまたはOLEDディスプレイを使用して温度をリアルタイムで表示できます。
 
-1. **Display Temperatures on an LCD or OLED**: Use an LCD or OLED screen to show the temperature values dynamically.
-
-2. **Data Logging**: Save the temperature readings to a file for analysis:
+2. **データログ記録**  
+   温度データをファイルに保存して分析できます。
      
    .. code-block:: python
 
       with open("temperature_log.txt", "a") as log_file:
          log_file.write(f"Celsius: {Cel:.2f}, Fahrenheit: {Fah:.2f}\n")
 
-3. **Threshold-Based Alerts**: Trigger alerts when the temperature exceeds a predefined threshold:
+3. **しきい値アラート**  
+   温度が一定値を超えた場合に警告を表示します。
      
    .. code-block:: python
 
       if Cel > 30:
          print("Warning: High temperature!")
 
-4. **LED or Buzzer Feedback**: Provide visual or auditory feedback based on temperature levels:
+4. **LEDまたはブザーによる通知**  
+   温度に応じて視覚または音によるフィードバックを追加できます。
      
    .. code-block:: python
 
@@ -262,6 +266,6 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This experiment demonstrates how to use a thermistor with an Fusion HAT+ to measure ambient temperature accurately. By understanding the principles of analog-to-digital conversion and the Steinhart-Hart equation, you can build advanced temperature monitoring and control systems for various applications.
+この実験では、Fusion HAT+ とサーミスタを使用して周囲温度を測定する方法を学びました。アナログ-デジタル変換とSteinhart-Hart方程式の原理を理解することで、さまざまな用途に対応した高度な温度監視および制御システムを構築することができます。

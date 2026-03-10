@@ -4,25 +4,25 @@
 
 .. _py_pa_buzzer:
 
-1.4 Passive Buzzer
+1.4 パッシブブザー
 ===========================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to make a passive buzzer play music by driving it with different frequencies. Passive buzzers, unlike active buzzers, require an external signal to produce sound.
+このプロジェクトでは、異なる周波数でパッシブブザーを駆動し、音楽を演奏する方法を学びます。パッシブブザーはアクティブブザーとは異なり、音を出すために外部からの信号（周波数信号）が必要です。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完成させるために、次の部品を用意してください。
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 部品
+        - 購入リンク
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -40,23 +40,23 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit uses a passive buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor from excessive current. By varying the frequency of the GPIO pin connected to the transistor, the buzzer produces different sounds, enabling it to play music.
+この回路では、パッシブブザー、NPN トランジスタ、および 1kΩ 抵抗を使用します。抵抗は過大な電流からトランジスタを保護します。トランジスタに接続された GPIO ピンの周波数を変化させることで、ブザーは異なる音を発生し、簡単な音楽を演奏することができます。
 
 .. image:: img/fzz/1.2.2_sch.png
 
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Connect the base of the NPN transistor to PWM0 through the resistor.
-2. Connect the emitter of the transistor to the power supply (+).
-3. Connect the collector of the transistor to one terminal of the passive buzzer.
-4. Connect the other terminal of the buzzer to the ground (-).
+1. NPN トランジスタのベースを抵抗を介して PWM0 に接続します。
+2. トランジスタのエミッタを電源（+）に接続します。
+3. トランジスタのコレクタをパッシブブザーの一方の端子に接続します。
+4. ブザーのもう一方の端子をグラウンド（-）に接続します。
 
 .. image:: img/fzz/1.2.2_bb.png
    :width: 80%
@@ -64,11 +64,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルプログラムの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに用意されています。  
+以下の手順でサンプルを実行してください。
 
 
 .. raw:: html
@@ -80,13 +80,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.4_PassiveBuzzer.py
 
-After running the script, the passive buzzer plays a short musical tune through PWM 0. Each note is played in sequence for its set duration, and the current note is printed to the console as it plays. When the tune finishes, the buzzer stops automatically, with silent pauses where the note is None. You can also stop the program at any time by pressing Ctrl + C.
+スクリプトを実行すると、パッシブブザーは PWM0 を利用して短いメロディを演奏します。各音符は設定された時間だけ順番に再生され、再生中の音符はコンソールにも表示されます。メロディが終了するとブザーは自動的に停止し、音符が ``None`` の部分では無音の休符になります。また、 ``Ctrl + C`` を押すことでいつでもプログラムを停止できます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code generates musical notes using a passive buzzer:
+以下の Python コードは、パッシブブザーを使って音符を生成し、メロディを再生します。
 
 
 .. raw:: html
@@ -133,21 +133,21 @@ The following Python code generates musical notes using a passive buzzer:
       # Handle KeyboardInterrupt for graceful termination
       pass
 
-This Python script plays a musical tune using a passive buzzer connected to PWM 0. When executed:
+この Python スクリプトは PWM0 に接続されたパッシブブザーを使ってメロディを再生します。実行すると次の動作を行います。
 
-1. The script iterates through a predefined sequence of musical notes (``tune``), playing each note for a specified duration.
-2. The notes are output to the console as they are played, providing a visual reference.
-3. The tune stops automatically once all notes are played. The buzzer produces no sound during pauses (when the note is ``None``).
-4. The program can be interrupted gracefully using ``Ctrl+C``.
+1. スクリプトはあらかじめ定義された音符のシーケンス（ ``tune`` ）を順番に再生し、それぞれ指定された時間だけ鳴らします。
+2. 再生中の音符はコンソールにも表示され、視覚的に確認できます。
+3. すべての音符が再生されるとメロディは自動的に終了します。音符が ``None`` の場合は休符となり、ブザーは鳴りません。
+4. ``Ctrl+C`` を押すことで、プログラムを安全に中断できます。
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``Buzzer`` class from the ``fusion_hat`` library is used to generate tones, and ``time.sleep`` introduces delays for note durations.
+   ``fusion_hat`` ライブラリの ``Buzzer`` クラスは音を生成するために使用され、 ``time.sleep`` は音符の長さを制御するために使われます。
 
    .. code-block:: python
 
@@ -155,18 +155,18 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
        from fusion_hat.pwm import PWM
        from time import sleep
 
-2. **Buzzer Initialization**
+2. **ブザーの初期化**
 
-   The ``Buzzer`` is associated with PWM0 for tone generation.
+   ``Buzzer`` オブジェクトを PWM0 に接続して、音を生成できるようにします。
 
    .. code-block:: python
 
       # Initialize a TonalBuzzer connected to PWM 0
       tb = Buzzer(PWM('P0'))  # Update this pin number based on your setup
 
-3. **Playing Notes**
+3. **音符の再生**
 
-   The ``play`` function iterates over a list of tuples representing musical notes and their durations. Each note is played for its specified duration, followed by a brief stop.
+   ``play`` 関数は、音符と再生時間のタプルのリストを順番に処理します。それぞれの音符は指定された時間だけ再生されます。
 
    .. code-block:: python
 
@@ -176,9 +176,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
             tb.play(note,float(duration))  # Play the note on the buzzer
          tb.off()  # Stop playing after the tune is complete
 
-4. **Tune Definition**
+4. **メロディの定義**
 
-   The ``tune`` variable contains a sequence of notes (e.g., 'C#4') and durations (e.g., 0.2 seconds).
+   ``tune`` 変数には、音符（例： ``'C#4'`` ）と再生時間（例：0.2 秒）の組み合わせが定義されています。
 
    .. code-block:: python
 
@@ -195,9 +195,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
            ('D4', 0.2), ('E4', 0.2)
        ]
 
-5. **Keyboard Interrupt Handling**
+5. **キーボード割り込み処理**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C).
+   ``try-except`` ブロックにより、Ctrl+C などでプログラムを中断しても安全に終了できます。
 
    .. code-block:: python
 
@@ -210,26 +210,26 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **No Sound from the Buzzer**  
+1. **ブザーから音が出ない**  
 
-   - **Cause**: Incorrect GPIO pin connection or incompatible buzzer type.  
-   - **Solution**: Ensure the TonalBuzzer is connected to PWM 0.
+   - **原因**：GPIO ピン接続の誤り、またはブザーの種類が適切でない。  
+   - **対処方法**：TonalBuzzer が PWM0 に正しく接続されているか確認してください。
 
-2. **Intermittent or Stuttering Sound**  
+2. **音が途切れる、または不安定**  
 
-   - **Cause**: Timing inconsistencies in the ``sleep()`` function.  
-   - **Solution**: Confirm that the durations in the ``tune`` list are appropriately calibrated for smooth transitions.
+   - **原因**： ``sleep()`` のタイミング設定が適切でない可能性。  
+   - **対処方法**： ``tune`` リストの各音符の再生時間が適切に設定されているか確認してください。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**発展アイデア**
 
-1. **Custom Tunes**  
+1. **カスタムメロディ**
 
-   Allow the user to input their own sequence of notes and durations:
+   ユーザーが独自の音符と再生時間を入力できるようにします。
 
    .. code-block:: python
 
@@ -243,9 +243,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(user_tune)
 
 
-2. **Multiple Tunes**  
+2. **複数のメロディ**
 
-   Add predefined tunes and let the user select which one to play:
+   あらかじめ複数のメロディを用意し、ユーザーが選択できるようにします。
 
    .. code-block:: python
 
@@ -257,17 +257,17 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(tunes[choice])
 
 
-3. **Real-Time Interaction**  
+3. **リアルタイム操作**
 
-   Use buttons or a keyboard to play notes interactively, turning the buzzer into a simple instrument.
+   ボタンやキーボード入力を利用して音符を再生し、簡単な楽器のように操作することもできます。
 
-4. **Chained Tunes**  
+4. **メロディの連続再生**
 
-   Automatically chain multiple tunes together to create a longer piece.
+   複数のメロディを連続して再生し、より長い楽曲を作成することができます。
 
-5. **Dynamic Speed Adjustment**  
+5. **再生速度の動的調整**
 
-   Allow users to change the playback speed dynamically by modifying the note durations:
+   音符の長さを変更することで、再生速度を動的に調整できます。
 
    .. code-block:: python
 
@@ -277,6 +277,6 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use a passive buzzer to play musical notes. By combining hardware and software, you can create a variety of sounds and melodies for interactive projects.
+このプロジェクトでは、パッシブブザーを使用して音符を再生する方法を学びました。ハードウェアとソフトウェアを組み合わせることで、さまざまな音やメロディを作成でき、インタラクティブな電子プロジェクトに応用することができます。

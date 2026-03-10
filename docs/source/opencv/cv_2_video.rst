@@ -2,64 +2,64 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-2. Play Video
+2. 動画の再生
 =======================================
 
-In this chapter, you’ll learn how to read and play video streams in OpenCV, and how to control playback speed by calculating the frame processing time.
+この章では、OpenCV を使って動画ストリームを読み込み再生する方法と、フレーム処理時間を利用して再生速度を制御する方法を学びます。
 
 
 
-1. Project Overview
+1. プロジェクト概要
 -------------------
 
-In this section, we will achieve the following goals:
+このセクションでは、次のことを行います：
 
-- Use ``cv2.VideoCapture`` to open a video file
-- Read and display video frame by frame
-- Automatically restart the video after it ends
-- Control the playback frame rate using processing time calculations
-- Press the ``q`` key to exit playback
+- ``cv2.VideoCapture`` を使用して動画ファイルを開く
+- 動画をフレームごとに読み込み表示する
+- 動画が終了した場合に自動的に先頭から再生する
+- 処理時間の計算を利用して再生フレームレートを制御する
+- ``q`` キーを押して再生を終了する
 
 .. image:: img/opencv_video.png
    :alt: Video playback interface illustration
    :align: center
 
 
-2. Run the Code
+2. コードの実行
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   開始する前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールされ、設定されている
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_2_video.py
 
-#. After running the script, OpenCV opens a window titled **Video** and displays the video frames in real time.  
+#. スクリプトを実行すると、OpenCV は **Video** というタイトルのウィンドウを開き、動画フレームをリアルタイムで表示します。  
 
-   If the video reaches the end, it will restart automatically from the beginning.
+   動画が最後まで再生されると、自動的に先頭から再生が再開されます。
    
-   To stop the program, you can:
+   プログラムを停止するには、次の方法があります：
    
-   * Press **q** on the keyboard to quit playback  
-   * Close the window by clicking the close button  
+   * キーボードで **q** を押して再生を終了する  
+   * ウィンドウの閉じるボタンをクリックして閉じる  
 
-   Once the window is closed, all OpenCV resources are released and the program exits.
+   ウィンドウが閉じられると、OpenCV のすべてのリソースが解放され、プログラムは終了します。
 
 
-3. Complete Code
+3. 完全なコード
 ------------------------------
 
 .. code-block:: python
@@ -103,28 +103,28 @@ In this section, we will achieve the following goals:
   cv2.destroyAllWindows()
 
 
-4. Code Explanation
+4. コードの解説
 -----------------------
 
-#. Open the video file:
+#. 動画ファイルを開く：
 
    .. code-block:: python
 
       cap = cv2.VideoCapture("sample2.mp4")
 
-   This opens the video file and creates a ``VideoCapture`` object for reading frames.
+   これは動画ファイルを開き、フレームを読み取るための ``VideoCapture`` オブジェクトを作成します。
 
-#. Read one frame from the video:
+#. 動画から 1 フレームを読み込む：
 
    .. code-block:: python
 
       ret, frame = cap.read()
 
-   - ``ret`` is ``True`` if a frame is read successfully.
-   - ``ret`` becomes ``False`` when the video ends or reading fails.
-   - ``frame`` is the image data (a NumPy array).
+   - ``ret`` はフレームの読み込みに成功した場合 ``True`` になります。
+   - 動画が終了した場合や読み込みに失敗した場合は ``False`` になります。
+   - ``frame`` は画像データ（NumPy 配列）です。
 
-#. Loop the video when it ends:
+#. 動画が終了したらループ再生する：
 
    .. code-block:: python
 
@@ -132,71 +132,71 @@ In this section, we will achieve the following goals:
           cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
           continue
 
-   When the video ends, this resets the playback position to the first frame so the video can restart.
+   動画が終了した場合、再生位置を最初のフレームに戻して再生を再開します。
 
-#. Resize the frame:
+#. フレームサイズを変更する：
 
    .. code-block:: python
 
       frame = cv2.resize(frame, (640, 480))
 
-   This resizes each frame to 640×480 for smoother display and lower CPU usage on Raspberry Pi.
+   各フレームを 640×480 にリサイズすることで、Raspberry Pi 上でも滑らかに表示でき、CPU 使用率を抑えることができます。
 
-#. Display the frame:
+#. フレームを表示する：
 
    .. code-block:: python
 
       cv2.imshow("Video", frame)
 
-   This displays the current frame in a window named ``Video``.
+   ``Video`` という名前のウィンドウに現在のフレームを表示します。
 
-#. Control playback speed and read keyboard input:
+#. 再生速度の制御とキーボード入力の取得：
 
    .. code-block:: python
 
       key = cv2.waitKey(30) & 0xFF
 
-   This waits about 30 ms between frames (around 30 FPS) and processes GUI events.
+   フレーム間で約 30 ms 待機し（約 30 FPS）、GUI イベントを処理します。
 
-#. Exit by pressing ``q``:
+#. ``q`` を押して終了する：
 
    .. code-block:: python
 
       if key == ord("q"):
           break
 
-   Press ``q`` to stop the program.
+   ``q`` キーを押すとプログラムを終了します。
 
-#. Exit when the window is closed:
+#. ウィンドウが閉じられた場合に終了する：
 
    .. code-block:: python
 
       if cv2.getWindowProperty("Video", cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   This checks whether the window is still visible.  
-   If the user closes the window, the program exits safely.
+   ウィンドウがまだ表示されているかどうかを確認します。  
+   ユーザーがウィンドウを閉じた場合、プログラムは安全に終了します。
 
-#. Release the video capture object:
+#. 動画キャプチャオブジェクトを解放する：
 
    .. code-block:: python
 
       cap.release()
 
-   This releases the video file resource.
+   動画ファイルのリソースを解放します。
 
-#. Close all OpenCV windows:
+#. すべての OpenCV ウィンドウを閉じる：
 
    .. code-block:: python
 
       cv2.destroyAllWindows()
 
-   This closes all OpenCV windows and releases GUI resources.
+   すべての OpenCV ウィンドウを閉じ、GUI リソースを解放します。
 
 
-5. Further Practice
--------------------
+5. さらに試してみよう
+-----------------------
 
-- Try changing the window size to see how it affects image clarity.  
-- Replace the video file with different ones to test compatibility.  
-- Print the processing time per frame to better understand the relationship between FPS and playback delay.
+- ウィンドウサイズを変更し、画質への影響を確認してみましょう。  
+- 別の動画ファイルに置き換えて互換性を確認してみましょう。  
+- フレームごとの処理時間を出力し、FPS と再生遅延の関係を理解してみましょう。

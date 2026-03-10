@@ -2,67 +2,67 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-1. Show Image
+1. 画像の表示
 ==============================================
 
-In this chapter, we’ll explore a simple example to help you quickly experience the basic usage of OpenCV: **reading and displaying an image**.
+この章では、OpenCV の基本的な使い方を素早く体験するためのシンプルな例として、**画像の読み込みと表示** を行います。
 
-In the example project folder, we have already prepared a sample photo named ``my_photo.jpg``.  
-You can also use the :ref:`py_photograph` example to take a photo and save it to the current folder.
+サンプルプロジェクトフォルダには、すでに ``my_photo.jpg`` というサンプル画像が用意されています。  
+また、:ref:`py_photograph` の例を使って写真を撮影し、現在のフォルダに保存して使用することもできます。
 
 
-1. Project Overview
--------------------
+1. プロジェクト概要
+--------------------
 
-In this section, we will accomplish the following tasks:
+このセクションでは、次の操作を行います：
 
-- Use ``cv2.imread`` to read a local image
-- Use ``cv2.imshow`` to display the image
-- Use ``cv2.waitKey`` to control window behavior
-- Use ``cv2.destroyAllWindows`` to close the window
+- ``cv2.imread`` を使ってローカル画像を読み込む
+- ``cv2.imshow`` を使って画像を表示する
+- ``cv2.waitKey`` を使ってウィンドウの動作を制御する
+- ``cv2.destroyAllWindows`` を使ってウィンドウを閉じる
 
-After successfully running this code, an image window will pop up on your screen.
+このコードを正常に実行すると、画面に画像表示用のウィンドウがポップアップします。
 
 .. image:: img/opencv_imshow.png
    :alt: Preview of the result
    :align: center
 
 
-2. Run the Code
+2. コードの実行
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   開始する前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールされ、設定されている
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細については :ref:`opencv_install` を参照してください。
 
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
    
       cd ~/ai-lab-kit/opencv_python
       python3 cv_1_imgshow.py
 
-#. After running the script, OpenCV opens a window titled ``Picture`` and displays the image loaded from ``my_photo.jpg``.  
+#. スクリプトを実行すると、OpenCV は ``Picture`` というタイトルのウィンドウを開き、 ``my_photo.jpg`` から読み込んだ画像を表示します。  
 
-   The window will remain open until the user quits the program.
+   このウィンドウは、ユーザーがプログラムを終了するまで表示されたままになります。
    
-   To exit the program, you can:
+   プログラムを終了するには、次のいずれかを行います：
    
-   * Press **q** on the keyboard  
-   * Close the window by clicking the close button  
+   * キーボードで **q** を押す  
+   * ウィンドウの閉じるボタンをクリックする  
    
-   Once the window is closed, all OpenCV resources are released and the program exits.
+   ウィンドウが閉じられると、OpenCV のすべてのリソースが解放され、プログラムは終了します。
 
-3. Complete Code
+3. 完全なコード
 -------------------
 
 .. code-block:: python
@@ -99,33 +99,33 @@ After successfully running this code, an image window will pop up on your screen
    # Destroy all OpenCV windows and release memory
    cv2.destroyAllWindows()
 
-4. Code Explanation
+4. コードの解説
 ----------------------
 
 - ``cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)``  
 
-  Reads the image named ``my_photo.jpg`` and loads it in color mode.
+  ``my_photo.jpg`` という画像ファイルを読み込み、カラー画像としてロードします。
 
 - ``cv2.imshow("Picture", img)``  
 
-  Creates a window titled “Picture” and displays the image.
+  「Picture」というタイトルのウィンドウを作成し、画像を表示します。
 
 - ``cv2.waitKey(0)``  
 
-  When the parameter is ``0``, the program will wait indefinitely until you close the window or press any key.
+  引数が ``0`` の場合、ウィンドウを閉じるか任意のキーが押されるまでプログラムは待機します。
 
 - ``cv2.getWindowProperty()``
 
-  Gets a property value of the specified window (for example, whether the window is still visible).
+  指定したウィンドウのプロパティ（例えば、ウィンドウが表示されているかどうか）を取得します。
 
 
 - ``cv2.destroyAllWindows()``  
 
-  Closes all OpenCV windows and releases resources.
+  すべての OpenCV ウィンドウを閉じ、リソースを解放します。
 
-5. Further Practice
+5. さらに試してみよう
 -----------------------
 
-- Try changing the window title in ``imshow`` to “My First OpenCV Window”.  
-- Replace the image with a different one and observe the result.  
-- Modify the ``waitKey`` parameter to `3000` so the program automatically closes the window after 3 seconds.
+- ``imshow`` のウィンドウタイトルを “My First OpenCV Window” に変更してみましょう。  
+- 別の画像に置き換えて、表示結果を確認してみましょう。  
+- ``waitKey`` のパラメータを `3000` に変更し、3 秒後にウィンドウが自動的に閉じるようにしてみましょう。

@@ -2,11 +2,11 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-9. Red Object Tracking with Pan-Tilt Camera
+9. パンチルトカメラによる赤色物体追跡
 =============================================
 
-Object tracking combined with mechanical control forms the foundation of many robotics and computer vision applications.  
-In this chapter, we will create a system that **detects red objects in real-time and controls pan-tilt servos** to keep the object centered in the camera view.
+物体追跡と機械制御を組み合わせることで、多くのロボティクスおよびコンピュータビジョンアプリケーションの基礎を構成できます。  
+この章では、 **赤色物体をリアルタイムで検出し、パンチルトサーボを制御して物体がカメラ画面の中央に来るよう保つ** システムを作成します。
 
 .. raw:: html
 
@@ -15,93 +15,93 @@ In this chapter, we will create a system that **detects red objects in real-time
           Your browser does not support the video tag.
       </video>
 
-This extends basic color detection into an active tracking system that can follow moving objects autonomously.
+これは、基本的な色検出を、自律的に移動物体を追従できるアクティブな追跡システムへと発展させたものです。
 
 .. image:: img/color_track.png
    :alt: Pan-tilt camera tracking system overview
    :align: center
 
 
-1. Objective and Approach
+1. 目的とアプローチ
 -------------------------
 
-- Use **Picamera2** to capture real-time video frames
-- Detect red objects using **HSV color space** and morphological filtering
-- Implement **simple 4-direction tracking** algorithm based on object position
-- Control **pan and tilt servos** to keep the object centered
-- Display **real-time debugging information** and tracking status
-- Provide **adjustable parameters** for fine-tuning tracking behavior
+- **Picamera2** を使ってリアルタイムの映像フレームを取得する
+- **HSV 色空間** とモルフォロジー処理を使って赤色物体を検出する
+- 物体位置に基づく **シンプルな4方向追跡** アルゴリズムを実装する
+- **パン／チルトサーボ** を制御して物体を中央に保つ
+- **リアルタイムのデバッグ情報** と追跡状態を表示する
+- 追跡動作を細かく調整できる **可変パラメータ** を用意する
 
 
-2. Run the Code
+2. コードの実行
 --------------------
 
 .. important::
 
-   Before you start, make sure:
+   開始する前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールされ、設定されている
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
         cd ~/ai-lab-kit/opencv_python
         python3 cv_9_track_color.py
 
-3. Execution Result
+3. 実行結果
 ---------------------------------
 
-When running successfully, you should see:
+正常に実行されると、次のような表示になります：
 
-**1. OpenCV Window:**
+**1. OpenCV ウィンドウ：**
 
-- "Red Object Tracking": Shows the camera feed with tracking overlay
+- ``Red Object Tracking``：追跡オーバーレイ付きのカメラ映像を表示
 
-**2. Visual elements in the tracking window:**
+**2. 追跡ウィンドウ内の表示要素：**
 
-- Yellow crosshair at frame center
-- Blue rectangle showing the deadzone (no-movement zone)
-- Red circle marking the detected object center
-- Green line connecting object to frame center
-- Real-time information overlay:
+- 画面中央の黄色い照準マーク
+- デッドゾーン（サーボが動かない範囲）を示す青い矩形
+- 検出された物体の中心を示す赤い円
+- 物体と画面中央を結ぶ緑色の線
+- リアルタイム情報オーバーレイ：
 
-  - Object position coordinates
-  - Current servo angles
-  - Tracking mode (Simple 4-Direction)
-  - Movement step and deadzone settings
+  - 物体位置の座標
+  - 現在のサーボ角度
+  - 追跡モード（Simple 4-Direction）
+  - 移動ステップとデッドゾーン設定
 
-**3. Console output:**
+**3. コンソール出力：**
 
-- FPS (frames per second)
-- Current servo positions
-- Object detection status
-- Movement step adjustments
+- FPS（1秒あたりのフレーム数）
+- 現在のサーボ位置
+- 物体検出の状態
+- 移動ステップの調整状況
 
-**4. Servo behavior:**
+**4. サーボの動作：**
 
-- Servos will move in fixed steps to keep red objects centered
-- No movement when object is within the deadzone
-- Servos return to center position when 'r' key is pressed
+- 赤色物体を中央に保つため、サーボが一定ステップで移動します
+- 物体がデッドゾーン内にある場合は動作しません
+- ``r`` キーを押すと、サーボは中央位置に戻ります
 
 
-**Controls:**
+**操作方法：**
 
-- Press **'q'** to quit the program
-- Press **'r'** to reset servos to center position
-- Press **'+'** to increase movement speed
-- Press **'-'** to decrease movement speed
+- **`q`** を押すとプログラムを終了
+- **`r`** を押すとサーボを中央にリセット
+- **`+`** を押すと移動速度を上げる
+- **`-`** を押すと移動速度を下げる
 
-4. Complete Code
+4. 完全なコード
 -------------------------------
 
-Below is the complete Python program for red object tracking:
+以下は、赤色物体追跡の完全な Python プログラムです：
 
 .. code-block:: python
 
@@ -467,100 +467,100 @@ Below is the complete Python program for red object tracking:
        main()
 
 
-5. Code Explanation
+5. コード解説
 ----------------------------------
 
 #. ``simple_tracking(x, y)``
 
-   This function decides how the servos should move based on the detected object position.
+   この関数は、検出された物体の位置に基づいてサーボをどのように動かすかを決定します。
 
-   - If no object is detected (``x`` or ``y`` is ``None``), it returns ``(0, 0)`` (no movement).
-   - If the object is outside the deadzone, it returns a small movement step:
+   - 物体が検出されなかった場合（ ``x`` または ``y`` が ``None``）、 ``(0, 0)`` を返します（移動なし）。
+   - 物体がデッドゾーンの外側にある場合は、小さな移動ステップを返します：
 
-     - Object left  → ``pan_move = +MOVE_STEP``
-     - Object right → ``pan_move = -MOVE_STEP``
-     - Object up    → ``tilt_move = -MOVE_STEP``
-     - Object down  → ``tilt_move = +MOVE_STEP``
+     - 物体が左  → ``pan_move = +MOVE_STEP``
+     - 物体が右  → ``pan_move = -MOVE_STEP``
+     - 物体が上  → ``tilt_move = -MOVE_STEP``
+     - 物体が下  → ``tilt_move = +MOVE_STEP``
 
-   The deadzone prevents the camera from shaking when the object is already near the center.
+   デッドゾーンは、物体がすでに中央付近にあるときにカメラが細かく揺れるのを防ぎます。
 
 #. ``update_servo_position(pan_move, tilt_move)``
 
-   This function updates the pan/tilt servo angles safely.
+   この関数は、パン／チルトサーボの角度を安全に更新します。
 
-   - Adds the movement step to the current servo angles.
-   - Clamps the angles to safe limits (``PAN_MIN/PAN_MAX`` and ``TILT_MIN/TILT_MAX``).
-   - Sends servo commands only when the angle actually changes.
+   - 現在のサーボ角度に移動ステップを加算します。
+   - 角度を安全範囲（ ``PAN_MIN/PAN_MAX`` および ``TILT_MIN/TILT_MAX``）に制限します。
+   - 実際に角度が変わった場合にのみサーボへコマンドを送ります。
 
-   This protects the hardware from over-rotation.
+   これにより、ハードウェアの過回転を防げます。
 
 #. ``find_red_object(frame)``
 
-   This function detects the largest red object in the camera frame.
+   この関数は、カメラフレーム内で最も大きな赤色物体を検出します。
 
-   Main steps:
+   主な処理手順：
 
-   - Converts the frame from BGR to HSV.
-   - Creates a binary mask for red pixels using two HSV ranges.
-   - Cleans the mask using morphology (OPEN + CLOSE).
-   - Finds contours and selects the largest one.
-   - Filters out small blobs using ``MIN_CONTOUR_AREA``.
-   - Uses image moments to compute the object center.
+   - フレームを BGR から HSV に変換する
+   - 2つの HSV 範囲を使って赤色ピクセルのバイナリマスクを作成する
+   - モルフォロジー処理（OPEN + CLOSE）でマスクを整える
+   - 輪郭を検出し、最も大きいものを選ぶ
+   - ``MIN_CONTOUR_AREA`` を使って小さなノイズを除外する
+   - 画像モーメントを使って物体中心を計算する
 
-   It returns:
+   戻り値：
 
-   - ``center_x, center_y``: the object center position (or ``None, None``)
-   - ``mask``: the binary mask showing red areas
+   - ``center_x, center_y``：物体の中心座標（見つからない場合は ``None, None``）
+   - ``mask``：赤色領域を示すバイナリマスク
 
 #. ``draw_debug_info(frame, object_x, object_y, mask, pan_angle, tilt_angle)``
 
-   This function draws helpful tracking information on the video frame, including:
+   この関数は、動画フレーム上に追跡の補助情報を描画します。内容は次のとおりです：
 
-   - Center crosshair
-   - Deadzone rectangle
-   - Detected object position
-   - Servo angles (pan and tilt)
-   - Tracking mode and step size
-   - Key instructions
+   - 中央照準マーク
+   - デッドゾーン矩形
+   - 検出された物体位置
+   - サーボ角度（pan と tilt）
+   - 追跡モードとステップサイズ
+   - 操作キーの説明
 
-   This makes it easy to see how the tracker is working.
+   これにより、トラッカーがどのように動作しているかを視覚的に確認しやすくなります。
 
 #. ``cleanup()``
 
-   This function safely shuts down the system before exiting.
+   この関数は、終了前にシステムを安全に停止します。
 
-   - Moves servos back to the center position.
-   - Stops the camera.
-   - Closes all OpenCV windows.
+   - サーボを中央位置へ戻す
+   - カメラを停止する
+   - OpenCV のウィンドウをすべて閉じる
 
-   This prevents the camera from being left in a strange position.
+   これにより、カメラが不自然な向きのまま終了するのを防げます。
 
 #. ``main()``
 
-   This is the main tracking loop.
+   これはメインの追跡ループです。
 
-   Each iteration does:
+   各ループで以下を行います：
 
-   - Capture a camera frame.
-   - Detect the red object.
-   - Decide how to move the servos.
-   - Update servo angles.
-   - Draw debug information.
-   - Display the result window.
+   - カメラフレームを取得する
+   - 赤色物体を検出する
+   - サーボの移動量を決定する
+   - サーボ角度を更新する
+   - デバッグ情報を描画する
+   - 結果ウィンドウを表示する
 
-   It also supports runtime controls:
+   また、実行中の操作にも対応しています：
 
-   - ``q`` to quit
-   - ``r`` to reset servos
-   - ``+`` / ``-`` to adjust tracking speed
+   - ``q`` で終了
+   - ``r`` でサーボをリセット
+   - ``+`` / ``-`` で追跡速度を調整
 
-   The program always calls ``cleanup()`` in the ``finally`` block to ensure safe shutdown.
+   プログラムは常に ``finally`` ブロック内で ``cleanup()`` を呼び出し、安全に終了するようになっています。
 
 
-6. Key Parameters and Tuning
+6. 主要パラメータと調整
 ----------------------------
 
-#. Color Detection Parameters
+#. 色検出パラメータ
 
    .. code-block:: python
    
@@ -573,13 +573,13 @@ Below is the complete Python program for red object tracking:
       # Minimum object size
       MIN_CONTOUR_AREA = 500
    
-   Tuning tips:
+   調整のポイント：
    
-   - Adjust Hue values for different colors
-   - Increase Saturation/Value minimums in bright environments
-   - Adjust ``MIN_CONTOUR_AREA`` based on expected object size
+   - Hue の値を変更すると、別の色にも対応できます
+   - 明るい環境では Saturation / Value の下限を上げると安定しやすくなります
+   - 想定する物体サイズに応じて ``MIN_CONTOUR_AREA`` を調整します
 
-#. Tracking Parameters
+#. 追跡パラメータ
 
    .. code-block:: python
    
@@ -590,13 +590,13 @@ Below is the complete Python program for red object tracking:
       # Movement step size (degrees)
       MOVE_STEP = 2      # Larger = faster tracking, but may overshoot
    
-   Tuning tips:
+   調整のポイント：
    
-   - Start with larger deadzone (50-100px) for stable operation
-   - Adjust MOVE_STEP based on tracking requirements (0.5-5°)
-   - Use '+' and '-' keys to adjust speed during runtime
+   - まずは大きめのデッドゾーン（50〜100px）から始めると安定しやすくなります
+   - ``MOVE_STEP`` は追跡条件に応じて調整します（0.5〜5°）
+   - 実行中に ``+`` と ``-`` キーで速度を調整できます
 
-#. Servo Parameters
+#. サーボパラメータ
 
    .. code-block:: python
    
@@ -606,41 +606,41 @@ Below is the complete Python program for red object tracking:
       TILT_MIN = -45  # Maximum down
       TILT_MAX = 45   # Maximum up
    
-   .. note:: Calibrate these values for your specific hardware to prevent damage.
+   .. note:: これらの値は、ハードウェア破損を防ぐために、使用する機材に合わせて必ずキャリブレーションしてください。
 
 
-7. Common Issues and Troubleshooting
+7. よくある問題とトラブルシューティング
+----------------------------------------
+
+* サーボが動かない
+
+  - **原因**：物体がデッドゾーン内にある、または ``MIN_CONTOUR_AREA`` が大きすぎる
+  - **対処法**：物体位置を確認し、 ``MIN_CONTOUR_AREA`` を下げるか、デッドゾーンを小さくしてください
+
+* サーボの動きが遅すぎる
+
+  - **原因**： ``MOVE_STEP`` が小さすぎる
+  - **対処法**： ``+`` キーを押して移動速度を上げてください
+
+* サーボの動きがぎこちない
+
+  - **原因**： ``MOVE_STEP`` が大きすぎる
+  - **対処法**： ``-`` キーを押して移動速度を下げてください
+
+* 誤検出が多い
+
+  - **原因**：HSV のしきい値範囲が広すぎる、または照明条件が不適切
+  - **対処法**：HSV 範囲を調整し、照明を改善し、 ``MIN_CONTOUR_AREA`` を大きくしてください
+
+* FPS が低い（10 FPS 未満）
+
+  - **原因**：処理負荷が高すぎる、またはカメラ設定が重い
+  - **対処法**：フレーム解像度を下げるか、デバッグ描画を簡略化してください
+
+8. 拡張と高度な機能
 ------------------------------------
 
-* Servo Not Moving
-
-  - **Cause**: Object within deadzone or MIN_CONTOUR_AREA too high
-  - **Solution**: Check object position, reduce MIN_CONTOUR_AREA, or decrease deadzone
-
-* Servo Movement Too Slow
-
-  - **Cause**: MOVE_STEP too small
-  - **Solution**: Press '+' key to increase movement speed
-
-* Servo Movement Too Jerky
-
-  - **Cause**: MOVE_STEP too large
-  - **Solution**: Press '-' key to decrease movement speed
-
-* False Object Detection
-
-  - **Cause**: HSV thresholds too broad or lighting issues
-  - **Solution**: Adjust HSV ranges, improve lighting, increase MIN_CONTOUR_AREA
-
-* Low FPS (Below 10 FPS)
-
-  - **Cause**: Processing overload or camera settings
-  - **Solution**: Reduce frame resolution, simplify debug drawing
-
-8. Extensions and Advanced Features
-------------------------------------
-
-#. Multiple Object Tracking
+#. 複数物体の追跡
 
    .. code-block:: python
    
@@ -649,7 +649,7 @@ Below is the complete Python program for red object tracking:
           if cv2.contourArea(contour) > MIN_CONTOUR_AREA:
               # Track multiple objects
 
-#. Return to Proportional Control
+#. 比例制御への切り替え
 
    .. code-block:: python
    
@@ -657,7 +657,7 @@ Below is the complete Python program for red object tracking:
       KP_PAN = 0.3
       pan_move = -x_error * KP_PAN / CENTER_X
 
-#. Object Size-Based Speed Adjustment
+#. 物体サイズに基づく速度調整
 
    .. code-block:: python
    
@@ -668,7 +668,7 @@ Below is the complete Python program for red object tracking:
       else:  # Small object
           adjusted_step = MOVE_STEP * 1.5  # Move faster
 
-#. Logging and Data Recording
+#. ログ取得とデータ記録
 
    .. code-block:: python
    
@@ -676,7 +676,7 @@ Below is the complete Python program for red object tracking:
       with open('tracking_log.csv', 'a') as f:
           f.write(f"{time.time()},{obj_x},{obj_y},{pan_angle},{tilt_angle}\n")
 
-#. Network Streaming
+#. ネットワーク配信
 
    .. code-block:: python
    
@@ -685,15 +685,15 @@ Below is the complete Python program for red object tracking:
       # Add network streaming code
 
 
-9. Learning Outcomes
+9. 学習成果
 ---------------------
 
-After completing this project, you should understand:
+このプロジェクトを完了すると、次の内容を理解できるようになります：
 
-1. **Computer Vision**: Real-time color detection and object tracking
-2. **Control Systems**: Simple 4-direction tracking algorithm implementation
-3. **Hardware Integration**: Interfacing cameras and servos with Raspberry Pi
-4. **Interactive Control**: Real-time parameter adjustment during operation
-5. **System Design**: Simplified tracking system architecture
+1. **コンピュータビジョン**：リアルタイムの色検出と物体追跡
+2. **制御システム**：シンプルな4方向追跡アルゴリズムの実装
+3. **ハードウェア統合**：Raspberry Pi におけるカメラとサーボの連携
+4. **対話的制御**：実行中のリアルタイムなパラメータ調整
+5. **システム設計**：簡易追跡システムの構成
 
-This project provides a foundation for more advanced applications like face tracking, autonomous navigation, and industrial automation systems. The simplified 4-direction approach makes it easier to understand and modify for different applications.
+このプロジェクトは、顔追跡、自律移動、産業用自動化システムなど、さらに高度な応用への基礎になります。シンプルな4方向アプローチを採用しているため、仕組みを理解しやすく、さまざまな用途に合わせて改造しやすいのも特長です。

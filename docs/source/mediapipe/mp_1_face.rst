@@ -4,48 +4,47 @@
 
 .. _mp_face:
 
-1. Face Detection
+1. 顔検出（Face Detection）
 ===========================
 
-This section introduces how to use the **MediaPipe Face Mesh** module on a **Raspberry Pi** for real-time face detection and facial landmark mesh drawing.
+このセクションでは、**Raspberry Pi** 上で **MediaPipe Face Mesh** モジュールを使用し、リアルタイムの顔検出と顔ランドマークメッシュ描画を行う方法を紹介します。
 
 .. image:: img/mp_face_mesh_demo.png
    :width: 500
    :align: center
 
-MediaPipe is a cross-platform machine learning pipeline framework developed by Google, supporting real-time processing of video streams and images. The Face Mesh module is a model provided by MediaPipe for real-time face detection and landmark tracking, which can be used to build various facial recognition and interaction applications.
+MediaPipe は Google が開発したクロスプラットフォームの機械学習パイプラインフレームワークで、動画ストリームや画像をリアルタイムで処理することができます。Face Mesh モジュールは MediaPipe が提供するモデルの一つで、リアルタイムの顔検出とランドマーク追跡を行い、さまざまな顔認識やインタラクションアプリケーションを構築することが可能です。
 
-Compared to OpenCV's Haar detection, MediaPipe uses a deep learning model for detection, offering:
+OpenCV の Haar 検出と比較して、MediaPipe はディープラーニングモデルを使用して検出を行うため、次のような利点があります：
 
--  Higher accuracy
--  Better robustness to lighting and angles
--  Supports facial landmark tracking (468 points)
--  Seamless integration with OpenCV, allowing direct drawing of detection results on video streams.
+- より高い検出精度
+- 照明や角度の変化に対して高いロバスト性
+- 顔ランドマーク追跡（468 点）に対応
+- OpenCV とシームレスに統合でき、検出結果を動画ストリーム上に直接描画可能
 
 ------------------------
-1. Run the Code
+1. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルト機構が組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-   For detailed instructions, see :ref:`opencv_install`.
-
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
    
       sudo python3 ~/ai-lab-kit/mediapipe/mp_face.py
 
-#. After running the script, OpenCV opens a window titled “Show Video” and displays the live video stream captured from the Raspberry Pi camera.
+#. スクリプトを実行すると、OpenCV が「Show Video」というタイトルのウィンドウを開き、Raspberry Pi カメラから取得したライブ映像を表示します。
 
    .. raw:: html
    
@@ -54,18 +53,18 @@ Compared to OpenCV's Haar detection, MediaPipe uses a deep learning model for de
              Your browser does not support the video tag.
          </video>
 
-   * If a face appears in front of the camera, the program detects it and draws a detailed facial landmark mesh on the face in real time. The mesh tracks facial movements smoothly as the person moves, blinks, or changes expressions.
-   * If no face is detected, the window continues displaying the normal camera feed without any landmarks.
+   * カメラの前に顔が現れると、プログラムが自動的に検出し、顔の上に詳細なランドマークメッシュをリアルタイムで描画します。人が動いたり、まばたきをしたり、表情が変化しても、メッシュは滑らかに追従します。
+   * 顔が検出されない場合は、ウィンドウには通常のカメラ映像のみが表示され、ランドマークは描画されません。
    
-   The video stream keeps running continuously until the user quits the program.
-   To exit the program, press q on the keyboard.
-   The camera will stop and all OpenCV resources will be released automatically.
+   動画ストリームはユーザーがプログラムを終了するまで継続して実行されます。  
+   プログラムを終了するには、キーボードの ``q`` を押してください。  
+   カメラは停止し、OpenCV のリソースも自動的に解放されます。
 
 ------------------------
-2. Code Example
+2. コード例
 ------------------------
 
-The complete code is shown below:
+完全なコードは以下の通りです：
 
 .. code-block:: python
 
@@ -125,13 +124,13 @@ The complete code is shown below:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, you will see the live camera feed, and a facial mesh will be automatically drawn when a face is detected.
+プログラムを実行すると、ライブカメラ映像が表示され、顔が検出されると自動的に顔メッシュが描画されます。
 
 -----------------------------
-3. Key Steps Explanation
+3. 主要ステップの解説
 -----------------------------
 
-#. Import libraries
+#. ライブラリのインポート
 
    .. code-block:: python
 
@@ -141,13 +140,13 @@ After running the program, you will see the live camera feed, and a facial mesh 
       import mediapipe.python.solutions.drawing_utils as drawing
       import mediapipe.python.solutions.drawing_styles as drawing_styles
 
-   These libraries are used to:
+   これらのライブラリは以下の用途で使用されます：
 
-   - Control the Raspberry Pi camera
-   - Process and display images
-   - Detect facial landmarks
+   - Raspberry Pi カメラの制御
+   - 画像の処理と表示
+   - 顔ランドマークの検出
 
-#. Initialize FaceMesh
+#. FaceMesh の初期化
 
    .. code-block:: python
 
@@ -158,10 +157,10 @@ After running the program, you will see the live camera feed, and a facial mesh 
           min_detection_confidence=0.5
       )
 
-   This creates the face detection model.
-   It tracks one face continuously in video mode.
+   これにより顔検出モデルが作成されます。  
+   動画モードで 1 人の顔を継続的に追跡します。
 
-#. Start the camera
+#. カメラの起動
 
    .. code-block:: python
 
@@ -172,9 +171,9 @@ After running the program, you will see the live camera feed, and a facial mesh 
       picam2.configure(config)
       picam2.start()
 
-   The camera starts streaming at 640×480 resolution.
+   カメラは 640×480 の解像度でストリーミングを開始します。
 
-#. Capture frames in a loop
+#. ループでフレームを取得
 
    .. code-block:: python
 
@@ -182,19 +181,18 @@ After running the program, you will see the live camera feed, and a facial mesh 
           frame_bgra = picam2.capture_array()
           frame_bgr  = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   Each loop captures one frame and converts the format for OpenCV.
+   各ループで 1 フレームを取得し、OpenCV 用の形式に変換します。
 
-#. Detect face landmarks
+#. 顔ランドマークの検出
 
    .. code-block:: python
 
       frame = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
       results = face.process(frame)
 
-   The frame is converted to RGB.
-   MediaPipe analyzes the image and detects facial landmarks.
+   フレームを RGB に変換し、MediaPipe が画像を解析して顔ランドマークを検出します。
 
-#. Draw the face mesh
+#. 顔メッシュの描画
 
    .. code-block:: python
 
@@ -205,9 +203,9 @@ After running the program, you will see the live camera feed, and a facial mesh 
               connections=mp_face_mesh.FACEMESH_TESSELATION
           )
 
-   If a face is detected, a mesh is drawn on it.
+   顔が検出された場合、その上にメッシュを描画します。
 
-#. Display the result and exit
+#. 結果の表示と終了
 
    .. code-block:: python
 
@@ -215,50 +213,49 @@ After running the program, you will see the live camera feed, and a facial mesh 
       if cv2.waitKey(1) & 0xff == ord('q'):
           break
 
-   Press ``q`` to stop the program.
-   The camera will close automatically.
+   ``q`` を押すとプログラムが終了し、カメラも自動的に停止します。
 
 ---------------------------------------------
-4. Common Issues and Troubleshooting
+4. よくある問題とトラブルシューティング
 ---------------------------------------------
 
-* Camera cannot open
+* カメラが開けない
 
-  * Make sure the CSI camera cable is inserted correctly
-  * Enable the camera interface:
+  * CSI カメラケーブルが正しく接続されているか確認してください
+  * カメラインターフェースを有効にします：
 
     ``sudo raspi-config`` → Interface Options → Camera
 
-  * Restart the Raspberry Pi after enabling
+  * 有効化後は Raspberry Pi を再起動してください
 
-* Program starts slowly
+* プログラムの起動が遅い
 
-  The first run loads the MediaPipe model, which may take a few seconds.
-  This is normal. Subsequent runs will be faster.
+  初回実行時は MediaPipe モデルを読み込むため、数秒かかる場合があります。  
+  これは正常な動作で、2 回目以降はより高速に起動します。
 
-* Unstable detection / Lagging
+* 検出が不安定 / 遅延がある
 
-  * Reduce camera resolution (e.g., 320×240)
-  * Disable ``refine_landmarks`` to reduce CPU usage
-  * Close other running programs
+  * カメラ解像度を下げる（例：320×240）
+  * CPU 使用率を下げるため ``refine_landmarks`` を無効にする
+  * 他のプログラムを終了する
 
-* No module named ``mediapipe``
+* ``mediapipe`` モジュールが見つからない
 
-  Install MediaPipe:
+  MediaPipe をインストールしてください：
 
   .. code-block:: bash
 
      pip install mediapipe
 
-  Make sure you are using a 64-bit Raspberry Pi OS system.
+  64-bit の Raspberry Pi OS を使用していることを確認してください。
 
 -----------------------------
-5. Summary
+5. まとめ
 -----------------------------
 
-- MediaPipe FaceMesh uses a deep learning model to achieve high-precision face detection on Raspberry Pi
-- Integrates very closely with OpenCV
-- Suitable for scenarios like expression recognition, avatar tracking, AR applications
-- More robust and easier to extend compared to traditional Haar features
+- MediaPipe FaceMesh はディープラーニングモデルを使用して Raspberry Pi 上で高精度な顔検出を実現します
+- OpenCV と非常に密接に統合されています
+- 表情認識、アバター追跡、AR アプリケーションなどの用途に適しています
+- 従来の Haar 特徴量ベースの方法よりも堅牢で拡張性があります
 
-The next section will further introduce **how to use Face Mesh landmarks** for simple facial feature analysis and interaction.
+次のセクションでは、**Face Mesh のランドマークを利用した簡単な顔特徴分析とインタラクション** を紹介します。

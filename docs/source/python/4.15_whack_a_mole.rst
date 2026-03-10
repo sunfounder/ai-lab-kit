@@ -5,27 +5,27 @@
 
 .. _py_whack_a_mole:
 
-4.15 Whack-a-Mole Game
-======================
+4.15 モグラたたきゲーム
+==========================
 
-**Introduction**
+**はじめに**
 
-In this lesson, you will build a **Whack-a-Mole game** using the Fusion HAT+.  
-Four PWM-driven LEDs act as “moles,” fading smoothly in a 1-second cycle.  
-Your goal is to hit the correct button when its corresponding LED lights up. A buzzer gives audio feedback:
+このレッスンでは、Fusion HAT+ を使用して **Whack-a-Mole（モグラたたき）ゲーム** を作成します。  
+4 つの PWM 制御 LED が「モグラ」として動作し、1 秒周期で滑らかにフェードします。  
+対応する LED が点灯しているときに、正しいボタンを押すことが目標です。ブザーは音でフィードバックを行います。
 
-- **Correct hole → short high-pitch beep**
-- **Wrong hole → GAME OVER (low beep)**
+- **正しい穴 → 短い高音ビープ**
+- **間違った穴 → GAME OVER（低音ビープ）**
 
-An SSD1306 OLED display shows your **current score** during the game and a **final score** on game over.
+SSD1306 OLED ディスプレイには、ゲーム中は **現在のスコア** が表示され、ゲームオーバー時には **最終スコア** が表示されます。
 
-This project combines PWM brightness shaping, button edge detection, timing loops, and a simple game state machine.
+このプロジェクトでは、PWM による明るさ制御、ボタンのエッジ検出、タイミングループ、そしてシンプルなゲーム状態マシンを組み合わせて実装します。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトで必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -50,9 +50,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Refer to the wiring diagram for assembling the components:
+各コンポーネントの接続は、以下の配線図を参照してください。
 
 .. image:: img/fzz/4.15_whack_a_mole_bb.png
    :width: 80%
@@ -60,9 +60,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**セットアップ手順**
 
-#. Install the required libraries:
+#. 必要なライブラリをインストールします。
 
    .. raw:: html
 
@@ -72,7 +72,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the game from the ``ai-lab-kit`` directory:
+#. ``ai-lab-kit`` ディレクトリからゲームを実行します。
 
    .. raw:: html
 
@@ -83,22 +83,23 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.15_WhackAMole.py
 
-#. When the script runs:
+#. スクリプトを実行すると、次のように動作します。
 
-   * One LED fades up/down (triangle wave).  
-   * Press **only the lit LED’s button** within the 1-second window:  
+   * 1 つの LED がフェードイン／フェードアウト（トライアングル波）します  
+   * **点灯している LED に対応するボタンのみ** を 1 秒以内に押してください  
 
-     - Correct → score increases, next mole appears  
-     - Incorrect → buzzer plays error tone → **GAME OVER**  
-   * OLED shows only the current score (in-game)  
-   * OLED shows “GAME OVER” + final score upon losing  
-   * Press Ctrl+C to exit
+     - 正解 → スコアが増加し、次のモグラが出現  
+     - 不正解 → ブザーがエラー音を再生 → **GAME OVER**  
+
+   * OLED にはゲーム中 **現在のスコアのみ** が表示されます  
+   * ゲーム終了時には OLED に **“GAME OVER” + 最終スコア** が表示されます  
+   * Ctrl+C を押すと終了します
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here is the full Python script for the Whack-a-Mole game:
+以下は、Whack-a-Mole ゲームの完全な Python スクリプトです。
 
 .. raw:: html
 
@@ -322,15 +323,15 @@ Here is the full Python script for the Whack-a-Mole game:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **LED Fade Animation**
+1. **LED フェードアニメーション**
 
-   Each LED performs a 1-second triangle-wave fade:
+   各 LED は 1 秒周期の三角波フェードを行います。
 
-   - Brightness rises from 0 → 100%  
-   - Then falls from 100% → 0  
-   - Gamma correction (``u ** gamma``) improves visual linearity  
+   - 明るさは 0 → 100% まで上昇  
+   - その後 100% → 0 まで下降  
+   - ガンマ補正（ ``u ** gamma`` ）により視覚的な直線性を改善  
 
    .. code-block:: python
 
@@ -341,13 +342,13 @@ Here is the full Python script for the Whack-a-Mole game:
                                     gamma: float = 1.8) -> (bool, Optional[List[int]]):
          ...
 
-2. **Button Edge Detection**
+2. **ボタンのエッジ検出**
 
-   ``read_buttons()`` reads all four buttons.  
-   A **rising edge** (``previous=0, current=1``) means “button just pressed.”
+   ``read_buttons()`` は 4 つすべてのボタン状態を読み取ります。  
+   **立ち上がりエッジ** （ ``previous=0, current=1`` ）は「ボタンが押された瞬間」を意味します。
 
-   - If pressed button matches lit LED → **correct hit**  
-   - Else → **wrong hit → GAME OVER**
+   - 押されたボタンが点灯 LED と一致 → **正解**  
+   - それ以外 → **ミス → GAME OVER**
 
    .. code-block:: python
 
@@ -357,10 +358,10 @@ Here is the full Python script for the Whack-a-Mole game:
 
 
 
-3. **Buzzer Feedback**
+3. **ブザーによるフィードバック**
 
-   - ``A5`` short chirp = success  
-   - ``E4`` longer tone = miss / game over  
+   - ``A5`` の短い音 → 成功  
+   - ``E4`` のやや長い音 → ミス / ゲームオーバー  
 
    .. code-block:: python
 
@@ -379,11 +380,11 @@ Here is the full Python script for the Whack-a-Mole game:
 
 
 
-4. **Game Loop**
+4. **ゲームループ**
 
-   - Randomly picks one of four LEDs (never the same twice in a row)  
-   - Runs a fade cycle, checking button presses  
-   - Updates score or ends the game  
+   - 4 つの LED の中からランダムに 1 つを選択（同じものが連続しない）  
+   - フェード中にボタン入力をチェック  
+   - スコア更新またはゲーム終了を判定  
 
    .. code-block:: python
 
@@ -398,10 +399,10 @@ Here is the full Python script for the Whack-a-Mole game:
          ...
 
 
-5. **OLED Display**
+5. **OLED 表示**
 
-   - Shows only the score during play  
-   - Shows GAME OVER + final score when game ends  
+   - プレイ中はスコアのみ表示  
+   - ゲーム終了時は **GAME OVER** と最終スコアを表示  
 
    .. code-block:: python
 
@@ -420,51 +421,51 @@ Here is the full Python script for the Whack-a-Mole game:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-- **Buttons do not register presses**
+- **ボタンを押しても反応しない**
 
-  - Ensure buttons are wired correctly using BCM pin numbering  
-  - Confirm ``PULL_DOWN`` is applied so pressed state = 1  
-  - Check for correct ground wiring  
+  - BCM ピン番号で正しく配線されているか確認してください  
+  - ``PULL_DOWN`` が設定され、押したときに値が 1 になることを確認してください  
+  - GND 配線を確認してください  
 
-- **LEDs flicker instead of fading smoothly**
+- **LED が滑らかにフェードせず点滅する**
 
-  - Reduce ``step`` time for smoother updates (e.g., 0.005)  
-  - Ensure PWM ports support proper duty cycle updates  
+  - ``step`` を小さくしてください（例: 0.005）  
+  - PWM ポートが適切にデューティ更新できるか確認してください  
 
-- **Game ends immediately without pressing anything**
+- **何も押していないのにゲームが終了する**
 
-  - A floating button pin may read as 1  
-  - Ensure pull-down resistors are correctly configured  
+  - ボタンピンがフローティング状態の可能性があります  
+  - プルダウン抵抗が正しく設定されているか確認してください  
 
-- **Score does not increase**
+- **スコアが増えない**
 
-  - Verify the LED index matches the button index  
-  - Ensure LED ports and button pins are in correct order  
+  - LED インデックスとボタンインデックスが一致しているか確認してください  
+  - LED ポートとボタンピンの順序が正しいか確認してください  
 
 ----------------------------------------------
 
-**Try It Yourself**
+**試してみよう**
 
-1. **Variable Speed Mode**  
+1. **可変スピードモード**
 
-   Gradually shorten the fade duration to make the game more challenging.
+   フェード時間を徐々に短くし、ゲームの難易度を上げます。
 
-2. **Multi-LED Mode**  
+2. **マルチ LED モード**
 
-   Light up two LEDs at once—player must hit either one.
+   同時に 2 つの LED を点灯させ、どちらかを叩く必要があるルールにします。
 
-3. **Lives System**  
+3. **ライフシステム**
 
-   Allow 3 mistakes before game over.
+   3 回ミスするまでゲームを続行できるようにします。
 
-4. **High-Score Storage**  
+4. **ハイスコア保存**
 
-   Save the highest score to a file and display it at startup.
+   最高スコアをファイルに保存し、起動時に表示します。
 
-5. **Animated Title Screen**  
+5. **アニメーション付きタイトル画面**
 
-   Add a splash screen before the game starts.
+   ゲーム開始前にスプラッシュ画面を表示します。
 
-These ideas can turn Whack-a-Mole into a full arcade experience!
+これらのアイデアを追加すれば、Whack-a-Mole を本格的なアーケードゲームへ発展させることができます。

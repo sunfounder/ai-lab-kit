@@ -3,13 +3,13 @@
    :end-before: end_hello_message
 
 
-4. Color Detection
+4. 色検出
 ===========================================
 
-Color detection is one of the most fundamental and practical functions in computer vision.  
-In this chapter, we will use step-by-step code and explanations to **detect red objects using the HSV color space** and **draw bounding boxes** around them.
+色検出は、コンピュータビジョンにおける最も基本的で実用的な機能のひとつです。  
+この章では、段階的なコードと解説を通して、 **HSV 色空間を使って赤い物体を検出し** 、 **その周囲にバウンディングボックスを描画する** 方法を学びます。
 
-This forms the foundation for more advanced object tracking techniques (e.g., CAMShift).
+これは、より高度な物体追跡技術（たとえば CAMShift）の基礎となります。
 
 .. raw:: html
 
@@ -18,58 +18,58 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           Your browser does not support the video tag.
       </video>
 
-1. Objective and Approach
+1. 目的とアプローチ
 --------------------------------------------
 
-- Use **Picamera2** to capture real-time camera frames  
-- Convert the image from BGR to HSV color space  
-- Use ``cv2.inRange`` to extract the red regions  
-- Use morphological filtering to remove noise  
-- Use ``cv2.findContours`` to find red object contours  
-- Draw bounding boxes around the detected red regions
+- **Picamera2** を使ってカメラのリアルタイムフレームを取得する  
+- 画像を BGR から HSV 色空間へ変換する  
+- ``cv2.inRange`` を使って赤色領域を抽出する  
+- モルフォロジー処理でノイズを除去する  
+- ``cv2.findContours`` を使って赤い物体の輪郭を見つける  
+- 検出した赤色領域の周囲にバウンディングボックスを描画する
 
 .. image:: img/color_detection.png
    :alt: Color detection preview illustration
    :align: center
 
-2. Run the Code
+2. コードの実行
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   開始する前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールされ、設定されている
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細については :ref:`opencv_install` を参照してください。
    
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_4_color.py
 
-#. When you run the program, two OpenCV windows will appear on the screen:
+#. プログラムを実行すると、画面に OpenCV のウィンドウが 2 つ表示されます：
 
-   * **Red Detection** – shows the live camera image with green bounding boxes around detected red objects  
-   * **Red Mask** – shows the binary mask image used for red color detection  
+   * **Red Detection** – 検出された赤い物体の周囲に緑色のバウンディングボックスを描画したライブ映像を表示します  
+   * **Red Mask** – 赤色検出に使用する二値マスク画像を表示します  
 
-   The program continuously captures frames from the Raspberry Pi camera and detects red regions in real time.  
-   If a red object is detected, a green rectangle and the area value will be displayed on the color image.
+   プログラムは Raspberry Pi カメラからフレームを連続的に取得し、赤色領域をリアルタイムで検出します。  
+   赤い物体が検出されると、カラー画像上に緑の矩形と面積値が表示されます。
 
-   You can exit the program in two ways:
+   プログラムを終了する方法は 2 つあります：
 
-   * Press the **q** key on the keyboard  
-   * Close any of the OpenCV windows by clicking the close button (X)  
+   * キーボードの **q** キーを押す  
+   * OpenCV ウィンドウのいずれかを閉じるボタン（X）で閉じる  
 
-   After exiting, the camera stops streaming and all OpenCV windows are closed.
+   終了すると、カメラのストリーミングが停止し、すべての OpenCV ウィンドウが閉じられます。
 
-3. Complete Code
+3. 完全なコード
 ------------------------------
 
 .. code-block:: python
@@ -172,10 +172,10 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
    cv2.destroyAllWindows()
 
 
-4. Code Explanation
+4. コードの解説
 --------------------------------
 
-#. Initialize Picamera2 and start streaming:
+#. Picamera2 を初期化し、ストリーミングを開始します：
 
    .. code-block:: python
 
@@ -186,27 +186,27 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       picam2.configure(config)
       picam2.start()
 
-   This configures the camera at 640×480 and starts the preview stream.  
-   ``XRGB8888`` is a 4-channel format, so the captured frames are BGRA-like.
+   これにより、カメラは 640×480 の解像度で設定され、プレビューのストリームが開始されます。  
+   ``XRGB8888`` は 4 チャンネル形式のため、取得されるフレームは BGRA に近い形式になります。
 
-#. Convert the captured frame to a format OpenCV commonly uses:
+#. 取得したフレームを、OpenCV で一般的に使用する形式へ変換します：
 
    .. code-block:: python
 
       frame_bgra = picam2.capture_array()
       frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   Picamera2 returns a 4-channel image here, so we convert it to standard 3-channel BGR for processing.
+   ここで Picamera2 は 4 チャンネル画像を返すため、処理しやすい標準的な 3 チャンネル BGR 形式へ変換します。
 
-#. Use HSV color space for robust color detection:
+#. HSV 色空間を使って、より安定した色検出を行います：
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2HSV)
 
-   HSV separates color (Hue) from brightness, which makes color detection more stable under different lighting.
+   HSV は色相（Hue）と明るさを分離するため、照明条件が変わっても色検出が安定しやすくなります。
 
-#. Define two HSV ranges for red:
+#. 赤色用に 2 つの HSV 範囲を定義します：
 
    .. code-block:: python
 
@@ -214,19 +214,19 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       mask2 = cv2.inRange(hsv, LOWER_RED2, UPPER_RED2)
       mask = cv2.bitwise_or(mask1, mask2)
 
-   Red “wraps around” the Hue scale in OpenCV HSV (near 0 and near 180), so two ranges are combined to cover all reds.
+   OpenCV の HSV において、赤は Hue スケールの端（0 付近と 180 付近）にまたがるため、2 つの範囲を組み合わせて赤全体をカバーします。
 
-#. Clean the mask with morphology (reduce noise and fill holes):
+#. モルフォロジー処理でマスクを整えます（ノイズ除去と穴埋め）：
 
    .. code-block:: python
 
       mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, KERNEL, iterations=1)
       mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, KERNEL, iterations=2)
 
-   - **OPEN** removes small noisy dots.
-   - **CLOSE** fills small holes inside the detected red regions.
+   - **OPEN** は小さなノイズ点を除去します。
+   - **CLOSE** は検出された赤色領域の内部にある小さな穴を埋めます。
 
-#. Find red regions and filter small blobs:
+#. 赤色領域を見つけ、小さすぎる領域を除外します：
 
    .. code-block:: python
 
@@ -237,10 +237,10 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           if area < MIN_AREA:
               continue
 
-   Contours are detected from the binary mask.  
-   ``MIN_AREA`` ignores small red regions to reduce false detections.
+   二値マスクから輪郭を検出します。  
+   ``MIN_AREA`` によって、小さな赤色領域を無視し、誤検出を減らします。
 
-#. Draw bounding boxes and labels on the result image:
+#. 結果画像にバウンディングボックスとラベルを描画します：
 
    .. code-block:: python
 
@@ -248,18 +248,18 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       cv2.rectangle(frame_bgr, (x, y), (x + w, y + h), (0, 255, 0), 2)
       cv2.putText(frame_bgr, f"red area={int(area)}", ...)
 
-   This shows where OpenCV found red objects, and prints the detected blob area for reference.
+   これにより、OpenCV が赤い物体を検出した位置が表示され、参考情報として検出領域の面積も示されます。
 
-#. Display both the result and the mask:
+#. 結果画像とマスク画像の両方を表示します：
 
    .. code-block:: python
 
       cv2.imshow(WIN_RESULT, frame_bgr)
       cv2.imshow(WIN_MASK, mask)
 
-   The **result window** shows the camera view with boxes, and the **mask window** shows the red-only binary image.
+   **結果ウィンドウ** には枠付きのカメラ映像を表示し、 **マスクウィンドウ** には赤色だけを抽出した二値画像を表示します。
 
-#. Exit conditions (keyboard + window close):
+#. 終了条件（キーボード入力 + ウィンドウを閉じる）：
 
    .. code-block:: python
 
@@ -271,36 +271,36 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           cv2.getWindowProperty(WIN_MASK, cv2.WND_PROP_VISIBLE) < 1):
           break
 
-   Press ``q`` to quit, or close either window to exit safely.
+   ``q`` を押すと終了し、どちらかのウィンドウを閉じても安全にプログラムを終了できます。
 
-#. Cleanup:
+#. クリーンアップ：
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   Always stop the camera and close OpenCV windows to release resources.
+   リソースを解放するため、必ずカメラを停止し、OpenCV のウィンドウを閉じてください。
 
 
-5. Parameter Tuning Tips
+5. パラメータ調整のヒント
 -----------------------------
 
-- ``LOWER_RED1 / UPPER_RED1``: adjust this range to detect other colors.  
-  For example, green ≈ ``[35, 50, 50]`` to ``[85, 255, 255]``.
+- ``LOWER_RED1 / UPPER_RED1``: この範囲を調整することで、他の色も検出できます。  
+  たとえば、緑はおおよそ ``[35, 50, 50]`` から ``[85, 255, 255]`` です。
 
-- ``KERNEL``: larger kernels give stronger filtering but may remove small objects.
+- ``KERNEL``: カーネルを大きくするとフィルタリング効果は強くなりますが、小さな物体まで消えてしまう場合があります。
 
-- ``MIN_AREA``: increasing this value filters out small noisy contours; decreasing it makes detection more sensitive.
+- ``MIN_AREA``: この値を大きくすると小さなノイズ輪郭を除外しやすくなり、小さくすると検出感度が上がります。
 
 .. note::
-   You can start by only displaying the ``mask`` and tuning the thresholds until the target region looks clear, then proceed with the rest of the pipeline.
+   最初は ``mask`` だけを表示してしきい値を調整し、対象領域がはっきり見えるようにしてから、残りの処理を進めるのがおすすめです。
 
 
 
 
-6. Extensions and Practice
+6. 拡張と練習
 --------------------------
 
-- Modify the HSV threshold to detect other colors (e.g., blue or green).  
-- Experiment with different morphological parameters in more complex backgrounds.  
+- HSV のしきい値を変更して、他の色（たとえば青や緑）を検出してみましょう。  
+- より複雑な背景で、さまざまなモルフォロジーパラメータを試してみましょう。  

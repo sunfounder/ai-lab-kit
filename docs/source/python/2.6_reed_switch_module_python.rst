@@ -4,18 +4,18 @@
 
 .. _py_reed:
 
-2.6 Reed Switch
+2.6 リードスイッチ
 ===========================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to use a reed switch as a magnetic field sensor to control LEDs. A reed switch is an electrical switch operated by an applied magnetic field, commonly used in security systems, door/window sensors, and position detection. This project demonstrates how to detect the state of a reed switch and provide visual feedback using two LEDs.
+このプロジェクトでは、リードスイッチを磁場センサーとして使用し、LEDを制御する方法を学びます。リードスイッチは磁場によって動作する電気スイッチであり、セキュリティシステム、ドアや窓のセンサー、位置検出などで広く利用されています。本プロジェクトでは、リードスイッチの状態を検出し、2つのLEDを使って視覚的なフィードバックを行う方法を紹介します。
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを行うには、以下のコンポーネントが必要です。
 
 .. list-table::
     :widths: 30 20
@@ -39,24 +39,24 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit uses a reed switch connected to a GPIO input pin with a pull-down resistor. Two LEDs are connected to separate GPIO output pins, each with a current-limiting resistor. When a magnet approaches the reed switch, it closes the circuit, triggering the LED indicators to change states.
+この回路では、リードスイッチをプルダウン抵抗付きのGPIO入力ピンに接続します。また、2つのLEDをそれぞれ別のGPIO出力ピンに電流制限抵抗を介して接続します。磁石がリードスイッチに近づくとスイッチが閉じ、LEDの状態が切り替わります。
 
 .. image:: img/fzz/2.2.4_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Connect the GND & VCC pin of the reed switch to GND & 3.3V
-2. Connect the D0 Pin of the reed switch to GPIO 17
-3. Connect LED1 cathode to GPIO 22 through a 220Ω resistor
-4. Connect LED1 anode to GND
-5. Connect LED2 cathode to GPIO 27 through a 220Ω resistor
-6. Connect LED2 anode to GND
+1. リードスイッチのGNDピンとVCCピンを、それぞれGNDと3.3Vに接続します。
+2. リードスイッチのD0ピンをGPIO17に接続します。
+3. LED1のカソードを220Ω抵抗を介してGPIO22に接続します。
+4. LED1のアノードをGNDに接続します。
+5. LED2のカソードを220Ω抵抗を介してGPIO27に接続します。
+6. LED2のアノードをGNDに接続します。
 
 .. image:: img/fzz/2.2.4_bb.png
    :width: 80%
@@ -64,10 +64,10 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。  
+以下の手順に従ってサンプルを実行してください。
 
 .. raw:: html
 
@@ -78,19 +78,19 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.6_ReedSwitch.py 
 
-This Python script creates a magnetic field detection system using a reed switch and two status LEDs. When executed:
+このPythonスクリプトは、リードスイッチと2つの状態表示用LEDを使った磁場検出システムを作成します。実行すると、次のように動作します。
 
-1. The script continuously monitors the state of the reed switch
-2. When a magnet is detected (reed switch closed), LED1 turns off and LED2 turns on
-3. When no magnet is detected (reed switch open), LED1 turns on and LED2 turns off
-4. This creates a clear visual indication of the magnetic field presence
-5. The program can be interrupted gracefully using ``Ctrl+C``
+1. プログラムはリードスイッチの状態を継続的に監視します。
+2. 磁石が検出された場合（リードスイッチが閉じる）、LED1が消灯しLED2が点灯します。
+3. 磁石が検出されない場合（リードスイッチが開いている）、LED1が点灯しLED2が消灯します。
+4. これにより、磁場の有無を視覚的に分かりやすく表示できます。
+5. ``Ctrl+C`` を押すことでプログラムを安全に終了できます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code monitors a reed switch and controls two LEDs based on its state:
+以下のPythonコードは、リードスイッチの状態を監視し、それに応じて2つのLEDを制御します。
 
 .. raw:: html
 
@@ -127,29 +127,29 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``Pin`` class from the ``fusion_hat`` library is used to control GPIO pins, and ``time.sleep`` is imported for potential delay operations.
+   ``fusion_hat`` ライブラリの ``Pin`` クラスを使用してGPIOピンを制御し、必要に応じて ``time.sleep`` を遅延処理に利用できます。
 
    .. code-block:: python
 
         from fusion_hat.pin import Pin, Mode, Pull
         from time import sleep  # Import sleep for delay
 
-2. **Reed Switch Initialization**
+2. **リードスイッチの初期化**
 
-   The reed switch is initialized on GPIO pin 17 as an input with a pull-down resistor to ensure a stable LOW state when the switch is open.
+   リードスイッチはGPIO17に入力として設定し、スイッチが開いているときでも安定したLOW状態になるようプルダウン抵抗を使用します。
 
    .. code-block:: python
 
         # Initialize reed switch (Button) on GPIO pin 17
         reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-3. **LED Initialization**
+3. **LEDの初期化**
 
-   Two LEDs are initialized on GPIO pins 22 and 27 as outputs to provide visual feedback.
+   2つのLEDをGPIO22とGPIO27に出力として設定し、状態表示用として使用します。
 
    .. code-block:: python
 
@@ -158,9 +158,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
         # Initialize LED2 connected to GPIO pin 27
         led2 = Pin(27,mode=Mode.OUT)
 
-4. **Main Monitoring Loop**
+4. **メイン監視ループ**
 
-   The ``while True`` loop continuously checks the reed switch state and controls the LEDs accordingly, creating a clear status indication system.
+   ``while True`` ループでリードスイッチの状態を継続的に監視し、それに応じてLEDの状態を切り替えます。これにより、磁場の有無を視覚的に確認できます。
 
    .. code-block:: python
 
@@ -172,9 +172,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
               led1.on()   # Turn on LED1
               led2.off()  # Turn off LED2
 
-5. **Keyboard Interrupt Handling**
+5. **キーボード割り込み処理**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted.
+   ``try-except`` ブロックにより、 ``Ctrl+C`` による割り込み時にもプログラムを安全に終了できます。
 
    .. code-block:: python
 
@@ -184,30 +184,30 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Reed Switch Not Detecting Magnet**
+1. **リードスイッチが磁石を検出しない**
 
-   - **Cause**: Magnet polarity issues, insufficient magnetic strength, or wiring problems.
-   - **Solution**: Try flipping the magnet, use a stronger magnet, or verify all connections.
+   - **原因**: 磁石の向き、磁力不足、または配線の問題。
+   - **対処方法**: 磁石の向きを変えてみる、より強い磁石を使用する、またはすべての配線を確認してください。
 
-2. **LEDs Not Lighting**
+2. **LEDが点灯しない**
 
-   - **Cause**: Incorrect GPIO pin assignments, LED polarity reversed, or insufficient current.
-   - **Solution**: Check pin assignments, ensure LEDs are connected with correct polarity (anode to GPIO), and verify resistor values.
+   - **原因**: GPIOピンの設定ミス、LEDの極性逆接続、または電流不足。
+   - **対処方法**: ピン番号が正しいか確認し、LEDの極性（アノードがGPIO側）を確認し、適切な抵抗値を使用してください。
 
-3. **Unstable Readings**
+3. **読み取りが不安定**
 
-   - **Cause**: Electrical noise or floating input when reed switch is open.
-   - **Solution**: The built-in pull-down resistor should stabilize the input, but ensure proper grounding and check for nearby sources of electromagnetic interference.
+   - **原因**: 電気ノイズや、リードスイッチが開いているときの入力の浮き。
+   - **対処方法**: 内蔵プルダウン抵抗で通常は安定しますが、確実なGND接続を確認し、近くに電磁ノイズ源がないか確認してください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Security System**
+1. **セキュリティシステム**
 
-   Create a simple door/window security alarm that triggers when a magnet moves away from the reed switch:
+   磁石がリードスイッチから離れたときに警報を鳴らす簡易ドア／窓セキュリティシステムを作成できます。
 
    .. code-block:: python
 
@@ -223,9 +223,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
               led2.on()  # Green safe LED
           sleep(0.1)
 
-2. **Position Counter**
+2. **位置カウンター**
 
-   Count how many times a magnet passes by the reed switch, useful for rotational speed measurement:
+   磁石がリードスイッチの前を通過した回数を数えることで、回転速度測定などに利用できます。
 
    .. code-block:: python
 
@@ -240,9 +240,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
           last_state = current_state
           sleep(0.01)  # Short delay for debouncing
 
-3. **Two-Sensor Detection**
+3. **2センサー検出**
 
-   Use two reed switches to detect direction of movement:
+   2つのリードスイッチを使用して移動方向を検出できます。
 
    .. code-block:: python
 
@@ -255,6 +255,6 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use a reed switch as a magnetic field sensor to control LED indicators. Reed switches are reliable, simple components widely used in security systems, position sensing, and proximity detection applications. By combining magnetic sensing with visual feedback, you can create intuitive monitoring systems for various applications.
+このプロジェクトでは、リードスイッチを磁場センサーとして使用し、LEDインジケーターを制御する方法を学びました。リードスイッチは信頼性が高くシンプルな部品であり、セキュリティシステム、位置検出、近接検知など多くの用途で広く利用されています。磁気検出と視覚的フィードバックを組み合わせることで、さまざまなアプリケーション向けの直感的な監視システムを構築できます。

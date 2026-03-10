@@ -4,19 +4,19 @@
 
 .. _py_fun_morse_code_generator:
 
-4.4 Morse Code Generator
-===========================
+4.4 モールス信号ジェネレーター
+===========================================
 
-**Introduction**
+**はじめに**
 
-In this project, we will create a Morse code generator using a Raspberry Pi. You can input a series of characters via the terminal, and the system will output the corresponding Morse code signals using a buzzer and an LED. This project not only demonstrates basic GPIO control but also introduces Morse code, a fascinating communication method used historically for telegraphy.
+このプロジェクトでは、Raspberry Pi を使ってモールス信号ジェネレーターを作成します。ターミナルから文字列を入力すると、システムが対応するモールス信号をブザーと LED を使って出力します。このプロジェクトでは、基本的な GPIO 制御を学べるだけでなく、電信で歴史的に使われてきた興味深い通信手段であるモールス信号についても知ることができます。
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-The following components are required:
+このプロジェクトで必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -46,9 +46,9 @@ The following components are required:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The schematic diagram is shown below:
+回路図は以下のとおりです。
 
 .. image:: img/fzz/4.1.13_sch.png
    :width: 100%
@@ -57,9 +57,9 @@ The schematic diagram is shown below:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Build the circuit following the diagram below. Ensure correct polarity for the buzzer (the terminal with the "+" sign is the positive pole):
+以下の図に従って回路を組み立ててください。ブザーの極性に注意してください（ ``+`` の付いた端子がプラス極です）。
 
 
 .. image:: img/fzz/4.1.13_bb.png
@@ -70,11 +70,11 @@ Build the circuit following the diagram below. Ensure correct polarity for the b
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -86,16 +86,16 @@ Follow these steps to run the example:
     cd ~/ai-lab-kit/python/
     sudo python3 4.4_MorseCodeGenerator.py
 
-* After running the script, you can type a message in the terminal and the system will output it as Morse code using a buzzer and an LED. 
-* Each dot is indicated by a short beep/flash, and each dash by a longer beep/flash. 
-* Letters are separated by a brief pause, and spaces in the message create a longer pause between words. 
-* The program keeps waiting for new input messages and will stop safely when you press ``Ctrl + C``, turning off both the buzzer and the LED.
+* スクリプトを実行すると、ターミナルにメッセージを入力できるようになり、その内容がブザーと LED を使ってモールス信号として出力されます。 
+* 点（dot）は短いビープ音／短い点灯で表され、線（dash）は長いビープ音／長い点灯で表されます。 
+* 文字の間には短い間隔が入り、メッセージ中のスペースは単語間のより長い間隔として扱われます。 
+* プログラムは新しい入力を待ち続け、 ``Ctrl + C`` を押すとブザーと LED の両方をオフにして安全に終了します。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Below is the Python code for this project:
+以下は、このプロジェクトで使用する Python コードです。
 
 
 .. raw:: html
@@ -194,96 +194,96 @@ Below is the Python code for this project:
 
 
 
-This Python script converts a user-provided message into Morse code and signals it using a buzzer and LED. Here's how it works:
+この Python スクリプトは、ユーザーが入力したメッセージをモールス信号に変換し、ブザーと LED で出力します。動作の流れは次のとおりです。
 
-1. **Morse Code Conversion**: The script translates the input text (letters, numbers, and some special characters) into Morse code using a predefined dictionary ``MORSECODE``.
+1. **モールス信号への変換**: スクリプトは、あらかじめ定義された辞書 ``MORSECODE`` を使って、入力された文字列（英字、数字、一部の特殊文字）をモールス信号へ変換します。
 
-2. **Audio-Visual Morse Code Output**:
+2. **音と光によるモールス信号の出力**:
 
-   - For each dot (``0``), the buzzer and LED are activated for a short duration (half of the pause time).
-   - For each dash (``1``), the buzzer and LED are activated for a longer duration (equal to the pause time).
+   - 点（ ``0`` ）の場合、ブザーと LED は短時間だけ動作します。
+   - 線（ ``1`` ）の場合、ブザーと LED はより長い時間動作します。
 
-3. **User Interaction**:
+3. **ユーザー入力**:
 
-   - Users input a message, and the system converts and emits the corresponding Morse code.
-   - The program continuously asks for new messages until interrupted.
+   - ユーザーがメッセージを入力すると、システムはそれを対応するモールス信号に変換して出力します。
+   - プログラムは中断されるまで、新しいメッセージの入力を待ち続けます。
 
-4. **Graceful Exit**: On ``Ctrl+C``, the script stops, turns off the buzzer and LED, and exits cleanly.
-
-----------------------------------------------
-
-**Understanding the Code**
-
-1. **Components Setup:**  
-
-   The buzzer and LED are initialized on GPIO pins 22 and 17, respectively.
-
-2. **Morse Code Dictionary:**  
-
-   Morse code is represented using '0' for dots (short signals) and '1' for dashes (long signals). For example, 'A' is represented as "01".
-
-3. **Signal Functions:**  
-
-   * The ``on()`` and ``off()`` functions activate or deactivate the buzzer and LED.  
-   * The ``beep()`` function combines these to create a signal with a specified duration.  
-
-4. **Morse Code Conversion:**  
-
-   The ``morsecode()`` function processes each letter of the input message. It emits a series of signals for each character using the Morse code dictionary.
-
-5. **Main Loop:**  
-
-   The program continuously prompts for user input and converts the input to Morse code signals. The loop can be terminated safely with ``Ctrl+C``.
-
+4. **安全な終了**: ``Ctrl+C`` が押されると、スクリプトは停止し、ブザーと LED をオフにして安全に終了します。
 
 ----------------------------------------------
 
+**コードの解説**
 
-**Troubleshooting**
+1. **コンポーネントの設定**  
 
-1. **Buzzer or LED Does Not Work**:
+   ブザーと LED は、それぞれ GPIO22 と GPIO17 に初期化されています。
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+2. **モールス信号辞書**  
 
-     - Verify the buzzer is connected to GPIO 22 and the LED to GPIO 17.
-     - Test the buzzer and LED independently using simple GPIO control scripts.
+   モールス信号は、点を ``0``、線を ``1`` として表現しています。たとえば、 ``A`` は ``"01"`` と表されます。
 
-2. **Morse Code Output Is Inaccurate**:
+3. **信号出力関数**  
 
-   - **Cause**: Input characters not in the ``MORSECODE`` dictionary.
-   - **Solution**:
+   * ``on()`` および ``off()`` 関数は、ブザーと LED をオン／オフします。  
+   * ``beep()`` 関数は、指定した長さの信号を出力します。  
 
-     - Ensure the input contains only supported characters (A-Z, 0-9, and select symbols).
-     - Extend the ``MORSECODE`` dictionary to include additional characters.
+4. **モールス信号変換**  
 
-3. **Fast or Overlapping Signals**:
+   ``morsecode()`` 関数は、入力メッセージの各文字を順番に処理し、モールス信号辞書に基づいて信号を出力します。
 
-   - **Cause**: Inadequate timing for pauses or signal durations.
-   - **Solution**: Adjust the ``pause`` variable in the ``morsecode()`` function for clearer signaling:
+5. **メインループ**  
+
+   プログラムは継続的にユーザー入力を受け取り、その内容をモールス信号に変換して出力します。 ``Ctrl+C`` を押すことで安全に終了できます。
+
+
+----------------------------------------------
+
+
+**トラブルシューティング**
+
+1. **ブザーまたは LED が動作しない**
+
+   - **原因** : 配線ミス、または GPIO 設定が正しくない可能性があります。
+   - **対処方法** :
+
+     - ブザーが GPIO22、LED が GPIO17 に接続されていることを確認してください。
+     - 簡単な GPIO 制御スクリプトで、ブザーと LED を個別にテストしてください。
+
+2. **モールス信号の出力が正しくない**
+
+   - **原因** : 入力文字が ``MORSECODE`` 辞書に含まれていません。
+   - **対処方法** :
+
+     - 入力には、対応している文字（A-Z、0-9、および一部の記号）のみを使用してください。
+     - 必要に応じて ``MORSECODE`` 辞書に文字を追加してください。
+
+3. **信号が速すぎる、または重なって聞こえる**
+
+   - **原因** : 信号長や間隔が短すぎます。
+   - **対処方法** : ``morsecode()`` 関数内で使用する待機時間を調整して、より分かりやすい出力にしてください。
 
        .. code-block:: python
 
            pause = 0.5  # Increase pause duration for slower output
 
-4. **Input Not Detected**:
+4. **入力が受け付けられない**
 
-   - **Cause**: Input issues in the runtime environment (e.g., no console).
-   - **Solution**: Ensure the script is run in a terminal or environment that supports ``input()``.
+   - **原因** : 実行環境が ``input()`` に対応していない可能性があります（例：コンソールがない環境）。
+   - **対処方法** : ``input()`` を利用できるターミナル環境でスクリプトを実行してください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Adjustable Speed**: Allow users to set the Morse code signaling speed by inputting a custom pause value.
+1. **速度調整機能**: ユーザーが待機時間を入力して、モールス信号の出力速度を調整できるようにします。
 
      .. code-block:: python
 
          pause = float(input("Enter pause duration (seconds): "))
 
-2. **Multi-Device Output**: Add another LED or buzzer to display the Morse code simultaneously on different devices.
+2. **複数デバイスでの出力**: 追加の LED やブザーを接続して、複数のデバイスで同時にモールス信号を表示します。
 
-3. **Morse Code Logging**: Log the Morse code sequence to a file for each message:
+3. **モールス信号ログ保存**: 各メッセージのモールス信号列をファイルに保存します。
 
      .. code-block:: python
 
@@ -292,6 +292,6 @@ This Python script converts a user-provided message into Morse code and signals 
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project is a fun way to explore Morse code and its application using Raspberry Pi. By leveraging simple components like a buzzer and LED, you can create a system that bridges historical communication methods with modern electronics. Experiment with the code to enhance your understanding and make it your own!
+このプロジェクトは、Raspberry Pi を使ってモールス信号とその応用を学ぶための楽しい方法です。ブザーや LED のようなシンプルな部品を使うことで、歴史的な通信手段と現代の電子工作を結びつけるシステムを作ることができます。ぜひコードを調整しながら理解を深め、自分なりに発展させてみてください。

@@ -7,22 +7,22 @@
 1.2 RGB LED
 ====================
 
-**Introduction**
+**はじめに**
 
-In this project, we will explore how to control an RGB LED to display various colors by using a Raspberry Pi and GPIO programming. RGB LEDs are versatile components that can emit a spectrum of colors by mixing red, green, and blue light at different intensities.
+このプロジェクトでは、Raspberry Pi と GPIO プログラミングを使って RGB LED を制御し、さまざまな色を表示する方法を学びます。RGB LED は、赤・緑・青の光をそれぞれ異なる強さで組み合わせることで、多彩な色を表現できる便利な電子部品です。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完成させるために、次の部品を用意してください。
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 部品
+        - 購入リンク
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -37,12 +37,11 @@ To complete this project, you will need the following components:
     *   - Raspberry Pi
         - \-
 
-
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-After connecting the R, G, and B pins of the RGB LED to current-limiting resistors, connect these resistors to PWM0, PWM1, and PWM2, respectively. The longest pin of the LED (GND) is connected to the GND pin of the Raspberry Pi. Different PWM values for the three pins produce various colors.
+RGB LED の R、G、B ピンをそれぞれ電流制限用の抵抗に接続し、その抵抗を PWM0、PWM1、PWM2 に接続します。LED の最も長いピン（GND）は Raspberry Pi の GND ピンに接続します。3つのピンに異なる PWM 値を与えることで、さまざまな色を生成できます。
 
 .. image:: img/fzz/1.1.2_sch.png
    :width: 80%
@@ -50,13 +49,13 @@ After connecting the R, G, and B pins of the RGB LED to current-limiting resisto
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow the steps below to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Place the RGB LED on the breadboard.
-2. Connect the red, green, and blue pins of the LED to P0, P1, and P2 through resistors.
-3. Connect the longest pin (GND) of the LED to the GND of the Raspberry Pi.
+1. RGB LED をブレッドボードに配置します。
+2. LED の赤・緑・青のピンを、それぞれ抵抗を介して P0、P1、P2 に接続します。
+3. LED の最も長いピン（GND）を Raspberry Pi の GND に接続します。
 
 .. image:: img/fzz/1.1.2_bb.png
    :width: 80%
@@ -66,11 +65,10 @@ Follow the steps below to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルプログラムの実行**
 
-
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは、 ``ai-lab-kit`` ディレクトリに用意されています。  
+次の手順に従ってサンプルを実行してください。
 
 .. raw:: html
 
@@ -81,13 +79,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.2_RGBLED.py 
 
-After running the program, the RGB LED lights up red, then green, then purple, each for 1 second, and finally turns off. Pressing ``Ctrl + C`` will also turn the LED off.
+プログラムを実行すると、RGB LED は赤 → 緑 → 紫の順にそれぞれ 1 秒ずつ点灯し、最後に消灯します。``Ctrl + C`` を押すと LED も消灯します。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code cycles through various colors on the RGB LED by setting different PWM values for the red, green, and blue components:
+次の Python コードでは、赤・緑・青の PWM 値を変化させることで、RGB LED の色を順番に切り替えます。
 
 
 .. raw:: html
@@ -126,19 +124,19 @@ The following Python code cycles through various colors on the RGB LED by settin
       pass
 
 
-This script demonstrates how to control an RGB LED using the Fusion Hat library. It initializes the RGB LED with specific PWM pins and sets different colors sequentially.
+このスクリプトは、Fusion Hat ライブラリを使って RGB LED を制御する方法を示しています。RGB LED を特定の PWM ピンで初期化し、異なる色を順番に設定します。
 
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの理解**
 
 
-Run the script on a compatible device with a connected RGB LED. The LED will cycle through red, green, and purple before turning off.
+RGB LED を接続した対応デバイス上でスクリプトを実行すると、LED は赤 → 緑 → 紫の順に点灯し、その後消灯します。
 
 
-1. **Importing Dependencies**
+1. **依存モジュールのインポート**
    
    .. code:: python
 
@@ -146,17 +144,17 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
       from fusion_hat.pwm import PWM
       from time import sleep
    
-   The required modules are imported. ``RGB_LED`` and ``PWM`` from the ``fusion_hat`` library manage the RGB LED, and ``sleep`` is used for timing.
+   必要なモジュールを読み込みます。 ``fusion_hat`` ライブラリの ``RGB_LED`` と ``PWM`` は RGB LED の制御に使用され、 ``sleep`` は時間待ちに使用されます。
 
-2. **Initializing the RGB LED**
+2. **RGB LED の初期化**
    
    .. code:: python
 
       rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
 
-   The RGB LED is initialized with its red, green, and blue components connected to PWM pins ``P0``, ``P1``, and ``P2``, respectively. The LED uses a common cathode configuration.
+   RGB LED を初期化し、赤・緑・青の各チャンネルをそれぞれ PWM ピン ``P0`` 、 ``P1`` 、 ``P2`` に接続します。この LED は **共通カソード（Common Cathode）** タイプです。
 
-3. **Setting Colors Sequentially**
+3. **色を順番に設定する**
    
    .. code:: python
 
@@ -169,21 +167,21 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
       rgb_led.color(0xFF00FF)  # Purple
       sleep(1)
    
-   The script sets the RGB LED to different colors using different formats:
+   スクリプトでは、さまざまな形式で RGB LED の色を指定できます。
 
-   - ``(255, 0, 0)``: Tuple representing red in RGB.
-   - ``"#00FF22"``: Hexadecimal string representing a greenish color.
-   - ``0xFF00FF``: Hexadecimal integer for purple.
+   - ``(255, 0, 0)``：RGB タプル形式の赤
+   - ``"#00FF22"``：16進文字列形式の緑系カラー
+   - ``0xFF00FF``：紫を表す16進整数
 
-4. **Turning Off the LED**
+4. **LED を消灯する**
    
    .. code:: python
 
       rgb_led.color(0x000000)
    
-   The script sets the LED color to black (``0x000000``), effectively turning it off.
+   LED の色を黒（ ``0x000000`` ）に設定することで、LED を消灯します。
 
-5. **Handling Interrupts**
+5. **割り込み処理**
    
    .. code:: python
 
@@ -191,44 +189,44 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
          rgb_led.color(0x000000)
          pass
    
-   If the user interrupts the script using ``Ctrl+C``, the exception is caught, and the LED is turned off before exiting.
+   ユーザーが ``Ctrl+C`` を押してスクリプトを中断した場合、この例外を処理し、LED を消灯してから終了します。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **LED Does Not Light Up**  
+1. **LED が点灯しない**  
 
-   - **Cause**: Incorrect wiring or GPIO pin mismatch.  
-   - **Solution**: Verify that the red, green, and blue pins of the RGB LED are connected to the correct pins and that the LED's common cathode or anode is properly connected.
+   - **原因**：配線ミス、または GPIO ピンの接続間違い。  
+   - **対処方法**：RGB LED の赤・緑・青ピンが正しいピンに接続されているか、また LED の共通カソードまたは共通アノードが正しく接続されているか確認してください。
 
 
-2. **Flickering or Unstable Colors**  
+2. **色がちらつく、または不安定**  
 
-   - **Cause**: Unstable power supply or improper resistor usage.  
-   - **Solution**: Use appropriate resistors and ensure a stable power source.
+   - **原因**：電源が不安定、または抵抗の使用が不適切。  
+   - **対処方法**：適切な抵抗を使用し、安定した電源を確保してください。
 
-3. **Incorrect GPIO Setup**  
+3. **GPIO の設定が正しくない**  
 
-   - **Cause**: Fusion_hat library is not installed.  
-   - **Solution**: See :ref:`install_fusion_hat`.
+   - **原因**：Fusion_hat ライブラリがインストールされていない。  
+   - **対処方法**： :ref:`install_fusion_hat` を参照してください。
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**発展アイデア**
 
-1. **Custom Color Sequences**  
+1. **カスタムカラーシーケンス**
 
-   Add more colors to the ``COLORS`` list, including dimmer variations, such as ``(125, 50, 200)`` for a softer tone.
+   ``COLORS`` リストにさらに多くの色を追加し、たとえば ``(125, 50, 200)`` のような柔らかい色調も試してみましょう。
 
 
 
-2. **User-Defined Colors**  
+2. **ユーザー入力による色指定**
 
-   Allow the user to input custom RGB values:  
+   ユーザーが RGB 値を入力して LED の色を設定できるようにします。
 
    .. code-block:: python
 
@@ -238,10 +236,9 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
             rgb_led.color = (r, g, b)
 
 
+3. **ランダムカラー表示**
 
-3. **Randomized Colors**  
-
-   Generate random colors to create a dynamic and unpredictable light display:  
+   ランダムな色を生成し、動的で予測できないライト表示を作ります。
 
    .. code-block:: python
 
@@ -254,6 +251,6 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-By following this guide, you have successfully learned how to control an RGB LED using a Raspberry Pi and Python. This project demonstrates the basics of PWM and color mixing, which can be expanded into more advanced lighting effects or used as a foundation for interactive projects.
+このガイドを通して、Raspberry Pi と Python を使って RGB LED を制御する方法を学びました。このプロジェクトでは、PWM の基本と色の合成を理解できます。これらの知識は、より高度な照明効果の作成やインタラクティブな電子プロジェクトの基礎として活用できます。

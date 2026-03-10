@@ -4,20 +4,20 @@
 
 .. _py_book_cover_analyzer:
 
-(Example) Book Expert
-===========================
+(Example) ブックエキスパート
+===============================
 
-**Introduction**
+**はじめに**
 
-In this project, you'll build an **AI-powered book cover analyzer** that uses computer vision and natural language processing to identify books from their covers. The system captures images of book covers using a Raspberry Pi camera, sends them to LLM model (here we use OpenAI's GPT-4o vision model) for analysis, and provides audio feedback about the book's title, author, summary, and reception using text-to-speech technology.
+このプロジェクトでは、コンピュータビジョンと自然言語処理を組み合わせ、表紙画像から書籍を判別する **AI搭載のブックカバー解析ツール** を作成します。Raspberry Pi カメラで本の表紙を撮影し、LLM（ここでは OpenAI の GPT-4o ビジョンモデル）に送って解析を行い、書名・著者・要約・評価/評判を text-to-speech で音声フィードバックします。
 
-The project combines multiple technologies:
+本プロジェクトは複数の技術を統合しています：
 
-- Camera capture with Picamera2
-- Image analysis with GPT-4o vision capabilities
-- Text-to-speech conversion for audio responses
-- RGB LED for visual status feedback
-- Physical button for intuitive interaction
+- Picamera2 によるカメラ撮影
+- GPT-4o のビジョン機能による画像解析
+- 音声応答のための text-to-speech 変換
+- 状態表示のための RGB LED
+- 直感的に操作できる物理ボタン
 
 .. raw:: html
 
@@ -26,13 +26,13 @@ The project combines multiple technologies:
           Your browser does not support the video tag.
       </video>
 
-To use the other llm model, please refer to :ref:`py_online_llm` .
+他の LLM モデルを使用する場合は :ref:`py_online_llm` を参照してください。
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -55,24 +55,24 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. カメラモジュールを便利に使うために、:ref:`assemble_fusion_hat_pan_tilt` を推奨します。
 
    .. note:: 
      
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+     パンチルトを組み立てると一部のピンが隠れる場合があります。そのため、カメラを使用する場合のみ組み立てるか、組み立て後に外側へ配置することを推奨します。
    
    
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Connect the components to the Fusion HAT+ as follows:
+#. 以下のように部品を Fusion HAT+ に接続します：
 
    .. image:: img/fzz/llm_book_bb.png
       :width: 80%
       :align: center
 
-#. The User Button is already integrated into the Fusion HAT+ and doesn't require additional wiring. It is near by the BATTERY port.*
+#. User Button は Fusion HAT+ に統合されているため、追加配線は不要です。BATTERY ポートの近くにあります。*
 
    .. image:: img/3.1_user_button.png
       :width: 50%
@@ -83,14 +83,14 @@ The following components are required for this project:
    :start-after: start_setup_openai
    :end-before: end_setup_openai
 
-**Running the Example**
+**サンプルの実行**
 
-#. Access the Raspberry Pi Desktop:
+#. Raspberry Pi のデスクトップにアクセスします：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: **VNC** を使ってフルデスクトップ環境に接続します。
+   * |link_rpi_connect|: **Raspberry Pi Connect** を使い、任意のブラウザから安全に Pi へアクセスします。
 
-#. Open a Terminal and go to the code folder:
+#. ターミナルを開き、コードフォルダへ移動します：
 
    .. raw:: html
    
@@ -101,22 +101,22 @@ The following components are required for this project:
       cd ~/ai-lab-kit/llm   
       sudo python3 llm_openai_bookexpert.py
 
-#. When the script runs:
+#. スクリプトを実行すると：
    
-   * A camera preview window will open
-   * The RGB LED will glow blue, indicating ready state
-   * Place a book cover in front of the camera
-   * Press the USR Button on the Fusion HAT+ (which is near the BATTERY port)
-   * The system will:
+   * カメラのプレビューウィンドウが開きます
+   * RGB LED が青く点灯し、待機状態であることを示します
+   * 本の表紙をカメラの前に置きます
+   * Fusion HAT+ の USR ボタン（BATTERY ポートの近く）を押します
+   * システムは次の処理を行います：
 
-     1. Capture a photo (LED turns yellow 🟡)
-     2. Analyze with AI (LED turns purple 🟣)
-     3. Speak the analysis (LED turns green 🟢)
-     4. Return to ready state (LED turns blue 🔵)
-     5. If error occurs, the LED will turn red 🔴
+     1. 写真を撮影（LED が黄色 🟡）
+     2. AI で解析（LED が紫 🟣）
+     3. 解析結果を読み上げ（LED が緑 🟢）
+     4. 待機状態へ戻る（LED が青 🔵）
+     5. エラー発生時は LED が赤 🔴
 
-   * Photos are saved to `~/Pictures/book_covers/`
-   * Press Ctrl+C to exit
+   * 写真は `~/Pictures/book_covers/` に保存されます
+   * Ctrl+C で終了します
 
 ----------------------------------------------
 
@@ -375,11 +375,11 @@ Here is the full Python script for the AI Book Cover Analyzer:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. Camera Initialization
+1. カメラの初期化
 
-   The Picamera2 library provides a modern interface for Raspberry Pi camera control, supporting both image capture and preview.
+   Picamera2 ライブラリは Raspberry Pi カメラ制御のための最新インターフェースで、撮影とプレビューの両方に対応します。
 
    .. code-block:: python
 
@@ -390,9 +390,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
       self.camera.start_preview(Preview.QT)
       self.camera.start()
 
-2. Image Capture with Thread Safety
+2. スレッドセーフな画像撮影
 
-   The capture_photo method uses threading locks to prevent multiple simultaneous captures and ensures proper file naming.
+   capture_photo メソッドは threading のロックを使い、同時撮影を防ぎつつ、ファイル名を確実に連番で管理します。
 
    .. code-block:: python
 
@@ -403,9 +403,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
               self.photo_index += 1
               return str(filepath)
 
-3. Vision AI Analysis
+3. Vision AI による解析
 
-   The system uses GPT-4o's vision capabilities to analyze book covers. Two methods (streaming and non-streaming) are implemented for robustness.
+   システムは GPT-4o のビジョン機能で表紙を解析します。堅牢性のため、非ストリーミングとストリーミングの 2 方式を用意しています。
 
    .. code-block:: python
 
@@ -418,9 +418,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
           # Method 2: Fallback to streaming if needed
           stream_response = self.llm.prompt(prompt_text, stream=True, image_path=image_path)
 
-4. Text-to-Speech Conversion
+4. Text-to-Speech 変換
 
-   OpenAI's TTS API converts the AI's analysis into natural-sounding speech with configurable voice options.
+   OpenAI の TTS API により、解析結果を自然な音声に変換します。音声（voice）も設定可能です。
 
    .. code-block:: python
 
@@ -431,9 +431,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
           clean_text = re.sub(r'[*_\[\]()#]', '', text)  # Remove markdown
           self.tts.say(clean_text, instructions="speak clearly and warmly")
 
-5. Status Feedback System
+5. 状態フィードバック機構
 
-   The RGB LED provides visual feedback throughout the process using color coding:
+   RGB LED は処理の状態を色で示します：
 
    .. code-block:: python
 
@@ -447,9 +447,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
           }
           self.rgb_led.color(color_map[color_name])
 
-6. Button Event Handling
+6. ボタンイベント処理
 
-   The User Button triggers the entire analysis workflow through an event callback.
+   User Button はイベントコールバックで解析の一連の処理を起動します。
 
    .. code-block:: python
 
@@ -464,9 +464,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
       # Set callback
       self.btn.set_on_click(self.button_handler)
 
-7. File Management
+7. ファイル管理
 
-   Photos are automatically organized in dated folders with sequential numbering.
+   写真は自動的に保存フォルダへ整理され、連番で命名されます。
 
    .. code-block:: python
 
@@ -477,45 +477,45 @@ Here is the full Python script for the AI Book Cover Analyzer:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
 - "Camera not detected" error
 
-  - Ensure the camera ribbon cable is properly inserted (gold contacts facing the correct direction)
-  - Run ``sudo raspi-config`` and enable the camera interface
-  - Reboot after enabling the camera
+  - カメラのリボンケーブルが正しく挿さっているか確認してください（金色の接点の向きに注意）
+  - ``sudo raspi-config`` を実行してカメラインターフェースを有効化してください
+  - 有効化後は再起動してください
 
 - "No preview window appears"
 
-  - Ensure you're running on a Raspberry Pi with a desktop environment
-  - For headless operation, remove or modify the preview code
-  - Check if you have sufficient GPU memory allocated
+  - デスクトップ環境のある Raspberry Pi で実行していることを確認してください
+  - ヘッドレス運用の場合は、プレビュー関連コードを削除または変更してください
+  - GPU メモリが十分に割り当てられているか確認してください
 
 - "OpenAI API error"
 
-  - Verify your API key in ``secret.py`` is correct and has sufficient credits
-  - Check internet connectivity: ``ping 8.8.8.8``
-  - Ensure your account has access to GPT-4o and the TTS API
+  - ``secret.py`` の API キーが正しく、十分なクレジットがあることを確認してください
+  - ネットワーク接続を確認： ``ping 8.8.8.8``
+  - アカウントが GPT-4o と TTS API にアクセス可能であることを確認してください
 
 - "TTS audio not playing"
 
-  - Check if audio output is configured: ``sudo raspi-config`` → **System Options** → **Audio**
-  - Test audio with: ``speaker-test -t sine -f 440``
-  - Ensure your speaker/headphones are connected to the correct audio jack
+  - 音声出力設定を確認： ``sudo raspi-config`` → **System Options** → **Audio**
+  - 音声テスト： ``speaker-test -t sine -f 440``
+  - スピーカー／ヘッドホンが正しいオーディオ端子に接続されているか確認してください
 
 - "Button press not detected"
 
-  - Check if the User Button LED lights up when pressed
-  - Ensure the Fusion HAT+ is properly seated on the GPIO pins
-  - Verify the button callback is set correctly
+  - 押下時に User Button の LED が点灯するか確認してください
+  - Fusion HAT+ が GPIO ピンに正しく装着されているか確認してください
+  - ボタンコールバックが正しく設定されているか確認してください
 
 - "Image analysis returns generic responses"
 
-  - Ensure good lighting when capturing book covers
-  - Position the book cover squarely in the camera frame
-  - Try with well-known books first for better recognition
-  - Clean the camera lens if blurry
+  - 撮影時の照明を十分に確保してください
+  - 表紙が正面からフレーム内に収まるように配置してください
+  - 認識しやすい有名な本から試すと精度が上がります
+  - 画像がぼやける場合はレンズを清掃してください
 
 ----------------------------------------------
 
-This project demonstrates the powerful combination of computer vision, natural language processing, and physical computing to create an intelligent book analysis system. It showcases how AI can enhance everyday interactions with physical objects like books, making information more accessible and engaging!
+このプロジェクトは、コンピュータビジョン、自然言語処理、そしてフィジカルコンピューティングを組み合わせることで、知的な書籍解析システムを構築できることを示しています。AI によって本のような身近な物体とのインタラクションがより分かりやすく、より魅力的になることを体験できます！

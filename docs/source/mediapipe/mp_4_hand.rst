@@ -5,24 +5,24 @@
 .. _mp_hand:
 
 
-4. Hand Detection
+4. 手の検出（Hand Detection）
 ===============================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-In the previous section, we implemented face detection
-and landmark tracking using MediaPipe.
+前のセクションでは、MediaPipe を使用した顔検出と
+ランドマーク追跡を実装しました。
 
-This section introduces **MediaPipe Hands** —
-a lightweight and stable real-time hand landmark detection module.
+このセクションでは **MediaPipe Hands** を紹介します。
+これは軽量で安定したリアルタイム手ランドマーク検出モジュールです。
 
-Using this module, we can:
+このモジュールを使用すると、次のことが可能になります：
 
-- Detect up to two hands simultaneously
-- Identify 21 landmarks per hand
-- Visualize hand skeleton connections in real time
+- 最大 2 つの手を同時に検出
+- 各手につき 21 個のランドマークを識別
+- 手の骨格接続をリアルタイムで可視化
 
 .. image:: img/mp_hand.png
    :alt: MediaPipe Hands
@@ -30,49 +30,48 @@ Using this module, we can:
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The program follows these steps:
+プログラムは次の手順で動作します：
 
-1. Initialize the MediaPipe Hands model.
-2. Capture frames from the Raspberry Pi camera.
-3. Convert the image to RGB format (required by MediaPipe).
-4. Detect hand landmarks using the Hands module.
-5. Draw the 21 landmarks and their connection lines.
-6. Display the annotated video stream in real time.
+1. MediaPipe Hands モデルを初期化する
+2. Raspberry Pi カメラからフレームを取得する
+3. 画像を RGB 形式に変換する（MediaPipe の要件）
+4. Hands モジュールを使用して手のランドマークを検出する
+5. 21 個のランドマークとその接続線を描画する
+6. 注釈付きの映像ストリームをリアルタイムで表示する
 
-This module serves as the foundation for:
+このモジュールは次の機能の基盤になります：
 
-- Gesture recognition
-- Finger counting
-- Interactive control systems
-- Touchless human–computer interaction
+- ジェスチャー認識
+- 指の本数カウント
+- インタラクティブ制御システム
+- 非接触型ヒューマンコンピュータインタラクション
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-   For detailed instructions, see :ref:`opencv_install`.
-
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのウィンドウが開き、カメラのライブ映像が表示されます。
 
    .. raw:: html
    
@@ -81,31 +80,31 @@ This module serves as the foundation for:
              Your browser does not support the video tag.
          </video>
    
-   When one or two hands appear in front of the camera:
+   カメラの前に 1 つまたは 2 つの手が現れると：
+
+   - MediaPipe がリアルタイムで各手を検出します。
+   - 各手に対して 21 個のランドマークを識別します。
+   - ランドマークを線で接続し、手の骨格を表示します。
    
-   - MediaPipe detects each hand in real time.
-   - 21 landmark points are identified on each hand.
-   - The landmarks are connected with lines to form a hand skeleton.
+   2 つの手が見える場合、両方の手が同時に追跡され、
+   画面上に表示されます。
    
-   If two hands are visible, both hands are tracked and
-   annotated simultaneously.
+   ユーザーが手や指を動かすと：
+
+   - ランドマークポイントが動きに滑らかに追従します。
+   - 手の骨格表示がリアルタイムで更新されます。
    
-   As the user moves their hands or fingers:
+   手が検出されない場合、プログラムは
+   注釈のない通常のカメラ映像を表示します。
    
-   - The landmark points follow the motion smoothly.
-   - The hand skeleton updates in real time.
-   
-   If no hand is detected, the program simply shows
-   the normal camera feed without annotations.
-   
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   ``q`` を押すとプログラムを終了できます。
+   カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
-The complete example code is as follows:
+完全なサンプルコードは以下の通りです：
 
 .. code-block:: python
 
@@ -166,21 +165,23 @@ The complete example code is as follows:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the code, you will see in the camera feed:
+コードを実行すると、カメラ映像に次の内容が表示されます：
 
-- If one or two hands are detected, it will show:
+- 1 つまたは 2 つの手が検出された場合：
 
-  - 21 hand landmarks
-  - Blue connection skeleton
-- When the hand moves, the detection will track it in real-time.
+  - 21 個の手ランドマーク
+  - 青い接続線による骨格表示
+
+- 手が動くと、検出結果はリアルタイムで追跡されます。
 
 --------------------------------------------------------
-5. MediaPipe Hands Landmarks Description
+5. MediaPipe Hands ランドマークの説明
 --------------------------------------------------------
 
-MediaPipe Hands returns **21 landmarks** for each hand, including locations like the wrist, palm, and fingertips.
+MediaPipe Hands は各手について **21 個のランドマーク** を返します。
+これには手首、手のひら、指先などの位置が含まれます。
 
-Common landmarks include:
+代表的なランドマーク：
 
 .. list-table::
    :header-rows: 1
@@ -190,16 +191,16 @@ Common landmarks include:
      - Location
    * - 0
      - WRIST
-     - Wrist
+     - 手首
    * - 4 / 8 / 12 / 16 / 20
      - THUMB_TIP / INDEX_FINGER_TIP / MIDDLE_FINGER_TIP / RING_FINGER_TIP / PINKY_TIP
-     - Tips of respective fingers
+     - 各指の先端
    * - 5~17
      - Joints
-     - Middle joints of respective fingers
+     - 各指の中間関節
    * - 9
      - PALM_CENTER (approximate)
-     - Palm area
+     - 手のひら付近
 
 .. image:: img/mp_hand_point.png
   :width: 400
@@ -207,41 +208,46 @@ Common landmarks include:
   :align: center
 
 .. note::
-   These coordinates are **normalized coordinates** and can be converted to actual pixel positions based on the image resolution.
-   They can be used to calculate angles and distances, enabling gesture recognition.
+   これらの座標は **正規化座標** であり、画像の解像度に基づいて
+   実際のピクセル座標へ変換できます。  
+   角度や距離の計算に利用でき、ジェスチャー認識などに応用できます。
 
 ------------------------------------------------------------
-6. Troubleshooting
+6. トラブルシューティング
 ------------------------------------------------------------
 
-- Unstable hand detection
+- 手の検出が不安定
 
-  Hand detection may become unstable if the lighting is too dim, the background is cluttered, or the hand moves too quickly.
+  照明が暗すぎる、背景が複雑、または手の動きが速すぎる場合、
+  検出が不安定になることがあります。
   
-  Try improving the lighting, using a plain background, and moving your hands more slowly and steadily.
+  照明を改善し、背景をシンプルにし、手をゆっくり安定して動かしてください。
 
-- No hand detected
+- 手が検出されない
 
-  If no hand is detected, the camera angle may be unsuitable, the hand may be too far from the camera, or the resolution may be too low.
+  カメラの角度が適切でない、手がカメラから遠すぎる、
+  または解像度が低すぎる可能性があります。
   
-  Adjust the camera position, move closer, and ensure the resolution is at least 640×480.
+  カメラ位置を調整し、手をカメラに近づけ、
+  解像度が少なくとも 640×480 であることを確認してください。
 
-- High latency
+- 遅延が大きい
 
-  If the video response feels slow, the Raspberry Pi may be under heavy load or the resolution may be set too high.
+  動画の反応が遅い場合、Raspberry Pi の負荷が高い、
+  または解像度が高すぎる可能性があります。
   
-  Reduce the resolution (for example, 320×240) and close unnecessary background processes.
+  解像度を下げ（例：320×240）、不要なバックグラウンドプロセスを終了してください。
 
 
 -----------------------------
-7.  Summary
+7. まとめ
 -----------------------------
 
-- MediaPipe Hands enables stable **real-time hand detection** on the Raspberry Pi.
-- Provides 21 landmarks per hand, suitable for:
+- MediaPipe Hands は Raspberry Pi 上で安定した **リアルタイム手検出** を実現します。
+- 各手に対して 21 個のランドマークを提供し、次の用途に適しています：
 
-  - Gesture recognition
-  - Virtual control
-  - Interactive UI control
+  - ジェスチャー認識
+  - 仮想操作
+  - インタラクティブ UI 制御
   
-- Subsequently, we will implement **custom gesture recognition** based on these landmarks.
+- 次の章では、これらのランドマークを利用した **カスタムジェスチャー認識** を実装します。

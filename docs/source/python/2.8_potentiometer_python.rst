@@ -4,18 +4,18 @@
 
 .. _py_potentiometer:
 
-2.8 Potentiometer
-===================
+2.8 ポテンショメータ
+========================
 
-**Introduction**
+**はじめに**
 
-The ADC (Analog-to-Digital Converter) function is essential for converting analog signals to digital ones. In this experiment, we use the Fusion HAT+ to achieve this conversion, utilizing a potentiometer. The potentiometer adjusts the voltage, a physical quantity, which the ADC then digitizes. This experiment also demonstrates how the potentiometer can control the brightness of an LED.
+ADC（Analog-to-Digital Converter：アナログ-デジタル変換器）は、アナログ信号をデジタル信号へ変換するための重要な機能です。この実験では、Fusion HAT+ を使用してポテンショメータによる電圧の変化を読み取り、ADCによってデジタル値へ変換します。ポテンショメータは電圧という物理量を調整することができ、その値をADCがデジタル化します。また、この実験ではポテンショメータを使ってLEDの明るさを制御する方法も紹介します。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -41,9 +41,9 @@ Here are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-Below are the schematic diagrams for the project:
+以下はこのプロジェクトの回路図です。
 
 .. image:: img/fzz/2.1.7_sch.png
    :width: 80%
@@ -53,9 +53,9 @@ Below are the schematic diagrams for the project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Build the circuit as shown in the image below:
+以下の図を参考にして回路を組み立ててください。
 
 .. image:: img/fzz/2.1.7_bb.png
    :width: 80%
@@ -66,11 +66,11 @@ Build the circuit as shown in the image below:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。  
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -82,19 +82,19 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.8_Potentiometer.py
 
-This Python script uses an Fusion HAT+ to read analog input and control the brightness of a PWM LED. When executed:
+このPythonスクリプトは、Fusion HAT+ を使用してアナログ入力を読み取り、PWM LEDの明るさを制御します。実行すると、次のように動作します。
 
-1. The Fusion HAT+ continuously reads an analog signal, converting it to a digital value between 0 and 4095.
-2. This value is mapped to a range between 0 and 100, representing the brightness percentage of the LED.
-3. The brightness of the PWM LED is dynamically adjusted based on the mapped value.
-4. The raw ADC value and voltage is printed to the console in real time.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+1. Fusion HAT+ がアナログ信号を継続的に読み取り、0〜4095のデジタル値に変換します。
+2. この値は0〜100の範囲にマッピングされ、LEDの明るさ（％）を表します。
+3. PWM LEDの明るさは、この変換された値に応じて動的に調整されます。
+4. ADCの生の値と電圧がリアルタイムでコンソールに表示されます。
+5. ``Ctrl+C`` を押すとプログラムが終了し、LEDは消灯します。
  
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Below is the code for the experiment:
+以下はこの実験で使用するPythonコードです。
 
 
 .. raw:: html
@@ -146,9 +146,9 @@ Below is the code for the experiment:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports:**
+1. **インポート:**
 
 
    .. code-block:: python
@@ -157,9 +157,9 @@ Below is the code for the experiment:
       from fusion_hat.pwm import PWM
       import time
 
-   The script uses ``fusion_hat`` for PWM LED control and analog-to-digital conversion, and ``time`` for implementing delays.
+   このスクリプトでは、 ``fusion_hat`` ライブラリを使用してPWM LED制御およびアナログ-デジタル変換を行い、 ``time`` モジュールを遅延処理のために使用します。
 
-2. **Initialization:**
+2. **初期化:**
 
 
    .. code-block:: python
@@ -170,19 +170,19 @@ Below is the code for the experiment:
       # Initialize a PWM LED
       led = PWM(0)
 
-   The script initializes a PWM LED on pin ``P0`` and an ADC on pin ``A0``.
+   スクリプトでは、``A0`` ピンに接続されたADCと、 ``P0`` ピンに接続されたPWM LEDを初期化します。
 
-3. **MAP Function:**
+3. **MAP関数:**
 
    .. code-block:: python
 
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts values from one range to another, essential for mapping ADC readings to LED brightness.
+   ``MAP`` 関数は、ある範囲の値を別の範囲へ変換するための関数です。ADCの読み取り値をLEDの明るさに変換するために使用されます。
 
 
-4. **Main Loop:**
+4. **メインループ:**
 
 
    .. code-block:: python
@@ -207,36 +207,36 @@ Below is the code for the experiment:
       except KeyboardInterrupt: 
          led.pulse_width_percent(0)  # Turn off the LED
 
-   - Continuously read ADC values.
-   - Map ADC readings (0-4095) to brightness levels (0-100).
-   - Adjust LED brightness and wait for 0.2 seconds before repeating.
+   - ADCの値を継続的に読み取ります。
+   - ADC値（0〜4095）をLEDの明るさ（0〜100）へ変換します。
+   - LEDの明るさを調整し、0.2秒待機してから再度読み取ります。
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **LED Does Not Respond**  
+1. **LEDが反応しない**  
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the LED is connected to PWM 0 with an appropriate resistor.
+   - **原因**: 配線ミスまたはGPIO設定の誤り。  
+   - **対処方法**: LEDが適切な抵抗を介してPWM0に接続されていることを確認してください。
 
-2. **ADC Values Always Zero**  
+2. **ADC値が常に0になる**  
 
-   - **Cause**: Incorrect wiring of the sensor.  
-   - **Solution**: Verify the sensor connections. Ensure the input sensor is functioning.
+   - **原因**: センサーの配線が正しくない。  
+   - **対処方法**: センサーの接続を確認し、入力センサーが正常に動作しているか確認してください。
 
-3. **Mapping Issues**  
+3. **マッピングの問題**  
 
-   - **Cause**: Incorrect ``MAP()`` function parameters.  
-   - **Solution**: Ensure the input range (``in_min``, ``in_max``) matches the output range (0–4095) and the output range (``out_min``, ``out_max``) is suitable for LED brightness control (0–100).
+   - **原因**: ``MAP()`` 関数のパラメータ設定が誤っている。  
+   - **対処方法**: 入力範囲（ ``in_min``, ``in_max``）がADC範囲（0〜4095）に一致していること、出力範囲（ ``out_min`` , ``out_max`` ）がLEDの明るさ制御（0〜100）に適していることを確認してください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
 
-1. **Threshold-Based Behavior**: Add logic to turn the LED on or off based on specific ADC value thresholds:
+1. **しきい値ベースの動作**: ADC値のしきい値に基づいてLEDをオン／オフする機能を追加できます。
 
    .. code-block:: python
 
@@ -247,6 +247,6 @@ Below is the code for the experiment:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This experiment demonstrates how to utilize the Fusion HAT+ and a potentiometer to control the brightness of an LED. By understanding analog-to-digital conversion and PWM control, you can expand this knowledge to build more complex interactive systems.
+この実験では、Fusion HAT+ とポテンショメータを使用してLEDの明るさを制御する方法を学びました。アナログ-デジタル変換とPWM制御の基本を理解することで、より複雑なインタラクティブシステムの開発へ応用することができます。

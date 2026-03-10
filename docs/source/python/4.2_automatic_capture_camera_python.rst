@@ -4,20 +4,20 @@
 
 .. _py_fun_camera2:
 
-4.2 Automatic Capture Camera
+4.2 自動撮影カメラ
 ===================================
 
-**Introduction**
+**はじめに**
 
-Imagine you’re away, and a curious little squirrel visits your windowsill. With this project, you can create an automatic capture camera to snap pictures of these delightful moments. Using a motion sensor, the camera detects movement and captures photos at regular intervals.
+留守中に、好奇心旺盛な小さなリスが窓辺を訪れたらどうでしょうか。このプロジェクトでは、そんな愛らしい瞬間を自動で撮影できるカメラを作成します。モーションセンサーを使って動きを検出し、一定間隔で写真を撮影します。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトで必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -46,9 +46,9 @@ The following components are required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the circuit diagram for this project:
+以下はこのプロジェクトの回路図です。
 
 .. image:: img/fzz/4.1.2_sch.png
    :width: 80%
@@ -58,24 +58,24 @@ Below is the circuit diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. カメラモジュールを便利に使用するために、:ref:`assemble_fusion_hat_pan_tilt` を推奨します。
 
    .. note:: 
      
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+     パンチルトを組み立てると一部のピンが隠れてしまう場合があるため、カメラを使用するときだけ組み立てるか、組み立て後に外側へ配置することをおすすめします。
    
    
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Follow this wiring diagram to set up the circuit:
+#. 以下の配線図に従って回路を組み立ててください。
 
    .. image:: img/fzz/4.1.2_bb.png
       :width: 80%
       :align: center
 
-#. For best performance, adjust the two potentiometers on the PIR module: one controls sensitivity, and the other adjusts detection distance. Turn both counterclockwise to the end.
+#. 最適な動作のために、PIRモジュール上の2つの可変抵抗を調整してください。1つは感度、もう1つは検出距離を調整します。両方とも反時計回りいっぱいまで回してください。
 
    .. image:: ../python/img/PIR_TTE.png
       :width: 400
@@ -84,14 +84,14 @@ Below is the circuit diagram for this project:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
-#. Access the Raspberry Pi Desktop:
+#. Raspberry Pi のデスクトップにアクセスします。
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: **VNC** を使用して完全なデスクトップ環境を利用します。
+   * |link_rpi_connect|: **Raspberry Pi Connect** を使用して、任意のブラウザから安全に Pi にアクセスします。
 
-#. Open a Terminal and go to the code folder:
+#. ターミナルを開き、コードフォルダへ移動します。
 
    .. raw:: html
    
@@ -101,7 +101,7 @@ Below is the circuit diagram for this project:
 
       cd ~/ai-lab-kit/python
 
-#. Run the script to start the camera:
+#. スクリプトを実行してカメラを起動します。
 
    .. raw:: html
    
@@ -111,18 +111,18 @@ Below is the circuit diagram for this project:
 
       sudo python3 4.2_AutomaticCaptureCamera.py 
 
-#. After running the script:
+#. スクリプトを実行すると、次のように動作します。
 
-   * The camera starts and continuously monitors the PIR motion sensor connected to GPIO 17. 
-   * When the PIR sensor detects motion and its output goes HIGH, the camera captures one photo and saves it to the Pictures folder with an incremental filename.
-   * After each capture, the program waits briefly to avoid repeated photos. 
-   * The system keeps monitoring for motion and runs until you press Ctrl + C to exit.
+   * カメラが起動し、GPIO17 に接続された PIR モーションセンサーを継続的に監視します。  
+   * PIR センサーが動きを検出して出力が HIGH になると、カメラは1枚の写真を撮影し、連番付きのファイル名で Pictures フォルダに保存します。  
+   * 撮影後は、連続撮影を防ぐために少し待機します。  
+   * システムは引き続き動きを監視し、``Ctrl + C`` を押すまで動作し続けます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here is the Python code used for this project:
+以下は、このプロジェクトで使用する Python コードです。
 
 .. raw:: html
 
@@ -223,9 +223,9 @@ Here is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports:**
+1. **インポート**
 
    .. code-block:: python
 
@@ -235,9 +235,9 @@ Here is the Python code used for this project:
       from picamera2 import Picamera2, Preview
       from fusion_hat.pin import Pin, Mode, Pull
 
-   The script imports libraries for file handling (``os``), timing control (``time``), thread safety (``threading``), camera operation (``Picamera2``), and GPIO control (``Pin``).
+   このスクリプトでは、ファイル処理（ ``os`` ）、時間制御（ ``time`` ）、スレッド安全性（ ``threading`` ）、カメラ操作（ ``Picamera2`` ）、GPIO 制御（ ``Pin`` ）のためのライブラリをインポートしています。
 
-2. **Path Setup:**
+2. **パスの設定**
 
    .. code-block:: python
 
@@ -246,35 +246,35 @@ Here is the Python code used for this project:
       PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
       os.makedirs(PICTURES_DIR, exist_ok=True)
 
-   This section determines the correct user home directory and ensures the ``Pictures`` folder exists for saving photos.
+   この部分では、正しいユーザーのホームディレクトリを取得し、写真保存用の ``Pictures`` フォルダが存在することを確認します。
 
-3. **Camera Initialization:**
+3. **カメラの初期化**
 
    .. code-block:: python
 
       camera = Picamera2()
       camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
 
-   The camera is initialized and configured with a preview resolution of 800 × 600.
+   カメラを初期化し、プレビュー解像度を 800 × 600 に設定しています。
 
-4. **Photo Counter and Thread Lock:**
+4. **写真カウンターとスレッドロック**
 
    .. code-block:: python
 
       photo_index = 1
       photo_lock = threading.Lock()
 
-   A photo counter is used to create sequential filenames, and a lock ensures safe access when capturing photos.
+   連番付きファイル名を作成するために写真カウンターを使用し、ロックによって撮影処理を安全に行えるようにしています。
 
-5. **PIR Sensor Initialization:**
+5. **PIR センサーの初期化**
 
    .. code-block:: python
 
       pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-   The PIR motion sensor is connected to GPIO 17 and set as an input with a pull-down resistor.
+   PIR モーションセンサーは GPIO17 に接続され、プルダウン抵抗付きの入力として設定されています。
 
-6. **Photo Capture Function:**
+6. **写真撮影関数**
 
    .. code-block:: python
 
@@ -288,9 +288,9 @@ Here is the Python code used for this project:
             print("Saved.")
             photo_index += 1
 
-   This function captures a single photo and saves it to the ``Pictures`` directory whenever motion is detected.
+   この関数は動きが検出されるたびに1枚の写真を撮影し、 ``Pictures`` ディレクトリへ保存します。
 
-7. **Preview Handling and Camera Start:**
+7. **プレビュー処理とカメラ起動**
 
    .. code-block:: python
 
@@ -305,9 +305,9 @@ Here is the Python code used for this project:
          print("No DISPLAY detected (running headless without preview).")
 
 
-   A camera preview is started only when a graphical display is available; otherwise, the script runs in headless mode.
+   グラフィカルな表示環境が利用できる場合のみカメラプレビューを開始し、それ以外の場合はヘッドレスモードで動作します。
 
-8. **Main Loop (Motion Detection):**
+8. **メインループ（動き検出）**
 
    .. code-block:: python
 
@@ -316,9 +316,9 @@ Here is the Python code used for this project:
             take_photo()
             time.sleep(2)
 
-   The program continuously monitors the PIR sensor. When motion is detected (HIGH), one photo is taken, followed by a short delay to prevent repeated captures.
+   プログラムは PIR センサーを継続的に監視します。動きが検出されると（HIGH）、1枚の写真を撮影し、その後短い待機時間を入れて連続撮影を防ぎます。
 
-9. **Program Exit and Cleanup:**
+9. **終了処理とクリーンアップ**
 
    .. code-block:: python
 
@@ -326,49 +326,49 @@ Here is the Python code used for this project:
          camera.stop()
          camera.close()
 
-   When the user presses ``Ctrl + C``, the program exits gracefully and safely stops and closes the camera.
+   ユーザーが ``Ctrl + C`` を押すと、プログラムは安全に終了し、カメラを停止して閉じます。
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Photos Are Not Captured**:
+1. **写真が撮影されない**
 
-   - **Cause**: PIR motion sensor is not working or incorrectly wired.
-   - **Solution**:
+   - **原因**：PIR モーションセンサーが動作していない、または配線が正しくありません。
+   - **対処方法**：
 
-     - Verify the PIR sensor is connected to GPIO pin 17, power, and ground.
-     - Adjust the PIR sensor's sensitivity and delay potentiometers if available.
+     - PIR センサーが GPIO17、電源、GND に正しく接続されていることを確認してください。
+     - 必要に応じて、PIR センサーの感度と遅延時間の可変抵抗を調整してください。
 
-2. **PIR Sensor Always Detects Motion**:
+2. **PIR センサーが常に動きを検出する**
 
-   - **Cause**: Faulty PIR sensor or excessive environmental interference.
-   - **Solution**:
+   - **原因**：PIR センサーの不具合、または周囲環境による過剰な干渉です。
+   - **対処方法**：
 
-     - Test the sensor with a multimeter to ensure it detects motion correctly.
-     - Place the sensor in a stable, controlled environment to avoid false positives.
+     - マルチメーターでセンサーを確認し、正しく動作しているかテストしてください。
+     - 誤検出を避けるため、安定した環境で使用してください。
 
-3. **Script Crashes with Camera Error**:
+3. **カメラエラーでスクリプトが停止する**
 
-   - **Cause**: Camera is not properly initialized or in use by another process.
-   - **Solution**:
+   - **原因**：カメラが正しく初期化されていない、または他のプロセスが使用中です。
+   - **対処方法**：
 
-     - Ensure the camera is connected and enabled via ``raspi-config``.
-     - Restart the Raspberry Pi to release any conflicting processes.
+     - カメラが正しく接続され、 ``raspi-config`` で有効化されていることを確認してください。
+     - Raspberry Pi を再起動して、競合しているプロセスを解放してください。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Timestamped Filenames**: Save photos with timestamps in their filenames for better organization:
+1. **タイムスタンプ付きファイル名**：整理しやすいように、写真をタイムスタンプ付きのファイル名で保存します。
 
    .. code-block:: python
 
       timestamp = time.strftime("%Y%m%d-%H%M%S")
       camera.capture_file(f'{user_home}/capture_{timestamp}.jpg')
 
-2. **LED Indicator**: Add an LED that lights up when the PIR sensor detects motion:
+2. **LED インジケーター**：PIR センサーが動きを検出したときに LED を点灯させます。
 
    .. code-block:: python
 
@@ -379,12 +379,12 @@ Here is the Python code used for this project:
       else:
          led.off()
 
-3. **Photo Gallery Management**: Automatically organize captured photos into folders based on date or event.
+3. **フォトギャラリー管理**：撮影した写真を日付やイベントごとにフォルダ分けして自動整理します。
 
 
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to build an automated camera system using a PIR motion sensor and a Raspberry Pi Camera Module. It’s a great way to capture unexpected moments and explore the possibilities of IoT and computer vision. Try expanding its functionality to include additional features like video recording or cloud uploads for real-time monitoring.
+このプロジェクトでは、PIR モーションセンサーと Raspberry Pi カメラモジュールを使って、自動撮影カメラシステムを構築する方法を紹介しました。思いがけない瞬間を記録するのに最適であり、IoT やコンピュータビジョンの可能性を広げる良い題材でもあります。さらに動画録画やクラウドアップロードなどの機能を追加して、リアルタイム監視システムへ発展させてみてください。

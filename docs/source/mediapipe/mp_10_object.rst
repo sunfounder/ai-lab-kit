@@ -5,101 +5,100 @@
 .. _mp_object:
 
 
-10. Object Detection
+10. 物体検出
 =================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-In addition to specialized models for face, hands, and pose,
-MediaPipe also provides a general-purpose **Object Detector**
-based on TensorFlow Lite.
+顔・手・姿勢向けの専用モデルに加えて、  
+MediaPipe には TensorFlow Lite ベースの
+汎用 **Object Detector** も用意されています。
 
-This chapter demonstrates how to use the
-``efficientdet_lite0.tflite`` model on Raspberry Pi
-to perform real-time object detection and visualize results
-on the camera feed.
+この章では、Raspberry Pi 上で  
+``efficientdet_lite0.tflite`` モデルを使用し、  
+リアルタイム物体検出を行い、その結果を
+カメラ映像上に可視化する方法を紹介します。
 
 .. image:: img/mp_object.png
    :width: 500
    :align: center
 
-This module can be used for:
+このモジュールは、次のような用途に活用できます：
 
-- Real-time object recognition demos
-- Smart home / robotics perception
-- Simple safety monitoring
-- Embedded vision projects
+- リアルタイム物体認識デモ
+- スマートホーム / ロボティクスの認識機能
+- シンプルな安全監視
+- 組み込みビジョンプロジェクト
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The program performs the following steps:
+プログラムは次の手順で動作します：
 
-1. Initialize the MediaPipe Tasks **ObjectDetector**
-   and load the ``efficientdet_lite0.tflite`` model.
-2. Capture frames from the Picamera2 video stream.
-3. Convert each frame to a MediaPipe ``mp.Image`` object.
-4. Call ``detect_for_video`` to run real-time object detection.
-5. Draw bounding boxes and labels using OpenCV.
-6. Limit the number of displayed detections to keep the output clear
-   and maintain stable performance on Raspberry Pi.
+1. MediaPipe Tasks の **ObjectDetector** を初期化し、  
+   ``efficientdet_lite0.tflite`` モデルを読み込む
+2. Picamera2 の動画ストリームからフレームを取得する
+3. 各フレームを MediaPipe の ``mp.Image`` オブジェクトに変換する
+4. ``detect_for_video`` を呼び出してリアルタイム物体検出を実行する
+5. OpenCV を使ってバウンディングボックスとラベルを描画する
+6. 表示する検出数を制限し、出力を見やすく保ちながら  
+   Raspberry Pi 上で安定した性能を維持する
 
 -----------------------------
-3. Model Preparation
+3. モデルの準備
 -----------------------------
 
-This example uses the **EfficientDet Lite0** model
-in TensorFlow Lite (TFLite) format.
+このサンプルでは、TensorFlow Lite（TFLite）形式の  
+**EfficientDet Lite0** モデルを使用します。
 
-EfficientDet Lite0 is lightweight and optimized for
-embedded devices such as Raspberry Pi.
-It provides a good balance between speed and accuracy.
+EfficientDet Lite0 は軽量で、  
+Raspberry Pi のような組み込みデバイス向けに最適化されています。  
+速度と精度のバランスが良好です。
 
-The file ``efficientdet_lite0.tflite`` is included in the project directory
-and can be used directly.
+``efficientdet_lite0.tflite`` ファイルは
+プロジェクトディレクトリ内に含まれているため、
+そのまま利用できます。
 
 * `Official model download page <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
 
-If higher accuracy is required and hardware performance allows,
-you may switch to:
+より高い精度が必要で、ハードウェア性能に余裕がある場合は、
+次のモデルに切り替えることもできます：
 
 - EfficientDet Lite1
 - EfficientDet Lite2
 
-You can also replace the model with your own self-trained
-TFLite object detection model, as long as it follows
-MediaPipe Tasks Object Detector format requirements.
+また、MediaPipe Tasks Object Detector の形式要件を満たしていれば、
+独自に学習した TFLite 物体検出モデルに置き換えることも可能です。
 
 
 ------------------------
-4. Run the Code
+4. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-   For detailed instructions, see :ref:`opencv_install`.
-
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_object.py
 
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのウィンドウが開き、ライブカメラ映像が表示されます。
 
    .. raw:: html
    
@@ -108,22 +107,24 @@ MediaPipe Tasks Object Detector format requirements.
              Your browser does not support the video tag.
          </video>
 
-   For each video frame, the Object Detector model (``efficientdet_lite0.tflite``) runs in real time and searches for recognizable objects in the scene.
+   各動画フレームに対して、Object Detector モデル（ ``efficientdet_lite0.tflite`` ）がリアルタイムで実行され、シーン内の認識可能な物体を探索します。
    
-   When objects are detected:
+   物体が検出されると：
    
-   - A rectangular bounding box is drawn around each object.
-   - A label and confidence score are shown above the box in the format ``name: score`` (for example, ``person: 0.87``).
-   - Only detections above ``SCORE_THRESHOLD`` (default 0.5) are displayed.
-   - To keep the display clear and maintain performance, the program draws up to ``MAX_DRAW`` detections (default 20) per frame.
+   - 各物体の周囲に矩形のバウンディングボックスが描画されます。
+   - ボックスの上部に ``name: score`` 形式のラベルと信頼度スコアが表示されます  
+     （例：``person: 0.87``）。
+   - ``SCORE_THRESHOLD`` （デフォルト 0.5）以上の検出結果のみが表示されます。
+   - 表示を見やすくし、性能を維持するため、1 フレームあたり最大 ``MAX_DRAW`` 件  
+     （デフォルト 20 件）まで描画します。
    
-   As the camera view changes, the bounding boxes and labels update continuously in real time.
+   カメラ映像が変化すると、バウンディングボックスとラベルもリアルタイムで継続的に更新されます。
    
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   ``q`` を押すとプログラムを終了できます。  
+   カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 -----------------------------
-5. Complete Code
+5. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -227,17 +228,18 @@ MediaPipe Tasks Object Detector format requirements.
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the camera feed will display:
+スクリプトを実行すると、カメラ映像には次の内容が表示されます：
 
-- Bounding boxes around detected objects
-- Classification labels and confidence scores
-- Real-time detection (can achieve about 10~20 FPS on Raspberry Pi)
+- 検出された物体の周囲のバウンディングボックス
+- 分類ラベルと信頼度スコア
+- リアルタイム検出  
+  （Raspberry Pi 上でおおよそ 10～20 FPS 程度）
 
 -----------------------------
-6. Code Explanation
+6. コードの解説
 -----------------------------
 
-**Configuration**
+**設定項目**
 
 .. code-block:: python
 
@@ -246,10 +248,12 @@ After running the script, the camera feed will display:
    SCORE_THRESHOLD = 0.5
    MAX_DRAW = 20
 
-- ``SCORE_THRESHOLD`` controls the minimum confidence to display detections (applied inside the Tasks runtime).
-- ``MAX_DRAW`` is a UI convenience to limit how many boxes we render per frame.
+- ``SCORE_THRESHOLD`` は、表示する検出結果の最小信頼度を制御します  
+  （Tasks ランタイム内部で適用されます）。
+- ``MAX_DRAW`` は、1 フレームごとに描画するボックス数を制限するための  
+  UI 上の補助設定です。
 
-**Imports**
+**インポート**
 
 .. code-block:: python
 
@@ -260,10 +264,11 @@ After running the script, the camera feed will display:
    from mediapipe.tasks import python
    from mediapipe.tasks.python import vision
 
-- ``mediapipe.tasks.python.vision`` hosts the **ObjectDetector** Tasks API.
-- We still use classic OpenCV for windowing and drawing.
+- ``mediapipe.tasks.python.vision`` には  
+  **ObjectDetector** の Tasks API が含まれています。
+- ウィンドウ表示や描画には、引き続き従来の OpenCV を使用します。
 
-**Visualization Helper**
+**可視化ヘルパー**
 
 .. code-block:: python
 
@@ -307,10 +312,10 @@ After running the script, the camera feed will display:
 
        return img
 
-- Keeps the main loop clean.
-- Avoids relying on non-existent "visualize" utilities; it works directly with Tasks outputs.
+- メインループをすっきり保てます。
+- 存在しない ``visualize`` ユーティリティに依存せず、Tasks の出力を直接扱っています。
 
-**Create the ObjectDetector**
+**ObjectDetector の作成**
 
 .. code-block:: python
 
@@ -326,10 +331,11 @@ After running the script, the camera feed will display:
    )
    detector = vision.ObjectDetector.create_from_options(options)
 
-- ``RunningMode.VIDEO`` is optimized for streams and **requires timestamps**.
-- The Tasks runtime internally handles image resizing/normalization for you.
+- ``RunningMode.VIDEO`` はストリーム入力向けに最適化されており、  
+  **タイムスタンプが必要** です。
+- Tasks ランタイムが画像のリサイズや正規化を内部で処理してくれます。
 
-**Camera Setup (Streaming Source)**
+**カメラ設定（ストリーミング入力）**
 
 .. code-block:: python
 
@@ -340,10 +346,10 @@ After running the script, the camera feed will display:
    picam2.configure(config)
    picam2.start()
 
-- 640×480 is a good trade-off between FPS and accuracy on Raspberry Pi.
-- Picamera2 returns BGRA (``XRGB8888``); we'll convert to BGR/RGB.
+- Raspberry Pi では、640×480 は FPS と精度のバランスが良い設定です。
+- Picamera2 は BGRA（ ``XRGB8888`` ）を返すため、後で BGR / RGB に変換します。
 
-**Per-Frame Detection**
+**各フレームごとの検出処理**
 
 .. code-block:: python
 
@@ -356,10 +362,11 @@ After running the script, the camera feed will display:
    ts_ms = int(time.time() * 1000)  # monotonically increasing timestamp
    detection_result = detector.detect_for_video(mp_image, ts_ms)
 
-- MediaPipe expects **RGB** buffers.
-- The timestamp must **increase every frame**; using ``time.time()*1000`` is sufficient for this demo.
+- MediaPipe は **RGB** バッファを前提としています。
+- タイムスタンプは **各フレームで増加し続ける必要** があり、  
+  このデモでは ``time.time()*1000`` で十分です。
 
-**Render and Display**
+**描画と表示**
 
 .. code-block:: python
 
@@ -368,10 +375,10 @@ After running the script, the camera feed will display:
    if cv2.waitKey(1) & 0xFF == ord('q'):
        break
 
-- The helper returns a BGR image ready for OpenCV display.
-- Press ``q`` to exit the loop.
+- ヘルパー関数は、OpenCV 表示にそのまま使える BGR 画像を返します。
+- ``q`` を押すとループを終了します。
 
-**Cleanup**
+**後片付け**
 
 .. code-block:: python
 
@@ -382,10 +389,11 @@ After running the script, the camera feed will display:
    picam2.stop()
    cv2.destroyAllWindows()
 
-Always release the camera and destroy windows to avoid locking the device.
+デバイスがロックされたままにならないよう、  
+必ずカメラを解放し、ウィンドウを閉じてください。
 
 ------------------------------------------------------
-7. Performance and Applications
+7. パフォーマンスと応用
 ------------------------------------------------------
 
 .. list-table::
@@ -395,48 +403,54 @@ Always release the camera and destroy windows to avoid locking the device.
      - Effect
      - Suggestion
    * - Resolution
-     - Higher resolution gives clearer image but slower speed
-     - 640x480 is sufficient
+     - 解像度が高いほど画質は良くなるが速度は低下する
+     - 640x480 で十分
    * - Model Selection
      - Lite0 ~ Lite2
-     - Lite0 is faster, Lite2 is more accurate
+     - Lite0 は高速、Lite2 は高精度
    * - Multi-object Drawing
-     - Too many objects cause latency
-     - Use ``MAX_DRAW`` to limit
+     - 物体数が多すぎると遅延の原因になる
+     - ``MAX_DRAW`` で制限する
 
 ------------------------------------------------------
-8. Troubleshooting
+8. トラブルシューティング
 ------------------------------------------------------
 
-- No detection results
+- 検出結果が出ない
 
-  If nothing is detected, the confidence threshold may be too high.
+  何も検出されない場合、信頼度の閾値が高すぎる可能性があります。
 
-  Try lowering ``SCORE_THRESHOLD`` (for example, from 0.5 to 0.3) and test again.
+  ``SCORE_THRESHOLD`` を下げて  
+  （たとえば 0.5 から 0.3 にして）再度試してください。
 
-- Low frame rate
+- フレームレートが低い
 
-  If the video feels slow, the model or resolution may be too heavy for the Raspberry Pi.
+  動画が遅く感じる場合、モデルまたは解像度が Raspberry Pi に対して重すぎる可能性があります。
 
-  Use a lighter model (``efficientdet_lite0.tflite``) and reduce the resolution (for example, 640×480 or 320×240). Closing other background processes can also improve performance.
+  より軽量なモデル（ ``efficientdet_lite0.tflite`` ）を使用し、解像度も下げてください  
+  （たとえば 640×480 や 320×240）。  
+  バックグラウンドで動作している他のプロセスを終了するのも効果的です。
 
-- Detection box offset
+- 検出ボックスがずれて見える
 
-  If bounding boxes look shifted or go out of frame, it is usually caused by coordinate conversion issues.
+  バウンディングボックスがずれていたり、画面外にはみ出したりする場合、  
+  たいていは座標変換の問題が原因です。
 
-  Make sure bounding box coordinates are clamped to the image boundaries. This example already clamps ``x1, y1, x2, y2`` to prevent out-of-range drawing.
+  バウンディングボックスの座標が必ず画像範囲内に収まるようにしてください。  
+  このサンプルでは、 ``x1, y1, x2, y2`` をすでにクランプしており、範囲外描画を防いでいます。
 
-- Detection looks chaotic
+- 表示がごちゃごちゃして見づらい
 
-  If too many objects are detected and the screen becomes cluttered, it may be hard to read the results.
+  検出される物体が多すぎると、画面が煩雑になり結果が見づらくなります。
 
-  Limit the number of drawn detections using ``MAX_DRAW`` (for example, 10–20) to keep the visualization clear and stable.
+  ``MAX_DRAW``  
+  （たとえば 10～20）を使って描画数を制限し、表示を見やすく安定させてください。
 
 -----------------------------
-9. Summary
+9. まとめ
 -----------------------------
 
-- This chapter implemented general-purpose object detection based on MediaPipe Tasks;
-- Used the EfficientDet Lite0 model, balancing accuracy and performance;
-- Mastered the method for visualizing detection results;
-- Can be extended to custom models (e.g., fruit, vehicle, hazardous item detection scenarios).
+- この章では、MediaPipe Tasks に基づく汎用物体検出を実装しました
+- EfficientDet Lite0 モデルを使用し、精度と性能のバランスを取りました
+- 検出結果の可視化方法を習得しました
+- 将来的には独自モデル（果物、車両、危険物検出など）へ拡張することも可能です

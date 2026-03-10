@@ -4,20 +4,20 @@
 
 .. _py_fun_fan:
 
-4.7 Smart Fan
+4.7 スマートファン
 =========================
 
-**Introduction**
+**はじめに**
 
-In this project, you’ll build a "smart fan" that operates in both manual and automatic modes. By combining motors, buttons, and a thermistor, the fan can have adjustable wind speeds and respond to changes in temperature. This makes it a perfect experiment for learning about motor control, temperature sensing, and GPIO usage.
+このプロジェクトでは、手動モードと自動モードの両方で動作する「スマートファン」を作成します。モーター、ボタン、サーミスタを組み合わせることで、ファンの風量を調整できるだけでなく、温度変化にも応答できるようになります。モーター制御、温度検知、GPIO の使い方を学ぶのに最適な実験です。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components you’ll need for this project:
+このプロジェクトで必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -47,9 +47,9 @@ Here are the components you’ll need for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit diagram below illustrates how to connect the thermistor, button, motor driver, and motor:
+以下の回路図は、サーミスタ、ボタン、モータードライバー、およびモーターの接続方法を示しています。
 
 .. image:: img/fzz/4.1.7_sch.png
    :width: 100%
@@ -60,9 +60,9 @@ The circuit diagram below illustrates how to connect the thermistor, button, mot
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Refer to the following image for the breadboard layout and wiring connections:
+ブレッドボード上のレイアウトと配線接続は、以下の図を参照してください。
 
 
 .. image:: img/fzz/4.1.7_bb.png
@@ -73,11 +73,11 @@ Refer to the following image for the breadboard layout and wiring connections:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -91,9 +91,9 @@ Follow these steps to run the example:
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here’s the Python script for this project:
+以下は、このプロジェクトで使用する Python スクリプトです。
 
 
 
@@ -210,30 +210,30 @@ Here’s the Python script for this project:
 
 
 
-This Python script integrates a motor, button, and temperature sensor to create a temperature-controlled fan system with adjustable speed. When executed:
+この Python スクリプトは、モーター、ボタン、および温度センサーを組み合わせて、温度に応じて動作し、速度を調整できるファンシステムを作成します。実行すると、次のように動作します。
 
-1. **Temperature Sensing**: Reads the current temperature in Celsius using the thermistor.
+1. **温度の測定**: サーミスタを使用して現在の摂氏温度を読み取ります。
 
-2. **Manual Speed Adjustment**:
+2. **手動での風量調整**:
 
-   - A button connected to GPIO 22 allows the user to cycle through five speed levels (0 to 4).
-   - Pressing the button increases the speed level, and the motor runs at the corresponding speed. Speed level 0 stops the motor.
+   - GPIO22 に接続されたボタンにより、ユーザーは 5 段階の風量レベル（0～4）を順番に切り替えることができます。
+   - ボタンを押すたびに風量レベルが 1 段階上がり、モーターは対応する速度で動作します。レベル 0 ではモーターが停止します。
 
-3. **Automatic Speed Control**: The system adjusts the motor speed automatically based on temperature changes:
+3. **自動風量制御**: システムは温度変化に応じてモーター速度を自動調整します。
 
-   - If the temperature increases by 2°C or more, the speed level increases (up to level 4).
-   - If the temperature decreases by 2°C or more, the speed level decreases (down to level 0).
+   - 温度が 5°C 以上上昇すると、風量レベルが 1 段階上がります（最大レベル 4）。
+   - 温度が 5°C 以上低下すると、風量レベルが 1 段階下がります（最小レベル 0）。
 
-4. **Continuous Monitoring**: The system continuously monitors the temperature and adjusts the fan speed accordingly.
+4. **継続的な監視**: システムは温度を継続的に監視し、それに応じてファン速度を調整します。
 
-5. **Graceful Exit**: On ``Ctrl+C``, the motor stops, and the script exits cleanly.
+5. **安全な終了**: ``Ctrl+C`` を押すと、モーターを停止し、スクリプトは安全に終了します。
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Temperature Calculation:**
+1. **温度の計算:**
 
    .. code-block:: python
 
@@ -252,10 +252,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
          return sum(vals) / len(vals)
 
 
-   The ``temperature()`` function reads the thermistor’s analog value, converts it into resistance, and calculates the corresponding temperature using a mathematical formula.
+   ``temperature()`` 関数は、サーミスタのアナログ値を複数回読み取り、抵抗値へ変換し、数式を用いて対応する温度を計算します。
 
 
-2. **Motor Speed Control:**
+2. **モーター速度制御:**
 
    .. code-block:: python
 
@@ -265,10 +265,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
          return lv
 
 
-   The ``motor_run()`` function adjusts the motor’s speed based on the ``level`` variable. The speed is normalized to a value between 0 and 1.
+   ``motor_run()`` 関数は、 ``level`` 変数に応じてモーター速度を調整します。速度は 0～4 の範囲に制限され、それに応じた出力が設定されます。
 
 
-3. **Manual Speed Adjustment:**
+3. **手動での風量調整:**
 
    .. code-block:: python
 
@@ -281,10 +281,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
 
       BtnPin.when_activated = changeLevel
 
-   The ``changeLevel()`` function cycles through speed levels 0-4 when the button is pressed.
+   ``changeLevel()`` 関数は、ボタンが押されるたびに風量レベルを 0～4 の範囲で順番に切り替えます。
 
 
-4. **Automatic Speed Adjustment:**
+4. **自動での風量調整:**
 
    .. code-block:: python
 
@@ -300,61 +300,61 @@ This Python script integrates a motor, button, and temperature sensor to create 
                   continue
          ...
 
-   The ``main()`` function continuously monitors temperature and adjusts the fan speed if the temperature deviates by more than 2°C from the reference temperature.
+   ``main()`` 関数は温度を継続的に監視し、基準温度から 5°C 以上ずれた場合にファン速度を自動調整します。
 
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Motor Does Not Run**:
+1. **モーターが動作しない** :
 
-   - **Cause**: Incorrect wiring or insufficient power supply.
-   - **Solution**:
+   - **原因** : 配線ミス、または電源不足。
+   - **対処方法** :
 
-     - Verify the motor is connected to M0.
-     - Ensure the motor's power supply matches its voltage requirements.
+     - モーターが M0 に接続されていることを確認してください。
+     - モーターの電源が必要電圧を満たしていることを確認してください。
 
-2. **Temperature Reading is Incorrect**:
+2. **温度読み取りが正しくない**:
 
-   - **Cause**: Faulty thermistor.
-   - **Solution**:
+   - **原因** : サーミスタの不具合。
+   - **対処方法**:
 
-     - Check the thermistor wiring and ensure it is within the specified range.
+     - サーミスタの配線を確認し、仕様範囲内で使用されていることを確認してください。
 
-3. **Button Press Not Detected**:
+3. **ボタン入力が検出されない** :
 
-   - **Cause**: Incorrect button wiring or GPIO configuration.
-   - **Solution**:
+   - **原因** : ボタン配線または GPIO 設定の誤り。
+   - **対処方法** :
 
-     - Verify the button is connected to GPIO 22 and ground.
-     - Test the button independently to confirm it closes the circuit when pressed.
+     - ボタンが GPIO22 と GND に接続されていることを確認してください。
+     - ボタン単体で、押したときに回路が閉じるかどうかをテストしてください。
 
-4. **Speed Level Does Not Change Automatically**:
+4. **風量レベルが自動で変わらない**:
 
-   - **Cause**: Incorrect temperature difference calculation.
-   - **Solution**: Ensure the ``currentTemp`` and ``markTemp`` values update correctly in the ``main()`` function.
+   - **原因** : 温度差の計算が正しくありません。
+   - **対処方法** : ``main()`` 関数内で ``currentTemp`` と ``markTemp`` が正しく更新されていることを確認してください。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
 
-1. **Overheat Alert**: Add a buzzer or LED to alert the user when the temperature exceeds a critical threshold.
+1. **過熱アラート**: 温度が危険なしきい値を超えたときに、ブザーや LED で警告を出します。
 
      .. code-block:: python
 
          if currentTemp > 50:
              buzzer.on()
 
-2. **Smart Button Functions**: Long-press the button to reset the speed level to 0 or toggle automatic/manual modes.
+2. **スマートボタン機能**: ボタンの長押しで風量レベルを 0 にリセットしたり、自動／手動モードを切り替えたりできるようにします。
 
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-The Smart Fan project demonstrates how to combine manual and automatic control in a single system. It’s a practical example of integrating sensors, motors, and user interaction into a functional and efficient design. Try enhancing it with additional features to create your personalized climate control solution!
+スマートファンのプロジェクトでは、手動制御と自動制御を 1 つのシステムに統合する方法を学べます。これは、センサー、モーター、ユーザー操作を組み合わせた、実用的で効率的な設計例です。さらに機能を追加して、自分だけの温度制御システムへ発展させてみてください。

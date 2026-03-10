@@ -5,11 +5,11 @@
 
 .. _play_with_python:
 
-Play with Python (Electronics Basics)
+Pythonで遊ぼう（電子回路の基礎）
 ==================================================
 
 
-**Output**
+**出力**
 
 .. toctree::
    :maxdepth: 1
@@ -28,7 +28,7 @@ Play with Python (Electronics Basics)
 
 
 
-**Input**
+**入力**
 
 .. toctree::
    :maxdepth: 1
@@ -50,7 +50,7 @@ Play with Python (Electronics Basics)
    2.14_dht_python.rst 
    2.15_10-axis.rst
 
-**Media**
+**メディア**
 
 .. toctree::
    :maxdepth: 1
@@ -61,7 +61,7 @@ Play with Python (Electronics Basics)
    3.4_microphone.rst 
 
 
-**Extension**
+**応用**
 
 .. toctree::
    :maxdepth: 1

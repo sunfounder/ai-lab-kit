@@ -4,11 +4,11 @@
 
 .. _py_stt_whisper:
 
-3. STT with Vosk (Offline)
+3. Vosk による STT（オフライン）
 ==============================================
 
-Vosk is a lightweight speech-to-text (STT) engine that supports many languages and runs fully **offline** on Raspberry Pi.  
-You only need internet access once to download a language model. After that, everything works without a network connection.  
+Vosk は軽量な speech-to-text（STT）エンジンで、多くの言語に対応しており、Raspberry Pi 上で完全に **オフライン** で動作します。  
+インターネット接続が必要なのは、最初に言語モデルをダウンロードするときだけです。その後は、ネットワーク接続なしで利用できます。  
 
 .. raw:: html
 
@@ -17,16 +17,16 @@ You only need internet access once to download a language model. After that, eve
           Your browser does not support the video tag.
       </video>
 
-In this lesson, we will:  
+このレッスンでは、次の内容を学びます：  
 
-* Check the microphone on Raspberry Pi.  
-* Install and test Vosk with a chosen language model.  
+* Raspberry Pi のマイクを確認する  
+* 使用する言語モデルを選び、Vosk をインストールしてテストする  
 
 .. start_mic
 
 .. _test_vosk:
 
-Run the program
+プログラムの実行
 --------------------------
 
 .. code-block:: bash
@@ -34,13 +34,13 @@ Run the program
    cd ~/ai-lab-kit/llm
    sudo python3 stt_vosk_stream.py
 
-The first time you run this code with a new language, Vosk will:
+新しい言語でこのコードを初めて実行すると、Vosk は次の処理を行います：
 
-* **Automatically download the language model** (by default, the small version).
-* **Print out the list of supported languages**.
-* Start **listening** for audio input through the microphone.
+* **言語モデルを自動的にダウンロード** します（デフォルトでは small 版）。
+* **対応言語の一覧を表示** します。
+* マイクからの音声入力を **聞き取り開始** します。
 
-You’ll see something like this in the terminal:
+ターミナルには次のような表示が出ます：
 
 .. code-block:: text
 
@@ -48,19 +48,19 @@ You’ll see something like this in the terminal:
          ['ar', 'ar-tn', 'ca', 'cn', 'cs', 'de', 'en-gb', 'en-in', 'en-us', 'eo', 'es', 'fa', 'fr', 'gu', 'hi', 'it', 'ja', 'ko', 'kz', 'nl', 'pl', 'pt', 'ru', 'sv', 'te', 'tg', 'tr', 'ua', 'uz', 'vn']
          Say something
 
-This means:
+これは次の意味です：
 
-   * The model file (``vosk-model-small-en-us-0.15``) has been downloaded.  
-   * The list of supported languages has been printed.  
-   * The system is now listening — say something into the Fusion HAT+ microphone, and the recognized text will appear in the terminal.
+   * モデルファイル（ ``vosk-model-small-en-us-0.15`` ）のダウンロードが完了した  
+   * 対応言語の一覧が表示された  
+   * システムが音声の聞き取りを開始した — Fusion HAT+ のマイクに向かって話すと、認識されたテキストがターミナルに表示されます
 
-**Tips:**
+**ヒント：**
 
-* Keep the microphone about **15–30 cm** away for better accuracy.  
-* Choose a **model that matches your language and accent**.  
-* Use a quiet environment to improve recognition.
+* 認識精度を上げるには、マイクを **15〜30 cm** ほど離して使ってください。  
+* **言語やアクセントに合ったモデル** を選んでください。  
+* 静かな環境で使うと認識しやすくなります。
 
-Code
+コード
 ---------------
 
 .. code-block:: python
@@ -78,39 +78,39 @@ Code
                print(f"partial: {result['partial']}", end="\r", flush=True)
 
 
-**Code explanation:**
+**コードの説明：**
 
-* ``stt.listen(stream=True)`` — Starts streaming speech recognition and yields intermediate results as you speak.  
-* ``result["partial"]`` — Displays the **real-time recognized text** (updated continuously).  
-* ``result["final"]`` — Displays the **final recognized sentence** when you stop speaking.  
-* The loop runs continuously, allowing **hands-free real-time transcription**.
+* ``stt.listen(stream=True)`` — ストリーミング音声認識を開始し、話している途中の結果も順次返します。  
+* ``result["partial"]`` — **リアルタイムの認識結果** を表示します（継続的に更新されます）。  
+* ``result["final"]`` — 話し終えたときに、 **最終的な認識結果** を表示します。  
+* このループは継続的に動作するため、 **ハンズフリーでのリアルタイム文字起こし** が可能です。
 
-Tip: This streaming mode is perfect for **voice assistants**, **command control**, or **live transcription**.
+ヒント：このストリーミングモードは、 **音声アシスタント** 、 **音声コマンド制御** 、 **リアルタイム文字起こし** に最適です。
 
-Troubleshooting
------------------
+トラブルシューティング
+-------------------------
 
-* **No such file or directory (when running `arecord`)**
+* **No such file or directory（`arecord` 実行時）**
 
-  You may have used the wrong card/device number.  
-  Run:
+  カード番号またはデバイス番号が間違っている可能性があります。  
+  次のコマンドを実行してください：
 
   .. code-block:: bash
 
      arecord -l
 
-  and replace ``1,0`` with the numbers shown for your USB microphone.
+  表示された USB マイクの番号に合わせて、 ``1,0`` の部分を置き換えてください。
 
 
-* **Vosk does not recognize speech**
+* **Vosk が音声を認識しない**
 
-  * Make sure the **language code** matches your model (e.g. ``en-us`` for English, ``zh-cn`` for Chinese).  
-  * Keep the microphone 15–30 cm away and avoid background noise.  
-  * Speak clearly and slowly.
+  * **言語コード** がモデルと一致していることを確認してください（例：英語なら ``en-us``、中国語なら ``zh-cn``）。  
+  * マイクは 15〜30 cm ほど離し、周囲の雑音をできるだけ避けてください。  
+  * はっきり、ゆっくり話してください。
 
-* **High latency / slow recognition**
+* **遅延が大きい / 認識が遅い**
 
-  * The default auto-download is a **small model** (faster, but less accurate).  
-  * If it’s still slow, close other programs to free CPU.  
+  * デフォルトで自動ダウンロードされるのは **small モデル** です（高速ですが、精度はやや低めです）。  
+  * それでも遅い場合は、他のプログラムを閉じて CPU リソースを確保してください。  
 
 .. end_mic

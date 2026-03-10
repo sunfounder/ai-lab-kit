@@ -5,8 +5,8 @@
 
 .. _install_os_sd:
 
-Installing the Operating System
-===================================
+オペレーティングシステムのインストール
+=======================================
 
 .. include:: /_shared/pi_start/install_os_trixie.rst
    :start-after: start_imager
@@ -16,7 +16,8 @@ Installing the Operating System
    :start-after: start_install_os
    :end-before: end_install_os
 
-3. Go to the **OS** section and choose the **other -> Raspberry Pi OS (Legacy,64-bit) (Bookworm, Debian 12)** operating system. DO NOT choose the newest version of Raspberry Pi OS, which is based on Debian 13 (Trixie), because it is not fully compatible with some project.
+3. **OS** セクションを開き、 **other -> Raspberry Pi OS (Legacy,64-bit) (Bookworm, Debian 12)** を選択します。  
+   Debian 13（Trixie）ベースの **最新の Raspberry Pi OS は選択しないでください**。一部のプロジェクトと完全に互換性がない場合があります。
 
    .. image:: img/bookworm1.png
       :width: 90%

@@ -4,20 +4,20 @@
 
 .. _py_ultrasonic:
 
-2.13 Ultrasonic Sensor Module
+2.13 超音波センサーモジュール
 ==============================
 
-**Introduction**
+**はじめに**
 
-The ultrasonic sensor module uses ultrasonic waves to measure distances with remarkable accuracy. It emits ultrasonic waves and listens for their echo, calculating the distance based on the time taken for the echo to return. This versatile technology is commonly used in robotics, obstacle detection, and range-finding applications.
+超音波センサーモジュールは、超音波を利用して距離を高精度に測定するためのセンサーです。超音波を送信し、その反射波（エコー）を受信するまでの時間をもとに距離を算出します。この技術は汎用性が高く、ロボット、障害物検知、距離測定など、さまざまな用途で広く利用されています。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -40,31 +40,30 @@ Here are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the schematic diagram for the ultrasonic sensor module:
+以下は、超音波センサーモジュールの回路図です。
 
 .. image:: img/fzz/2.2.7_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Assemble the circuit as shown in the diagram below:
+以下の図を参考にして回路を組み立ててください。
 
 .. image:: img/fzz/2.2.7_bb.png
    :width: 80%
    :align: center
 
-Ensure the connections are secure, with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27 of the Raspberry Pi.
+接続が確実であることを確認してください。EchoピンはRaspberry PiのGPIO22に、TriggerピンはGPIO27に接続します。
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
-
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順に従ってサンプルを実行してください。
 
 .. raw:: html
 
@@ -75,20 +74,20 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.13_Ultrasonic.py
 
-This Python script uses an ultrasonic distance sensor to measure the distance to an object and displays the result on the console. When executed:
+このPythonスクリプトは、超音波距離センサーを使用して対象物までの距離を測定し、その結果をコンソールに表示します。実行すると、次のように動作します。
 
-1. The sensor, connected to GPIO pins 27 (trigger) and 22 (echo), continuously measures the distance to the nearest object.
-2. The distance is calculated in meters and converted to centimeters, then displayed in the format: ``Distance: <value> cm`` with two decimal places of precision.
-3. The distance is updated every 0.3 seconds, allowing for near real-time monitoring.
-4. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point it exits gracefully.
+1. GPIO27（Trigger）およびGPIO22（Echo）に接続されたセンサーが、最も近い物体までの距離を継続的に測定します。
+2. 距離はメートル単位で計算された後、センチメートルに変換され、 ``Distance: <value> cm`` の形式で小数点以下2桁まで表示されます。
+3. 距離は0.3秒ごとに更新されるため、ほぼリアルタイムで監視できます。
+4. プログラムは ``Ctrl+C`` で中断されるまで継続して動作し、その後安全に終了します。
 
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
 
-Below is the Python code for this project:
+以下は、このプロジェクトで使用するPythonコードです。
 
 
 .. raw:: html
@@ -121,9 +120,9 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports:**
+1. **インポート:**
 
 
    .. code-block:: python
@@ -132,18 +131,18 @@ Below is the Python code for this project:
       from fusion_hat.pin import Pin
       from time import sleep
 
-   The script imports the ``Ultrasonic`` class from the ``fusion_hat`` library to interact with the ultrasonic sensor and the ``sleep`` function from the ``time`` module to introduce delays.
+   このスクリプトでは、超音波センサーを操作するために ``fusion_hat`` ライブラリの ``Ultrasonic`` クラスを、待機時間を入れるために ``time`` モジュールの ``sleep`` 関数をインポートしています。
 
 
-2. **Initialization:**
+2. **初期化:**
 
    .. code-block:: python
 
       sensor = Ultrasonic(Pin(27), Pin(22))
 
-   The ultrasonic sensor is initialized with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27. This setup enables the Raspberry Pi to send and receive ultrasonic signals.
+   EchoピンをGPIO22、TriggerピンをGPIO27に接続して超音波センサーを初期化します。この設定により、Raspberry Piから超音波信号を送信し、その反射波を受信できます。
 
-3. **Main Loop:**
+3. **メインループ:**
 
 
    .. code-block:: python
@@ -153,16 +152,16 @@ Below is the Python code for this project:
          print('Distance: {:.2f} cm'.format(dis))  # Print the distance with two decimal precision
          sleep(0.3)  # Wait for 0.3 seconds before the next measurement
 
-   * Continuously measures the distance to the nearest object.
-   * Converts the distance from meters to centimeters.
-   * Prints the distance with two decimal places of precision.
-   * Includes a 0.3-second delay to allow the sensor to stabilize between measurements.
+   * 最も近い物体までの距離を継続的に測定します。
+   * 距離をセンチメートル単位で取得します。
+   * 小数点以下2桁までの精度で距離を表示します。
+   * 測定間に0.3秒の待機時間を入れることで、センサーの動作を安定させます。
 
 
 
-4. **Graceful Exit:**
+4. **安全な終了処理:**
 
-   The ``try-except`` block ensures the program exits cleanly when interrupted with ``Ctrl+C``.
+   ``try-except`` ブロックにより、 ``Ctrl+C`` で中断された場合でもプログラムを安全に終了できます。
 
    .. code-block:: python
 
@@ -173,43 +172,43 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **No Distance Output**:
+1. **距離が表示されない**:
 
-   - **Cause**: The sensor is not properly connected or powered.
-   - **Solution**:
+   - **原因**: センサーが正しく接続されていない、または電源が供給されていない可能性があります。
+   - **対処方法**:
 
-      - Ensure the trigger pin is connected to GPIO 27 and the echo pin to GPIO 22.
-      - Verify that the sensor has a stable power supply.
+      - TriggerピンがGPIO27に、EchoピンがGPIO22に正しく接続されていることを確認してください。
+      - センサーに安定した電源が供給されていることを確認してください。
 
-2. **Constant or Incorrect Distance Values**:
+2. **距離の値が一定、または不正確になる**:
 
-   - **Cause**: Obstacles are too close or too far from the sensor, or there is interference.
-   - **Solution**:
+   - **原因**: 対象物がセンサーに近すぎる、または遠すぎる、あるいは干渉が発生している可能性があります。
+   - **対処方法**:
 
-      - Ensure the object is within the sensor's effective range (typically 2 cm to 400 cm).
-      - Check for interference from other ultrasonic devices or reflective surfaces.
+      - 対象物がセンサーの有効測定範囲内（通常は2cm〜400cm）にあることを確認してください。
+      - 他の超音波機器や反射しやすい表面による干渉がないか確認してください。
 
-3. **Distance Always Zero**:
+3. **距離が常に0になる**:
 
-   - **Cause**: Faulty sensor or incorrect wiring.
-   - **Solution**: Test the sensor on another GPIO setup or replace it if faulty. Double-check the wiring configuration.
+   - **原因**: センサーの故障、または配線ミス。
+   - **対処方法**: 別のGPIO構成でセンサーをテストするか、故障している場合は交換してください。配線構成も再確認してください。
 
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Threshold-Based Alerts**: Trigger an alert when the measured distance is below a specific threshold:
+1. **しきい値アラート**: 測定距離が特定のしきい値を下回ったときに警告を出すことができます。
 
   .. code-block:: python
 
       if dis < 10:
           print("Warning: Object too close!")
 
-2. **Auditory Feedback**: Add a buzzer that sounds when the distance is below a threshold:
+2. **音によるフィードバック**: 距離がしきい値を下回ったときにブザーを鳴らすことができます。
 
   .. code-block:: python
 
@@ -224,6 +223,6 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use an ultrasonic sensor module to measure distances with a Raspberry Pi. By understanding the principles of ultrasonic wave detection and GPIO programming, you can integrate such sensors into a variety of applications, from robotics to home automation. With this foundation, you can explore more advanced projects involving sensors and real-world interaction.
+このプロジェクトでは、Raspberry Piで超音波センサーモジュールを使用して距離を測定する方法を学びました。超音波検知の原理とGPIOプログラミングの基礎を理解することで、ロボットからホームオートメーションまで、さまざまなアプリケーションにこの種のセンサーを組み込むことができます。この基礎をもとに、センサーを使ったより高度な実世界インタラクションのプロジェクトへと発展させることができます。

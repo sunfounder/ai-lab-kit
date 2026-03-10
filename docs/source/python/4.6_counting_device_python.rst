@@ -4,20 +4,20 @@
 
 .. _py_fun_count:
 
-4.6 Counting Device
+4.6 カウント装置
 =======================
 
-**Introduction**
+**はじめに**
 
-In this project, you will build a people-counting system using a PIR motion sensor and a 4-digit 7-segment display. The system increments the count displayed whenever the PIR sensor detects motion. This project is ideal for monitoring foot traffic in a hallway or entrance, and it provides hands-on experience with GPIO programming and display control.
+このプロジェクトでは、PIR モーションセンサーと 4 桁 7 セグメントディスプレイを使用して、人の通過数をカウントするシステムを作成します。PIR センサーが動きを検出するたびに、表示されるカウント値が 1 ずつ増加します。このプロジェクトは、廊下や入口の通行量を監視する用途に適しており、GPIO プログラミングと表示制御を実践的に学ぶことができます。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -48,9 +48,9 @@ The following components are required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the circuit diagram for the project:
+以下はこのプロジェクトの回路図です。
 
 
 .. image:: img/fzz/4.1.4_sch.png
@@ -60,9 +60,9 @@ Below is the circuit diagram for the project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Follow the wiring diagram to connect the components correctly:
+以下の配線図に従って、各コンポーネントを正しく接続してください。
 
 
 .. image:: img/fzz/4.1.4_bb.png
@@ -72,7 +72,7 @@ Follow the wiring diagram to connect the components correctly:
 
 .. note::
 
-   Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
+   最適な感度と検出距離を得るために、PIR モジュール上の 2 つの可変抵抗を調整してください。最良の結果を得るには、両方を反時計回りいっぱいまで回してください。
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 300
@@ -80,11 +80,11 @@ Follow the wiring diagram to connect the components correctly:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -96,28 +96,28 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 4.6_CountingDevice.py 
 
-This Python script integrates a PIR motion sensor and a 7-segment display driven by a 74HC595 shift register. The script performs the following:
+この Python スクリプトは、PIR モーションセンサーと 74HC595 シフトレジスタで駆動する 7 セグメントディスプレイを組み合わせたものです。このスクリプトは次のように動作します。
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO 26 detects motion. Each motion detection increments a counter.
+1. **動きの検出**: GPIO22 に接続された PIR モーションセンサーが動きを検出します。動きを 1 回検出するごとにカウンターが 1 増加します。
 
-2. **Number Display**: 
+2. **数字の表示**:
 
-   - The current counter value is displayed on a 4-digit 7-segment display.
-   - The display updates dynamically as motion is detected, incrementing the value.
+   - 現在のカウント値が 4 桁の 7 セグメントディスプレイに表示されます。
+   - 動きが検出されるたびに表示が更新され、数値が増加します。
 
-3. **Continuous Monitoring**: The script continuously monitors for motion and updates the display in real-time.
+3. **継続的な監視**: スクリプトは動きを継続的に監視し、表示をリアルタイムで更新します。
 
-4. **Graceful Exit**: On ``Ctrl+C``, all pins are turned off, ensuring a clean shutdown of the script.
+4. **安全な終了**: ``Ctrl+C`` を押すと、すべてのピンがオフになり、スクリプトは安全に終了します。
 
 
 
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
 
-Below is the Python script used in this project:
+以下は、このプロジェクトで使用する Python スクリプトです。
 
 
 
@@ -223,59 +223,59 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Motion Detection:**
+1. **動きの検出:**
 
-   The PIR sensor detects motion and sends a signal to increment the counter.
+   PIR センサーが動きを検出すると、その信号によってカウンターが増加します。
 
-2. **Display Update:**
+2. **表示の更新:**
 
-   The ``hc595_shift`` and ``pickDigit`` functions work together to control the 7-segment display and update the counter in real time.
+   ``hc595_shift`` 関数と ``pickDigit`` 関数が連携して 7 セグメントディスプレイを制御し、カウンター値をリアルタイムで更新します。
 
-3. **Main Loop:**
+3. **メインループ:**
 
-   The ``loop`` function continuously checks the PIR sensor and updates the display when motion is detected.
+   ``loop`` 関数は PIR センサーを継続的に監視し、動きが検出されると表示を更新します。
 
-4. **Interrupt Handling:**
+4. **割り込み処理:**
 
-   The script ensures all GPIO pins are safely turned off when interrupted, preventing unexpected behavior.
+   スクリプトは中断時にすべての GPIO ピンを安全にオフにし、予期しない動作を防ぎます。
 
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Display Not Working**:
+1. **ディスプレイが動作しない**:
 
-   - **Cause**: Incorrect wiring of the 7-segment display or shift register.
-   - **Solution**:
+   - **原因**: 7 セグメントディスプレイまたはシフトレジスタの配線が正しくありません。
+   - **対処方法**:
 
-     - Verify connections between the GPIO pins and the SDI, SRCLK, and RCLK pins of the shift register.
-     - Ensure all ``placePin`` connections match the corresponding digit pins.
+     - GPIO ピンとシフトレジスタの SDI、SRCLK、RCLK ピンの接続を確認してください。
+     - すべての ``placePin`` の接続が対応する桁ピンと一致していることを確認してください。
 
-2. **Motion Sensor Not Triggering**:
+2. **モーションセンサーが反応しない**:
 
-   - **Cause**: PIR sensor wiring or environmental interference.
-   - **Solution**:
+   - **原因**: PIR センサーの配線ミス、または周囲環境による干渉。
+   - **対処方法**:
 
-     - Check the PIR sensor connections to GPIO 26, power, and ground.
-     - Adjust the sensitivity and delay potentiometers on the PIR sensor if available.
+     - PIR センサーが GPIO22、電源、GND に正しく接続されていることを確認してください。
+     - 必要に応じて、PIR センサー上の感度および遅延時間調整用の可変抵抗を調整してください。
 
-3. **Counter Does Not Increment**:
+3. **カウンターが増加しない**:
 
-   - **Cause**: Motion sensor state changes not detected.
-   - **Solution**:
+   - **原因**: モーションセンサーの状態変化が正しく検出されていません。
+   - **対処方法**:
 
-     - Ensure the ``pir.value()`` value updates correctly.
-     - Add debugging prints to confirm state transitions in the ``loop()`` function.
+     - ``pir.value()`` の値が正しく更新されているか確認してください。
+     - ``loop()`` 関数にデバッグ用の ``print`` を追加して、状態遷移を確認してください。
 
-4. **Flickering Display**:
+4. **表示がちらつく**:
 
-   - **Cause**: Insufficient delay or improper timing in the display update.
-   - **Solution**: Add a small delay in the ``display()`` function to stabilize the display:
+   - **原因**: 表示更新のタイミングが適切でない、または遅延が不足しています。
+   - **対処方法**: ``display()`` 関数に小さな待機時間を追加して表示を安定させてください。
 
        .. code-block:: python
 
@@ -284,9 +284,9 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Bidirectional Counter**: Add another PIR sensor to detect motion in opposite directions and decrement the counter:
+1. **双方向カウンター**: もう 1 つ PIR センサーを追加して反対方向の動きを検出し、カウンターを減算できるようにします。
 
    .. code-block:: python
 
@@ -294,7 +294,7 @@ Below is the Python script used in this project:
       if pir2.value()==1:
          counter -= 1
 
-2. **Threshold-Based Alerts**: Trigger an alert (e.g., LED or buzzer) when the counter exceeds a predefined value:
+2. **しきい値アラート**: カウンターがあらかじめ設定した値を超えたときに、LED やブザーなどで警告を出します。
 
    .. code-block:: python
 
@@ -305,14 +305,14 @@ Below is the Python script used in this project:
       else:
             buzzer.off()
 
-3. **Data Logging**: Log the counter value and timestamps to a file for analysis:
+3. **データログ記録**: カウンター値とタイムスタンプをファイルへ保存して分析できます。
 
    .. code-block:: python
 
       with open("motion_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, Counter: {counter}\n")
 
-4. **Timer-Based Reset**: Reset the counter after a specific period of inactivity:
+4. **タイマーによるリセット**: 一定時間動きがない場合にカウンターをリセットします。
 
    .. code-block:: python
 
@@ -320,13 +320,12 @@ Below is the Python script used in this project:
       if time.time() - last_motion_time > 300:  # 5 minutes
             counter = 0
 
-5. **Event-Based Triggers**: Trigger specific actions (e.g., controlling appliances) when the counter reaches specific values.
+5. **イベント連動の動作**: カウンターが特定の値に達したときに、家電の制御など特定の動作を実行します。
 
 
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project introduces the basics of motion detection and display control using a PIR sensor and 7-segment display. It provides a practical foundation for more advanced IoT and data visualization projects.
-
+このプロジェクトでは、PIR センサーと 7 セグメントディスプレイを使用した動き検出と表示制御の基本を学びます。より高度な IoT やデータ可視化プロジェクトへ発展させるための、実践的な基礎となります。

@@ -5,19 +5,19 @@
 .. _py_oled:
 
 
-1.10 OLED Display
+1.10 OLEDディスプレイ
 ===========================================
 
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to interface with an SSD1306-based OLED display using I2C communication on a Raspberry Pi. OLED (Organic Light-Emitting Diode) displays are known for their high contrast, wide viewing angles, and low power consumption. This project demonstrates how to initialize the display, draw basic shapes, and render text.
+このプロジェクトでは、Raspberry PiでI2C通信を使用してSSD1306ベースのOLEDディスプレイを接続する方法を学びます。OLED（Organic Light-Emitting Diode）ディスプレイは、高コントラスト、広い視野角、低消費電力という特長を持っています。このプロジェクトでは、ディスプレイの初期化、基本図形の描画、テキストの表示方法を紹介します。
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを行うには、以下のコンポーネントが必要です。
 
 .. list-table::
    :widths: 30 20
@@ -37,14 +37,14 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Connect the VCC pin of OLED display to 3.3V on Fusion HAT+
-2. Connect the GND pin of OLED display to GND on Fusion HAT+
-3. Connect the SCL pin of OLED display to SCL (GPIO 3) on Fusion HAT+
-4. Connect the SDA pin of OLED display to SDA (GPIO 2) on Fusion HAT+
+1. OLEDディスプレイのVCCピンをFusion HAT+の3.3Vに接続します
+2. OLEDディスプレイのGNDピンをFusion HAT+のGNDに接続します
+3. OLEDディスプレイのSCLピンをFusion HAT+のSCL（GPIO 3）に接続します
+4. OLEDディスプレイのSDAピンをFusion HAT+のSDA（GPIO 2）に接続します
 
 .. image:: img/fzz/1.10_oled_bb.png
    :width: 70%
@@ -52,11 +52,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Setup Steps**
+**セットアップ手順**
 
-#. Install the SSD1306 driver library:
+#. SSD1306ドライバライブラリをインストールします：
    
-   This library enables communication with SSD1306 OLED displays using Python.
+   このライブラリを使用すると、PythonからSSD1306 OLEDディスプレイと通信できるようになります。
 
    .. raw:: html
    
@@ -67,7 +67,7 @@ Follow these steps to build the circuit:
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
    
 
-#. All example programs are included in the ``ai-lab-kit`` directory. Run the OLED example as follows:
+#. すべてのサンプルプログラムは ``ai-lab-kit`` ディレクトリに含まれています。以下のようにOLEDのサンプルを実行してください。
 
    .. raw:: html
    
@@ -79,15 +79,15 @@ Follow these steps to build the circuit:
       sudo python3 1.10_OLED_Display.py
 
 
-#. When the example runs, the OLED screen will display a framed box with the text **“Hello World!”** centered inside it.  
+#. サンプルを実行すると、OLED画面には枠線付きのボックスが表示され、その中央に **「Hello World!」** という文字が表示されます。  
 
-   This confirms that the display is successfully communicating over I2C and can render text and graphics.
+   これは、ディスプレイがI2C経由で正常に通信しており、テキストやグラフィックスを正しく描画できることを示しています。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code initializes an OLED display and draws "Hello World!" text:
+以下のPythonコードは、OLEDディスプレイを初期化し、「Hello World!」という文字を描画します。
 
 .. raw:: html
 
@@ -154,22 +154,22 @@ The following Python code initializes an OLED display and draws "Hello World!" t
    oled.image(image)
    oled.show()
 
-This Python script creates a "Hello World!" display on an SSD1306 OLED screen. When executed:
+このPythonスクリプトは、SSD1306 OLEDディスプレイに「Hello World!」を表示します。実行すると、次の処理が行われます。
 
-1. The script initializes I2C communication with the OLED display
-2. Creates a black-and-white image buffer for drawing
-3. Draws a white background with a black bordered rectangle
-4. Calculates text positioning to center "Hello World!" on the display
-5. Renders the final image to the OLED display
-6. The display shows the text until powered off or updated
+1. OLEDディスプレイとのI2C通信を初期化します
+2. 描画用の白黒画像バッファを作成します
+3. 白い背景と黒い枠付き長方形を描画します
+4. 「Hello World!」が中央に表示されるようにテキスト位置を計算します
+5. 最終的な画像をOLEDディスプレイに描画します
+6. 電源が切られるか、表示内容が更新されるまでテキストが表示され続けます
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The code imports necessary libraries for display control and image manipulation.
+   ディスプレイ制御と画像処理に必要なライブラリをインポートします。
 
    .. code-block:: python
 
@@ -178,9 +178,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       from PIL import Image, ImageDraw, ImageFont
       import adafruit_ssd1306
 
-2. **Display Initialization**
+2. **ディスプレイの初期化**
 
-   The OLED display is initialized with specified dimensions and I2C address.
+   指定した解像度とI2Cアドレスを使用してOLEDディスプレイを初期化します。
 
    .. code-block:: python
 
@@ -189,27 +189,27 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       i2c = board.I2C()
       oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
 
-3. **Display Clearing**
+3. **ディスプレイのクリア**
 
-   The display is cleared by filling it with zeros (black) and updating.
+   画面を0（黒）で塗りつぶして更新し、ディスプレイをクリアします。
 
    .. code-block:: python
 
       oled.fill(0)
       oled.show()
 
-4. **Image Buffer Creation**
+4. **画像バッファの作成**
 
-   A 1-bit color image buffer is created for drawing operations.
+   描画処理用に1ビットカラーの画像バッファを作成します。
 
    .. code-block:: python
 
       image = Image.new("1", (oled.width, oled.height))
       draw = ImageDraw.Draw(image)
 
-5. **Drawing Operations**
+5. **描画処理**
 
-   Rectangles and text are drawn onto the image buffer.
+   画像バッファ上に長方形やテキストを描画します。
 
    .. code-block:: python
 
@@ -218,9 +218,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       # Inner bordered rectangle
       draw.rectangle((BORDER, BORDER, oled.width - BORDER - 1, oled.height - BORDER - 1), outline=0, fill=0)
 
-6. **Text Rendering**
+6. **テキストの描画**
 
-   Text is centered on the display using font metrics.
+   フォント情報を利用して、テキストをディスプレイの中央に配置します。
 
    .. code-block:: python
 
@@ -228,9 +228,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       (font_width, font_height) = getfontsize(font, text)
       draw.text((oled.width // 2 - font_width // 2, oled.height // 2 - font_height // 2), text, font=font, fill=255)
 
-7. **Display Update**
+7. **ディスプレイの更新**
 
-   The final image is sent to the OLED display.
+   最終的な画像をOLEDディスプレイに送信して表示します。
 
    .. code-block:: python
 
@@ -239,35 +239,35 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Display Not Showing Anything**
+1. **ディスプレイに何も表示されない**
 
-   - **Cause**: Incorrect I2C address, wiring issues, or I2C not enabled.
-   - **Solution**: Verify I2C address (try 0x3C or 0x3D), check all connections, and enable I2C in Raspberry Pi configuration (``sudo raspi-config``).
+   - **原因**: I2Cアドレスが正しくない、配線に問題がある、またはI2Cが有効になっていない可能性があります。
+   - **対処方法**: I2Cアドレス（0x3Cまたは0x3D）を確認し、すべての接続をチェックしてください。また、Raspberry Piの設定（``sudo raspi-config``）でI2Cを有効にしてください。
 
-2. **I2C Communication Errors**
+2. **I2C通信エラー**
 
-   - **Cause**: I2C bus issues or device not detected.
-   - **Solution**: Check if device is detected with ``i2cdetect -y 1`` command. Ensure no other devices are conflicting on the I2C bus.
+   - **原因**: I2Cバスに問題がある、またはデバイスが検出されていない可能性があります。
+   - **対処方法**: ``i2cdetect -y 1`` コマンドを使ってデバイスが検出されるか確認してください。また、I2Cバス上で他のデバイスと競合していないことを確認してください。
 
-3. **Text or Graphics Not Displaying Correctly**
+3. **テキストやグラフィックスが正しく表示されない**
 
-   - **Cause**: Incorrect color values or coordinate issues.
-   - **Solution**: Remember that 0=black and 255=white in 1-bit color mode. Verify coordinates are within display boundaries (0-127 for width, 0-63 for height).
+   - **原因**: 色の値や座標の設定が正しくない可能性があります。
+   - **対処方法**: 1ビットカラーモードでは、0が黒、255が白であることを確認してください。また、座標がディスプレイの範囲内（幅0～127、高さ0～63）に収まっていることを確認してください。
 
-4. **Library Import Errors**
+4. **ライブラリのインポートエラー**
 
-   - **Cause**: Missing dependencies or incorrect installation.
-   - **Solution**: Ensure all required libraries are installed in the correct environment and try running with ``sudo`` if permission issues occur.
+   - **原因**: 依存ライブラリが不足している、またはインストールが正しく行われていない可能性があります。
+   - **対処方法**: 必要なライブラリが正しい環境にインストールされていることを確認し、権限の問題がある場合は ``sudo`` を付けて実行してください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **System Information Display**
+1. **システム情報の表示**
 
-   Create a real-time system monitor showing CPU usage, memory, and temperature:
+   CPU使用率、メモリ使用率、温度をリアルタイムで表示するシステムモニターを作成できます。
 
    .. code-block:: python
 
@@ -292,9 +292,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
           oled.show()
           time.sleep(2)
 
-2. **Scrolling Text**
+2. **スクロールテキスト**
 
-   Create scrolling text effects for longer messages:
+   長いメッセージを表示するためのスクロールテキスト効果を作成できます。
 
    .. code-block:: python
 
@@ -308,9 +308,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
           oled.show()
           time.sleep(0.05)
 
-3. **Animated Graphics**
+3. **アニメーション表示**
 
-   Create simple animations using basic shapes:
+   基本図形を使ってシンプルなアニメーションを作成できます。
 
    .. code-block:: python
 
@@ -321,9 +321,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
           oled.show()
           time.sleep(0.1)
 
-4. **Multiple Pages**
+4. **複数ページ表示**
 
-   Create a multi-page display with button control:
+   ボタン操作でページを切り替えるマルチページ表示を作成できます。
 
    .. code-block:: python
 
@@ -336,9 +336,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
           current_page = (current_page + 1) % len(pages)
           update_display()
 
-5. **Custom Fonts**
+5. **カスタムフォント**
 
-   Use different fonts for better visual appeal:
+   見た目をより魅力的にするために、さまざまなフォントを使用できます。
 
    .. code-block:: python
 
@@ -348,9 +348,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       except:
           custom_font = ImageFont.load_default()
 
-6. **Graphs and Charts**
+6. **グラフとチャート**
 
-   Display simple bar graphs or charts:
+   シンプルな棒グラフやチャートを表示できます。
 
    .. code-block:: python
 
@@ -362,6 +362,6 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to interface with SSD1306 OLED displays using I2C communication on a Raspberry Pi. OLED displays provide crisp, high-contrast visual output suitable for various applications including system monitoring, user interfaces, and information displays. By combining text, shapes, and graphics, you can create informative and visually appealing displays for your projects. The skills learned here can be extended to create complex user interfaces, data visualizations, and real-time monitoring systems.
+このプロジェクトでは、Raspberry PiでI2C通信を使用してSSD1306 OLEDディスプレイを接続する方法を紹介しました。OLEDディスプレイは、システムモニタリング、ユーザーインターフェース、情報表示など、さまざまな用途に適した鮮明で高コントラストな表示を提供します。テキスト、図形、グラフィックスを組み合わせることで、情報量が多く視覚的にも魅力的な表示を作成できます。ここで学んだ内容は、より高度なユーザーインターフェース、データ可視化、リアルタイム監視システムの構築にも応用できます。

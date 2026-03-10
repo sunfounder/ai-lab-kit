@@ -4,23 +4,23 @@
 
 .. _py_speaker:
 
-3.3 Fusion HAT+ Speaker
+3.3 Fusion HAT+ スピーカー
 ==============================
 
-**Introduction**
+**はじめに**
 
-The Fusion HAT+ includes a built-in speaker, making it ideal for voice prompts, alarms, and other AI/IoT audio applications.  
-This lesson shows you how to enable, test, and use the speaker with text-to-speech.
+Fusion HAT+ にはスピーカーが内蔵されており、音声プロンプト、アラーム、その他のAI/IoT音声アプリケーションに最適です。  
+このレッスンでは、スピーカーを有効化し、テストし、テキスト読み上げで使用する方法を紹介します。
 
 .. note::
-   This guide assumes Raspberry Pi OS is installed and the Fusion HAT+ drivers are properly set up.
+   このガイドは、Raspberry Pi OS がインストールされており、Fusion HAT+ のドライバーが正しく設定されていることを前提としています。
 
 .. image:: img/fusionhat_speaker.png
    :align: center
    :width: 50%
 
 
-**What You’ll Need**
+**必要なもの**
 
 .. list-table::
     :widths: 30 20
@@ -36,9 +36,9 @@ This lesson shows you how to enable, test, and use the speaker with text-to-spee
 ------------------------------------------------------------
 
 
-**Check if the Speaker Is Recognized**
+**スピーカーが認識されているか確認する**
 
-Check whether the Fusion HAT+ audio device is detected by the system:
+Fusion HAT+ のオーディオデバイスがシステムに認識されているか確認します。
 
 .. raw:: html
 
@@ -48,21 +48,21 @@ Check whether the Fusion HAT+ audio device is detected by the system:
 
    aplay -l
 
-You should see an audio device similar to:
+次のようなオーディオデバイスが表示されるはずです。
 
 .. code-block:: text
 
    card 3: voicehat [Fusion HAT+ Audio], device 0: ...
 
-If a device named ``voicehat`` (or similar) appears under **any card number**,  
-the Fusion HAT+ audio hardware is successfully recognized.
+**どのカード番号であっても** 、 ``voicehat`` （またはそれに類する名前）のデバイスが表示されれば、  
+Fusion HAT+ のオーディオハードウェアは正しく認識されています。
 
 ------------------------------------------------------------
 
 
-**Run the Example Program**
+**サンプルプログラムの実行**
 
-The most reliable way to test the speaker is to run the text-to-speech example.
+スピーカーをテストする最も確実な方法は、テキスト読み上げのサンプルを実行することです。
 
 .. raw:: html
 
@@ -73,13 +73,13 @@ The most reliable way to test the speaker is to run the text-to-speech example.
    cd ~/ai-lab-kit/llm
    sudo python3 tts_espeak.py
 
-You should hear: “Hello! I’m Espeak TTS.”
+「Hello! I’m Espeak TTS.」という音声が再生されます。
 
-Try adjusting the TTS parameters in the script to hear different voice effects.
+スクリプト内のTTSパラメータを調整して、異なる音声効果を試してみてください。
 
 ------------------------------------------------------------
 
-**Example Code**
+**サンプルコード**
 
 .. code-block:: python
 
@@ -93,27 +93,27 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
 
    tts.say("Hello! I’m Espeak TTS.")
 
-**Code Explanation**
+**コードの解説**
 
-* ``set_amp(0–200)`` — volume  
-* ``set_speed(80–260)`` — speaking speed  
-* ``set_gap(0–200)`` — pause between words  
-* ``set_pitch(0–99)`` — pitch of the voice  
-* ``say()`` — convert text to speech and play it
+* ``set_amp(0–200)`` — 音量  
+* ``set_speed(80–260)`` — 読み上げ速度  
+* ``set_gap(0–200)`` — 単語間の間隔  
+* ``set_pitch(0–99)`` — 音声の高さ  
+* ``say()`` — テキストを音声に変換して再生する  
 
 .. tip::
 
-   Increase speed + pitch to make the voice cheerful;  
-   lower both for a deeper, more serious tone.
+   speed と pitch を上げると明るく軽快な声になり、  
+   両方を下げると低く落ち着いた声になります。
 
 
 ------------------------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-* **No sound output**
+* **音が出ない**
 
-  - Make sure the Fusion HAT+ audio device is detected:
+  - Fusion HAT+ のオーディオデバイスが認識されていることを確認してください。
 
    .. raw:: html
    
@@ -123,11 +123,11 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
 
        aplay -l
 
-    You should see an audio device named ``voicehat`` (or similar).
-    If the device is not listed, power off the Raspberry Pi, reseat the
-    Fusion HAT+, and reboot.
+    ``voicehat`` （またはそれに類する名前）のオーディオデバイスが表示されるはずです。
+    デバイスが表示されない場合は、Raspberry Pi の電源を切り、
+    Fusion HAT+ を差し直してから再起動してください。
 
-  - If the device is still not detected, reinstall the audio driver:
+  - それでもデバイスが認識されない場合は、オーディオドライバーを再インストールしてください。
 
    .. raw:: html
    
@@ -137,18 +137,18 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
 
        sudo /opt/setup_fusion_hat_audio.sh
 
-* **Text-to-speech sounds too fast or robotic**
+* **テキスト読み上げの音声が速すぎる、または機械的に聞こえる**
 
-  - Adjust the speech parameters in the code:
+  - コード内の読み上げパラメータを調整してください。
 
     .. code-block:: python
 
        tts.set_speed(120)
        tts.set_pitch(60)
 
-* **Permission denied error**
+* **Permission denied エラーが表示される**
 
-  - Run the script with superuser privileges:
+  - 管理者権限でスクリプトを実行してください。
 
    .. raw:: html
    
@@ -162,11 +162,11 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
 
 ------------------------------------------------------------
 
-**Summary**
+**まとめ**
 
-In this lesson, you learned how to:
+このレッスンでは、次の内容を学びました。
 
-- Verify that the Fusion HAT+ speaker is recognized   
-- Use Espeak TTS to generate speech on the Raspberry Pi
+- Fusion HAT+ スピーカーが認識されているか確認する方法  
+- Espeak TTS を使用して Raspberry Pi で音声を生成する方法  
 
-The Fusion HAT+ speaker provides a simple and powerful way to add audio to your Raspberry Pi projects.
+Fusion HAT+ スピーカーを使うことで、Raspberry Pi プロジェクトに簡単かつ強力に音声機能を追加できます。

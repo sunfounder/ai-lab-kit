@@ -4,11 +4,11 @@
 
 .. _play_with_llm:
 
-Play with AI (Multi-LLMs)
+AIで遊ぼう（Multi-LLMs）
 ------------------------------------------------------------
 
-Go beyond movement and vision by adding **speech** and **AI**.  
-Here you will explore text-to-speech (TTS), speech-to-text (STT), and large language models (LLMs) to make your Fusion HAT+ talk, listen, and even chat with you like a smart robot.
+**音声** と **AI** を追加することで、単なる動作や視覚の機能を超えた体験を実現できます。  
+ここでは、Text-to-Speech（TTS）、Speech-to-Text（STT）、そして大規模言語モデル（LLMs）を活用し、Fusion HAT+ が話し、聞き取り、さらにはスマートロボットのように会話できる仕組みを探っていきます。
 
 .. toctree:: 
     :maxdepth: 1
@@ -21,7 +21,7 @@ Here you will explore text-to-speech (TTS), speech-to-text (STT), and large lang
     python_local_chatbot
     python_ai_assistant
 
-Here are some example project that you can try, there all are using the OpenAI API, and you can use the other llm APIs as well.
+以下は試してみることができるサンプルプロジェクトです。これらはすべて OpenAI API を使用していますが、他の LLM API を利用することも可能です。
 
 .. toctree:: 
     :maxdepth: 1

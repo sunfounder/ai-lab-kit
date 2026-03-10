@@ -4,25 +4,25 @@
 
 .. _py_ac_buzzer:
 
-1.3 Active Buzzer
+1.3 アクティブブザー
 =========================================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to drive an active buzzer to produce a beeping sound using a NPN transistor. Active buzzers are simple components used in many electronic projects to produce sound signals.
+このプロジェクトでは、NPN トランジスタを使用してアクティブブザーを駆動し、ビープ音を発生させる方法を学びます。アクティブブザーは、音による通知や警告を出すために多くの電子プロジェクトで使用されるシンプルな電子部品です。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完成させるために、次の部品を用意してください。
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 部品
+        - 購入リンク
 
 
     *   - :ref:`cpn_wires`
@@ -39,12 +39,11 @@ To complete this project, you will need the following components:
         - \-
 
 
-
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor by limiting the base current. When GPIO17 outputs a high level (3.3V), the transistor conducts, allowing current to flow through the buzzer, causing it to beep. When GPIO17 outputs a low level, the transistor is cut off, and the buzzer remains silent.
+この回路では、アクティブブザー、NPN トランジスタ、および 1kΩ 抵抗を使用します。抵抗はベース電流を制限することでトランジスタを保護します。GPIO17 が High レベル（3.3V）を出力するとトランジスタが導通し、ブザーに電流が流れてビープ音が鳴ります。GPIO17 が Low レベルを出力するとトランジスタは遮断され、ブザーは鳴りません。
 
 .. image:: img/fzz/1.2.1_sch.png
    :width: 80%
@@ -53,15 +52,15 @@ The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The re
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Place the NPN transistor, buzzer, and resistor on the breadboard.
-2. Connect the base of the transistor to GPIO17 through the resistor.
-3. Connect the emitter of the transistor to the power supply (+).
-4. Connect the collector of the transistor to one terminal of the buzzer.
-5. Connect the other terminal of the buzzer to the ground (-).
+1. NPN トランジスタ、ブザー、および抵抗をブレッドボードに配置します。
+2. トランジスタのベースを抵抗を介して GPIO17 に接続します。
+3. トランジスタのエミッタを電源（+）に接続します。
+4. トランジスタのコレクタをブザーの一方の端子に接続します。
+5. ブザーのもう一方の端子をグラウンド（-）に接続します。
 
 .. image:: img/fzz/1.2.1_bb.png
    :width: 80%
@@ -69,11 +68,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルプログラムの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに用意されています。  
+以下の手順でサンプルを実行してください。
 
 
 .. raw:: html
@@ -85,18 +84,18 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.3_ActiveBuzzer.py 
 
-This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi. When executed:
+この Python スクリプトは Raspberry Pi の GPIO17 に接続されたブザーを制御します。実行すると次の動作を行います。
 
-1. The buzzer alternates between turning on and off every 0.1 seconds, producing a beeping sound.
-2. The program prints "Buzzer On" and "Buzzer Off" to the console in sync with the buzzer's operation.
-3. The buzzing continues indefinitely until the user interrupts the script by pressing ``Ctrl+C``.
+1. ブザーは 0.1 秒ごとにオンとオフを繰り返し、ビープ音を発生します。
+2. コンソールにはブザーの動作に合わせて "Buzzer On" と "Buzzer Off" が表示されます。
+3. ユーザーが ``Ctrl+C`` を押してスクリプトを中断するまで、ビープ音は継続します。
 
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code drives the active buzzer to beep on and off in a loop:
+次の Python コードでは、アクティブブザーをループでオン・オフさせてビープ音を発生させます。
 
 
 .. raw:: html
@@ -129,15 +128,15 @@ The following Python code drives the active buzzer to beep on and off in a loop:
       # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
       pass
 
-After running the script, the buzzer connected to the Raspberry Pi will repeatedly beep by turning on and off every 0.1 seconds. At the same time, the console will display “Buzzer On” and “Buzzer Off” messages that match the buzzer’s sound. The buzzer will keep beeping until you stop the program by pressing Ctrl + C.
+このスクリプトを実行すると、Raspberry Pi に接続されたブザーは 0.1 秒ごとにオンとオフを繰り返してビープ音を発生します。同時にコンソールには “Buzzer On” と “Buzzer Off” のメッセージが表示され、ブザーの状態と同期します。``Ctrl + C`` を押してプログラムを停止するまで、この動作は継続します。
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``fusion_hat`` library provides an easy-to-use interface for controlling GPIO pins, and ``time`` is used for delays.
+   ``fusion_hat`` ライブラリは GPIO ピンを簡単に制御するためのインターフェースを提供し、 ``time`` モジュールは待機時間を作るために使用されます。
 
    .. code-block:: python
 
@@ -145,17 +144,17 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
       from fusion_hat.pin import Pin
       from time import sleep
 
-2. **Buzzer Initialization**
+2. **ブザーの初期化**
 
-   The ``Buzzer`` object is initialized and associated with Pin 17.
+   ``Buzzer`` オブジェクトを作成し、Pin 17 に関連付けます。
 
    .. code-block:: python
 
       buzzer = Buzzer(Pin(17))
 
-3. **Control Loop**
+3. **制御ループ**
 
-   The program uses an infinite loop (``while True``) to toggle the buzzer on and off every 0.1 seconds, creating a beeping sound. The ``print`` statements provide console feedback.
+   プログラムは無限ループ（ ``while True`` ）を使用して、0.1 秒ごとにブザーをオンとオフに切り替え、ビープ音を作ります。 ``print`` 文はコンソールに状態を表示します。
 
    .. code-block:: python
 
@@ -167,9 +166,9 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
          buzzer.off()
          sleep(0.1)
 
-4. **Keyboard Interrupt Handling**
+4. **キーボード割り込み処理**
 
-   The ``try-except`` block ensures that the program can be terminated cleanly using Ctrl+C without raising errors.
+   ``try-except`` ブロックにより、Ctrl+C を使ってプログラムを安全に終了できます。
 
    .. code-block:: python
 
@@ -180,35 +179,35 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **No Sound from the Buzzer**  
+1. **ブザーから音が出ない**  
 
-   - **Cause**: Incorrect GPIO pin connection or buzzer wiring.  
-   - **Solution**: Ensure the buzzer is properly connected to GPIO pin 17 and the ground (GND). 
+   - **原因**: GPIO ピン接続の誤り、またはブザー配線ミス。  
+   - **対処方法**: ブザーが GPIO17 とグラウンド（GND）に正しく接続されていることを確認してください。 
 
-2. **Buzzer Always On or Off**  
+2. **ブザーが常にオンまたはオフのまま**  
 
-   - **Cause**: Faulty buzzer or GPIO setup issue.  
-   - **Solution**: Verify the buzzer's functionality by testing it with direct voltage. 
+   - **原因**: ブザーの故障、または GPIO 設定の問題。  
+   - **対処方法**: ブザーに直接電圧を与えて正常に動作するか確認してください。 
 
-3. **Script Doesn't Respond to KeyboardInterrupt**  
+3. **スクリプトが KeyboardInterrupt に反応しない**  
 
-   - **Cause**: The ``except`` block may not properly handle interruption.  
-   - **Solution**: Ensure the ``try...except KeyboardInterrupt`` block is properly implemented, and that no other processes are blocking the main loop.
+   - **原因**: ``except`` ブロックが正しく処理していない可能性。  
+   - **対処方法**: ``try...except KeyboardInterrupt`` 構造が正しく実装されているか、またメインループを妨げる他のプロセスがないか確認してください。
 
-4. **Buzzing is Too Fast or Annoying**  
+4. **ビープ音が速すぎる、または耳障り**  
 
-   - **Cause**: The ``sleep(0.1)`` interval may be too short.  
-   - **Solution**: Increase the ``sleep()`` duration for longer intervals between buzzes.
+   - **原因**: ``sleep(0.1)`` の間隔が短すぎる。  
+   - **対処方法**: ``sleep()`` の時間を長くして、ビープ間隔を調整してください。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**発展アイデア**
 
-1. **Custom Beep Patterns**  
-   Create distinct beep patterns for different events or notifications:
+1. **カスタムビープパターン**  
+   異なるイベントや通知のために、独自のビープパターンを作成してみましょう。
 
    .. code-block:: python
 
@@ -222,8 +221,8 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
          buzzer.off()
 
 
-2. **User Input for Buzzer Control**  
-   Allow the user to start, stop, or change the buzzer's pattern dynamically:
+2. **ユーザー入力によるブザー制御**  
+   ユーザーがブザーのオン・オフやパターンを動的に変更できるようにします。
 
    .. code-block:: python
 
@@ -240,6 +239,6 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to drive an active buzzer using a NPN transistor and the Raspberry Pi GPIO pins. The simplicity of the code and hardware setup makes it a great starting point for sound-based electronic projects.
+このプロジェクトでは、NPN トランジスタと Raspberry Pi の GPIO ピンを使ってアクティブブザーを駆動する方法を学びました。シンプルな回路とコードで音を出せるため、通知音や警告音などのサウンドベースの電子プロジェクトの入門として最適です。

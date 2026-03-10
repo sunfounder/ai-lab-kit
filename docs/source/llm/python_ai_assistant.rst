@@ -4,11 +4,11 @@
 
 .. _ai_voice_assistant_car:
 
-7. AI Voice Assistant
+7. AI音声アシスタント
 ===========================
 
-This lesson turns your Fusion HAT+ into a **voice-first AI assistant**.  
-With the provided code, the robot will: **wait for a wake word**, **transcribe your speech** with Vosk, send it to an **OpenAI LLM**, and **speak back** using Piper TTS.
+このレッスンでは、Fusion HAT+ を **音声中心のAIアシスタント** に変えます。  
+提供されたコードを使用すると、ロボットは **ウェイクワードを待機** し、 **Voskで音声を文字起こし** し、 **OpenAIのLLMへ送信** し、 **Piper TTSで音声応答** を行います。
 
 .. raw:: html
 
@@ -19,45 +19,45 @@ With the provided code, the robot will: **wait for a wake word**, **transcribe y
 
 ----
 
-Before You Start
+開始前に
 ----------------
 
-Make sure you have:
+以下の準備が完了していることを確認してください：
 
-* :ref:`test_piper` — Piper voice works (e.g., you can play “Hello”).  
-* :ref:`test_vosk` — Vosk STT works for your language (e.g., ``en-us``).  
-* :ref:`py_online_llm` — Your **OpenAI API key** saved in ``secret.py`` as ``OPENAI_API_KEY``.  
-* A working **microphone** and **speaker** on Fusion HAT+.  
-* A stable network connection (LLM is online).
+* :ref:`test_piper` — Piper の音声が正常に動作する（例：「Hello」を再生できる）。  
+* :ref:`test_vosk` — 使用する言語で Vosk STT が動作する（例： ``en-us`` ）。  
+* :ref:`py_online_llm` — **OpenAI APIキー** を ``secret.py`` に ``OPENAI_API_KEY`` として保存済み。  
+* Fusion HAT+ に **マイク** と **スピーカー** が正しく接続されている。  
+* 安定したネットワーク接続（LLMはオンラインサービス）。
 
 ----
 
-Run the Example
----------------
+サンプルの実行
+------------------
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/llm/
    sudo python3 voice_assistant.py
 
-**Configuration used by the code:**
+**コードで使用される構成：**
 
-* LLM: **OpenAI** (``gpt-4o-mini``)  
-* TTS: **Piper** (``en_US-ryan-low``)  
-* STT: **Vosk** (``en-us``)  
-* Wake word: ``"hey buddy"``  
-* Keyboard input: **enabled** (optional manual input)  
-* Image mode: **enabled** (``WITH_IMAGE=True``) — requires a multimodal-capable LLM if you decide to use images later
+* LLM: **OpenAI** ( ``gpt-4o-mini`` )  
+* TTS: **Piper** ( ``en_US-ryan-low`` )  
+* STT: **Vosk** ( ``en-us`` )  
+* ウェイクワード: ``"hey buddy"``  
+* キーボード入力: **有効** （任意の手動入力）  
+* 画像モード: **有効** （ ``WITH_IMAGE=True`` ）— 将来的に画像を扱う場合はマルチモーダル対応LLMが必要
 
-**What happens:**
+**動作の流れ：**
 
-1. The assistant shows a welcome message with the wake phrase.  
-2. It listens for **“hey buddy”**.  
-3. After wake, your speech is transcribed (Vosk → text).  
-4. The text is sent to **OpenAI (gpt-4o-mini)** for a response.  
-5. The answer is spoken with **Piper** (``en_US-ryan-low``).
+1. アシスタントがウェイクフレーズ付きのウェルカムメッセージを表示します。  
+2. **「hey buddy」** を待機します。  
+3. ウェイク後、音声が文字起こしされます（Vosk → テキスト）。  
+4. テキストが **OpenAI（gpt-4o-mini）** に送信され、応答が生成されます。  
+5. 生成された回答が **Piper** （ ``en_US-ryan-low`` ）で音声再生されます。
 
-**Example interaction**
+**実行例**
 
 .. code-block:: text
 
@@ -67,7 +67,7 @@ Run the Example
    You: What’s the capital of Italy?
    Robot: The capital of Italy is Rome.
 
-Code
+コード
 -----------------
 
 .. code-block:: python
@@ -126,24 +126,24 @@ Code
   if __name__ == "__main__":
       va.run()
 
-**Code explanation:**
+**コードの解説**
 
-* ``OpenAI(..., model="gpt-4o-mini")`` — Uses **OpenAI** as the only LLM in this lesson.  
-* ``NAME`` / ``WAKE_WORD`` — Personalize the assistant (“Buddy”, “hey buddy”).  
-* ``WITH_IMAGE=True`` — Enables image mode in the assistant (no image I/O logic included here).  
-* ``TTS_MODEL="en_US-ryan-low"`` — Piper voice used for replies.  
-* ``STT_LANGUAGE="en-us"`` — Vosk language for recognition.  
-* ``KEYBOARD_ENABLE=True`` — Allows optional manual text input during debugging.  
-* ``WELCOME`` / ``INSTRUCTIONS`` — Startup message and assistant persona/system prompt.  
-* ``va.run()`` — Starts the loop: **wake → listen → LLM → speak**.
+* ``OpenAI(..., model="gpt-4o-mini")`` — このレッスンでは **OpenAI** を唯一のLLMとして使用します。  
+* ``NAME`` / ``WAKE_WORD`` — アシスタント名をカスタマイズできます（例：「Buddy」「hey buddy」）。  
+* ``WITH_IMAGE=True`` — アシスタントの画像モードを有効化します（ここでは画像入出力ロジックは含まれていません）。  
+* ``TTS_MODEL="en_US-ryan-low"`` — 応答音声として使用する Piper の音声モデル。  
+* ``STT_LANGUAGE="en-us"`` — 音声認識に使用する Vosk の言語設定。  
+* ``KEYBOARD_ENABLE=True`` — デバッグ時に手動テキスト入力を可能にします。  
+* ``WELCOME`` / ``INSTRUCTIONS`` — 起動メッセージとアシスタントの人格（システムプロンプト）。  
+* ``va.run()`` — **wake → listen → LLM → speak** のループ処理を開始します。
 
 
-Switching to Other LLMs or TTS
-------------------------------
+他のLLMまたはTTSへの切り替え
+---------------------------------
 
-You can easily switch to other LLMs, TTS, or STT languages with just a few edits:
+いくつかの設定を変更するだけで、他の LLM、TTS、STT 言語へ簡単に切り替えることができます：
 
-* Supported LLMs:
+* 対応しているLLM：
 
   * OpenAI
   * Doubao
@@ -152,10 +152,10 @@ You can easily switch to other LLMs, TTS, or STT languages with just a few edits
   * Qwen
   * Grok
 
-* :ref:`test_piper` — Check the supported languages of **Piper TTS**.  
-* :ref:`test_vosk` — Check the supported languages of **Vosk STT**.  
+* :ref:`test_piper` — **Piper TTS** が対応する言語を確認できます。  
+* :ref:`test_vosk` — **Vosk STT** が対応する言語を確認できます。  
 
-To switch, simply modify the initialization part in the code:
+切り替える場合は、コードの初期化部分を変更するだけです：
 
 .. code-block:: python
 
@@ -170,39 +170,39 @@ To switch, simply modify the initialization part in the code:
 
 ----
 
-Troubleshooting
+トラブルシューティング
 -----------------------------
 
-* **Robot doesn’t respond to wake word**
+* **ロボットがウェイクワードに反応しない**
 
-  - Check if the microphone works.  
-  - Make sure ``WAKE_ENABLE = True``.  
-  - Adjust the wake word to match your pronunciation.  
-  - Reduce background noise and speak clearly.
+  - マイクが正常に動作しているか確認してください。  
+  - ``WAKE_ENABLE = True`` になっていることを確認してください。  
+  - 発音に合わせてウェイクワードを調整してください。  
+  - 周囲のノイズを減らし、はっきりと発話してください。
 
-* **No sound from the speaker**
+* **スピーカーから音が出ない**
 
-  - Check the TTS model name (e.g., ``en_US-ryan-low``).  
-  - Test Piper or Espeak manually.  
-  - Verify speaker connection and volume.
+  - TTSモデル名（例： ``en_US-ryan-low`` ）を確認してください。  
+  - Piper または Espeak を手動でテストしてください。  
+  - スピーカー接続と音量を確認してください。
 
-* **API key error or timeout**
+* **APIキーエラーまたはタイムアウト**
 
-  - Check your key in ``secret.py``.  
-  - Make sure your network connection is stable.  
-  - Confirm the LLM model is supported (e.g., ``gpt-4o-mini``).
+  - ``secret.py`` 内のキーを確認してください。  
+  - ネットワーク接続が安定しているか確認してください。  
+  - 使用しているLLMモデル（例： ``gpt-4o-mini`` ）が利用可能か確認してください。
 
-* **Wake word works but no response**
+* **ウェイクワードは動作するが応答がない**
 
-  - Check if the STT language matches your accent.  
-  - Make sure the model downloaded correctly.  
-  - Try printing debug logs to confirm STT is running.
+  - STT言語設定が発音と一致しているか確認してください。  
+  - モデルが正しくダウンロードされているか確認してください。  
+  - デバッグログを出力して STT が動作しているか確認してください。
 
-* **TTS works but no LLM reply**
+* **TTSは動作するがLLMの応答がない**
 
-  - Check if the API key is valid.  
-  - Verify model name and LLM settings.  
-  - Ensure internet connectivity. 
+  - APIキーが有効か確認してください。  
+  - モデル名およびLLM設定を確認してください。  
+  - インターネット接続を確認してください。
 
 
 

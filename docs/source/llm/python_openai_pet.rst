@@ -4,19 +4,20 @@
 
 .. _py_digital_pet:
 
-(Example) Digital Pet
+(Example) デジタルペット
 ==============================
 
-**Introduction**
+**はじめに**
 
-Create an interactive **Digital Pet** that lives on an OLED display and communicates through voice! This project combines speech recognition, AI conversation, text-to-speech, and visual feedback to create a virtual companion with its own personality, emotions, and needs. The digital pet features:
+OLED ディスプレイの中で暮らし、声でコミュニケーションできるインタラクティブな **デジタルペット** を作ってみましょう！  
+このプロジェクトでは、音声認識、AI 会話、Text-to-Speech、そして視覚的フィードバックを組み合わせることで、独自の性格、感情、欲求を持つバーチャルな相棒を実現します。デジタルペットには次のような機能があります：
 
-1. **Voice Interaction**: Speak to your pet using speech-to-text (STT)
-2. **AI Personality**: Powered by OpenAI's GPT-4o with custom emotions, you can choose the other LLM to use.
-3. **Emotional Display**: Shows mood using text emoticons (kaomoji)
-4. **Status System**: Hunger and energy levels that change over time
-5. **Visual Feedback**: OLED display shows pet's mood and status
-6. **Voice Responses**: Pet speaks back using natural-sounding TTS
+1. **音声インタラクション**: speech-to-text（STT）を使ってペットに話しかけられます
+2. **AI パーソナリティ**: OpenAI の GPT-4o をベースに感情表現を加えた構成で動作します。他の LLM を使うことも可能です
+3. **感情表示**: テキスト顔文字（kaomoji）で気分を表現します
+4. **ステータスシステム**: 空腹度と元気度が時間とともに変化します
+5. **視覚フィードバック**: OLED にペットの気分や状態を表示します
+6. **音声応答**: 自然な звучきの TTS でペットが話しかけてきます
 
 .. raw:: html
 
@@ -25,13 +26,13 @@ Create an interactive **Digital Pet** that lives on an OLED display and communic
           Your browser does not support the video tag.
       </video>
 
-Your digital pet remembers conversations, has emotional states, and responds differently based on its needs - creating a truly interactive companion experience!
+このデジタルペットは会話を覚え、感情状態を持ち、必要に応じて反応を変えるため、本当に対話しているような相棒体験を楽しめます。
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -48,9 +49,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the components to your Raspberry Pi:
+以下のように部品を Raspberry Pi に接続します：
 
 .. image:: img/fzz/llm_pet_bb.png
    :width: 80%
@@ -64,9 +65,9 @@ Connect the components to your Raspberry Pi:
 
 ---------------------------------------------------
 
-**Run the Example**
+**サンプルの実行**
 
-#. Run the Code
+#. コードを実行する
 
    .. raw:: html
 
@@ -77,38 +78,38 @@ Connect the components to your Raspberry Pi:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_pet.py
 
-#. Interact with your pet
+#. ペットと遊ぶ
 
-   When the script starts:
+   スクリプトを起動すると：
 
-   * The OLED shows a welcome screen with your pet's name.
-   * A status display appears showing mood, energy, and hunger.
-   * The system starts listening for your voice.
+   * OLED にペットの名前入りウェルカム画面が表示されます
+   * 気分、元気度、空腹度を示すステータス表示が現れます
+   * システムがあなたの声を聞き取り始めます
 
-   You can speak naturally to your pet, for example:
+   たとえば、次のように自然に話しかけることができます：
 
    * "How are you feeling?"
    * "Let's play a game!"
    * "Are you hungry?"
    * "Tell me a story!"
 
-   Your pet responds with:
+   ペットは次のように応答します：
 
-   * Voice output through speakers
-   * Emotional display on the OLED
-   * Status updates based on your interaction
+   * スピーカーからの音声出力
+   * OLED 上での感情表示
+   * あなたとのやり取りに応じたステータス更新
 
-#. Exit the program
+#. プログラムを終了する
 
-   * Say "stop" to end voice interaction.
-   * Press ``Ctrl+C`` to exit completely.
+   * 音声インタラクションを終えるには "stop" と話してください
+   * 完全に終了するには ``Ctrl+C`` を押します
 
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here is the full Python script for the Digital Pet:
+以下はデジタルペットの Python スクリプト全体です：
 
 .. raw:: html
 
@@ -573,11 +574,11 @@ Here is the full Python script for the Digital Pet:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. Voice Recognition (STT)
+1. 音声認識（STT）
 
-   The system uses Vosk for speech-to-text with streaming capabilities for real-time feedback:
+   このシステムでは、リアルタイムのフィードバックを可能にするストリーミング対応の Vosk を speech-to-text に使用しています：
 
    .. code-block:: python
    
@@ -590,9 +591,9 @@ Here is the full Python script for the Digital Pet:
               partial = result["partial"]
               # Show partial text on display
 
-2. AI Personality System
+2. AI パーソナリティシステム
 
-   The pet has a dynamic personality with emotional states managed through kaomoji:
+   ペットには、顔文字（kaomoji）によって表現される感情状態を備えた動的な個性があります：
 
    .. code-block:: python
    
@@ -604,9 +605,9 @@ Here is the full Python script for the Digital Pet:
           # ... more emotions
       }
 
-3. Dynamic LLM Instructions
+3. 動的な LLM instructions
 
-   The AI's instructions update based on current pet state and memories:
+   AI への指示は、現在のペット状態や記憶内容に応じて更新されます：
 
    .. code-block:: python
    
@@ -615,9 +616,9 @@ Here is the full Python script for the Digital Pet:
           CURRENT STATE: Mood: {self.mood}, Energy: {self.energy}, Hunger: {self.hunger}
           Recent memories: {self.memories[-3:] if self.memories else 'None'}"""
 
-4. Status Management System
+4. ステータス管理システム
 
-   Background thread manages pet's needs and emotional state:
+   バックグラウンドスレッドが、ペットの欲求や感情状態を管理します：
 
    .. code-block:: python
    
@@ -631,9 +632,9 @@ Here is the full Python script for the Digital Pet:
               if random.random() < 0.1:
                   self.mood = random.choice(list(self.kaomoji_map.keys()))
 
-5. Emotion-Driven TTS
+5. 感情に応じた TTS
 
-   Text-to-speech adapts based on pet's current mood:
+   text-to-speech は、その時点の気分に応じて話し方を変えます：
 
    .. code-block:: python
    
@@ -646,9 +647,9 @@ Here is the full Python script for the Digital Pet:
           # ...
           self.tts.say(response, instructions=tts_instructions)
 
-6. OLED Display Management
+6. OLED 表示の管理
 
-   Multiple display modes for different states:
+   状態に応じて複数の表示モードを使い分けます：
 
    .. code-block:: python
    
@@ -665,9 +666,9 @@ Here is the full Python script for the Digital Pet:
           # Response display with text wrapping
           wrapped_text = textwrap.wrap(response, width=20)
 
-7. Interactive State Changes
+7. インタラクションによる状態変化
 
-   User interactions affect pet's status:
+   ユーザーとのやり取りが、ペットの状態に影響します：
 
    .. code-block:: python
    
@@ -681,9 +682,9 @@ Here is the full Python script for the Digital Pet:
           self.hunger = min(100, self.hunger + 10)
           self.mood = "playful"
 
-8. Memory System
+8. 記憶システム
 
-   Keeps track of recent conversations:
+   直近の会話内容を記憶します：
 
    .. code-block:: python
    
@@ -692,9 +693,9 @@ Here is the full Python script for the Digital Pet:
       if len(self.memories) > 10:
           self.memories.pop(0)
 
-9. Response Parsing
+9. 応答の解析
 
-   Extracts mood from AI responses and updates pet state:
+   AI の応答から気分を抽出し、ペットの状態を更新します：
 
    .. code-block:: python
    
@@ -707,9 +708,9 @@ Here is the full Python script for the Digital Pet:
                   self.mood = mood.lower()
               return text.strip()
 
-10. Main Interaction Loop
+10. メインの対話ループ
 
-    Coordinates all components in a clean workflow:
+    すべての要素をきれいなワークフローで連携させています：
 
     .. code-block:: python
     
@@ -729,50 +730,50 @@ Here is the full Python script for the Digital Pet:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
 
-- Audio input not detected
+- 音声入力が検出されない
 
-  - Execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
+  - ``sudo /opt/setup_fusion_hat_audio.sh`` を実行して、オーディオ設定を再セットアップしてください
 
-- OLED display not showing
+- OLED が表示されない
 
-  - Check I2C connection: ``fusion_hat scan_i2c`` (should show 0x3C)
-  - Verify OLED is powered (3.3V or 5V depending on model)
-  - Ensure correct I2C address in code (0x3C or 0x3D)
+  - I2C 接続を確認： ``fusion_hat scan_i2c`` （0x3C が表示されるはずです）
+  - OLED に電源が供給されているか確認してください（モデルに応じて 3.3V または 5V）
+  - コード内の I2C アドレスが正しいか確認してください（0x3C または 0x3D）
 
-- TTS not working
+- TTS が動作しない
 
-  - Verify OpenAI API key has TTS credits
-  - Ensure internet connection for API calls
-  - Execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
+  - OpenAI API キーに TTS 用クレジットがあるか確認してください
+  - API 呼び出しのためのインターネット接続を確認してください
+  - ``sudo /opt/setup_fusion_hat_audio.sh`` を実行して、オーディオ設定を再セットアップしてください
 
-- Speech recognition inaccurate
+- 音声認識の精度が低い
 
-  - Speak clearly and at moderate volume
-  - Reduce background noise
-  - Adjust microphone gain: ``alsamixer``
-  - Try different language models
+  - はっきり、適度な音量で話してください
+  - 周囲のノイズを減らしてください
+  - マイクゲインを調整してください： ``alsamixer``
+  - 別の言語モデルも試してください
 
-- AI responses too slow
+- AI の応答が遅い
 
-  - Check internet connection speed
-  - Reduce response complexity in instructions
-  - Use a faster OpenAI model (gpt-3.5-turbo)
+  - インターネット接続速度を確認してください
+  - instructions 内で応答の複雑さを下げてください
+  - より高速な OpenAI モデル（gpt-3.5-turbo）を使用してください
 
-- Energy/hunger bars not updating
+- Energy / Hunger バーが更新されない
 
-  - Check status thread is running
-  - Verify OLED display is connected
-  - Check for console error messages
+  - ステータス更新スレッドが動作しているか確認してください
+  - OLED が正しく接続されているか確認してください
+  - コンソールにエラーメッセージが出ていないか確認してください
 
-- Pet not remembering conversations
+- ペットが会話を覚えていない
 
-  - Memory list only keeps last 10 conversations
-  - Check if memories are being added correctly
-  - Ensure memory text is being passed to LLM
+  - memory リストが保持するのは直近 10 件の会話のみです
+  - memory が正しく追加されているか確認してください
+  - memory の内容が LLM に渡されているか確認してください
 
 ----------------------------------------------
 
-This digital pet project demonstrates the power of combining multiple AI technologies (STT, LLM, TTS) with hardware interfaces to create engaging, emotional, and interactive experiences. It's a perfect example of how AI can create meaningful connections through technology!
+このデジタルペットのプロジェクトは、複数の AI 技術（STT、LLM、TTS）とハードウェアインターフェースを組み合わせることで、感情豊かで魅力的なインタラクション体験を生み出せることを示しています。AI がテクノロジーを通じて、より身近で意味のあるつながりを作り出せる好例です。

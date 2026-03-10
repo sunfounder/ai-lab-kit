@@ -4,18 +4,18 @@
 
 .. _py_pan_tilt_camera:
 
-4.16 Pan-Tilt Camera Control System
+4.16 パン・チルトカメラ制御システム
 ==========================================================
 
-**Introduction**
+**はじめに**
 
-In this project, you will create a camera control system that can pan (move horizontally) and tilt (move vertically) using a joystick. The system allows you to remotely control the direction of a camera mounted on servos, preview the camera feed in real-time, and capture photos with the press of the joystick button. This project is perfect for surveillance applications, photography projects, or learning about servo motor control and camera integration.
+このプロジェクトでは、ジョイスティックを使用してカメラをパン（水平移動）およびチルト（垂直移動）できるカメラ制御システムを作成します。サーボモーターに取り付けられたカメラの向きを遠隔操作し、リアルタイムで映像をプレビューしながら、ジョイスティックのボタンを押すことで写真を撮影することができます。このプロジェクトは、監視用途、写真撮影プロジェクト、またはサーボモーター制御やカメラ統合の学習に最適です。
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトには、以下のコンポーネントが必要です。
 
 .. list-table::
     :widths: 30 20
@@ -42,7 +42,7 @@ The following components are required for this project:
 
 --------------------
 
-**Circuit Diagram**
+**回路図**
 
 .. image:: img/fzz/2.1.9_sch.png
    :width: 80%
@@ -50,18 +50,18 @@ The following components are required for this project:
 
 ---------------
 
-**Wiring Diagram**
+**配線図**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. カメラモジュールをより便利に使用するために、:ref:`assemble_fusion_hat_pan_tilt` の組み立てを推奨します。
 
    .. note:: 
      
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+     パン・チルト機構を組み立てると、一部のピンが隠れてしまう場合があります。そのため、カメラを使用する場合のみ組み立てるか、組み立て後に外側に配置することを推奨します。
    
    
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Follow this wiring diagram to set up the circuit:
+#. 次の配線図に従って回路を接続してください：
 
    .. image:: img/fzz/4.16_joystick_camera_bb.png
       :width: 100%
@@ -69,15 +69,15 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-1. Access the Raspberry Pi Desktop:
+1. Raspberry Pi デスクトップにアクセスします：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop` : **VNC** を使用してフルデスクトップ環境にアクセスします。
+   * |link_rpi_connect| : **Raspberry Pi Connect** を使用して、任意のブラウザから安全に Raspberry Pi にアクセスできます。
 
-2. Open a Terminal and go to the code folder:
+2. ターミナルを開き、コードフォルダへ移動します：
 
    .. raw:: html
 
@@ -87,7 +87,7 @@ The following components are required for this project:
 
        cd ~/ai-lab-kit/python
 
-3. Run the script to start the camera:
+3. スクリプトを実行してカメラを起動します：
 
    .. raw:: html
 
@@ -97,21 +97,21 @@ The following components are required for this project:
 
        sudo python3 pan_tilt_camera.py
 
-4. After running the script, the pan-tilt camera system starts and initializes the camera and servos. 
+4. スクリプトを実行すると、パン・チルトカメラシステムが起動し、カメラとサーボが初期化されます。
 
-   * If a display is available, a live camera preview is shown; otherwise, the program runs normally in headless mode.
+   * ディスプレイが利用可能な場合は、リアルタイムのカメラプレビューが表示されます。ディスプレイがない場合でも、プログラムはヘッドレスモードで正常に動作します。
 
-   * Moving the joystick left or right rotates the camera horizontally (pan), while moving it up or down tilts the camera vertically (tilt). 
+   * ジョイスティックを左右に動かすとカメラが水平（パン）方向に回転し、上下に動かすと垂直（チルト）方向に動きます。
 
-   * When the joystick button is pressed, the camera captures a photo and saves it to the ``Pictures/camera_pan_tilt`` directory using a simple sequential filename such as ``photo_001.jpg``.
+   * ジョイスティックのボタンを押すとカメラが写真を撮影し、 ``Pictures/camera_pan_tilt`` ディレクトリに ``photo_001.jpg`` のような連番ファイル名で保存されます。
 
-   * The system continues running and responding to user input until you stop the program by pressing Ctrl + C.
+   * プログラムは Ctrl + C を押して停止するまで、ユーザー入力に応答しながら動作を続けます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Below is the Python script used in this project:
+以下は、このプロジェクトで使用する Python スクリプトです：
 
 .. raw:: html
 
@@ -278,106 +278,106 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-#. **Hardware Initialization**
+#. **ハードウェアの初期化**
 
-   - Two servo motors are initialized to control camera pan (horizontal) and tilt (vertical) movement
-   - The joystick uses ADC channels to read X and Y analog values, and a GPIO pin to detect button presses
-   - The camera module is initialized and configured for preview mode, supporting both display and headless operation
+   - 2 つのサーボモーターを初期化し、カメラのパン（水平）およびチルト（垂直）の動きを制御します  
+   - ジョイスティックは ADC チャンネルを使用して X 軸と Y 軸のアナログ値を読み取り、GPIO ピンでボタン入力を検出します  
+   - カメラモジュールはプレビューモード用に初期化され、ディスプレイあり／なしの両方の環境に対応します  
 
-#. **Joystick Reading and Processing**
+#. **ジョイスティック入力の読み取りと処理**
 
-   - ``read_joystick()`` reads raw analog values from the joystick’s X and Y axes
-   - ``map_value()`` converts ADC values (0–4095) into a usable range of −100 to 100
-   - ``apply_deadzone()`` filters out small joystick movements to prevent unwanted camera drift
+   - ``read_joystick()`` はジョイスティックの X 軸と Y 軸のアナログ値を取得します  
+   - ``map_value()`` は ADC 値（0–4095）を −100〜100 の範囲に変換します  
+   - ``apply_deadzone()`` は小さな入力を無視し、意図しないカメラの微動を防ぎます  
 
-#. **Camera Movement Control**
+#. **カメラの動作制御**
 
-   - Joystick input is translated into incremental changes in pan and tilt angles
-   - ``clamp()`` ensures the angles stay within safe limits to protect the servo motors
-   - Servos are updated only when the angle changes, providing smooth and stable motion
+   - ジョイスティック入力をパン角度とチルト角度の増分に変換します  
+   - ``clamp()`` により角度を安全範囲内に制限し、サーボモーターを保護します  
+   - 角度が変化した場合のみサーボを更新することで、滑らかで安定した動作を実現します  
 
-#. **Button Press Detection**
+#. **ボタン押下の検出**
 
-   - The joystick button is configured as an active-low input using a pull-up resistor
-   - ``check_button_press()`` detects a button press using edge detection (HIGH → LOW)
-   - This ensures only one photo is taken per button press, even if the button is held
+   - ジョイスティックのボタンはプルアップ抵抗を使用したアクティブロー入力として設定されています  
+   - ``check_button_press()`` はエッジ検出（HIGH → LOW）によってボタン押下を検出します  
+   - これにより、ボタンを押し続けても 1 回の押下につき 1 枚の写真だけが撮影されます  
 
-#. **Photo Capture and Storage**
+#. **写真の撮影と保存**
 
-   - ``take_photo()`` captures an image using the camera module
-   - Photos are saved with sequential filenames (for example, ``photo_001.jpg``)
-   - All images are stored in the user’s ``Pictures/camera_pan_tilt`` directory
+   - ``take_photo()`` はカメラモジュールを使用して画像を撮影します  
+   - 写真は ``photo_001.jpg`` のような連番ファイル名で保存されます  
+   - すべての画像はユーザーの ``Pictures/camera_pan_tilt`` ディレクトリに保存されます  
 
-#. **Camera Preview Handling**
+#. **カメラプレビューの処理**
 
+   - グラフィカルディスプレイが利用可能な場合のみ、ライブカメラプレビューが開始されます  
+   - ディスプレイがない環境でもスクリプトは正常に動作します  
 
-   - A live camera preview is started only when a graphical display is available
-   - The script continues to function normally when running without a display
+#. **メインループと終了処理**
 
-#. **Main Loop and Cleanup**
-
-
-   - The main loop continuously reads joystick input and responds in real time
-   - When the program exits using ``Ctrl + C``, the camera is safely stopped
-   - All hardware resources are properly released to ensure a clean shutdown
+   - メインループではジョイスティック入力を継続的に読み取り、リアルタイムでカメラを制御します  
+   - ``Ctrl + C`` でプログラムを終了すると、カメラが安全に停止します  
+   - すべてのハードウェアリソースが適切に解放され、正常に終了します  
 
 
-----------------------------------------------
 
-**Troubleshooting**
-
-1. **Servos Not Moving**:
-
-   - **Cause**: Incorrect servo connections or power issues
-   - **Solution**:
-
-     - Verify servos are connected to correct channels (2 and 3)
-     - Ensure Fusion HAT is properly powered
-     - Check servo wiring for loose connections
-
-2. **Camera Preview Not Showing**:
-
-   - **Cause**: Camera module not detected or incorrect configuration
-   - **Solution**:
-
-     - Ensure camera cable is securely connected to CSI port
-     - Check if camera is enabled in Raspberry Pi configuration
-     - Verify camera module compatibility
-
-3. **Joystick Not Responding**:
-
-   - **Cause**: Incorrect pin assignments or ADC issues
-   - **Solution**:
-
-     - Verify joystick connections to A0, A1, and GPIO 17
-     - Test ADC readings with simple print statements
-     - Check if Fusion HAT ADC is functioning
-
-4. **Photos Not Saving**:
-
-   - **Cause**: Permission issues or directory problems
-   - **Solution**:
-
-     - Check if Pictures directory exists in user's home
-     - Verify write permissions for the photo directory
-     - Try running with sudo if permission issues persist
-
-5. **Erratic Servo Movement**:
-
-   - **Cause**: Power fluctuations or software timing issues
-   - **Solution**:
-
-     - Ensure stable power supply to Fusion HAT
-     - Adjust ``MOVE_SPEED`` and delay values
-     - Add capacitors to servo power lines if needed
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**トラブルシューティング**
 
-1. **Video Recording**: Add video recording functionality with start/stop control:
+1. **サーボが動作しない**：
+
+   - **原因**：サーボ接続の誤り、または電源の問題  
+   - **解決方法**：
+
+     - サーボが正しいチャンネル（2 と 3）に接続されていることを確認する  
+     - Fusion HAT が正しく給電されていることを確認する  
+     - サーボ配線に緩みがないか確認する  
+
+2. **カメラプレビューが表示されない**：
+
+   - **原因**：カメラモジュールが検出されていない、または設定が正しくない  
+   - **解決方法**：
+
+     - カメラケーブルが CSI ポートにしっかり接続されていることを確認する  
+     - Raspberry Pi の設定でカメラが有効になっているか確認する  
+     - カメラモジュールの互換性を確認する  
+
+3. **ジョイスティックが反応しない**：
+
+   - **原因**：ピン設定の誤り、または ADC の問題  
+   - **解決方法**：
+
+     - ジョイスティックが A0、A1、および GPIO 17 に正しく接続されているか確認する  
+     - 簡単な print 文で ADC の値を確認する  
+     - Fusion HAT の ADC が正常に動作しているか確認する  
+
+4. **写真が保存されない**：
+
+   - **原因**：権限の問題、またはディレクトリの問題  
+   - **解決方法**：
+
+     - ユーザーのホームディレクトリに Pictures フォルダが存在するか確認する  
+     - 写真保存フォルダの書き込み権限を確認する  
+     - 権限問題が続く場合は sudo で実行してみる  
+
+5. **サーボが不安定に動く**：
+
+   - **原因**：電源の不安定、またはソフトウェアのタイミング問題  
+   - **解決方法**：
+
+     - Fusion HAT への電源供給が安定しているか確認する  
+     - ``MOVE_SPEED`` や遅延値を調整する  
+     - 必要に応じてサーボ電源ラインにコンデンサを追加する  
+
+----------------------------------------------
+
+**発展アイデア**
+
+1. **動画録画機能**：録画の開始／停止を制御できる動画録画機能を追加します：
 
    .. code-block:: python
 
@@ -391,7 +391,7 @@ Below is the Python script used in this project:
           camera.stop_recording()
           print("Recording stopped")
 
-2. **Preset Positions**: Create preset camera positions for quick access:
+2. **プリセット位置**：カメラを素早く移動できるプリセット位置を設定します：
 
    .. code-block:: python
 
@@ -411,6 +411,6 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to create a sophisticated pan-tilt camera control system using Raspberry Pi, servos, and a camera module. It combines hardware control, real-time video processing, and user input handling into a cohesive system. The project provides a foundation for more advanced applications like surveillance systems, photography robots, or interactive art installations.
+このプロジェクトでは、Raspberry Pi、サーボモーター、カメラモジュールを組み合わせて高度なパン・チルトカメラ制御システムを構築する方法を紹介しました。ハードウェア制御、リアルタイム映像処理、ユーザー入力処理を統合した実用的なシステムです。このプロジェクトは、監視システム、撮影ロボット、インタラクティブアート装置など、より高度な応用へ発展させるための基礎となります。

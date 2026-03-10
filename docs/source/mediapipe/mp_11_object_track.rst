@@ -4,79 +4,80 @@
 
 .. _mp_tracking:
 
-11. Object Tracking with Pan-Tilt Camera
+11. パンチルトカメラによる物体追跡
 =============================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-In this chapter, we extend MediaPipe object detection
-to build a simple **object tracking system**
-using a pan-tilt servo platform.
+この章では、MediaPipe の物体検出を拡張し、
+パンチルトサーボプラットフォームを使った
+シンプルな **物体追跡システム** を構築します。
 
-The system detects a specified target object
-(for example, a "banana")
-and automatically adjusts two servos
-to keep the object centered in the camera view.
+このシステムは、指定した対象物
+（たとえば ``banana``）
+を検出し、2 つのサーボを自動的に制御して、
+対象がカメラ映像の中央付近に収まるように調整します。
 
 .. image:: img/mp_object_track.png
    :width: 500
    :align: center
 
-This project combines:
+このプロジェクトは、以下の要素を組み合わせています：
 
-- Real-time object detection
-- Servo motor control
-- Proportional tracking logic
-- Visual feedback overlay
+- リアルタイム物体検出
+- サーボモータ制御
+- 比例追跡ロジック
+- 視覚的フィードバック表示
 
-It demonstrates how computer vision can directly drive
-physical hardware in real time.
+これは、コンピュータビジョンが
+リアルタイムで物理ハードウェアを直接駆動できることを示す
+実践的な例です。
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The tracking system follows these steps:
+追跡システムは次の手順で動作します：
 
-1. Initialize pan and tilt servos to the center position.
-2. Configure the Raspberry Pi camera for video streaming.
-3. Load the EfficientDet Lite0 model for object detection.
-4. Detect objects in each frame using MediaPipe Tasks.
-5. Identify the target object (e.g., "banana").
-6. Compute the object's offset relative to the frame center.
-7. Adjust servo angles using proportional control.
-8. Display tracking guides and status on the screen.
+1. パン・チルトサーボを中央位置に初期化する
+2. Raspberry Pi カメラを動画ストリーミング用に設定する
+3. 物体検出用に EfficientDet Lite0 モデルを読み込む
+4. 各フレームで MediaPipe Tasks を使って物体を検出する
+5. 目標物体（例：``banana``）を特定する
+6. フレーム中心に対する物体のずれ量を計算する
+7. 比例制御を使ってサーボ角度を調整する
+8. 追跡ガイドと状態情報を画面に表示する
 
-This example shows how vision-based feedback
-can be used to control hardware movement dynamically.
+このサンプルは、視覚フィードバックを使って
+ハードウェアの動きを動的に制御する方法を示しています。
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
        sudo python3 ~/ai-lab-kit/mediapipe/mp_track_object.py
 
-#. After running the program, the camera window opens and begins real-time object detection.
+#. プログラムを実行すると、カメラウィンドウが開き、リアルタイム物体検出が始まります。
 
    .. raw:: html
    
@@ -85,41 +86,41 @@ can be used to control hardware movement dynamically.
              Your browser does not support the video tag.
          </video>
    
-   The system searches for the specified target object (default: ``banana``).
-   A yellow crosshair is displayed at the center of the screen as a reference point.
+   システムは指定された対象物（デフォルト：``banana``）を探します。  
+   画面中央には基準点として黄色の十字マーカーが表示されます。
    
-   When the target object appears in the frame:
+   対象物がフレーム内に現れると：
    
-   - MediaPipe detects the object using the EfficientDet Lite0 model.
-   - The center of the detected bounding box is calculated.
-   - If the object is outside the center deadzone, the pan and tilt servos move step-by-step.
-   - The camera physically rotates to keep the object near the center of the frame.
-   - A green tracking box is drawn around the object.
-   - The screen displays:
+   - MediaPipe が EfficientDet Lite0 モデルを使って物体を検出します。
+   - 検出されたバウンディングボックスの中心座標を計算します。
+   - 物体が中央のデッドゾーン外にある場合、パン・チルトサーボが段階的に動きます。
+   - カメラが物理的に回転し、物体がフレーム中央付近に来るようにします。
+   - 物体の周囲に緑色の追跡ボックスが描画されます。
+   - 画面には次の情報が表示されます：
    
-     - ``Tracking banana`` (status)
-     - Current servo angles (Pan / Tilt)
+     - ``Tracking banana`` （状態表示）
+     - 現在のサーボ角度（Pan / Tilt）
    
-   When the object is not detected:
+   物体が検出されない場合：
    
-   - The servos stop moving.
-   - The status text changes to ``No banana found`` (displayed in red).
+   - サーボは動作を停止します。
+   - 状態表示は ``No banana found`` に切り替わります（赤色表示）。
    
-   The tracking logic uses a simple 4-direction deadzone control:
-   the servos only move when the object is sufficiently far from the center,
-   preventing jitter.
+   追跡ロジックには、シンプルな 4 方向デッドゾーン制御を使用しています。  
+   物体が中心から十分に離れたときだけサーボが動くため、
+   ジッターを防げます。
    
-   Press ``q`` to stop the program.
+   ``q`` を押すとプログラムを停止できます。
    
-   When exiting:
+   終了時には：
    
-   - Both servos return to the center position.
-   - The camera stops.
-   - The display window closes.
-   - A message is printed: ``Tracking stopped. Servos centered.``
+   - 2 つのサーボが中央位置に戻ります。
+   - カメラが停止します。
+   - 表示ウィンドウが閉じます。
+   - ``Tracking stopped. Servos centered.`` というメッセージが出力されます。
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -280,10 +281,10 @@ can be used to control hardware movement dynamically.
        print("Tracking stopped. Servos centered.")
 
 -----------------------------
-5. Code Explanation
+5. コードの説明
 -----------------------------
 
-**Configuration Section**
+**設定セクション**
 
 .. code-block:: python
 
@@ -293,13 +294,13 @@ can be used to control hardware movement dynamically.
    SCORE_THRESHOLD = 0.3
    DEADZONE = 50
 
-- ``TARGET``: Object category to track (must be in COCO dataset classes);
-- ``W, H``: Camera resolution - balanced between speed and detail;
-- ``CX, CY``: Frame center coordinates for tracking reference;
-- ``SCORE_THRESHOLD``: Minimum confidence for valid detection;
-- ``DEADZONE``: Distance from center before servo movement starts (reduces jitter).
+- ``TARGET``: 追跡する物体カテゴリ（COCO データセットのクラスに含まれている必要があります）
+- ``W, H``: カメラ解像度。速度と細部のバランスを取った設定です
+- ``CX, CY``: 追跡基準となるフレーム中心座標
+- ``SCORE_THRESHOLD``: 有効な検出とみなす最小信頼度
+- ``DEADZONE``: サーボが動き始める中心からの距離（ジッター低減用）
 
-**Servo Initialization**
+**サーボの初期化**
 
 .. code-block:: python
 
@@ -309,11 +310,11 @@ can be used to control hardware movement dynamically.
    pan.angle(0)
    tilt.angle(0)
 
-- ``Servo(2)`` and ``Servo(3)`` correspond to channels on Fusion HAT;
-- ``.angle(0)`` centers servos at 0° position;
-- ``time.sleep(1)`` ensures servos reach position before continuing.
+- ``Servo(2)`` と ``Servo(3)`` は Fusion HAT 上のチャンネルに対応しています
+- ``.angle(0)`` でサーボを 0° の中央位置に設定します
+- ``time.sleep(1)`` により、処理を続ける前にサーボが所定位置に到達する時間を確保します
 
-**Camera Setup**
+**カメラ設定**
 
 .. code-block:: python
 
@@ -322,9 +323,9 @@ can be used to control hardware movement dynamically.
        main={"size": (W, H), "format": "XRGB8888"}
    ))
 
-- Uses Picamera2 library for modern camera API;
-- ``XRGB8888`` format provides 8-bit color channels;
-- ``time.sleep(2)`` allows camera sensor to stabilize.
+- 最新のカメラ API として Picamera2 ライブラリを使用しています
+- ``XRGB8888`` 形式は 8-bit カラーチャンネルを提供します
+- ``time.sleep(2)`` により、カメラセンサが安定するまで待機します
 
 **MediaPipe Detector**
 
@@ -337,11 +338,11 @@ can be used to control hardware movement dynamically.
        running_mode=vision.RunningMode.VIDEO
    )
 
-- Loads EfficientDet Lite0 model from same directory;
-- ``RunningMode.VIDEO`` optimized for continuous frame processing;
-- ``detect_for_video()`` requires timestamp for each frame.
+- 同じディレクトリから EfficientDet Lite0 モデルを読み込みます
+- ``RunningMode.VIDEO`` は連続フレーム処理向けに最適化されています
+- ``detect_for_video()`` は各フレームごとにタイムスタンプを必要とします
 
-**Tracking Function**
+**追跡関数**
 
 .. code-block:: python
 
@@ -356,11 +357,11 @@ can be used to control hardware movement dynamically.
        elif y > CY + DEADZONE:
            tilt_move = 1     # Object down → move up
 
-- Simple proportional control (not true PID);
-- Deadzone prevents servo jitter from small movements;
-- Returns movement values of -1, 0, or 1 for each axis.
+- シンプルな比例制御であり、厳密な PID ではありません
+- デッドゾーンにより、小さな揺れによるサーボのジッターを防ぎます
+- 各軸について -1、0、1 の移動値を返します
 
-**Main Loop Processing**
+**メインループ処理**
 
 .. code-block:: python
 
@@ -375,12 +376,12 @@ can be used to control hardware movement dynamically.
                obj_x = bbox.origin_x + bbox.width // 2
                obj_y = bbox.origin_y + bbox.height // 2
 
-1. Convert frame to MediaPipe image format;
-2. Run object detection with current timestamp;
-3. Search detections for target object (case-insensitive);
-4. Calculate object center coordinates.
+1. フレームを MediaPipe の画像形式に変換します
+2. 現在のタイムスタンプで物体検出を実行します
+3. 検出結果の中から目標物体を探します（大文字小文字は区別しません）
+4. 物体の中心座標を計算します
 
-**Servo Control Logic**
+**サーボ制御ロジック**
 
 .. code-block:: python
 
@@ -396,12 +397,12 @@ can be used to control hardware movement dynamically.
        pan.angle(pan_pos)
        tilt.angle(tilt_pos)
 
-1. Get movement commands from tracking function;
-2. Update position accumulators;
-3. Clamp positions to mechanical limits;
-4. Send new angles to servos.
+1. 追跡関数から移動指令を取得します
+2. 現在位置の累積値を更新します
+3. 機械的な安全範囲内にクランプします
+4. 新しい角度をサーボに送信します
 
-**Visual Feedback**
+**視覚的フィードバック**
 
 .. code-block:: python
 
@@ -415,11 +416,11 @@ can be used to control hardware movement dynamically.
    # Status text
    cv2.putText(frame, status, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
-- Green box: Currently tracked object;
-- Yellow crosshair: Frame center reference;
-- Status text: Tracking state and servo angles.
+- 緑のボックス: 現在追跡中の物体
+- 黄色の十字マーカー: フレーム中央の基準位置
+- 状態テキスト: 追跡状態とサーボ角度
 
-**Cleanup Routine**
+**クリーンアップ処理**
 
 .. code-block:: python
 
@@ -430,16 +431,16 @@ can be used to control hardware movement dynamically.
        cam.stop()
        cv2.destroyAllWindows()
 
-- Returns servos to center position;
-- Stops camera capture;
-- Closes OpenCV windows;
-- Runs even if error occurs (``try...finally``).
+- サーボを中央位置に戻します
+- カメラキャプチャを停止します
+- OpenCV ウィンドウを閉じます
+- エラーが発生しても必ず実行されます（ ``try...finally`` ）
 
 ------------------------------------------------------
-6. Configuration Options
+6. 設定オプション
 ------------------------------------------------------
 
-**Changing Target Object**
+**追跡対象の変更**
 
 .. code-block:: python
 
@@ -449,7 +450,7 @@ can be used to control hardware movement dynamically.
    TARGET = "book"        # Book tracking
    TARGET = "bottle"      # Bottle tracking
 
-**Adjusting Tracking Parameters**
+**追跡パラメータの調整**
 
 .. code-block:: python
 
@@ -460,7 +461,7 @@ can be used to control hardware movement dynamically.
    DEADZONE = 30          # Smaller deadzone = more sensitive
    pan_move = 2           # Larger movement steps
 
-**Servo Range Limits**
+**サーボ可動範囲の制限**
 
 .. code-block:: python
 
@@ -468,7 +469,7 @@ can be used to control hardware movement dynamically.
    pan_pos = max(-60, min(60, pan_pos))    # ±60° pan limit
    tilt_pos = max(-30, min(30, tilt_pos))  # ±30° tilt limit
 
-**Performance Tuning**
+**パフォーマンス調整**
 
 .. code-block:: python
 
@@ -479,7 +480,7 @@ can be used to control hardware movement dynamically.
    SCORE_THRESHOLD = 0.5  # Fewer false positives
 
 ------------------------------------------------------
-7. Performance Considerations
+7. パフォーマンス上の考慮点
 ------------------------------------------------------
 
 .. list-table:: Performance Factors
@@ -489,30 +490,30 @@ can be used to control hardware movement dynamically.
      - Effect on Performance
      - Recommendation
    * - Camera Resolution
-     - Higher = slower detection
-     - 640x480 good balance
+     - 高いほど検出は遅くなる
+     - 640x480 が良いバランス
    * - Detection Threshold
-     - Lower = more detections but more false positives
-     - 0.3-0.5 optimal
+     - 低いほど検出は増えるが誤検出も増える
+     - 0.3-0.5 が最適
    * - Deadzone Size
-     - Larger = smoother but less responsive
-     - 40-60 pixels
+     - 大きいほど滑らかだが反応は鈍くなる
+     - 40-60 ピクセル
    * - Servo Speed
-     - Faster = more responsive but may overshoot
-     - Consider acceleration control
+     - 速いほど反応は良いがオーバーシュートしやすい
+     - 加速度制御の導入を検討
    * - Model Size
-     - Lite0 fastest, Lite2 most accurate
-     - Lite0 for real-time tracking
+     - Lite0 が最速、Lite2 が最高精度
+     - リアルタイム追跡には Lite0 を推奨
 
-**Expected Performance:**
+**想定パフォーマンス：**
 
-- **Raspberry Pi 4:** 8-15 FPS with 640x480
-- **Detection Latency:** 100-200ms
-- **Servo Response Time:** 50-100ms per degree
-- **Total System Latency:** 200-400ms
+- **Raspberry Pi 4:** 640x480 で 8-15 FPS
+- **検出遅延:** 100-200ms
+- **サーボ応答時間:** 1 度あたり 50-100ms
+- **システム全体の遅延:** 200-400ms
 
 ------------------------------------------------------
-8. Troubleshooting Guide
+8. トラブルシューティングガイド
 ------------------------------------------------------
 
 .. list-table:: Common Issues and Solutions
@@ -522,33 +523,33 @@ can be used to control hardware movement dynamically.
      - Possible Cause
      - Solution
    * - No object detection
-     - Object not in COCO classes
-     - Use supported object names
+     - 物体が COCO クラスに含まれていない
+     - 対応している物体名を使用する
    * - Jerky servo movement
-     - Deadzone too small
-     - Increase DEADZONE to 60-80
+     - デッドゾーンが小さすぎる
+     - DEADZONE を 60-80 に上げる
    * - Servo overshoot
-     - Movement step too large
-     - Change pan_move from 1 to 0.5
+     - 移動ステップが大きすぎる
+     - pan_move を 1 から 0.5 に変更する
    * - Low frame rate
-     - Resolution too high
-     - Reduce to 320x240
+     - 解像度が高すぎる
+     - 320x240 に下げる
    * - Camera not working
-     - Camera not enabled
-     - Run ``sudo raspi-config``
+     - カメラが有効化されていない
+     - ``sudo raspi-config`` を実行する
    * - Servos not moving
-     - Incorrect wiring or power
-     - Check connections and power supply
+     - 配線ミスまたは電源不足
+     - 接続と電源を確認する
    * - Object lost frequently
-     - Threshold too high
-     - Reduce SCORE_THRESHOLD to 0.2
+     - 閾値が高すぎる
+     - SCORE_THRESHOLD を 0.2 に下げる
    * - Incorrect tracking direction
-     - Servo orientation reversed
-     - Swap pan_move signs
+     - サーボの向きが逆
+     - pan_move の符号を反転する
 
-**Debugging Tips:**
+**デバッグのヒント：**
 
-1. **Test servos separately:**
+1. **サーボを個別にテストする：**
    
    .. code-block:: python
 
@@ -556,19 +557,19 @@ can be used to control hardware movement dynamically.
       time.sleep(1)
       pan.angle(-45)  # Should move left
 
-2. **Verify object detection:**
+2. **物体検出を確認する：**
    
    .. code-block:: python
 
       print(f"Found: {category.category_name} {c.score:.2f}")
 
-3. **Check object coordinates:**
+3. **物体座標を確認する：**
    
    .. code-block:: python
 
       print(f"Object at: ({obj_x}, {obj_y}), Center: ({CX}, {CY})")
 
-4. **Monitor frame rate:**
+4. **フレームレートを監視する：**
    
    .. code-block:: python
 
@@ -579,10 +580,10 @@ can be used to control hardware movement dynamically.
       print(f"FPS: {fps:.1f}")
 
 ------------------------------------------------------
-9. Advanced Modifications
+9. 高度な改造
 ------------------------------------------------------
 
-**1. PID Control Implementation**
+**1. PID 制御の実装**
 
 .. code-block:: python
 
@@ -599,7 +600,7 @@ can be used to control hardware movement dynamically.
            self.prev_error = error
            return output
 
-**2. Multiple Object Tracking**
+**2. 複数物体の追跡**
 
 .. code-block:: python
 
@@ -615,7 +616,7 @@ can be used to control hardware movement dynamically.
            best_dist = dist
            best_obj = (obj_x, obj_y)
 
-**3. Speed Proportional to Distance**
+**3. 距離に比例した速度制御**
 
 .. code-block:: python
 
@@ -639,7 +640,7 @@ can be used to control hardware movement dynamically.
            
        return pan_move, tilt_move
 
-**4. Object Memory (Inertial Tracking)**
+**4. 物体記憶（慣性追跡）**
 
 .. code-block:: python
 
@@ -655,84 +656,90 @@ can be used to control hardware movement dynamically.
        lost_counter += 1
 
 ------------------------------------------------------
-10. Applications and Extensions
+10. 応用と拡張
 ------------------------------------------------------
 
-**Educational Applications:**
+**教育用途：**
 
-- Robotics and automation principles
-- Computer vision fundamentals
-- Control systems (P vs PID)
-- Real-time system design
+- ロボティクスと自動化の原理学習
+- コンピュータビジョンの基礎
+- 制御システム（P 制御 vs PID）
+- リアルタイムシステム設計
 
-**Practical Applications:**
+**実用用途：**
 
-- Security camera auto-tracking
-- Videoconferencing camera automation
-- Wildlife observation
-- Assistive technology for tracking
+- セキュリティカメラの自動追跡
+- ビデオ会議用カメラの自動化
+- 野生動物の観察
+- 追跡支援のための補助技術
 
-**Extension Projects:**
+**拡張プロジェクト：**
 
-1. **Web Interface:** Remote control via browser
-2. **Preset Positions:** Save/load common tracking positions
-3. **Object Learning:** Train on custom objects
-4. **Multi-camera:** Coordinate multiple tracking units
-5. **Cloud Integration:** Upload tracking data for analysis
-6. **Audio Feedback:** Announce tracking status
-7. **Gesture Control:** Use hand gestures to control tracking
+1. **Web インターフェース:** ブラウザ経由の遠隔操作
+2. **プリセット位置:** よく使う追跡位置の保存 / 読み込み
+3. **物体学習:** 独自の物体を学習させる
+4. **マルチカメラ:** 複数追跡ユニットの連携
+5. **クラウド連携:** 追跡データをアップロードして解析する
+6. **音声フィードバック:** 追跡状態を音声で通知する
+7. **ジェスチャー制御:** 手のジェスチャーで追跡を制御する
+
+--------------------------------------
+
+11. 安全上の注意とベストプラクティス
+-----------------------------------------
+
+1. **機械的安全性：**
+
+   - すべての可動部をしっかり固定する
+   - ケーブルマネジメントを行う
+   - 指はさみの危険箇所を避ける
+   - 適切な角度制限を設定する
+
+2. **電気的安全性：**
+
+   - サーボには外部電源を使用する
+   - 適切なグラウンド接続を確保する
+   - 電源の過負荷を避ける
+   - 適切な太さの配線を使用する
+
+3. **ソフトウェア安全性：**
+
+   - 終了時には必ずサーボを中央に戻す処理を入れる
+   - 緊急停止機構を実装する
+   - デバッグ用にエラーログを残す
+   - 入力値と制限値を検証する
+
+4. **運用上の安全性：**
+
+   - 可動機構に近づきすぎない
+   - 過熱がないか監視する
+   - 定期的に保守点検を行う
+   - 手動で介入できる手段を用意する
 
 -----------------------------
-11. Safety and Best Practices
+12. まとめ
 -----------------------------
 
-1. **Mechanical Safety:**
+この章では、以下を組み合わせた
+完全な物体追跡システムを実装しました：
 
-   - Secure all moving parts
-   - Use cable management
-   - Avoid pinch points
-   - Set reasonable angle limits
+1. **MediaPipe Tasks** による高信頼な物体検出
+2. **パンチルトサーボ** による物理的な追跡
+3. **シンプルな比例制御** による移動ロジック
+4. **OpenCV** による視覚的フィードバックと表示
 
-2. **Electrical Safety:**
+このシステムは、より高度な追跡アプリケーションの基礎となり、
+リアルタイムコンピュータビジョン、制御システム、
+組み込み Python プログラミングの重要な概念を実証しています。
 
-   - Use external power for servos
-   - Ensure proper grounding
-   - Avoid overloading power supply
-   - Use appropriate gauge wires
+追跡対象の変更、各種パラメータの調整、制御ロジックの拡張により、
+このシステムは教育用デモから実用的な自動化ソリューションまで、
+さまざまな用途に適応できます。
 
-3. **Software Safety:**
+**次のステップ：**
 
-   - Always include servo centering on exit
-   - Implement emergency stop mechanism
-   - Log errors for debugging
-   - Validate inputs and limits
-
-4. **Operational Safety:**
-
-   - Keep clear of moving mechanism
-   - Monitor for overheating
-   - Regular maintenance checks
-   - Have manual override capability
-
------------------------------
-12. Summary
------------------------------
-
-This chapter demonstrated a complete object tracking system using:
-
-1. **MediaPipe Tasks** for reliable object detection
-2. **Pan-tilt servos** for physical tracking
-3. **Simple proportional control** for movement logic
-4. **OpenCV** for visual feedback and display
-
-The system provides a foundation for more advanced tracking applications and demonstrates key concepts in real-time computer vision, control systems, and embedded Python programming.
-
-By modifying the target object, adjusting parameters, and extending the control logic, this system can be adapted for various applications from educational demonstrations to practical automation solutions.
-
-**Next Steps:**
-
-- Implement PID control for smoother tracking
-- Add object memory for temporary occlusion handling
-- Create web interface for remote monitoring
-- Integrate with home automation systems
-- Train custom object detection models
+- より滑らかな追跡のために PID 制御を実装する
+- 一時的な遮蔽に対応するため物体記憶を追加する
+- リモート監視用の Web インターフェースを作成する
+- ホームオートメーションシステムと統合する
+- 独自の物体検出モデルを学習する

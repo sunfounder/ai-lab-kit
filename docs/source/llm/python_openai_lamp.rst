@@ -4,16 +4,17 @@
 
 .. _py_ai_led_controller:
 
-(Example) AI-powered LED Controller
+(Example) AI 搭載 LED コントローラー
 ======================================
 
-**Introduction**
+**はじめに**
 
-In this project, you'll build an **AI-powered LED controller** that combines an LLM Model (here we use OpenAI's GPT-4o language model) with an RGB LED. The system interprets natural language commands to control LED colors, allowing you to verbally request specific colors using color names, HEX values, or RGB tuples. This demonstrates the integration of artificial intelligence with physical hardware through natural language processing.
+このプロジェクトでは、LLM モデル（ここでは OpenAI の GPT-4o 言語モデルを使用）と RGB LED を組み合わせた **AI 搭載 LED コントローラー** を作成します。  
+システムは自然言語の指示を解釈して LED の色を制御し、色名、HEX 値、RGB タプルを使って色を指定できます。これは、自然言語処理を通じて人工知能と物理ハードウェアを統合する例です。
 
-When you say commands like "turn on red light" or "show warm yellow light," the AI parses your request and generates appropriate control signals to adjust the LED accordingly.
+「turn on red light」や「show warm yellow light」のように話しかけると、AI が指示内容を解析し、それに応じた制御信号を生成して LED の色を変更します。
 
-To use the other llm model, please refer to :ref:`py_online_llm` .
+他の LLM モデルを使用する場合は、:ref:`py_online_llm` を参照してください。
 
 .. raw:: html
 
@@ -24,9 +25,9 @@ To use the other llm model, please refer to :ref:`py_online_llm` .
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -47,9 +48,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the RGB LED to the Fusion HAT+ as follows:
+以下のように RGB LED を Fusion HAT+ に接続します：
 
 .. image:: img/fzz/llm_book_bb.png
    :width: 80%
@@ -64,10 +65,10 @@ Connect the RGB LED to the Fusion HAT+ as follows:
 
 ----------------------------------------------------------
 
-**Run the Code**
+**コードの実行**
 
 
-#. Run the AI LED controller:
+#. AI LED コントローラーを実行します：
 
    .. raw:: html
 
@@ -78,24 +79,24 @@ Connect the RGB LED to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_lamp.py
 
-#. When the script runs:
+#. スクリプトを実行すると：
 
-   * You'll see a welcome message: "Smart Lighting Assistant started!"
-   * Type natural language commands like:
+   * 「Smart Lighting Assistant started!」というウェルカムメッセージが表示されます
+   * 次のような自然言語コマンドを入力できます：
 
      - "turn on red light"
      - "show blue color"  
      - "set to warm white"
      - "turn off the light"
 
-   * The AI will respond and control the LED accordingly
-   * Type 'quit' or 'exit' to end the program
+   * AI が応答し、それに応じて LED を制御します
+   * プログラムを終了するには 'quit' または 'exit' と入力します
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here is the full Python script for the AI LED Controller:
+以下は AI LED コントローラーの Python スクリプト全体です：
 
 .. raw:: html
 
@@ -327,11 +328,11 @@ Here is the full Python script for the AI LED Controller:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. AI Assistant Initialization
+1. AI アシスタントの初期化
 
-   The system uses OpenAI's GPT-4o model with custom instructions to ensure it generates LED control commands in a specific format.
+   このシステムでは OpenAI の GPT-4o モデルを使用し、特定の形式で LED 制御コマンドを生成するようカスタム instructions を設定しています。
 
    .. code-block:: python
 
@@ -346,9 +347,9 @@ Here is the full Python script for the AI LED Controller:
       
       self.llm.set_instructions(self.instructions)
 
-2. RGB LED Control
+2. RGB LED の制御
 
-   The RGB_LED class from fusion_hat.modules provides an interface to control the three color channels via PWM.
+   fusion_hat.modules の RGB_LED クラスを使用して、PWM 経由で 3 つの色チャンネルを制御します。
 
    .. code-block:: python
 
@@ -360,9 +361,9 @@ Here is the full Python script for the AI LED Controller:
       # Set color using hex value
       self.rgb_led.color(0xFF0000)  # Also red
 
-3. Command Parsing with Regular Expressions
+3. 正規表現によるコマンド解析
 
-   The system uses regex to extract LED control commands from the AI's response.
+   AI の応答から LED 制御コマンドを抽出するために、正規表現を使用しています。
 
    .. code-block:: python
 
@@ -379,9 +380,9 @@ Here is the full Python script for the AI LED Controller:
           
           return led_command, display_text
 
-4. Multiple Color Format Support
+4. 複数の色指定形式に対応
 
-   The controller accepts various color specification formats for maximum flexibility.
+   コントローラーは柔軟性を高めるため、複数の色指定形式を受け付けます。
 
    .. code-block:: python
 
@@ -395,9 +396,9 @@ Here is the full Python script for the AI LED Controller:
           # 4. Hex numbers (0xFF0000)
           # 5. Direct integers (16711680)
 
-5. Streaming Response
+5. ストリーミング応答
 
-   The AI's response is streamed word by word for a more natural conversation experience.
+   より自然な会話体験のために、AI の応答を単語ごとにストリーミング表示します。
 
    .. code-block:: python
 
@@ -409,9 +410,9 @@ Here is the full Python script for the AI LED Controller:
               print(word, end="", flush=True)
               full_response += word
 
-6. Enhanced Pro Version
+6. 拡張版 Pro バージョン
 
-   The AILEDControllerPro class adds direct command preprocessing for faster response to common requests.
+   AILEDControllerPro クラスでは、よく使う指示にすばやく応答するための直接コマンド前処理を追加しています。
 
    .. code-block:: python
 
@@ -425,11 +426,11 @@ Here is the full Python script for the AI LED Controller:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
 - No module named 'openai'" error**
 
-   Ensure the fusion-hat package is installed:  
+   fusion-hat パッケージがインストールされていることを確認してください：  
 
    .. code-block::
 
@@ -438,28 +439,28 @@ Here is the full Python script for the AI LED Controller:
 
 - “Invalid API key" error
 
-  Verify your API key in ``secret.py`` is correct and hasn't expired.  
-  Check your OpenAI account for active API keys.
+  ``secret.py`` 内の API キーが正しく、有効期限切れになっていないことを確認してください。  
+  また、OpenAI アカウントで有効な API キーが存在するか確認してください。
 
-- LED doesn't light up
+- LED が点灯しない
 
-  - Verify wiring connections (RGB pins to correct PWM ports)  
-  - Check if common cathode is connected to ground  
-  - Ensure current-limiting resistors are properly installed  
-  - Test each color channel individually using simple test code
+  - 配線を確認してください（RGB ピンが正しい PWM ポートに接続されているか）  
+  - common cathode が GND に接続されているか確認してください  
+  - 電流制限抵抗が正しく入っているか確認してください  
+  - 簡単なテストコードで各色チャンネルを個別に確認してください
 
-- AI doesn't respond with [LED:...] tags
+- AI が [LED:...] タグ付きで応答しない
 
-  - Check the system instructions are being set correctly  
-  - Try more explicit color commands  
-  - Ensure the AI model (gpt-4o) is available on your account
+  - system instructions が正しく設定されているか確認してください  
+  - より明確な色指定コマンドで試してください  
+  - AI モデル（gpt-4o）がアカウントで利用可能か確認してください
 
-- Streaming response appears choppy
+- ストリーミング応答が途切れがちに見える
 
-  - Check internet connection stability  
-  - Reduce stream delay by adjusting network timeouts  
-  - Consider using non-streaming mode for testing
+  - ネットワーク接続が安定しているか確認してください  
+  - ネットワークタイムアウトを調整して遅延を減らしてください  
+  - テスト時は非ストリーミングモードの使用も検討してください
 
 ----------------------------------------------
 
-This project demonstrates how AI can bridge natural language understanding with physical hardware control, opening possibilities for intuitive human-machine interfaces!
+このプロジェクトは、AI が自然言語理解と物理ハードウェア制御を橋渡しし、より直感的なヒューマンマシンインターフェースを実現できることを示しています。

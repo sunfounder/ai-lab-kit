@@ -6,20 +6,20 @@
 
 .. _py_rotary_encoder:
 
-2.12 Rotary Encoder
-=======================
+2.12 ロータリーエンコーダー
+=============================
 
-**Introduction**
+**はじめに**
 
-A rotary encoder is an input device that converts rotational motion into digital signals. It’s commonly used for navigating menus, adjusting values, or scrolling through items. In this project, you’ll connect a rotary encoder (with an integrated push-button) to a Raspberry Pi via the Fusion HAT+, read rotation steps, and reset the counter with the encoder’s switch.
+ロータリーエンコーダーは、回転運動をデジタル信号に変換する入力デバイスです。メニューの操作、値の調整、項目のスクロールなどによく使用されます。このプロジェクトでは、プッシュボタン内蔵のロータリーエンコーダーをFusion HAT+経由でRaspberry Piに接続し、回転ステップを読み取り、エンコーダーのスイッチでカウンターをリセットする方法を学びます。
 
-This experiment illustrates how to interface a rotary encoder using event callbacks for smooth, low-latency input handling.
+この実験では、イベントコールバックを使用してロータリーエンコーダーを扱う方法を示し、低遅延で滑らかな入力処理を実現します。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-Here are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -39,9 +39,9 @@ Here are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-Below are the schematic diagrams for the project:
+以下はこのプロジェクトの回路図です。
 
 .. image:: img/fzz/2.1.6_rotary_sch.png
    :width: 80%
@@ -49,30 +49,30 @@ Below are the schematic diagrams for the project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the components as shown in the wiring diagram below:
+以下の配線図を参考にして接続してください。
 
 .. image:: img/fzz/2.1.6_rotary_bb.png
    :width: 80%
    :align: center
 
-**Pin Mapping Used in the Example**
+**このサンプルで使用するピン割り当て**
 
 - **CLK** → **GPIO 17**
 - **DT** → **GPIO 4**
-- **SW (button)** → **GPIO 27** (with internal pull-up)
+- **SW（ボタン）** → **GPIO 27** （内部プルアップ使用）
 - **+** → **3.3V**
 - **GND** → **GND**
 
-Ensure that all connections are secure. If your encoder has separate **C (COM)** and **NO/NC** for the switch, connect **C** to GND and **NO** to the SW pin (internal pull-up enabled in software).
+すべての接続が確実であることを確認してください。エンコーダーのスイッチ端子が **C（COM）** と **NO/NC** に分かれている場合は、 **C** をGNDに、 **NO** をSWピンに接続してください（ソフトウェア側で内部プルアップを有効にしています）。
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory.
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順に従ってサンプルを実行してください。
 
 .. raw:: html
 
@@ -83,13 +83,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.12_RotaryEncoder.py
 
-After running the script, rotating the rotary encoder will increase or decrease a counter, and the current counter value is printed to the console in real time. Pressing the encoder’s button resets the counter to zero and displays a reset message. The program keeps running and responding to user input until you press Ctrl + C to exit.
+スクリプトを実行すると、ロータリーエンコーダーを回すたびにカウンターが増減し、現在のカウンター値がリアルタイムでコンソールに表示されます。エンコーダーのボタンを押すとカウンターは0にリセットされ、リセットメッセージが表示されます。プログラムは ``Ctrl + C`` を押して終了するまで動作し続け、ユーザー入力に応答します。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Below is the Python code used for this project:
+以下は、このプロジェクトで使用するPythonコードです。
 
 .. raw:: html
 
@@ -151,20 +151,20 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports**
+1. **インポート**
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       import time
 
-   - ``Pin`` is used to configure and read GPIO pins for the rotary encoder.
-   - ``Mode`` and ``Pull`` define the pin direction and internal pull-up resistors.
-   - ``time`` is used to control polling intervals and button debounce timing.
+   - ``Pin`` は、ロータリーエンコーダー用のGPIOピンを設定・読み取りするために使用します。
+   - ``Mode`` と ``Pull`` は、ピンの入出力設定および内部プルアップ抵抗の設定に使用します。
+   - ``time`` は、ポーリング間隔やボタンのデバウンス時間を制御するために使用します。
 
-2. **GPIO Pin Setup**
+2. **GPIOピンの設定**
 
    .. code-block:: python
 
@@ -176,12 +176,12 @@ Below is the Python code used for this project:
       dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
       sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)
 
-   - ``CLK`` and ``DT`` are the two quadrature signal pins of the rotary encoder.
-   - ``SW`` is the built-in push button of the encoder.
-   - Internal pull-up resistors keep the signal stable when the encoder is idle.
-   - The button is active LOW and reads ``0`` when pressed.
+   - ``CLK`` と ``DT`` は、ロータリーエンコーダーの2つの位相信号ピンです。
+   - ``SW`` は、エンコーダー内蔵のプッシュボタンです。
+   - 内部プルアップ抵抗により、エンコーダーが操作されていないときでも信号を安定させます。
+   - ボタンはアクティブLOWで、押されると ``0`` を読み取ります。
 
-3. **State Variables**
+3. **状態変数**
 
    .. code-block:: python
 
@@ -189,11 +189,11 @@ Below is the Python code used for this project:
       last_clk = clk.value()
       last_detent = None
 
-   - ``raw`` counts low-level quadrature transitions from the encoder.
-   - ``last_clk`` stores the previous CLK state to detect signal changes.
-   - ``last_detent`` keeps track of the last displayed counter value to avoid repeated output.
+   - ``raw`` は、エンコーダーの低レベルな位相信号の変化回数を記録します。
+   - ``last_clk`` は、信号変化を検出するために前回のCLK状態を保持します。
+   - ``last_detent`` は、同じ値の再表示を防ぐために最後に表示したカウンター値を記録します。
 
-4. **Rotation Detection**
+4. **回転の検出**
 
    .. code-block:: python
 
@@ -201,31 +201,31 @@ Below is the Python code used for this project:
       if c != last_clk:
           raw += 1 if dt.value() != c else -1
 
-   - The script continuously polls the CLK pin.
-   - A change in CLK indicates encoder movement.
-   - The rotation direction is determined by comparing DT with CLK.
+   - スクリプトはCLKピンを継続的にポーリングします。
+   - CLKの状態変化は、エンコーダーが回転したことを意味します。
+   - 回転方向は、DTとCLKの状態を比較して判定します。
 
-5. **Detent (Click) Calculation**
+5. **デテント（クリック）の計算**
 
    .. code-block:: python
 
       detent = raw // 2
 
-   - Most rotary encoders generate two signal transitions per physical click.
-   - Dividing by 2 converts raw transitions into clean detent counts.
+   - 多くのロータリーエンコーダーは、物理的な1クリックごとに2回の信号変化を出力します。
+   - そのため、2で割ることで生の変化回数を実際のクリック数に変換しています。
 
-6. **Clean Console Output**
+6. **見やすいコンソール出力**
 
    .. code-block:: python
 
       if detent != last_detent:
           print(f"\\rCounter: {detent}   ", end="", flush=True)
 
-   - Output is updated only when the counter value changes.
-   - ``\\r`` moves the cursor back to the beginning of the line for in-place updates.
-   - ``flush=True`` ensures immediate display on the terminal.
+   - カウンター値が変化したときだけ表示を更新します。
+   - ``\\r`` はカーソルを行頭に戻し、その場で表示を更新するために使用します。
+   - ``flush=True`` により、端末へ即座に表示を反映します。
 
-7. **Button Reset Handling**
+7. **ボタンによるリセット処理**
 
    .. code-block:: python
 
@@ -235,47 +235,47 @@ Below is the Python code used for this project:
           print("\\rCounter: 0   ", end="", flush=True)
           time.sleep(0.25)
 
-   - Pressing the button resets the counter to zero.
-   - A short delay is used for button debounce to prevent multiple triggers.
+   - ボタンを押すとカウンターが0にリセットされます。
+   - チャタリングによる多重入力を防ぐため、短い待機時間を入れています。
 
-8. **Polling Interval and Program Exit**
+8. **ポーリング間隔とプログラム終了**
 
    .. code-block:: python
 
       time.sleep(0.001)
 
-   - A 1 ms polling delay balances responsiveness and CPU usage.
-   - Pressing ``Ctrl + C`` exits the program gracefully.
+   - 1msのポーリング間隔により、応答性とCPU負荷のバランスを取っています。
+   - ``Ctrl + C`` を押すことで、プログラムを安全に終了できます。
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **No Output on Rotation**
+1. **回しても出力されない**
 
-   - **Cause**: Miswired CLK/DT or poor ground connection.
-   - **Solution**: Verify **CLK→GPIO17**, **DT→GPIO4**, **GND common**. Ensure 3.3V supply is correct (do **not** use 5V encoders directly on GPIO).
+   - **原因**: CLK/DTの配線ミス、またはGND接続不良。
+   - **対処方法**: **CLK→GPIO17**、**DT→GPIO4**、**GND共通** を確認してください。電源は3.3Vを使用し、5V出力のエンコーダーをGPIOに直接接続しないでください。
 
-2. **Counter Jumps Erratically (Bounces/Noise)**
+2. **カウンター値が不安定に飛ぶ（チャタリング／ノイズ）**
 
-   - **Cause**: Mechanical bounce or long wires picking up noise.
-   - **Solution**: Keep wires short and twisted as a pair if possible; add small capacitors (e.g., 0.01–0.1 µF) from CLK/DT to GND if needed; enable any available debounce options in your library version.
+   - **原因**: 機械的なチャタリング、または長い配線によるノイズ。
+   - **対処方法**: 配線はできるだけ短くし、可能であればツイストペアにしてください。必要に応じてCLK/DTとGNDの間に小容量コンデンサ（例：0.01〜0.1 µF）を追加してください。また、使用しているライブラリにデバウンス機能があれば有効にしてください。
 
-3. **Button Not Detected**
+3. **ボタンが検出されない**
 
-   - **Cause**: Switch contacts wired to 3.3V instead of GND or pull-up misconfiguration.
-   - **Solution**: Ensure **SW** connects to **GND** when pressed; confirm ``pull=Pin.PULL_UP`` is set.
+   - **原因**: スイッチ接点がGNDではなく3.3V側に接続されている、またはプルアップ設定が誤っている。
+   - **対処方法**: ボタンを押したときに **SW** が **GND** に接続される構成になっていることを確認し、``pull=Pin.PULL_UP`` が設定されていることを確認してください。
 
-4. **Direction Reversed**
+4. **回転方向が逆になる**
 
-   - **Cause**: CLK and DT swapped relative to your desired direction.
-   - **Solution**: Swap the **CLK** and **DT** wires or invert at the application layer (e.g., subtract steps).
+   - **原因**: CLKとDTの接続が意図した方向と逆になっている。
+   - **対処方法**: **CLK** と **DT** の配線を入れ替えるか、アプリケーション側で増減方向を反転させてください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Adjust a Variable (e.g., Volume/Brightness) Smoothly**
+1. **変数を滑らかに調整する（例：音量／明るさ）**
 
    .. code-block:: python
 
@@ -285,7 +285,7 @@ Below is the Python code used for this project:
           value = max(0, min(100, 50 + encoder.steps()))
           print(f'Value = {value}')
 
-2. **Use the Button to Toggle a Mode**
+2. **ボタンでモードを切り替える**
 
    .. code-block:: python
 
@@ -297,7 +297,7 @@ Below is the Python code used for this project:
           encoder.reset()
           print(f'Mode switched to: {mode[idx]}')
 
-3. **LED/Buzzer Feedback**
+3. **LED／ブザーによるフィードバック**
 
    .. code-block:: python
 
@@ -309,12 +309,12 @@ Below is the Python code used for this project:
           # brief flash without blocking callbacks is recommended
           led.off()
 
-4. **Long-Press to Perform a Special Action**
+4. **長押しで特別な動作を実行する**
 
-   - Track press duration using timestamps in ``sw.when_activated`` and (if available) ``sw.when_deactivated`` to trigger different actions for short/long presses.
+   - ``sw.when_activated`` や（利用可能であれば） ``sw.when_deactivated`` でタイムスタンプを記録し、短押しと長押しで異なる動作を実装できます。
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This experiment shows how to read a rotary encoder and its integrated button using event-driven callbacks on the Fusion HAT+. With this pattern, you can build responsive interfaces such as menu navigators, dial-controlled settings, and jog wheels for real-time control in your Raspberry Pi projects.
+この実験では、Fusion HAT+上でロータリーエンコーダーとその内蔵ボタンを使用し、イベント駆動型のコールバックで入力を読み取る方法を学びました。この方法を使えば、Raspberry Piプロジェクトにおいて、メニュー操作、ダイヤル式の設定変更、リアルタイム制御用のジョグホイールなど、応答性の高いインターフェースを構築できます。

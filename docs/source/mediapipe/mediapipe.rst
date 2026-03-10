@@ -4,10 +4,10 @@
 
 .. _play_with_mediapipe:
 
-Play with MediaPipe (AI Vision Models)
+MediaPipe で遊ぼう（AI ビジョンモデル）
 ==================================================
 
-This section is about how to use MediaPipe.
+このセクションでは、MediaPipe の使い方を紹介します。
 
 .. toctree::
    :maxdepth: 1

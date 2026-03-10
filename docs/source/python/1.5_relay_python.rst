@@ -4,25 +4,25 @@
 
 .. _py_relay:
 
-1.5 Relay Control
+1.5 リレー制御
 ===========================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to control a relay module using a Raspberry Pi. Relays are electrically operated switches that allow low-power circuits to control high-power devices safely. This project demonstrates how to toggle a relay on and off at regular intervals.
+このプロジェクトでは、Raspberry Pi を使ってリレーモジュールを制御する方法を学びます。リレーは電気的に動作するスイッチであり、低電力回路から高電力デバイスを安全に制御できます。このプロジェクトでは、一定間隔でリレーをオン・オフする基本動作を確認します。
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完成させるには、以下の部品が必要です。
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 部品
+        - 購入リンク
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
     *   - :ref:`cpn_wires`
@@ -44,17 +44,17 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The GPIO signal passes through a 1 kΩ resistor to the transistor base, allowing the transistor to switch the relay coil on and off. When GPIO17 outputs HIGH, the transistor turns on, current flows through the relay coil, the relay activates, and the LED (through the 220 Ω resistor) lights up. When GPIO17 outputs LOW, the transistor turns off, the relay coil is de-energized, the relay releases, and the LED turns off. A flyback diode is placed across the relay coil to protect the circuit from voltage spikes.
+GPIO 信号は 1 kΩ 抵抗を介してトランジスタのベースに入力され、これによりトランジスタがリレーコイルのオン・オフを切り替えます。GPIO17 が HIGH を出力するとトランジスタが導通し、リレーコイルに電流が流れてリレーが動作し、LED も 220 Ω 抵抗を介して点灯します。GPIO17 が LOW を出力するとトランジスタはオフになり、リレーコイルへの通電が止まり、リレーは復帰し、LED も消灯します。さらに、リレーコイルには逆起電力による電圧スパイクから回路を保護するため、フライバックダイオードが接続されています。
 
 .. image:: img/fzz/1.3.3_relay_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の図を参考にして回路を組み立ててください。
 
 
 .. image:: img/fzz/1.3.3_relay_bb.png
@@ -63,10 +63,10 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルプログラムの実行**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに用意されています。  
+以下の手順でサンプルを実行してください。
 
 .. raw:: html
 
@@ -77,13 +77,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.5_Relay.py 
 
-After running the script, the relay connected to GPIO 17 repeatedly switches on and off every second. When the relay is turned on, the console displays “Relay open…”, and when it is turned off, “…Relay close” is shown. This cycle continues until you press Ctrl + C, at which point the program stops and the relay is safely turned off.
+スクリプトを実行すると、GPIO 17 に接続されたリレーが 1 秒ごとにオン・オフを繰り返します。リレーがオンになるとコンソールには ``Relay open...`` と表示され、オフになると ``...Relay close`` と表示されます。この動作は ``Ctrl + C`` を押すまで繰り返され、停止時にはプログラムが終了し、リレーは安全にオフになります。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code controls a relay module, toggling it on and off:
+以下の Python コードは、リレーモジュールを制御してオン・オフを繰り返します。
 
 .. raw:: html
 
@@ -115,38 +115,38 @@ The following Python code controls a relay module, toggling it on and off:
         pass
 
 
-This Python script controls a relay module connected to GPIO pin 17. When executed:
+この Python スクリプトは GPIO ピン 17 に接続されたリレーモジュールを制御します。実行すると、次のように動作します。
 
-1. The script enters an infinite loop that toggles the relay state every second
-2. When the relay is activated (HIGH), "Relay open..." is printed to the console
-3. When the relay is deactivated (LOW), "...Relay close" is printed to the console
-4. The program can be interrupted gracefully using ``Ctrl+C``, which ensures the relay is turned off before exiting
+1. スクリプトは無限ループに入り、1 秒ごとにリレーの状態を切り替えます。
+2. リレーが有効化される（HIGH）と、コンソールに ``Relay open...`` と表示されます。
+3. リレーが無効化される（LOW）と、コンソールに ``...Relay close`` と表示されます。
+4. ``Ctrl+C`` によって安全に中断でき、その際は終了前に必ずリレーがオフになります。
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``Pin`` class from the ``fusion_hat`` library is used to control GPIO pins, and ``time.sleep`` introduces delays between state changes.
+   ``fusion_hat`` ライブラリの ``Pin`` クラスを使って GPIO ピンを制御し、 ``time.sleep`` を使って状態の切り替え間に待ち時間を入れています。
 
    .. code-block:: python
 
         from fusion_hat.pin import Pin, Mode
         from time import sleep  # Import the sleep function for delay
 
-2. **Relay Initialization**
+2. **リレーの初期化**
 
-   The relay is initialized on GPIO pin 17 and set to output mode.
+   リレーは GPIO ピン 17 に接続され、出力モードとして初期化されます。
 
    .. code-block:: python
 
       # Initialize the relay connected to GPIO pin 17
       relay = Pin(17,mode=Mode.OUT)
 
-3. **Main Control Loop**
+3. **メイン制御ループ**
 
-   The ``while True`` loop continuously toggles the relay state with 1-second intervals.
+   ``while True`` ループの中で、1 秒間隔でリレーの状態を切り替え続けます。
 
    .. code-block:: python
 
@@ -159,9 +159,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
           relay.low()  # Turn off the relay
           sleep(1)   # Maintain the relay in the off state for 1 second
 
-4. **Keyboard Interrupt Handling**
+4. **キーボード割り込み処理**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C), and turns off the relay before exiting.
+   ``try-except`` ブロックにより、 ``Ctrl+C`` などでプログラムを中断しても安全に終了でき、終了前にリレーをオフにします。
 
    .. code-block:: python
 
@@ -172,30 +172,30 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Relay Not Responding**
+1. **リレーが反応しない**
 
-   - **Cause**: Incorrect wiring or wrong GPIO pin configuration.
-   - **Solution**: Verify all connections match the wiring diagram and confirm GPIO 17 is correctly specified.
+   - **原因**：配線ミス、または GPIO ピンの設定が誤っている。  
+   - **対処方法**：すべての接続が配線図どおりになっているか確認し、GPIO 17 が正しく指定されていることを確認してください。
 
-2. **Relay Stays On or Off**
+2. **リレーが常にオン、またはオフのままになる**
 
-   - **Cause**: Logic level mismatch or power supply issues.
-   - **Solution**: Ensure the relay module is compatible with 3.3V logic levels and check that the power supply is adequate.
+   - **原因**：ロジックレベルの不一致、または電源供給の問題。  
+   - **対処方法**：リレーモジュールが 3.3V ロジックに対応していることを確認し、十分な電源が供給されているか確認してください。
 
-3. **Program Doesn't Exit Cleanly**
+3. **プログラムが正常に終了しない**
 
-   - **Cause**: Keyboard interrupt not properly handled.
-   - **Solution**: Make sure to use ``Ctrl+C`` to terminate the program and check that the exception handling code is present.
+   - **原因**：キーボード割り込みが正しく処理されていない。  
+   - **対処方法**： ``Ctrl+C`` でプログラムを終了し、例外処理コードが正しく含まれていることを確認してください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**発展アイデア**
 
-1. **Scheduled Control**
+1. **スケジュール制御**
 
-   Modify the code to control the relay based on a schedule, turning it on and off at specific times:
+   コードを変更して、特定の時刻にリレーをオン・オフするようにできます。
 
    .. code-block:: python
 
@@ -208,9 +208,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
       else:
           relay.low()
 
-2. **Sensor-Activated Control**
+2. **センサー連動制御**
 
-   Connect a sensor (like a temperature or motion sensor) and control the relay based on sensor readings:
+   温度センサーや人感センサーなどを接続し、その読み取り値に応じてリレーを制御できます。
 
    .. code-block:: python
 
@@ -220,9 +220,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
       else:
           relay.low()   # Turn off cooling device
 
-3. **Multiple Relay Control**
+3. **複数リレーの制御**
 
-   Expand the project to control multiple relays simultaneously:
+   このプロジェクトを拡張して、複数のリレーを同時に制御することもできます。
 
    .. code-block:: python
 
@@ -239,6 +239,6 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to control a relay module using a Raspberry Pi. Relays are fundamental components in home automation, industrial control systems, and IoT applications. By mastering relay control, you can interface low-voltage circuits with high-power devices safely and effectively.
+このプロジェクトでは、Raspberry Pi を使ってリレーモジュールを制御する方法を学びました。リレーはホームオートメーション、産業用制御システム、IoT アプリケーションにおける基本的な部品です。リレー制御を習得することで、低電圧回路から高電力デバイスを安全かつ効果的に操作できるようになります。

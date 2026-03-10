@@ -4,18 +4,18 @@
 
 .. _cpn_list:
 
-Components
+コンポーネント
 ================================================
 
-.. After opening the package, please check whether the quantity of components is compliance with product description and whether all components are in good condition.
+.. パッケージを開封した後、コンポーネントの数量が製品説明と一致しているか、またすべてのコンポーネントが良好な状態であるかをご確認ください。
 
 .. .. image:: img/list.png
 ..     :width: 800
 
-Below is the introduction to each component, which contains the operating principle of the component and the corresponding projects.
+以下では、各コンポーネントについて紹介します。各項目には、コンポーネントの動作原理および対応するプロジェクトが含まれています。
 
 
-**Basic**
+**基本部品**
 
 .. toctree::
     :maxdepth: 1
@@ -29,14 +29,14 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_wires
     ../_shared/component/cpn_battery_3pin
 
-**Chip**
+**チップ**
 
 .. toctree::
     :maxdepth: 1
 
     ../_shared/component/cpn_74hc595
 
-**Display**
+**表示モジュール**
 
 .. toctree::
     :maxdepth: 1
@@ -48,14 +48,14 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_ws2812_module
 
 
-**Sound**
+**サウンド**
 
 .. toctree::
     :maxdepth: 1
 
     ../_shared/component/cpn_buzzer
 
-**Driver**
+**ドライバー**
 
 .. toctree::
     :maxdepth: 1
@@ -65,7 +65,7 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_relay_6pin
     
 
-**Controller**
+**コントローラー**
 
 .. toctree::
     :maxdepth: 1
@@ -76,7 +76,7 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_potentiometer
     ../_shared/component/cpn_joystick_module
 
-**Sensor**
+**センサー**
 
 .. toctree::
     :maxdepth: 1

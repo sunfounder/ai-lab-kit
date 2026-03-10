@@ -4,18 +4,18 @@
 
 .. _py_motor:
 
-1.6 Motor
-=============
+1.6 モーター
+================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to use the Fusion HAT+ to control a DC motor, making it rotate clockwise and counterclockwise.
+このプロジェクトでは、Fusion HAT+ を使用して DC モーターを制御し、時計回りおよび反時計回りに回転させる方法を学びます。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, you will need the following components:
+このプロジェクトを完了するには、以下のコンポーネントが必要です。
 
 .. list-table::
    :widths: 30 20
@@ -34,9 +34,9 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The circuit diagram below shows the connections required to control the motor.
+以下の回路図は、モーターを制御するために必要な接続を示しています。
 
 .. image:: img/fzz/1.3.1_sch.png
    :width: 80%
@@ -45,7 +45,7 @@ The circuit diagram below shows the connections required to control the motor.
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
 
 .. image:: img/fzz/1.3.1_bb.png
@@ -56,11 +56,11 @@ The circuit diagram below shows the connections required to control the motor.
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに用意されています。  
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -72,13 +72,15 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 1.6_Motor.py
 
-After running the script, the motor connected to port M0 repeatedly starts and stops in a loop. It first stops for 0.5 seconds, then runs at −50% power for 1 second, stops again for 0.5 seconds, and finally runs at 75% power for 1 second. This sequence repeats continuously. When the program exits, the motor is safely stopped.
+スクリプトを実行すると、ポート M0 に接続されたモーターがループ動作で開始と停止を繰り返します。  
+まず 0.5 秒間停止し、その後 −50% の出力で 1 秒間回転します。続いて再び 0.5 秒停止し、最後に 75% の出力で 1 秒間回転します。  
+このシーケンスは継続的に繰り返されます。プログラム終了時には、モーターは安全に停止します。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-The following Python code controls the motor’s rotation direction and timing:
+以下の Python コードは、モーターの回転方向と動作タイミングを制御します。
 
 
 .. raw:: html
@@ -120,28 +122,28 @@ The following Python code controls the motor’s rotation direction and timing:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Import**
+1. **ライブラリのインポート**
 
-   The ``fusion_hat`` library simplifies GPIO interactions, while the ``time`` library provides delay functions.
+   ``fusion_hat`` ライブラリは GPIO の操作を簡素化し、``time`` ライブラリは待機時間（ディレイ）を提供します。
 
    .. code-block:: python
 
       from time import sleep
       from fusion_hat.motor import Motor
 
-2. **Motor Initialization**
+2. **モーターの初期化**
 
-   The ``Motor`` object is created using M0 pins.
+   ``Motor`` オブジェクトは M0 ピンを使用して作成されます。
 
    .. code-block:: python
 
       motor = Motor('M0', is_reversed=True)
 
-3. **Motor Actions**
+3. **モーターの動作**
 
-   The motor speed is set to 0, -50, and 75, respectively. The ``sleep`` function pauses the program for a specified duration.
+   モーターの速度はそれぞれ 0、-50、75 に設定されています。``sleep`` 関数は指定した時間だけプログラムを一時停止させます。
 
    .. code-block:: python
 
@@ -162,32 +164,32 @@ The following Python code controls the motor’s rotation direction and timing:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Motor Does Not Move**  
+1. **モーターが動作しない**  
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the motor is receiving power and the enable pin is connected properly.
+   - **原因**: 配線の誤り、または GPIO ピン設定の不備。  
+   - **解決方法**: モーターに電源が供給されているか、また有効化（Enable）ピンが正しく接続されているかを確認してください。
 
-2. **Only One Direction Works**
+2. **一方向にしか回転しない**
 
-   - **Cause**: Faulty connection to the forward or backward pin.  
-   - **Solution**: Ensure the pins are securely connected to the Fusion HAT+.
+   - **原因**: 正転または逆転用ピンの接続不良。  
+   - **解決方法**: 各ピンが Fusion HAT+ にしっかり接続されていることを確認してください。
 
-3. **Motor Spins Continuously Without Stopping**  
+3. **モーターが停止せず回転し続ける**  
 
-   - **Cause**: The ``stop()`` function may not be executed properly.  
-   - **Solution**: Confirm that the ``motor.stop()`` method is called.
+   - **原因**: ``stop()`` 関数が正しく実行されていない可能性があります。  
+   - **解決方法**: ``motor.stop()`` メソッドが呼び出されていることを確認してください。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
 
-1. **User-Controlled Actions**  
+1. **ユーザー操作による制御**  
 
-   Allow the user to control the motor in real-time via keyboard input:
+   キーボード入力を使用して、ユーザーがリアルタイムでモーターを制御できるようにします。
 
    .. code-block:: python
 
@@ -199,9 +201,9 @@ The following Python code controls the motor’s rotation direction and timing:
             print("Invalid action!")
 
 
-3. **Timed Motor Control**  
+3. **時間指定によるモーター制御**  
 
-   Add functionality to run the motor for a user-specified duration:
+   ユーザーが指定した時間だけモーターを動作させる機能を追加します。
 
    .. code-block:: python
 
@@ -213,6 +215,7 @@ The following Python code controls the motor’s rotation direction and timing:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to control a DC motor using the Fusion HAT+. Understanding motor control is essential for building robotics and other motion-based electronic projects.
+このプロジェクトでは、Fusion HAT+ を使用して DC モーターを制御する方法を紹介しました。  
+モーター制御の理解は、ロボットや動作を伴う電子プロジェクトを構築するうえで非常に重要な基礎となります。

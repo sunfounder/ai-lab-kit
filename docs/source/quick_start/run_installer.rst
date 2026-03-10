@@ -5,17 +5,17 @@
 
 .. _install_all_modules:
 
-Configure Power & Install Software (Important)
+電源設定とソフトウェアのインストール（重要）
 ================================================================
 
-In this chapter, you’ll install the related software, configure audio, set up safe power management and learn how to handle shutdowns.
+この章では、関連するソフトウェアのインストール、オーディオ設定、安全な電源管理の構成、そして安全なシャットダウン方法について学びます。
 
 
 .. _download_code:
 
-Download Sample Code
+サンプルコードのダウンロード
 ---------------------------------
-Download the complete set of example code for the kit:
+このキットで使用するすべてのサンプルコードをダウンロードします：
 
    .. raw:: html
 

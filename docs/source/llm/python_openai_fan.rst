@@ -4,18 +4,18 @@
 
 .. _py_voice_controlled_fan:
 
-(Example) Voice-Controlled Smart Fan
+(Example) 音声操作スマートファン
 ==================================================
 
-**Introduction**
+**はじめに**
 
-This project creates an intelligent **Voice-Controlled Smart Fan** that combines speech recognition, AI processing, and motor control. The system allows users to control fan speed using natural voice commands and provides multiple control methods:
+このプロジェクトでは、音声認識、AI処理、モーター制御を組み合わせたインテリジェントな **音声操作スマートファン** を作成します。自然な音声コマンドでファンの回転速度を制御でき、複数の操作方法に対応します：
 
-1. **Voice Commands** using speech-to-text for hands-free operation
-2. **Physical Button** for manual speed adjustment
-3. **AI Interpretation** using OpenAI's GPT to understand natural language
-4. **Auditory Feedback** with a buzzer for button presses
-5. **Dual Control Interface** supporting both voice and physical interaction
+1. speech-to-text による **音声コマンド** （ハンズフリー操作）
+2. **物理ボタン** による手動の速度調整
+3. OpenAI の GPT を用いた **AI解釈** （自然言語理解）
+4. ボタン操作を知らせる **ブザーによる音声フィードバック**
+5. 音声と物理操作の両方に対応する **デュアル操作インターフェース**
 
 .. raw:: html
 
@@ -24,9 +24,9 @@ This project creates an intelligent **Voice-Controlled Smart Fan** that combines
           Your browser does not support the video tag.
       </video>
 
-The smart fan understands commands like "make it faster," "slow down please," or "turn off the fan" and responds with appropriate actions and verbal confirmation.
+スマートファンは「make it faster」「slow down please」「turn off the fan」のような指示を理解し、適切な動作と音声での確認応答を返します。
 
-You can combine various input and output modules to create voice-controlled smart devices. See:
+さまざまな入出力モジュールを組み合わせることで、音声操作対応のスマートデバイスを作成できます。以下を参照してください：
 
 * :ref:`py_online_llm` 
 * :ref:`py_stt_whisper`
@@ -34,9 +34,9 @@ You can combine various input and output modules to create voice-controlled smar
 
 ----------------------------------------------
 
-**What You'll need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -59,9 +59,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the components to the Fusion HAT+ as follows:
+以下のように部品を Fusion HAT+ に接続します：
 
 .. image:: img/fzz/llm_fan_bb.png
    :width: 80%
@@ -75,10 +75,10 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**サンプルの実行**
 
 
-#. Run the code
+#. コードを実行する
 
    .. raw:: html
 
@@ -89,29 +89,29 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_fan.py
 
-#. Control the fan
+#. ファンを操作する
 
-   You can control the fan using voice commands, the button, or natural language.
+   音声コマンド、ボタン、または自然言語でファンを制御できます。
 
-   * Voice Commands:
+   * 音声コマンド：
 
-     - "Make it faster" / "Increase speed" → Sets to maximum (100%)
-     - "Slow down" / "Reduce speed" → Sets to low (25%)
-     - "Medium speed please" → Sets to medium (50%)
-     - "Turn off" / "Stop" → Stops motor (0%)
-     - "What's the current speed?" → Reports current speed
-     - "Make it cooler" → Interprets as a request for higher speed
+     - "Make it faster" / "Increase speed" → 最大（100%）に設定
+     - "Slow down" / "Reduce speed" → 低速（25%）に設定
+     - "Medium speed please" → 中速（50%）に設定
+     - "Turn off" / "Stop" → モーター停止（0%）
+     - "What's the current speed?" → 現在の速度を報告
+     - "Make it cooler" → より高速にしたい意図として解釈
 
-   * Button Control:
+   * ボタン操作：
 
-     - Each press increases speed by 10%
-     - At 100%, the next press cycles back to 0%
-     - An audible beep confirms each press
-     - The current speed percentage is displayed on screen
+     - 押すたびに速度を 10% 上げる
+     - 100% の次は 0% に戻ってサイクルする
+     - 押下ごとにビープ音で確認できる
+     - 現在の速度（%）が画面に表示される
 
-   * Natural Language Understanding:
+   * 自然言語理解：
 
-     The AI can also understand variations such as:
+     AI は次のような言い回しの違いも理解できます：
 
      - "I'm feeling hot, can you make it faster?"
      - "Could you please turn the fan down a bit?"
@@ -120,9 +120,9 @@ Connect the components to the Fusion HAT+ as follows:
 
 --------
 
-**Code**
+**コード**
 
-Here is the full Python script for the Voice-Controlled Smart Fan:
+以下は音声操作スマートファンの Python スクリプト全体です：
 
 .. raw:: html
 
@@ -327,11 +327,11 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. Speech-to-Text Initialization
+1. Speech-to-Text の初期化
 
-   The system uses STT (Speech-to-Text) for voice recognition:
+   システムは音声認識に STT（Speech-to-Text）を使用します：
    
    .. code-block:: python
    
@@ -343,11 +343,11 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
           else:
               print(f"partial: {result['partial']}")
 
-   This provides real-time speech recognition with partial results as you speak.
+   話している途中の partial 結果も返すため、リアルタイムの音声認識が可能です。
 
-2. Motor Control Setup
+2. モーター制御の設定
 
-   The fan motor is controlled via PWM on port M0:
+   ファンモーターは M0 ポートの PWM で制御します：
    
    .. code-block:: python
    
@@ -359,9 +359,9 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
       # Stop the motor completely
       motor.stop()
 
-3. Button with Debounce
+3. デバウンス付きボタン
 
-   The button includes debounce to prevent multiple triggers:
+   ボタンは多重検出を防ぐデバウンスを実装しています：
    
    .. code-block:: python
    
@@ -374,9 +374,9 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               return
           last_triggered = time.time()
 
-4. Auditory Feedback
+4. 音によるフィードバック
 
-   A buzzer provides audible confirmation:
+   ブザーで押下を音で確認できます：
    
    .. code-block:: python
    
@@ -387,9 +387,9 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
           time.sleep(0.1)
           buzzer.off()
 
-5. Keyword Parsing Function
+5. キーワード解析関数
 
-   The system parses AI responses for speed commands:
+   AI の応答から速度指示を抽出します：
    
    .. code-block:: python
    
@@ -408,18 +408,18 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
           
           return -1  # No speed change
 
-6. Contextual Input to AI
+6. AI へのコンテキスト入力
 
-   The current speed is included in the prompt for context-aware responses:
+   現在速度をプロンプトに含め、状況に応じた返答を引き出します：
    
    .. code-block:: python
    
       contextual_input = f"Current speed is {speed}%. User says: {input_text}"
       response = llm.prompt(contextual_input, stream=True)
 
-7. Streaming Response Processing
+7. ストリーミング応答の処理
 
-   AI responses are processed word-by-word:
+   AI の応答は単語単位で受け取り、逐次処理します：
    
    .. code-block:: python
    
@@ -429,9 +429,9 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               print(next_word, end="", flush=True)
               full_response += next_word
 
-8. Dual Control Logic
+8. デュアル操作ロジック
 
-   The system supports both voice and button control:
+   音声操作とボタン操作の両方をサポートします：
    
    .. code-block:: python
    
@@ -448,22 +448,22 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               speed = 0
           motor.power(speed)
 
-9. Clear Terminal Output
+9. 見やすいターミナル表示
 
-   Uses ANSI escape codes for clean console display:
+   ANSI エスケープコードでコンソール表示を整えています：
    
    .. code-block:: python
    
       print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
       
-   - ``\r``: Carriage return (go to start of line)
-   - ``\x1b[K``: Clear from cursor to end of line
-   - ``end=""``: No newline
-   - ``flush=True``: Immediate display
+   - ``\r``: 行頭に戻る（キャリッジリターン）
+   - ``\x1b[K``: カーソル位置から行末まで消去
+   - ``end=""``: 改行しない
+   - ``flush=True``: 即時表示
 
-10. Intelligent AI Instructions
+10. AI への明確な指示
 
-    The AI is specifically instructed to be decisive and avoid clarification questions:
+    AI には「即断即決」し、確認質問をしないように明示しています：
     
     .. code-block:: python
     
@@ -477,52 +477,52 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-- Motor not spinning
+- モーターが回らない
 
-  - Verify motor connections: M0 port, correct polarity
-  - Test motor directly: ``motor.power(50)`` should spin at 50%
-  - Ensure speed variable is being set (0-100 range)
+  - 配線を確認：M0 ポート、極性が正しいか
+  - 直接テスト： ``motor.power(50)`` で 50% 回転するはずです
+  - speed 変数が 0〜100 の範囲で設定されているか確認してください
 
-- Button not responding
+- ボタンが反応しない
 
-  - Check wiring: GPIO 17 to button, other side to 3.3V
-  - Verify pull-up configuration
-  - Test with simple script: print when button state changes
-  - Check debounce time (0.5 seconds may be too long)
+  - 配線を確認：GPIO 17 → ボタン、もう片側 → 3.3V
+  - pull-up 設定を確認してください
+  - 簡易スクリプトで状態変化時に print できるか確認してください
+  - デバウンス時間を確認（0.5 秒は長すぎる場合があります）
 
-- No buzzer sound
+- ブザーが鳴らない
 
-  - Test buzzer directly: ``buzzer.on()`` should produce continuous tone
-  - Check if buzzer is piezo (needs PWM) or active (works with DC)
+  - 直接テスト： ``buzzer.on()`` で連続音が出るはずです
+  - ブザーがピエゾ（PWM が必要）か、アクティブ（DC で動作）かを確認してください
 
-- AI not understanding commands
+- AI が指示を理解しない
 
-  - Check API key in ``secret.py``
-  - Verify internet connection
-  - Examine AI instructions: ensure they're properly formatted
-  - Test with simpler commands first
+  - ``secret.py`` の API キーを確認してください
+  - インターネット接続を確認してください
+  - AI の instructions が正しく整形されているか確認してください
+  - まずは簡単な指示で動作確認してください
 
-- Speed changes unexpectedly
+- 速度が意図せず変わる
 
-  - Check button debounce: may be triggering multiple times
-  - Verify keyword parsing: some phrases may trigger unintended speeds
-  - Add print statements to trace speed changes
+  - ボタンのデバウンス：複数回トリガーされていないか
+  - キーワード解析：特定フレーズが誤判定を起こしていないか
+  - print を追加して speed 変更の経路を追跡してください
 
-- Poor speech recognition accuracy
+- 音声認識の精度が低い
 
-  - Reduce background noise
-  - Speak clearly and at moderate pace
-  - Consider using external USB microphone for better quality
-  - Adjust STT parameters if available
+  - 周囲のノイズを減らしてください
+  - はっきり、適度な速さで話してください
+  - より高品質な外付け USB マイクの使用も検討してください
+  - STT のパラメータを調整できる場合は調整してください
 
-- Motor makes noise but doesn't spin
+- モーターが鳴るが回らない
 
-  - Check if motor is stuck or blocked
-  - Verify power supply voltage matches motor requirements
-  - Some motors need capacitor across terminals for smooth operation
+  - モーターが物理的に詰まっていないか確認してください
+  - 電源電圧がモーターの要件に合っているか確認してください
+  - モーターによっては端子間にコンデンサが必要な場合があります
 
 ----------------------------------------------
 
-This voice-controlled fan demonstrates how natural language processing, physical controls, and intelligent systems can create intuitive and accessible smart home devices that respond to human needs and preferences!
+この音声操作ファンは、自然言語処理、物理操作、インテリジェントな制御を組み合わせることで、人の意図に合わせて直感的に動作するスマートデバイスを実現できることを示しています。使いやすさとアクセシビリティを両立したスマートホームの一例として活用できます！

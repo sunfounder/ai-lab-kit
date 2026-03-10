@@ -4,20 +4,20 @@
 
 .. _py_pir:
 
-2.7 PIR Sensor
+2.7 PIRセンサー
 =================
 
-**Introduction**
+**はじめに**
 
-The Passive Infrared (PIR) sensor is a motion detection device that senses infrared radiation emitted by humans and animals. In this project, we will use the PIR sensor to detect motion.
+Passive Infrared（PIR）センサーは、人や動物から放射される赤外線を検知するモーション検出デバイスです。このプロジェクトでは、PIRセンサーを使用して動きを検出する方法を学びます。
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-Below are the components required for this project:
+このプロジェクトに必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -39,9 +39,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**回路図**
 
-Below is the schematic diagram for this project:
+以下は、このプロジェクトの回路図です。
 
 .. image:: img/fzz/2.2.6_sch.png
 
@@ -49,19 +49,19 @@ Below is the schematic diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Build the circuit as shown in the diagram below:
+以下の図を参考にして回路を組み立ててください。
 
 .. image:: img/fzz/2.2.6_bb.png
    :width: 80%
    :align: center
 
-Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per the schematic.
+回路図に従って、RGB LEDとPIRセンサーが正しいGPIOピンに接続されていることを確認してください。
 
 .. note::
 
-   Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
+   PIRモジュール上の2つの可変抵抗を調整して、感度と検出距離を最適化してください。最良の結果を得るには、両方を反時計回りに回して最大設定にしてください。
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 200
@@ -69,11 +69,11 @@ Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per 
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -85,21 +85,21 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.7_PIR.py
 
-This Python script monitors a PIR (Passive Infrared) motion sensor based on motion detection. When executed:
+このPythonスクリプトは、PIR（Passive Infrared）モーションセンサーを使用して動きを監視します。実行すると、次のように動作します。
 
-1. **When Motion is Detected**: Prints "Detected Barrier!" to the console.
+1. **動きが検出された場合**: コンソールに ``"Detected Barrier!"`` と表示されます。
 
-2. **When No Motion is Detected**: Prints "No Barrier" to the console.
+2. **動きが検出されない場合**: コンソールに ``"No Barrier"`` と表示されます。
 
-3. The program runs indefinitely, waiting for motion events. It can be terminated by pressing Ctrl+C.
+3. プログラムは継続的に動作し、モーションイベントを待機します。``Ctrl+C`` を押すことで終了できます。
 
 
 ----------------------------------------------
 
 
-**Code**
+**コード**
 
-Below is the Python code for this project:
+以下は、このプロジェクトで使用するPythonコードです。
 
 
 .. raw:: html
@@ -136,28 +136,28 @@ Below is the Python code for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Imports:**
+1. **インポート:**
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from signal import pause  # Import pause function from signal module
 
-   The script uses the ``fusion_hat`` library to control the PIR sensor, and the ``signal`` module to handle program termination.
+   このスクリプトでは、PIRセンサーを制御するために ``fusion_hat`` ライブラリを使用し、プログラムの待機と終了処理のために ``signal`` モジュールを使用します。
 
 
-2. **Initialization:**
+2. **初期化:**
 
    .. code-block:: python
 
       pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-   In this line, a PIR sensor is initialized on pin 17 with an internal pull-down resistor enabled.
+   この行では、PIRセンサーをGPIO17に初期化し、内部プルダウン抵抗を有効にしています。
 
 
-3. **Main Loop:**
+3. **メインループ:**
 
    .. code-block:: python
 
@@ -180,30 +180,30 @@ Below is the Python code for this project:
          pass
 
 
-   * Continuously checks for motion detected by the PIR sensor.
-   * If motion is detected, the message "Detected Barrier!" is printed.
-   * If no motion is detected, the message "No Barrier" is printed.
+   * PIRセンサーによって検出される動きを継続的に監視します。
+   * 動きが検出されると、``"Detected Barrier!"`` というメッセージを表示します。
+   * 動きが検出されない場合は、``"No Barrier"`` というメッセージを表示します。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
 
-1. **Motion Not Detected**:
+1. **動きが検出されない**:
 
-   - **Cause**: PIR sensor is not wired or configured properly.
-   - **Solution**:
+   - **原因**: PIRセンサーの配線または設定が正しくない可能性があります。
+   - **対処方法**:
 
-     - Ensure the PIR sensor is connected to GPIO pin 17, power, and ground.
-     - Adjust the sensor’s sensitivity and delay potentiometers if available.
+     - PIRセンサーがGPIO17、電源、GNDに正しく接続されていることを確認してください。
+     - 必要に応じて、センサーの感度および遅延時間の可変抵抗を調整してください。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Auditory Feedback**: Add a buzzer that sounds when motion is detected:
+1. **音によるフィードバック**: 動きが検出されたときにブザーを鳴らすようにできます。
 
    .. code-block:: python
 
@@ -214,7 +214,7 @@ Below is the Python code for this project:
       else:
          buzzer.off()
 
-2. **Data Logging**: Log motion detection events with timestamps to a file for analysis:
+2. **データログ記録**: 動きの検出イベントをタイムスタンプ付きでファイルに保存し、あとで分析できるようにします。
 
    .. code-block:: python
 
@@ -225,6 +225,6 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use a PIR sensor. By understanding the basics of motion sensing  control, you can expand this project into more advanced applications such as security systems, automated lighting, or interactive devices. The PIR sensor’s versatility and simplicity make it an excellent component for countless DIY and professional projects.
+このプロジェクトでは、PIRセンサーの使い方を学びました。モーション検出制御の基本を理解することで、このプロジェクトをセキュリティシステム、自動照明、インタラクティブデバイスなど、より高度なアプリケーションへ発展させることができます。PIRセンサーは汎用性が高く扱いやすいため、DIYから実務用途まで幅広いプロジェクトで活用できる優れたコンポーネントです。

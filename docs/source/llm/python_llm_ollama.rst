@@ -2,32 +2,31 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-4. Text Vision Talk with Ollama
-================================
+4. Ollamaでテキスト＆ビジョン対話
+=====================================
 
-In this lesson, you will learn how to use **Ollama**, a tool for running large language and vision models locally.  
-We will show you how to install Ollama, download a model, and connect Fusion HAT+ to it.  
+このレッスンでは、 **Ollama** を使ってローカル環境で大規模言語モデルやビジョンモデルを実行する方法を学びます。  
+Ollama のインストール方法、モデルのダウンロード方法、そして Fusion HAT+ と接続する手順を紹介します。
 
-With this setup, Fusion HAT+ can take a camera snapshot and the model will **see and tell** —  
-you can ask any question about the image, and the model will reply in natural language.
+この構成では、Fusion HAT+ がカメラでスナップショットを撮影し、モデルが **「見て説明する（see and tell）」** ことができます。  
+画像について自由に質問すると、モデルが自然言語で回答します。
 
 .. _download_ollama:
 
-1. Install Ollama (LLM) and Download Model
--------------------------------------------------
+1. Ollama（LLM）のインストールとモデルのダウンロード
+-----------------------------------------------------
 
-You can choose where to install **Ollama**: 
+**Ollama** は次の場所にインストールできます：
 
-* On your Raspberry Pi (local run)  
-* Or on another computer (Mac/Windows/Linux) in the **same local network**  
+* Raspberry Pi 上（ローカル実行）  
+* 同じ **ローカルネットワーク** 内の別のコンピュータ（Mac / Windows / Linux）
 
-**Recommended models vs hardware**
+**モデルサイズとハードウェアの目安**
 
-You can choose any model available on |link_ollama_hub|.  
-Models come in different sizes (3B, 7B, 13B, 70B...).  
-Smaller models run faster and require less memory, while larger models provide better quality but need powerful hardware.
+|link_ollama_hub| で利用可能な任意のモデルを選択できます。  
+モデルにはさまざまなサイズ（3B、7B、13B、70B など）があり、小さいモデルは高速でメモリ使用量も少なく、大きいモデルはより高品質な結果を提供しますが高性能なハードウェアが必要です。
 
-Check the table below to decide which model size fits your device.
+以下の表を参考に、お使いのデバイスに適したモデルサイズを選択してください。
 
 .. list-table::
    :header-rows: 1
@@ -38,28 +37,28 @@ Check the table below to decide which model size fits your device.
      - Recommended Hardware
    * - ~3B parameters
      - 8GB (16GB better)
-     - Raspberry Pi 5 (16GB) or mid-range PC/Mac
+     - Raspberry Pi 5 (16GB) またはミドルレンジPC / Mac
    * - ~7B parameters
      - 16GB+
-     - Pi 5 (16GB, just usable) or mid-range PC/Mac
+     - Pi 5 (16GB、実用ギリギリ) またはミドルレンジPC / Mac
    * - ~13B parameters
      - 32GB+
-     - Desktop PC / Mac with high RAM
+     - 高RAMのデスクトップPC / Mac
    * - 30B+ parameters
      - 64GB+
-     - Workstation / Server / GPU recommended
+     - ワークステーション / サーバー / GPU推奨
    * - 70B+ parameters
      - 128GB+
-     - High-end server with multiple GPUs
+     - 複数GPUを備えたハイエンドサーバー
 
-**Install on Raspberry Pi**
+**Raspberry Pi にインストール**
 
-If you want to run Ollama directly on your Raspberry Pi:
+Raspberry Pi 上で Ollama を直接実行する場合：
 
-* Use a **64-bit Raspberry Pi OS**  
-* Strongly recommended: **Raspberry Pi 5 (16GB RAM)**  
+* **64-bit Raspberry Pi OS** を使用  
+* **Raspberry Pi 5（16GB RAM）** を強く推奨  
 
-Run the following commands:
+以下のコマンドを実行します：
 
 .. code-block:: bash
 
@@ -76,70 +75,75 @@ Run the following commands:
    # Tip: set OLLAMA_HOST=0.0.0.0 to allow access from LAN
    OLLAMA_HOST=0.0.0.0 ollama serve
 
-**Install on Mac / Windows / Linux (Desktop App)**
+**Mac / Windows / Linux にインストール（デスクトップアプリ）**
 
-1. Download and install Ollama from |link_ollama|  
+1. |link_ollama| から Ollama をダウンロードしてインストールします  
 
    .. image:: img/llm_ollama_download.png
 
-2. Open the Ollama app, go to the **Model Selector**, and use the search bar to find a model. For example, type ``llama3.2:3b`` (a small and lightweight model to start with).  
+2. Ollama アプリを開き、 **Model Selector** に移動し、検索バーでモデルを検索します。  
+   例： ``llama3.2:3b`` （最初に試す軽量モデル）
 
    .. image:: img/llm_ollama_choose.png
 
-3. After the download is complete, type something simple like “Hi” in the chat window, Ollama will automatically start downloading it when you first use it.
+3. ダウンロード完了後、チャットウィンドウで「Hi」など簡単な入力をすると、最初の実行時にモデルが自動的にダウンロードされます。
 
    .. image:: img/llm_olama_llama_download.png
 
-4. Go to **Settings** → enable **Expose Ollama to the network**. This allows your Raspberry Pi to connect to it over LAN.  
+4. **Settings** → **Expose Ollama to the network** を有効にします。  
+   これにより Raspberry Pi が LAN 経由で接続できるようになります。
 
    .. image:: img/llm_olama_windows_enable.png
 
 .. warning::
 
-   If you see an error like:
+   次のようなエラーが表示された場合：
 
    ``Error: model requires more system memory ...``
 
-   The model is too large for your machine.  
-   Use a **smaller model** or switch to a computer with more RAM.
+   モデルがマシンのメモリ容量に対して大きすぎます。  
+   **より小さいモデル** を使用するか、RAMの多いコンピュータを使用してください。
 
-2. Test Ollama
---------------
+2. Ollama のテスト
+----------------------
 
-Once Ollama is installed and your model is ready, you can quickly test it with a minimal chat loop.
+Ollama のインストールとモデルの準備ができたら、簡単なチャットループで動作確認ができます。
 
-**Set IP Address**
+**IPアドレスの設定**
 
-#. Open the example script:
+#. サンプルスクリプトを開きます：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       sudo nano llm_ollama.py
 
-#. Update the parameters as needed:
+#. 必要に応じてパラメータを更新します：
 
-   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``: Update both ``ip`` and ``model`` to your own setup.  
+   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``  
+     ``ip`` と ``model`` を自分の環境に合わせて変更します。
 
-     * ``ip``: If Ollama runs on the **same Pi**, use ``localhost``. If Ollama runs on another computer in your LAN, enable **Expose to network** in Ollama and set ``ip`` to that computer’s LAN IP.  
-     * ``model``: Must exactly match the model name you downloaded/activated in Ollama.  
+     * ``ip``：Ollama を **同じ Pi** で実行する場合は ``localhost`` を使用。  
+       別のPCで実行している場合は **Expose to network** を有効にし、そのPCの LAN IP を設定します。  
+     * ``model``：Ollama でダウンロードまたは有効化したモデル名と完全に一致させる必要があります。
 
 
-**Run the program**
+**プログラムの実行**
 
-  .. code-block:: bash
+.. code-block:: bash
   
-      cd ~/ai-lab-kit/llm
-      sudo python3 llm_ollama.py
+   cd ~/ai-lab-kit/llm
+   sudo python3 llm_ollama.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+これでターミナルから Fusion HAT+ と直接チャットできます。
 
-   * You can choose **any model** available on |link_ollama_hub|, but smaller models (e.g. ``moondream:1.8b``, ``phi3:mini``) are recommended if you only have 8–16GB RAM.  
-   * Make sure the model you specify in the code matches the model you have already pulled in Ollama.  
-   * Type ``exit`` or ``quit`` to stop the program.  
-   * If you cannot connect, ensure that Ollama is running and that both devices are on the same LAN if you are using a remote host.
+* |link_ollama_hub| から **任意のモデル** を選択できますが、8～16GB RAM の場合は  
+  ``moondream:1.8b`` や ``phi3:mini`` などの小型モデルを推奨します。  
+* コード内のモデル名が、Ollama で取得済みのモデルと一致していることを確認してください。  
+* ``exit`` または ``quit`` と入力するとプログラムを終了します。  
+* 接続できない場合は、Ollama が実行中であること、リモートホストを使用する場合は同じ LAN に接続されていることを確認してください。
 
-**Code**
+**コード**
 
 .. code-block:: python
 
@@ -178,44 +182,45 @@ Now you can chat with Fusion HAT+ directly from the terminal.
       print("")
 
 
-3. Vision Talk with Ollama
+3. Ollamaでビジョン対話
 --------------------------
 
-In this demo, the Pi camera takes a snapshot **each time you type a question**.  
-The program sends **your typed text + the new photo** to a local vision model via Ollama,  
-and then streams the model’s reply in plain English.  
-This is a minimal “see & tell” baseline you can later extend with color/face/QR checks.
+このデモでは、 **質問を入力するたびに** Pi カメラがスナップショットを撮影します。  
+プログラムは **入力テキスト + 新しい写真** を Ollama 経由でローカルのビジョンモデルに送信し、  
+モデルの回答を英語でストリーミング表示します。  
 
-**Before You Start**
+これは最小構成の「see & tell」デモで、後から色検出・顔認識・QRコード解析などの機能を追加できます。
 
-#. Open the **Ollama** app (or run the service) and make sure a **vision-capable model** is pulled.
+**開始前に**
 
-   * If you have enough memory (≥16GB RAM), you may try ``llava:7b``.
-   * If you only have **8GB RAM**, prefer a smaller model such as ``moondream:1.8b`` or ``granite3.2-vision:2b``.
+#. **Ollama** アプリを起動（またはサービスを実行）し、 **ビジョン対応モデル** をダウンロード済みであることを確認してください。
+
+   * 十分なメモリ（≥16GB RAM）がある場合： ``llava:7b`` を試せます。
+   * **8GB RAM** の場合： ``moondream:1.8b`` または ``granite3.2-vision:2b`` を推奨。
 
    .. image:: img/llm_ollama_image_model.png
 
-**Run the Demo**
+**サンプルの実行**
 
-#. Go to the example folder and run the script:
+#. サンプルフォルダに移動してスクリプトを実行します：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm
       python3 llm_ollama_with_image.py
 
-#. What happens when it runs:
+#. 実行時の動作：
 
-   * The program prints a welcome line and waits for your input (``>>>``).
-   * **Every time you type anything** (e.g., “hello”, “Is there yellow?”, “Any faces?”, “What is on the desk?”), it:
+   * プログラムはウェルカムメッセージを表示し、入力待ち（ ``>>>`` ）になります。
+   * **何か入力するたびに** （例：「hello」「Is there yellow?」「Any faces?」「What is on the desk?」）
 
-     * **captures a photo** from the Pi camera (saved to ``/tmp/llm-img.jpg``),  
-     * **sends your text + the photo** to the vision model via Ollama,  
-     * **streams back** the model’s answer to the terminal.
+     * Pi カメラで **写真を撮影** （ ``/tmp/llm-img.jpg`` に保存）  
+     * **テキスト + 写真** を Ollama のビジョンモデルへ送信  
+     * モデルの回答を **ストリーミング表示**
 
-   * Type ``exit`` or ``quit`` to end the program.
+   * ``exit`` または ``quit`` と入力すると終了します。
 
-**Code**
+**コード**
 
 .. code-block:: python
 
@@ -274,34 +279,34 @@ This is a minimal “see & tell” baseline you can later extend with color/face
       print("")
 
 
-Troubleshooting
----------------
+トラブルシューティング
+-----------------------------
 
 
-* **I get an error like: `model requires more system memory ...`.**
+* **`model requires more system memory ...` というエラーが表示される**
 
-  * This means the model is too large for your device.  
-  * Use a smaller model such as ``moondream:1.8b`` or ``granite3.2-vision:2b``.  
-  * Or switch to a machine with more RAM and expose Ollama to the network.
+  * モデルがデバイスのメモリ容量に対して大きすぎます。  
+  * ``moondream:1.8b`` や ``granite3.2-vision:2b`` などの小型モデルを使用してください。  
+  * または RAM の多いマシンで Ollama を実行し、ネットワーク経由で接続してください。
 
-* **The code cannot connect to Ollama (connection refused).** 
+* **コードが Ollama に接続できない（connection refused）**
 
-  Check the following:
-  
-  * Make sure Ollama is running (``ollama serve`` or the desktop app is open).  
-  * If using a remote computer, enable **Expose to network** in Ollama settings.  
-  * Double-check that the ``ip="..."`` in your code matches the correct LAN IP.  
-  * Confirm both devices are on the same local network.
+  次の点を確認してください：
 
-* **My Pi camera does not capture anything.**
+  * Ollama が実行中である（``ollama serve`` またはアプリが起動している）。  
+  * リモートPCを使用する場合は **Expose to network** を有効にする。  
+  * コード内の ``ip="..."`` が正しい LAN IP である。  
+  * 両方のデバイスが同じローカルネットワークに接続されている。
 
-  * Verify that ``Picamera2`` is installed and working with a simple test script.  
-  * Check that the camera cable is properly connected and enabled in ``raspi-config``.  
-  * Ensure your script has permission to write to the target path (``/tmp/llm-img.jpg``).
+* **Pi カメラが撮影されない**
 
-* **The output is too slow.**  
+  * ``Picamera2`` がインストールされ、簡単なテストスクリプトで動作するか確認。  
+  * カメラケーブルが正しく接続され、 ``raspi-config`` で有効になっているか確認。  
+  * スクリプトが ``/tmp/llm-img.jpg`` に書き込みできる権限を持っているか確認。
 
-  * Smaller models reply faster, but with simpler answers.  
-  * You can lower the camera resolution (e.g., 640×480 instead of 1280×720) to speed up image processing.  
-  * Close other programs on your Pi to free up CPU and RAM.
+* **応答が遅い**
+
+  * 小さいモデルほど高速ですが、回答は簡易になります。  
+  * カメラ解像度を下げる（例：1280×720 → 640×480）と処理が高速になります。  
+  * Pi 上で不要なプログラムを終了し、CPU と RAM を確保してください。
   

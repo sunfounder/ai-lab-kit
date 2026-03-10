@@ -4,18 +4,18 @@
 
 .. _py_slide:
 
-2.3 Slide Switch
+2.3 スライドスイッチ
 ==============================================
 
-**Introduction**
+**はじめに**
 
-In this project, we will learn how to use a slide switch to control two LEDs. Slide switches are commonly used as power switches in electronic circuits. Here, we demonstrate its functionality using a breadboard setup. While slide switches are often soldered onto PCBs for stability, we will use it in a flexible breadboard configuration to better understand its operation.
+このプロジェクトでは、スライドスイッチを使用して2つのLEDを制御する方法を学びます。スライドスイッチは電子回路において電源スイッチとしてよく使用される部品です。本チュートリアルでは、ブレッドボード上でその動作を確認します。通常、スライドスイッチは安定した接続のためにPCBへはんだ付けして使用されますが、ここでは動作原理を理解しやすくするため、ブレッドボードを用いた柔軟な構成で実験します。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**必要なもの**
 
-To complete this project, gather the following components:
+このプロジェクトを行うには、以下のコンポーネントを用意してください。
 
 .. list-table::
     :widths: 30 20
@@ -44,9 +44,9 @@ To complete this project, gather the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected to GPIO22 and GPIO27. The switch toggles between the two LEDs, alternately lighting them up.
+スライドスイッチの中央ピンをGPIO17に接続し、2つのLEDをそれぞれGPIO22とGPIO27に接続します。スイッチを切り替えることで、2つのLEDが交互に点灯します。
 
 .. image:: img/fzz/2.1.4_sch.png
    :width: 80%
@@ -57,15 +57,15 @@ The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Follow these steps to build the circuit:
+以下の手順に従って回路を組み立ててください。
 
-1. Connect the middle pin of the Slide Switch to GPIO17.
-2. Connect one side pin of the Slide Switch to GND and the other to VCC.
-3. Connect LED1’s anode to GPIO22 via a current-limiting resistor.
-4. Connect LED2’s anode to GPIO27 via a current-limiting resistor.
-5. Connect the cathodes of both LEDs to GND.
+1. スライドスイッチの中央ピンをGPIO17に接続します。
+2. スライドスイッチの片側のピンをGNDに、もう一方をVCCに接続します。
+3. LED1のアノードを電流制限抵抗を介してGPIO22に接続します。
+4. LED2のアノードを電流制限抵抗を介してGPIO27に接続します。
+5. 2つのLEDのカソードをGNDに接続します。
 
 .. image:: img/fzz/2.1.4_bb.png
    :width: 80%
@@ -74,11 +74,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。
+以下の手順でサンプルを実行してください。
 
 
 .. raw:: html
@@ -90,27 +90,27 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.3_SlideSwitch.py 
 
-This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT+. When executed:
+このPythonスクリプトは、Fusion HAT+上でスライドスイッチを使用して2つのLEDを制御する方法を示します。実行すると、次のように動作します。
 
-1. **Slide Switch Activated**:
+1. **スライドスイッチがONのとき**:
 
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+   - LED1（GPIO22に接続）が消灯します。
+   - LED2（GPIO27に接続）が点灯します。
 
-2. **Slide Switch Not Activated**:
+2. **スライドスイッチがOFFのとき**:
 
-   - Turns on LED1.
-   - Turns off LED2.
+   - LED1が点灯します。
+   - LED2が消灯します。
 
-3. The program continuously checks the state of the slide switch every 0.5 seconds and adjusts the LEDs accordingly.
+3. プログラムは0.5秒ごとにスライドスイッチの状態を確認し、それに応じてLEDの状態を更新します。
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. ``Ctrl+C`` を押して中断するまで、スクリプトは継続して実行されます。
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here’s the Python code to control the LEDs based on the state of the Slide Switch:
+以下は、スライドスイッチの状態に応じてLEDを制御するPythonコードです。
 
 
 .. raw:: html
@@ -153,20 +153,20 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Library Imports**
+1. **ライブラリのインポート**
 
-   Import necessary libraries for GPIO control and adding delays.
+   GPIO制御および待機処理のために必要なライブラリをインポートします。
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from time import sleep  # Import sleep for delay
 
-2. **Component Initialization**
+2. **コンポーネントの初期化**
 
-   Configure the Slide Switch as a Button and initialize two LEDs connected to GPIO pins 22 and 27.
+   スライドスイッチをボタン入力として設定し、GPIO22とGPIO27に接続された2つのLEDを初期化します。
 
    .. code-block:: python
 
@@ -178,9 +178,9 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **State Monitoring and LED Control**
+3. **状態監視とLED制御**
 
-   In the main loop, the program monitors the state of the Slide Switch. When the switch is toggled, it alternates between turning on LED1 and LED2.
+   メインループ内でスライドスイッチの状態を監視し、スイッチの状態に応じてLED1とLED2を交互に点灯させます。
 
    .. code-block:: python
 
@@ -195,9 +195,9 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
          sleep(0.5)  # Pause for 0.5 seconds before rechecking the sensor state
 
-4. **Graceful Exit**
+4. **安全な終了処理**
 
-   The script terminates gracefully when interrupted using Ctrl+C.
+   ``Ctrl+C`` によって中断された場合でも、スクリプトが安全に終了するようにします。
 
    .. code-block:: python
 
@@ -207,19 +207,19 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
 
-1. **Slide Switch Does Not Respond**  
+1. **スライドスイッチが反応しない**  
 
-   - **Cause**: The slide switch is not connected properly, or the pull-up resistor configuration is incorrect.  
-   - **Solution**: Confirm that the slide switch is connected to GPIO pin 17 and ground. Ensure ``PULL_DOWN`` matches the switch configuration.
+   - **原因**: スライドスイッチの接続が正しくない、またはプルアップ／プルダウン設定が誤っている可能性があります。  
+   - **対処方法**: スライドスイッチがGPIO17およびGNDに正しく接続されていることを確認してください。また ``PULL_DOWN`` 設定がスイッチの構成に合っているか確認してください。
 
 
-2. **LEDs Flicker or Behave Erratically**  
+2. **LEDがちらつく、または不安定に動作する**  
 
-   - **Cause**: Debounce issues with the slide switch.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **原因**: スライドスイッチのチャタリングが発生している可能性があります。  
+   - **対処方法**: 入力信号を安定させるためにソフトウェアデバウンスを追加します。
 
    .. code-block:: python
 
@@ -228,17 +228,17 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**拡張アイデア**
 
 
-1. **Two-Way Switch Control**  
+1. **双方向スイッチ制御**  
 
-   Combine two slide switches to control LEDs in a more complex setup, such as a simple light control panel.
+   2つのスライドスイッチを組み合わせて、より複雑なLED制御（簡単な照明コントロールパネルなど）を作ることができます。
 
 
-2. **Audio Feedback**  
+2. **音によるフィードバック**  
 
-   Add a buzzer that sounds when the slide switch is activated:
+   スライドスイッチがONになったときにブザーを鳴らすようにできます。
 
    .. code-block:: python
 
@@ -253,6 +253,6 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 ----------------------------------------------
 
 
-**Conclusion**
+**まとめ**
 
-This project demonstrates how to use a Slide Switch with the Fusion HAT+ to control LEDs. Slide Switches are versatile and durable components, often employed in user interfaces and control systems. Experimenting with them opens up possibilities for creating advanced and interactive projects.
+このプロジェクトでは、Fusion HAT+とスライドスイッチを使用してLEDを制御する方法を学びました。スライドスイッチは耐久性が高く、ユーザーインターフェースや制御システムなどで広く利用されています。実際に試してみることで、より高度でインタラクティブなプロジェクトへ発展させることができます。

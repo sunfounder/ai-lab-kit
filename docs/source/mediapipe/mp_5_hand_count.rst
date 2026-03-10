@@ -4,72 +4,71 @@
 
 .. _mp_hand_count:
 
-5. Hand Gesture Counting
+5. 手のジェスチャーカウント
 ==============================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-In the previous section, we implemented real-time hand
-detection and landmark visualization.
+前のセクションでは、リアルタイムの手検出と
+ランドマークの可視化を実装しました。
 
-This section extends that functionality by using
-finger landmark positions to count the number of
-raised fingers (0–5).
+このセクションでは、その機能を拡張し、
+指のランドマーク位置を利用して
+挙げられている指の本数（0～5）をカウントします。
 
-By analyzing the relative positions of finger tips
-and their corresponding joints, we can determine
-whether each finger is extended.
+指先と対応する関節の相対位置を分析することで、
+各指が伸びているかどうかを判定できます。
+
 
 .. image:: img/mp_hand_count.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The program follows these steps:
+プログラムは次の手順で動作します：
 
-1. Initialize the MediaPipe Hands model.
-2. Capture video frames from the Raspberry Pi camera.
-3. Detect 21 hand landmarks in real time.
-4. Compare fingertip coordinates with their proximal joints.
-5. Determine whether each finger is extended.
-6. Count the number of raised fingers.
-7. Display the result on the video frame.
+1. MediaPipe Hands モデルを初期化する
+2. Raspberry Pi カメラから映像フレームを取得する
+3. リアルタイムで 21 個の手ランドマークを検出する
+4. 指先の座標と対応する関節の座標を比較する
+5. 各指が伸びているかどうかを判定する
+6. 挙げられている指の本数をカウントする
+7. 結果を動画フレーム上に表示する
 
-This method is:
+この方法の特徴：
 
-- Lightweight and efficient
-- Suitable for Raspberry Pi
-- A foundation for gesture control and interactive systems
+- 軽量で効率的
+- Raspberry Pi に適している
+- ジェスチャー制御やインタラクティブシステムの基礎となる
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-   For detailed instructions, see :ref:`opencv_install`.
-
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのウィンドウが開き、カメラのライブ映像が表示されます。
 
    .. raw:: html
 
@@ -78,31 +77,30 @@ This method is:
              Your browser does not support the video tag.
          </video>
 
-   When a hand appears in front of the camera:
+   カメラの前に手が現れると：
 
-   - MediaPipe detects the hand in real time.
-   - 21 landmark points and connection lines are drawn on the hand.
-   - The program analyzes the positions of the fingertips and joints.
-   - The number of raised fingers (0–5) is calculated.
+   - MediaPipe がリアルタイムで手を検出します
+   - 手に 21 個のランドマークと接続線が描画されます
+   - プログラムが指先と関節の位置を解析します
+   - 挙げられている指の本数（0～5）が計算されます
 
-   The detected finger count is displayed in the top-left corner
-   of the screen as:
+   検出された指の本数は画面左上に次のように表示されます：
 
       Fingers: X
 
-   As you extend or fold your fingers, the number updates
-   instantly in real time.
+   指を伸ばしたり曲げたりすると、
+   数値はリアルタイムで更新されます。
 
-   If no hand is detected, only the normal camera feed
-   is displayed without a finger count.
+   手が検出されない場合は、
+   指のカウント表示なしで通常のカメラ映像のみが表示されます。
 
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   ``q`` を押すとプログラムを終了できます。
+   カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -190,35 +188,36 @@ This method is:
    picam2.stop()
    cv2.destroyAllWindows()
 
-In each loop iteration, it determines whether each of the 5 fingers is extended and counts the number of extended fingers. For example:
+各ループで 5 本の指が伸びているかどうかを判定し、
+伸びている指の数をカウントします。例：
 
-- ✊ All fingers closed → Count 0
-- ☝️ Index finger extended → Count 1
-- ✌️ Index + Middle fingers → Count 2
-- 🖐️ All five fingers open → Count 5
+- ✊ すべての指を閉じる → 0
+- ☝️ 人差し指のみ → 1
+- ✌️ 人差し指＋中指 → 2
+- 🖐️ 5 本すべて開く → 5
 
 --------------------------------------------------------------
-5. Detection Logic and Extensions
+5. 検出ロジックと拡張
 --------------------------------------------------------------
 
-MediaPipe Hands returns 21 landmarks.
-We use fingertip and joint positions to determine whether
-each finger is extended.
+MediaPipe Hands は 21 個のランドマークを返します。
+指先と関節の位置を利用して、
+各指が伸びているかどうかを判定します。
 
 .. code-block:: python
 
    finger_tips = [4, 8, 12, 16, 20]
    finger_dips = [2, 6, 10, 14, 18]
 
-- ``finger_tips`` → Fingertip indices  
+- ``finger_tips`` → 指先のランドマークインデックス  
   (Thumb=4, Index=8, Middle=12, Ring=16, Pinky=20)
 
-- ``finger_dips`` → Corresponding proximal joints  
+- ``finger_dips`` → 対応する関節のランドマークインデックス  
   (Thumb=2, Index=6, Middle=10, Ring=14, Pinky=18)
 
 ------------------------------------------------------------
 
-Finger counting logic:
+指カウントのロジック：
 
 .. code-block:: python
 
@@ -237,56 +236,67 @@ Finger counting logic:
    cv2.putText(frame, f"Fingers: {finger_count}", (10, 30),
                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-Logic explanation:
+ロジック説明：
 
-- **Thumb** → Compare ``tip.x`` and ``dip.x`` (for right hand).
-- **Other fingers** → Compare ``tip.y`` and ``dip.y``.
-- If the fingertip is above (or outward from) the joint,
-  the finger is considered extended.
-- Each satisfied condition increases the count by ``+1``.
-
-------------------------------------------------------------
-
-Extension tips:
-
-- To support both left and right hands,
-  use ``hands_detected.multi_handedness`` to determine hand type,
-  and reverse the thumb x-axis comparison accordingly.
-
-- This logic can be extended to implement:
-
-  - OK gesture recognition
-  - Thumbs-up detection
-  - Rock–paper–scissors interaction
-  - Custom gesture-based controls
+- **親指** → ``tip.x`` と ``dip.x`` を比較（右手の場合）
+- **他の指** → ``tip.y`` と ``dip.y`` を比較
+- 指先が関節より上（または外側）にある場合、
+  その指は伸びていると判断されます
+- 条件を満たすたびに ``+1`` されます
 
 ------------------------------------------------------------
-6. Troubleshooting
+
+拡張のヒント：
+
+- 左手と右手の両方に対応する場合は、
+  ``hands_detected.multi_handedness`` を使用して
+  手の種類を判定し、
+  親指の x 軸比較を反転させます。
+
+- このロジックは次のような機能にも拡張できます：
+
+  - OK ジェスチャー認識
+  - サムズアップ検出
+  - じゃんけんインタラクション
+  - カスタムジェスチャー操作
+
+------------------------------------------------------------
+6. トラブルシューティング
 ------------------------------------------------------------
 
-- Thumb detection inaccurate
+- 親指の検出が不正確
 
-  Thumb detection may be inaccurate because the logic differs for left and right hands. The horizontal comparison used for the thumb depends on hand orientation.
+  親指は左右の手で判定ロジックが異なるため、
+  検出が不正確になることがあります。
 
-  Use ``multi_handedness`` to determine whether the detected hand is left or right, and adjust the thumb detection logic accordingly.
+  ``multi_handedness`` を使用して
+  左手か右手かを判定し、
+  親指の検出ロジックを調整してください。
 
-- Unstable detection
+- 検出が不安定
 
-  If finger counting appears unstable, lighting may be insufficient or the background may be cluttered.
+  指のカウントが不安定な場合、
+  照明不足または背景が複雑な可能性があります。
 
-  Improve the lighting conditions and use a plain background to increase detection stability.
+  照明を改善し、シンプルな背景を使用すると
+  検出の安定性が向上します。
 
-- High latency
+- 遅延が大きい
 
-  If the response feels slow, the resolution may be too high or the CPU may be overloaded.
+  応答が遅い場合、
+  解像度が高すぎるか CPU 負荷が高い可能性があります。
 
-  Reduce the resolution (for example, 320×240) and close unnecessary background processes. You can also simplify the finger counting logic if needed.
+  解像度を下げ（例：320×240）、
+  不要なバックグラウンドプロセスを終了してください。
+  必要に応じて指カウントロジックを簡略化することもできます。
 
 
 -----------------------------
-7. Summary
+7. まとめ
 -----------------------------
 
-- Using MediaPipe Hands, we can quickly implement **real-time gesture recognition**.
-- This section implemented **number gesture counting** based on fingertip positions, laying the foundation for custom gesture recognition.
-- By adapting for left/right hands and expanding judgment rules, more complex interactive scenarios can be achieved.
+- MediaPipe Hands を使用すると **リアルタイムジェスチャー認識** を簡単に実装できます。
+- 本セクションでは **指の本数ジェスチャー認識** を実装し、
+  カスタムジェスチャー認識の基礎を構築しました。
+- 左右の手への対応や判定ルールを拡張することで、
+  より高度なインタラクションシステムを実装できます。

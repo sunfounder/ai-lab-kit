@@ -4,21 +4,21 @@
 
 .. _py_homework_grading_demo:
 
-(Example) Homework Grading Demo with Pan-Tilt Camera
+(Example) パン・チルトカメラ付き 宿題採点デモ
 =====================================================
 
-**Introduction**
+**はじめに**
 
-This project creates an interactive **AI Homework Grading Assistant** that combines computer vision, artificial intelligence, and robotics. The system:
+このプロジェクトでは、コンピュータビジョン、人工知能、ロボティクスを組み合わせた対話型の **AI 宿題採点アシスタント** を作成します。システムは次のことを行います：
 
-1. **Captures photos** of handwritten or printed homework questions using a Raspberry Pi camera
-2. **Analyzes content** using OpenAI's GPT-4 Vision model to determine if answers are correct
-3. **Provides physical feedback** through servo-controlled pan-tilt head movements:
+1. Raspberry Pi カメラで、手書きまたは印刷された宿題の問題を **撮影** します
+2. OpenAI の GPT-4 Vision モデルで内容を **解析** し、解答が正しいかを判定します
+3. サーボ制御のパン・チルトヘッド動作で **物理的なフィードバック** を返します：
 
-   - *Nods* for correct answers
-   - *Shakes* for incorrect answers
+   - 正解なら *うなずく*
+   - 不正解なら *首を振る*
    
-4. **Uses simple interaction** triggered by a single button press
+4. 1 回のボタン押下で動作する **シンプルなインタラクション** を採用しています
 
 .. raw:: html
 
@@ -27,9 +27,9 @@ This project creates an interactive **AI Homework Grading Assistant** that combi
           Your browser does not support the video tag.
       </video>
 
-This demonstration showcases how AI can interact with the physical world, creating an engaging educational tool that provides immediate visual feedback on homework accuracy.
+このデモは、AI が物理世界と連携できることを示す例であり、宿題の正誤をその場で視覚的にフィードバックする、学習向けの魅力的なツールになります。
 
-You can use other LLM modules and hardware components to build your own AI-assisted learning devices. See:
+他の LLM モジュールやハードウェア部品を組み合わせて、独自の AI 支援学習デバイスを作ることもできます。以下も参照してください：
 
 * :ref:`py_online_llm`
 * :ref:`cpn_servo`
@@ -37,9 +37,9 @@ You can use other LLM modules and hardware components to build your own AI-assis
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -62,13 +62,13 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Hardware Setup**
+**ハードウェアのセットアップ**
 
-To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+カメラモジュールを便利に使うために、:ref:`assemble_fusion_hat_pan_tilt` の組み立てを推奨します。
 
    .. note:: 
      
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+     パン・チルトを組み立てると一部のピンが隠れる場合があります。そのため、カメラを使用するときだけ組み立てるか、組み立て後に外側へ配置することを推奨します。
    
    
    .. image:: ../quick_start/img/gimbal_assemble.png
@@ -81,28 +81,28 @@ To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recomm
 
 ----------------------------------------------
 
-**Running the Code**
+**コードの実行**
 
-#. Create Homework Sample:
+#. 宿題サンプルを用意する：
 
-   - Write or print a simple math problem with answer
-   - Example: "5 + 3 = 8" (correct) or "5 + 3 = 7" (incorrect)
-   - Ensure clear handwriting or printing
+   - 簡単な算数問題と答えを手書き、または印刷します
+   - 例："5 + 3 = 8"（正解）または "5 + 3 = 7"（不正解）
+   - 文字が読み取れるよう、はっきり書く／印刷してください
 
-#. Run the Program:
+#. プログラムを実行する：
    
    .. code-block:: bash
    
       cd ~/ai-lab-kit/llm
       python3 llm_openai_homework.py
 
-#. Follow On-Screen Instructions:
+#. 画面の指示に従う：
 
-   - Position homework under camera
-   - Press User Button (USR) on Fusion HAT+
-   - Watch for servo response
+   - 宿題用紙をカメラの下に置く
+   - Fusion HAT+ の User Button（USR）を押す
+   - サーボの反応を確認する
 
-#. Expected Output:
+#. 想定される出力：
    
    .. code-block:: text
    
@@ -131,9 +131,9 @@ To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recomm
 
 ----------------------------------------------
 
-**Code**
+**コード**
 
-Here is the full Python script for the Homework Grading Demo:
+以下は宿題採点デモの Python スクリプト全体です：
 
 
 .. raw:: html
@@ -345,11 +345,11 @@ Here is the full Python script for the Homework Grading Demo:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. LLM Configuration and Setup
+1. LLM の設定とセットアップ
 
-   The system uses OpenAI's GPT-4o with Vision capabilities to analyze images:
+   システムは Vision 機能を備えた OpenAI の GPT-4o を使用して画像を解析します：
    
    .. code-block:: python
    
@@ -364,9 +364,9 @@ Here is the full Python script for the Homework Grading Demo:
       # Limit conversation history to manage tokens
       llm.set_max_messages(5)
 
-2. Hardware Initialization
+2. ハードウェアの初期化
 
-   Three hardware components are initialized: servos, camera, and button:
+   3 つのハードウェア要素（サーボ、カメラ、ボタン）を初期化します：
    
    .. code-block:: python
    
@@ -384,9 +384,9 @@ Here is the full Python script for the Homework Grading Demo:
       # User button for interaction
       user_button = UserButton()
 
-3. Servo Animation Functions
+3. サーボのアニメーション関数
 
-   Natural-looking movements for nodding and shaking:
+   うなずき／首振りを自然に見せる動きです：
    
    .. code-block:: python
    
@@ -408,9 +408,9 @@ Here is the full Python script for the Homework Grading Demo:
           time.sleep(0.15)
           pan_servo.angle(PAN_CENTER)  # Return to center
 
-4. Image Capture and AI Analysis
+4. 画像撮影と AI 解析
 
-   The main grading workflow:
+   採点のメインワークフロー：
    
    .. code-block:: python
    
@@ -430,9 +430,9 @@ Here is the full Python script for the Homework Grading Demo:
           elif "CORRECT" in response_text:
               nod_head()
 
-5. Button Event Handling
+5. ボタンイベントの処理
 
-   Simple callback system for user interaction:
+   ユーザー操作はコールバックで完結します：
    
    .. code-block:: python
    
@@ -443,9 +443,9 @@ Here is the full Python script for the Homework Grading Demo:
       # Assign callback to button
       user_button.set_on_click(on_button_click)
 
-6. Main Application Loop
+6. メインループ
 
-   Minimal main loop that waits for button presses:
+   ボタン押下を待つだけの最小構成です：
    
    .. code-block:: python
    
@@ -460,9 +460,9 @@ Here is the full Python script for the Homework Grading Demo:
           except KeyboardInterrupt:
               print("\nDemo stopped by user")
 
-7. Resource Cleanup
+7. リソースのクリーンアップ
 
-   Proper shutdown procedure:
+   終了時にサーボとカメラを安全に停止します：
    
    .. code-block:: python
    
@@ -476,11 +476,11 @@ Here is the full Python script for the Homework Grading Demo:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
 - No module named ``picamera2``
 
-  Install the required library:
+  必要なライブラリをインストールしてください：
   
   .. code-block:: bash
      
@@ -489,49 +489,49 @@ Here is the full Python script for the Homework Grading Demo:
 
 - Camera not detected
 
-  1. Check camera connection: ensure ribbon cable is inserted correctly
-  2. Verify camera is enabled: ``sudo raspi-config`` → Interface Options → Camera
-  3. Test camera independently: ``libcamera-hello``
+  1. カメラの接続を確認：フラットケーブルが正しい向きで確実に挿入されているか
+  2. カメラが有効か確認： ``sudo raspi-config`` → Interface Options → Camera
+  3. カメラ単体テスト： ``libcamera-hello``
 
 - Servos not moving
 
-  1. Check power connections: servos need 5V power
-  2. Verify servo channels match code (Channels 2 and 3)
-  3. Test servos independently with simple angle commands
+  1. 電源接続を確認：サーボには 5V 電源が必要です
+  2. サーボのチャンネルがコードと一致しているか確認（Channels 2 と 3）
+  3. 単体テスト：角度指定でサーボが動くか確認してください
 
 - AI not responding or error
 
-  1. Verify API key in ``secret.py`` is correct
-  2. Check internet connection: ``ping 8.8.8.8``
-  3. Ensure you have credits in your OpenAI account
-  4. Verify model "gpt-4o" is available in your account
+  1. ``secret.py`` の API キーが正しいか確認してください
+  2. ネット接続を確認： ``ping 8.8.8.8``
+  3. OpenAI アカウントにクレジットがあるか確認してください
+  4. モデル "gpt-4o" が利用可能か確認してください
 
 - Incorrect servo movements
 
-  1. Check if pan and tilt servos are swapped
-  2. Adjust angle values in ``nod_head()`` and ``shake_head()`` functions
-  3. Verify servo center positions (may need calibration)
+  1. pan と tilt のサーボが入れ替わっていないか確認してください
+  2. ``nod_head()`` と ``shake_head()`` の角度値を調整してください
+  3. センター位置のキャリブレーションが必要な場合があります
 
 - Image too blurry or dark
 
-  1. Ensure adequate lighting on homework
-  2. Adjust camera focus if adjustable
-  3. Position camera 15-30cm from paper
-  4. Use high-contrast pen/marker for handwriting
+  1. 宿題用紙に十分な照明を当ててください
+  2. 調整可能な場合はフォーカスを調整してください
+  3. 用紙から 15〜30cm 程度の距離にカメラを配置してください
+  4. 手書きは濃いペン／マーカーで書くと読み取りやすくなります
 
 - Button not responding
 
-  1. Check if User Button LED lights when pressed
-  2. Verify button callback is registered
-  3. Test button with simple print statement
+  1. ボタン押下時に User Button の LED が点灯するか確認してください
+  2. コールバックが登録されているか確認してください
+  3. 簡単な print を入れて押下検出を確認してください
 
 - AI returns unexpected response
 
-  1. Check prompt formatting in code
-  2. Ensure image clearly shows question AND answer
-  3. Test with very simple arithmetic problems first
+  1. コード内の prompt の書式を確認してください
+  2. 画像に「問題」と「答え」の両方がはっきり写っているか確認してください
+  3. まずは簡単な四則演算でテストしてください
 
 ----------------------------------------------
 
 
-This homework grading demo showcases how AI vision models can interact with physical hardware to create engaging educational experiences, blending digital intelligence with tangible feedback mechanisms!
+この宿題採点デモは、AI のビジョンモデルが物理ハードウェアと連携して学習体験を拡張できることを示します。デジタルな知能と手触りのあるフィードバックを融合し、教育用途に魅力的な体験を提供します。

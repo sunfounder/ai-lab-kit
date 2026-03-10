@@ -2,13 +2,13 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-6. CAMShift Object Tracking
+6. CAMShift による物体追跡
 ==============================
 
-In the previous chapter, we learned the MeanShift algorithm, which can continuously track a target in a video based on its color histogram.  
-In this section, we introduce **CAMShift (Continuously Adaptive Mean Shift)**,  
-which extends MeanShift by **automatically adapting the window size and orientation**, making it more practical for real-world applications.  
-Additionally, in this example we’ll track a target **based on brightness rather than color**, which is also very common in practice.
+前章では、色ヒストグラムに基づいて動画内のターゲットを連続的に追跡できる MeanShift アルゴリズムを学びました。  
+この節では、 **CAMShift (Continuously Adaptive Mean Shift)** を紹介します。  
+CAMShift は MeanShift を拡張し、 **追跡ウィンドウのサイズと向きを自動的に適応** できるため、実際のアプリケーションでより実用的です。  
+さらに、この例では **色ではなく明るさに基づいて** ターゲットを追跡します。これは実際の用途でも非常によく使われる方法です。
 
 .. raw:: html
 
@@ -17,59 +17,59 @@ Additionally, in this example we’ll track a target **based on brightness rathe
           Your browser does not support the video tag.
       </video>
    
-1. Algorithm Features
+1. アルゴリズムの特徴
 ---------------------
 
-**MeanShift** can only track target position and uses a fixed-size window.  
-**CAMShift** tracks position **and** automatically adjusts window size and angle.
+**MeanShift** はターゲットの位置だけを追跡でき、ウィンドウサイズは固定です。  
+一方、 **CAMShift** は位置の追跡に加えて、 **ウィンドウのサイズと角度も自動的に調整** できます。
 
-For example, when the target approaches the camera, the tracking box grows; when the target moves away, it shrinks; when the target rotates, the box rotates accordingly.
+たとえば、ターゲットがカメラに近づけば追跡枠は大きくなり、遠ざかれば小さくなります。さらに、ターゲットが回転すれば、枠もそれに合わせて回転します。
 
 .. image:: img/opencv_camshift.png
    :alt: CAMShift tracking illustration
    :align: center
 
 
-2. Run the Code
+2. コードの実行
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   開始する前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールされ、設定されている
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_6_camshift.py
 
-#. When you run the program, an OpenCV window named **CAMShift Tracker** will appear and start playing the video file *sample3.mp4*.  
+#. プログラムを実行すると、 **CAMShift Tracker** という名前の OpenCV ウィンドウが表示され、動画ファイル *sample3.mp4* の再生が始まります。  
 
-   The program tracks the black cat using the CAMShift (Continuously Adaptive Mean Shift) algorithm.
+   このプログラムでは、CAMShift（Continuously Adaptive Mean Shift）アルゴリズムを使って黒い猫を追跡します。
 
-   A green rotated bounding box will be drawn around the tracked object.  
-   As the cat moves or changes its size and orientation, the tracking window will automatically adapt its position, size, and angle.
+   追跡対象の周囲には、緑色の回転矩形が描画されます。  
+   猫が移動したり、サイズや向きが変わったりすると、追跡ウィンドウは位置・大きさ・角度を自動的に調整します。
 
-   You can exit the program in two ways:
+   プログラムを終了する方法は 2 つあります：
 
-   * Press the **q** key on the keyboard  
-   * Close the window by clicking the close button (X)  
+   * キーボードの **q** キーを押す  
+   * ウィンドウの閉じるボタン（X）をクリックして閉じる  
 
-   After exiting, the video playback stops and all OpenCV windows are closed.
+   終了すると、動画の再生が停止し、すべての OpenCV ウィンドウが閉じられます。
 
-3. Complete Code
+3. 完全なコード
 ---------------------
 
-Open ``cv_6_camshift.py`` to view the full code.
+完全なコードは ``cv_6_camshift.py`` を開いて確認してください。
 
 .. code-block:: python
 
@@ -153,10 +153,10 @@ Open ``cv_6_camshift.py`` to view the full code.
    cap.release()
    cv2.destroyAllWindows()
 
-4. Code Explanation
+4. コード解説
 ---------------------------
 
-#. Open the video file and read the first frame:
+#. 動画ファイルを開き、最初のフレームを読み込む：
 
    .. code-block:: python
 
@@ -165,56 +165,56 @@ Open ``cv_6_camshift.py`` to view the full code.
       if not ret:
           raise RuntimeError("Cannot read the video file.")
 
-   CAMShift needs an initial frame to learn what to track.
+   CAMShift は、最初のフレームを使って何を追跡するかを学習します。
 
-#. Set the initial tracking window (ROI):
+#. 初期追跡ウィンドウ（ROI）を設定する：
 
    .. code-block:: python
 
       x, y, w, h = 100, 200, 40, 40
       track_window = (x, y, w, h)
 
-   This rectangle should cover the target object in the first frame.  
-   CAMShift will update this window automatically during tracking.
+   この矩形は、最初のフレーム内でターゲット物体を覆う必要があります。  
+   CAMShift は追跡中にこのウィンドウを自動更新します。
 
-#. Convert the first frame to HSV and extract the ROI:
+#. 最初のフレームを HSV に変換し、ROI を切り出す：
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
       hsv_roi = hsv[y:y+h, x:x+w]
 
-   HSV is convenient for tracking because you can choose specific channels (like V for brightness).
+   HSV は、V チャンネルのような特定の成分を選んで扱えるため、追跡に便利です。
 
-#. Build a mask for a dark object (low V values):
+#. 暗い物体用のマスクを作成する（低い V 値）：
 
    .. code-block:: python
 
       roi_mask = cv2.inRange(hsv_roi, np.array((0, 0, 0)), np.array((180, 255, 80)))
 
-   This keeps only “dark” pixels in the ROI.  
-   For black/dark objects, brightness (V) is usually the most useful feature.
+   これにより、ROI 内の「暗い」画素だけが残ります。  
+   黒色や暗い物体では、明るさ（V）がもっとも有効な特徴になることが多いです。
 
-#. Compute and normalize a histogram of the V channel:
+#. V チャンネルのヒストグラムを計算し、正規化する：
 
    .. code-block:: python
 
       roi_hist = cv2.calcHist([hsv_roi], [2], roi_mask, [256], [0, 256])
       cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
 
-   - Channel ``2`` means the **V (Value/brightness)** channel in HSV.
-   - The histogram describes how “dark/bright” the target ROI is.
-   - Normalization makes tracking more stable.
+   - チャンネル ``2`` は、HSV の **V（Value / 明るさ）** チャンネルを意味します。
+   - このヒストグラムは、ターゲット ROI の「暗さ / 明るさ」の分布を表します。
+   - 正規化によって追跡がより安定します。
 
-#. Set the termination criteria for CAMShift:
+#. CAMShift の終了条件を設定する：
 
    .. code-block:: python
 
       term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
 
-   CAMShift stops updating when it reaches 10 iterations or the movement is smaller than 1 pixel.
+   CAMShift は、10 回の反復に達するか、移動量が 1 ピクセル未満になった時点で更新を終了します。
 
-#. Set playback speed using FPS:
+#. FPS に基づいて再生速度を設定する：
 
    .. code-block:: python
 
@@ -223,38 +223,38 @@ Open ``cv_6_camshift.py`` to view the full code.
           fps = 30.0
       delay_ms = int(1000 / fps)
 
-   This sets a delay so the video plays close to its original FPS.
+   これにより、動画が元の FPS に近い速度で再生されます。
 
-#. Create a probability map using back projection (V channel):
+#. バックプロジェクションで確率マップを作成する（V チャンネル）：
 
    .. code-block:: python
 
       back_proj = cv2.calcBackProject([hsv], [2], roi_hist, [0, 256], 1)
 
-   Back projection highlights pixels in the frame whose V values match the ROI histogram.  
-   Brighter values in ``back_proj`` mean “more likely to be the target”.
+   バックプロジェクションは、フレーム内で ROI ヒストグラムに一致する V 値を持つ画素を強調します。  
+   ``back_proj`` 内で明るい値ほど、「ターゲットである可能性が高い」ことを意味します。
 
-#. Track using CAMShift and update the window:
+#. CAMShift で追跡し、ウィンドウを更新する：
 
    .. code-block:: python
 
       rot_rect, track_window = cv2.CamShift(back_proj, track_window, term_crit)
 
-   CAMShift is based on MeanShift, but it can also adapt the **size and rotation** of the tracking window.
+   CAMShift は MeanShift をベースにしていますが、追跡ウィンドウの **サイズと回転** にも対応できます。
 
-   - ``track_window`` is updated each frame.
-   - ``rot_rect`` contains a rotated rectangle (center, size, angle).
+   - ``track_window`` は各フレームで更新されます。
+   - ``rot_rect`` には回転矩形（中心、サイズ、角度）が含まれます。
 
-#. Draw the rotated tracking box:
+#. 回転した追跡枠を描画する：
 
    .. code-block:: python
 
       pts = cv2.boxPoints(rot_rect).astype(np.int32)
       cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
 
-   This converts the rotated rectangle into four corner points and draws it on the frame.
+   これにより、回転矩形が 4 つの頂点に変換され、フレーム上に描画されます。
 
-#. Exit conditions (keyboard + window close):
+#. 終了条件（キーボード入力 + ウィンドウを閉じる）：
 
    .. code-block:: python
 
@@ -265,19 +265,19 @@ Open ``cv_6_camshift.py`` to view the full code.
       if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   Press ``q`` to quit, or close the window to stop safely.
+   ``q`` を押すか、ウィンドウを閉じると安全に終了できます。
 
-#. Release resources:
+#. リソースを解放する：
 
    .. code-block:: python
 
       cap.release()
       cv2.destroyAllWindows()
 
-   Always release the video file and close windows at the end.
+   最後に必ず動画ファイルを解放し、ウィンドウを閉じてください。
 
 
-5. CAMShift vs. MeanShift
+5. CAMShift と MeanShift の比較
 --------------------------------------
 
 .. list-table::
@@ -288,54 +288,54 @@ Open ``cv_6_camshift.py`` to view the full code.
      - MeanShift
      - CAMShift
    * - Window size
-     - Fixed
-     - Adaptive
+     - 固定
+     - 可変
    * - Angle
-     - Not supported
-     - Supports rotation
+     - 非対応
+     - 回転対応
    * - Tracking accuracy
-     - Moderate
-     - Higher, more adaptive
+     - 中程度
+     - より高く、適応性が高い
    * - Applications
-     - Static targets
-     - Complex motion, rotating targets
+     - 静的なターゲット
+     - 複雑な動き、回転するターゲット
 
-CAMShift is an upgrade over MeanShift,  
-better handling target deformation, rotation, and distance changes—well-suited for real-world scenarios.
+CAMShift は MeanShift を発展させた手法であり、  
+ターゲットの変形、回転、距離変化にもより柔軟に対応できるため、現実のシーンに適しています。
 
-6. Extensions and Practice
+6. 拡張と練習
 -------------------------------------------
 
-- Adjust the ``inRange`` thresholds to track green or blue targets  
-- Combine with live camera input to build a real-time color-based tracking system
+- ``inRange`` のしきい値を調整して、緑や青のターゲットを追跡してみましょう  
+- ライブカメラ入力と組み合わせて、リアルタイムの色ベース追跡システムを作ってみましょう
 
 
-7. Advanced: Interactive ROI Selection and Auto-Adjusting HSV Thresholds
+7. 応用: インタラクティブな ROI 選択と HSV しきい値の自動調整
 -------------------------------------------------------------------------
 
-As in the previous section, this project can also use mouse interaction to select the ROI and automatically adjust HSV thresholds.
+前節と同様に、このプロジェクトでもマウス操作による ROI の選択と、HSV しきい値の自動調整を行えます。
 
-Run ``cv_6_camshift_auto.py`` for the modified code.
+変更版のコードは ``cv_6_camshift_auto.py`` を実行してください。
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/opencv_python
    python3 cv_6_camshift_auto.py
 
-When you run the program, the first frame of the video will be displayed, and you will be asked to select a Region of Interest (ROI) with the mouse.
+プログラムを実行すると、動画の最初のフレームが表示され、マウスで Region of Interest（ROI）を選択するよう求められます。
 
-Drag the mouse to draw a rectangle around the target object, then press **Enter** or **Space** to confirm the selection.  
-Press **Esc** to cancel the selection.
+マウスをドラッグしてターゲット物体を囲む矩形を描き、 **Enter** または **Space** を押して確定します。  
+**Esc** を押すと選択をキャンセルできます。
 
-After selecting the ROI, a window named **CAMShift Tracker** will appear.  
-The selected object will be tracked with a green rotated rectangle, and the tracking window will automatically adapt its position, size, and orientation as the object moves.
+ROI を選択すると、 **CAMShift Tracker** という名前のウィンドウが表示されます。  
+選択した物体は緑色の回転矩形で追跡され、物体が動くと、追跡ウィンドウは位置・サイズ・向きを自動的に調整します。
 
-To stop the program:
+プログラムを停止するには：
 
-* Press the **q** key on the keyboard  
-* Or close the display window using the close button (X)  
+* キーボードの **q** キーを押す  
+* または表示ウィンドウの閉じるボタン（X）をクリックする  
 
-After exiting, the video playback stops and all OpenCV windows are closed.
+終了すると、動画の再生が停止し、すべての OpenCV ウィンドウが閉じられます。
 
 
 .. code-block:: python

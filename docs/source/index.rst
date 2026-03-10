@@ -2,59 +2,60 @@
 
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    こんにちは！Facebook の **SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community** へようこそ。  
+    Raspberry Pi、Arduino、ESP32 を同じ興味を持つ仲間と一緒に、さらに深く学びましょう。
 
-    **Why Join?**
+    **参加するメリット**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **専門サポート** ：購入後の問題や技術的な課題を、コミュニティメンバーや SunFounder チームのサポートで解決できます。
+    - **学びと共有** ：ヒントやチュートリアルを共有し、スキルを向上させましょう。
+    - **限定プレビュー** ：新製品の発表や先行情報をいち早く入手できます。
+    - **特別割引** ：最新製品の限定割引を利用できます。
+    - **キャンペーンとプレゼント企画** ：抽選イベントやシーズンプロモーションに参加できます。
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 一緒に学び、作り、探求してみませんか？ [|link_sf_facebook|] をクリックして今すぐ参加しましょう！
 
 .. end_hello_message
 
 SunFounder AI Fusion Lab Kit
 =======================================================
 
-**Welcome to the AI Fusion Lab Kit Documentation**
+**AI Fusion Lab Kit ドキュメントへようこそ**
 
-The AI Fusion Lab Kit is an all-in-one learning and development platform designed for beginners, makers, and educators to explore Python programming, artificial intelligence, computer vision, and interactive hardware projects.
+AI Fusion Lab Kit は、初心者、メイカー、教育者向けに設計されたオールインワンの学習・開発プラットフォームです。  
+Python プログラミング、人工知能、コンピュータビジョン、そしてインタラクティブなハードウェアプロジェクトを学ぶことができます。
 
-It combines:
+このキットには次の要素が含まれています：
 
-* A modular hardware kit
-* A ready-to-use software environment
-* Step-by-step learning modules
-* AI and vision tools such as LLMs, OpenCV, and MediaPipe
+* モジュール式ハードウェアキット  
+* すぐに使えるソフトウェア環境  
+* ステップバイステップの学習モジュール  
+* LLM、OpenCV、MediaPipe などの AI・ビジョンツール  
 
-With this kit, you can build projects that blend coding, electronics, and modern AI technology — all in a hands-on, beginner-friendly way.
+このキットを使えば、コーディング、電子回路、そして最新の AI 技術を組み合わせたプロジェクトを、  
+実践的かつ初心者にも分かりやすい形で作成できます。
 
-**How to Navigate This Documentation**
+**このドキュメントの使い方**
 
-This guide will help you understand what the kit can do, how the documentation is structured, and where to begin based on your experience level. Whether you're a beginner, an educator, or an experienced maker, you’ll find a clear path that fits your goals.
+このガイドでは、キットでできること、ドキュメントの構成、そして経験レベルに応じた始め方を説明します。  
+初心者、教育者、経験豊富なメイカーのいずれでも、目的に合った学習ルートを見つけることができます。
 
+**どこから始めればよいか分からない場合**
 
-**Not Sure Where to Start?**
-
-* **Brand-new to the kit?** → Always start with :ref:`get_start`
-* **New to coding?** → :ref:`play_with_python`
-* **Interested in AI?** → :ref:`play_with_llm`
-* **Working with cameras?** → :ref:`play_with_opencv` or :ref:`play_with_mediapipe`
-* **Need technical details?** → :ref:`cpn_list`
-* **Encountering problems?** → :ref:`faq`
-
+* **キットを初めて使う方** → :ref:`get_start` から始めてください  
+* **プログラミングが初めての方** → :ref:`play_with_python`  
+* **AI に興味がある方** → :ref:`play_with_llm`  
+* **カメラを使ったプロジェクトを学びたい方** → :ref:`play_with_opencv` または :ref:`play_with_mediapipe`  
+* **技術仕様を確認したい場合** → :ref:`cpn_list`  
+* **問題が発生した場合** → :ref:`faq`
 
 .. warning::
    
-   The MediaPipe project does not support Debian 13 (Trixie) at this time.
-   Please use Raspberry Pi OS (Bookworm, Debian 12) to ensure full compatibility.
+   現在、MediaPipe プロジェクトは Debian 13（Trixie）をサポートしていません。  
+   完全な互換性を確保するため、Raspberry Pi OS（Bookworm, Debian 12）を使用してください。
 
 
-
-**Content**
+**コンテンツ**
 
 .. toctree::
     :maxdepth: 1
@@ -70,11 +71,14 @@ This guide will help you understand what the kit can do, how the documentation i
     faq
 
 
-**Contact Us**
+**お問い合わせ**
 
-If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
+ご不明な点がありましたら、 **service@sunfounder.com** までお気軽にお問い合わせください。  
+サポートチームが対応いたします。
 
     
-**Copyright Notice**
+**著作権について**
 
-All contents including but not limited to texts, images, and code in this manual are owned by the SunFounder Company. You should only use it for personal study,investigation, enjoyment, or other non-commercial or nonprofit purposes, under therelated regulations and copyrights laws, without infringing the legal rights of the author and relevant right holders. For any individual or organization that uses these for commercial profit without permission, the Company reserves the right to take legal action.
+本マニュアルに含まれるテキスト、画像、コードなどのすべての内容は、SunFounder 社に帰属します。  
+これらの内容は、関連する著作権法および規定を遵守した上で、個人的な学習、研究、娯楽、またはその他の非営利目的に限り使用することができます。著者および権利者の法的権利を侵害してはなりません。  
+許可なく商業目的で利用した場合、SunFounder 社は法的措置を取る権利を有します。

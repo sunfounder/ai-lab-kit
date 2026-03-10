@@ -5,37 +5,37 @@
 
 .. _tts_espeak_pico2wave:
 
-1. TTS with Espeak and Pico2Wave
+1. Espeak と Pico2Wave による TTS
 =================================================
 
-In this lesson, we'll use two built-in text-to-speech (TTS) engines on Raspberry Pi — **Espeak** and **Pico2Wave** — to make the Fusion HAT+ talk.  
+このレッスンでは、Raspberry Pi に標準搭載されている 2 つの text-to-speech（TTS）エンジン、 **Espeak** と **Pico2Wave** を使って、Fusion HAT+ に音声を出力させます。  
 
-These two engines are both simple and run offline, but they sound quite different:
+この 2 つのエンジンはどちらもシンプルでオフライン動作に対応していますが、音声の特徴はかなり異なります：
 
-* **Espeak**: very lightweight and fast, but the voice is robotic. You can adjust speed, pitch, and volume.  
-* **Pico2Wave**: produces a smoother and more natural voice than Espeak, but has fewer options to configure.  
+* **Espeak**: 非常に軽量で高速ですが、声は機械的です。速度、ピッチ、音量などを調整できます。  
+* **Pico2Wave**: Espeak よりも滑らかで自然な音声を生成しますが、設定できる項目は少なめです。  
 
-You'll hear the difference in **voice quality** and **features**.  
+このレッスンでは、 **音声品質** と **機能の違い** を実際に聞き比べることができます。  
 
 ----
 
-1. Testing Espeak
+1. Espeak のテスト
 --------------------
 
-Espeak is a lightweight TTS engine included in Raspberry Pi OS.  
-Its voice sounds robotic, but it is highly configurable: you can adjust volume, pitch, speed, and more.  
+Espeak は Raspberry Pi OS に含まれている軽量な TTS エンジンです。  
+音声はやや機械的ですが、音量、ピッチ、速度などを細かく調整できるのが特長です。  
 
-**Run the program**
+**プログラムを実行する**
 
   .. code-block:: bash
   
       cd ~/ai-lab-kit/llm
       sudo python3 tts_espeak.py
 
-  * You should hear the Fusion HAT+ say: “Hello! I'm Espeak TTS.”
-  * Try changing the tuning parameters in the code to experiment with how ``amp``, ``speed``, ``gap``, and ``pitch`` affect the sound.
+  * Fusion HAT+ から “Hello! I'm Espeak TTS.” と聞こえるはずです。
+  * コード内の調整パラメータを変更して、 ``amp`` 、 ``speed`` 、 ``gap`` 、 ``pitch`` が音声にどう影響するか試してみてください。
 
-**Code**
+**コード**
 
 .. code-block:: python
   
@@ -54,37 +54,37 @@ Its voice sounds robotic, but it is highly configurable: you can adjust volume, 
 
   tts.say("Hello! I’m Espeak TTS.")
 
-**Code explanation:**
+**コードの説明：**
 
-* ``tts.set_amp()`` — Controls the volume (0–200).  
-* ``tts.set_speed()`` — Adjusts the speaking speed (80–260).  
-* ``tts.set_gap()`` — Sets the word gap (0–200).  
-* ``tts.set_pitch()`` — Sets the pitch (0–99).  
-* ``tts.say()`` — Converts text to speech and plays it.
+* ``tts.set_amp()`` — 音量を設定します（0～200）。  
+* ``tts.set_speed()`` — 読み上げ速度を調整します（80～260）。  
+* ``tts.set_gap()`` — 単語間の間隔を設定します（0～200）。  
+* ``tts.set_pitch()`` — ピッチを設定します（0～99）。  
+* ``tts.say()`` — テキストを音声に変換して再生します。
 
-💡 **Tip:** Try increasing the pitch and speed to make the robot sound cheerful, or lowering them to make it sound serious.
+💡 **ヒント：** ピッチと速度を上げると明るく元気なロボット音声になり、下げると落ち着いた真面目な印象になります。
 
 ----
 
 
-2. Testing Pico2Wave
----------------------
+2. Pico2Wave のテスト
+------------------------
 
-Pico2Wave produces a **more natural and human-like voice** compared to Espeak.  
-It’s very easy to use, but less flexible — you can only **change the language**, not the pitch, speed, or volume.  
-This makes Pico2Wave a great choice when you want clear and smooth speech without too much configuration.
+Pico2Wave は、Espeak と比べて **より自然で人間らしい音声** を生成します。  
+使い方はとても簡単ですが、柔軟性は低く、 **変更できるのは言語だけ** で、ピッチ、速度、音量は調整できません。  
+そのため、細かな設定を行わずに、聞き取りやすく滑らかな音声を使いたい場合に適しています。
 
-**Run the program**
+**プログラムを実行する**
 
   .. code-block:: bash
   
       cd ~/ai-lab-kit/llm
       sudo python3 tts_pico2wave.py
 
-* You should hear the Fusion HAT+ say: “Hello! I'm Pico2Wave TTS.”  
-* Try changing the language (for example, ``es-ES`` for Spanish) and listen to how the voice changes.  
+* Fusion HAT+ から “Hello! I'm Pico2Wave TTS.” と聞こえるはずです。  
+* 言語を変更して（たとえばスペイン語なら ``es-ES``）、音声の違いを聞いてみてください。  
 
-**Code**
+**コード**
 
 .. code-block:: python
 
@@ -99,55 +99,55 @@ This makes Pico2Wave a great choice when you want clear and smooth speech withou
   # Quick hello (sanity check)
   tts.say("Hello! I'm Pico2Wave TTS.")
 
-**Code explanation:**
+**コードの説明：**
 
-* ``tts.set_lang()`` — Sets the output language for speech synthesis.
+* ``tts.set_lang()`` — 音声合成の出力言語を設定します。
 
-  - ``en-US`` (default)
+  - ``en-US`` （デフォルト）
   - ``en-GB``
   - ``de-DE``
   - ``es-ES``
   - ``fr-FR``
   - ``it-IT``
 
-* ``tts.say()`` — Converts the text to speech and plays it immediately.  
+* ``tts.say()`` — テキストを音声に変換し、すぐに再生します。  
 
 
 ----
 
-Troubleshooting
--------------------
+トラブルシューティング
+-------------------------
 
-* **No sound when running Espeak or Pico2Wave**
+* **Espeak または Pico2Wave を実行しても音が出ない**
 
-  * Check that your speakers/headphones are connected and volume is not muted.  
-  * Run a quick test in terminal:
+  * スピーカーまたはヘッドホンが正しく接続されていて、音量がミュートになっていないか確認してください。  
+  * ターミナルで次の簡単なテストを実行してください：
 
     .. code-block:: bash
 
        espeak "Hello world"
        pico2wave -w test.wav "Hello world" && aplay test.wav
 
-  If you hear nothing, the issue is with audio output, not your Python code.
+  何も聞こえない場合は、問題は Python コードではなく音声出力側にあります。
 
-* **Espeak voice sounds too fast or too robotic**
+* **Espeak の声が速すぎる、または機械的すぎる**
 
-  * Try adjusting the parameters in your code:
+  * コード内のパラメータを調整してみてください：
 
     .. code-block:: python
 
        tts.set_speed(120)   # slower
        tts.set_pitch(60)    # different pitch
 
-* **Permission denied when running code**
+* **コード実行時に Permission denied が出る**
 
-  * Try running with ``sudo``:
+  * ``sudo`` を付けて実行してみてください：
 
     .. code-block:: bash
 
        sudo python3 test_tts_espeak.py
 
-Comparison: Espeak vs Pico2Wave
+比較：Espeak と Pico2Wave
 -------------------------------------
 
 .. list-table::
@@ -158,15 +158,15 @@ Comparison: Espeak vs Pico2Wave
      - Espeak
      - Pico2Wave
    * - Voice quality
-     - Robotic, synthetic
-     - More natural, human-like
+     - 機械的、合成音声らしい
+     - より自然で人間らしい
    * - Languages
-     - Default English
-     - Fewer, but common ones
+     - 標準では英語
+     - 少なめだが主要言語に対応
    * - Adjustable
-     - Yes (speed, pitch, etc.)
-     - No (only language)
+     - あり（速度、ピッチなど）
+     - なし（言語のみ）
    * - Performance
-     - Very fast, lightweight
-     - Slightly slower, heavier
+     - 非常に高速で軽量
+     - やや遅めで少し重い
 

@@ -4,19 +4,19 @@
 
 .. _py_ai_health_assistant:
 
-(Example) AI Health Assistant with Temperature Monitoring
+(Example) 体温モニタリング付き AI ヘルスアシスタント
 =========================================================
 
-**Introduction**
+**はじめに**
 
 
-This project creates an intelligent **AI Health Assistant** that combines body temperature sensing with voice interaction to provide personalized health assessments. The system integrates:
+このプロジェクトでは、体温センシングと音声インタラクションを組み合わせ、個別の健康アセスメントを提供するインテリジェントな **AI ヘルスアシスタント** を作成します。システムは次の機能を統合します：
 
-1. **Thermistor-based Temperature Sensing** for accurate body temperature measurement
-2. **Speech Recognition** for understanding user symptoms and queries
-3. **AI-Powered Health Analysis** using OpenAI GPT for medical assessment
-4. **Text-to-Speech Feedback** providing audible health recommendations
-5. **Real-time Monitoring** with continuous temperature conversion
+1. 体温を高精度に測定する **サーミスタベースの温度センシング**
+2. ユーザーの症状や質問を理解するための **音声認識**
+3. OpenAI GPT を用いた医療的観点での **AI 健康分析**
+4. 健康に関する提案を音声で返す **Text-to-Speech フィードバック**
+5. 温度変換を継続実行する **リアルタイム監視**
 
 .. raw:: html
 
@@ -25,7 +25,7 @@ This project creates an intelligent **AI Health Assistant** that combines body t
           Your browser does not support the video tag.
       </video>
 
-The health assistant measures body temperature through a thermistor circuit, analyzes the reading with AI, and provides appropriate health advice based on established medical temperature ranges.
+ヘルスアシスタントはサーミスタ回路で体温を測定し、その値を AI で解析して、一般的な医学的体温レンジに基づいた適切なアドバイスを返します。
 
 
 * :ref:`py_online_llm` 
@@ -36,9 +36,9 @@ The health assistant measures body temperature through a thermistor circuit, ana
 
 ----------------------------------------------
 
-**What You'll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトに必要な部品は以下の通りです：
 
 .. list-table::
     :widths: 30 20
@@ -59,9 +59,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**配線図**
 
-Connect the components to the Fusion HAT+ as follows:
+以下のように部品を Fusion HAT+ に接続します：
 
 .. image:: img/fzz/health_assistant_bb.png
    :width: 80%
@@ -76,9 +76,9 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**サンプルの実行**
 
-#. Run the Code
+#. コードを実行する
 
    .. raw:: html
 
@@ -89,12 +89,12 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_health.py
 
-#. Check the Result
+#. 結果を確認する
 
-   When the program starts, it will prompt you to speak. It will then estimate your body
-   temperature and provide health advice.
+   プログラムを起動すると、話しかけるよう促されます。その後、推定された体温を提示し、
+   それに基づいた健康アドバイスを返します。
 
-   Typical console output:
+   典型的なコンソール出力：
 
    .. code-block:: text
 
@@ -112,9 +112,9 @@ Connect the components to the Fusion HAT+ as follows:
       hydrated, and monitor your symptoms. If the fever persists or worsens, consider
       seeking medical attention.
 
-#. Example Scenarios
+#. シナリオ例
 
-   * Normal Temperature (36.5°C):
+   * 平熱（36.5°C）：
 
      .. code-block:: text
 
@@ -122,7 +122,7 @@ Connect the components to the Fusion HAT+ as follows:
         AI: "Your body temperature is 36.5°C, which is within the normal range. You're
         doing well, but continue to monitor how you feel."
 
-   * High Fever (39.2°C):
+   * 高熱（39.2°C）：
 
      .. code-block:: text
 
@@ -130,7 +130,7 @@ Connect the components to the Fusion HAT+ as follows:
         AI: "Your body temperature is 39.2°C, indicating a high fever. Please rest
         immediately, stay hydrated, and consider seeking medical advice as soon as possible."
 
-   * Low Temperature (34.2°C):
+   * 低体温（34.2°C）：
 
      .. code-block:: text
 
@@ -139,9 +139,9 @@ Connect the components to the Fusion HAT+ as follows:
         hypothermia. Please warm up immediately with blankets and warm drinks."
 
 
-**Code**
+**コード**
 
-Here is the full Python script for the AI Health Assistant:
+以下は AI ヘルスアシスタントの Python スクリプト全体です：
 
 .. raw:: html
 
@@ -272,21 +272,21 @@ Here is the full Python script for the AI Health Assistant:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**コードの理解**
 
-1. Temperature Sensor Initialization
+1. 温度センサーの初期化
 
-   The thermistor is connected to ADC channel A3:
+   サーミスタは ADC の A3 チャンネルに接続されています：
    
    .. code-block:: python
    
       thermistor = ADC('A3')
       
-   This reads analog values from 0-4095 representing voltage levels.
+   これにより、電圧レベルに対応する 0〜4095 のアナログ値を読み取ります。
 
-2. Steinhart-Hart Temperature Conversion
+2. Steinhart-Hart による温度変換
 
-   The thermistor uses the Steinhart-Hart equation for accurate temperature calculation:
+   サーミスタは Steinhart-Hart 式を用いて温度を高精度に算出します：
    
    .. code-block:: python
    
@@ -305,9 +305,9 @@ Here is the full Python script for the AI Health Assistant:
       # Convert Kelvin to Celsius
       Cel = temp - 273.15
 
-3. Sensor Error Checking
+3. センサー異常のチェック
 
-   The code includes basic error detection:
+   基本的なエラー検出を含んでいます：
    
    .. code-block:: python
    
@@ -315,11 +315,11 @@ Here is the full Python script for the AI Health Assistant:
           print("Please check the sensor")
           continue
       
-   This detects if the thermistor is disconnected or shorted.
+   これはサーミスタが未接続、またはショートしている可能性を検出します。
 
-4. Speech Recognition Setup
+4. 音声認識の設定
 
-   Both STT and TTS are configured for English:
+   STT と TTS の両方を英語向けに設定しています：
    
    .. code-block:: python
    
@@ -327,20 +327,20 @@ Here is the full Python script for the AI Health Assistant:
       tts.set_lang('en-US')
       stt = STT(language="en-us")
 
-5. Contextual Input Construction
+5. コンテキスト入力の構築
 
-   Temperature data is combined with user query:
+   温度データとユーザーの質問を結合して送信します：
    
    .. code-block:: python
    
       current_temp = temperature()
       input_text = f"thermistor: {current_temp:.1f}, message: {result['final']}"
       
-   Format: ``"thermistor: 37.2, message: I feel dizzy"``
+   形式： ``"thermistor: 37.2, message: I feel dizzy"``
 
-6. Medical Classification Logic
+6. 医学的レンジの分類ロジック
 
-   The AI instructions define temperature ranges:
+   AI への instructions で体温レンジを定義しています：
    
    .. code-block:: python
    
@@ -350,9 +350,9 @@ Here is the full Python script for the AI Health Assistant:
       # 37.5-38.5°C: Mild fever
       # > 38.5°C: High fever
 
-7. Real-time Speech Processing
+7. リアルタイム音声処理
 
-   The system shows partial recognition results:
+   途中経過（partial）を表示しながら処理します：
    
    .. code-block:: python
    
@@ -364,9 +364,9 @@ Here is the full Python script for the AI Health Assistant:
               # Partial recognition
               print(f"partial: {result['partial']}", end="", flush=True)
 
-8. Streaming AI Response
+8. AI 応答のストリーミング
 
-   AI response is streamed and spoken simultaneously:
+   AI 応答をストリームで受け取り、最後にまとめて読み上げます：
    
    .. code-block:: python
    
@@ -380,102 +380,102 @@ Here is the full Python script for the AI Health Assistant:
       
       tts.say(string)  # Speak complete response
 
-9. Temperature Formatting
+9. 温度のフォーマット
 
-   Temperature is formatted to one decimal place:
+   温度は小数 1 桁に整形しています：
    
    .. code-block:: python
    
       f"thermistor: {current_temp:.1f}"
       
-   This ensures consistent precision (e.g., 36.5°C instead of 36.512345°C).
+   これにより、表示の精度が揃います（例：36.512345°C ではなく 36.5°C）。
 
-10. Clear Console Display
+10. きれいなコンソール表示
 
-    Uses ANSI escape codes for clean output:
+    ANSI エスケープコードで表示を整えます：
     
     .. code-block:: python
     
         print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
         
-    - ``\r``: Return to start of line
-    - ``\x1b[K``: Clear to end of line
-    - Prevents overlapping text during streaming
+    - ``\r``: 行頭に戻る
+    - ``\x1b[K``: 行末まで消去
+    - ストリーミング時の文字の重なりを防ぎます
 
 ----------------------------------------------
 
-**Troubleshooting**
+**トラブルシューティング**
 
-- Temperature readings inaccurate
+- 体温の値が正確でない
 
-  - Check thermistor wiring: proper voltage divider configuration
-  - Verify resistor value: should match thermistor's nominal resistance
-  - Calibrate with known temperature source
-  - Check ADC reference voltage (should be 3.3V stable)
+  - サーミスタ配線を確認：正しい分圧回路になっているか
+  - 抵抗値を確認：サーミスタの公称抵抗に合っているか
+  - 既知の温度源でキャリブレーションしてください
+  - ADC の基準電圧（3.3V）が安定しているか確認してください
 
-- No speech recognition
+- 音声認識が動作しない
 
-  - Test microphone: ``arecord --duration=3 test.wav && aplay test.wav``
-  - Check audio device selection in STT initialization
-  - Ensure background noise is minimal
-  - Speak clearly and at moderate pace
+  - マイクをテスト： ``arecord --duration=3 test.wav && aplay test.wav``
+  - STT 初期化でのオーディオデバイス選択を確認してください
+  - 周囲のノイズを減らしてください
+  - はっきり、適度な速さで話してください
 
-- AI not responding
+- AI が応答しない
 
-  - Check internet connection
-  - Verify OpenAI API key in ``secret.py``
-  - Ensure billing is enabled on OpenAI account
-  - Check if API rate limits are exceeded
+  - インターネット接続を確認してください
+  - ``secret.py`` の OpenAI API キーを確認してください
+  - OpenAI アカウントで課金が有効になっているか確認してください
+  - API のレート制限に達していないか確認してください
 
-- Temperature jumps erratically
+- 温度が不安定に跳ねる
 
-  - Add software filtering: moving average of readings
-  - Check for loose connections
-  - Add capacitor (0.1µF) across thermistor for noise reduction
-  - Ensure thermistor is making good thermal contact
+  - ソフトウェアフィルタを追加（移動平均など）
+  - 接触不良がないか確認してください
+  - ノイズ低減のためサーミスタ両端にコンデンサ（0.1µF）を追加してください
+  - サーミスタがしっかり熱接触しているか確認してください
 
-- Text-to-speech not working
+- Text-to-Speech が動作しない
 
-  - Test audio output: ``speaker-test -t sine -f 440``
-  - Verify language setting: ``tts.set_lang('en-US')``
-  - Check volume: ``alsamixer``
-  - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
+  - 音声出力をテスト： ``speaker-test -t sine -f 440``
+  - 言語設定を確認： ``tts.set_lang('en-US')``
+  - 音量を確認： ``alsamixer``
+  - オーディオ設定スクリプトを再実行： ``sudo /opt/setup_fusion_hat_audio.sh``
 
-- Sensor reading shows 0 or 4095
+- センサー値が 0 または 4095 になる
 
-  - Check wiring: thermistor may be shorted (0) or open (4095)
-  - Verify voltage divider calculation
-  - Test ADC with known voltage source
-  - Check ADC channel (should be A3)
+  - 配線を確認：ショート（0）または断線（4095）の可能性があります
+  - 分圧計算が正しいか確認してください
+  - 既知電圧で ADC をテストしてください
+  - ADC チャンネルが A3 になっているか確認してください
 
-**Safety and Medical Disclaimer**
+**安全上の注意と医療免責事項**
 
 .. warning::
 
-   This project is for educational and demonstration purposes only.  
-   It is **NOT** a medical device and must **NOT** be used for real medical diagnosis or treatment.
+   このプロジェクトは教育・デモ目的のみです。  
+   **医療機器ではありません** 。実際の診断や治療目的で使用しないでください。
 
-#. Safety guidelines
+#. 安全ガイドライン
 
-   * Not for medical use: Do not rely on this system for any health or treatment decisions.
-   * Emergency situations: Always seek professional medical help for serious symptoms.
-   * Accuracy limitations: Thermistor accuracy is limited compared to medical thermometers.
-   * Calibration required: Regular calibration against a medical thermometer is essential.
-   * Supervision needed: Adult supervision is recommended when used for educational purposes.
+   * 医療用途不可：健康や治療に関する判断を本システムに依存しないでください。
+   * 緊急時：重い症状がある場合は、必ず医療機関に相談してください。
+   * 精度の限界：サーミスタの精度は医療用体温計に及びません。
+   * キャリブレーション必須：医療用体温計との定期的な較正が必要です。
+   * 監督推奨：教育用途では成人の監督を推奨します。
 
-#. When to seek medical attention
+#. 受診の目安
 
-   Seek professional medical help if any of the following occur:
+   次のいずれかに該当する場合は、医療機関への相談を検討してください：
 
-   * Temperature > 39.5°C (103.1°F) in adults
-   * Temperature > 38.0°C (100.4°F) in infants under 3 months
-   * Fever lasting more than 3 days
-   * Difficulty breathing or chest pain
-   * Severe headache or stiff neck
-   * Confusion or seizures
+   * 成人で 39.5°C（103.1°F）を超える
+   * 生後 3 か月未満で 38.0°C（100.4°F）を超える
+   * 発熱が 3 日以上続く
+   * 呼吸困難または胸痛がある
+   * 強い頭痛や首のこわばりがある
+   * 意識混濁やけいれんがある
 
 
 
 ----------------------------------------------
 
-This AI Health Assistant demonstrates how sensor technology, voice interaction, and artificial intelligence can work together to create accessible health monitoring tools, while emphasizing the importance of professional medical consultation for serious health concerns!
+この AI ヘルスアシスタントは、センサー技術、音声インタラクション、人工知能を組み合わせることで、利用しやすい健康モニタリングツールを構築できることを示します。同時に、重い症状がある場合は専門家の医療判断が不可欠である点も強調しています。

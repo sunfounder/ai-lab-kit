@@ -4,20 +4,20 @@
 
 .. _py_fun_traffic_light:
 
-4.9 Traffic Light Simulation
+4.9 信号機シミュレーション
 ==============================
 
-**Introduction**
+**はじめに**
 
-This project demonstrates the use of LEDs and a 4-digit 7-segment display to simulate a real-world traffic light system. The LEDs represent the red, yellow, and green lights, while the 7-segment display counts down the time remaining for each light. It provides an engaging way to learn about GPIO control, timing, and 7-segment displays in an educational or prototype setting.
+このプロジェクトでは、LED と 4 桁の 7 セグメントディスプレイを使用して、実際の信号機システムをシミュレーションします。LED は赤・黄・緑の信号灯を表し、7 セグメントディスプレイは各信号の残り時間をカウントダウン表示します。GPIO 制御、タイミング処理、7 セグメントディスプレイの使い方を、教育用途や試作環境で楽しく学べる内容になっています。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**必要なもの**
 
-The following components are required for this project:
+このプロジェクトで必要なコンポーネントは以下のとおりです。
 
 .. list-table::
     :widths: 30 20
@@ -47,9 +47,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**回路図**
 
-Below is the schematic diagram for the traffic light simulation project:
+以下は、信号機シミュレーションプロジェクトの回路図です。
 
 .. image:: img/fzz/4.1.9_sch.png
    :width: 90%
@@ -60,9 +60,9 @@ Below is the schematic diagram for the traffic light simulation project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**配線図**
 
-Refer to the wiring diagram for assembling the components:
+コンポーネントの組み立ては、以下の配線図を参照してください。
 
 
 .. image:: img/fzz/4.1.9_bb.png
@@ -72,11 +72,11 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Running the Example**
+**サンプルの実行**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+このチュートリアルで使用するすべてのサンプルコードは ``ai-lab-kit`` ディレクトリに含まれています。 
+以下の手順に従ってサンプルを実行してください。
 
 
 .. raw:: html
@@ -91,10 +91,10 @@ Follow these steps to run the example:
    
 ----------------------------------------------
 
-**Code**
+**コード**
 
 
-Here is the Python script for the traffic light simulation:
+以下は、信号機シミュレーションで使用する Python スクリプトです。
 
 
 .. raw:: html
@@ -222,76 +222,76 @@ Here is the Python script for the traffic light simulation:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**コードの解説**
 
-1. **Initialization:**
+1. **初期化:**
 
-   * Sets up GPIO pins for the shift register, 7-segment display, and traffic light LEDs.
-   * Defines constants for light durations and initializes state variables.
+   * シフトレジスタ、7 セグメントディスプレイ、および信号機用 LED の GPIO ピンを設定します。
+   * 各信号の点灯時間を定義し、状態変数を初期化します。
 
-2. **7-Segment Display Functions:**
+2. **7 セグメントディスプレイ用関数:**
 
-   * ``clearDisplay``: Clears all segments on the display.
-   * ``hc595_shift``: Sends data to the shift register to control display segments.
-   * ``pickDigit``: Activates a specific digit for multiplexing.
+   * ``clearDisplay``: ディスプレイ上のすべてのセグメントを消灯します。
+   * ``hc595_shift``: 表示セグメントを制御するために、シフトレジスタへデータを送信します。
+   * ``pickDigit``: 多重化表示のために、特定の桁を有効にします。
 
-3. **Timer Function:**
+3. **タイマー関数:**
 
-   * Handles the countdown and transitions between light states.
+   * カウントダウンを処理し、信号の状態を切り替えます。
 
-4. **Traffic Light Control:**
+4. **信号機の制御:**
 
-   * Updates the LEDs based on the current state.
+   * 現在の状態に応じて LED を更新します。
 
-5. **Main Loop:**
+5. **メインループ:**
 
-   * Continuously updates the display and LEDs.
+   * ディスプレイと LED を継続的に更新します。
 
-6. **Cleanup:**
+6. **終了処理:**
 
-   * Ensures all resources are properly released on termination.
+   * スクリプト終了時に、すべてのリソースが適切に解放されるようにします。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**トラブルシューティング**
 
-1. **Traffic Lights Not Working**:
+1. **信号灯が動作しない** :
 
-   - **Cause**: Incorrect wiring or faulty LEDs.
-   - **Solution**:
+   - **原因** : 配線ミス、または LED の故障。
+   - **対処方法** :
 
-     - Verify that the LEDs are correctly connected to GPIO pins 5 (Red), 6 (Green), and 13 (Yellow).
-     - Test each LED individually using a simple GPIO control script.
+     - LED が GPIO5（赤）、GPIO6（緑）、GPIO13（黄）に正しく接続されていることを確認してください。
+     - 簡単な GPIO 制御スクリプトで各 LED を個別にテストしてください。
 
-2. **7-Segment Display Does Not Show Countdown**:
+2. **7 セグメントディスプレイにカウントダウンが表示されない**:
 
-   - **Cause**: Incorrect wiring or shift register configuration.
-   - **Solution**:
+   - **原因** : 配線ミス、またはシフトレジスタ設定の誤り。
+   - **対処方法** :
 
-     - Ensure the shift register's ``SDI``, ``RCLK``, and ``SRCLK`` pins are properly connected to GPIO 17, 4, and 27, respectively.
-     - Verify the digit selection pins match the ``placePin`` configuration.
+     - シフトレジスタの ``SDI`` 、 ``RCLK`` 、 ``SRCLK`` ピンが、それぞれ GPIO17、GPIO4、GPIO27 に正しく接続されていることを確認してください。
+     - 桁選択ピンが ``placePin`` の設定と一致していることを確認してください。
 
-3. **Countdown Timer Freezes**:
+3. **カウントダウンタイマーが停止する**:
 
-   - **Cause**: Timer thread not restarting correctly.
-   - **Solution**: Ensure the ``timer()`` function calls ``timer1.start()`` to restart the timer thread.
+   - **原因** : タイマースレッドが正しく再起動していません。
+   - **対処方法** : ``timer()`` 関数内で ``timer1.start()`` が呼び出され、タイマースレッドが再開されていることを確認してください。
 
-4. **Incorrect Light Durations**:
+4. **信号の点灯時間が正しくない** :
 
-   - **Cause**: Incorrect duration values or state transitions.
-   - **Solution**:
+   - **原因** : 時間設定値、または状態遷移の誤り。
+   - **対処方法** :
 
-     - Verify the ``redLight``, ``greenLight``, and ``yellowLight`` durations.
-     - Check the ``timer()`` function logic to ensure correct state transitions.
+     - ``redLight`` 、 ``greenLight`` 、 ``yellowLight`` の値を確認してください。
+     - ``timer()`` 関数内のロジックが、正しく状態を切り替えていることを確認してください。
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**拡張アイデア**
 
-1. **Pedestrian Crossing**: Add a pedestrian crossing button that temporarily interrupts the traffic cycle to allow pedestrians to cross safely.
+1. **歩行者用横断機能**: 歩行者ボタンを追加し、信号サイクルを一時的に中断して安全に横断できるようにします。
 
    .. code-block:: python
 
@@ -304,9 +304,9 @@ Here is the Python script for the traffic light simulation:
                counter = 5  # Shorten green light duration
       pedestrian_button.when_activated = handle_pedestrian
 
-2. **Adaptive Timing**: Adjust the durations of the traffic lights dynamically based on real-time traffic density.
+2. **適応型タイミング制御** : リアルタイムの交通量に応じて、各信号の点灯時間を動的に調整します。
 
-3. **Event Logging**: Log traffic light state changes with timestamps to a file for analysis:
+3. **イベントログ記録** : 信号状態の変化とタイムスタンプをファイルに保存して分析できるようにします。
 
    .. code-block:: python
 
@@ -315,6 +315,6 @@ Here is the Python script for the traffic light simulation:
 
 ----------------------------------------------
 
-**Conclusion**
+**まとめ**
 
-This project simulates a traffic light system, providing hands-on experience with GPIO control, shift registers, and 7-segment displays. It’s a fun and educational way to explore electronics and programming while replicating a real-world application. Try enhancing the system to make it even more interactive!
+このプロジェクトでは、信号機システムをシミュレーションすることで、GPIO 制御、シフトレジスタ、7 セグメントディスプレイの使い方を実践的に学ぶことができます。実際のアプリケーションを模した、楽しく教育的な電子工作プロジェクトです。さらに機能を追加して、よりインタラクティブなシステムへ発展させてみてください。

@@ -5,32 +5,34 @@
 .. _mp_hand_gesture:
 
 
-6. Hand Gesture Recognizer
+6. 手のジェスチャー認識
 ==================================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-In the previous chapter, we used MediaPipe Hands
-to obtain 21 hand landmarks and visualize the hand skeleton.
+前の章では、MediaPipe Hands を使用して
+21 個の手ランドマークを取得し、
+手の骨格を可視化しました。
 
-This chapter introduces **MediaPipe Tasks – Gesture Recognizer**,
-which can directly output semantic gesture labels such as:
+この章では **MediaPipe Tasks – Gesture Recognizer** を紹介します。  
+これを使うと、次のような意味的なジェスチャーラベルを
+直接出力できます：
 
 - ``Thumb_Up``
 - ``Open_Palm``
 - ``Victory``
 - ``Closed_Fist``
 
-By combining:
+以下を組み合わせることで：
 
-- ``Picamera2`` for video capture
-- ``MediaPipe Hands`` for landmark visualization
-- ``Gesture Recognizer`` for classification
+- 動画取得用の ``Picamera2``
+- ランドマーク可視化用の ``MediaPipe Hands``
+- 分類用の ``Gesture Recognizer``
 
-we can achieve real-time gesture recognition
-with both skeleton rendering and label display.
+骨格描画とラベル表示の両方を備えた
+リアルタイムジェスチャー認識を実現できます。
 
 .. image:: img/mp_hang_gesture.png
    :alt: Gesture Recognizer
@@ -38,41 +40,42 @@ with both skeleton rendering and label display.
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The program performs the following steps:
+プログラムは次の手順で動作します：
 
-1. Capture video frames using ``Picamera2``.
-2. (Optional) Use ``MediaPipe Hands`` to draw landmarks.
-3. Use **MediaPipe Tasks – Gesture Recognizer** in ``VIDEO`` mode.
-4. For each detected hand, obtain:
+1. ``Picamera2`` を使用して映像フレームを取得する
+2. （任意で） ``MediaPipe Hands`` を使ってランドマークを描画する
+3. ``VIDEO`` モードで **MediaPipe Tasks – Gesture Recognizer** を使用する
+4. 検出された各手について、次を取得する：
 
-   - Gesture category list (label + confidence)
-   - Handedness (Left / Right)
-   - Normalized landmarks
+   - ジェスチャーカテゴリ一覧（ラベル + 信頼度）
+   - 利き手情報（Left / Right）
+   - 正規化ランドマーク
 
-5. Select the top-1 gesture and draw
-   "label + confidence score"
-   above the corresponding hand.
+5. 最も信頼度の高いジェスチャー（top-1）を選び、
+   対応する手の上に
+   「ラベル + 信頼度スコア」
+   を描画する
 
 .. note::
 
-   This chapter uses the MediaPipe **Tasks API (0.10+)**.
+   この章では MediaPipe の **Tasks API (0.10+)** を使用します。
 
 
 ------------------------------------------------------------
-3. Model
+3. モデル
 ------------------------------------------------------------
 
-Gesture Recognizer requires a model file:
+Gesture Recognizer には次のモデルファイルが必要です：
 
 ``gesture_recognizer.task``
 
-The model file is already included in the example directory.
-Please use the provided version.
+このモデルファイルはすでにサンプルディレクトリに含まれています。  
+付属のものをそのまま使用してください。
 
-The built-in model supports the following gesture labels:
+組み込みモデルは次のジェスチャーラベルに対応しています：
 
 - 0 → ``Unknown``
 - 1 → ``Closed_Fist``
@@ -84,29 +87,28 @@ The built-in model supports the following gesture labels:
 - 7 → ``ILoveYou``
 
 ------------------------
-4. Run the Code
+4. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルト機構が組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-   For detailed instructions, see :ref:`opencv_install`.
-
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_gesture.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのウィンドウが開き、ライブカメラ映像が表示されます。
 
    .. raw:: html
    
@@ -115,28 +117,28 @@ The built-in model supports the following gesture labels:
              Your browser does not support the video tag.
          </video>
          
-   When one or two hands appear in front of the camera, the program:
+   カメラの前に 1 つまたは 2 つの手が現れると、プログラムは次の処理を行います：
    
-   - Detects and draws the 21 hand landmarks and connection lines (hand skeleton) in real time.
-   - Runs the Gesture Recognizer model on each frame to classify the gesture.
+   - 各フレームで 21 個の手ランドマークと接続線（手の骨格）をリアルタイムで検出・描画します。
+   - Gesture Recognizer モデルを実行してジェスチャーを分類します。
    
-   If a gesture is recognized with a score above ``SCORE_THRESHOLD`` (default 0.5), the program shows a label near the corresponding hand, including:
+   ジェスチャーが ``SCORE_THRESHOLD`` （デフォルト 0.5）以上のスコアで認識されると、対応する手の近くに次の情報を含むラベルが表示されます：
    
-   - Handedness (Left/Right)
-   - Gesture name (for example, ``Thumb_Up``, ``Open_Palm``, ``Victory``)
-   - Confidence score (for example, ``0.87``)
+   - 利き手情報（Left/Right）
+   - ジェスチャー名（例： ``Thumb_Up`` 、 ``Open_Palm``  、 ``Victory`` ）
+   - 信頼度スコア（例： ``0.87`` ）
    
-   A thin bounding box is also drawn around the hand area to make the label placement clearer.
+   また、ラベル位置を分かりやすくするために、手の領域の周囲に細いバウンディングボックスも描画されます。
    
-   As you change hand poses, the gesture label and score update continuously in real time.
+   手の形を変えると、ジェスチャーラベルとスコアはリアルタイムで継続的に更新されます。
    
-   If no hand is detected, or the gesture confidence is below the threshold, only the hand skeleton (or the raw camera feed) is shown without gesture labels.
+   手が検出されない場合、またはジェスチャーの信頼度が閾値を下回る場合は、ジェスチャーラベルなしで手の骨格（または生のカメラ映像）のみが表示されます。
    
-   Press ``q`` to exit the program. The camera stops and the OpenCV window closes automatically.
+   ``q`` を押すとプログラムを終了できます。カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 
 -----------------------------
-5. Complete Code
+5. 完全なコード
 -----------------------------
 
 .. code-block:: python
@@ -281,50 +283,50 @@ The built-in model supports the following gesture labels:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the window will display the hand skeleton (optional) and gesture text boxes. When a gesture matching the model's categories is recognized, it will display above the corresponding hand's bounding box:
+スクリプトを実行すると、ウィンドウには手の骨格（任意）とジェスチャーのテキストボックスが表示されます。モデルのカテゴリに一致するジェスチャーが認識されると、対応する手のバウンディングボックス上部に次の情報が表示されます：
 
-- Left/Right hand (handedness)
-- Gesture name (e.g., ``Thumb_Up``)
-- Confidence score (0~1)
-
------------------------------
-6. Code Explanation
------------------------------
-
-This example combines two parts:
-
-- **Hands (Solutions API)**: used for drawing the hand skeleton (21 landmarks + connections).
-- **Gesture Recognizer (Tasks API)**: used for predicting a gesture label such as ``Thumb_Up`` or ``Open_Palm``.
-
-**High-level flow**
-
-#. Initialize Hands for landmark drawing (optional but helpful for visualization).
-#. Load the Gesture Recognizer model (``gesture_recognizer.task``) and enable ``VIDEO`` mode.
-#. Start the camera and process frames in a loop:
-
-   - Convert the frame to RGB (MediaPipe requires RGB).
-   - Run Hands to draw the skeleton.
-   - Run Gesture Recognizer to get ``label + score`` for each hand.
-   - Draw the label near the corresponding hand.
-
-#. Press ``q`` to exit and release resources.
-
-**Key points to understand**
-
-- Model file
-
-  Gesture Recognizer requires ``gesture_recognizer.task``. Make sure the model file is placed in the same folder as the script (or update the path).
-
-- VIDEO mode requires timestamps
-
-  ``recognize_for_video()`` needs a continuously increasing timestamp in milliseconds. In this example, we generate it using OpenCV tick time.
-
-- Show labels with a confidence threshold
-
-  Only gestures with score >= ``SCORE_THRESHOLD`` are displayed. This avoids showing unstable predictions.
+- 左手 / 右手（handedness）
+- ジェスチャー名（例： ``Thumb_Up``）
+- 信頼度スコア（0～1）
 
 -----------------------------
-7. Parameters and Tuning
+6. コードの説明
+-----------------------------
+
+このサンプルは 2 つの部分を組み合わせています：
+
+- **Hands (Solutions API)**：手の骨格（21 ランドマーク + 接続線）の描画に使用
+- **Gesture Recognizer (Tasks API)**： ``Thumb_Up`` や ``Open_Palm`` のようなジェスチャーラベルの推定に使用
+
+**全体の流れ**
+
+#. ランドマーク描画用に Hands を初期化する（任意ですが可視化に便利です）
+#. Gesture Recognizer モデル（ ``gesture_recognizer.task`` ）を読み込み、 ``VIDEO`` モードを有効にする
+#. カメラを起動し、ループ内でフレームを処理する：
+
+   - フレームを RGB に変換する（MediaPipe は RGB を要求）
+   - Hands を実行して骨格を描画する
+   - Gesture Recognizer を実行して各手の ``label + score`` を取得する
+   - 対応する手の近くにラベルを描画する
+
+#. ``q`` を押して終了し、リソースを解放する
+
+**理解しておくべきポイント**
+
+- モデルファイル
+
+  Gesture Recognizer には ``gesture_recognizer.task`` が必要です。モデルファイルがスクリプトと同じフォルダにあることを確認するか、パスを適切に更新してください。
+
+- VIDEO モードではタイムスタンプが必要
+
+  ``recognize_for_video()`` には、ミリ秒単位で増加し続けるタイムスタンプが必要です。このサンプルでは OpenCV の tick time を使って生成しています。
+
+- 信頼度しきい値を使ってラベルを表示
+
+  スコアが ``SCORE_THRESHOLD`` 以上のジェスチャーだけを表示します。これにより、不安定な予測結果の表示を防ぎます。
+
+-----------------------------
+7. パラメータと調整
 -----------------------------
 
 .. list-table::
@@ -334,55 +336,55 @@ This example combines two parts:
      - Description
      - Suggestion
    * - ``SCORE_THRESHOLD``
-     - Gestures below this score are ignored
-     - Increase to reduce false positives; decrease to improve recall
+     - このスコア未満のジェスチャーは無視される
+     - 誤検出を減らしたい場合は上げる、見逃しを減らしたい場合は下げる
    * - ``max_num_hands``
-     - Number of hands to detect simultaneously
-     - 2 is sufficient for most scenarios
+     - 同時に検出する手の数
+     - ほとんどの用途では 2 で十分
    * - ``running_mode=VIDEO``
-     - Video stream mode, requires timestamp
-     - Keep using (streaming recognition is more stable)
+     - タイムスタンプを必要とする動画ストリームモード
+     - 継続使用を推奨（ストリーミング認識の方が安定）
    * - Resolution
-     - Affects speed and accuracy
-     - Recommended 640×480 or lower on Raspberry Pi for better FPS
+     - 速度と精度に影響する
+     - Raspberry Pi では 640×480 以下を推奨（FPS を確保しやすい）
 
 -------------------------------------------------------
-8. Troubleshooting
+8. トラブルシューティング
 -------------------------------------------------------
 
 - ``FileNotFoundError: gesture_recognizer.task``
 
-  This usually means the model file path is incorrect.
-  Make sure the model file is placed in the same directory as the script,
-  or update ``GESTURE_MODEL_PATH`` accordingly.
+  これは通常、モデルファイルのパスが間違っていることを意味します。  
+  モデルファイルがスクリプトと同じディレクトリにあることを確認するか、  
+  ``GESTURE_MODEL_PATH`` を正しく更新してください。
 
 - ``ImportError: cannot import name 'vision'``
 
-  This error indicates that the MediaPipe version is outdated.
-  Upgrade MediaPipe to version 0.10 or later using:
+  このエラーは、MediaPipe のバージョンが古いことを示しています。  
+  次のコマンドで MediaPipe を 0.10 以降に更新してください：
 
   ``pip install --upgrade mediapipe``
 
-- Recognized category differs from expectation
+- 認識カテゴリが期待と異なる
 
-  The model category set may differ, or lighting conditions may affect recognition.
-  Try improving lighting, simplifying the background,
-  or switching to a different model version.
+  モデルのカテゴリセットが異なるか、照明条件が認識に影響している可能性があります。  
+  照明を改善し、背景をシンプルにするか、  
+  別のモデルバージョンに切り替えて試してください。
 
-- Low frame rate
+- フレームレートが低い
 
-  Raspberry Pi performance may be limited.
-  Reduce resolution, disable skeleton drawing,
-  or close unnecessary background processes.
+  Raspberry Pi の性能がボトルネックになっている可能性があります。  
+  解像度を下げる、骨格描画を無効にする、  
+  不要なバックグラウンドプロセスを終了してください。
 
 -----------------------------
-9. Summary
+9. まとめ
 -----------------------------
 
-- **Gesture Recognizer** enables real-time semantic gesture recognition on Raspberry Pi;
-- Combined with **Hands** skeleton rendering, it's both intuitive and easy to debug;
-- By adjusting thresholds and resolution, a balance between "stability / speed" can be achieved;
-- Future possibilities:
+- **Gesture Recognizer** を使うと、Raspberry Pi 上でリアルタイムの意味的ジェスチャー認識を実現できます
+- **Hands** の骨格描画と組み合わせることで、直感的でデバッグしやすい構成になります
+- しきい値や解像度を調整することで、「安定性」と「速度」のバランスを取ることができます
+- 今後の発展例：
 
-  - Map different gestures to specific commands (shortcuts, GPIO control, etc.);
-  - Train custom gesture models for specific scenarios.
+  - 異なるジェスチャーを特定のコマンドに割り当てる（ショートカット、GPIO 制御など）
+  - 特定用途向けにカスタムジェスチャーモデルを学習する

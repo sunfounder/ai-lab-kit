@@ -4,64 +4,64 @@
 
 .. _mediapipe_install:
 
-0. Setup MediaPipe
+0. MediaPipe のセットアップ
 ====================================================================
 
-About the OS Version
+OS バージョンについて
 -------------------------------
 
 .. warning::
 
-   **Recommended OS**: Raspberry Pi OS Bookworm (Debian 12, 64-bit)
+   **推奨 OS**: Raspberry Pi OS Bookworm（Debian 12、64-bit）
 
-   Raspberry Pi OS Trixie (Debian 13) is not recommended because:
+   Raspberry Pi OS Trixie（Debian 13）は次の理由により推奨されません：
 
-   * MediaPipe does not yet support Python 3.13.
-   * Picamera2 only works with the system Python.
+   * MediaPipe はまだ Python 3.13 をサポートしていません。
+   * Picamera2 はシステムの Python でのみ動作します。
 
-This tutorial will be updated once Trixie becomes supported.
+Trixie がサポートされた際には、このチュートリアルを更新する予定です。
 
-If you would like to request official MediaPipe support for Python 3.13, you can submit feedback here:
+MediaPipe の Python 3.13 対応をリクエストしたい場合は、以下のページからフィードバックを送ることができます：
 
 * GitHub Issue: https://github.com/google-ai-edge/mediapipe/issues/5708
 * Support Page: https://ai.google.dev/edge/mediapipe/support
 
 
 
-Before You Start
+開始前の準備
 ----------------
 
 .. important::
 
 
-   Before you start, make sure:
+   作業を始める前に、次の項目を確認してください：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * パンチルト機構が組み立てられている
+   * Raspberry Pi のデスクトップ環境にアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定済みである
+   * OpenCV がインストールされている
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳しい手順については :ref:`opencv_install` を参照してください。
 
-These preparations ensure MediaPipe can run with full graphical and camera functionality on your Raspberry Pi.
+これらの準備を行うことで、Raspberry Pi 上で MediaPipe をカメラおよびグラフィカル機能とともに正常に実行できます。
 
 
-Installation Steps
+インストール手順
 ----------------------------------
 
-#. Install MediaPipe
+#. MediaPipe をインストールする
 
-   Install MediaPipe using pip. On Raspberry Pi OS Bookworm (Debian 12, 64-bit),
-   pip will download the correct wheel automatically.
+   pip を使用して MediaPipe をインストールします。  
+   Raspberry Pi OS Bookworm（Debian 12、64-bit）では、pip が適切な wheel パッケージを自動的にダウンロードします。
 
    .. code-block:: bash
 
       sudo pip install mediapipe --break-system-packages
 
-#. Verify the installation
+#. インストールの確認
 
-   Run the following command to confirm that MediaPipe is installed correctly.
+   次のコマンドを実行して、MediaPipe が正しくインストールされていることを確認します。
 
    .. code-block:: bash
 
@@ -70,54 +70,54 @@ Installation Steps
       print("MediaPipe version:", mp.__version__)
       EOF
 
-   Expected output:
+   期待される出力：
 
    .. code-block:: text
 
       MediaPipe version: 0.10.18
 
 
-Common Issues & Solutions
+よくある問題と解決方法
 -------------------------
 
-#. MediaPipe installation fails
+#. MediaPipe のインストールに失敗する
 
-   This usually happens when using an unsupported OS version.
+   これは通常、サポートされていない OS バージョンを使用している場合に発生します。
 
-   Solution:
+   解決方法：
 
-   * MediaPipe currently works only on Raspberry Pi OS Bookworm (Debian 12, 64-bit).
-   * Raspberry Pi OS Trixie (Debian 13, Python 3.13) is not supported.
+   * MediaPipe は現在、Raspberry Pi OS Bookworm（Debian 12、64-bit）のみで動作します。
+   * Raspberry Pi OS Trixie（Debian 13、Python 3.13）はサポートされていません。
 
-#. Camera cannot be opened in MediaPipe or OpenCV
+#. MediaPipe または OpenCV でカメラが開けない
 
-   This usually happens when the Raspberry Pi camera interface is not enabled.
+   これは Raspberry Pi のカメラインターフェースが有効になっていない場合に発生することが多いです。
 
-   Solution:
+   解決方法：
 
-   * Enable the camera in ``raspi-config``:
+   * ``raspi-config`` でカメラを有効にします：
      Interface Options → Camera → Enable
 
-#. OpenCV import errors
+#. OpenCV の import エラー
 
-   Some pip-installed versions of OpenCV may be incompatible with Raspberry Pi OS libraries.
+   pip でインストールした OpenCV の一部のバージョンは、Raspberry Pi OS のライブラリと互換性がない場合があります。
 
-   Solution:
+   解決方法：
 
    .. code-block:: bash
 
       sudo apt install python3-opencv
 
-#. MediaPipe cannot be imported after installation
+#. インストール後に MediaPipe を import できない
 
-   This may happen if pip, setuptools, or wheel are outdated.
+   pip、setuptools、または wheel が古い場合に発生することがあります。
 
-   Solution:
+   解決方法：
 
    .. code-block:: bash
 
       sudo pip install --upgrade pip setuptools wheel
 
 
-Your MediaPipe is now ready.  
-You can proceed to the next section to run real-time face detection using the Raspberry Pi camera.
+これで MediaPipe の準備は完了です。  
+次のセクションでは、Raspberry Pi カメラを使用したリアルタイムの顔検出を実行します。

@@ -5,79 +5,79 @@
 .. _mp_pose:
 
 
-7. Human Pose Estimation
+7. 人体姿勢推定
 ================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概要
 ------------------------------------------------------------
 
-Following the implementation of hand and gesture recognition,
-this chapter introduces **MediaPipe Pose** —
-a lightweight yet powerful real-time human pose estimation module.
+手やジェスチャー認識の実装に続いて、  
+この章では **MediaPipe Pose** を紹介します。  
+これは軽量でありながら強力な、リアルタイム人体姿勢推定モジュールです。
 
-Using MediaPipe Pose, we can detect **33 body landmarks**
-in real time and draw the full-body skeleton on the video feed.
+MediaPipe Pose を使用すると、 **33 個の身体ランドマーク** を  
+リアルタイムで検出し、動画映像上に全身の骨格を描画できます。
 
 .. image:: img/mp_pose.png
    :width: 400
    :align: center
 
-This module can be used for:
+このモジュールは次のような用途に活用できます：
 
-- Action recognition
-- Posture correction
-- Fitness monitoring
-- Motion analysis
+- 動作認識
+- 姿勢矯正
+- フィットネスモニタリング
+- 動作解析
 
 ------------------------------------------------------------
-2. How It Works
+2. 動作の仕組み
 ------------------------------------------------------------
 
-The program performs the following steps:
+プログラムは次の手順で処理を行います：
 
-1. Initialize the MediaPipe Pose model
-   (configure model complexity and optional segmentation).
-2. Capture video frames using ``Picamera2``.
-3. Convert frames to RGB format (required by MediaPipe).
-4. Run the Pose model to obtain 33 body keypoints.
-5. Draw keypoints and skeleton connections using OpenCV.
-6. Display the annotated video stream in real time.
+1. MediaPipe Pose モデルを初期化する  
+   （モデルの複雑度やオプションのセグメンテーションを設定）
+2. ``Picamera2`` を使用して動画フレームを取得する
+3. フレームを RGB 形式に変換する（MediaPipe の要件）
+4. Pose モデルを実行して 33 個の身体キーポイントを取得する
+5. OpenCV を使用してキーポイントと骨格接続を描画する
+6. 注釈付きの動画ストリームをリアルタイムで表示する
 
-This chapter lays the foundation for more advanced
-human–computer interaction and body motion analysis tasks.
+この章は、より高度な  
+ヒューマンコンピュータインタラクションや身体動作解析の基礎になります。
 
 
 ------------------------
-3. Run the Code
+3. コードの実行
 ------------------------
 
 .. important::
 
+   開始する前に、次の項目を確認してください：
 
-   Before you start, make sure:
+   * パンチルトが組み立てられている
+   * Raspberry Pi のデスクトップにアクセスできる
+   * コードパッケージがインストールされている
+   * Fusion HAT+ がインストールおよび設定されている
+   * OpenCV がインストールされている
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
 
-   For detailed instructions, see :ref:`opencv_install`.
+   詳細な手順については :ref:`opencv_install` を参照してください。
 
-#. Open the terminal and enter the following command:
+#. ターミナルを開き、次のコマンドを入力します：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose.py
 
-   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+   録画済み動画に対して MediaPipe Pose を使用したい場合は、次のコマンドを実行してください：
 
    .. code-block:: bash
    
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_video.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. プログラムを実行すると、「Show Video」というタイトルのウィンドウが開き、ライブカメラ映像が表示されます。
 
    .. raw:: html
    
@@ -86,31 +86,31 @@ human–computer interaction and body motion analysis tasks.
              Your browser does not support the video tag.
          </video>
          
-   When a person appears in front of the camera:
+   カメラの前に人が現れると：
    
-   - MediaPipe Pose detects 33 body landmarks in real time.
-   - A full-body skeleton is drawn on the video frame.
-   - Key joints such as shoulders, elbows, wrists, hips, knees, and ankles are connected with lines.
+   - MediaPipe Pose が 33 個の身体ランドマークをリアルタイムで検出します。
+   - 動画フレーム上に全身骨格が描画されます。
+   - 肩、肘、手首、腰、膝、足首などの主要な関節が線で接続されます。
    
-   As the person moves:
+   人が動くと：
    
-   - The skeletal keypoints follow the body motion smoothly.
-   - The skeleton updates continuously in real time.
+   - 骨格キーポイントが身体の動きに滑らかに追従します。
+   - 骨格表示がリアルタイムで継続的に更新されます。
    
-   If background segmentation is enabled (``enable_segmentation=True``),
-   the model internally computes a segmentation mask, although in this example
-   only the skeleton is displayed.
+   背景セグメンテーションが有効（ ``enable_segmentation=True`` ）な場合、  
+   モデル内部ではセグメンテーションマスクも計算されますが、  
+   このサンプルでは骨格のみを表示します。
    
-   If no person is detected, the program simply shows the normal camera feed without annotations.
+   人が検出されない場合、プログラムは注釈なしの通常のカメラ映像のみを表示します。
    
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   ``q`` を押すとプログラムを終了できます。  
+   カメラは停止し、OpenCV ウィンドウは自動的に閉じます。
 
 -----------------------------
-4. Complete Code
+4. 完全なコード
 -----------------------------
 
-Here is a basic human pose detection program:
+以下は基本的な人体姿勢検出プログラムです：
 
 .. code-block:: python
 
@@ -168,17 +168,17 @@ Here is a basic human pose detection program:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, the camera feed will display a real-time human skeleton, including:
+プログラムを実行すると、カメラ映像には次の内容を含むリアルタイム人体骨格が表示されます：
 
-- 33 keypoints
-- Skeleton connection lines
-- Skeleton follows movement when the person moves
+- 33 個のキーポイント
+- 骨格の接続線
+- 人が動くと、それに追従して骨格も動く
 
 -----------------------------
-5. Code Explanation
+5. コードの説明
 -----------------------------
 
-**1. Import Libraries**
+**1. ライブラリのインポート**
 
 .. code-block:: python
 
@@ -188,19 +188,22 @@ After running the program, the camera feed will display a real-time human skelet
   import mediapipe.python.solutions.drawing_utils as drawing
   import mediapipe.python.solutions.drawing_styles as drawing_styles
 
-* **Picamera2**
-  Controls the Raspberry Pi camera, based on libcamera.
+* **Picamera2**  
+  libcamera ベースで Raspberry Pi カメラを制御します。
 
-* **cv2 (OpenCV)**
-  Used for image color space conversion (BGR↔RGB), display windows, drawing graphics.
+* **cv2 (OpenCV)**  
+  画像の色空間変換（BGR↔RGB）、ウィンドウ表示、図形描画に使用します。
 
-* **mediapipe.python.solutions.pose**
-  MediaPipe's **Pose model**, which can detect **33 full-body keypoints** (head, shoulders, elbows, knees, etc.), and can return segmentation masks (human vs. background).
+* **mediapipe.python.solutions.pose**  
+  MediaPipe の **Pose モデル** です。  
+  **33 個の全身キーポイント** （頭、肩、肘、膝など）を検出でき、  
+  セグメンテーションマスク（人物と背景の分離）も返すことができます。
 
-* **drawing_utils / drawing_styles**
-  MediaPipe's built-in drawing tools and style definitions, used for drawing keypoints and skeleton lines.
+* **drawing_utils / drawing_styles**  
+  MediaPipe 組み込みの描画ツールとスタイル定義で、  
+  キーポイントや骨格線の描画に使用します。
 
-**2. Initialize Pose Model**
+**2. Pose モデルの初期化**
 
 .. code-block:: python
 
@@ -210,19 +213,19 @@ After running the program, the camera feed will display a real-time human skelet
       enable_segmentation=True,
   )
 
-* ``static_image_mode=False``: Indicates the input is a continuous video stream, not a single image. Tracks after initial detection for faster speed. Usually set to False.
+* ``static_image_mode=False``：入力が単一画像ではなく連続した動画ストリームであることを示します。初回検出後は追跡モードに入り、処理速度が向上します。通常は False に設定します。
 
-* ``model_complexity=1``: Model complexity, 0=light, 1=medium, 2=high accuracy (slower). Set to 1 or 2 if Raspberry Pi performance allows.
+* ``model_complexity=1``：モデル複雑度です。0=軽量、1=中程度、2=高精度（ただし遅い）を意味します。Raspberry Pi の性能に余裕があれば 1 または 2 を使用します。
 
-* ``enable_segmentation=True``: Outputs human segmentation mask, can distinguish foreground person from background. When True, enables effects like background replacement, chroma keying. This usage will be explained in subsequent documentation: :ref:`mp_pose_segmentation`
+* ``enable_segmentation=True``：人物セグメンテーションマスクを出力し、前景の人物と背景を区別できます。True にすると背景置換やクロマキーなどの用途に使えます。この使用方法は後続のドキュメント :ref:`mp_pose_segmentation` で説明します。
 
-MediaPipe Pose returns a result structure including:
+MediaPipe Pose が返す結果には、次のような構造が含まれます：
 
-* ``pose_landmarks``: 33 keypoints;
-* ``pose_world_landmarks``: 3D world coordinates;
-* ``segmentation_mask``: Human segmentation map.
+* ``pose_landmarks`` ：33 個のキーポイント  
+* ``pose_world_landmarks`` ：3D ワールド座標  
+* ``segmentation_mask`` ：人物セグメンテーションマップ  
 
-**3. Open Camera**
+**3. カメラを開く**
 
 .. code-block:: python
 
@@ -235,15 +238,15 @@ MediaPipe Pose returns a result structure including:
    #picam2.start_preview(Preview.QTGL)
    picam2.start()
 
-* Create camera object ``Picamera2()``
-* Set resolution **640x480**, pixel format ``"XRGB8888"`` (4-channel BGRA).
-  This format has the best compatibility with OpenCV, eliminating decoding steps.
-* Start the camera.
+* カメラオブジェクト ``Picamera2()`` を作成します
+* 解像度を **640x480** 、ピクセル形式を ``"XRGB8888"`` （4 チャンネル BGRA）に設定します。  
+  この形式は OpenCV との互換性が高く、追加のデコード処理をほとんど必要としません。
+* カメラを起動します。
 
-Optional:
-``picam2.start_preview(Preview.QTGL)`` can display the video stream window directly on the GPU; commented out here, using OpenCV's ``imshow()`` instead.
+任意設定：  
+``picam2.start_preview(Preview.QTGL)`` を使うと GPU 上で直接プレビュー表示が可能です。ここではコメントアウトし、代わりに OpenCV の ``imshow()`` を使用しています。
 
-**4. Main Loop: Process Each Frame**
+**4. メインループ：各フレームを処理**
 
 .. code-block:: python
 
@@ -251,8 +254,8 @@ Optional:
       frame_bgra = picam2.capture_array()               # Capture a frame from the camera (BGRA format)
       frame_bgr  = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-1. Capture the current frame. Picamera2 returns images in **BGRA** (Blue Green Red + Alpha) format by default.
-2. Convert to **BGR** for subsequent OpenCV processing.
+1. 現在のフレームを取得します。Picamera2 はデフォルトで **BGRA** （Blue Green Red + Alpha）形式の画像を返します。  
+2. その後の OpenCV 処理のために **BGR** に変換します。
 
 .. code-block:: python
 
@@ -260,23 +263,23 @@ Optional:
    frame = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
    results = pose.process(frame)
 
-MediaPipe models **must use RGB**.
+MediaPipe モデルは **RGB** 形式を前提としています。
 
-* Call ``pose.process()`` for keypoint detection.
-* ``results`` is a complex object that may contain:
+* ``pose.process()`` を呼び出してキーポイント検出を実行します。
+* ``results`` は複合オブジェクトで、次を含む可能性があります：
 
-  * ``results.pose_landmarks``: Keypoints (33 points)
-  * ``results.pose_world_landmarks``: 3D coordinates
-  * ``results.segmentation_mask``: Segmentation mask
+  * ``results.pose_landmarks``：キーポイント（33 点）
+  * ``results.pose_world_landmarks``：3D 座標
+  * ``results.segmentation_mask``：セグメンテーションマスク
 
 .. code-block:: python
 
    # Convert back to BGR for OpenCV display
    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-Convert back because OpenCV's ``imshow()`` requires BGR order.
+OpenCV の ``imshow()`` は BGR 順を前提としているため、再び BGR に戻します。
 
-**5. Draw Pose Keypoints**
+**5. 姿勢キーポイントの描画**
 
 .. code-block:: python
 
@@ -288,25 +291,26 @@ Convert back because OpenCV's ``imshow()`` requires BGR order.
          landmark_drawing_spec=drawing_styles.get_default_pose_landmarks_style(),
       )
 
-If a human body is detected:
+人物が検出された場合：
 
-* ``results.pose_landmarks``: Contains ``(x, y, z, visibility)`` for each keypoint.
+* ``results.pose_landmarks`` には各キーポイントの ``(x, y, z, visibility)`` が含まれます。
 
-  * ``x, y``: Normalized coordinates (0~1)
-  * ``z``: Relative depth
-  * ``visibility``: Keypoint confidence (0~1)
+  * ``x, y``：正規化座標（0～1）
+  * ``z``：相対的な奥行き
+  * ``visibility``：キーポイントの信頼度（0～1）
 
-* ``draw_landmarks`` parameter explanation:
+* ``draw_landmarks`` のパラメータ説明：
 
-   * ``frame``: Image to draw on (BGR format)
-   * ``results.pose_landmarks``: Human keypoints for the current frame
-   * ``mp_pose.POSE_CONNECTIONS``: Connection rules (which points to connect with lines)
-   * ``landmark_drawing_spec``: Point drawing style
-   * ``connection_drawing_spec``: Line drawing style (can be omitted, uses system default style)
+   * ``frame``：描画先画像（BGR 形式）
+   * ``results.pose_landmarks``：現在のフレームの人体キーポイント
+   * ``mp_pose.POSE_CONNECTIONS``：どの点同士を線で結ぶかを定義する接続ルール
+   * ``landmark_drawing_spec``：点の描画スタイル
+   * ``connection_drawing_spec``：線の描画スタイル（省略時はデフォルトスタイル）
 
-Effect: Draws the skeleton (connections for head, arms, legs) and keypoints (joint positions) on the image.
+効果：  
+頭部、腕、脚などの骨格線と関節位置を画像上に描画します。
 
-**6. Display Frame & Exit Logic**
+**6. フレーム表示と終了処理**
 
 .. code-block:: python
 
@@ -315,10 +319,10 @@ Effect: Draws the skeleton (connections for head, arms, legs) and keypoints (joi
    if cv2.waitKey(1) & 0xff == ord('q'):
       break
 
-Display each frame in the ``"Show Video"`` window.
-Exit the loop when the 'q' key is pressed.
+各フレームを ``"Show Video"`` ウィンドウに表示します。  
+'q' キーが押されるとループを終了します。
 
-**7. Release Resources**
+**7. リソースの解放**
 
 .. code-block:: python
 
@@ -326,13 +330,13 @@ Exit the loop when the 'q' key is pressed.
    picam2.stop()
    cv2.destroyAllWindows()
 
-Stop preview, release camera, close all OpenCV windows.
+プレビューを停止し、カメラを解放し、すべての OpenCV ウィンドウを閉じます。
 
 -----------------------------
-6. Pose Model Introduction
+6. Pose モデルの紹介
 -----------------------------
 
-The MediaPipe Pose module returns **33 keypoints**, covering areas like the head, torso, arms, and legs:
+MediaPipe Pose モジュールは **33 個のキーポイント** を返し、頭部、胴体、腕、脚などをカバーします：
 
 .. list-table::
    :header-rows: 1
@@ -356,10 +360,10 @@ The MediaPipe Pose module returns **33 keypoints**, covering areas like the head
    * - Left/Right Foot Index
      - 31 / 32
 
-These points can be used for **posture judgment**, **action counting** (e.g., squats, push-ups, yoga pose detection), etc.
+これらの点は **姿勢判定** 、 **動作回数カウント** （スクワット、腕立て伏せ、ヨガポーズ検出など）に利用できます。
 
 -----------------------------
-7. Performance and Tuning
+7. パフォーマンスと調整
 -----------------------------
 
 .. list-table::
@@ -369,75 +373,77 @@ These points can be used for **posture judgment**, **action counting** (e.g., sq
      - Impact
      - Optimization Suggestion
    * - Resolution
-     - Higher resolution increases accuracy but also latency
-     - Use 640x480 to balance performance and speed
+     - 解像度が高いほど精度は上がるが遅延も増える
+     - パフォーマンスと速度のバランスのため 640x480 を使用
    * - model_complexity
-     - Improves recognition accuracy but slows computation
-     - Recommended 1~2 for Raspberry Pi
+     - 認識精度は向上するが計算速度は低下する
+     - Raspberry Pi では 1～2 を推奨
    * - segmentation
-     - Increases GPU/CPU load
-     - Recommended to disable if background replacement is not needed
+     - GPU/CPU 負荷が増加する
+     - 背景置換が不要なら無効化を推奨
 
 ------------------------------------------------------------
-8. Troubleshooting
+8. トラブルシューティング
 ------------------------------------------------------------
 
-- No human detected
+- 人物が検出されない
 
-  If the program runs but no person is detected, make sure the entire body is inside the camera frame. Avoid strong backlight and improve lighting conditions. Keep a distance of about 1–2 meters from the camera for best results.
+  プログラムは動作しているのに人物が検出されない場合は、全身がカメラフレーム内に収まっているか確認してください。強い逆光は避け、照明条件を改善してください。最適な結果を得るには、カメラから約 1～2 メートル離れてください。
 
-- Video is slow or lagging
+- 動画が遅い・カクつく
 
-  If the frame rate is low, try reducing the resolution to 640×480 or lower. Set ``model_complexity = 1`` for better performance. Disable segmentation if it is not required, and close other background programs to free system resources.
+  フレームレートが低い場合は、解像度を 640×480 以下に下げてください。  
+  ``model_complexity = 1`` に設定すると、より良いパフォーマンスが得られます。  
+  セグメンテーションが不要であれば無効にし、他のバックグラウンドプログラムを終了してシステムリソースを確保してください。
 
-- Segmentation fault occurs
+- Segmentation fault が発生する
 
-  Most segmentation faults are caused by a mismatch between the system architecture and the installed MediaPipe wheel.
+  Segmentation fault の多くは、システムアーキテクチャとインストールされた MediaPipe wheel の不一致が原因です。
 
-  Check your system architecture:
+  システムアーキテクチャを確認してください：
 
   .. code-block:: bash
 
      uname -m
 
-  The output should be ``aarch64``.
+  出力は ``aarch64`` である必要があります。
 
-  If you see ``armv7l`` or ``armhf``, you are using 32-bit Raspberry Pi OS, which is not compatible with the official MediaPipe wheel.
+  ``armv7l`` または ``armhf`` と表示される場合、32-bit Raspberry Pi OS を使用しており、公式 MediaPipe wheel とは互換性がありません。
 
-  You can also verify in Python:
+  Python からも確認できます：
 
   .. code-block:: python
 
      import platform
      print(platform.machine())
 
-  The result must also be ``aarch64``.
+  この結果も ``aarch64`` である必要があります。
 
-- Using aarch64 but still getting segmentation fault
+- aarch64 なのに still getting segmentation fault
 
-  This may happen if some TensorFlow Lite XNNPACK kernels are not fully compatible with your MediaPipe build.
+  これは、一部の TensorFlow Lite XNNPACK カーネルが使用中の MediaPipe ビルドと完全には互換性がない場合に発生することがあります。
 
-  Possible solutions:
+  考えられる対処法：
 
-  - Use ``model_complexity = 1`` (recommended in this tutorial).
-  - Make sure MediaPipe is installed in the correct virtual environment.
-  - Install a Raspberry Pi–optimized wheel such as ``mediapipe-bin`` (PINTO0309 version).
+  - ``model_complexity = 1`` を使用する（このチュートリアルでも推奨）
+  - MediaPipe が正しい仮想環境にインストールされていることを確認する
+  - ``mediapipe-bin`` （PINTO0309 版）など、Raspberry Pi 最適化済み wheel をインストールする
 
-- ``model_complexity = 2`` crashes but ``1`` works
+- ``model_complexity = 2`` ではクラッシュするが ``1`` では動作する
 
-  Complexity 2 loads a larger model that may trigger advanced CPU optimizations. On Raspberry Pi, some optimized TensorFlow Lite kernels may not be fully supported. Complexity 1 avoids those kernels and is generally more stable and faster on Raspberry Pi.
+  complexity 2 はより大きなモデルを読み込み、高度な CPU 最適化を使用する場合があります。Raspberry Pi では、一部の最適化された TensorFlow Lite カーネルが完全にはサポートされていないことがあります。complexity 1 はそれらのカーネルを回避するため、一般的に Raspberry Pi ではより安定かつ高速です。
 
 
 
 -----------------------------
-9. Summary
+9. まとめ
 -----------------------------
 
-- This chapter implemented **real-time human skeleton detection** based on MediaPipe Pose;
-- Pose provides 33 keypoints, usable in fields like fitness, posture analysis, action recognition;
-- By adjusting resolution and model complexity, smooth operation can be achieved on Raspberry Pi;
-- Based on these keypoints, we can subsequently develop:
+- この章では MediaPipe Pose を用いた **リアルタイム人体骨格検出** を実装しました
+- Pose は 33 個のキーポイントを提供し、フィットネス、姿勢解析、動作認識などの分野で活用できます
+- 解像度とモデル複雑度を調整することで、Raspberry Pi 上でもスムーズに動作させることができます
+- これらのキーポイントを基に、今後さらに次のような機能を開発できます：
 
-  - Action recognition (e.g., "raising hand", "squatting")
-  - Posture assessment (e.g., "Is sitting posture correct?")
-  - Human interactive control.
+  - 動作認識（例：「手を挙げる」「しゃがむ」）
+  - 姿勢評価（例：「座り姿勢は正しいか？」）
+  - 人体インタラクティブ制御

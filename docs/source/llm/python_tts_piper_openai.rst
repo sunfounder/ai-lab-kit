@@ -4,39 +4,39 @@
 
 .. _tts_piper_openai:
 
-2. TTS with Piper and OpenAI
+2. Piper と OpenAI による TTS
 ========================================================
 
-In the previous lesson, we explored **Espeak** and **Pico2Wave**, two simple offline TTS engines on Raspberry Pi.  
-Now, let’s take a big step forward and try two **more advanced TTS options** that offer **higher voice quality** and more flexibility:
+前のレッスンでは、Raspberry Pi 上で動作するシンプルなオフライン TTS エンジン **Espeak** と **Pico2Wave** を紹介しました。  
+ここではさらに一歩進んで、 **より高品質な音声** と柔軟性を備えた **高度な TTS オプション** を試してみます：
 
-* **Piper** — a fast, neural network–based TTS engine that runs **completely offline** on Raspberry Pi.  
-* **OpenAI TTS** — an online service that provides **very natural and human-like voices**, perfect for expressive speech.
+* **Piper** — ニューラルネットワークベースの高速 TTS エンジンで、Raspberry Pi 上で **完全にオフライン** で動作します。  
+* **OpenAI TTS** — **非常に自然で人間らしい音声** を提供するオンラインサービスで、表現豊かな読み上げに適しています。
 
-These engines will make your Fusion HAT+ sound more realistic and lifelike.
+これらのエンジンを使うことで、Fusion HAT+ の音声はよりリアルで生き生きとしたものになります。
 
 ----
 
 .. _test_piper:
 
-1. Testing Piper
-------------------
+1. Piper のテスト
+--------------------
 
-Piper is an **offline neural TTS engine**, meaning you don’t need an internet connection once the model is installed.  
-It supports multiple **languages** and **voices**, making it a powerful option for embedded speech.
+Piper は **オフラインのニューラル TTS エンジン** で、モデルを一度インストールすればインターネット接続は不要です。  
+複数の **言語** と **音声モデル** に対応しており、組み込み用途の音声出力として非常に強力な選択肢です。
 
-**Run the program**
+**プログラムを実行する**
 
   .. code-block:: bash
   
       cd ~/ai-lab-kit/llm
       sudo python3 tts_piper.py
 
-* The first time you run it, the selected **voice model** will be downloaded automatically.  
-* You should then hear the Fusion HAT+ say: ``Hello! I'm Piper TTS.``  
-* You can switch voices or languages by calling ``set_model()`` with a different model name.
+* 初回実行時には、選択した **音声モデル** が自動的にダウンロードされます。  
+* その後、Fusion HAT+ から ``Hello! I'm Piper TTS.`` と聞こえるはずです。  
+* ``set_model()`` に別のモデル名を指定することで、音声や言語を変更できます。
 
-**Code**
+**コード**
 
 .. code-block:: python
 
@@ -56,42 +56,42 @@ It supports multiple **languages** and **voices**, making it a powerful option f
   # Say something
   tts.say("Hello! I'm Piper TTS.")
 
-**Code explanation:**
+**コードの説明：**
 
-* ``available_countrys()`` — Lists all supported languages.  
-* ``available_models()`` — Lists available models for a specific language.  
-* ``set_model()`` — Sets the voice model. If the model isn’t installed, it will download automatically.  
-* ``say()`` — Converts text to speech and plays it immediately.
+* ``available_countrys()`` — サポートされている言語の一覧を表示します。  
+* ``available_models()`` — 指定した言語で利用可能なモデルを表示します。  
+* ``set_model()`` — 音声モデルを設定します。モデルが未インストールの場合は自動でダウンロードされます。  
+* ``say()`` — テキストを音声に変換して再生します。
 
-💡 **Tip:** Try different models to compare speed, clarity, and accents. Some models are lighter (faster), while others have higher fidelity.
+💡 **ヒント：** モデルごとに速度、音質、アクセントが異なるため、複数のモデルを試して比較してみてください。軽量モデルは高速ですが、より高品質なモデルもあります。
 
 ----
 
-2. Testing OpenAI TTS
+2. OpenAI TTS のテスト
 -------------------------------
 
-**Get and save your API Key**
+**API キーの取得と保存**
 
-#. Go to |link_openai_platform| and log in. On the **API keys** page, click **Create new secret key**.
+#. |link_openai_platform| にアクセスしてログインします。 **API keys** ページで **Create new secret key** をクリックします。
 
    .. image:: img/llm_openai_create.png
 
-#. Fill in the details (Owner, Name, Project, and permissions if needed), then click **Create secret key**.
+#. 必要な情報（Owner、Name、Project、必要に応じて権限）を入力し、 **Create secret key** をクリックします。
 
    .. image:: img/llm_openai_create_confirm.png
 
-#. Once the key is created, copy it right away — you won't be able to see it again. If you lose it, you must generate a new one.
+#. キーが作成されたら、すぐにコピーしてください。後から再表示することはできません。紛失した場合は新しいキーを生成する必要があります。
 
    .. image:: img/llm_openai_copy.png
 
-#. In your project folder (for example: ``/``), create a file called ``secret.py``:
+#. プロジェクトフォルダ（例： ``~/ai-lab-kit/llm`` ）に ``secret.py`` というファイルを作成します：
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Paste your key into the file like this:
+#. 次のように API キーを保存します：
 
    .. code-block:: python
 
@@ -99,19 +99,19 @@ It supports multiple **languages** and **voices**, making it a powerful option f
        # Store secrets here. Never commit this file to Git.
        OPENAI_API_KEY = "sk-xxx"
 
-**Run the program**
+**プログラムを実行する**
 
 .. code-block:: bash
   
   cd ~/ai-lab-kit/llm
   sudo python3 tts_openai.py
 
-* The program will connect to OpenAI’s TTS service, and the Fusion HAT+ will speak using **natural, expressive voice output**.  
-* You can change **voice styles** and add **instructions** to control tone and expression (e.g., sad, dramatic, playful).  
-* This makes OpenAI TTS ideal for interactive robots, storytelling, or educational assistants.
+* プログラムは OpenAI の TTS サービスに接続し、Fusion HAT+ が **自然で表現豊かな音声** で話します。  
+* **音声スタイル** を変更したり、 **instructions** を追加することで、声のトーンや感情（悲しい、ドラマチック、楽しいなど）を制御できます。  
+* そのため、OpenAI TTS はインタラクティブロボット、ストーリーテリング、教育アシスタントなどに最適です。
 
 
-**Code**
+**コード**
 
 .. code-block:: python
 
@@ -141,29 +141,29 @@ It supports multiple **languages** and **voices**, making it a powerful option f
   tts.say(msg, instructions=instructions)
 
 
-**Code explanation:**
+**コードの説明：**
 
-* ``OpenAI_TTS()`` — Initializes the OpenAI TTS engine using your API key.  
-* ``set_model()`` — Selects the TTS model (e.g., ``gpt-4o-mini-tts``).  
-* ``set_voice()`` — Chooses a specific voice (e.g., ``alloy``).  
-* ``say(text)`` — Converts the text to speech and plays it.  
-* ``say(text, instructions=...)`` — Adds **expressive tone instructions**, allowing you to control the style of speech dynamically.
+* ``OpenAI_TTS()`` — API キーを使って OpenAI TTS エンジンを初期化します。  
+* ``set_model()`` — 使用する TTS モデルを選択します（例： ``gpt-4o-mini-tts`` ）。  
+* ``set_voice()`` — 使用する音声（例： ``alloy`` ）を選択します。  
+* ``say(text)`` — テキストを音声に変換して再生します。  
+* ``say(text, instructions=...)`` — **音声表現の指示** を追加し、話し方のスタイルを動的に制御できます。
 
-**Example:** 
+**例：** 
 
-- “say it sadly” → soft, emotional tone  
-- “say it dramatically” → bold and expressive delivery  
-- “say it excitedly” → enthusiastic tone
+- “say it sadly” → やわらかく感情的なトーン  
+- “say it dramatically” → ドラマチックで強調された話し方  
+- “say it excitedly” → 明るく興奮したトーン
 
 ----
 
-Troubleshooting
--------------------
+トラブルシューティング
+------------------------
 
 * **No module named 'secret'**
 
-  This means ``secret.py`` is not in the same folder as your Python file.
-  Move ``secret.py`` into the same directory where you run the script, e.g.:
+  ``secret.py`` が Python ファイルと同じフォルダに存在しない可能性があります。  
+  スクリプトを実行しているディレクトリに ``secret.py`` を移動してください。例：
 
   .. code-block:: bash
 
@@ -172,51 +172,51 @@ Troubleshooting
 
 * **OpenAI: Invalid API key / 401**
 
-  * Check that you pasted the full key (starts with ``sk-``) and there are no extra spaces/newlines.
-  * Ensure your code imports it correctly:
+  * API キーが正しくコピーされているか確認してください（ ``sk-`` で始まる）。余分なスペースや改行がないかも確認してください。
+  * コードで正しく読み込んでいるか確認してください：
 
     .. code-block:: python
 
        from secret import OPENAI_API_KEY
 
-  * Confirm network access on your Pi (try ``ping api.openai.com``).  
+  * Raspberry Pi からネットワーク接続できるか確認してください（ ``ping api.openai.com`` ）。
 
 * **OpenAI: Quota exceeded / billing error**
 
-  * You may need to add billing or increase quota in the OpenAI dashboard.
-  * Try again after resolving the account/billing issue.
+  * OpenAI ダッシュボードで課金設定またはクォータを確認してください。
+  * アカウント設定を修正した後に再度実行してください。
 
-* **Piper: tts.say() runs but no sound**
+* **Piper: tts.say() は動くが音が出ない**
 
-  * Make sure a voice model is actually present:
+  * 音声モデルが実際に存在するか確認してください：
 
     .. code-block:: bash
 
        ls ~/.local/share/piper/voices
 
-  * Confirm your model name matches exactly in code:
+  * コード内のモデル名が正しいか確認してください：
 
     .. code-block:: python
 
        tts.set_model("en_US-amy-low")
 
-  * Check the audio output device/volume on your Pi (``alsamixer``), and that speakers are connected and powered.
+  * Raspberry Pi の音声出力設定と音量を確認してください（ ``alsamixer`` ）。スピーカーが接続されて電源が入っているかも確認してください。
 
-* **ALSA / sound device errors (e.g., “Audio device busy” or “No such file or directory”)**
+* **ALSA / sound device エラー（例：「Audio device busy」「No such file or directory」）**
 
-  * Close other programs using audio.
-  * Reboot the Pi if the device stays busy.
-  * For HDMI vs. headphone jack output, select the correct device in Raspberry Pi OS audio settings.
+  * 音声デバイスを使用している他のプログラムを終了してください。
+  * デバイスが解放されない場合は Raspberry Pi を再起動してください。
+  * HDMI とイヤホンジャックの出力を切り替える場合は、Raspberry Pi OS の音声設定で正しいデバイスを選択してください。
 
-* **Permission denied when running Python**
+* **Python 実行時に Permission denied**
 
-  * Try with ``sudo`` if your environment requires it:
+  * 環境によっては ``sudo`` を使用してください：
 
     .. code-block:: bash
 
        sudo python3 tts_piper.py
 
-Comparison of TTS Engines
+TTS エンジンの比較
 -------------------------
 
 .. list-table:: Feature comparison: Espeak vs Pico2Wave vs Piper vs OpenAI TTS
@@ -229,37 +229,37 @@ Comparison of TTS Engines
      - Piper
      - OpenAI TTS
    * - Runs on
-     - Built-in on Raspberry Pi (offline)
-     - Built-in on Raspberry Pi (offline)
-     - Raspberry Pi / PC (offline, needs model)
-     - Cloud (online, needs API key)
+     - Raspberry Pi 内蔵（オフライン）
+     - Raspberry Pi 内蔵（オフライン）
+     - Raspberry Pi / PC（オフライン、モデル必要）
+     - クラウド（オンライン、API キー必要）
    * - Voice quality
-     - Robotic
-     - More natural than Espeak
-     - Natural (neural TTS)
-     - Very natural / human-like
+     - 機械的
+     - Espeak より自然
+     - 自然（ニューラル TTS）
+     - 非常に自然 / 人間らしい
    * - Controls
-     - Speed, pitch, volume
-     - Limited controls
-     - Choose different voices/models
-     - Choose model and voices
+     - 速度、ピッチ、音量
+     - 限定的
+     - 音声モデルを選択
+     - モデルと音声を選択
    * - Languages
-     - Many (quality varies)
-     - Limited set
-     - Many voices/languages available
-     - Best in English (others vary by availability)
+     - 多言語（品質はモデル依存）
+     - 限定的
+     - 多くの言語・音声モデル
+     - 英語が最も高品質（他言語はモデルによる）
    * - Latency / speed
-     - Very fast
-     - Fast
-     - Real-time on Pi 4/5 with “low” models
-     - Network-dependent (usually low latency)
+     - 非常に高速
+     - 高速
+     - Pi 4/5 でリアルタイム（low モデル）
+     - ネットワーク依存（通常は低遅延）
    * - Setup
-     - Minimal
-     - Minimal
-     - Download ``.onnx`` + ``.onnx.json`` models
-     - Create API key, install client
+     - 最小限
+     - 最小限
+     - ``.onnx`` と ``.onnx.json`` モデルをダウンロード
+     - API キー作成、クライアント設定
    * - Best for
-     - Quick tests, basic prompts
-     - Slightly better offline voice
-     - Local projects with better quality
-     - Highest quality, rich voice options
+     - 簡単なテストや基本音声
+     - 少し自然なオフライン音声
+     - ローカルで高品質音声
+     - 最高品質・表現力の高い音声
