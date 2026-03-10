@@ -61,7 +61,7 @@ Below is the introduction to each component, which contains the operating princi
     :maxdepth: 1
 
     ../_shared/component/cpn_motor_xh254
-    ../_shared/component/cpn_servo_metal
+    ../_shared/component/cpn_servo_sf006pro
     ../_shared/component/cpn_relay_6pin
     
 

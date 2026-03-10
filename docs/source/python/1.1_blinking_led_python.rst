@@ -77,7 +77,7 @@ Follow the wiring diagram below to connect your components:
 
 ----------------------------------------------
 
-**Code**
+**Run the Code**
 
 Let’s write the Python code to control the LED. You’ll create a script that turns the LED on and off at regular intervals.
 
