@@ -1,0 +1,218 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_pir:
+
+2.7 PIR-Sensor
+=================
+
+**Einführung**
+
+Der Passive-Infrarot-Sensor (PIR) ist ein Bewegungssensor, der Infrarotstrahlung erkennt, die von Menschen und Tieren ausgestrahlt wird. In diesem Projekt verwenden wir den PIR-Sensor, um Bewegungen zu erkennen.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt werden folgende Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_pir`
+        - |link_pir_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|        
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Unten sehen Sie das Schaltbild für dieses Projekt:
+
+.. image:: img/fzz/2.2.6_sch.png
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung wie im folgenden Diagramm dargestellt auf:
+
+.. image:: img/fzz/2.2.6_bb.png
+   :width: 80%
+   :align: center
+
+Stellen Sie sicher, dass die RGB-LED und der PIR-Sensor gemäß dem Schaltplan mit den richtigen GPIO-Pins verbunden sind.
+
+.. note::
+
+   Stellen Sie die beiden Potentiometer auf dem PIR-Modul ein, um die optimale Empfindlichkeit und Erkennungsdistanz zu erreichen. Drehen Sie beide gegen den Uhrzeigersinn auf ihre maximale Einstellung, um die besten Ergebnisse zu erzielen.
+
+.. image:: ../python/img/PIR_TTE.png
+   :width: 200
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie das Beispiel mit den folgenden Schritten aus:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.7_PIR.py
+
+Dieses Python-Skript überwacht einen PIR-Bewegungssensor und reagiert auf erkannte Bewegungen. Beim Ausführen passiert Folgendes:
+
+1. **Wenn Bewegung erkannt wird**:  
+   Es wird „Detected Barrier!“ in der Konsole ausgegeben.
+
+2. **Wenn keine Bewegung erkannt wird**:  
+   Es wird „No Barrier“ in der Konsole ausgegeben.
+
+3. Das Programm läuft unbegrenzt weiter und wartet auf Bewegungsereignisse. Es kann durch Drücken von Ctrl+C beendet werden.
+
+----------------------------------------------
+
+**Code**
+
+Unten finden Sie den Python-Code für dieses Projekt:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from signal import pause  # Import pause function from signal module
+
+   # Initialize a PIR Module object on GPIO pin 17
+   pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   def detect():
+      if pir.value() == 1:  # Check if the PIR Module is triggered
+         print("Detected Barrier!")
+      else:
+         print("No Barrier")
+
+   try:
+      pir.when_activated = detect  # Set up an interrupt to detect changes in the pir sensor state
+      pir.when_deactivated = detect  
+
+      # Run an event loop that waits for button events and keeps the script running
+      print("CTRL + C to exit")
+      pause()
+
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
+      pass
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Importe:**
+
+   .. code-block:: python
+
+      from fusion_hat.pin import Pin, Mode, Pull
+      from signal import pause  # Importiert die Funktion pause aus dem signal-Modul
+
+   Das Skript verwendet die ``fusion_hat``-Bibliothek zur Steuerung des PIR-Sensors und das ``signal``-Modul, um das Programm aktiv zu halten.
+
+2. **Initialisierung:**
+
+   .. code-block:: python
+
+      pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   In dieser Zeile wird ein PIR-Sensor an Pin 17 initialisiert, wobei ein interner Pull-down-Widerstand aktiviert ist.
+
+3. **Hauptlogik:**
+
+   .. code-block:: python
+
+      def detect():
+         if pir.value() == 1:  # Prüfen, ob das PIR-Modul ausgelöst wurde
+            print("Detected Barrier!")
+         else:
+            print("No Barrier")
+
+      try:
+         pir.when_activated = detect  # Interrupt einrichten, um Zustandsänderungen des PIR-Sensors zu erkennen
+         pir.when_deactivated = detect  
+
+         # Ereignisschleife starten, die auf Sensorereignisse wartet und das Skript aktiv hält
+         print("CTRL + C to exit")
+         pause()
+
+      except KeyboardInterrupt:
+         # KeyboardInterrupt (Ctrl+C) abfangen und das Programm sauber beenden
+         pass
+
+   * Überwacht kontinuierlich, ob der PIR-Sensor eine Bewegung erkennt.
+   * Wenn eine Bewegung erkannt wird, wird die Meldung „Detected Barrier!“ ausgegeben.
+   * Wenn keine Bewegung erkannt wird, wird die Meldung „No Barrier“ ausgegeben.
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Bewegung wird nicht erkannt**
+
+   - **Ursache**: Der PIR-Sensor ist nicht korrekt angeschlossen oder konfiguriert.  
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass der PIR-Sensor mit GPIO-Pin 17, der Stromversorgung und GND verbunden ist.
+     - Passen Sie gegebenenfalls die Empfindlichkeits- und Verzögerungspotentiometer am Sensor an.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Akustisches Feedback**
+
+   Fügen Sie einen Buzzer hinzu, der ein Signal ausgibt, wenn eine Bewegung erkannt wird:
+
+   .. code-block:: python
+
+      from fusion_hat import Buzzer
+      buzzer = Buzzer(Pin(22))
+      if pir.value() == 1:
+         buzzer.on()
+      else:
+         buzzer.off()
+
+2. **Datenprotokollierung**
+
+   Protokollieren Sie erkannte Bewegungsereignisse mit Zeitstempel in einer Datei zur späteren Analyse:
+
+   .. code-block:: python
+
+      with open("motion_log.txt", "a") as log_file:
+         log_file.write(f"Motion detected at {time.time():.3f}\n")
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein PIR-Sensor zur Bewegungserkennung eingesetzt werden kann. Durch das Verständnis der Grundlagen der Bewegungserkennung können Sie dieses Projekt zu komplexeren Anwendungen weiterentwickeln, beispielsweise für Sicherheitssysteme, automatische Beleuchtung oder interaktive Geräte. Die Vielseitigkeit und einfache Nutzung des PIR-Sensors machen ihn zu einer ausgezeichneten Komponente für zahlreiche DIY- und professionelle Projekte.

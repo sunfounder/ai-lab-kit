@@ -1,0 +1,413 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_pan_tilt_camera:
+
+4.16 Pan-Tilt-Kamerasteuerungssystem
+==========================================================
+
+**Einführung**
+
+In diesem Projekt erstellen Sie ein Kamerasteuerungssystem, das mithilfe eines Joysticks schwenken (horizontale Bewegung) und neigen (vertikale Bewegung) kann. Das System ermöglicht es Ihnen, die Richtung einer auf Servomotoren montierten Kamera fernzusteuern, das Kamerabild in Echtzeit anzuzeigen und mit einem Druck auf den Joystick-Button Fotos aufzunehmen. Dieses Projekt eignet sich ideal für Überwachungsanwendungen, Fotoprojekte oder zum Erlernen der Steuerung von Servomotoren und der Integration einer Kamera.
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Die folgenden Komponenten werden für dieses Projekt benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_servo`
+        - |link_servo_buy|
+    *   - :ref:`cpn_joystick`
+        - \-
+    *   - :ref:`cpn_camera_module`
+        - |link_camera_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+--------------------
+
+**Schaltplan**
+
+.. image:: img/fzz/2.1.9_sch.png
+   :width: 80%
+   :align: center
+
+---------------
+
+**Verdrahtungsdiagramm**
+
+#. Um das Kameramodul bequem zu verwenden, wird :ref:`assemble_fusion_hat_pan_tilt` empfohlen.
+
+   .. note::
+
+      Der Zusammenbau der Pan-Tilt-Halterung kann einige Pins verdecken. Daher wird empfohlen, sie nur zu montieren, wenn die Kamera verwendet wird, oder sie nach dem Zusammenbau außen zu platzieren.
+
+   .. image:: ../quick_start/img/gimbal_assemble.png
+
+#. Folgen Sie diesem Verdrahtungsdiagramm, um die Schaltung aufzubauen:
+
+   .. image:: img/fzz/4.16_joystick_camera_bb.png
+      :width: 100%
+      :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+1. Greifen Sie auf den Raspberry-Pi-Desktop zu:
+
+   * :ref:`remote_desktop`: Verwenden Sie **VNC** für eine vollständige Desktop-Erfahrung.
+   * |link_rpi_connect|: Verwenden Sie **Raspberry Pi Connect**, um sicher über einen Browser auf Ihren Pi zuzugreifen.
+
+2. Öffnen Sie ein Terminal und wechseln Sie in den Code-Ordner:
+
+   .. raw:: html
+
+        <run></run>
+
+   .. code-block:: shell
+
+       cd ~/ai-lab-kit/python
+
+3. Starten Sie das Skript, um die Kamera zu aktivieren:
+
+   .. raw:: html
+
+        <run></run>
+
+   .. code-block:: shell
+
+       sudo python3 pan_tilt_camera.py
+
+4. Nach dem Start des Skripts wird das Pan-Tilt-Kamerasystem initialisiert und Kamera sowie Servomotoren werden gestartet.
+
+   * Wenn ein Display verfügbar ist, wird eine Live-Kameravorschau angezeigt; andernfalls läuft das Programm normal im Headless-Modus.
+
+   * Wenn Sie den Joystick nach links oder rechts bewegen, dreht sich die Kamera horizontal (Pan). Wenn Sie ihn nach oben oder unten bewegen, neigt sich die Kamera vertikal (Tilt).
+
+   * Wenn der Joystick-Button gedrückt wird, nimmt die Kamera ein Foto auf und speichert es im Verzeichnis ``Pictures/camera_pan_tilt`` mit einem einfachen fortlaufenden Dateinamen wie ``photo_001.jpg``.
+
+   * Das System läuft weiter und reagiert auf Benutzereingaben, bis Sie das Programm mit **Ctrl + C** beenden.
+
+----------------------------------------------
+
+**Code**
+
+Unten steht das Python-Skript, das in diesem Projekt verwendet wird:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    import os, time
+    from picamera2 import Picamera2, Preview
+    from fusion_hat.adc import ADC
+    from fusion_hat.pin import Pin, Mode, Pull
+    from fusion_hat.servo import Servo
+
+    # Servo channels for pan (horizontal) and tilt (vertical)
+    PAN_CHANNEL, TILT_CHANNEL = 2, 3
+
+    # Joystick ADC pins (X/Y axis) and button pin
+    X_PIN, Y_PIN = "A1", "A0"
+    BTN_PIN = 17
+
+    # Angle limits to protect servos
+    PAN_MIN, PAN_MAX = -90, 90
+    TILT_MIN, TILT_MAX = -45, 45
+
+    # Deadzone ignores small joystick movement
+    DEADZONE = 15
+    MOVE_SPEED = 3
+    LOOP_DELAY = 0.05
+
+    # Photo save directory (works with sudo)
+    REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+    PHOTO_DIR = os.path.join(f"/home/{REAL_USER}", "Pictures", "camera_pan_tilt")
+    os.makedirs(PHOTO_DIR, exist_ok=True)
+
+    # Initialize servos
+    pan_servo = Servo(PAN_CHANNEL)
+    tilt_servo = Servo(TILT_CHANNEL)
+
+    # Initialize joystick and button (active-low)
+    x_adc = ADC(X_PIN)
+    y_adc = ADC(Y_PIN)
+    joystick_button = Pin(BTN_PIN, mode=Mode.IN, pull=Pull.UP)  # pressed -> 0
+
+    # Initialize camera
+    camera = Picamera2()
+    camera.configure(camera.create_preview_configuration(main={"size": (1280, 720)}))
+
+    preview_started = False
+    photo_count = 1
+    current_pan = 0
+    current_tilt = 0
+    last_button_state = 1  # Used for edge detection
+
+    def clamp(v, vmin, vmax):
+        # Limit value to a safe range
+        return max(vmin, min(vmax, v))
+
+    def map_value(value, in_min, in_max, out_min, out_max):
+        # Map ADC value to a new range
+        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+    def apply_deadzone(v, dz):
+        # Ignore small joystick movement
+        return 0 if (-dz < v < dz) else v
+
+    def read_joystick():
+        # Read joystick X/Y position
+        x = map_value(x_adc.read(), 0, 4095, -100, 100)
+        y = map_value(y_adc.read(), 0, 4095, -100, 100)
+        return x, y
+
+    def check_button_press():
+        # Detect button press (HIGH -> LOW)
+        global last_button_state
+        current_state = joystick_button.value()
+        if last_button_state == 1 and current_state == 0:
+            last_button_state = current_state
+            return True
+        last_button_state = current_state
+        return False
+
+    def take_photo():
+        # Capture and save one photo
+        global photo_count
+        filename = f"photo_{photo_count:03d}.jpg"
+        filepath = os.path.join(PHOTO_DIR, filename)
+        camera.capture_file(filepath)
+        print("Saved:", filepath)
+        photo_count += 1
+
+    def start_preview_if_available():
+        # Start camera preview only if a display is available
+        global preview_started
+        preview_started = False
+        if os.getenv("DISPLAY"):
+            try:
+                camera.start_preview(Preview.QT)
+                preview_started = True
+            except Exception:
+                preview_started = False
+
+    def cleanup():
+        # Safely stop camera and release resources
+        try:
+            camera.stop()
+        except Exception:
+            pass
+        if preview_started:
+            try:
+                camera.stop_preview()
+            except Exception:
+                pass
+        try:
+            camera.close()
+        except Exception:
+            pass
+
+    def main():
+        global current_pan, current_tilt
+
+        start_preview_if_available()
+        camera.start()
+
+        # Center camera at startup
+        pan_servo.angle(0)
+        tilt_servo.angle(0)
+
+        try:
+            while True:
+                # Read joystick and move camera
+                x, y = read_joystick()
+                x = apply_deadzone(x, DEADZONE)
+                y = apply_deadzone(y, DEADZONE)
+
+                new_pan = current_pan + (MOVE_SPEED if x > DEADZONE else -MOVE_SPEED if x < -DEADZONE else 0)
+                new_tilt = current_tilt + (MOVE_SPEED if y > DEADZONE else -MOVE_SPEED if y < -DEADZONE else 0)
+
+                new_pan = clamp(new_pan, PAN_MIN, PAN_MAX)
+                new_tilt = clamp(new_tilt, TILT_MIN, TILT_MAX)
+
+                if new_pan != current_pan:
+                    current_pan = new_pan
+                    pan_servo.angle(current_pan)
+
+                if new_tilt != current_tilt:
+                    current_tilt = new_tilt
+                    tilt_servo.angle(current_tilt)
+
+                # Take photo when button is pressed
+                if check_button_press():
+                    take_photo()
+
+                time.sleep(LOOP_DELAY)
+
+        except KeyboardInterrupt:
+            pass
+        finally:
+            cleanup()
+
+    if __name__ == "__main__":
+        main()
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+#. **Hardware-Initialisierung**
+
+   - Zwei Servomotoren werden initialisiert, um die horizontale (Pan) und vertikale (Tilt) Bewegung der Kamera zu steuern
+   - Der Joystick verwendet ADC-Kanäle, um die analogen X- und Y-Werte auszulesen, sowie einen GPIO-Pin, um Tastendrücke zu erkennen
+   - Das Kameramodul wird initialisiert und für den Vorschau-Modus konfiguriert und unterstützt sowohl Anzeige- als auch Headless-Betrieb
+
+#. **Joystick-Auslesen und Verarbeitung**
+
+   - ``read_joystick()`` liest die rohen Analogwerte der X- und Y-Achsen des Joysticks
+   - ``map_value()`` wandelt ADC-Werte (0–4095) in einen nutzbaren Bereich von −100 bis 100 um
+   - ``apply_deadzone()`` filtert kleine Joystickbewegungen heraus, um unerwünschtes Kameradriften zu verhindern
+
+#. **Steuerung der Kamerabewegung**
+
+   - Joystick-Eingaben werden in schrittweise Änderungen der Pan- und Tilt-Winkel umgesetzt
+   - ``clamp()`` stellt sicher, dass die Winkel innerhalb sicherer Grenzen bleiben, um die Servomotoren zu schützen
+   - Die Servos werden nur aktualisiert, wenn sich der Winkel ändert, wodurch eine gleichmäßige und stabile Bewegung erreicht wird
+
+#. **Erkennung von Tastendrücken**
+
+   - Der Joystick-Button ist als Active-Low-Eingang mit Pull-up-Widerstand konfiguriert
+   - ``check_button_press()`` erkennt einen Tastendruck mittels Flankenerkennung (HIGH → LOW)
+   - Dadurch wird sichergestellt, dass pro Tastendruck nur ein Foto aufgenommen wird, selbst wenn die Taste länger gedrückt gehalten wird
+
+#. **Fotoaufnahme und Speicherung**
+
+   - ``take_photo()`` nimmt mit dem Kameramodul ein Bild auf
+   - Fotos werden mit fortlaufenden Dateinamen gespeichert (z. B. ``photo_001.jpg``)
+   - Alle Bilder werden im Verzeichnis ``Pictures/camera_pan_tilt`` des Benutzers gespeichert
+
+#. **Behandlung der Kameravorschau**
+
+   - Eine Live-Kameravorschau wird nur gestartet, wenn eine grafische Anzeige verfügbar ist
+   - Das Skript funktioniert weiterhin normal, wenn es ohne Anzeige ausgeführt wird
+
+#. **Hauptschleife und Aufräumen**
+
+   - Die Hauptschleife liest kontinuierlich die Joystick-Eingaben und reagiert in Echtzeit
+   - Wenn das Programm mit ``Ctrl + C`` beendet wird, wird die Kamera sicher gestoppt
+   - Alle Hardware-Ressourcen werden ordnungsgemäß freigegeben, um ein sauberes Herunterfahren zu gewährleisten
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Servos bewegen sich nicht**:
+
+   - **Ursache**: Falsche Servo-Verbindungen oder Stromversorgungsprobleme
+   - **Lösung**:
+
+     - Überprüfen Sie, ob die Servos mit den richtigen Kanälen (2 und 3) verbunden sind
+     - Stellen Sie sicher, dass das Fusion HAT korrekt mit Strom versorgt wird
+     - Kontrollieren Sie die Servo-Verkabelung auf lose Verbindungen
+
+2. **Kameravorschau wird nicht angezeigt**:
+
+   - **Ursache**: Kameramodul nicht erkannt oder falsche Konfiguration
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass das Kamerakabel sicher mit dem CSI-Port verbunden ist
+     - Prüfen Sie, ob die Kamera in der Raspberry-Pi-Konfiguration aktiviert ist
+     - Überprüfen Sie die Kompatibilität des Kameramoduls
+
+3. **Joystick reagiert nicht**:
+
+   - **Ursache**: Falsche Pin-Zuweisung oder ADC-Probleme
+   - **Lösung**:
+
+     - Überprüfen Sie die Joystick-Verbindungen zu A0, A1 und GPIO 17
+     - Testen Sie die ADC-Werte mit einfachen ``print``-Ausgaben
+     - Prüfen Sie, ob der ADC des Fusion HAT funktioniert
+
+4. **Fotos werden nicht gespeichert**:
+
+   - **Ursache**: Berechtigungsprobleme oder Verzeichnisprobleme
+   - **Lösung**:
+
+     - Überprüfen Sie, ob das Verzeichnis ``Pictures`` im Home-Verzeichnis des Benutzers existiert
+     - Kontrollieren Sie die Schreibrechte für das Fotoverzeichnis
+     - Versuchen Sie das Skript mit ``sudo`` auszuführen, falls weiterhin Berechtigungsprobleme auftreten
+
+5. **Unruhige Servobewegungen**:
+
+   - **Ursache**: Spannungsschwankungen oder Timing-Probleme in der Software
+   - **Lösung**:
+
+     - Stellen Sie eine stabile Stromversorgung für das Fusion HAT sicher
+     - Passen Sie ``MOVE_SPEED`` und Verzögerungswerte an
+     - Fügen Sie bei Bedarf Kondensatoren zu den Servo-Stromleitungen hinzu
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Videoaufnahme**: Fügen Sie eine Videoaufnahmefunktion mit Start/Stopp-Steuerung hinzu:
+
+   .. code-block:: python
+
+      def start_recording():
+          timestamp = time.strftime("%Y%m%d_%H%M%S")
+          video_path = os.path.join(VIDEO_DIR, f"video_{timestamp}.mp4")
+          camera.start_recording(video_path)
+          print(f"Recording started: {video_path}")
+
+      def stop_recording():
+          camera.stop_recording()
+          print("Recording stopped")
+
+2. **Voreingestellte Positionen**: Erstellen Sie voreingestellte Kamerapositionen für schnellen Zugriff:
+
+   .. code-block:: python
+
+      PRESETS = {
+          'center': (0, 0),
+          'left': (-45, 0),
+          'right': (45, 0),
+          'up': (0, 30),
+          'down': (0, -30)
+      }
+
+      def goto_preset(preset_name):
+          if preset_name in PRESETS:
+              pan, tilt = PRESETS[preset_name]
+              pan_servo.angle(pan)
+              tilt_servo.angle(tilt)
+
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie man mit Raspberry Pi, Servomotoren und einem Kameramodul ein leistungsfähiges Pan-Tilt-Kamerasteuerungssystem erstellt. Es kombiniert Hardwaresteuerung, Echtzeit-Videoverarbeitung und Benutzerinteraktion zu einem integrierten System. Das Projekt bildet eine solide Grundlage für weiterführende Anwendungen wie Überwachungssysteme, Fotografie-Roboter oder interaktive Installationen.

@@ -1,0 +1,308 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_fun_10s:
+
+4.8 SPIEL - 10-Sekunden-Challenge
+=================================
+
+**Einführung**
+
+Testen Sie Ihre Konzentration und Ihr Timing mit dem Spiel „10-Sekunden-Challenge“! In diesem Projekt bauen Sie einen Zauberstab, indem Sie einen Neigungsschalter an einem Stab befestigen. Schütteln Sie den Zauberstab, um einen Timer auf einer 4-stelligen Segmentanzeige zu starten. Schütteln Sie ihn erneut, um den Timer zu stoppen. Das Ziel ist es, den Timer so nah wie möglich bei **10,00 Sekunden** zu stoppen. Treten Sie gegen Freunde an und finden Sie heraus, wer der wahre Zeitzauberer ist!
+
+
+----------------------------------------------
+
+
+**Was Sie benötigen**
+
+Nachfolgend finden Sie die Liste der für dieses Projekt erforderlichen Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_4_digit`
+        - \-
+    *   - :ref:`cpn_74hc595`
+        - |link_74hc595_buy|
+    *   - :ref:`cpn_tilt_switch`
+        - \-
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+
+**Schaltplan**
+
+Nachfolgend ist der schematische Schaltplan für die „10-Sekunden-Challenge“ dargestellt:
+
+.. image:: img/fzz/4.1.15_sch.png
+   :width: 100%
+   :align: center
+
+
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie den unten gezeigten Verdrahtungsanweisungen, um die Schaltung aufzubauen:
+
+
+.. image:: img/fzz/4.1.15_bb.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``. 
+Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 4.8_GAME_10Second.py
+
+Wenn das Skript ausgeführt wird:
+
+* Schütteln Sie den Zauberstab, um den Timer auf der 4-stelligen Segmentanzeige zu starten.
+* Schütteln Sie den Zauberstab erneut, um den Timer zu stoppen.
+* Wenn der Timer 10,00 Sekunden anzeigt, gewinnen Sie die Runde!
+* Schütteln Sie den Zauberstab noch einmal, um das Spiel zurückzusetzen und eine neue Runde zu starten.
+
+----------------------------------------------
+
+**Code**
+
+
+Hier ist der Python-Code für dieses Projekt:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   # Import Pin control, modes, and pull-up/down definitions
+   from fusion_hat.pin import Pin, Mode, Pull
+   # Import time for delays
+   import time
+   # Import threading to use Timer for repeated callbacks
+   import threading
+
+   # Initialize the button connected to GPIO 22, set as input with pull-down resistor
+   sensorPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
+
+   # Define GPIO pins for the 74HC595 shift register
+   SDI = Pin(17, mode=Mode.OUT)    # Serial Data Input
+   RCLK = Pin(4, mode=Mode.OUT)    # Register Clock (latch)
+   SRCLK = Pin(27, mode=Mode.OUT)  # Shift Register Clock
+
+   # Define GPIO pins controlling digit selection on the 4-digit 7-segment display
+   placePin = [Pin(pin, mode=Mode.OUT) for pin in (23, 24, 25, 12)]
+
+   # Define the segment encoding for digits 0–9 (common cathode)
+   number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
+
+   # Counter value, timer object, and game state variable
+   counter = 0
+   timer1 = None
+   gameState = 0
+
+   def clearDisplay():
+      """Clear all segments by shifting out 'all off' bits to the 74HC595."""
+      for _ in range(8):
+         SDI.on()      # Send high bits (turned off segments)
+         SRCLK.on()    # Pulse shift clock
+         SRCLK.off()
+      RCLK.on()         # Latch the data
+      RCLK.off()
+
+   def hc595_shift(data):
+      """Shift out one byte to the 74HC595 to control segment lighting."""
+      for i in range(8):
+         SDI.value(0x80 & (data << i))  # Output next bit
+         SRCLK.on()                     # Clock pulse
+         SRCLK.off()
+      RCLK.on()                          # Latch data to output
+      RCLK.off()
+
+   def pickDigit(digit):
+      """Enable one of the 4 digits on the display by activating its control pin."""
+      for pin in placePin:
+         pin.off()          # Disable all digits
+      placePin[digit].on()   # Enable selected digit
+
+   def display():
+      """Render the current 4-digit counter value onto the 7-segment display."""
+      global counter
+
+      # Units digit
+      clearDisplay()
+      pickDigit(3)
+      hc595_shift(number[counter % 10])
+
+      # Tens digit
+      clearDisplay()
+      pickDigit(2)
+      hc595_shift(number[counter % 100 // 10])
+
+      # Hundreds digit (minus 0x80 to enable decimal point if needed)
+      clearDisplay()
+      pickDigit(1)
+      hc595_shift(number[counter % 1000 // 100] - 0x80)
+
+      # Thousands digit
+      clearDisplay()
+      pickDigit(0)
+      hc595_shift(number[counter % 10000 // 1000])
+
+   def stateChange():
+      """Handle button-triggered mode changes: start or stop the timer."""
+      global gameState, counter, timer1
+
+      # When gameState = 0 → Reset counter and start timer
+      if gameState == 0:
+         counter = 0           # Reset counter
+         time.sleep(1)         # Small delay before start
+         timer()               # Start counting
+
+      # When gameState = 1 → Stop the timer
+      elif gameState == 1 and timer1 is not None:
+         timer1.cancel()       # Stop Timer thread
+         time.sleep(1)
+
+      # Toggle between state 0 and 1
+      gameState = (gameState + 1) % 2
+
+   def loop():
+      """Main loop: refresh the display and detect button presses."""
+      global counter
+      currentState = 0
+      lastState = 0
+
+      while True:
+         display()                     # Continuously update display
+         currentState = sensorPin.value()   # Read button state
+         # Detect falling edge: button released → pressed transition
+         if (currentState == 0) and (lastState == 1):
+               stateChange()             # Trigger state change
+         lastState = currentState      # Save state for edge detection
+
+   def timer():
+      """Timer callback: increments counter every 0.01 seconds using threading.Timer."""
+      global counter, timer1
+      timer1 = threading.Timer(0.01, timer)  # Create next timer event
+      timer1.start()                         # Start timer loop
+      counter += 1                           # Increase counter value
+
+   try:
+      loop()                                 # Run main loop
+   except KeyboardInterrupt:
+      if timer1:
+         timer1.cancel()                    # Cleanly stop timer on exit
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Tastereingabe:**  
+   Der Neigungsschalter ist mit GPIO-Pin 22 verbunden und erkennt, wenn der Zauberstab geschüttelt wird.
+
+2. **74HC595-Schieberegister:**  
+   Das Schieberegister steuert, welche Ziffern auf der 7-Segment-Anzeige aktiviert werden.
+
+3. **Timer-Logik:**  
+   Ein Threading-Timer erhöht den Zähler alle 0,01 Sekunden und sorgt so für eine präzise Zeitmessung.
+
+4. **Zustandsverwaltung:**  
+   Das Spiel wechselt je nach Tasteneingabe zwischen verschiedenen Zuständen (Start, Stopp) und setzt den Zähler bei Bedarf zurück.
+
+5. **Anzeigeaktualisierung:**  
+   Die 7-Segment-Anzeige zeigt den Timerwert mit zwei Dezimalstellen an.
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **7-Segment-Anzeige zeigt keine Zahlen an**:
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Konfiguration.
+   - **Lösung**:
+
+     - Überprüfen Sie die Verbindungen zum 74HC595-Schieberegister und zur 7-Segment-Anzeige.
+     - Stellen Sie sicher, dass die Segmentcodes in ``number`` zur Konfiguration der Anzeige passen.
+
+2. **Neigungsschalter reagiert nicht**:
+
+   - **Ursache**: Fehlerhafte Verdrahtung oder fehlende Entprellung.
+   - **Lösung**:
+
+     - Prüfen Sie, ob der Neigungsschalter mit GPIO 22 verbunden ist.
+     - Fügen Sie eine kurze Entprellverzögerung in der Funktion ``loop()`` hinzu:
+
+       .. code-block:: python
+
+           time.sleep(0.05)
+
+3. **Zähler erhöht sich nicht**:
+
+   - **Ursache**: Die Timerfunktion startet nicht korrekt.
+   - **Lösung**:
+
+     - Überprüfen Sie die Funktion ``timer()`` und stellen Sie sicher, dass ``timer1.start()`` aufgerufen wird.
+     - Fügen Sie zur Fehlersuche eine Ausgabe des ``counter``-Wertes innerhalb der Funktion ``timer()`` hinzu.
+
+4. **Anzeige zeigt falsche Ziffern**:
+
+   - **Ursache**: Die Segmentcodes in der Liste ``number`` stimmen nicht mit der Hardware überein.
+   - **Lösung**: Testen Sie einzelne Ziffern mit festen Segmentcodes, um die korrekte Zuordnung zu überprüfen.
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Anpassbare Timer-Geschwindigkeit**: Fügen Sie eine Möglichkeit hinzu, die Timer-Schrittweite zu ändern (z. B. mit einem zweiten Taster, um zwischen 0,01-, 0,1- und 1-Sekunden-Schritten zu wechseln).
+
+2. **Countdown-Modus**: Implementieren Sie einen Countdown-Modus, bei dem der Zähler bei einem festgelegten Wert startet und bis 0 herunterzählt.
+
+3. **Pause- und Fortsetzen-Funktion**: Fügen Sie einen separaten Taster hinzu, um den Timer anzuhalten und wieder fortzusetzen, ohne ihn zurückzusetzen.
+
+4. **Akustisches Feedback**: Verwenden Sie einen Summer, der bei bestimmten Meilensteinen Signaltöne ausgibt (z. B. bei Vielfachen von 10).
+
+
+----------------------------------------------
+
+
+**Fazit**
+
+Die „10-Sekunden-Challenge“ zeigt, wie einfache Komponenten wie ein Neigungsschalter und eine 7-Segment-Anzeige zu einem unterhaltsamen interaktiven Spiel kombiniert werden können. Das Projekt demonstriert die Nutzung von GPIO-Steuerung, Timern und Zustandsverwaltung in Python und bietet eine lehrreiche sowie spannende Erfahrung. Fordern Sie sich selbst und Ihre Freunde heraus, um das perfekte Timing zu erreichen!

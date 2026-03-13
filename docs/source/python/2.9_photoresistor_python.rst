@@ -1,0 +1,272 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
+.. _py_photoresistor:
+
+2.9 Fotowiderstand
+===========================
+
+**Einführung**
+
+Ein Fotowiderstand, auch als lichtabhängiger Widerstand (LDR) bekannt, ist ein Bauteil zur Erkennung von Lichtintensität. Sein Widerstand nimmt ab, wenn die Lichtintensität zunimmt, wodurch er sich für Geräte wie automatische Nachtlichter und Umgebungslichtsteuerungen eignet.
+
+Dieses Projekt zeigt, wie man einen Fotowiderstand mit dem Fusion HAT+ verwendet, um die Helligkeit einer LED basierend auf dem Umgebungslicht anzupassen. Das Funktionsprinzip ähnelt dem eines Potentiometers, nur dass der Eingang hier Licht statt einer manuellen Einstellung ist.
+
+
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden folgende Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_photoresistor`
+        - |link_photoresistor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+
+**Schaltplan**
+
+Die folgenden Schaltpläne zeigen, wie die Komponenten verbunden werden:
+
+
+.. image:: img/fzz/2.2.1_sch.png
+   :width: 80%
+   :align: center
+
+
+
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung wie in der folgenden Abbildung gezeigt auf:
+
+.. image:: img/fzz/2.2.1_bb.png
+   :width: 80%
+   :align: center
+
+
+
+Achten Sie darauf, dass:
+
+- der Fotowiderstand mit dem Fusion HAT+ verbunden ist, damit analoge Signale in digitale Werte umgewandelt werden können.
+- die LED mit einem GPIO-Pin für die PWM-Steuerung verbunden ist.
+- alle Verbindungen sicher sind und Strom- sowie Masseverbindungen korrekt hergestellt sind.
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``. 
+Führen Sie das Beispiel mit den folgenden Schritten aus:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.9_Photoresistor.py
+
+Dieses Python-Skript liest kontinuierlich den Wert des Fotowiderstands, bildet ihn auf einen geeigneten Bereich zur Einstellung der LED-Helligkeit ab und passt die Helligkeit der LED entsprechend an. Das Skript enthält außerdem eine saubere Beendigungsroutine, die die LED ausschaltet, wenn das Programm vom Benutzer unterbrochen wird. Beim Ausführen passiert Folgendes:
+
+1. Der Fusion HAT+ liest kontinuierlich die Werte des Fotowiderstands über seinen Eingangskanal ein (im Bereich von 0 bis 4095).
+2. Der analoge Wert, der die Lichtintensität oder eine andere variable Eingangsgröße darstellt, wird in der Konsole als ``result =  <value>`` ausgegeben.
+3. Das Skript wandelt den Analogwert in ein PWM-Signal um, um die Helligkeit der LED anzupassen.
+4. Die Helligkeit der LED ändert sich dynamisch auf Grundlage des ADC-Eingangs, mit Aktualisierungen alle 0,2 Sekunden.
+5. Das Programm läuft unbegrenzt weiter, bis es mit ``Ctrl+C`` unterbrochen wird. Danach wird die LED ausgeschaltet.
+
+
+
+----------------------------------------------
+
+**Code**
+
+Unten finden Sie den in diesem Projekt verwendeten Python-Code:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.adc import ADC
+   from fusion_hat.pwm import PWM
+   import time
+
+   # Initialize a PWM LED
+   led = PWM('P0')
+
+   # Set up the potentiometer
+   photoresistor = ADC('A0')
+
+   def MAP(x, in_min, in_max, out_min, out_max):
+
+      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+   try:
+      while True:
+         # Get the current reading from the ADC port
+         result = photoresistor.read()
+         print('result = %d ' %result)
+
+         # Map the ADC value to a range suitable for setting LED brightness
+         value = MAP(result, 0, 4095, 0, 100)
+
+         # Set the LED brightness
+         led.pulse_width_percent(value)
+
+         # Wait for 1 seconds before reading again
+         time.sleep(0.2)
+
+   # Graceful exit when 'Ctrl+C' is pressed
+   except KeyboardInterrupt: 
+      led.pulse_width_percent(0)  # Turn off the LED
+
+
+
+
+----------------------------------------------
+
+
+**Code verstehen**
+
+1. **Importe:**
+
+   .. code-block:: python
+
+      from fusion_hat.adc import ADC
+      from fusion_hat.pwm import PWM
+      import time
+
+   Das Skript importiert die benötigten Module zum Lesen analoger Werte sowie zur Steuerung der LED-Helligkeit.
+
+2. **Initialisierung:**
+
+   .. code-block:: python
+
+      # PWM-LED initialisieren
+      led = PWM('P0')
+
+      # Fotowiderstand einrichten
+      photoresistor = ADC('A0')
+
+   Die LED, die mit GPIO-Pin P0 verbunden ist, wird initialisiert. Außerdem wird A0 eingerichtet, um analoge Werte vom Fotowiderstand zu lesen.
+
+3. **Mapping-Funktion:**
+
+   .. code-block:: python
+
+       def MAP(x, in_min, in_max, out_min, out_max):
+           return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+   Die Funktion ``MAP`` wandelt ADC-Werte (0–4095) in einen Bereich um, der für die PWM-Steuerung geeignet ist (0 bis 100).
+
+4. **Hauptschleife:**
+
+   .. code-block:: python
+
+      while True:
+         # Aktuellen Wert vom ADC-Port lesen
+         result = photoresistor.read()
+         print('result = %d ' %result)
+
+         # ADC-Wert auf einen Bereich für die LED-Helligkeit abbilden
+         value = MAP(result, 0, 4095, 0, 100)
+
+         # LED-Helligkeit einstellen
+         led.pulse_width_percent(value)
+
+         # 0.2 Sekunden warten, bevor erneut gelesen wird
+         time.sleep(0.2)
+
+   - Liest kontinuierlich die Lichtintensität vom Fotowiderstand.
+   - Passt die LED-Helligkeit proportional zur erkannten Lichtintensität an.
+   - Enthält eine kurze Verzögerung, um die CPU-Auslastung zu reduzieren und sichtbare Änderungen der LED-Helligkeit zu ermöglichen.
+
+5. **Sauberes Beenden:**
+
+   .. code-block:: python
+
+      try:
+         ...
+      except KeyboardInterrupt:
+         led.pulse_width_percent(0)  # LED ausschalten
+
+   Das Programm stellt sicher, dass die LED ausgeschaltet wird, wenn das Skript unterbrochen wird (z. B. mit ``Ctrl+C``).
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **LED leuchtet nicht**
+
+   - **Ursache**: Falsche GPIO-Verbindung oder LED-Verkabelung.  
+   - **Lösung**: Überprüfen Sie, ob die LED mit P0 verbunden ist und ein Vorwiderstand verwendet wird, um Schäden zu vermeiden.
+
+2. **ADC-Werte immer Null oder Maximum**
+
+   - **Ursache**: Fehlerhafte Verdrahtung.  
+   - **Lösung**: Prüfen Sie den ADC-Pin und stellen Sie sicher, dass er mit dem Fotowiderstand verbunden ist.
+
+3. **LED-Helligkeit ändert sich nicht**
+
+   - **Ursache**: ADC-Werte werden nicht korrekt in den PWM-Bereich umgerechnet.  
+   - **Lösung**: Stellen Sie sicher, dass die Mapping-Funktion den ADC-Wert korrekt in den PWM-Bereich (0 bis 100) skaliert.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Schwellwertbasierte Steuerung**
+
+   Schalten Sie die LED ein oder aus, wenn der Analogwert einen bestimmten Schwellenwert überschreitet:
+
+   .. code-block:: python
+
+      if result > 128:
+         led.on()
+      else:
+         led.off()
+
+2. **Datenprotokollierung**
+
+   Protokollieren Sie ADC-Werte und LED-Helligkeit zur späteren Analyse in einer Datei:
+
+   .. code-block:: python
+
+      with open("adc_log.txt", "a") as log_file:
+          log_file.write(f"Light Intensity: {result}\n")
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Experiment zeigt, wie ein Fotowiderstand zusammen mit dem Fusion HAT+ verwendet werden kann, um die Helligkeit einer LED basierend auf der Umgebungslichtintensität zu steuern. Durch das Verständnis der Analog-Digital-Umwandlung und der PWM-Steuerung können Sie dieses Projekt erweitern und komplexere lichtabhängige Systeme entwickeln, beispielsweise automatische Beleuchtung oder intelligente Geräte.

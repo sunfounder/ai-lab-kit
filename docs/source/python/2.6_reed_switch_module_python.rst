@@ -1,0 +1,258 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_reed:
+
+2.6 Reed-Schalter
+===========================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie ein Reed-Schalter als Magnetfeldsensor verwendet werden kann, um LEDs zu steuern. Ein Reed-Schalter ist ein elektrischer Schalter, der durch ein äußeres Magnetfeld betätigt wird. Er wird häufig in Sicherheitssystemen, Tür- und Fenstersensoren sowie zur Positionsdetektion eingesetzt. Dieses Projekt zeigt, wie der Zustand eines Reed-Schalters erkannt und mit zwei LEDs visuell dargestellt werden kann.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_reed_switch`
+        - |link_reed_switch_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Die Schaltung verwendet einen Reed-Schalter, der mit einem GPIO-Eingangspin und einem Pull-down-Widerstand verbunden ist. Zwei LEDs sind mit separaten GPIO-Ausgangspins verbunden, jeweils mit einem Strombegrenzungswiderstand. Wenn sich ein Magnet dem Reed-Schalter nähert, schließt sich der Stromkreis und die LED-Anzeigen ändern ihren Zustand.
+
+.. image:: img/fzz/2.2.4_sch.png
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie die Pins GND und VCC des Reed-Schalters mit GND und 3,3 V.
+2. Verbinden Sie den D0-Pin des Reed-Schalters mit GPIO17.
+3. Verbinden Sie die Kathode von LED1 über einen 220Ω-Widerstand mit GPIO22.
+4. Verbinden Sie die Anode von LED1 mit GND.
+5. Verbinden Sie die Kathode von LED2 über einen 220Ω-Widerstand mit GPIO27.
+6. Verbinden Sie die Anode von LED2 mit GND.
+
+.. image:: img/fzz/2.2.4_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.6_ReedSwitch.py 
+
+Dieses Python-Skript erstellt ein Magnetfeld-Erkennungssystem mit einem Reed-Schalter und zwei Status-LEDs. Beim Ausführen passiert Folgendes:
+
+1. Das Skript überwacht kontinuierlich den Zustand des Reed-Schalters.
+2. Wenn ein Magnet erkannt wird (Reed-Schalter geschlossen), wird LED1 ausgeschaltet und LED2 eingeschaltet.
+3. Wenn kein Magnet erkannt wird (Reed-Schalter offen), wird LED1 eingeschaltet und LED2 ausgeschaltet.
+4. Dadurch entsteht eine klare visuelle Anzeige für das Vorhandensein eines Magnetfelds.
+5. Das Programm kann jederzeit mit ``Ctrl+C`` sauber beendet werden.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code überwacht einen Reed-Schalter und steuert zwei LEDs entsprechend seinem Zustand:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    from fusion_hat.pin import Pin, Mode, Pull
+    from time import sleep  # Import sleep for delay
+
+    # Initialize reed switch (Button) on GPIO pin 17
+    reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+    # Initialize LED1 connected to GPIO pin 22
+    led1 = Pin(22,mode=Mode.OUT)
+    # Initialize LED2 connected to GPIO pin 27
+    led2 = Pin(27,mode=Mode.OUT)
+
+    try:
+        # Continuously monitor the state of the reed switch and control LEDs accordingly
+        while True:
+            if reed.value() == 0:  # Check if the reed switch is activated
+                led1.off()  # Turn off LED1
+                led2.on()   # Turn on LED2
+            else:  # If the sensor is not activated
+                led1.on()   # Turn on LED1
+                led2.off()  # Turn off LED2
+
+    except KeyboardInterrupt:
+        # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
+        pass
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die ``Pin``-Klasse aus der ``fusion_hat``-Bibliothek wird zur Steuerung der GPIO-Pins verwendet, und ``time.sleep`` wird für mögliche Verzögerungsoperationen importiert.
+
+   .. code-block:: python
+
+        from fusion_hat.pin import Pin, Mode, Pull
+        from time import sleep  # Importiert sleep für Verzögerungen
+
+2. **Initialisierung des Reed-Schalters**
+
+   Der Reed-Schalter wird an GPIO-Pin 17 als Eingang mit einem Pull-down-Widerstand initialisiert, um einen stabilen LOW-Zustand sicherzustellen, wenn der Schalter geöffnet ist.
+
+   .. code-block:: python
+
+        # Initialisiere den Reed-Schalter (Button) an GPIO-Pin 17
+        reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+3. **Initialisierung der LEDs**
+
+   Zwei LEDs werden an den GPIO-Pins 22 und 27 als Ausgänge initialisiert, um eine visuelle Rückmeldung zu geben.
+
+   .. code-block:: python
+
+        # Initialisiere LED1 an GPIO-Pin 22
+        led1 = Pin(22,mode=Mode.OUT)
+        # Initialisiere LED2 an GPIO-Pin 27
+        led2 = Pin(27,mode=Mode.OUT)
+
+4. **Hauptüberwachungsschleife**
+
+   Die ``while True``-Schleife überprüft kontinuierlich den Zustand des Reed-Schalters und steuert entsprechend die LEDs, wodurch ein klares Statusanzeigesystem entsteht.
+
+   .. code-block:: python
+
+      while True:
+          if reed.value() == 0:  # Prüfen, ob der Reed-Schalter aktiviert ist
+              led1.off()  # LED1 ausschalten
+              led2.on()   # LED2 einschalten
+          else:  # Wenn der Sensor nicht aktiviert ist
+              led1.on()   # LED1 einschalten
+              led2.off()  # LED2 ausschalten
+
+5. **Behandlung von Tastaturunterbrechungen**
+
+   Der ``try-except``-Block stellt sicher, dass das Programm sauber beendet wird, wenn es unterbrochen wird.
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+          # KeyboardInterrupt (Ctrl+C) abfangen und das Programm sauber beenden
+          pass
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Reed-Schalter erkennt den Magneten nicht**
+
+   - **Ursache**: Falsche Magnetpolarität, zu schwaches Magnetfeld oder Verdrahtungsprobleme.  
+   - **Lösung**: Drehen Sie den Magneten um, verwenden Sie einen stärkeren Magneten oder überprüfen Sie alle Verbindungen.
+
+2. **LEDs leuchten nicht**
+
+   - **Ursache**: Falsche GPIO-Pin-Zuweisung, LED-Polarität vertauscht oder zu geringer Strom.  
+   - **Lösung**: Überprüfen Sie die Pin-Zuweisungen, stellen Sie sicher, dass die LEDs korrekt gepolt sind (Anode an GPIO), und prüfen Sie die Widerstandswerte.
+
+3. **Instabile Messwerte**
+
+   - **Ursache**: Elektrisches Rauschen oder ein schwebender Eingang, wenn der Reed-Schalter offen ist.  
+   - **Lösung**: Der integrierte Pull-down-Widerstand stabilisiert normalerweise den Eingang, stellen Sie jedoch sicher, dass die Erdung korrekt ist und keine elektromagnetischen Störungen in der Nähe auftreten.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Sicherheitssystem**
+
+   Erstellen Sie ein einfaches Tür-/Fenster-Alarmsystem, das ausgelöst wird, wenn sich der Magnet vom Reed-Schalter entfernt:
+
+   .. code-block:: python
+
+      # Fügen Sie einen Buzzer für einen akustischen Alarm hinzu
+      from fusion_hat import Buzzer, PWM
+      buzzer = Buzzer(PWM('P0'))
+      
+      while True:
+          if reed.value() == 1:  # Tür geöffnet (Magnet entfernt)
+              buzzer.play('C6', 0.5)  # Alarm auslösen
+              led1.on()  # Rote Alarm-LED
+          else:
+              led2.on()  # Grüne Status-LED
+          sleep(0.1)
+
+2. **Positionszähler**
+
+   Zählen Sie, wie oft ein Magnet am Reed-Schalter vorbeikommt, nützlich zur Messung der Rotationsgeschwindigkeit:
+
+   .. code-block:: python
+
+      counter = 0
+      last_state = 0
+      
+      while True:
+          current_state = reed.value()
+          if last_state == 0 and current_state == 1:  # Flanke erkennen
+              counter += 1
+              print(f"Count: {counter}")
+          last_state = current_state
+          sleep(0.01)  # Kurze Verzögerung zur Entprellung
+
+3. **Zwei-Sensor-Erkennung**
+
+   Verwenden Sie zwei Reed-Schalter, um die Bewegungsrichtung zu erkennen:
+
+   .. code-block:: python
+
+      reed1 = Pin(17, Pin.IN, pull=Pin.PULL_DOWN)
+      reed2 = Pin(18, Pin.IN, pull=Pin.PULL_DOWN)
+      
+      # Bewegungsrichtung bestimmen, je nachdem welcher Sensor zuerst auslöst
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Reed-Schalter als Magnetfeldsensor verwendet werden kann, um LED-Anzeigen zu steuern. Reed-Schalter sind zuverlässige und einfache Bauteile, die häufig in Sicherheitssystemen, Positionssensoren und Näherungserkennung eingesetzt werden. Durch die Kombination von magnetischer Erkennung und visueller Rückmeldung lassen sich intuitive Überwachungssysteme für viele Anwendungen erstellen.

@@ -1,0 +1,267 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_tilt:
+
+2.4 Neigungsschalter
+=======================================
+
+**Einführung**
+
+In diesem Projekt lernen wir das Neigungsschalter-Modul kennen. Dabei handelt es sich um einen Kugel-Neigungsschalter, der eine kleine Metallkugel im Inneren enthält. Dieser Schalter ist dafür ausgelegt, leichte Neigungen zu erkennen und kann in verschiedenen Anwendungen eingesetzt werden, z. B. zur Bewegungserkennung, Winkelmessung oder Überwachung der Balance.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_tilt_switch`
+        - \-
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Die folgenden Diagramme zeigen, wie der Neigungsschalter angeschlossen wird:
+
+.. image:: img/fzz/2.1.5_sch.png
+   :width: 100%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie den Neigungsschalter mit GPIO-Pin 17 des Raspberry Pi.
+2. Verbinden Sie die grüne LED über einen Widerstand mit GPIO-Pin 27.
+3. Verbinden Sie die rote LED über einen Widerstand mit GPIO-Pin 22.
+4. Schließen Sie die Kathoden beider LEDs an GND an.
+
+.. image:: img/fzz/2.1.5_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.4_Tilt.py
+
+Dieses Python-Skript verwendet einen Neigungssensor, um zwei LEDs zu steuern und Statusmeldungen in der Konsole anzuzeigen. Beim Ausführen passiert Folgendes:
+
+1. Wenn der Neigungssensor (verbunden mit GPIO-Pin 17) eine Neigung erkennt:
+
+   - Es wird eine Meldung in der Konsole ausgegeben.
+   - Die rote LED (verbunden mit GPIO-Pin 22) wird eingeschaltet.
+   - Die grüne LED (verbunden mit GPIO-Pin 27) wird ausgeschaltet.
+
+2. Wenn der Neigungssensor aufrecht bleibt (in seiner normalen vertikalen Position):
+
+   - Die rote LED wird ausgeschaltet.
+   - Die grüne LED wird eingeschaltet.
+
+3. Das Programm überwacht kontinuierlich den Zustand des Neigungssensors und passt den Zustand der LEDs entsprechend an.
+
+4. Das Skript läuft unbegrenzt weiter, bis es durch Drücken von ``Ctrl+C`` beendet wird.
+
+----------------------------------------------
+
+**Code**
+
+Unten sehen Sie das Python-Skript zur Steuerung des Neigungsschalters und der LEDs:
+
+.. raw:: html
+
+   <run></run>
+
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from signal import pause  # Import pause function from signal module
+
+   TiltPin = Pin(17, mode=Mode.IN, pull=Pull.DOWN)  # Tilt sensor connected to GPIO pin 17
+   green_led = Pin(27,mode=Mode.OUT)  # Green LED connected to GPIO pin 27
+   red_led = Pin(22,mode=Mode.OUT)   # Red LED connected to GPIO pin 22
+
+   def detect():
+      """
+      Detect the tilt sensor state and control the LEDs.
+      Turns on the red LED and turns off the green LED when tilted.
+      Turns off the red LED and turns on the green LED when not tilted.
+      """
+      if TiltPin.value() == 0:  # Check if the sensor is tilted
+         print('    *************')
+         print('    *   Tilt!   *')
+         print('    *************')
+         red_led.high()   # Turn on red LED
+         green_led.low()  # Turn off green LED
+      else:  # If the sensor is not tilted
+         red_led.low()  # Turn off red LED
+         green_led.high()  # Turn on green LED
+
+   try:
+      # Set up a callback to detect changes in the tilt sensor state
+      TiltPin.when_activated = detect 
+      TiltPin.when_deactivated = detect  
+      pause()
+
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
+      pass
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Importe**
+
+   Das Skript importiert die notwendigen Klassen zur Steuerung von LEDs und Eingängen und initialisiert sie mit den entsprechenden GPIO-Pins.
+
+   .. code-block:: python
+
+      from fusion_hat.pin import Pin, Mode, Pull
+      from signal import pause  # Importiert die Funktion pause aus dem signal-Modul
+
+
+2. **Initialisierung**
+
+   Konfigurieren Sie den Neigungsschalter sowie die LEDs, die mit den GPIO-Pins 17, 27 und 22 verbunden sind.
+
+   .. code-block:: python
+
+      TiltPin = Pin(17, mode=Mode.IN, pull=Pull.DOWN)  # Neigungssensor an GPIO-Pin 17
+      green_led = Pin(27,mode=Mode.OUT)  # Grüne LED an GPIO-Pin 27
+      red_led = Pin(22,mode=Mode.OUT)   # Rote LED an GPIO-Pin 22
+
+3. **Detect-Funktion**
+
+   Die Funktion ``detect`` überprüft den Zustand des Neigungsschalters und aktualisiert entsprechend die LEDs. Wenn der Schalter geneigt ist, leuchtet die rote LED und die grüne LED wird ausgeschaltet.
+
+   .. code-block:: python
+
+      def detect():
+         if TiltPin.value() == 0:  # Prüfen, ob der Sensor geneigt ist
+            print('    *************')
+            print('    *   Tilt!   *')
+            print('    *************')
+            red_led.high()   # Rote LED einschalten
+            green_led.low()  # Grüne LED ausschalten
+         else:  # Wenn der Sensor nicht geneigt ist
+            red_led.low()  # Rote LED ausschalten
+            green_led.high()  # Grüne LED einschalten
+
+4. **Hauptschleife**
+
+   Die Funktion ``detect`` wird den Ereignissen ``when_pressed`` und ``when_released`` des Neigungssensors zugewiesen. Das Programm läuft weiter, bis es unterbrochen wird.
+
+   .. code-block:: python
+
+      try:
+         # Callback-Funktion zur Erkennung von Änderungen des Sensors
+         TiltPin.when_activated = detect 
+         TiltPin.when_deactivated = detect  
+         pause()
+
+      except KeyboardInterrupt:
+         # KeyboardInterrupt (Ctrl+C) abfangen und das Programm sauber beenden
+         pass
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Skript reagiert nicht auf Neigung**
+
+   - **Ursache**: Die Ereignis-Listener (``when_activated`` und ``when_deactivated``) funktionieren möglicherweise nicht korrekt.  
+   - **Lösung**: Prüfen Sie, ob ``detect()`` korrekt mit den Ereignissen ``when_activated`` und ``when_deactivated`` verbunden ist.
+
+2. **LEDs flackern**
+
+   - **Ursache**: Sensorsignalrauschen oder Entprellprobleme.  
+   - **Lösung**: Fügen Sie eine kurze Verzögerung hinzu, um das Signal zu stabilisieren:
+
+   .. code-block:: python
+
+      from time import sleep
+      def detect():
+            sleep(0.05)  # Entprell-Verzögerung
+            if TiltPin.value() == 0: 
+               red_led.on()
+               green_led.off()
+            else:
+               red_led.off()
+               green_led.on()
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Akustisches Feedback**
+
+   Fügen Sie einen Buzzer hinzu, der ein akustisches Signal ausgibt, wenn der Neigungssensor ausgelöst wird:
+   
+   .. code-block:: python
+
+      from fusion_hat import Buzzer,Pin
+      buzzer = Buzzer(Pin(4))
+      if TiltPin.value() == 0:
+         buzzer.on()
+      else:
+         buzzer.off()
+
+2. **Zeitbasierte Warnungen**
+
+   Lösen Sie eine Warnung aus, wenn der Sensor für eine bestimmte Zeit geneigt bleibt:
+
+   .. code-block:: python
+
+      from threading import Timer
+      def alert():
+         print("Tilt detected for too long!")
+         red_led.on()
+         sleep(0.5)
+         red_led.off()
+
+      if TiltPin.value() == 0:
+         Timer(5, alert).start()  # Warnung auslösen, wenn 5 Sekunden geneigt
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Neigungsschalter mit dem Fusion HAT+ verwendet werden kann, um Neigungen zu erkennen und LEDs zu steuern. Neigungsschalter sind eine kostengünstige Lösung für einfache Bewegungs- und Winkelerkennung und finden praktische Anwendungen in der Robotik und in Smart-Home-Systemen.

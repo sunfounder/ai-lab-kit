@@ -1,0 +1,248 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_led:
+
+
+1.1 Blinkende LED
+==================
+
+**Einführung**
+
+Willkommen zu Ihrem ersten Projekt! In diesem Tutorial lernen wir, wie man eine LED mithilfe von Python und den GPIO-Pins zum Blinken bringt. Dieses Projekt ist eine hervorragende Einführung in die Integration von Hardware und Software und zeigt, wie einfacher Code mit realen elektronischen Komponenten interagieren kann.
+
+Bevor wir beginnen, erklären wir kurz einige Grundlagen:
+
+* **Was ist eine LED?**  
+
+  Eine LED (Light Emitting Diode) ist ein kleines elektronisches Bauteil, das aufleuchtet, wenn elektrischer Strom durch sie fließt. LEDs werden in der Elektronik häufig eingesetzt, da sie energieeffizient und langlebig sind.
+  
+* **Was ist ein GPIO-Pin?**  
+
+  GPIO steht für **General Purpose Input/Output**. Diese Pins ermöglichen es dem Raspberry Pi, mit externen Geräten wie LEDs, Sensoren oder Tastern zu kommunizieren. Jeder Pin kann so programmiert werden, dass er Signale sendet (Output) oder Signale empfängt (Input).
+
+In diesem Tutorial verbinden wir eine LED mit einem GPIO-Pin und schreiben ein Python-Programm, das die LED blinken lässt. Los geht’s!
+
+----------------------------------------------
+
+
+**Benötigte Komponenten**
+
+Hier ist die Liste der Komponenten und ihrer Zwecke:
+
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+        
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+
+**Schaltplan**
+
+Der Widerstand begrenzt den Strom, der durch die LED fließt, und verhindert so, dass sie durchbrennt. Ohne Widerstand könnte die LED zu viel Strom ziehen, was sowohl die LED als auch den Raspberry Pi beschädigen kann.
+
+.. image:: img/fzz/1.1.1_sch.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie dem folgenden Verdrahtungsdiagramm, um Ihre Komponenten zu verbinden:
+
+.. image:: img/fzz/1.1.1_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Code ausführen**
+
+Nun schreiben wir den Python-Code, um die LED zu steuern. Sie erstellen ein Skript, das die LED in regelmäßigen Abständen ein- und ausschaltet.
+
+1. **Zum Codeverzeichnis wechseln:**  
+
+   Öffnen Sie das Terminal und geben Sie Folgendes ein:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/python
+
+2. **Programm ausführen:**  
+
+   Verwenden Sie den folgenden Befehl, um das Skript auszuführen:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      sudo python3 1.1_LED.py
+
+   Sie sollten sehen, wie die LED in regelmäßigen Abständen ein- und ausgeschaltet wird.
+
+3. **Code bearbeiten (optional):**  
+
+   Um das Programm zu ändern, öffnen Sie die Code-Datei in einem Texteditor:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+       nano 1.1_LED.py
+
+   Nehmen Sie Ihre Änderungen vor und drücken Sie anschließend ``Ctrl+X``, um den Editor zu verlassen. Speichern Sie Ihre Änderungen, indem Sie bei der entsprechenden Aufforderung ``Y`` eingeben. Führen Sie das Skript anschließend erneut aus, um Ihre Änderungen zu sehen.
+
+
+----------------------------------------------
+
+
+**Code**
+
+Hier ist das vollständige Python-Skript für dieses Projekt:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode
+   from time import sleep
+
+   # Initialize an LED connected to GPIO pin 17 as an output pin.
+   led = Pin(17,mode=Mode.OUT)
+
+   try:
+      # Start an infinite loop to toggle the LED state.
+      while True:
+         # Turn on the LED and print a message to the console.
+         led.high()
+         print('...LED ON')
+
+         # Wait for 0.5 seconds with the LED on.
+         sleep(0.5)
+
+         # Turn off the LED and print a message to the console.
+         led.low()
+         print('LED OFF...')
+
+         # Wait for 0.5 seconds with the LED off.
+         sleep(1)
+
+   except KeyboardInterrupt:
+      # Gracefully handle a keyboard interrupt (Ctrl+C) by breaking the loop.
+      pass
+
+
+Dieses Python-Skript steuert eine LED, die mit GPIO-Pin 17 eines Raspberry Pi verbunden ist. Wenn das Programm ausgeführt wird, schaltet sich die LED abwechselnd im Abstand von einer halben Sekunde ein und aus. Gleichzeitig gibt die Konsole „LED is ON“ und „LED is OFF“ aus, um den aktuellen Zustand der LED anzuzeigen. Das Programm läuft unbegrenzt weiter, bis es vom Benutzer durch Drücken von ``Ctrl+C`` unterbrochen wird.
+
+
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Importe:**  
+
+   Die Bibliothek ``fusion_hat`` vereinfacht die Steuerung von GPIO-Geräten. Die Klasse ``Pin`` ermöglicht es, eine LED mit grundlegenden Methoden wie ``on()`` und ``off()`` zu steuern. Die Funktion ``sleep`` erzeugt Verzögerungen zwischen den Befehlen.
+
+   .. note:: Informationen zur Verwendung von fusion-hat finden Sie unter |link_api_fusion_hat|.
+
+
+2. **Initialisierung:**  
+
+   Die Zeile ``led = Pin(17,mode=Mode.OUT)`` teilt dem Raspberry Pi mit, dass eine LED mit GPIO-Pin 17 verbunden ist.
+
+3. **Hauptschleife:**  
+
+   Innerhalb der ``while True``-Schleife: Die LED wird eingeschaltet (``led.on()``) und ausgeschaltet (``led.off()``), jeweils mit einer Pause von 0,5 Sekunden dazwischen (``sleep(0.5)``).
+
+4. **Sauberes Beenden:**  
+
+   Der ``try...except``-Block stellt sicher, dass das Programm sauber beendet wird, wenn es unterbrochen wird (z. B. durch Drücken von ``Ctrl+C``).
+
+
+
+----------------------------------------------
+
+
+**Fehlerbehebung**
+
+1. **LED leuchtet nicht**  
+
+   - **Ursache**: Falscher GPIO-Pin oder fehlerhafte Verdrahtung.  
+   - **Lösung**: Überprüfen Sie die Verbindung der LED mit GPIO-Pin 17 und stellen Sie sicher, dass der Widerstand korrekt eingesetzt ist, um Schäden an der LED zu vermeiden.
+
+
+2. **KeyboardInterrupt funktioniert nicht**  
+
+   - **Ursache**: Das Programm wird nicht ordnungsgemäß beendet.  
+   - **Lösung**: Stellen Sie sicher, dass das Skript in einem Terminal ausgeführt wird, in dem ``Ctrl+C`` erfasst wird, und nicht als Hintergrundprozess.
+
+3. **Falsche GPIO-Einrichtung**  
+
+   - **Ursache**: Die Bibliothek ``fusion_hat`` ist nicht installiert.  
+   - **Lösung**: Siehe :ref:`install_fusion_hat`.
+
+4. **LED flackert oder verhält sich unregelmäßig**  
+
+   - **Ursache**: Instabile Stromversorgung oder schlechte Verbindungen.  
+   - **Lösung**: Verwenden Sie eine stabile Stromquelle und stellen Sie sicher, dass alle Kabel fest verbunden sind.
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Variable Blinkgeschwindigkeit**: Fügen Sie eine Benutzereingabe hinzu, um die Blinkgeschwindigkeit der LED dynamisch zu steuern:  
+
+   .. code-block:: python
+        
+        interval = float(input("Blinkintervall in Sekunden eingeben: "))
+
+        while True:
+            led.on()
+            sleep(interval)
+            led.off()
+            sleep(interval)
+
+
+2. **Mehrere LEDs steuern**: Verbinden Sie mehrere LEDs mit unterschiedlichen GPIO-Pins und steuern Sie sie in Mustern (z. B. sequentielles Aufleuchten oder gleichzeitiges Blinken).
+
+
+----------------------------------------------
+
+
+**Fazit**
+
+Herzlichen Glückwunsch! Sie haben Ihr erstes Raspberry-Pi-Projekt abgeschlossen. Durch die Steuerung einer LED haben Sie gelernt, wie man GPIO-Pins verwendet und Python-Skripte schreibt, um mit Hardware zu interagieren. Dieses grundlegende Wissen bildet eine solide Basis für komplexere Projekte. Experimentieren Sie weiter und entdecken Sie neue Möglichkeiten!

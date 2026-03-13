@@ -1,0 +1,242 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_potentiometer:
+
+2.8 Potentiometer  
+===================
+
+**Einführung**
+
+Die ADC-Funktion (Analog-Digital-Wandler) ist entscheidend, um analoge Signale in digitale Signale umzuwandeln. In diesem Experiment verwenden wir den Fusion HAT+, um diese Umwandlung mithilfe eines Potentiometers durchzuführen. Das Potentiometer verändert die Spannung – eine physikalische Größe – die anschließend vom ADC digitalisiert wird. Dieses Experiment zeigt außerdem, wie das Potentiometer zur Steuerung der Helligkeit einer LED verwendet werden kann.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - COMPONENT INTRODUCTION
+        - PURCHASE LINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_potentiometer`
+        - |link_potentiometer_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Unten sind die Schaltpläne für dieses Projekt dargestellt:
+
+.. image:: img/fzz/2.1.7_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung wie in der folgenden Abbildung gezeigt auf:
+
+.. image:: img/fzz/2.1.7_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode dieses Tutorials befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie das Beispiel mit den folgenden Schritten aus:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.8_Potentiometer.py
+
+Dieses Python-Skript verwendet den Fusion HAT+, um ein analoges Eingangssignal zu lesen und damit die Helligkeit einer PWM-LED zu steuern. Beim Ausführen passiert Folgendes:
+
+1. Der Fusion HAT+ liest kontinuierlich ein analoges Signal und wandelt es in einen digitalen Wert zwischen 0 und 4095 um.
+2. Dieser Wert wird auf einen Bereich zwischen 0 und 100 abgebildet, der den Helligkeitsprozentsatz der LED darstellt.
+3. Die Helligkeit der PWM-LED wird dynamisch anhand dieses Wertes angepasst.
+4. Der rohe ADC-Wert sowie die Spannung werden in Echtzeit im Terminal ausgegeben.
+5. Das Programm läuft unbegrenzt weiter, bis es mit ``Ctrl+C`` beendet wird. Anschließend wird die LED ausgeschaltet.
+
+----------------------------------------------
+
+**Code**
+
+Unten befindet sich der Code für dieses Experiment:
+
+
+
+.. raw:: html
+
+   <run></run>
+
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.adc import ADC
+   from fusion_hat.pwm import PWM
+   import time
+
+   # Set up the potentiometer
+   pot = ADC(0)
+
+   # Initialize a PWM LED
+   led = PWM(0)
+
+   def MAP(x, in_min, in_max, out_min, out_max):
+
+      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+   try:
+      while True:
+         # Get the current reading from the ADC port
+         result = pot.read()
+         voltage = pot.read_voltage()
+         print('result = %d voltage = %.2f' %(result,voltage))
+
+         # Map the ADC value to a range suitable for setting LED brightness
+         value = MAP(result, 0, 4095, 0, 100)
+
+         # Set the LED brightness
+         led.pulse_width_percent(value)
+
+         # Wait for 1 seconds before reading again
+         time.sleep(0.2)
+
+   # Graceful exit when 'Ctrl+C' is pressed
+   except KeyboardInterrupt: 
+      led.pulse_width_percent(0)  # Turn off the LED
+
+
+
+
+----------------------------------------------
+
+
+**Code verstehen**
+
+1. **Importe:**
+
+   .. code-block:: python
+
+      from fusion_hat.adc import ADC
+      from fusion_hat.pwm import PWM
+      import time
+
+   Das Skript verwendet ``fusion_hat`` zur Steuerung der PWM-LED und zur Analog-Digital-Umwandlung, während ``time`` für Zeitverzögerungen genutzt wird.
+
+2. **Initialisierung:**
+
+   .. code-block:: python
+
+      # Potentiometer einrichten
+      pot = ADC(0)
+
+      # PWM-LED initialisieren
+      led = PWM(0)
+
+   Das Skript initialisiert eine PWM-LED an Pin ``P0`` und einen ADC an Pin ``A0``.
+
+3. **MAP-Funktion:**
+
+   .. code-block:: python
+
+       def MAP(x, in_min, in_max, out_min, out_max):
+           return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+   Die Funktion ``MAP`` wandelt Werte von einem Bereich in einen anderen um. Dies ist notwendig, um ADC-Messwerte auf die LED-Helligkeit abzubilden.
+
+4. **Hauptschleife:**
+
+   .. code-block:: python
+
+      try:
+         while True:
+            # Aktuellen Wert vom ADC-Port lesen
+            result = pot.read()
+            voltage = pot.read_voltage()
+            print('result = %d voltage = %.2f' %(result,voltage))
+
+            # ADC-Wert auf einen Bereich für die LED-Helligkeit abbilden
+            value = MAP(result, 0, 4095, 0, 100)
+
+            # LED-Helligkeit einstellen
+            led.pulse_width_percent(value)
+
+            # 0.2 Sekunden warten, bevor erneut gelesen wird
+            time.sleep(0.2)
+
+      # Sauberes Beenden bei 'Ctrl+C'
+      except KeyboardInterrupt: 
+         led.pulse_width_percent(0)  # LED ausschalten
+
+   - Liest kontinuierlich ADC-Werte.
+   - Wandelt ADC-Messwerte (0–4095) in Helligkeitswerte (0–100) um.
+   - Passt die LED-Helligkeit entsprechend an und wartet 0.2 Sekunden vor der nächsten Messung.
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **LED reagiert nicht**
+
+   - **Ursache**: Falsche Verkabelung oder GPIO-Pin-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass die LED mit PWM 0 und einem geeigneten Vorwiderstand verbunden ist.
+
+2. **ADC-Werte sind immer Null**
+
+   - **Ursache**: Falsche Verdrahtung des Sensors.  
+   - **Lösung**: Überprüfen Sie die Sensorverbindungen und stellen Sie sicher, dass der Eingangssensor korrekt funktioniert.
+
+3. **Fehler bei der Werteabbildung**
+
+   - **Ursache**: Falsche Parameter in der ``MAP()``-Funktion.  
+   - **Lösung**: Stellen Sie sicher, dass der Eingangsbereich (``in_min``, ``in_max``) korrekt auf 0–4095 gesetzt ist und der Ausgangsbereich (``out_min``, ``out_max``) für die LED-Helligkeitssteuerung (0–100) geeignet ist.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Schwellwertbasierte Steuerung**
+
+   Fügen Sie eine Logik hinzu, die die LED basierend auf bestimmten ADC-Schwellenwerten ein- oder ausschaltet:
+
+   .. code-block:: python
+
+      if result > 2048:
+         led.on()
+      else:
+         led.off()
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Experiment zeigt, wie der Fusion HAT+ zusammen mit einem Potentiometer verwendet werden kann, um die Helligkeit einer LED zu steuern. Durch das Verständnis der Analog-Digital-Umwandlung und der PWM-Steuerung können Sie dieses Wissen erweitern und komplexere interaktive Systeme entwickeln.

@@ -19,10 +19,17 @@
 import sphinx_rtd_theme
 import time
 
-project = 'SunFounder AI Explorer Lab Kit for Raspberry Pi Zero 2 W'
+project = 'SunFounder AI Fusion Lab Kit'
 copyright = f'{time.localtime().tm_year}, SunFounder'
 author = 'www.sunfounder.com'
 
+
+# -- sphinx_rtd_theme Theme options -----------------------------------------------------
+html_theme_options = {
+    'flyout_display': 'attached',
+    'version_selector': False,
+    'language_selector': False,
+}
 
 # -- General configuration ---------------------------------------------------
 
@@ -30,8 +37,10 @@ author = 'www.sunfounder.com'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autosectionlabel',
-    'sphinx_copybutton'
+    #'sphinx.ext.autosectionlabel',
+    'sphinx_copybutton',
+    'sphinx_rtd_theme',
+    'sphinx.ext.intersphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -51,6 +60,7 @@ exclude_patterns = []
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
+html_static_path = ['_static']
 
 # SunFounder logo
 
@@ -96,177 +106,162 @@ gettext_compact = False # Support for generating the contents of the folders ins
 # Purchase links of components
 rst_epilog = """
 
-.. |link_ai_explorer_kit| raw:: html
 
-    <a href="https://www.sunfounder.com/products/ai-explorer-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">AI Explorer Lab Kit</a>
-
-.. |link_ai_explorer| raw:: html
-
-    <a href="https://www.sunfounder.com/products/ai-explorer-lab-kit?_pos=1&_sid=e78196ab0&_ss=r" target="_blank">Bestelllink für AI Explorer Lab Kit</a>
-
-.. |link_picow_buy| raw:: html
-
-    <a href="https://www.sunfounder.com/products/raspberry-pi-pico-w" target="_blank">Kaufen</a>
-    
 .. |link_led_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/500pcs-5-colors-x-100pcs-5mm-leds-with-white-red-yellow-green-blue-colors-kit-box" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/500pcs-5-colors-x-100pcs-5mm-leds-with-white-red-yellow-green-blue-colors-kit-box" target="_blank">BUY</a>
 
 .. |link_resistor_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/1-4w-resistor-assortment-kit-40-values-400pcs" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/1-4w-resistor-assortment-kit-40-values-400pcs" target="_blank">BUY</a>
 
 .. |link_wires_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/560pcs-jumper-wire-kit-with-14-lengths" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/560pcs-jumper-wire-kit-with-14-lengths" target="_blank">BUY</a>
 
 .. |link_breadboard_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/sunfounder-breadboard-kit" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/sunfounder-breadboard-kit" target="_blank">BUY</a>
 
 .. |link_rgb_led_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/100pcs-5mm-4-pin-rgb-common-cathode-led" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/100pcs-5mm-4-pin-rgb-common-cathode-led" target="_blank">BUY</a>
 
 .. |link_button_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/100pcs-6x6x5-mm-miniature-push-button" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/100pcs-6x6x5-mm-miniature-push-button" target="_blank">BUY</a>
 
 .. |link_capacitor_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/ceramic-capacitor-assortment-kit-set-of-600-small-assorted-capacitors" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/ceramic-capacitor-assortment-kit-set-of-600-small-assorted-capacitors" target="_blank">BUY</a>
 
 .. |link_potentiometer_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/10pcs-10k-ohm-trim-potentiometer-breadboard" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/10pcs-10k-ohm-trim-potentiometer-breadboard" target="_blank">BUY</a>
 
 .. |link_photoresistor_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/100pcs-photoresistor-photo-light-sensitive-resistor-5516" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/100pcs-photoresistor-photo-light-sensitive-resistor-5516" target="_blank">BUY</a>
 
 .. |link_thermistor_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/50pcs-ntc-thermistor-mf11-103-10k-ohm" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/50pcs-ntc-thermistor-mf11-103-10k-ohm" target="_blank">BUY</a>
 
 .. |link_transistor_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/10-values-200pcs-power-supply-general-transistor-npn-pnp-assortment-kit-bc337-bc327-2n2222-2n2907-2n3904-2n3906-s8050-s8550-a1015-c1815-set" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/10-values-200pcs-power-supply-general-transistor-npn-pnp-assortment-kit-bc337-bc327-2n2222-2n2907-2n3904-2n3906-s8050-s8550-a1015-c1815-set" target="_blank">BUY</a>
 
 .. |link_relay_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/10pcs-srs-05vdc-sl-c-5v-relay-coil-spdt-6-pin-pcb-electromagnetic-power-relay" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/10pcs-srs-05vdc-sl-c-5v-relay-coil-spdt-6-pin-pcb-electromagnetic-power-relay" target="_blank">BUY</a>
 
 .. |link_passive_buzzer_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/20pcs-3-5v-2-terminals-passive-buzzer" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/20pcs-3-5v-2-terminals-passive-buzzer" target="_blank">BUY</a>
 
 .. |link_ws2812_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/2pcs-8-bit-ws2812b-rgb-led-strip-5050smd-individual-addressable-60pixels-m" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/2pcs-8-bit-ws2812b-rgb-led-strip-5050smd-individual-addressable-60pixels-m" target="_blank">BUY</a>
 
 .. |link_i2clcd1602_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/i2c-lcd1602-module" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/i2c-lcd1602-module" target="_blank">BUY</a>
 
 .. |link_motor_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/5pcs-1-5v-6v-type-miniature-dc-motors" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/5pcs-1-5v-6v-type-miniature-dc-motors" target="_blank">BUY</a>
 
 .. |link_servo_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/sg90-micro-digital-servo" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/sg90-micro-digital-servo" target="_blank">BUY</a>
 
 .. |link_keypad_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/membrane-switch-keypad" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/membrane-switch-keypad" target="_blank">BUY</a>
 
 .. |link_74hc595_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/10-pcs-ic-74hc595-74595-sn74hc595n-8-bit-shift-register-dip-16" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/10-pcs-ic-74hc595-74595-sn74hc595n-8-bit-shift-register-dip-16" target="_blank">BUY</a>
 
 .. |link_7segment_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/30pcs-0-56-7-segment-led" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/30pcs-0-56-7-segment-led" target="_blank">BUY</a>
 
 .. |link_ultrasonic_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/5pcs-hc-sr04-ultrasonic-module-distance-sensor" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/5pcs-hc-sr04-ultrasonic-module-distance-sensor" target="_blank">BUY</a>
 
 .. |link_dht22_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/dht22-am2302-digital-temperature-and-humidity-sensor" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/dht22-am2302-digital-temperature-and-humidity-sensor" target="_blank">BUY</a>
 
 .. |link_receiver_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/infrared-receiver-module" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/infrared-receiver-module" target="_blank">BUY</a>
 
 .. |link_rfid_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/rfid-kit-blue" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/rfid-kit-blue" target="_blank">BUY</a>
 
 .. |link_pir_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/hcsr501-infrared-sensor?_pos=1&_sid=2bd5fd3cc&_ss=r" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/hcsr501-infrared-sensor?_pos=1&_sid=2bd5fd3cc&_ss=r" target="_blank">BUY</a>
 
 .. |link_gpio_board_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/t-shape-gpio-extension-board" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/t-shape-gpio-extension-board" target="_blank">BUY</a>
 
 .. |link_led_matrix_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/aceirmc-4pcs-max7219-dot-matrix-display-module-single-chip-control-led-module-diy-kit-for-arduino-with-5pin-line" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/aceirmc-4pcs-max7219-dot-matrix-display-module-single-chip-control-led-module-diy-kit-for-arduino-with-5pin-line" target="_blank">BUY</a>
 
 .. |link_diode_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/100pcs-1n4007-4007-1a-1000v-do-41-high-quality-rectifier-diode-in4007-1n4007" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/100pcs-1n4007-4007-1a-1000v-do-41-high-quality-rectifier-diode-in4007-1n4007" target="_blank">BUY</a>
 
 .. |link_touch_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/ttp223-touch-sensor-module" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/ttp223-touch-sensor-module" target="_blank">BUY</a>
 
 .. |link_slide_switch_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/10pcs-high-knob-3-pin-2-position-breadboard-friendly-spdt-slide-switch" target="_blank">Kaufen</a>    
+    <a href="https://www.sunfounder.com/products/10pcs-high-knob-3-pin-2-position-breadboard-friendly-spdt-slide-switch" target="_blank">BUY</a>    
 
 .. |link_rotary_encoder_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/rotary-encoder-module" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/rotary-encoder-module" target="_blank">BUY</a>
 
 .. |link_humiture_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/humiture-sensor-module" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/humiture-sensor-module" target="_blank">BUY</a>
 
 .. |link_reed_switch_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/reed-switch-module" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/reed-switch-module" target="_blank">BUY</a>
 
 .. |link_obstacle_avoidance_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/obstacle-avoidance-sensor" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/obstacle-avoidance-sensor" target="_blank">BUY</a>
 
 .. |link_mpu6050_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/3pcs-gy-521-mpu-6050-mpu6050-3-axis-accelerometer-gyroscope-module-6-dof-6-axis-accelerometer-gyroscope-sensor-module-16-bit-ad-converter-data-output-iic-i2c-for-arduino" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/3pcs-gy-521-mpu-6050-mpu6050-3-axis-accelerometer-gyroscope-module-6-dof-6-axis-accelerometer-gyroscope-sensor-module-16-bit-ad-converter-data-output-iic-i2c-for-arduino" target="_blank">BUY</a>
     
 .. |link_mfrc522_rfid_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/rfid-kit-blue" target="_blank">Kaufen</a>
+    <a href="https://www.sunfounder.com/products/rfid-kit-blue" target="_blank">BUY</a>
 
 .. |link_camera_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/5mp-1080p-camera" target="_blank">Kaufen</a>   
+    <a href="https://www.sunfounder.com/products/5mp-1080p-camera" target="_blank">BUY</a>   
 
 .. |link_soil_moisture_buy| raw:: html
 
-    <a href="https://www.sunfounder.com/products/capacitive-soil-moisture-sensor-module?_pos=1&_sid=73e23dc8a&_ss=r" target="_blank">Kaufen</a>       
-
-.. |link_fusion_hat| raw:: html
-
-    <a href="https://fusion-hat.readthedocs.io/en/latest/fusion_hat/fusion_hat.html" target="_blank">SunFounder Fusion HAT+</a>
+    <a href="https://www.sunfounder.com/products/capacitive-soil-moisture-sensor-module?_pos=1&_sid=73e23dc8a&_ss=r" target="_blank">BUY</a>       
 
 .. |link_api_fusion_hat| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/fusion-hat/en/latest/api/api.html" target="_blank">fusion-hat dokumentation </a>
+    <a href="https://docs.sunfounder.com/projects/fusion-hat/en/latest/api/fusion_hat.html" target="_blank">fusion-hat documentation </a>
 
 
 """
@@ -277,47 +272,106 @@ rst_epilog += """
 
 .. |link_sf_facebook| raw:: html
 
-    <a href="https://bit.ly/raphaelkit" target="_blank">hier</a>
+    <a href="https://bit.ly/raphaelkit" target="_blank">here</a>
 
 .. |link_german_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/de/latest/" target="_blank">Deutsch Online-Kurs</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/de/latest/" target="_blank">Deutsch Online-Kurs</a>
 
 .. |link_jp_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/ja/latest/" target="_blank">日本語オンライン教材</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/ja/latest/" target="_blank">日本語オンライン教材</a>
 
 .. |link_en_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/en/latest/" target="_blank">English Online-tutorials</a>
-
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/en/latest/" target="_blank">English Online-tutorials</a>
 
 .. |link_es_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/es/latest/" target="_blank">Tutoriales en línea de español</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/es/latest/" target="_blank">Tutoriales en línea de español</a>
 
 .. |link_fr_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/fr/latest/" target="_blank">Tutoriels de français en ligne</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/fr/latest/" target="_blank">Tutoriels de français en ligne</a>
 
 .. |link_it_tutorials| raw:: html
 
-    <a href="https://docs.sunfounder.com/projects/ai-explorer-lab-kit/it/latest/" target="_blank">Tutorial online in italiano</a>
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/it/latest/" target="_blank">Tutorial online in italiano</a>
     
+
+"""
+
+
+# open links on a new page
+
+rst_epilog += """
+
+.. |link_rpi_connect| raw:: html
+
+    <a href="https://www.raspberrypi.com/documentation/services/connect.html" target="_blank">Raspberry Pi Connect</a>
+
+.. |link_iso_code| raw:: html
+
+    <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements" target="_blank">ISO/IEC alpha2 code</a>
+
+.. |link_rpi_imager| raw:: html
+
+    <a href="https://www.raspberrypi.org/software/" target="_blank">Raspberry Pi Imager</a>
 
 .. |Adafruit_CircuitPython_DHT| raw:: html
 
     <a href="https://github.com/adafruit/Adafruit_CircuitPython_DHT" target="_blank">adafruit/Adafruit_CircuitPython_DHT</a>    
 
-
-.. |link_openai_platform| raw:: html
-
-    <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI API</a>
-
 .. |link_openweather| raw:: html
 
     <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>
 
+.. |link_aliyun| raw:: html
+
+    <a href="https://bailian.console.aliyun.com/?spm=5176.29597918.J_SEsSjsNv72yRuRFS2VknO.2.40a37b08ic1XHy&tab=model#/api-key" target="_blank">Bailian console</a>
+
+.. |link_qwen_inter| raw:: html
+
+    <a href="https://www.alibabacloud.com/help/en/model-studio/get-api-key" target="_blank">Get API Key</a>
+
+.. |link_ollama_hub| raw:: html
+
+    <a href="https://ollama.com/library" target="_blank">Ollama Hub</a>
+
+.. |link_ollama| raw:: html
+
+    <a href="https://ollama.com/download" target="_blank">Ollama Download Page</a>
+
+.. |link_piper_voice| raw:: html
+
+    <a href="https://github.com/rhasspy/piper/blob/master/VOICES.md" target="_blank">Piper Voices</a>
     
+.. |link_grok_ai| raw:: html
+
+    <a href="https://console.x.ai/team/f424aae2-94c8-4602-91bf-af8452fda9a2/models" target="_blank">xAI Cloud Console</a>
+    
+.. |link_deepseek| raw:: html
+
+    <a href="https://platform.deepseek.com/sign_in" target="_blank">Deepseek Platform</a>
+
+.. |link_doubao| raw:: html
+
+    <a href="https://console.volcengine.com/auth/login" target="_blank">Volcengine</a>
+
+.. |link_openai_platform| raw:: html
+
+    <a href="https://platform.openai.com/settings/organization/api-keys" target="_blank">OpenAI Platform</a>
+
+.. |link_gemini_model| raw:: html
+
+    <a href="https://ai.google.dev/gemini-api/docs/models#model-variations" target="_blank">Gemini Models</a>
+
+.. |link_google_ai| raw:: html
+
+    <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>
+
+.. |link_voice_options| raw:: html
+
+    <a href="https://platform.openai.com/docs/guides/text-to-speech/voice-options" target="_blank">Voice options</a>
 
 """

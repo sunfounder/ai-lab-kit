@@ -1,0 +1,296 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_fun_morse_code_generator:
+
+4.4 Morsecode-Generator
+===========================
+
+**Einführung**
+
+In diesem Projekt erstellen wir einen Morsecode-Generator mit einem Raspberry Pi. Sie können über das Terminal eine Zeichenfolge eingeben, und das System gibt die entsprechenden Morsecode-Signale über einen Summer und eine LED aus. Dieses Projekt demonstriert nicht nur die grundlegende GPIO-Steuerung, sondern führt auch in den Morsecode ein – eine faszinierende Kommunikationsmethode, die historisch in der Telegrafie verwendet wurde.
+
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Die folgenden Komponenten werden benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_buzzer`
+        - \-
+    *   - :ref:`cpn_transistor`
+        - |link_transistor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+
+
+----------------------------------------------
+
+**Schaltplan**
+
+Der schematische Schaltplan ist unten dargestellt:
+
+.. image:: img/fzz/4.1.13_sch.png
+   :width: 100%
+   :align: center
+
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung gemäß dem folgenden Diagramm auf. Achten Sie auf die richtige Polarität des Summers (der Anschluss mit dem „+“-Zeichen ist der Pluspol):
+
+
+.. image:: img/fzz/4.1.13_bb.png
+   :width: 80%
+   :align: center
+
+
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``. 
+Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+   
+    cd ~/ai-lab-kit/python/
+    sudo python3 4.4_MorseCodeGenerator.py
+
+* Nach dem Start des Skripts können Sie im Terminal eine Nachricht eingeben, und das System gibt sie mithilfe eines Summers und einer LED als Morsecode aus. 
+* Jeder Punkt wird durch einen kurzen Ton bzw. ein kurzes Blinken dargestellt, und jeder Strich durch einen längeren Ton bzw. ein längeres Blinken. 
+* Buchstaben werden durch eine kurze Pause getrennt, und Leerzeichen in der Nachricht erzeugen eine längere Pause zwischen Wörtern. 
+* Das Programm wartet fortlaufend auf neue Eingaben und wird sicher beendet, wenn Sie ``Ctrl + C`` drücken. Dabei werden sowohl der Summer als auch die LED ausgeschaltet.
+
+----------------------------------------------
+
+**Code**
+
+Nachfolgend finden Sie den Python-Code für dieses Projekt:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode
+   import time
+
+   # Initialize Buzzer and LED to GPIO pins
+   BeepPin = Pin(22, mode=Mode.OUT)
+   ALedPin = Pin(17, mode=Mode.OUT)
+
+   # Morse code representation for characters
+   MORSECODE = {
+      'A': '01', 'B': '1000', 'C': '1010', 'D': '100', 'E': '0', 'F': '0010', 'G': '110',
+      'H': '0000', 'I': '00', 'J': '0111', 'K': '101', 'L': '0100', 'M': '11', 'N': '10',
+      'O': '111', 'P': '0110', 'Q': '1101', 'R': '010', 'S': '000', 'T': '1',
+      'U': '001', 'V': '0001', 'W': '011', 'X': '1001', 'Y': '1011', 'Z': '1100',
+      '1': '01111', '2': '00111', '3': '00011', '4': '00001', '5': '00000',
+      '6': '10000', '7': '11000', '8': '11100', '9': '11110', '0': '11111',
+      '?': '001100', '/': '10010', ',': '110011', '.': '010101', ';': '101010',
+      '!': '101011', '@': '011010', ':': '111000',
+   }
+
+   # Timing (seconds)
+   UNIT = 0.25                 # base unit
+   DOT = UNIT / 2              # dot length
+   DASH = UNIT                 # dash length
+   INTRA_SYMBOL_GAP = UNIT / 2 # gap between dot/dash in one letter
+   LETTER_GAP = UNIT           # gap between letters
+   WORD_GAP = UNIT * 2         # gap between words (space)
+
+   def on():
+      """Turn on the buzzer and LED."""
+      BeepPin.on()
+      ALedPin.on()
+
+   def off():
+      """Turn off the buzzer and LED."""
+      BeepPin.off()
+      ALedPin.off()
+
+   def beep(duration):
+      """Beep (and flash LED) for 'duration' seconds."""
+      on()
+      time.sleep(duration)
+      off()
+
+   def play_symbol(symbol):
+      """Play one morse symbol: '0' (dot) or '1' (dash)."""
+      if symbol == '0':
+         beep(DOT)
+      elif symbol == '1':
+         beep(DASH)
+      time.sleep(INTRA_SYMBOL_GAP)
+
+   def morsecode(text):
+      """
+      Convert text to Morse code and output via buzzer+LED.
+      Supports spaces between words and ignores unsupported characters.
+      """
+      for ch in text:
+         if ch == ' ':
+               # Space means word gap
+               time.sleep(WORD_GAP)
+               continue
+
+         # Skip unsupported characters instead of crashing
+         if ch not in MORSECODE:
+               continue
+
+         pattern = MORSECODE[ch]
+         for sym in pattern:
+               play_symbol(sym)
+
+         # Pause between letters
+         time.sleep(LETTER_GAP)
+
+   def destroy():
+      """Ensure buzzer and LED are turned off."""
+      BeepPin.off()
+      ALedPin.off()
+      print("")
+
+   try:
+      while True:
+         code = input("Please input the messenger:").upper()
+         print(code)
+         morsecode(code)
+   except KeyboardInterrupt:
+      destroy()
+
+
+
+Dieses Python-Skript wandelt eine vom Benutzer eingegebene Nachricht in Morsecode um und gibt sie mithilfe eines Summers und einer LED aus. So funktioniert es:
+
+1. **Morsecode-Umwandlung**: Das Skript übersetzt den eingegebenen Text (Buchstaben, Zahlen und einige Sonderzeichen) mithilfe eines vordefinierten Wörterbuchs ``MORSECODE`` in Morsecode.
+
+2. **Audio-visuelle Morsecode-Ausgabe**:
+
+   - Für jeden Punkt (``0``) werden der Summer und die LED für eine kurze Dauer aktiviert (die Hälfte der Pausenzeit).
+   - Für jeden Strich (``1``) werden der Summer und die LED für eine längere Dauer aktiviert (entspricht der Pausenzeit).
+
+3. **Benutzerinteraktion**:
+
+   - Benutzer geben eine Nachricht ein, und das System wandelt sie in entsprechende Morsecode-Signale um und gibt sie aus.
+   - Das Programm fragt kontinuierlich nach neuen Nachrichten, bis es unterbrochen wird.
+
+4. **Sauberes Beenden**: Bei ``Ctrl+C`` beendet das Skript die Ausführung, schaltet Summer und LED aus und beendet sich ordnungsgemäß.
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Einrichtung der Komponenten:**  
+
+   Der Summer und die LED werden auf den GPIO-Pins 22 bzw. 17 initialisiert.
+
+2. **Morsecode-Wörterbuch:**  
+
+   Morsecode wird mit '0' für Punkte (kurze Signale) und '1' für Striche (lange Signale) dargestellt. Zum Beispiel wird 'A' als "01" repräsentiert.
+
+3. **Signalfunktionen:**  
+
+   * Die Funktionen ``on()`` und ``off()`` aktivieren bzw. deaktivieren den Summer und die LED.  
+   * Die Funktion ``beep()`` kombiniert diese Funktionen, um ein Signal mit einer bestimmten Dauer zu erzeugen.  
+
+4. **Morsecode-Umwandlung:**  
+
+   Die Funktion ``morsecode()`` verarbeitet jeden Buchstaben der eingegebenen Nachricht. Für jedes Zeichen wird mithilfe des Morsecode-Wörterbuchs eine Folge von Signalen ausgegeben.
+
+5. **Hauptschleife:**  
+
+   Das Programm fordert den Benutzer fortlaufend zur Eingabe einer Nachricht auf und wandelt diese in Morsecode-Signale um. Die Schleife kann jederzeit sicher mit ``Ctrl+C`` beendet werden.
+
+----------------------------------------------
+
+
+**Fehlerbehebung**
+
+1. **Summer oder LED funktioniert nicht**:
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Konfiguration.
+   - **Lösung**:
+
+     - Überprüfen Sie, ob der Summer mit GPIO 22 und die LED mit GPIO 17 verbunden ist.
+     - Testen Sie Summer und LED separat mit einfachen GPIO-Steuerungsskripten.
+
+2. **Morsecode-Ausgabe ist ungenau**:
+
+   - **Ursache**: Eingabezeichen sind nicht im Wörterbuch ``MORSECODE`` enthalten.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass die Eingabe nur unterstützte Zeichen enthält (A–Z, 0–9 und einige Symbole).
+     - Erweitern Sie das Wörterbuch ``MORSECODE``, um zusätzliche Zeichen zu unterstützen.
+
+3. **Signale sind zu schnell oder überlappen sich**:
+
+   - **Ursache**: Zu kurze Pausen- oder Signaldauer.
+   - **Lösung**: Passen Sie die Variable ``pause`` in der Funktion ``morsecode()`` an, um eine klarere Ausgabe zu erhalten:
+
+       .. code-block:: python
+
+           pause = 0.5  # Increase pause duration for slower output
+
+4. **Eingabe wird nicht erkannt**:
+
+   - **Ursache**: Probleme mit der Eingabeumgebung (z. B. keine Konsole verfügbar).
+   - **Lösung**: Stellen Sie sicher, dass das Skript in einem Terminal oder einer Umgebung ausgeführt wird, die ``input()`` unterstützt.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Anpassbare Geschwindigkeit**: Ermöglichen Sie Benutzern, die Geschwindigkeit der Morsecode-Ausgabe durch Eingabe einer eigenen Pausenzeit festzulegen.
+
+     .. code-block:: python
+
+         pause = float(input("Enter pause duration (seconds): "))
+
+2. **Ausgabe auf mehreren Geräten**: Fügen Sie eine weitere LED oder einen weiteren Summer hinzu, um den Morsecode gleichzeitig auf mehreren Geräten auszugeben.
+
+3. **Morsecode-Protokollierung**: Speichern Sie für jede Nachricht die Morsecode-Sequenz in einer Datei:
+
+     .. code-block:: python
+
+         with open("morse_log.txt", "a") as log_file:
+             log_file.write(f"{message} -> {morse_sequence}\n")
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt ist eine unterhaltsame Möglichkeit, Morsecode und seine Anwendung mit dem Raspberry Pi kennenzulernen. Mit einfachen Komponenten wie einem Summer und einer LED können Sie ein System erstellen, das historische Kommunikationsmethoden mit moderner Elektronik verbindet. Experimentieren Sie mit dem Code, um Ihr Verständnis zu vertiefen und das Projekt nach Ihren eigenen Ideen weiterzuentwickeln!

@@ -1,0 +1,251 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_micro_switch:
+
+2.2 Mikroschalter
+=====================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie ein Mikroschalter verwendet wird, um zwei LEDs zu steuern. Ein Mikroschalter ist ein sehr empfindliches Bauteil, das bereits bei geringem Druck ausgelöst wird. Er wird häufig in Sicherheitssystemen eingesetzt, um zu verhindern, dass Maschinen oder Türen unter unsicheren Bedingungen betrieben werden.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_micro_switch`
+        - \-
+    *   - :ref:`cpn_capacitor`
+        - |link_capacitor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Der Mikroschalter ist mit GPIO17 verbunden, und zwei LEDs sind mit GPIO22 und GPIO27 verbunden. Wenn der Mikroschalter gedrückt wird, leuchtet die rote LED; wenn er losgelassen wird, leuchtet die gelbe LED.
+
+.. image:: img/fzz/2.1.2_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie einen Anschluss des Mikroschalters mit GPIO17 und den anderen mit Masse (GND).
+2. Verbinden Sie die Anoden der beiden LEDs über Strombegrenzungswiderstände mit GPIO22 (gelb) und GPIO27 (rot).
+3. Verbinden Sie die Kathoden beider LEDs mit GND.
+
+.. image:: img/fzz/2.1.2_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.2_MicroSwitch.py
+
+Dieses Python-Skript steuert zwei LEDs abhängig vom Zustand eines mit dem Raspberry Pi verbundenen Mikroschalters. Beim Ausführen passiert Folgendes:
+
+1. **Mikroschalter gedrückt**:
+
+   - LED1 (verbunden mit GPIO-Pin 22) schaltet sich ein.
+   - LED2 (verbunden mit GPIO-Pin 27) schaltet sich aus.
+
+2. **Mikroschalter losgelassen**:
+
+   - LED1 schaltet sich aus.
+   - LED2 schaltet sich ein.
+
+3. Das Programm überprüft kontinuierlich alle 0,5 Sekunden den Zustand des Mikroschalters und passt den Zustand der LEDs entsprechend an.
+
+4. Das Skript läuft unbegrenzt weiter, bis es durch Drücken von ``Ctrl+C`` beendet wird.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code schaltet zwischen zwei LEDs um, abhängig vom Zustand des Mikroschalters:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from time import sleep  # Import sleep function for delays
+
+   # Initialize micro switch on GPIO pin 17
+   micro_switch = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+   # Initialize LED1 connected to GPIO pin 22
+   led1 = Pin(22,mode=Mode.OUT)
+   # Initialize LED2 connected to GPIO pin 27
+   led2 = Pin(27,mode=Mode.OUT)
+
+   try:
+      # Continuously check the state of the micro switch and control LEDs accordingly
+      while True:
+         if micro_switch.value() == 1:  # If the micro switch is pressed
+               led1.high()       # Turn on LED1
+               led2.low()      # Turn off LED2
+         else:  # If the micro switch is not pressed
+               led1.low()      # Turn off LED1
+               led2.high()       # Turn on LED2
+
+         sleep(0.5)  # Pause for 0.5 seconds before checking the switch again
+
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt (Ctrl+C) to exit the loop gracefully
+      pass
+
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die ``fusion_hat``-Bibliothek ermöglicht eine einfache Steuerung der GPIO-Pins, und die ``time``-Bibliothek wird für Zeitverzögerungen verwendet.
+
+   .. code-block:: python
+
+      from fusion_hat.pin import Pin, Mode, Pull
+      from time import sleep  # Importiert die sleep-Funktion für Verzögerungen  
+
+2. **Initialisierung der Komponenten**
+
+   Der Mikroschalter ist mit GPIO17 verbunden und verwendet keinen Pull-up-Widerstand, während die LEDs mit GPIO22 und GPIO27 verbunden sind.
+
+   .. code-block:: python
+
+      # Initialisiere den Mikroschalter an GPIO-Pin 17
+      micro_switch = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+      # Initialisiere LED1 an GPIO-Pin 22
+      led1 = Pin(22,mode=Mode.OUT)
+      # Initialisiere LED2 an GPIO-Pin 27
+      led2 = Pin(27,mode=Mode.OUT)
+
+3. **Verarbeitung des Schalterzustands**
+
+   Das Programm überprüft in einer Schleife den Zustand des Mikroschalters. Wenn er gedrückt wird, schaltet sich LED1 ein und LED2 aus. Wenn er losgelassen wird, schaltet sich LED1 aus und LED2 ein.
+
+   .. code-block:: python
+
+      while True:
+         if micro_switch.value() == 1:
+            led1.on()
+            led2.off()
+         else:
+            led1.off()
+            led2.on()
+         sleep(0.5)
+
+4. **Interrupt-Behandlung**
+
+   Der ``try-except``-Block stellt sicher, dass das Skript sauber beendet wird, wenn es mit Ctrl+C unterbrochen wird.
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+         pass
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **LEDs reagieren nicht**
+
+   - **Ursache**: Falsche GPIO-Verdrahtung oder Pin-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass LED1 mit GPIO-Pin 22 und LED2 mit GPIO-Pin 27 verbunden ist und beide LEDs mit passenden Widerständen versehen sind. Überprüfen Sie außerdem die Verbindung des Mikroschalters zu GPIO-Pin 17.
+
+2. **Mikroschalter wird nicht erkannt**
+
+   - **Ursache**: Der Mikroschalter ist möglicherweise nicht korrekt konfiguriert oder benötigt einen Pull-up/Pull-down-Widerstand.  
+   - **Lösung**: Prüfen Sie, ob ``pull = Pin.PULL_UP`` zu Ihrer Schalterkonfiguration passt. Falls der Schalter einen Pull-up benötigt, aktivieren Sie diesen in der Initialisierung.
+
+3. **LEDs flackern oder verhalten sich unregelmäßig**
+
+   - **Ursache**: Prellen des Schalters (Button Bounce).  
+   - **Lösung**: Fügen Sie eine softwarebasierte Entprellung hinzu, indem Sie nach dem Erkennen eines Tastendrucks eine kurze Verzögerung einfügen:
+
+   .. code-block:: python
+
+      if micro_switch.value() == 1:
+         sleep(0.05)  # Entprell-Verzögerung
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Anpassbare Verzögerung**
+
+   Ermöglichen Sie dem Benutzer, die Verzögerung dynamisch zu ändern, um die Reaktionszeit der LEDs fein einzustellen:
+
+   .. code-block:: python
+
+      delay = float(input("Enter delay in seconds: "))
+      while True:
+         sleep(delay)
+
+
+2. **Akustisches Feedback**
+
+   Fügen Sie einen Buzzer hinzu, der beim Drücken oder Loslassen des Schalters ein akustisches Signal erzeugt:
+
+   .. code-block:: python
+
+      from fusion_hat import Buzzer
+      buzzer = Buzzer(Pin(22))
+      if micro_switch.value() == 1:
+         buzzer.on()
+      else:
+         buzzer.off()
+
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Mikroschalter verwendet werden kann, um LEDs mit dem Fusion HAT+ zu steuern. Mikroschalter sind vielseitige Bauteile, die häufig in Sicherheitssystemen, Benutzeroberflächen und industriellen Steuerungen eingesetzt werden. Durch Experimente mit ihnen eröffnen sich viele Möglichkeiten für weiterführende Projekte.

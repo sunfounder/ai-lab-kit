@@ -1,0 +1,198 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_servo:
+
+1.7 Servo
+==============================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie man einen Servomotor mit einem Raspberry Pi steuert. Servomotoren werden häufig in der Robotik und Automatisierung eingesetzt, um Winkelbewegungen präzise zu steuern.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_servo`
+        - |link_servo_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Das folgende Schaltbild zeigt die Verbindungen, die zum Steuern des Servomotors erforderlich sind.
+
+.. image:: img/fzz/1.3.2_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+.. image:: img/fzz/1.3.2_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.7_Servo.py 
+
+Nach dem Ausführen des Skripts bewegt sich der an PWM 0 angeschlossene Servo gleichmäßig von −90° bis 90° in 10-Grad-Schritten und pausiert kurz bei jeder Position. Anschließend bewegt er sich auf die gleiche Weise wieder von 90° zurück zu −90°. Diese Hin- und Herbewegung wiederholt sich kontinuierlich.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code zeigt, wie der Servomotor gesteuert wird, indem er zwischen verschiedenen Winkeln bewegt wird:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.servo import Servo   # Import Servo class
+   from time import sleep               # Import sleep for delays
+
+   # Initialize servo on channel 0
+   servo = Servo(0)
+
+   try:
+      while True:
+         # Sweep from -90° to +90° in steps of 10°
+         for angle in range(-90, 91, 10):
+               servo.angle(angle)
+               sleep(0.1)   # Smooth movement delay
+
+         # Sweep back from +90° to -90° in steps of 10°
+         for angle in range(90, -91, -10):
+               servo.angle(angle)
+               sleep(0.1)
+
+   except KeyboardInterrupt:
+      # Stop the program safely when Ctrl+C is pressed
+      servo.angle(0)        # Return servo to center position
+      sleep(0.1)
+
+
+Dieses Python-Skript steuert einen Servomotor, der mit PWM 0 verbunden ist. Beim Ausführen passiert Folgendes:
+
+1. Der Servo bewegt sich von −90 Grad bis 90 Grad in 10-Grad-Schritten.
+2. Zwischen jeder Bewegung pausiert er für 0,1 Sekunden.
+3. Anschließend kehrt er die Richtung um und bewegt sich von 90 Grad zurück zu −90 Grad, ebenfalls in 10-Grad-Schritten.
+4. Dieser Vorgang wiederholt sich unbegrenzt.
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die Bibliothek ``fusion_hat`` vereinfacht die Interaktion mit den GPIO-Pins, während die Bibliothek ``time`` Funktionen für Zeitverzögerungen bereitstellt.
+
+   .. code-block:: python
+
+      from fusion_hat.servo import Servo   # Import the Servo class for controlling servos
+      from time import sleep               # Import sleep for timing delays
+
+2. **Initialisierung des Servos**
+
+   Das ``Servo``-Objekt wird mit PWM 0 initialisiert.
+
+   .. code-block:: python
+
+      servo = Servo(0)
+
+3. **Servo-Bewegung**
+
+   Der Servo wird in einer Schleife auf verschiedene Winkel bewegt. Die Methode ``angle`` setzt die Position des Servos, und ``sleep`` pausiert die Schleife für eine bestimmte Zeit.
+
+   .. code-block:: python
+
+      while True:
+         # Sweep from -90° to +90° in steps of 10°
+         for angle in range(-90, 91, 10):
+               servo.angle(angle)
+               sleep(0.1)   # Smooth movement delay
+
+         # Sweep back from +90° to -90° in steps of 10°
+         for angle in range(90, -91, -10):
+               servo.angle(angle)
+               sleep(0.1)
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Servo bewegt sich nicht**
+
+   - **Ursache**: Falsche GPIO-Pin-Verbindung oder Probleme mit der Stromversorgung.  
+   - **Lösung**: Stellen Sie sicher, dass der Servo mit PWM 0 verbunden ist und überprüfen Sie die Stromversorgung.
+
+2. **Servo-Bewegung ist unregelmäßig oder reagiert nicht**
+
+   - **Ursache**: Unzureichende Stromversorgung des Servos.  
+   - **Lösung**: Verwenden Sie eine externe Stromquelle für den Servo, wenn das Fusion HAT+ nicht genügend Leistung liefert.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Benutzergesteuerter Servo**
+
+   Ermöglichen Sie es dem Benutzer, die Servo-Position interaktiv über die Tastatur zu steuern:
+
+   .. code-block:: python
+
+      while True:
+         position = float(input("Enter position (-90 to 90): "))
+         servo.angle(position)
+
+2. **Aufzeichnen der Servo-Position**
+
+   Zeichnen Sie die Servo-Position über die Zeit auf und stellen Sie die Bewegung grafisch dar:
+
+   .. code-block:: python
+
+      positions = []
+      for i in range(-90, 91, 10):
+         servo.angle(i)
+         sleep(0.1)
+         positions.append(servo.angle())
+      plt.plot(positions)
+      plt.show()
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Servomotor gesteuert werden kann. Das Verständnis der Servosteuerung eröffnet viele Möglichkeiten für den Bau von Robotern, mechanischen Armen und anderen bewegungsbasierten Projekten.

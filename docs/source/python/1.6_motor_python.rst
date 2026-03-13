@@ -1,0 +1,207 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_motor:
+
+1.6 Motor
+=============
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie man mit dem Fusion HAT+ einen Gleichstrommotor (DC-Motor) steuert, sodass er sich im Uhrzeigersinn und gegen den Uhrzeigersinn drehen kann.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+   :widths: 30 20
+   :header-rows: 1
+
+   *   - KOMPONENTE
+       - KAUFLINK
+
+   *   - :ref:`cpn_motor`
+       - |link_motor_buy|
+   *   - :ref:`cpn_fusion_hat`
+       - \-
+   *   - Raspberry Pi
+       - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Das folgende Schaltbild zeigt die Verbindungen, die erforderlich sind, um den Motor zu steuern.
+
+.. image:: img/fzz/1.3.1_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+.. image:: img/fzz/1.3.1_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.6_Motor.py
+
+Nach dem Ausführen des Skripts startet und stoppt der Motor, der mit Port M0 verbunden ist, wiederholt in einer Schleife. Zunächst stoppt er für 0,5 Sekunden, läuft dann mit −50 % Leistung für 1 Sekunde, stoppt erneut für 0,5 Sekunden und läuft schließlich mit 75 % Leistung für 1 Sekunde. Diese Sequenz wiederholt sich kontinuierlich. Wenn das Programm beendet wird, wird der Motor sicher gestoppt.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code steuert die Drehrichtung und die Laufzeit des Motors:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from time import sleep
+   from fusion_hat.motor import Motor
+
+   # Motor on port M0, reverse direction if needed
+   motor = Motor("M0", is_reversed=True)
+
+   try:
+      while True:
+         motor.power(0)
+         sleep(0.5)
+
+         motor.power(-50)
+         sleep(1)
+
+         motor.power(0)
+         sleep(0.5)
+
+         motor.power(75)
+         sleep(1)
+
+   except KeyboardInterrupt:
+      # Ctrl + C to stop
+      print("\nStopped by user.")
+
+   finally:
+      # Always stop the motor safely
+      motor.stop()
+      sleep(0.1)
+
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die Bibliothek ``fusion_hat`` vereinfacht die Interaktion mit den GPIO-Pins, während die Bibliothek ``time`` Funktionen für Zeitverzögerungen bereitstellt.
+
+   .. code-block:: python
+
+      from time import sleep
+      from fusion_hat.motor import Motor
+
+2. **Initialisierung des Motors**
+
+   Das ``Motor``-Objekt wird mit den M0-Pins erstellt.
+
+   .. code-block:: python
+
+      motor = Motor('M0', is_reversed=True)
+
+3. **Motorsteuerung**
+
+   Die Motorleistung wird nacheinander auf 0, -50 und 75 gesetzt. Die Funktion ``sleep`` pausiert das Programm jeweils für eine bestimmte Zeit.
+
+   .. code-block:: python
+
+      try:
+         # Loop forever
+         while True:
+            motor.power(0)       # Stop the motor
+            sleep(0.5)           # Wait 0.5 seconds
+
+            motor.power(-50)     # Run the motor at -50% power
+            sleep(1)             # Run for 1 second
+
+            motor.power(0)       # Stop again
+            sleep(0.5)           # Wait 0.5 seconds
+
+            motor.power(75)      # Run the motor at 75% power
+            sleep(1)             # Run for 1 second
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Motor bewegt sich nicht**
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Pin-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass der Motor mit Strom versorgt wird und der Enable-Pin korrekt angeschlossen ist.
+
+2. **Nur eine Drehrichtung funktioniert**
+
+   - **Ursache**: Fehlerhafte Verbindung zum Vorwärts- oder Rückwärts-Pin.  
+   - **Lösung**: Überprüfen Sie, ob die Pins sicher mit dem Fusion HAT+ verbunden sind.
+
+3. **Motor dreht sich kontinuierlich ohne anzuhalten**
+
+   - **Ursache**: Die Funktion ``stop()`` wird möglicherweise nicht korrekt ausgeführt.  
+   - **Lösung**: Stellen Sie sicher, dass die Methode ``motor.stop()`` aufgerufen wird.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Benutzergesteuerte Steuerung**
+
+   Ermöglichen Sie dem Benutzer, den Motor in Echtzeit über Tastatureingaben zu steuern:
+
+   .. code-block:: python
+
+      while True:
+         num = int(input("The speed percentage (-100~100): "))
+         if num >= -100 and num <= 100:
+            motor.speed(num)
+         else:
+            print("Invalid action!")
+
+3. **Zeitgesteuerte Motorsteuerung**
+
+   Fügen Sie eine Funktion hinzu, mit der der Motor für eine vom Benutzer festgelegte Dauer läuft:
+
+   .. code-block:: python
+
+      duration = int(input("Enter duration (seconds): "))
+      motor.speed(50)
+      sleep(duration)
+      motor.stop()
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Gleichstrommotor mit dem Fusion HAT+ gesteuert werden kann. Das Verständnis der Motorsteuerung ist eine wichtige Grundlage für den Bau von Robotikprojekten und anderen bewegungsbasierten elektronischen Anwendungen.

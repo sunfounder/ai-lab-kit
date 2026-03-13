@@ -1,0 +1,293 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_photograph:
+
+3.1 Fotomodul
+==========================
+
+**Einführung**
+
+Dieses Projekt führt Sie in die Verwendung des Raspberry-Pi-Kameramoduls zum Aufnehmen eines Fotos ein. Das Kameramodul kann hochauflösende Standbilder und Videos aufnehmen und ist damit ein vielseitiges Werkzeug für Projekte – von Fotografie bis hin zu Computer-Vision-Anwendungen.
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Nachfolgend sind die für dieses Projekt erforderlichen Komponenten aufgeführt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    * - KOMPONENTENBESCHREIBUNG
+      - KAUFLINK
+
+    * - :ref:`cpn_camera_module`
+      - |link_camera_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Versuchsablauf**
+
+#. Um das Kameramodul bequem zu verwenden, wird :ref:`assemble_fusion_hat_pan_tilt` empfohlen.
+
+   .. note:: 
+     
+     Das Zusammenbauen der Pan-Tilt-Halterung kann einige Pins verdecken. Daher wird empfohlen, sie nur bei Verwendung der Kamera zu montieren oder sie nach der Montage außen zu platzieren.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
+
+#. Greifen Sie auf den Raspberry-Pi-Desktop zu:
+
+   * :ref:`remote_desktop`: Verwenden Sie **VNC** für eine vollständige Desktop-Umgebung.
+   * |link_rpi_connect|: Verwenden Sie **Raspberry Pi Connect**, um sicher über einen Browser auf Ihren Pi zuzugreifen.
+
+#. Öffnen Sie ein Terminal und wechseln Sie in den Code-Ordner:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/python
+
+#. Starten Sie das Skript, um die Kamera zu aktivieren:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      sudo python3 3.1_Photograph.py
+
+#. Nachdem das Skript gestartet wurde, drücken Sie die **Fusion HAT+ USR-Taste**, um Fotos aufzunehmen.
+
+   .. image:: img/3.1_user_button.png
+      :width: 50%
+
+   * Jeder Tastendruck nimmt ein Bild auf.
+   * Die Fotos werden unter ``~/user/Pictures`` als ``my_photo.jpg`` gespeichert.
+   * Drücken Sie ``Ctrl+C``, um das Skript zu beenden.
+
+   .. image:: img/3.1_take_photo.jpg
+      :width: 70%
+
+.. note::
+   Die QT-Vorschau erfordert eine Desktop-Umgebung.  
+   Wenn die Vorschau nicht gestartet werden kann (z. B. bei Zugriff über SSH),
+   kann die Kamera dennoch Fotos aufnehmen und diese normal speichern.
+
+----------------------------------------------
+
+
+**Code**
+
+Nachfolgend ist der in diesem Projekt verwendete Python-Code aufgeführt:
+
+.. raw:: html
+
+   <run></run>
+   
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   import os, time, pwd
+   from picamera2 import Picamera2, Preview
+   from fusion_hat.user_button import UserButton
+
+   u = os.getenv("SUDO_USER")
+   home = pwd.getpwnam(u).pw_dir if u else os.path.expanduser("~")
+   os.makedirs(f"{home}/Pictures", exist_ok=True)
+   photo = f"{home}/Pictures/my_photo.jpg"
+
+   camera = Picamera2()
+   camera.configure(camera.create_preview_configuration())
+
+   def shot():
+      camera.capture_file(photo)
+      print(f"Saved: {photo}")
+
+   UserButton().set_on_click(shot)
+
+   # Start preview only when a GUI display is available
+   preview_started = False
+   if os.getenv("DISPLAY"):
+      try:
+         camera.start_preview(Preview.QT)
+         preview_started = True
+      except Exception as e:
+         print(f"Preview disabled: {e}")
+
+   camera.start()
+   print("Press USR to take photo. Ctrl+C to exit.")
+   try:
+      while True: time.sleep(0.1)
+   except KeyboardInterrupt:
+      pass
+   finally:
+      try: camera.stop()
+      except: pass
+      if preview_started:
+         try: camera.stop_preview()
+         except: pass
+      try: camera.close()
+      except: pass
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Importe und Zweck**
+
+   .. code-block:: python
+
+      import os, time, pwd
+      from picamera2 import Picamera2, Preview
+      from fusion_hat.user_button import UserButton
+
+   Diese Module stellen Folgendes bereit:
+   
+   - ``os`` und ``pwd``: werden verwendet, um das tatsächliche Home-Verzeichnis des Benutzers korrekt zu ermitteln, selbst wenn das Programm mit ``sudo`` ausgeführt wird.
+   - ``time``: sorgt dafür, dass das Programm in einer Schleife weiterläuft.
+   - ``Picamera2`` und ``Preview``: steuern die Raspberry-Pi-Kamera sowie die Vorschau-Modi.
+   - ``UserButton``: liest den USR-Button des Fusion HAT+.
+
+2. **Bestimmen des Speicherpfads**
+
+   .. code-block:: python
+
+      u = os.getenv("SUDO_USER")
+      home = pwd.getpwnam(u).pw_dir if u else os.path.expanduser("~")
+      os.makedirs(f"{home}/Pictures", exist_ok=True)
+      photo = f"{home}/Pictures/my_photo.jpg"
+
+   Dieser Abschnitt bestimmt, wo die Fotos gespeichert werden:
+
+   - Wenn das Skript mit ``sudo`` ausgeführt wird, wird ``SUDO_USER`` verwendet, um das ursprüngliche Home-Verzeichnis des Benutzers zu ermitteln.
+   - Andernfalls wird das Home-Verzeichnis des aktuellen Benutzers verwendet.
+   - Ein Ordner ``Pictures`` wird erstellt, falls er noch nicht existiert.
+   - Alle Fotos werden als ``my_photo.jpg`` gespeichert (jedes neue Foto überschreibt das vorherige).
+
+3. **Initialisierung der Kamera**
+
+   .. code-block:: python
+
+      camera = Picamera2()
+      camera.configure(camera.create_preview_configuration())
+
+   Das Kameraobjekt wird erstellt und mit einer Standard-Vorschaukonfiguration eingerichtet.  
+   Diese Konfiguration funktioniert sowohl mit als auch ohne sichtbares Vorschaufenster.
+
+4. **Funktion zum Aufnehmen eines Fotos**
+
+   .. code-block:: python
+
+      def shot():
+          camera.capture_file(photo)
+          print(f"Saved: {photo}")
+
+   Diese Funktion wird aufgerufen, wenn der USR-Button gedrückt wird.  
+   Sie nimmt ein Foto auf, speichert es im festgelegten Pfad und gibt anschließend den Speicherort aus.
+
+5. **Verknüpfung mit dem USR-Button**
+
+   .. code-block:: python
+
+      UserButton().set_on_click(shot)
+
+   Der USR-Button des Fusion HAT+ wird mit der Funktion ``shot`` verknüpft.  
+   Jeder Tastendruck löst eine Fotoaufnahme aus.
+
+6. **Bedingtes Starten der Vorschau**
+
+   .. code-block:: python
+
+      preview_started = False
+      if os.getenv("DISPLAY"):
+          try:
+              camera.start_preview(Preview.QT)
+              preview_started = True
+          except Exception as e:
+              print(f"Preview disabled: {e}")
+
+   - Das Programm prüft, ob eine grafische Anzeige verfügbar ist.
+   - Wenn eine Anzeige vorhanden ist, wird versucht, ein QT-Vorschaufenster zu starten.
+   - Wenn keine Anzeige verfügbar ist (z. B. bei Ausführung über SSH), wird die Vorschau übersprungen, ohne das Programm zu beenden.
+
+7. **Start der Kamera und Hauptschleife**
+
+   .. code-block:: python
+
+      camera.start()
+      print("Press USR to take photo. Ctrl+C to exit.")
+
+      try:
+          while True:
+              time.sleep(0.1)
+
+   Die Kamera wird gestartet, und das Programm tritt in eine Endlosschleife ein,  
+   um weiterzulaufen und auf Tastendrücke zu reagieren.
+
+8. **Sauberes Beenden und Freigeben von Ressourcen**
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+          pass
+      finally:
+          try: camera.stop()
+          except: pass
+          if preview_started:
+              try: camera.stop_preview()
+              except: pass
+          try: camera.close()
+          except: pass
+
+   Wenn ``Ctrl+C`` gedrückt wird:
+
+   - Die Kamera wird gestoppt.
+   - Die Vorschau wird nur gestoppt, wenn sie zuvor erfolgreich gestartet wurde.
+   - Die Kameraressourcen werden sauber freigegeben.
+
+   Dadurch wird sichergestellt, dass das Programm ohne Fehlermeldungen beendet wird, unabhängig davon, ob ein Vorschaufenster verwendet wurde.
+
+-------------------------
+
+**Fehlerbehebung**
+
+1. **Kein Vorschaufenster**
+
+   - **Ursache:** Kamera nicht aktiviert, keine Anzeige verfügbar oder Picamera2 nicht installiert.  
+   - **Lösung:** Führen Sie das Skript auf einem System mit grafischer Oberfläche aus (nicht nur über SSH) und testen Sie Picamera2 mit einem einfachen Beispielskript.
+
+2. **USR-Button funktioniert nicht**
+
+   - **Ursache:** Fusion HAT+ nicht korrekt aufgesteckt, Button wird nicht erkannt oder falscher Fotoordner überprüft.  
+   - **Lösung:** Stecken Sie das HAT erneut auf, führen Sie das Skript mit ``sudo`` aus und prüfen Sie die Fotos im Ordner ``~/Pictures``.
+
+3. **Fotos werden am falschen Ort gespeichert**
+
+   - **Ursache:** Die Ausführung mit ``sudo`` kann zu Verwechslungen der Home-Verzeichnisse führen.  
+   - **Lösung:** Das Skript berücksichtigt dies bereits; geben Sie bei Unsicherheit ``REAL_USER`` oder ``PICTURES_DIR`` aus, um den tatsächlichen Speicherort zu prüfen.
+
+4. **Vorschau friert ein**
+
+   - **Ursache:** Die Kamera wird bereits von einer anderen Anwendung verwendet oder die Systemressourcen sind zu gering.  
+   - **Lösung:** Schließen Sie andere Anwendungen, aktualisieren Sie das System oder starten Sie den Raspberry Pi neu.
+
+--------------
+
+**Fazit**
+
+Mit diesem Skript können Sie Fotos über den USR-Button des Fusion HAT+ aufnehmen und automatisch im Ordner ``~/Pictures`` speichern.  
+Diese Einrichtung eignet sich ideal für einfache Kameraprojekte und kann beispielsweise für Zeitrafferaufnahmen, DIY-Kameraprojekte oder Demonstrationen im Unterricht erweitert werden.

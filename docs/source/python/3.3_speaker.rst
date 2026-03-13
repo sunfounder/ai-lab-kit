@@ -1,0 +1,172 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_speaker:
+
+3.3 Fusion HAT+ Lautsprecher
+==============================
+
+**Einführung**
+
+Das Fusion HAT+ verfügt über einen integrierten Lautsprecher und eignet sich daher ideal für Sprachansagen, Alarme und andere Audioanwendungen in AI- oder IoT-Projekten.  
+In dieser Lektion lernen Sie, wie Sie den Lautsprecher aktivieren, testen und mit Text-to-Speech verwenden.
+
+.. note::
+   Diese Anleitung setzt voraus, dass Raspberry Pi OS installiert ist und die Fusion HAT+ Treiber korrekt eingerichtet wurden.
+
+.. image:: img/fusionhat_speaker.png
+   :align: center
+   :width: 50%
+
+
+**Was Sie benötigen**
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    * - KOMPONENTE
+      - KAUFLINK
+    * - :ref:`cpn_fusion_hat`
+      - \-
+    * - Raspberry Pi
+      - \-
+
+------------------------------------------------------------
+
+
+**Überprüfen, ob der Lautsprecher erkannt wird**
+
+Prüfen Sie, ob das Fusion HAT+ Audiogerät vom System erkannt wurde:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   aplay -l
+
+Sie sollten ein Audiogerät ähnlich dem folgenden sehen:
+
+.. code-block:: text
+
+   card 3: voicehat [Fusion HAT+ Audio], device 0: ...
+
+Wenn ein Gerät namens ``voicehat`` (oder ähnlich) unter **irgendeiner Kartennummer** angezeigt wird,  
+wurde die Fusion HAT+ Audiohardware erfolgreich erkannt.
+
+------------------------------------------------------------
+
+
+**Beispielprogramm ausführen**
+
+Die zuverlässigste Methode, den Lautsprecher zu testen, ist das Ausführen des Text-to-Speech-Beispiels.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   cd ~/ai-lab-kit/llm
+   sudo python3 tts_espeak.py
+
+Sie sollten Folgendes hören: „Hello! I’m Espeak TTS.“
+
+Versuchen Sie, die TTS-Parameter im Skript anzupassen, um verschiedene Stimmeffekte zu hören.
+
+------------------------------------------------------------
+
+**Beispielcode**
+
+.. code-block:: python
+
+   from fusion_hat.tts import Espeak
+
+   tts = Espeak()
+   tts.set_amp(200)
+   tts.set_speed(150)
+   tts.set_gap(1)
+   tts.set_pitch(80)
+
+   tts.say("Hello! I’m Espeak TTS.")
+
+**Code-Erklärung**
+
+* ``set_amp(0–200)`` — Lautstärke  
+* ``set_speed(80–260)`` — Sprechgeschwindigkeit  
+* ``set_gap(0–200)`` — Pause zwischen Wörtern  
+* ``set_pitch(0–99)`` — Tonhöhe der Stimme  
+* ``say()`` — wandelt Text in Sprache um und gibt sie aus
+
+.. tip::
+
+   Erhöhen Sie Geschwindigkeit und Tonhöhe, um die Stimme fröhlicher wirken zu lassen;  
+   verringern Sie beide Werte für einen tieferen, ernsthafteren Klang.
+
+
+------------------------------------------------------------
+
+**Fehlerbehebung**
+
+* **Kein Ton**
+
+  - Stellen Sie sicher, dass das Fusion HAT+ Audiogerät erkannt wird:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+       aplay -l
+
+    Sie sollten ein Audiogerät namens ``voicehat`` (oder ähnlich) sehen.  
+    Wenn das Gerät nicht angezeigt wird, schalten Sie den Raspberry Pi aus, setzen Sie das
+    Fusion HAT+ erneut auf und starten Sie das System neu.
+
+  - Wenn das Gerät weiterhin nicht erkannt wird, installieren Sie den Audiotreiber erneut:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+       sudo /opt/setup_fusion_hat_audio.sh
+
+* **Text-to-Speech klingt zu schnell oder zu künstlich**
+
+  - Passen Sie die Sprachparameter im Code an:
+
+    .. code-block:: python
+
+       tts.set_speed(120)
+       tts.set_pitch(60)
+
+* **Permission denied Fehler**
+
+  - Führen Sie das Skript mit Administratorrechten aus:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+       sudo python3 tts_espeak.py
+
+
+
+------------------------------------------------------------
+
+**Zusammenfassung**
+
+In dieser Lektion haben Sie gelernt:
+
+- zu überprüfen, ob der Fusion HAT+ Lautsprecher erkannt wird  
+- Espeak TTS zu verwenden, um Sprache auf dem Raspberry Pi zu erzeugen
+
+Der Fusion HAT+ Lautsprecher bietet eine einfache und leistungsfähige Möglichkeit, Audiofunktionen in Ihre Raspberry-Pi-Projekte zu integrieren.

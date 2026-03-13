@@ -1,0 +1,336 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_10-axis:
+
+2.15 10-Achsen-IMU-Sensormodul
+===============================
+
+**Einführung**
+
+Das 10-Achsen-IMU-Modul (Inertial Measurement Unit) kombiniert mehrere Sensoren, um umfassende Bewegungs- und Umweltdaten bereitzustellen. Es integriert einen barometrischen Drucksensor (SPL06_001) zur Höhenmessung, einen 6-Achsen-Bewegungssensor (SH3001) für Beschleunigungs- und Rotationsmessungen sowie einen 3-Achsen-Magnetometer (QMC6310) zur Bestimmung der Kompassrichtung. Dieses leistungsfähige Modul eignet sich ideal für Robotik, Navigationssysteme und Anwendungen zur Bewegungserfassung.
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Hier sind die für dieses Projekt erforderlichen Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_10_axis_imu`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+.. ----------------------------------------------
+
+.. **Schaltplan**
+
+.. Das 10-Achsen-IMU-Modul wird über die I2C-Schnittstelle verbunden:
+
+.. .. image:: img/fzz/2.14_sch.png
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Verbinden Sie das IMU-Modul mit dem Raspberry Pi wie unten dargestellt:
+
+.. image:: img/fzz/2.15_10axis_bb.png
+   :width: 80%
+   :align: center
+
+Stellen Sie sicher, dass die I2C-Verbindungen korrekt hergestellt sind:
+
+- VCC → 3.3V
+- GND → GND
+- SDA → GPIO 2 (SDA)
+- SCL → GPIO 3 (SCL)
+
+----------------------------------------------
+
+
+
+**Bibliothek installieren**
+
+Installieren Sie die 10-Achsen-Bibliothek:
+   
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+
+-------------------------------------------------------
+
+**IMU kalibrieren**
+
+
+Führen Sie das Kalibrierungsskript aus, um die IMU zu kalibrieren:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   sudo python3 -m sunfounder_imu.calibrate
+
+Folgen Sie anschließend den Anweisungen im Skript, um die Kalibrierung der IMU abzuschließen.
+
+--------------------------------------------------------
+
+
+**Beispiel ausführen**
+
+
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.15_10axis_imu.py
+
+Dieses Python-Skript liest umfassende Bewegungs- und Umweltdaten vom 10-Achsen-IMU-Modul aus. Bei der Ausführung:
+
+1. Das Skript initialisiert die Kommunikation mit allen drei integrierten Sensoren über I2C.
+2. Jeder Sensor wird erkannt und seine I2C-Adresse zur Überprüfung angezeigt.
+3. Die Hauptschleife liest kontinuierlich Daten aus und zeigt sie an, darunter:
+
+   - Höhe (aus dem barometrischen Druck berechnet)
+   - Kompassrichtung (Azimut)
+   - 3-Achsen-Beschleunigung
+   - 3-Achsen-Winkelgeschwindigkeit (Gyroskop)
+   - 3-Achsen-Magnetfeldstärke
+   - Temperatur und Luftdruck
+
+4. Die Daten werden alle 0,5 Sekunden aktualisiert und ermöglichen so eine Echtzeit-Bewegungsverfolgung.
+5. Das Programm läuft, bis es mit ``Ctrl+C`` unterbrochen wird, und beendet sich anschließend ordnungsgemäß.
+
+----------------------------------------------
+
+**Code**
+
+Nachfolgend ist der Python-Code zum Auslesen der Daten des 10-Achsen-IMU-Moduls aufgeführt:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   """
+   Read data from all three sensors on the 10 Axis IMU module:
+   - SPL06_001: temperature, pressure, altitude
+   - SH3001: temperature, accelerometer, gyroscope
+   - QMC6310: compass heading
+
+   Gracefully exits when Ctrl+C is pressed.
+   """
+
+   from time import sleep
+
+   # Import Sunfounder sensor modules
+   from sunfounder_imu import IMU
+
+   def main():
+       imu = IMU()
+       sensors = imu.find_sensor()
+       if len(sensors) == 0:
+           print("No sensor found.")
+           return
+       for address, class_type in sensors.items():
+           name = class_type.__name__
+           print(f"Found sensor {name} at address 0x{address:02X}")
+       sleep(3)
+       
+       try:
+           while True:
+               data = imu.read()
+               
+               print(f"Altitude={data['altitude']:7.2f} m")
+               print(f"Azimuth={data['azimuth']:7.2f} °")
+               print(f"Acceleration:")
+               print(f"  X={data['acceleration'].x:7.2f} m/s²")
+               print(f"  Y={data['acceleration'].y:7.2f} m/s²")
+               print(f"  Z={data['acceleration'].z:7.2f} m/s²")
+               print(f"Gyroscrope:")
+               print(f"  X={data['gyroscrope'].x:7.2f} °/s")
+               print(f"  Y={data['gyroscrope'].y:7.2f} °/s")
+               print(f"  Z={data['gyroscrope'].z:7.2f} °/s")
+               print(f"Magenatic:")
+               print(f"  X={data['magenatic'].x:7.2f} μT")
+               print(f"  Y={data['magenatic'].y:7.2f} μT")
+               print(f"  Z={data['magenatic'].z:7.2f} μT")
+               print(f"Temperature={data['temperature']:7.2f} °C")
+               print(f"Pressure={data['pressure']:7.2f} hPa")
+
+               sleep(0.5)
+
+       except KeyboardInterrupt:
+           print("\nExiting program...")
+
+
+   if __name__ == "__main__":
+       main()
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Importe und Einrichtung:**
+
+   .. code-block:: python
+
+      from time import sleep
+      from sunfounder_imu import IMU
+
+   Das Skript importiert die erforderlichen Module: ``sleep`` für Zeitverzögerungen und die Klasse ``IMU`` aus der Sunfounder-Bibliothek, um mit dem Sensormodul zu kommunizieren.
+
+2. **Sensorinitialisierung:**
+
+   .. code-block:: python
+
+      imu = IMU()
+      sensors = imu.find_sensor()
+      if len(sensors) == 0:
+          print("No sensor found.")
+          return
+
+   Es wird ein IMU-Objekt erstellt und nach angeschlossenen Sensoren auf dem I2C-Bus gesucht. Wenn keine Sensoren gefunden werden, beendet das Programm die Ausführung.
+
+3. **Sensorerkennung:**
+
+   .. code-block:: python
+
+      for address, class_type in sensors.items():
+          name = class_type.__name__
+          print(f"Found sensor {name} at address 0x{address:02X}")
+
+   Zeigt Informationen zu jedem erkannten Sensor an, einschließlich Sensortyp und I2C-Adresse, was besonders für Debugging-Zwecke hilfreich ist.
+
+4. **Hauptschleife zum Auslesen der Daten:**
+
+   .. code-block:: python
+
+      while True:
+          data = imu.read()
+          # Display all sensor readings with formatted output
+          sleep(0.5)
+
+   - Ruft ``imu.read()`` auf, um alle Sensordaten als ein einzelnes Dictionary zu erhalten  
+   - Formatiert und zeigt jeden Parameter mit einheitlicher Dezimalgenauigkeit an  
+   - Enthält eine Verzögerung von 0,5 Sekunden, um eine gute Balance zwischen Aktualisierungsrate und Lesbarkeit zu gewährleisten  
+
+5. **Sauberes Beenden:**
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+          print("\nExiting program...")
+
+   Fängt die Ausnahme ``KeyboardInterrupt`` ab, sodass das Programm sauber beendet werden kann, wenn ``Ctrl+C`` gedrückt wird.
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Keine Sensoren gefunden**:
+
+   - **Ursache**: Falsche Verdrahtung oder Probleme bei der I2C-Kommunikation.  
+   - **Lösung**:
+
+      - Überprüfen Sie alle Verbindungen: VCC, GND, SDA, SCL  
+      - Prüfen Sie, ob I2C auf dem Raspberry Pi aktiviert ist: ``sudo raspi-config`` → Interface Options → I2C  
+      - Führen Sie ``i2cdetect -y 1`` aus, um zu prüfen, ob die Sensoren unter ihren Adressen erkannt werden  
+
+2. **Unstabile oder fehlerhafte Messwerte**:
+
+   - **Ursache**: Elektrische Störungen oder Kalibrierungsprobleme der Sensoren.  
+   - **Lösung**:
+
+      - Halten Sie das Modul von starken Magnetfeldern oder Motoren fern  
+      - Stellen Sie eine stabile Stromversorgung mit geeigneten Entkopplungskondensatoren sicher  
+      - Platzieren Sie das Modul während der Messung auf einer stabilen Oberfläche  
+
+3. **Falsche Höhenwerte**:
+
+   - **Ursache**: Nicht kalibrierter Referenzwert für den barometrischen Druck.  
+   - **Lösung**: Die Höhe wird relativ zum Luftdruck auf Meereshöhe berechnet. Für genauere Messungen sollten Sie mit einer bekannten Höhe kalibrieren oder den Referenzwert für den Luftdruck auf Meereshöhe anpassen.
+
+4. **Ungenaue Kompassrichtung**:
+
+   - **Ursache**: Lokale magnetische Störungen oder unzureichende Kalibrierung.  
+   - **Lösung**:
+
+      - Führen Sie eine Magnetometer-Kalibrierung durch, indem Sie das Modul in einer Achtbewegung (Figure-8) drehen  
+      - Halten Sie das Modul von Metallobjekten, Computern und anderen magnetischen Quellen fern  
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Bewegungserkennungs-Alarm**: Lösen Sie eine Warnung aus, wenn die Beschleunigung einen bestimmten Schwellenwert überschreitet:
+
+   .. code-block:: python
+
+      acceleration_magnitude = (data['acceleration'].x**2 + 
+                                data['acceleration'].y**2 + 
+                                data['acceleration'].z**2)**0.5
+      if acceleration_magnitude > 2.0:  # 2G threshold
+          print("Motion detected!")
+
+2. **Orientierungserkennung**: Bestimmen Sie die Ausrichtung des Geräts anhand kombinierter Sensordaten:
+
+   .. code-block:: python
+
+      # Simple orientation detection using accelerometer
+      if abs(data['acceleration'].z) > 9.0:
+          print("Device is flat")
+      elif data['acceleration'].y > 8.0:
+          print("Device is upright")
+
+3. **Datenprotokollierung**: Speichern Sie Sensordaten zur späteren Analyse in einer Datei:
+
+   .. code-block:: python
+
+      import csv
+      with open('imu_data.csv', 'a') as f:
+          writer = csv.writer(f)
+          writer.writerow([data['temperature'], data['pressure'], 
+                          data['altitude'], data['azimuth']])
+
+4. **Neigungskompensierter Kompass**: Verbessern Sie die Genauigkeit der Richtungsbestimmung mithilfe der Beschleunigungsdaten:
+
+   .. code-block:: python
+
+      # Basic tilt compensation (simplified)
+      pitch = math.asin(-data['acceleration'].x / 9.81)
+      roll = math.asin(data['acceleration'].y / (9.81 * math.cos(pitch)))
+      # Apply compensation to magnetometer readings
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein 10-Achsen-IMU-Modul verwendet werden kann, um umfassende Bewegungs- und Umweltdaten mit einem Raspberry Pi zu erfassen. Durch die Kombination von Druck-, Beschleunigungs-, Rotations- und Magnetfeldsensoren bietet dieses Modul eine vollständige Lösung zur Trägheitsmessung, die sich für fortgeschrittene Anwendungen wie Drohnenstabilisierung, Robotik-Navigation und Bewegungserfassungssysteme eignet. Die hier geschaffene Grundlage ermöglicht eine weiterführende Beschäftigung mit Sensor-Fusion-Algorithmen und komplexer Bewegungsanalyse.

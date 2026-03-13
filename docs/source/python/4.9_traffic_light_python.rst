@@ -1,0 +1,316 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_fun_traffic_light:
+
+4.9 Ampelsimulation
+==============================
+
+**Einführung**
+
+Dieses Projekt demonstriert den Einsatz von LEDs und einer 4-stelligen 7-Segment-Anzeige, um ein reales Ampelsystem zu simulieren. Die LEDs repräsentieren die roten, gelben und grünen Länder, während die 7-Segment-Anzeige die verbleibende Zeit für jede Lichtphase herunterzählt. Es bietet eine anschauliche Möglichkeit, GPIO-Steuerung, Zeitabläufe und 7-Segment-Anzeigen in einem lehrreichen oder prototypischen Umfeld kennenzulernen.
+
+
+----------------------------------------------
+
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_4_digit`
+        - \-
+    *   - :ref:`cpn_74hc595`
+        - |link_74hc595_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+
+
+----------------------------------------------
+
+**Schaltplan**
+
+Nachfolgend ist der schematische Schaltplan für das Projekt zur Ampelsimulation dargestellt:
+
+.. image:: img/fzz/4.1.9_sch.png
+   :width: 90%
+   :align: center
+
+
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+Verwenden Sie das Verdrahtungsdiagramm, um die Komponenten korrekt aufzubauen:
+
+
+.. image:: img/fzz/4.1.9_bb.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``. 
+Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 4.9_TrafficLight.py
+
+   
+----------------------------------------------
+
+**Code**
+
+
+Hier ist das Python-Skript für die Ampelsimulation:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.pin import Pin, Mode
+   import threading
+
+   # Setup GPIO pins for 74HC595 shift register
+   SDI = Pin(17,mode=Mode.OUT)   # Serial Data Input
+   RCLK = Pin(4,mode=Mode.OUT)  # Register Clock
+   SRCLK = Pin(27,mode=Mode.OUT) # Shift Register Clock
+
+   # Define GPIO pins for digit selection on the 7-segment display
+   placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
+
+   # Segment codes for numbers 0-9 on 7-segment display
+   number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
+
+   # Setup GPIO pins for traffic light LEDs
+   ledPinR = Pin(5,mode=Mode.OUT) # Red LED
+   ledPinG = Pin(6,mode=Mode.OUT)  # Green LED
+   ledPinY = Pin(13,mode=Mode.OUT)  # Yellow LED
+
+   # Duration settings for traffic lights
+   greenLight = 30
+   yellowLight = 5
+   redLight = 60
+
+   # Traffic light color names
+   lightColor = ("Red", "Green", "Yellow")
+
+   # Initialize state variables
+   colorState = 0
+   counter = 60
+   timer1 = None
+
+   def setup():
+      """ Initialize the traffic light system and start the timer. """
+      global timer1
+      timer1 = threading.Timer(1.0, timer)
+      timer1.start()
+
+   def clearDisplay():
+      """ Clear the 7-segment display. """
+      for _ in range(8):
+         SDI.high()
+         SRCLK.high()
+         SRCLK.low()
+      RCLK.high()
+      RCLK.low()
+
+   def hc595_shift(data):
+      """ Shift data to the 74HC595 shift register for digit display. """
+      for i in range(8):
+         SDI.value(0x80 & (data << i))
+         SRCLK.high()
+         SRCLK.low()
+      RCLK.high()
+      RCLK.low()
+
+   def pickDigit(digit):
+      """ Select a specific digit to display on the 7-segment display. """
+      for pin in placePin:
+         pin.low()
+      placePin[digit].high()
+
+   def timer():
+      """ Handle the timing for traffic light changes. """
+      global counter, colorState, timer1
+      timer1 = threading.Timer(1.0, timer)
+      timer1.start()
+      counter -= 1
+      if counter == 0:
+         counter = [greenLight, yellowLight, redLight][colorState]
+         colorState = (colorState + 1) % 3
+      print(f"counter : {counter}    color: {lightColor[colorState]}")
+
+   def lightup():
+      """ Update the traffic light LED based on the current state. """
+      global colorState
+      ledPinR.low()
+      ledPinG.low()
+      ledPinY.low()
+      [ledPinR, ledPinG, ledPinY][colorState].high()
+
+   def display():
+      """ Display the current counter value on the 7-segment display. """
+      global counter
+
+      for i in range(4):
+         digit = counter // (10 ** (3 - i)) % 10
+         if i == 0 and digit == 0:
+               continue
+         clearDisplay()
+         pickDigit(i)
+         hc595_shift(number[digit])
+
+   def loop():
+      """ Main loop to continuously update display and lights. """
+      while True:
+         display()
+         lightup()
+
+   def destroy():
+      """ Clean up resources when the script is terminated. """
+      global timer1
+      timer1.cancel()
+      ledPinR.low()
+      ledPinG.low()
+      ledPinY.low()
+
+   try:
+      setup()
+      loop()
+   except KeyboardInterrupt:
+      destroy()
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Initialisierung:**
+
+   * Richtet die GPIO-Pins für das Schieberegister, die 7-Segment-Anzeige und die LEDs der Ampel ein.
+   * Definiert Konstanten für die Dauer der einzelnen Lichtphasen und initialisiert Zustandsvariablen.
+
+2. **Funktionen für die 7-Segment-Anzeige:**
+
+   * ``clearDisplay``: Löscht alle Segmente auf der Anzeige.
+   * ``hc595_shift``: Sendet Daten an das Schieberegister, um die Anzeigesegmente zu steuern.
+   * ``pickDigit``: Aktiviert eine bestimmte Ziffer für das Multiplexing.
+
+3. **Timer-Funktion:**
+
+   * Verarbeitet den Countdown und steuert die Übergänge zwischen den einzelnen Ampelphasen.
+
+4. **Ampelsteuerung:**
+
+   * Aktualisiert die LEDs entsprechend dem aktuellen Zustand der Ampel.
+
+5. **Hauptschleife:**
+
+   * Aktualisiert kontinuierlich die Anzeige und die LEDs.
+
+6. **Bereinigung (Cleanup):**
+
+   * Stellt sicher, dass alle Ressourcen beim Beenden des Programms ordnungsgemäß freigegeben werden.
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Ampel-LEDs funktionieren nicht**:
+
+   - **Ursache**: Falsche Verdrahtung oder defekte LEDs.
+   - **Lösung**:
+
+     - Überprüfen Sie, ob die LEDs korrekt mit den GPIO-Pins 5 (Rot), 6 (Grün) und 13 (Gelb) verbunden sind.
+     - Testen Sie jede LED einzeln mit einem einfachen GPIO-Steuerskript.
+
+2. **7-Segment-Anzeige zeigt keinen Countdown an**:
+
+   - **Ursache**: Fehlerhafte Verdrahtung oder falsche Konfiguration des Schieberegisters.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass die Pins ``SDI``, ``RCLK`` und ``SRCLK`` des Schieberegisters korrekt mit GPIO 17, 4 und 27 verbunden sind.
+     - Überprüfen Sie, ob die Ziffernauswahl-Pins mit der Konfiguration von ``placePin`` übereinstimmen.
+
+3. **Countdown-Timer bleibt stehen**:
+
+   - **Ursache**: Der Timer-Thread wird nicht korrekt neu gestartet.
+   - **Lösung**: Stellen Sie sicher, dass die Funktion ``timer()`` den Aufruf ``timer1.start()`` enthält, um den Timer-Thread neu zu starten.
+
+4. **Falsche Lichtdauer**:
+
+   - **Ursache**: Falsche Dauerwerte oder fehlerhafte Zustandswechsel.
+   - **Lösung**:
+
+     - Überprüfen Sie die Werte für ``redLight``, ``greenLight`` und ``yellowLight``.
+     - Kontrollieren Sie die Logik in der Funktion ``timer()``, um korrekte Zustandswechsel sicherzustellen.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Fußgängerüberweg**: Fügen Sie einen Fußgänger-Taster hinzu, der den Ampelzyklus kurz unterbricht, damit Fußgänger sicher die Straße überqueren können.
+
+   .. code-block:: python
+
+      from fusion_hat import Pin
+      pedestrian_button = Pin(22, Pin.IN, Pin.PULL_DOWN)
+
+      def handle_pedestrian():
+            global colorState, counter
+            if colorState == 1:  # If Green Light
+               counter = 5  # Shorten green light duration
+      pedestrian_button.when_activated = handle_pedestrian
+
+2. **Adaptive Zeitsteuerung**: Passen Sie die Dauer der Ampelphasen dynamisch an die aktuelle Verkehrsdichte an.
+
+3. **Ereignisprotokollierung**: Speichern Sie Änderungen des Ampelzustands mit Zeitstempel in einer Datei zur späteren Analyse:
+
+   .. code-block:: python
+
+      with open("traffic_log.txt", "a") as log_file:
+            log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {lightColor[colorState]} light\n")
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt simuliert ein Ampelsystem und vermittelt praktische Erfahrungen mit GPIO-Steuerung, Schieberegistern und 7-Segment-Anzeigen. Es ist eine unterhaltsame und lehrreiche Möglichkeit, Elektronik und Programmierung zu erkunden und gleichzeitig eine reale Anwendung nachzubilden. Versuchen Sie, das System weiter auszubauen, um es noch interaktiver zu gestalten!

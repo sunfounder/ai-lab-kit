@@ -1,0 +1,41 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_microphone:
+
+
+
+3.4 Fusion HAT Mikrofon
+==============================
+
+**Einführung**
+
+Das Fusion HAT+ verfügt über ein integriertes Mikrofon und eignet sich daher ideal für Audioeingabe-Anwendungen wie Spracherkennung, Geräuscherkennung oder das Aufzeichnen von Audio-Logs in AI- oder IoT-Projekten.
+
+Diese Anleitung zeigt Ihnen, wie Sie überprüfen können, ob das Mikrofon vom System erkannt wird, und wie Sie einen einfachen Aufnahmetest durchführen.
+
+.. image:: img/fusionhat_mic.png
+   :align: center
+   :width: 50%
+
+
+**Was Sie benötigen**
+
+Nachfolgend sind die für dieses Tutorial erforderlichen Komponenten aufgeführt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - Komponente
+        - Kauflink
+
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi (oder ein kompatibles Modell)
+        - \-
+
+.. include:: /llm/python_stt_vosk.rst
+   :start-after: start_mic
+   :end-before: end_mic

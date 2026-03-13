@@ -1,0 +1,321 @@
+
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
+.. _py_rotary_encoder:
+
+2.12 Drehgeber (Rotary Encoder)
+==========================================
+
+**Einführung**
+
+Ein Drehgeber ist ein Eingabegerät, das Drehbewegungen in digitale Signale umwandelt. Er wird häufig zum Navigieren durch Menüs, zum Einstellen von Werten oder zum Durchscrollen von Listen verwendet. In diesem Projekt verbinden Sie einen Drehgeber (mit integrierter Drucktaste) über das Fusion HAT+ mit einem Raspberry Pi, lesen die Drehschritte aus und setzen den Zähler über den Schalter des Encoders zurück.
+
+Dieses Experiment zeigt, wie ein Drehgeber mithilfe von Event-Callbacks angebunden wird, um eine flüssige Eingabeverarbeitung mit geringer Latenz zu ermöglichen.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Die folgenden Komponenten werden für dieses Projekt benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_rotary_encoder`
+        - |link_rotary_encoder_buy| 
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Die folgende Abbildung zeigt den Schaltplan für dieses Projekt:
+
+.. image:: img/fzz/2.1.6_rotary_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Verbinden Sie die Komponenten gemäß dem folgenden Verdrahtungsdiagramm:
+
+.. image:: img/fzz/2.1.6_rotary_bb.png
+   :width: 80%
+   :align: center
+
+**Pinbelegung im Beispiel**
+
+- **CLK** → **GPIO 17**
+- **DT** → **GPIO 4**
+- **SW (Taste)** → **GPIO 27** (mit internem Pull-up)
+- **+** → **3.3V**
+- **GND** → **GND**
+
+Stellen Sie sicher, dass alle Verbindungen fest sitzen.  
+Falls Ihr Encoder separate **C (COM)** und **NO/NC**-Anschlüsse für den Schalter besitzt, verbinden Sie **C** mit **GND** und **NO** mit dem **SW-Pin** (der interne Pull-up wird in der Software aktiviert).
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.12_RotaryEncoder.py
+
+Nach dem Start des Skripts erhöht oder verringert das Drehen des Drehgebers einen Zähler, und der aktuelle Zählerwert wird in Echtzeit in der Konsole angezeigt. Wenn Sie die Taste des Encoders drücken, wird der Zähler auf **Null** zurückgesetzt und eine entsprechende Meldung ausgegeben. Das Programm läuft weiter und reagiert auf Benutzereingaben, bis Sie es mit **Ctrl + C** beenden.
+
+----------------------------------------------
+
+**Code**
+
+Unten finden Sie den Python-Code, der in diesem Projekt verwendet wird:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.pin import Pin, Mode, Pull
+   import time
+
+   # GPIO pins (BCM numbering)
+   CLK_PIN = 17
+   DT_PIN  = 4
+   SW_PIN  = 27
+
+   # Initialize pins with internal pull-ups
+   clk = Pin(CLK_PIN, mode=Mode.IN, pull=Pull.UP)
+   dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
+   sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)  # Button is active LOW
+
+   raw = 0                 # Raw quadrature transitions
+   last_clk = clk.value()  # Previous CLK state
+   last_detent = None      # Last displayed detent value
+
+   print("Rotate the knob. Press the button to reset. CTRL + C to exit.")
+   try:
+      while True:
+         c = clk.value()
+         if c != last_clk:
+               # Direction: DT != CLK means one direction, else the other
+               raw += 1 if dt.value() != c else -1
+
+               # Most encoders generate 2 transitions per detent (click)
+               detent = raw // 2
+
+               # Only update output when the detent value changes
+               if detent != last_detent:
+                  print(f"\rCounter: {detent}   ", end="", flush=True)
+                  last_detent = detent
+
+               last_clk = c
+
+         # Reset when button is pressed
+         if sw.value() == 0:
+               raw = 0
+               detent = 0
+               print("\rCounter: 0   ", end="", flush=True)
+               last_detent = 0
+               time.sleep(0.25)  # Button debounce
+
+         time.sleep(0.001)  # Polling interval (1 ms)
+
+   except KeyboardInterrupt:
+      print("\nExit")
+
+
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Importe**
+
+   .. code-block:: python
+
+      from fusion_hat.pin import Pin, Mode, Pull
+      import time
+
+   - ``Pin`` wird verwendet, um GPIO-Pins für den Drehgeber zu konfigurieren und auszulesen.
+   - ``Mode`` und ``Pull`` definieren die Pin-Richtung sowie interne Pull-up-Widerstände.
+   - ``time`` wird verwendet, um Abfrageintervalle und die Entprellzeit der Taste zu steuern.
+
+2. **GPIO-Pin-Konfiguration**
+
+   .. code-block:: python
+
+      CLK_PIN = 17
+      DT_PIN  = 4
+      SW_PIN  = 27
+
+      clk = Pin(CLK_PIN, mode=Mode.IN, pull=Pull.UP)
+      dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
+      sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)
+
+   - ``CLK`` und ``DT`` sind die beiden Quadratur-Signalpins des Drehgebers.
+   - ``SW`` ist die integrierte Drucktaste des Encoders.
+   - Interne Pull-up-Widerstände sorgen für stabile Signale, wenn der Encoder nicht bewegt wird.
+   - Die Taste ist **aktiv LOW** und liefert den Wert ``0``, wenn sie gedrückt wird.
+
+3. **Statusvariablen**
+
+   .. code-block:: python
+
+      raw = 0
+      last_clk = clk.value()
+      last_detent = None
+
+   - ``raw`` zählt die niedrigen Quadratur-Übergänge des Encoders.
+   - ``last_clk`` speichert den vorherigen CLK-Zustand, um Signaländerungen zu erkennen.
+   - ``last_detent`` merkt sich den zuletzt ausgegebenen Zählerwert, um doppelte Ausgaben zu vermeiden.
+
+4. **Erkennung der Drehbewegung**
+
+   .. code-block:: python
+
+      c = clk.value()
+      if c != last_clk:
+          raw += 1 if dt.value() != c else -1
+
+   - Das Skript überwacht kontinuierlich den CLK-Pin.
+   - Eine Änderung des CLK-Signals zeigt eine Drehbewegung des Encoders an.
+   - Die Drehrichtung wird bestimmt, indem der Zustand von DT mit CLK verglichen wird.
+
+5. **Berechnung der Rastposition (Detent)**
+
+   .. code-block:: python
+
+      detent = raw // 2
+
+   - Die meisten Drehgeber erzeugen **zwei Signaländerungen pro mechanischem Klick**.
+   - Durch Division durch 2 werden die Rohübergänge in saubere Rastschritte umgewandelt.
+
+6. **Saubere Konsolenausgabe**
+
+   .. code-block:: python
+
+      if detent != last_detent:
+          print(f"\\rCounter: {detent}   ", end="", flush=True)
+
+   - Die Ausgabe wird nur aktualisiert, wenn sich der Zählerwert ändert.
+   - ``\\r`` setzt den Cursor an den Anfang der Zeile zurück, sodass der Wert an derselben Stelle überschrieben wird.
+   - ``flush=True`` sorgt dafür, dass die Ausgabe sofort im Terminal erscheint.
+
+7. **Reset über die Taste**
+
+   .. code-block:: python
+
+      if sw.value() == 0:
+          raw = 0
+          detent = 0
+          print("\\rCounter: 0   ", end="", flush=True)
+          time.sleep(0.25)
+
+   - Durch Drücken der Taste wird der Zähler auf **Null** zurückgesetzt.
+   - Eine kurze Verzögerung dient zur **Entprellung** der Taste und verhindert Mehrfachauslösungen.
+
+8. **Abfrageintervall und Programmende**
+
+   .. code-block:: python
+
+      time.sleep(0.001)
+
+   - Eine Abfrageverzögerung von **1 ms** bietet ein gutes Gleichgewicht zwischen Reaktionsgeschwindigkeit und CPU-Auslastung.
+   - Mit ``Ctrl + C`` kann das Programm jederzeit sauber beendet werden.
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Keine Ausgabe beim Drehen**
+
+   - **Ursache**: Falsch verdrahtete CLK/DT-Pins oder schlechte Masseverbindung.
+   - **Lösung**: Überprüfen Sie **CLK→GPIO17**, **DT→GPIO4** sowie eine gemeinsame **GND-Verbindung**. Stellen Sie sicher, dass die Versorgung **3,3V** beträgt (keine 5V-Encoder direkt an GPIO anschließen).
+
+2. **Zähler springt unregelmäßig (Rauschen/Prellen)**
+
+   - **Ursache**: Mechanisches Prellen oder Störungen durch lange Kabel.
+   - **Lösung**: Kabel möglichst kurz halten; ggf. verdrillen; kleine Kondensatoren (z. B. **0,01–0,1 µF**) zwischen CLK/DT und GND hinzufügen; falls verfügbar, Software-Entprellung aktivieren.
+
+3. **Taste wird nicht erkannt**
+
+   - **Ursache**: Schalterkontakte sind an **3,3V** statt **GND** angeschlossen oder Pull-up falsch konfiguriert.
+   - **Lösung**: Sicherstellen, dass **SW beim Drücken mit GND verbunden** wird und ``pull=Pin.PULL_UP`` korrekt gesetzt ist.
+
+4. **Drehrichtung ist vertauscht**
+
+   - **Ursache**: CLK und DT sind vertauscht.
+   - **Lösung**: Tauschen Sie die **CLK-** und **DT-Leitungen** oder invertieren Sie die Schrittlogik in der Software.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Variable (z. B. Lautstärke oder Helligkeit) stufenlos anpassen**
+
+   .. code-block:: python
+
+      value = 50  # 0..100
+      def rotary_change():
+          global value
+          value = max(0, min(100, 50 + encoder.steps()))
+          print(f'Value = {value}')
+
+2. **Taste zum Umschalten eines Modus verwenden**
+
+   .. code-block:: python
+
+      mode = ['Fine', 'Coarse']
+      idx = 0
+      def reset_counter():
+          global idx
+          idx = 1 - idx
+          encoder.reset()
+          print(f'Mode switched to: {mode[idx]}')
+
+3. **LED- oder Buzzer-Feedback**
+
+   .. code-block:: python
+
+      from fusion_hat import Pin
+      led = Pin(26, Pin.OUT)
+      def rotary_change():
+          print('Counter =', encoder.steps())
+          led.on()
+          # kurze LED-Anzeige ohne Blockieren der Callbacks empfohlen
+          led.off()
+
+4. **Langer Tastendruck für Spezialfunktionen**
+
+   - Die Dauer des Tastendrucks kann über Zeitstempel in ``sw.when_activated`` und (falls vorhanden) ``sw.when_deactivated`` erfasst werden, um unterschiedliche Aktionen für **kurze** oder **lange** Tastendrücke auszulösen.
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Experiment zeigt, wie ein Drehgeber und seine integrierte Taste mithilfe ereignisgesteuerter Callbacks mit dem Fusion HAT+ ausgelesen werden können. Mit dieser Technik lassen sich reaktionsschnelle Benutzeroberflächen wie Menü-Navigatoren, Drehregler für Einstellungen oder Jog-Wheels für Echtzeitsteuerungen in Raspberry-Pi-Projekten realisieren.

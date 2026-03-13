@@ -1,0 +1,423 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
+.. _py_room_monitor:
+
+4.12 Umweltmonitor
+==============================================
+
+**Einführung**
+
+In dieser Lektion bauen Sie ein **Umweltmonitor-Dashboard**, das Temperatur, Luftfeuchtigkeit und Umgebungslicht misst und alle Werte in Echtzeit auf einem 128×64-OLED-Bildschirm anzeigt.
+
+Dieses Projekt verwendet:
+
+- **DHT11-Sensor** zur Messung von Temperatur und Luftfeuchtigkeit  
+- **LDR (Light Dependent Resistor / Fotowiderstand)**, der über den ADC des Fusion HAT+ angeschlossen ist, zur Messung der Lichtstärke  
+- **SSD1306-OLED**, um Umweltdaten sowie einen dynamischen Lichtbalken anzuzeigen  
+
+Der Bildschirm wird kontinuierlich aktualisiert und zeigt einen Statusindikator (``OK`` oder ``TIMEOUT``), je nachdem, ob der DHT11 eine gültige Messung liefert.
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_humiture_sensor`
+        - |link_humiture_buy|
+    *   - :ref:`cpn_photoresistor`
+        - |link_photoresistor_buy|
+    *   - :ref:`cpn_oled`
+        - \-
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+.. ----------------------------------------------
+
+.. **Schaltplan**
+
+.. .. image:: img/fzz/4.12_room_monitor_sch.png
+..    :width: 80%
+..    :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Verwenden Sie das folgende Verdrahtungsdiagramm, um die Komponenten korrekt zu verbinden:
+
+.. image:: img/fzz/4.12_room_monitor_bb.png
+   :width: 100%
+   :align: center
+
+----------------------------------------------
+
+**Einrichtungsschritte**
+
+#. Installieren Sie die erforderlichen Bibliotheken:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block:: shell
+
+      sudo pip3 install adafruit-circuitpython-ssd1306 --break
+
+#. Führen Sie den Beispielcode aus dem Verzeichnis ``ai-lab-kit`` aus:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/python/
+      sudo python3 4.12_RoomMonitor.py
+
+#. Wenn das Skript ausgeführt wird:
+
+   * Das OLED zeigt Temperatur, Luftfeuchtigkeit und den Lichtanteil in Prozent an  
+   * Ein horizontaler Balken stellt die aktuelle Lichtstärke grafisch dar  
+   * „OK“ oder „TIMEOUT“ zeigt den Lesestatus des DHT11-Sensors an  
+   * Die Daten werden alle 0,5 Sekunden aktualisiert  
+   * Drücken Sie **Ctrl+C**, um das Programm zu beenden und das Display zu löschen
+
+----------------------------------------------
+
+**Code**
+
+Hier ist das Python-Skript für das Umweltmonitor-Dashboard:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   import time
+   from statistics import mean
+   from fusion_hat.modules import DHT11
+   from fusion_hat.adc import ADC
+   from PIL import Image, ImageDraw, ImageFont
+   import adafruit_ssd1306
+   import board
+
+   # ---------- Hardware configuration ----------
+   DHT_PIN = 17          # BCM numbering for the DHT11 data pin
+   LDR_CH  = 0           # ADC channel for LDR (e.g., 0,1, ...)
+   I2C_ADDR = 0x3C       # OLED I2C address (commonly 0x3C)
+
+   # ---------- OLED setup ----------
+   WIDTH, HEIGHT = 128, 64
+   i2c = board.I2C()
+   oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=I2C_ADDR)
+   oled.fill(0)
+   oled.show()
+
+   # Framebuffer
+   image = Image.new("1", (WIDTH, HEIGHT))
+   draw = ImageDraw.Draw(image)
+   font  = ImageFont.load_default()
+
+   def text_size(font, text):
+      l, t, r, b = font.getbbox(text)
+      return (r - l, b - t)
+
+   # ---------- Sensors ----------
+   dht = DHT11(pin=DHT_PIN)
+   ldr = ADC(LDR_CH)
+
+   # ---------- Light normalization ----------
+   # Map ADC raw (0..4095) to percentage (0..100). You can adjust the calibration
+   # range to your circuit by putting typical min/max readings below:
+   LDR_RAW_MIN = 0       # raw value in darkness  (tune if needed)
+   LDR_RAW_MAX = 4095    # raw value in bright light (tune if needed)
+
+   def clamp(v, vmin, vmax):
+      return vmax if v > vmax else vmin if v < vmin else v
+
+   def linear_map(x, in_min, in_max, out_min, out_max):
+      if in_max == in_min:
+         return out_min
+      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+   # Simple moving average for light to reduce flicker
+   _light_window = []
+
+   def light_percent(raw):
+      """Convert raw ADC to smoothed light percentage."""
+      global _light_window
+      # Windowed average of last few samples
+      _light_window.append(raw)
+      if len(_light_window) > 5:
+         _light_window.pop(0)
+      smooth_raw = int(mean(_light_window))
+      pct = linear_map(smooth_raw, LDR_RAW_MIN, LDR_RAW_MAX, 0, 100)
+      return int(clamp(pct, 0, 100)), smooth_raw
+
+   # ---------- UI drawing ----------
+   BAR_W, BAR_H = WIDTH - 16, 10   # width/height for the light bar
+   BAR_X, BAR_Y = 8, HEIGHT - 12   # position of the light bar
+
+   def draw_bar(x, y, w, h, percent):
+      """Draw a horizontal bar [0..100]%."""
+      # Border
+      draw.rectangle((x, y, x + w, y + h), outline=255, fill=0)
+      # Fill
+      fill_w = int((w - 2) * percent / 100.0)
+      if fill_w > 0:
+         draw.rectangle((x + 1, y + 1, x + 1 + fill_w, y + h - 1), outline=0, fill=255)
+
+   def render_screen(temp_c, hum_pct, light_pct, raw_adc, status_text="OK"):
+      """Render all text and graphics to the framebuffer."""
+      draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
+
+      # Title
+      title = "Env Monitor"
+      tw, th = text_size(font, title)
+      draw.text(((WIDTH - tw) // 2, 0), title, font=font, fill=255)
+
+      # Temperature & Humidity lines
+      line1 = f"Temp: {temp_c:.1f} degC"
+      line2 = f"Hum : {hum_pct:.1f} %"
+      draw.text((2, 16), line1, font=font, fill=255)
+      draw.text((2, 28), line2, font=font, fill=255)
+
+      # Light line and bar
+      line3 = f"Light: {light_pct:3d}%  (raw {raw_adc})"
+      draw.text((2, 40), line3, font=font, fill=255)
+      draw_bar(BAR_X, BAR_Y, BAR_W, BAR_H, light_pct)
+
+      # Status (e.g., "OK" or "TIMEOUT")
+      sw, sh = text_size(font, status_text)
+      draw.text((WIDTH - sw - 2, 0), status_text, font=font, fill=255)
+
+   # ---------- Main loop ----------
+   # Keep last good readings so display stays meaningful if a DHT read times out
+   last_temp = 0.0
+   last_hum  = 0.0
+
+   try:
+      while True:
+         # Read DHT11 (may return None / timeout)
+         status = "OK"
+         result = dht.read()
+         if result:
+               hum, temp = result  # order per your DHT11 wrapper: (humidity, temperature)
+               last_temp, last_hum = float(temp), float(hum)
+         else:
+               status = "TIMEOUT"
+
+         # Read LDR
+         raw = ldr.read()
+         light_pct, raw_smooth = light_percent(raw)
+
+         # Draw to OLED
+         render_screen(last_temp, last_hum, light_pct, raw_smooth, status_text=status)
+         oled.image(image)
+         oled.show()
+
+         # Console log (optional)
+         # print(f"T={last_temp:.1f}C  H={last_hum:.1f}%  Light={light_pct}% (raw {raw_smooth})  [{status}]")
+
+         time.sleep(0.5)
+
+   except KeyboardInterrupt:
+      oled.fill(0)
+      oled.show()
+      print("\nExited.")
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Importe**
+
+   Das Skript verwendet mehrere Module:
+
+   - ``DHT11`` zur Messung von Temperatur und Luftfeuchtigkeit  
+   - ``ADC`` zum Auslesen der Helligkeit des LDR über den analogen Eingang  
+   - ``PIL`` zum Zeichnen der Grafiken auf dem OLED  
+   - ``adafruit_ssd1306`` zur Steuerung des OLED-Displays  
+   - ``mean()`` zur Glättung der Lichtmesswerte  
+
+
+2. **OLED-Setup**
+
+   Ein 128×64-SSD1306-OLED wird über I2C initialisiert.  
+   Ein Framebuffer (Pillow-Bild) wird verwendet, um alle UI-Elemente zu zeichnen, bevor sie auf das Display übertragen werden.
+
+   .. code-block:: python
+
+      # ---------- OLED setup ----------
+      WIDTH, HEIGHT = 128, 64
+      i2c = board.I2C()
+      oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=I2C_ADDR)
+      oled.fill(0)
+      oled.show()
+
+      # Framebuffer
+      image = Image.new("1", (WIDTH, HEIGHT))
+      draw = ImageDraw.Draw(image)
+      font  = ImageFont.load_default()
+
+3. **Sensorwerte lesen**
+
+   - Der DHT11 kann gelegentlich fehlschlagen. In diesem Fall zeigt das Skript ``TIMEOUT`` an, behält jedoch die zuletzt gültigen Werte bei.  
+   - Der rohe LDR-Wert (0..4095) wird mithilfe eines gleitenden Durchschnitts geglättet, um Flackern zu reduzieren.
+
+   .. code-block:: python
+
+      # Read DHT11 (may return None / timeout)
+      status = "OK"
+      result = dht.read()
+      if result:
+         hum, temp = result  # order per your DHT11 wrapper: (humidity, temperature)
+         last_temp, last_hum = float(temp), float(hum)
+      else:
+         status = "TIMEOUT"
+
+      # Read LDR
+      raw = ldr.read()
+      light_pct, raw_smooth = light_percent(raw)
+
+
+4. **Lichtwert umrechnen**
+
+   ``linear_map()`` wandelt den rohen ADC-Wert in einen Prozentwert (0..100 %) um.  
+   ``clamp()`` stellt sicher, dass der endgültige Wert im gültigen Bereich bleibt.
+
+   .. code-block:: python
+
+      def light_percent(raw):
+         """Convert raw ADC to smoothed light percentage."""
+         global _light_window
+         # Windowed average of last few samples
+         _light_window.append(raw)
+         if len(_light_window) > 5:
+            _light_window.pop(0)
+         smooth_raw = int(mean(_light_window))
+         pct = linear_map(smooth_raw, LDR_RAW_MIN, LDR_RAW_MAX, 0, 100)
+         return int(clamp(pct, 0, 100)), smooth_raw
+
+
+5. **Dashboard darstellen**
+
+   Das OLED zeigt folgende Informationen an:
+
+   - Titel  
+   - Temperatur (°C)  
+   - Luftfeuchtigkeit (%)  
+   - Lichtanteil in Prozent sowie den rohen ADC-Wert  
+   - Ein horizontales Balkendiagramm für die Lichtintensität  
+   - Einen Statushinweis zum Zustand des Sensors  
+
+
+   .. code-block:: python
+
+      def render_screen(temp_c, hum_pct, light_pct, raw_adc, status_text="OK"):
+         """Render all text and graphics to the framebuffer."""
+         draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
+
+         # Title
+         title = "Env Monitor"
+         tw, th = text_size(font, title)
+         draw.text(((WIDTH - tw) // 2, 0), title, font=font, fill=255)
+
+         # Temperature & Humidity lines
+         line1 = f"Temp: {temp_c:.1f} degC"
+         line2 = f"Hum : {hum_pct:.1f} %"
+         draw.text((2, 16), line1, font=font, fill=255)
+         draw.text((2, 28), line2, font=font, fill=255)
+
+         # Light line and bar
+         line3 = f"Light: {light_pct:3d}%  (raw {raw_adc})"
+         draw.text((2, 40), line3, font=font, fill=255)
+         draw_bar(BAR_X, BAR_Y, BAR_W, BAR_H, light_pct)
+
+         # Status (e.g., "OK" or "TIMEOUT")
+         sw, sh = text_size(font, status_text)
+         draw.text((WIDTH - sw - 2, 0), status_text, font=font, fill=255)
+
+6. **Hauptschleife**
+
+   Alle 0,5 Sekunden:
+
+   - wird der DHT11 ausgelesen  
+   - wird der LDR ausgelesen und geglättet  
+   - wird der Bildschirm aktualisiert  
+   - können optional Debug-Ausgaben ausgegeben werden  
+
+7. **Sauberes Herunterfahren**
+
+   Beim Drücken von ``Ctrl+C``:
+
+   - wird das OLED-Display gelöscht  
+   - wird eine Meldung im Terminal ausgegeben  
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+- **DHT11 liefert häufig TIMEOUT**
+
+  - Erhöhen Sie die Verzögerung zwischen den Messungen.  
+  - Überprüfen Sie die Verdrahtung und den Signaleingang.  
+  - Stellen Sie sicher, dass bei Bedarf ein Pull-up-Widerstand verwendet wird.  
+
+- **OLED bleibt leer**
+
+  - Überprüfen Sie die I2C-Adresse (``0x3C``).  
+  - Kontrollieren Sie die SDA/SCL-Verbindungen.  
+  - Stellen Sie sicher, dass die erforderlichen Bibliotheken korrekt installiert sind.  
+
+- **Lichtwert scheint umgekehrt**
+
+  - Tauschen Sie ``LDR_RAW_MIN`` und ``LDR_RAW_MAX``.  
+  - Überprüfen Sie die Beschaltung des LDR (Spannungsteiler).  
+
+- **Display flackert**
+
+  - Vergrößern Sie das Fenster für die Mittelwertbildung der Lichtmessung.  
+  - Reduzieren Sie die Aktualisierungsrate (z. B. ``time.sleep(1.0)``).  
+
+----------------------------------------------
+
+**Probieren Sie es selbst aus**
+
+1. **Fahrenheit-Anzeige (°F) hinzufügen**  
+
+   Zeigen Sie sowohl °C als auch °F auf dem Bildschirm an.
+
+2. **Max/Min-Verlauf hinzufügen**  
+
+   Speichern Sie die höchsten und niedrigsten Werte für Temperatur, Luftfeuchtigkeit oder Helligkeit.
+
+3. **Warnsystem hinzufügen**  
+
+   Lassen Sie den Rand des OLED blinken, wenn die Luftfeuchtigkeit zu niedrig oder die Temperatur zu hoch ist.
+
+4. **Grafikmodus hinzufügen**  
+
+   Zeichnen Sie verlaufende Diagramme für Temperatur- und Feuchtigkeitstrends.
+
+5. **Animierte Symbole hinzufügen**  
+
+   Verwenden Sie kleine Bitmaps für Sonne, Regen, Thermometer, Wassertropfen usw.
+
+Diese Erweiterungen verwandeln den einfachen Umweltmonitor in ein umfangreiches Umwelt-Dashboard.

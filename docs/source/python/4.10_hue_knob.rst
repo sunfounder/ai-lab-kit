@@ -1,0 +1,322 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+   
+.. _py_hue_knob:
+
+4.10 Farbregler (Hue Knob)
+==============================
+
+**Einführung**
+
+In dieser Lektion bauen Sie einen **Hue Knob** – einen interaktiven Farbregler, der einen Drehencoder verwendet, um den Farbton eines kreisförmigen WS2812-LED-Moduls anzupassen.  
+Dieses WS2812-LED-Modul enthält 12 einzeln adressierbare WS2812-RGB-LEDs, die über die SPI-basierte NeoPixel-Schnittstelle des Fusion HAT+ gesteuert werden.  
+Der externe Drehencoder liefert Echtzeit-Benutzereingaben über standardmäßige GPIO-Pins.
+
+Beim Drehen des Encoders durchlaufen die 12 LEDs fließend das gesamte RGB-Farbspektrum.  
+Durch Drücken der integrierten Taste des Encoders wird der Farbton wieder auf den Ausgangswert zurückgesetzt.
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_rotary_encoder`
+        - |link_rotary_encoder_buy| 
+    *   - :ref:`cpn_circular_ws2812_module`
+        - \-
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+Verwenden Sie das folgende Verdrahtungsdiagramm, um die Komponenten korrekt zu verbinden:
+
+
+.. image:: img/fzz/4.10_hub_color_bb.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+**Einrichtungsschritte**
+
+#. Bevor Sie den Code ausführen, müssen Sie die erforderliche Bibliothek installieren:
+
+   Diese Bibliothek stellt die notwendigen Funktionen bereit, um NeoPixel-LEDs über SPI-Kommunikation zu steuern.
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+   
+      sudo pip3 install adafruit-circuitpython-neopixel-spi --break
+
+#. Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``. Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+      
+      cd ~/ai-lab-kit/python/
+      sudo python3 4.10_Hue_Knob.py
+
+#. Wenn das Skript ausgeführt wird, reagiert der WS2812-LED-Ring auf den Drehencoder:
+
+   * Die LEDs starten in Rot (Hue 0°).
+   * Drehen Sie den Encoder, um fließend durch das gesamte RGB-Farbrad zu wechseln. Die Farben ändern sich kontinuierlich (Rot → Gelb → Grün → Blau → Violett → Rot). Im Terminal werden der aktuelle Hue-Wert sowie die RGB-Werte ausgegeben.* 
+   * Drücken Sie die Encodertaste, um den Farbton auf 0° (Rot) zurückzusetzen.
+   * Drücken Sie **Ctrl+C**, um das Programm zu beenden. Alle LEDs werden ausgeschaltet, bevor das Programm beendet wird.
+
+----------------------------------------------
+
+**Code**
+
+Hier ist das Python-Skript für dieses Projekt:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.motor import Motor
+   from fusion_hat.pin import Pin, Mode, Pull
+   from fusion_hat.adc import ADC
+   from time import sleep, time
+   import math
+
+   BtnPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
+   motor = Motor("M0")
+   thermistor = ADC("A3")
+
+   level = 0
+   currentTemp = None
+   markTemp = None
+
+   PRINT_INTERVAL = 1.0
+   _last_print = 0.0
+
+   button_event = False  # flag: button was pressed
+
+   def temperature(samples=5, delay=0.01):
+      """Read thermistor multiple times and return averaged Celsius (float) or None."""
+      vals = []
+      for _ in range(samples):
+         analogVal = thermistor.read()
+         Vr = 3.3 * float(analogVal) / 4095.0
+         if (3.3 - Vr) <= 0.1:
+               return None
+         Rt = 10000.0 * Vr / (3.3 - Vr)
+         tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+         vals.append(tempK - 273.15)
+         sleep(delay)
+      return sum(vals) / len(vals)
+
+   def motor_run(lv):
+      lv = max(0, min(4, lv))
+      motor.power(0 if lv == 0 else lv * 25)
+      return lv
+
+   def changeLevel():
+      """Button press: cycle level 0~4 and set a flag for main loop to print."""
+      global level, button_event
+      level = (level + 1) % 5
+      button_event = True
+
+   BtnPin.when_activated = changeLevel
+
+   def main():
+      global level, currentTemp, markTemp, _last_print, button_event
+
+      markTemp = temperature()
+      while True:
+         currentTemp = temperature()
+         if currentTemp is None:
+               print("Sensor read failed. Please check the sensor.")
+               sleep(0.5)
+               continue
+
+         # Handle button event in main loop (stable timing)
+         if button_event:
+               button_event = False
+               markTemp = currentTemp
+               print(f"[Button] Level -> {level} | Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C")
+
+         # Periodic temperature print
+         now = time()
+         if now - _last_print >= PRINT_INTERVAL:
+               if markTemp is None:
+                  markTemp = currentTemp
+               print(f"Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C | Level: {level}")
+               _last_print = now
+
+         # Auto adjust level based on ±5°C
+         if markTemp is None:
+               markTemp = currentTemp
+
+         if level != 0:
+               diff = currentTemp - markTemp
+               if diff <= -5:
+                  level = max(0, level - 1)
+                  markTemp = currentTemp
+                  print(f"[Auto] Temp down -> Level {level} (Temp: {currentTemp:.2f} °C)")
+               elif diff >= 5:
+                  level = min(4, level + 1)
+                  markTemp = currentTemp
+                  print(f"[Auto] Temp up   -> Level {level} (Temp: {currentTemp:.2f} °C)")
+
+         level = motor_run(level)
+         sleep(0.5)
+
+   try:
+      main()
+   except KeyboardInterrupt:
+      print("\nExiting...")
+   finally:
+      motor.stop()
+      sleep(0.1)
+
+-------------------------
+
+**Code verstehen**
+
+1. **NeoPixel-Initialisierung**
+
+   - Das Skript verwendet SPI, um einen NeoPixel-LED-Ring oder -Streifen zu steuern (``LED_COUNT = 12``).
+   - ``auto_write=False`` ist aktiviert, sodass die LEDs erst aktualisiert werden, wenn ``strip.show()`` aufgerufen wird. Dadurch werden Flackern reduziert und die Leistung verbessert.
+   - Beim Start werden die LEDs mit ``strip.fill(0)`` und ``strip.show()`` ausgeschaltet.
+
+2. **Hardware-Setup des Drehencoders**
+
+   - Es werden drei GPIO-Pins verwendet:
+     - ``CLK_PIN`` und ``DT_PIN`` liefern die Quadratur-Signale für Drehrichtung und Schritte.
+     - ``SW_PIN`` ist der Tastereingang des Encoders.
+   - Alle Pins verwenden interne Pull-ups (``Pull.UP``), und der Taster ist **aktiv LOW** (gedrückt = ``0``).
+
+3. **Wichtige Parameter (Verhaltensabstimmung)**
+
+   - ``DETENTS_PER_CYCLE`` definiert, wie viele physische „Klicks“ erforderlich sind, um eine vollständige Farbtonrotation (0–360°) abzuschließen.
+     - Ein größerer Wert ermöglicht eine feinere Farbsteuerung.
+   - ``TRANSITIONS_PER_DETENT`` wandelt rohe Quadratur-Übergänge in „ein Raster = ein Schritt“ um.
+     - Viele Encoder erzeugen 2 Übergänge pro Raster, einige jedoch 4. Durch Anpassen dieses Wertes wird die Genauigkeit verbessert.
+
+4. ``hue_to_rgb()``
+
+   - Wandelt einen Hue-Wert im Bereich ``0.0 ~ 1.0`` in ein RGB-Tupel ``(R, G, B)`` mit Werten von ``0 ~ 255`` um.
+   - Dadurch lassen sich mit dem HSV-Farbmodell leicht sanfte Farbverläufe erzeugen.
+
+5. ``apply_color_from_detent()`` 
+
+   - Ordnet die Rasterzählung des Encoders mithilfe von Modulo einem Farbtonindex zu:
+     - ``hue_idx = detent % DETENTS_PER_CYCLE``
+   - Wandelt den Farbton in eine RGB-Farbe um und aktualisiert alle LEDs mit ``strip.fill(color)`` gefolgt von ``strip.show()``.
+   - Verwendet ``last_hue_idx``, um unnötige Aktualisierungen zu vermeiden, wenn sich der berechnete Farbton nicht geändert hat.
+   - Gibt den aktuellen Hue-Winkel, den Rasterwert und die RGB-Farbe zur Kontrolle bzw. Fehlersuche im Terminal aus.
+
+6. ``reset_all()``
+
+   - Setzt den internen Zählerzustand zurück:
+     - ``raw`` (rohe Übergangszählung)
+     - ``last_detent`` (zuletzt angezeigtes Raster)
+     - ``last_hue_idx`` (zuletzt angezeigter Farbtonindex)
+   - Ruft ``apply_color_from_detent(0)`` auf, um die LEDs sofort auf die Ausgangsfarbe (Hue = 0°) zurückzusetzen.
+
+7. **Hauptschleife (Polling + Richtungsbestimmung)**
+
+   - Das Programm überwacht kontinuierlich ``CLK`` und prüft auf Änderungen:
+     - Wenn sich ``CLK`` ändert, hat sich der Encoder um einen Schritt in der Quadratur-Sequenz bewegt.
+   - Die Drehrichtung wird durch Vergleich von DT und CLK bestimmt:
+     - ``dt.value() != c`` bedeutet eine Drehrichtung (Erhöhen)
+     - andernfalls wird verringert
+   - Die rohe Übergangszählung wird in Rasterwerte umgerechnet:
+     - ``detent = raw // TRANSITIONS_PER_DETENT``
+   - Die LED-Farbe wird nur aktualisiert, wenn sich der Rasterwert geändert hat.
+
+8. **Taster-Reset und Entprellung**
+
+   - Wenn der Taster gedrückt wird (``sw.value() == 0``), ruft das Programm ``reset_all()`` auf.
+   - Eine kurze Entprellverzögerung wird angewendet, und das Skript wartet, bis der Taster wieder losgelassen wird, um mehrere Resets durch einen einzelnen Tastendruck zu verhindern.
+
+9. **Sauberes Beenden**
+
+   - Durch Drücken von ``Ctrl + C`` wird das Programm beendet.
+   - Im ``finally``-Block werden alle LEDs ausgeschaltet (``strip.fill(0)`` und ``strip.show()``), sodass die Hardware in einem sicheren Zustand verbleibt.
+
+**Fehlerbehebung**
+-------------------
+
+- **LEDs leuchten nicht**
+
+  - Überprüfen Sie die Verdrahtung des WS2812-LED-Moduls.
+  - Stellen Sie sicher, dass die SPI-NeoPixel-Schnittstelle des Fusion HAT+ aktiviert ist.
+  - Vergewissern Sie sich, dass ein unterstütztes WS2812/WS2812B-LED-Modul verwendet wird.
+
+- **Farben ändern sich zu schnell oder zu langsam**
+
+  - Passen Sie ``STEPS_PER_CYCLE`` an, um die Empfindlichkeit zu erhöhen oder zu verringern.
+
+- **Tastendruck setzt den Farbton nicht zurück**
+
+  - Überprüfen Sie, ob SW mit GPIO27 verbunden ist.
+  - Stellen Sie sicher, dass der Pin mit ``pull=Pin.PULL_UP`` konfiguriert ist.
+
+- **Skript beendet sich sofort**
+
+  - Stellen Sie sicher, dass ``pause()`` aus dem Modul ``signal`` importiert wurde.
+  - Prüfen Sie, ob kein anderer Prozess SPI verwendet.
+
+
+**Probieren Sie es selbst aus**
+---------------------------------------
+
+Möchten Sie dieses Projekt erweitern? Probieren Sie folgende Ideen:
+
+1. **Helligkeitssteuerung hinzufügen**  
+
+   Verwenden Sie eine weitere Variable (z. B. Encoder drücken + drehen), um die LED-Helligkeit von 0–255 einzustellen.
+
+2. **Mehrere Anzeigemodi hinzufügen**  
+
+   Drücken Sie den Encoder, um zwischen verschiedenen Modi zu wechseln:
+
+   - Einfarbig (Standard)
+   - Regenbogenanimation
+   - „Breathing“-Effekt
+   - Color-Wipe-Effekt
+
+3. **Ein-/Ausschalter hinzufügen**  
+
+   Halten Sie die Encodertaste länger gedrückt, um den LED-Ring ein- oder auszuschalten.
+
+4. **Sanftere Farbänderung**
+
+   Erhöhen Sie ``STEPS_PER_CYCLE`` oder fügen Sie Interpolation hinzu, um besonders flüssige Übergänge zu erzielen.
+
+5. **Richtungsanzeige**
+
+   Lassen Sie eine LED grün leuchten, wenn im Uhrzeigersinn gedreht wird, und rot bei Drehung gegen den Uhrzeigersinn.
+
+Diese kleinen Erweiterungen verwandeln den einfachen „Hue Knob“ in eine vielseitige RGB-Steueroberfläche.

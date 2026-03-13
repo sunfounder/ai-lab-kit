@@ -1,0 +1,238 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
+.. _py_joystick:
+
+2.11 Joystick
+=========================
+
+**Einführung**
+
+Ein Joystick ist ein Eingabegerät, das häufig in Spielen, Robotik und Navigationssystemen verwendet wird. Er verfügt typischerweise über zwei Achsen (X und Y) zur Richtungssteuerung sowie eine Taste (Btn oder SW) für zusätzliche Eingaben. In diesem Projekt lernen Sie, wie ein Joystick funktioniert, indem Sie ihn bewegen und die entsprechenden Werte der X-, Y- und Tastenzustände auf dem Bildschirm anzeigen lassen.
+
+
+----------------------------------------------
+
+
+**Benötigte Komponenten**
+
+Die folgenden Komponenten werden für dieses Projekt benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_joystick`
+        - \- 
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+.. image:: img/fzz/2.1.9_sch.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung gemäß der folgenden Abbildung auf:
+
+.. image:: img/fzz/2.1.9_bb.png
+   :width: 80%
+   :align: center
+
+
+Stellen Sie sicher, dass:
+
+- Die Pins **VRX** und **VRY** des Joysticks mit ADC-Pins verbunden sind.
+- Der **SW**-Pin des Joysticks mit GPIO-Pin 17 verbunden ist.
+- Stromversorgung und Masse korrekt angeschlossen sind.
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+
+Der gesamte Beispielcode für dieses Tutorial befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel zu starten:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.11_Joystick.py
+
+Dieses Python-Skript liest und zeigt Joystick-Daten in Echtzeit über das Fusion HAT+ an. Nach dem Start geschieht Folgendes:
+
+1. Das Skript liest kontinuierlich die **X- und Y-Werte** vom Fusion HAT+.
+2. Es überwacht die Taste, die mit **GPIO-Pin 17** verbunden ist, um festzustellen, ob sie gedrückt wurde.
+3. Die Werte für **X**, **Y** und den **Tastenzustand** werden im Format  
+   ``X: <value>  Y: <value>  Btn: <value>`` in der Konsole ausgegeben, wobei:
+
+   - ``X`` und ``Y`` die analogen ADC-Messwerte darstellen.
+   - ``Btn`` den Wert ``1`` hat, wenn die Taste **nicht gedrückt** ist, und ``0``, wenn sie **gedrückt** ist.
+
+4. Das Skript aktualisiert die Werte alle **0,2 Sekunden** und läuft kontinuierlich, bis es mit ``Ctrl+C`` beendet wird.
+
+----------------------------------------------
+
+
+**Code**
+
+Unten finden Sie den Python-Code, der in diesem Projekt verwendet wird:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.adc import ADC
+   from fusion_hat.pin import Pin, Mode, Pull
+   import time
+
+   # Initialize the Joystick
+   BtnPin = Pin(17, mode=Mode.IN, pull=Pull.UP)
+   xAxis = ADC('A1')
+   yAxis = ADC('A0')
+
+   def MAP(x, in_min, in_max, out_min, out_max):
+      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+   try:
+      # Main loop to read and print ADC values and button state
+      while True:
+         # Read X and Y values from ADC channels
+         x_val = MAP(xAxis.read(),0,4095,-100,100)
+         y_val = MAP(yAxis.read(),0,4095,-100,100)
+
+         # Read the state of the button (pressed or not)
+         Btn_val = BtnPin.value()
+
+         # Print the X, Y, and button values
+         print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+
+         # Delay of 0.2 seconds before the next read
+         time.sleep(0.2)
+
+   # Gracefully handle script termination (e.g., via KeyboardInterrupt)
+   except KeyboardInterrupt: 
+      pass
+
+
+---------------------------------------------
+
+**Den Code verstehen**
+
+1. **Importe:**
+
+   .. code-block:: python
+
+      from fusion_hat.adc import ADC
+      from fusion_hat.pin import Pin, Mode, Pull
+      import time
+
+   Das Skript importiert die notwendigen Module: ``fusion_hat`` für GPIO-Funktionen sowie ``time`` zum Einfügen von Verzögerungen.
+
+2. **Initialisierung:**
+
+   .. code-block:: python
+
+      # Joystick initialisieren
+      BtnPin = Pin(17, mode=Mode.IN, pull=Pull.UP)
+      xAxis = ADC('A1')
+      yAxis = ADC('A0')
+
+   Das Skript initialisiert den Joystick, indem Instanzen der Klassen ``Pin`` und ``ADC`` erstellt werden.  
+   Die Taste wird als Eingang mit aktiviertem internem Pull-up-Widerstand konfiguriert, während die X- und Y-Achsen so eingerichtet werden, dass sie analoge Werte von den ADC-Kanälen A0 und A1 lesen.
+
+
+3. **Hauptschleife:**
+
+   .. code-block:: python
+
+      try:
+         # Hauptschleife zum Lesen und Ausgeben der ADC-Werte und des Tastenzustands
+         while True:
+            # X- und Y-Werte von den ADC-Kanälen lesen
+            x_val = MAP(xAxis.read(),0,4095,-100,100)
+            y_val = MAP(yAxis.read(),0,4095,-100,100)
+
+            # Zustand der Taste lesen (gedrückt oder nicht)
+            Btn_val = BtnPin.value()
+
+            # X-, Y- und Tastenzustand ausgeben
+            print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+
+            # 0,2 Sekunden warten bis zur nächsten Messung
+            time.sleep(0.2)
+
+      # Skript sauber beenden (z. B. bei KeyboardInterrupt)
+      except KeyboardInterrupt: 
+         pass
+
+   - Liest die X- und Y-Werte von den ADC-Kanälen 0 und 1.
+   - Liest den Zustand der Taste (gedrückt oder nicht) vom SW-Pin.
+   - Gibt die X-, Y- und Tastenzustände alle **0,2 Sekunden** auf dem Bildschirm aus.
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+
+1. **ADC-Werte liegen nicht im erwarteten Bereich**:
+
+   - **Ursache**: Falsche ADC-Kanal-Konfiguration oder Verdrahtungsfehler.
+   - **Lösung**: Überprüfen Sie die ADC-Kanal-Konfiguration und die Verkabelung. Stellen Sie sicher, dass der Joystick mit den richtigen ADC-Kanälen verbunden ist.
+
+2. **Tastenzustand ist immer 0**:
+
+   - **Ursache**: Falsche Verdrahtung der Taste oder falsche Pull-up/Pull-down-Konfiguration.
+   - **Lösung**: Überprüfen Sie die Verkabelung der Taste. Kontrollieren Sie die Pull-up/Pull-down-Einstellung, damit die Taste korrekt mit dem SW-Pin verbunden ist.
+
+3. **ADC-Werte bleiben konstant**:
+
+   - **Ursache**: Die ADC-Kanäle sind mit keiner Eingabe verbunden.
+   - **Lösung**: Verbinden Sie den Joystick mit den ADC-Kanälen 0 und 1, damit variable Eingangswerte gelesen werden können.
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Joystick-Steuerung**: Verwenden Sie die X- und Y-Werte, um einen virtuellen Joystick oder ein Spielelement zu steuern.
+
+2. **Datenprotokollierung**: Speichern Sie die X-, Y- und Tastenzustände zur Analyse in einer Datei:
+     
+   .. code-block:: python
+
+      with open("sensor_log.txt", "a") as log_file:
+            log_file.write(f"X: {x_val}, Y: {y_val}, Btn: {Btn_val}\n")
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Experiment zeigt, wie ein Joystick mit dem Fusion HAT+ zur Analog-Digital-Umwandlung verbunden wird.  
+Wenn Sie verstehen, wie Joystick-Eingaben gelesen und interpretiert werden, können Sie interaktive Systeme für Spiele, Robotik oder andere Anwendungen entwickeln.

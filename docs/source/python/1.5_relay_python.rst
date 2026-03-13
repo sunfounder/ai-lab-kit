@@ -1,0 +1,244 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_relay:
+
+1.5 Relaissteuerung
+===========================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie man ein Relaismodul mit einem Raspberry Pi steuert. Relais sind elektrisch betätigte Schalter, mit denen sich Hochleistungsgeräte sicher durch stromschwache Schaltungen steuern lassen. Dieses Projekt zeigt, wie ein Relais in regelmäßigen Abständen ein- und ausgeschaltet wird.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_transistor`
+        - |link_transistor_buy|
+    *   - :ref:`cpn_relay`
+        - |link_relay_buy|
+    *   - :ref:`cpn_diode`
+        - |link_diode_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Das GPIO-Signal wird über einen 1-kΩ-Widerstand zur Basis des Transistors geführt, sodass der Transistor die Relaisspule ein- und ausschalten kann. Wenn GPIO17 HIGH ausgibt, schaltet der Transistor durch, Strom fließt durch die Relaisspule, das Relais wird aktiviert, und die LED leuchtet über den 220-Ω-Widerstand auf. Wenn GPIO17 LOW ausgibt, sperrt der Transistor, die Relaisspule wird stromlos, das Relais fällt ab, und die LED erlischt. Eine Freilaufdiode ist parallel zur Relaisspule geschaltet, um die Schaltung vor Spannungsspitzen zu schützen.
+
+.. image:: img/fzz/1.3.3_relay_sch.png
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+
+.. image:: img/fzz/1.3.3_relay_bb.png
+   :width: 90%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``. 
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.5_Relay.py 
+
+Nach dem Ausführen des Skripts schaltet das mit GPIO 17 verbundene Relais jede Sekunde wiederholt ein und aus. Wenn das Relais eingeschaltet ist, zeigt die Konsole „Relay open…“ an, und wenn es ausgeschaltet ist, wird „…Relay close“ angezeigt. Dieser Zyklus läuft weiter, bis Sie ``Ctrl + C`` drücken. Dann wird das Programm beendet und das Relais sicher ausgeschaltet.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code steuert ein Relaismodul und schaltet es abwechselnd ein und aus:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    from fusion_hat.pin import Pin, Mode
+    from time import sleep  # Import the sleep function for delay
+
+    # Initialize the relay connected to GPIO pin 17
+    relay = Pin(17,mode=Mode.OUT)
+
+    try:
+        # Loop to continuously toggle the relay's state every second
+        while True:
+            print('Relay open...')  # Inform that the relay is being activated
+            relay.high()  # Turn on the relay 
+            sleep(1)   # Maintain the relay in the on state for 1 second
+
+            print('...Relay close')  # Inform that the relay is being deactivated
+            relay.low()  # Turn off the relay
+            sleep(1)   # Maintain the relay in the off state for 1 second
+
+    except KeyboardInterrupt:
+        # Handle a keyboard interrupt (Ctrl+C) to exit the loop
+        relay.off()  # Ensure the relay is turned off before exiting
+        pass
+
+
+Dieses Python-Skript steuert ein Relaismodul, das mit GPIO-Pin 17 verbunden ist. Beim Ausführen passiert Folgendes:
+
+1. Das Skript tritt in eine Endlosschleife ein, die den Relaiszustand jede Sekunde umschaltet.
+2. Wenn das Relais aktiviert wird (HIGH), wird „Relay open...“ in der Konsole ausgegeben.
+3. Wenn das Relais deaktiviert wird (LOW), wird „...Relay close“ in der Konsole angezeigt.
+4. Das Programm kann mit ``Ctrl+C`` sauber beendet werden. Dabei wird sichergestellt, dass das Relais vor dem Beenden ausgeschaltet wird.
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die Klasse ``Pin`` aus der Bibliothek ``fusion_hat`` wird verwendet, um GPIO-Pins zu steuern, und ``time.sleep`` erzeugt Zeitverzögerungen zwischen Zustandsänderungen.
+
+   .. code-block:: python
+
+        from fusion_hat.pin import Pin, Mode
+        from time import sleep  # Import the sleep function for delay
+
+2. **Initialisierung des Relais**
+
+   Das Relais wird an GPIO-Pin 17 initialisiert und als Ausgang konfiguriert.
+
+   .. code-block:: python
+
+      # Initialize the relay connected to GPIO pin 17
+      relay = Pin(17,mode=Mode.OUT)
+
+3. **Hauptsteuerungsschleife**
+
+   Die ``while True``-Schleife schaltet den Relaiszustand kontinuierlich im Abstand von 1 Sekunde um.
+
+   .. code-block:: python
+
+      while True:
+          print('Relay open...')  # Inform that the relay is being activated
+          relay.high()  # Turn on the relay 
+          sleep(1)   # Maintain the relay in the on state for 1 second
+
+          print('...Relay close')  # Inform that the relay is being deactivated
+          relay.low()  # Turn off the relay
+          sleep(1)   # Maintain the relay in the off state for 1 second
+
+4. **Behandlung von Tastaturunterbrechungen**
+
+   Der ``try-except``-Block sorgt dafür, dass das Programm sauber beendet wird, wenn es unterbrochen wird (z. B. mit ``Ctrl+C``), und schaltet das Relais vor dem Beenden aus.
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+          # Handle a keyboard interrupt (Ctrl+C) to exit the loop
+          relay.off()  # Ensure the relay is turned off before exiting
+          pass
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Relais reagiert nicht**
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Pin-Konfiguration.
+   - **Lösung**: Überprüfen Sie, ob alle Verbindungen dem Verdrahtungsdiagramm entsprechen und ob GPIO 17 korrekt angegeben ist.
+
+2. **Relais bleibt dauerhaft ein- oder ausgeschaltet**
+
+   - **Ursache**: Logikpegel passt nicht oder Probleme mit der Stromversorgung.
+   - **Lösung**: Stellen Sie sicher, dass das Relaismodul mit 3,3-V-Logikpegeln kompatibel ist und dass die Stromversorgung ausreichend ist.
+
+3. **Programm beendet sich nicht sauber**
+
+   - **Ursache**: Tastaturunterbrechung wird nicht korrekt verarbeitet.
+   - **Lösung**: Beenden Sie das Programm mit ``Ctrl+C`` und prüfen Sie, ob der entsprechende Exception-Handling-Code vorhanden ist.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Zeitgesteuerte Steuerung**
+
+   Ändern Sie den Code so, dass das Relais zu bestimmten Zeiten ein- oder ausgeschaltet wird:
+
+   .. code-block:: python
+
+      import datetime
+      
+      # Turn relay on during specific hours
+      current_time = datetime.datetime.now().time()
+      if datetime.time(9, 0) <= current_time <= datetime.time(17, 0):
+          relay.high()
+      else:
+          relay.low()
+
+2. **Sensorbasierte Steuerung**
+
+   Verbinden Sie einen Sensor (z. B. Temperatur- oder Bewegungssensor) und steuern Sie das Relais basierend auf den Sensordaten:
+
+   .. code-block:: python
+
+      # Pseudocode for sensor-controlled relay
+      if temperature_sensor.read() > 25:  # If temperature exceeds 25°C
+          relay.high()  # Turn on cooling device
+      else:
+          relay.low()   # Turn off cooling device
+
+3. **Steuerung mehrerer Relais**
+
+   Erweitern Sie das Projekt, um mehrere Relais gleichzeitig zu steuern:
+
+   .. code-block:: python
+
+      # Initialize multiple relays
+      relays = {
+          'light': Pin(17, Pin.OUT),
+          'fan': Pin(18, Pin.OUT),
+          'pump': Pin(19, Pin.OUT)
+      }
+      
+      # Control individual relays
+      relays['light'].high()
+      relays['fan'].low()
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Relaismodul mit einem Raspberry Pi gesteuert werden kann. Relais sind grundlegende Komponenten in der Hausautomation, in industriellen Steuerungssystemen und in IoT-Anwendungen. Durch das Beherrschen der Relaissteuerung können Sie Niederspannungsschaltungen sicher und effektiv mit Hochleistungsgeräten verbinden.

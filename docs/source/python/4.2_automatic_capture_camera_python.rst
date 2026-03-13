@@ -1,0 +1,389 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_fun_camera2:
+
+4.2 Automatische Aufnahmekamera
+===================================
+
+**Einführung**
+
+Stellen Sie sich vor, Sie sind nicht zu Hause und ein neugieriges kleines Eichhörnchen besucht Ihr Fensterbrett. Mit diesem Projekt können Sie eine automatische Aufnahmekamera bauen, die solche Momente festhält. Mithilfe eines Bewegungssensors erkennt die Kamera Bewegungen und nimmt in regelmäßigen Abständen Fotos auf.
+
+
+----------------------------------------------
+
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_pir`
+        - |link_pir_buy|
+    *   - :ref:`cpn_camera_module`
+        - |link_camera_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+
+
+----------------------------------------------
+
+
+**Schaltplan**
+
+Nachfolgend ist der Schaltplan für dieses Projekt dargestellt:
+
+.. image:: img/fzz/4.1.2_sch.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+#. Um das Kameramodul bequem zu verwenden, wird :ref:`assemble_fusion_hat_pan_tilt` empfohlen.
+
+   .. note:: 
+     
+     Das Zusammenbauen der Pan-Tilt-Halterung kann einige Pins verdecken. Daher wird empfohlen, sie nur bei Verwendung der Kamera zu montieren oder sie nach der Montage außen zu platzieren.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
+
+#. Folgen Sie diesem Verdrahtungsdiagramm, um die Schaltung aufzubauen:
+
+   .. image:: img/fzz/4.1.2_bb.png
+      :width: 80%
+      :align: center
+
+#. Für eine optimale Leistung stellen Sie die beiden Potentiometer auf dem PIR-Modul ein:  
+   eines steuert die Empfindlichkeit und das andere die Erkennungsdistanz. Drehen Sie beide Regler vollständig gegen den Uhrzeigersinn.
+
+   .. image:: ../python/img/PIR_TTE.png
+      :width: 400
+      :align: center
+
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+#. Greifen Sie auf den Raspberry-Pi-Desktop zu:
+
+   * :ref:`remote_desktop`: Verwenden Sie **VNC** für eine vollständige Desktop-Umgebung.
+   * |link_rpi_connect|: Verwenden Sie **Raspberry Pi Connect**, um sicher über einen Browser auf Ihren Pi zuzugreifen.
+
+#. Öffnen Sie ein Terminal und wechseln Sie in den Code-Ordner:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/python
+
+#. Führen Sie das Skript aus, um die Kamera zu starten:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      sudo python3 4.2_AutomaticCaptureCamera.py 
+
+#. Nach dem Start des Skripts:
+
+   * Die Kamera wird gestartet und überwacht kontinuierlich den PIR-Bewegungssensor, der mit GPIO 17 verbunden ist.  
+   * Wenn der PIR-Sensor eine Bewegung erkennt und sein Ausgang auf HIGH wechselt, nimmt die Kamera ein Foto auf und speichert es im Ordner ``Pictures`` mit einem fortlaufenden Dateinamen.  
+   * Nach jeder Aufnahme wartet das Programm kurz, um Mehrfachaufnahmen zu vermeiden.  
+   * Das System überwacht weiterhin Bewegungen und läuft, bis Sie **Ctrl + C** drücken, um es zu beenden.
+
+----------------------------------------------
+
+**Code**
+
+Hier ist der in diesem Projekt verwendete Python-Code:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   import os
+   import time
+   import threading
+   from picamera2 import Picamera2, Preview
+   from fusion_hat.pin import Pin, Mode, Pull
+
+   # Resolve the correct user's home directory (works with sudo)
+   REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+   USER_HOME = f"/home/{REAL_USER}"
+   PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
+   os.makedirs(PICTURES_DIR, exist_ok=True)
+
+   # Initialize camera
+   camera = Picamera2()
+   camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
+
+   # Photo counter with thread safety
+   photo_index = 1
+   photo_lock = threading.Lock()
+
+   # Track whether preview was started successfully
+   preview_started = False
+
+   # Initialize PIR sensor (GPIO 17)
+   pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   def take_photo():
+      """Capture one photo and increment the index."""
+      global photo_index
+      with photo_lock:
+         filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
+         print(f"\nMotion detected! Capturing: {filepath}")
+         camera.capture_file(filepath)
+         print("Saved.")
+         photo_index += 1
+
+   def main():
+      global preview_started
+
+      # Start preview only when a GUI display is available
+      preview_started = False
+      if os.getenv("DISPLAY"):
+         try:
+            camera.start_preview(Preview.QT)
+            preview_started = True
+         except Exception as e:
+            print(f"Preview start failed (continue without preview): {e}")
+      else:
+         print("No DISPLAY detected (running headless without preview).")
+
+      camera.start()
+
+      print("Camera is running.")
+      print("PIR sensor monitoring on GPIO 17.")
+      print(f"Photos will be saved to: {PICTURES_DIR}")
+      print("Press Ctrl+C to exit.\n")
+
+      try:
+         while True:
+            if pir.value():        # PIR detects motion (HIGH)
+               take_photo()        # Take one photo
+               time.sleep(2)       # Delay to avoid repeated shots
+
+            time.sleep(0.1)
+
+      except KeyboardInterrupt:
+         print("\nExiting...")
+
+      finally:
+         try:
+            camera.stop()
+         except Exception:
+            pass
+
+         if preview_started:
+            try:
+               camera.stop_preview()
+            except Exception:
+               pass
+
+         try:
+            camera.close()
+         except Exception:
+            pass
+
+   if __name__ == "__main__":
+      main()
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Importe:**
+
+   .. code-block:: python
+
+      import os
+      import time
+      import threading
+      from picamera2 import Picamera2, Preview
+      from fusion_hat.pin import Pin, Mode, Pull
+
+   Das Skript importiert Bibliotheken für Dateiverwaltung (``os``), Zeitsteuerung (``time``), Thread-Sicherheit (``threading``), Kamerasteuerung (``Picamera2``) und GPIO-Steuerung (``Pin``).
+
+2. **Einrichten des Speicherpfads:**
+
+   .. code-block:: python
+
+      REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+      USER_HOME = f"/home/{REAL_USER}"
+      PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
+      os.makedirs(PICTURES_DIR, exist_ok=True)
+
+   Dieser Abschnitt bestimmt das korrekte Home-Verzeichnis des Benutzers und stellt sicher, dass der Ordner ``Pictures`` zum Speichern der Fotos vorhanden ist.
+
+3. **Initialisierung der Kamera:**
+
+   .. code-block:: python
+
+      camera = Picamera2()
+      camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
+
+   Die Kamera wird initialisiert und mit einer Vorschauauflösung von 800 × 600 konfiguriert.
+
+4. **Fotozähler und Thread-Sperre:**
+
+   .. code-block:: python
+
+      photo_index = 1
+      photo_lock = threading.Lock()
+
+   Ein Fotozähler wird verwendet, um fortlaufende Dateinamen zu erstellen, und eine Sperre sorgt für sicheren Zugriff während der Fotoaufnahme.
+
+5. **Initialisierung des PIR-Sensors:**
+
+   .. code-block:: python
+
+      pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   Der PIR-Bewegungssensor ist mit GPIO 17 verbunden und als Eingang mit einem Pull-Down-Widerstand konfiguriert.
+
+6. **Funktion zum Aufnehmen eines Fotos:**
+
+   .. code-block:: python
+
+      def take_photo():
+         """Capture one photo and increment the index."""
+         global photo_index
+         with photo_lock:
+            filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
+            print(f"\nMotion detected! Capturing: {filepath}")
+            camera.capture_file(filepath)
+            print("Saved.")
+            photo_index += 1
+
+   Diese Funktion nimmt ein Foto auf und speichert es im Ordner ``Pictures``, sobald eine Bewegung erkannt wird.
+
+7. **Vorschau und Start der Kamera:**
+
+   .. code-block:: python
+
+      preview_started = False
+      if os.getenv("DISPLAY"):
+         try:
+            camera.start_preview(Preview.QT)
+            preview_started = True
+         except Exception as e:
+            print(f"Preview start failed (continue without preview): {e}")
+      else:
+         print("No DISPLAY detected (running headless without preview).")
+
+   Eine Kameravorschau wird nur gestartet, wenn eine grafische Anzeige verfügbar ist; andernfalls läuft das Skript im Headless-Modus.
+
+8. **Hauptschleife (Bewegungserkennung):**
+
+   .. code-block:: python
+
+      while True:
+         if pir.value():
+            take_photo()
+            time.sleep(2)
+
+   Das Programm überwacht kontinuierlich den PIR-Sensor. Wenn eine Bewegung erkannt wird (HIGH), wird ein Foto aufgenommen. Anschließend folgt eine kurze Pause, um Mehrfachaufnahmen zu vermeiden.
+
+9. **Beenden des Programms und Aufräumen:**
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+         camera.stop()
+         camera.close()
+
+   Wenn der Benutzer ``Ctrl + C`` drückt, beendet sich das Programm ordnungsgemäß und stoppt sowie schließt die Kamera sicher.
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Fotos werden nicht aufgenommen**:
+
+   - **Ursache**: Der PIR-Bewegungssensor funktioniert nicht oder ist falsch angeschlossen.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass der PIR-Sensor mit GPIO-Pin 17, der Stromversorgung und der Masse verbunden ist.
+     - Passen Sie gegebenenfalls die Empfindlichkeits- und Verzögerungspotentiometer des PIR-Sensors an.
+
+2. **PIR-Sensor erkennt ständig Bewegung**:
+
+   - **Ursache**: Defekter PIR-Sensor oder starke Umgebungsstörungen.
+   - **Lösung**:
+
+     - Testen Sie den Sensor mit einem Multimeter, um sicherzustellen, dass er Bewegungen korrekt erkennt.
+     - Platzieren Sie den Sensor in einer stabilen Umgebung, um Fehlalarme zu vermeiden.
+
+3. **Skript stürzt mit einem Kamerafehler ab**:
+
+   - **Ursache**: Die Kamera wurde nicht korrekt initialisiert oder wird von einem anderen Prozess verwendet.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass die Kamera angeschlossen und über ``raspi-config`` aktiviert ist.
+     - Starten Sie den Raspberry Pi neu, um mögliche Konflikte zu beheben.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Zeitgestempelte Dateinamen**: Speichern Sie Fotos mit Zeitstempel im Dateinamen, um sie besser zu organisieren:
+
+   .. code-block:: python
+
+      timestamp = time.strftime("%Y%m%d-%H%M%S")
+      camera.capture_file(f'{user_home}/capture_{timestamp}.jpg')
+
+2. **LED-Anzeige**: Fügen Sie eine LED hinzu, die aufleuchtet, wenn der PIR-Sensor eine Bewegung erkennt:
+
+   .. code-block:: python
+
+      from fusion_hat import Pin
+      led = Pin(27)
+      if pir.value() == 1:
+         led.on()
+      else:
+         led.off()
+
+3. **Fotoverwaltung**: Organisieren Sie aufgenommene Fotos automatisch in Ordnern nach Datum oder Ereignis.
+
+
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein automatisiertes Kamerasystem mit einem PIR-Bewegungssensor und dem Raspberry-Pi-Kameramodul aufgebaut werden kann. Es ist eine gute Möglichkeit, unerwartete Momente festzuhalten und gleichzeitig die Möglichkeiten von IoT und Computer Vision zu erkunden. Sie können das Projekt erweitern, indem Sie zusätzliche Funktionen wie Videoaufnahmen oder Cloud-Uploads für eine Echtzeitüberwachung integrieren.

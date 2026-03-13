@@ -1,0 +1,356 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_fun_fan:
+
+4.7 Smarter Ventilator
+=========================
+
+**Einführung**
+
+In diesem Projekt bauen Sie einen „smarten Ventilator“, der sowohl im manuellen als auch im automatischen Modus betrieben werden kann. Durch die Kombination von Motor, Tastern und einem Thermistor kann der Ventilator verschiedene Geschwindigkeiten einstellen und auf Temperaturänderungen reagieren. Dieses Experiment eignet sich hervorragend, um Motorsteuerung, Temperaturmessung und die Nutzung von GPIO kennenzulernen.
+
+
+----------------------------------------------
+
+
+**Was Sie benötigen**
+
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_thermistor`
+        - |link_thermistor_buy|
+    *   - :ref:`cpn_button`
+        - |link_button_buy|
+    *   - :ref:`cpn_motor`
+        - |link_motor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+
+
+----------------------------------------------
+
+**Schaltplan**
+
+Das folgende Schaltbild zeigt, wie der Thermistor, der Taster, der Motortreiber und der Motor verbunden werden:
+
+.. image:: img/fzz/4.1.7_sch.png
+   :width: 100%
+   :align: center
+
+
+
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Die folgende Abbildung zeigt das Breadboard-Layout und die Verdrahtung:
+
+.. image:: img/fzz/4.1.7_bb.png
+   :width: 80%
+   :align: center
+
+
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``. 
+Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 4.7_SmartFan.py
+
+----------------------------------------------
+
+**Code**
+
+Nachfolgend ist das Python-Skript für dieses Projekt aufgeführt:
+
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   from fusion_hat.motor import Motor
+   from fusion_hat.pin import Pin, Mode, Pull
+   from fusion_hat.adc import ADC
+   from time import sleep, time
+   import math
+
+   BtnPin = Pin(22, mode=Mode.IN, pull=Pull.DOWN)
+   motor = Motor("M0")
+   thermistor = ADC("A3")
+
+   level = 0
+   currentTemp = None
+   markTemp = None
+
+   PRINT_INTERVAL = 1.0
+   _last_print = 0.0
+
+   button_event = False  # flag: button was pressed
+
+
+   def temperature(samples=5, delay=0.01):
+      """Read thermistor multiple times and return averaged Celsius (float) or None."""
+      vals = []
+      for _ in range(samples):
+         analogVal = thermistor.read()
+         Vr = 3.3 * float(analogVal) / 4095.0
+         if (3.3 - Vr) <= 0.1:
+               return None
+         Rt = 10000.0 * Vr / (3.3 - Vr)
+         tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+         vals.append(tempK - 273.15)
+         sleep(delay)
+      return sum(vals) / len(vals)
+
+
+   def motor_run(lv):
+      lv = max(0, min(4, lv))
+      motor.power(0 if lv == 0 else lv * 25)
+      return lv
+
+
+   def changeLevel():
+      """Button press: cycle level 0~4 and set a flag for main loop to print."""
+      global level, button_event
+      level = (level + 1) % 5
+      button_event = True
+
+
+   BtnPin.when_activated = changeLevel
+
+
+   def main():
+      global level, currentTemp, markTemp, _last_print, button_event
+
+      markTemp = temperature()
+      while True:
+         currentTemp = temperature()
+         if currentTemp is None:
+               print("Sensor read failed. Please check the sensor.")
+               sleep(0.5)
+               continue
+
+         # Handle button event in main loop (stable timing)
+         if button_event:
+               button_event = False
+               markTemp = currentTemp
+               print(f"[Button] Level -> {level} | Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C")
+
+         # Periodic temperature print
+         now = time()
+         if now - _last_print >= PRINT_INTERVAL:
+               if markTemp is None:
+                  markTemp = currentTemp
+               print(f"Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C | Level: {level}")
+               _last_print = now
+
+         # Auto adjust level based on ±5°C
+         if markTemp is None:
+               markTemp = currentTemp
+
+         if level != 0:
+               diff = currentTemp - markTemp
+               if diff <= -5:
+                  level = max(0, level - 1)
+                  markTemp = currentTemp
+                  print(f"[Auto] Temp down -> Level {level} (Temp: {currentTemp:.2f} °C)")
+               elif diff >= 5:
+                  level = min(4, level + 1)
+                  markTemp = currentTemp
+                  print(f"[Auto] Temp up   -> Level {level} (Temp: {currentTemp:.2f} °C)")
+
+         level = motor_run(level)
+         sleep(0.5)
+
+
+   try:
+      main()
+   except KeyboardInterrupt:
+      print("\nExiting...")
+   finally:
+      motor.stop()
+      sleep(0.1)
+
+
+Dieses Python-Skript kombiniert einen Motor, einen Taster und einen Temperatursensor zu einem temperaturgesteuerten Ventilatorsystem mit einstellbarer Geschwindigkeit. Bei der Ausführung:
+
+1. **Temperaturmessung**: Liest die aktuelle Temperatur in Celsius mithilfe des Thermistors.
+
+2. **Manuelle Geschwindigkeitsanpassung**:
+
+   - Ein Taster, der mit GPIO 22 verbunden ist, ermöglicht es dem Benutzer, zwischen fünf Geschwindigkeitsstufen (0 bis 4) zu wechseln.
+   - Jeder Tastendruck erhöht die Geschwindigkeitsstufe, und der Motor läuft mit der entsprechenden Geschwindigkeit. Stufe 0 stoppt den Motor.
+
+3. **Automatische Geschwindigkeitsregelung**: Das System passt die Motorgeschwindigkeit automatisch an Temperaturänderungen an:
+
+   - Wenn die Temperatur um **2°C oder mehr steigt**, erhöht sich die Geschwindigkeitsstufe (bis maximal Stufe 4).
+   - Wenn die Temperatur um **2°C oder mehr sinkt**, verringert sich die Geschwindigkeitsstufe (bis minimal Stufe 0).
+
+4. **Kontinuierliche Überwachung**: Das System überwacht kontinuierlich die Temperatur und passt die Ventilatorgeschwindigkeit entsprechend an.
+
+5. **Sauberes Beenden**: Bei ``Ctrl+C`` wird der Motor gestoppt, und das Skript wird ordnungsgemäß beendet.
+
+----------------------------------------------
+
+
+**Code verstehen**
+
+1. **Temperaturberechnung:**
+
+   .. code-block:: python
+
+      def temperature(samples=5, delay=0.01):
+         """Read thermistor multiple times and return averaged Celsius (float) or None."""
+         vals = []
+         for _ in range(samples):
+            analogVal = thermistor.read()
+            Vr = 3.3 * float(analogVal) / 4095.0
+            if (3.3 - Vr) <= 0.1:
+                  return None
+            Rt = 10000.0 * Vr / (3.3 - Vr)
+            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+            vals.append(tempK - 273.15)
+            sleep(delay)
+         return sum(vals) / len(vals)
+
+   Die Funktion ``temperature()`` liest mehrfach den analogen Wert des Thermistors, wandelt ihn in einen Widerstandswert um und berechnet anschließend mithilfe einer mathematischen Formel die entsprechende Temperatur.
+
+
+2. **Motor-Geschwindigkeitssteuerung:**
+
+   .. code-block:: python
+
+      def motor_run(lv):
+         lv = max(0, min(4, lv))
+         motor.power(0 if lv == 0 else lv * 25)
+         return lv
+
+   Die Funktion ``motor_run()`` passt die Motorgeschwindigkeit anhand der Variablen ``level`` an. Die Geschwindigkeit wird dabei auf einen Wert zwischen 0 und 1 normiert.
+
+
+3. **Manuelle Geschwindigkeitsanpassung:**
+
+   .. code-block:: python
+
+      def changeLevel():
+         """Button press: cycle level 0~4 and set a flag for main loop to print."""
+         global level, button_event
+         level = (level + 1) % 5
+         button_event = True
+
+
+      BtnPin.when_activated = changeLevel
+
+   Die Funktion ``changeLevel()`` wechselt bei jedem Tastendruck zyklisch zwischen den Geschwindigkeitsstufen 0 bis 4.
+
+
+4. **Automatische Geschwindigkeitsanpassung:**
+
+   .. code-block:: python
+
+      def main():
+         global level, currentTemp, markTemp, _last_print, button_event
+
+         markTemp = temperature()
+         while True:
+            currentTemp = temperature()
+            if currentTemp is None:
+                  print("Sensor read failed. Please check the sensor.")
+                  sleep(0.5)
+                  continue
+         ...
+
+   Die Funktion ``main()`` überwacht kontinuierlich die Temperatur und passt die Ventilatorgeschwindigkeit an, wenn sich die Temperatur um mehr als 2°C vom Referenzwert unterscheidet.
+
+
+
+----------------------------------------------
+
+
+**Fehlerbehebung**
+
+1. **Motor läuft nicht**:
+
+   - **Ursache**: Falsche Verdrahtung oder unzureichende Stromversorgung.
+   - **Lösung**:
+
+     - Überprüfen Sie, ob der Motor mit M0 verbunden ist.
+     - Stellen Sie sicher, dass die Stromversorgung des Motors zu seiner erforderlichen Betriebsspannung passt.
+
+2. **Temperaturmessung ist ungenau**:
+
+   - **Ursache**: Defekter Thermistor.
+   - **Lösung**:
+
+     - Überprüfen Sie die Verdrahtung des Thermistors und stellen Sie sicher, dass er innerhalb des vorgesehenen Messbereichs arbeitet.
+
+3. **Tastendruck wird nicht erkannt**:
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Konfiguration.
+   - **Lösung**:
+
+     - Überprüfen Sie, ob der Taster mit GPIO 22 und GND verbunden ist.
+     - Testen Sie den Taster separat, um sicherzustellen, dass er beim Drücken den Stromkreis schließt.
+
+4. **Geschwindigkeitsstufe ändert sich nicht automatisch**:
+
+   - **Ursache**: Fehler bei der Berechnung der Temperaturdifferenz.
+   - **Lösung**: Stellen Sie sicher, dass die Werte ``currentTemp`` und ``markTemp`` in der Funktion ``main()`` korrekt aktualisiert werden.
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+
+1. **Überhitzungswarnung**: Fügen Sie einen Summer oder eine LED hinzu, um den Benutzer zu warnen, wenn die Temperatur einen kritischen Wert überschreitet.
+
+     .. code-block:: python
+
+         if currentTemp > 50:
+             buzzer.on()
+
+2. **Erweiterte Tasterfunktionen**: Nutzen Sie langes Drücken des Tasters, um die Geschwindigkeitsstufe auf 0 zurückzusetzen oder zwischen automatischem und manuellem Modus umzuschalten.
+
+----------------------------------------------
+
+
+**Fazit**
+
+Das Projekt „Smarter Ventilator“ zeigt, wie sich manuelle und automatische Steuerung in einem einzigen System kombinieren lassen. Es ist ein praktisches Beispiel für die Integration von Sensoren, Motoren und Benutzerinteraktion in ein funktionales und effizientes System. Erweitern Sie das Projekt mit zusätzlichen Funktionen und erstellen Sie Ihre eigene intelligente Klimasteuerung!

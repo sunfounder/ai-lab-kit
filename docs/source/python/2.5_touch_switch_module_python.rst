@@ -1,0 +1,251 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_touch:
+
+2.5 Berührungsschalter-Modul
+================================
+
+**Einführung**
+
+In diesem Projekt untersuchen wir die Verwendung eines Berührungsschalter-Moduls (Touch Switch Module). Dieses Bauteil ersetzt herkömmliche mechanische Schalter und bietet Vorteile wie präzise Steuerung, hohe Berührungsempfindlichkeit und minimalen mechanischen Verschleiß. Berührungsschalter werden häufig in modernen Geräten und Haushaltsgeräten eingesetzt, bei denen Zuverlässigkeit und einfache Bedienung wichtig sind.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_touch_switch`
+        - |link_touch_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Das folgende Schaltbild zeigt, wie das Berührungsschalter-Modul mit dem Raspberry Pi und den LEDs verbunden wird:
+
+.. image:: img/fzz/2.1.3_sch.png
+   :width: 100%
+   :align: center
+
+------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie den Ausgangspin des Berührungsschalter-Moduls mit GPIO17.
+2. Verbinden Sie die Anode von LED1 über einen geeigneten Widerstand mit GPIO22 und die Anode von LED2 über einen Widerstand mit GPIO27.
+3. Verbinden Sie die Kathoden beider LEDs sowie den GND-Pin des Berührungsschalters mit GND.
+
+.. image:: img/fzz/2.1.3_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.5_TouchSwitch.py
+
+Dieses Python-Skript verwendet einen Berührungssensor, um zwei LEDs zu steuern, die mit dem Raspberry Pi verbunden sind. Beim Ausführen passiert Folgendes:
+
+1. **Berührungssensor berührt**:
+
+   - Gibt „You touch it!“ in der Konsole aus.
+   - Schaltet LED1 (verbunden mit GPIO-Pin 22) aus.
+   - Schaltet LED2 (verbunden mit GPIO-Pin 27) ein.
+
+2. **Berührungssensor nicht berührt**:
+
+   - LED1 wird eingeschaltet.
+   - LED2 wird ausgeschaltet.
+
+3. Das Programm überwacht kontinuierlich alle 0,5 Sekunden den Zustand des Berührungssensors und passt die LEDs entsprechend an.
+
+4. Das Skript läuft unbegrenzt weiter, bis es durch Drücken von ``Ctrl+C`` beendet wird.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code steuert zwei LEDs basierend auf dem Zustand des Berührungsschalter-Moduls:
+
+.. raw:: html
+
+   <run></run>
+
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from time import sleep  # Import sleep for delay
+
+   # Initialize touch sensor (Button) on GPIO pin 17
+   touch_sensor = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   # Initialize LED1 connected to GPIO pin 22
+   led1 = Pin(22,mode=Mode.OUT)
+   # Initialize LED2 connected to GPIO pin 27
+   led2 = Pin(27,mode=Mode.OUT)
+
+   try:
+      # Continuously monitor the state of the touch sensor and control LEDs accordingly
+      while True:
+         if touch_sensor.value() == 1:  # Check if the touch sensor is pressed
+               print('You touch it!')  # Output message indicating sensor activation
+               led1.off()  # Turn off LED1
+               led2.on()   # Turn on LED2
+         else:  # If the sensor is not pressed
+               led1.on()   # Turn on LED1
+               led2.off()  # Turn off LED2
+
+         sleep(0.5)  # Pause for 0.5 seconds before rechecking the sensor state
+
+   except KeyboardInterrupt:
+      # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
+      pass
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die ``fusion_hat``-Bibliothek wird verwendet, um die GPIO-Steuerung zu vereinfachen, und die Funktion ``sleep`` stellt eine Verzögerungsfunktion bereit.
+
+   .. code-block:: python
+
+      from fusion_hat.pin import Pin, Mode, Pull
+      from time import sleep  # Importiert sleep für Verzögerungen
+
+
+2. **Initialisierung der Komponenten**
+
+   Der Berührungssensor wird als Eingabe auf GPIO17 konfiguriert, und zwei LEDs werden auf GPIO22 und GPIO27 initialisiert.
+
+   .. code-block:: python
+
+      # Initialisiere den Berührungssensor (Button) an GPIO-Pin 17
+      touch_sensor = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+      # Initialisiere LED1 an GPIO-Pin 22
+      led1 = Pin(22,mode=Mode.OUT)
+      # Initialisiere LED2 an GPIO-Pin 27
+      led2 = Pin(27,mode=Mode.OUT)
+
+3. **Hauptschleife**
+
+   Das Programm überprüft kontinuierlich den Zustand des Berührungsschalter-Moduls. Wenn der Sensor berührt wird, schaltet sich LED2 ein und LED1 aus; andernfalls ist LED1 eingeschaltet und LED2 ausgeschaltet.
+
+   .. code-block:: python
+
+       while True:
+           if touch_sensor.value() == 1:
+               led1.off()
+               led2.on()
+           else:
+               led1.on()
+               led2.off()
+           sleep(0.5)
+
+4. **Interrupt-Behandlung**
+
+   Ein ``try-except``-Block sorgt dafür, dass das Programm sauber beendet wird, wenn ein Tastaturabbruch (Ctrl+C) erfolgt.
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           pass
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Keine Reaktion des Berührungssensors**
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Pin-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass der Berührungssensor mit GPIO-Pin 17 und GND verbunden ist, und prüfen Sie, ob ``PULL_DOWN`` zur aktiven Konfiguration des Sensors passt.
+
+2. **Sensor wird immer als gedrückt oder nicht gedrückt erkannt**
+
+   - **Ursache**: Defekter Sensor oder fehlerhafte Verdrahtung.  
+   - **Lösung**: Testen Sie den Sensor mit einem Multimeter oder ersetzen Sie ihn. Überprüfen Sie außerdem alle Verbindungen auf lose Kontakte.
+
+3. **LEDs flackern oder verhalten sich unregelmäßig**
+
+   - **Ursache**: Entprellungsprobleme (Debouncing).  
+   - **Lösung**: Fügen Sie eine softwarebasierte Entprellung hinzu, um das Eingangssignal zu stabilisieren:
+
+   .. code-block:: python
+
+      if touch_sensor.value() == 1:
+         sleep(0.05)  # Entprell-Verzögerung
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Berührungsdauer erkennen**
+
+   Fügen Sie eine Funktion hinzu, die erkennt, wie lange der Berührungssensor gedrückt wird, und passen Sie das LED-Verhalten entsprechend an:
+
+   .. code-block:: python
+
+      from time import time
+      start_time = None
+
+      def handle_touch():
+         global start_time
+         if touch_sensor.value() == 1:
+            start_time = time()
+         else:
+            duration = time() - start_time
+            print(f"Sensor was touched for {duration:.2f} seconds")
+
+2. **Anpassbare Verzögerung**
+
+   Ermöglichen Sie dem Benutzer, die Verzögerung dynamisch zu ändern, um die Reaktionsgeschwindigkeit anzupassen:
+
+   .. code-block:: python
+
+      delay = float(input("Enter delay in seconds: "))
+      sleep(delay)
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Berührungsschalter-Modul mit dem Fusion HAT+ verwendet werden kann, um LEDs zu steuern. Berührungsschalter sind vielseitige und zuverlässige Komponenten und werden häufig in modernen Geräten eingesetzt, um eine nahtlose und intuitive Benutzerinteraktion zu ermöglichen.

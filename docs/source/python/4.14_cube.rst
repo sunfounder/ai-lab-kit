@@ -1,0 +1,490 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+
+.. _py_gravity_cube:
+
+4.14 Gravitationswürfel
+=========================
+
+**Einführung**
+
+In dieser Lektion bauen Sie einen **gravitationsreferenzierten 3D-Würfel**, der auf einem 128×64-SSD1306-OLED angezeigt und von einer **IMU** gesteuert wird.  
+Der Würfel neigt sich entsprechend der Orientierung der Platine relativ zur Schwerkraft, wobei nur Roll- und Nickwinkel aus dem Beschleunigungssensor verwendet werden.
+
+Wichtige Merkmale:
+
+- Orthografische 3D-Würfeldarstellung (keine perspektivische Verzerrung)  
+- Orientierung, die aus dem Beschleunigungssensor relativ zu einer anfänglichen Referenzlage abgeleitet wird  
+- Eine Würfelfläche ist ausgefüllt, damit die Vorder-/Rückseitenorientierung leicht erkennbar ist  
+- Zwei Konfigurationsflags ermöglichen das Umkehren der X-/Y-Richtung, damit die Anzeige zu Ihrer physischen Montage passt  
+
+Wenn Sie die Platine neigen, dreht sich der Würfel flüssig und bietet eine intuitive Visualisierung der Geräteausrichtung.
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_10_axis_imu`
+        - \-
+    *   - :ref:`cpn_oled`
+        - \-
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+**Verdrahtungsdiagramm**
+
+Verwenden Sie das folgende Verdrahtungsdiagramm, um die Komponenten korrekt zu verbinden:
+
+.. image:: img/fzz/4.14_cube2_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Einrichtungsschritte**
+
+#. Installieren Sie die OLED-Bibliotheken:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block:: shell
+
+      sudo pip3 install adafruit-circuitpython-ssd1306 --break
+
+#. Installieren Sie die IMU-Bibliotheken:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block:: shell
+
+      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+
+
+#. Führen Sie das Beispiel aus dem Verzeichnis ``ai-lab-kit`` aus:
+
+   .. raw:: html
+
+      <run></run>
+
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/python/
+      sudo python3 4.14_Cube.py
+
+#. Wenn das Skript ausgeführt wird:
+
+   * Der Beschleunigungssensor liefert auf die Schwerkraft bezogene X/Y/Z-Daten.  
+   * Der Code berechnet Roll- und Nickwinkel relativ zu einer anfänglichen Referenzlage (die aktuelle Orientierung wird zu 0°, 0°).  
+   * Ein Drahtgitterwürfel mit einer **ausgefüllten Vorderseite** wird auf dem OLED dargestellt.  
+   * Durch Neigen der Platine wird der Würfel auf dem Bildschirm gedreht.  
+   * Drücken Sie **Ctrl+C**, um das Programm zu beenden; das OLED wird gelöscht.
+
+----------------------------------------------
+
+**Code**
+
+Hier ist das Python-Skript für den gravitationsreferenzierten Würfel:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   import time
+   import math
+   from PIL import Image, ImageDraw, ImageFont
+   import adafruit_ssd1306
+   import board
+   from sunfounder_imu import IMU
+
+   # ========== User-configurable axis flip ==========
+   # Flip X/Y to match your physical mounting and perceived motion on the OLED.
+   # If motion looks reversed on a given axis, set that axis to True.
+   FLIP_X = False   # True = invert roll direction on display; False = normal
+   FLIP_Y = False   # True = invert pitch direction on display; False = normal
+
+   # ========== OLED setup ==========
+   WIDTH, HEIGHT = 128, 64
+   i2c = board.I2C()
+   oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
+   oled.fill(0)
+   oled.show()
+
+   # Framebuffer
+   image = Image.new("1", (WIDTH, HEIGHT))
+   draw = ImageDraw.Draw(image)
+   font = ImageFont.load_default()
+
+   # ========== IMU initialization ==========
+   imu = IMU()
+
+   # ========== Cube model ==========
+   CUBE_SIZE = 9  # smaller cube for 128x64 OLED
+
+   VERTS = [
+      (-1, -1, -1), (+1, -1, -1), (+1, +1, -1), (-1, +1, -1),
+      (-1, -1, +1), (+1, -1, +1), (+1, +1, +1), (-1, +1, +1),
+   ]
+   EDGES = [
+      (0,1),(1,2),(2,3),(3,0),
+      (4,5),(5,6),(6,7),(7,4),
+      (0,4),(1,5),(2,6),(3,7)
+   ]
+   FRONT_FACE = [4,5,6,7]  # +Z face gets filled
+
+   # ========== Projection (orthographic) ==========
+   def project_point(p, scale=CUBE_SIZE, cx=WIDTH//2, cy=HEIGHT//2):
+      """
+      Orthographic projection. We flip the screen Y here so that positive 3D Y
+      appears upward on the OLED (more intuitive for tilt).
+      """
+      x, y, _z = p
+      return int(cx + scale * x), int(cy - scale * y)
+
+   # ========== Math / orientation helpers ==========
+   def ema(prev, new, alpha):
+      """Exponential smoothing to reduce jitter."""
+      return alpha * new + (1.0 - alpha) * prev
+
+   def rotate_point(p, roll, pitch, yaw=0.0):
+      """Rotate p=(x,y,z) by Rx(roll)*Ry(pitch)*Rz(yaw). Yaw fixed to 0 for gravity-only."""
+      x, y, z = p
+      # Rx
+      cr, sr = math.cos(roll), math.sin(roll)
+      y, z = (y*cr - z*sr), (y*sr + z*cr)
+      # Ry
+      cp, sp = math.cos(pitch), math.sin(pitch)
+      x, z = (x*cp + z*sp), (-x*sp + z*cp)
+      # Rz (kept for completeness)
+      if yaw:
+         cz, sz = math.cos(yaw), math.sin(yaw)
+         x, y = (x*cz - y*sz), (x*sz + y*cz)
+      return (x, y, z)
+
+   def accel_to_rp(ax, ay, az):
+      """
+      Convert accelerometer (m/s²) to roll/pitch in radians (gravity-referenced).
+      roll  = rotation around X (right-hand rule)
+      pitch = rotation around Y
+      """
+      # Convert from m/s² to g (9.80665 m/s² = 1g)
+      ax_g = ax / 9.80665
+      ay_g = ay / 9.80665
+      az_g = az / 9.80665
+      
+      g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
+      axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
+      roll  = math.atan2(ayn, azn)
+      pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
+      return roll, pitch
+
+   def draw_cube(roll, pitch, yaw=0.0, annotate=True):
+      """Render the cube with one filled face."""
+      draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
+
+      rverts = [rotate_point(v, roll, pitch, yaw) for v in VERTS]
+      pts = [project_point(v) for v in rverts]
+
+      # Filled front face
+      face_xy = [pts[i] for i in FRONT_FACE]
+      draw.polygon(face_xy, outline=255, fill=255)
+
+      # Wireframe edges
+      for a, b in EDGES:
+         x0, y0 = pts[a]
+         x1, y1 = pts[b]
+         draw.line((x0, y0, x1, y1), fill=255)
+
+      if annotate:
+         rdeg = math.degrees(roll)
+         pdeg = math.degrees(pitch)
+         draw.text((2, 2), f"R:{rdeg:+.0f}  P:{pdeg:+.0f}", font=font, fill=255)
+
+   # ========== Baseline & smoothing ==========
+   baseline_set = False
+   roll0 = pitch0 = 0.0
+
+   ROLL_EMA  = 0.20
+   PITCH_EMA = 0.20
+   roll_disp = pitch_disp = 0.0
+
+   try:
+      while True:
+         # Read IMU data
+         data = imu.read()
+         
+         # Extract accelerometer data (in m/s²)
+         ax = data['accel_x']
+         ay = data['accel_y']
+         az = data['accel_z']
+
+         # Absolute roll/pitch from gravity
+         roll_abs, pitch_abs = accel_to_rp(ax, ay, az)
+
+         # First reading defines baseline (0°,0°)
+         if not baseline_set:
+               roll0, pitch0 = roll_abs, pitch_abs
+               baseline_set = True
+
+         # Relative orientation
+         roll_rel  = roll_abs  - roll0
+         pitch_rel = pitch_abs - pitch0
+
+         # Apply user flips to match perceived direction on OLED
+         if FLIP_X:
+               roll_rel = -roll_rel
+         if FLIP_Y:
+               pitch_rel = -pitch_rel
+
+         # Smooth
+         roll_disp  = ema(roll_disp,  roll_rel,  ROLL_EMA)
+         pitch_disp = ema(pitch_disp, pitch_rel, PITCH_EMA)
+
+         # Render (yaw fixed to 0 in gravity-only mode)
+         draw_cube(roll_disp, pitch_disp, yaw=0.0, annotate=True)
+
+         # Show on OLED
+         oled.image(image)
+         oled.show()
+
+         time.sleep(0.02)
+
+   except KeyboardInterrupt:
+      oled.fill(0)
+      oled.show()
+      print("\nExited.")
+
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **IMU-Initialisierung**
+
+   Das Skript erstellt eine ``IMU``-Instanz aus dem Fusion-HAT+-Modul.  
+   Der Beschleunigungssensor liefert rohe Beschleunigungswerte für X, Y und Z in der Einheit m/s².
+
+2. **Schwerkraftbezogene Winkel**
+
+   ``accel_to_rp()`` wandelt die Beschleunigungsmesswerte in **Roll**- und **Pitch**-Winkel um:
+
+   - Roll: Rotation um die **X-Achse**  
+   - Pitch: Rotation um die **Y-Achse**
+
+   Es wird nur die Schwerkraft verwendet, daher kann der **Yaw-Winkel** nicht bestimmt werden (und bleibt auf 0 fixiert).
+
+   .. code-block:: python
+
+      def accel_to_rp(ax, ay, az):
+         """
+         Convert accelerometer (m/s²) to roll/pitch in radians (gravity-referenced).
+         roll  = rotation around X (right-hand rule)
+         pitch = rotation around Y
+         """
+         # Convert from m/s² to g (9.80665 m/s² = 1g)
+         ax_g = ax / 9.80665
+         ay_g = ay / 9.80665
+         az_g = az / 9.80665
+         
+         g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
+         axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
+         roll  = math.atan2(ayn, azn)
+         pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
+         return roll, pitch
+
+3. **Referenzorientierung (Baseline)**
+
+   Beim ersten Messwert:
+
+   - werden der aktuelle ``roll``- und ``pitch``-Winkel als Referenz gespeichert (``roll0``, ``pitch0``).  
+   - Alle folgenden Orientierungen werden als **relative Winkel** berechnet:
+
+     .. code-block:: python
+
+        roll_rel  = roll_abs  - roll0
+        pitch_rel = pitch_abs - pitch0
+
+   Dadurch wird die Anfangsposition des Geräts zu **0°, 0°**.
+
+4. **Benutzerkonfigurierbare Achsenumkehr**
+
+   Die beiden Flags ``FLIP_X`` und ``FLIP_Y`` ermöglichen es, Bewegungen auf den jeweiligen Achsen zu invertieren:
+
+   - Setzen Sie ``FLIP_X = True``, wenn sich die Rollbewegung auf dem Display umgekehrt anfühlt.  
+   - Setzen Sie ``FLIP_Y = True``, wenn sich die Pitchbewegung umgekehrt anfühlt.
+
+   Dies ist hilfreich, wenn die IMU gedreht montiert oder anders ausgerichtet ist.
+
+5. **Glättung (EMA)**
+
+   Die Funktion ``ema()`` verwendet eine **exponentielle gleitende Mittelung** (Exponential Moving Average):
+
+   - reduziert Zittern durch Sensorsignalrauschen  
+   - sorgt für eine flüssigere Würfelbewegung
+
+   ``ROLL_EMA`` und ``PITCH_EMA`` bestimmen den Kompromiss zwischen Reaktionsgeschwindigkeit und Glätte.
+
+   .. code-block:: python
+
+      def ema(prev, new, alpha):
+         """Exponential smoothing to reduce jitter."""
+         return alpha * new + (1.0 - alpha) * prev
+
+
+6. **3D-Würfelrotation**
+
+   ``rotate_point()`` wendet Rotationsmatrizen auf jeden Eckpunkt des Würfels an:
+
+      .. code-block:: python
+
+         def rotate_point(p, roll, pitch, yaw=0.0):
+            """Rotate p=(x,y,z) by Rx(roll)*Ry(pitch)*Rz(yaw). Yaw fixed to 0 for gravity-only."""
+            x, y, z = p
+            # Rx
+            cr, sr = math.cos(roll), math.sin(roll)
+            y, z = (y*cr - z*sr), (y*sr + z*cr)
+            # Ry
+            cp, sp = math.cos(pitch), math.sin(pitch)
+            x, z = (x*cp + z*sp), (-x*sp + z*cp)
+            # Rz (kept for completeness)
+            if yaw:
+               cz, sz = math.cos(yaw), math.sin(yaw)
+               x, y = (x*cz - y*sz), (x*sz + y*cz)
+            return (x, y, z)   
+
+   - ``Rx(roll)`` gefolgt von ``Ry(pitch)`` (Yaw bleibt auf 0 gesetzt)  
+   - Erzeugt rotierte 3D-Koordinaten  
+
+   ``project_point()`` wandelt anschließend die 3D-Koordinaten mithilfe einer **orthographischen Projektion** in 2D-OLED-Positionen um.
+
+      .. code-block:: python
+
+         def project_point(p, scale=CUBE_SIZE, cx=WIDTH//2, cy=HEIGHT//2):
+            """
+            Orthographic projection. We flip the screen Y here so that positive 3D Y
+            appears upward on the OLED (more intuitive for tilt).
+            """
+            x, y, _z = p
+            return int(cx + scale * x), int(cy - scale * y)
+
+
+7. **Den Würfel zeichnen**
+
+   ``draw_cube()``:
+
+   - Löscht den Bildschirm  
+   - Dreht und projiziert alle 8 Eckpunkte des Würfels  
+   - Zeichnet alle Kanten als Drahtgittermodell  
+   - Füllt eine Fläche (``FRONT_FACE``), sodass leicht erkennbar ist, welche Seite zum Betrachter zeigt  
+   - Zeigt optional Roll und Pitch in Grad oben links an
+
+   .. code-block:: python
+
+      def draw_cube(roll, pitch, yaw=0.0, annotate=True):
+         """Render the cube with one filled face."""
+         draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
+
+         rverts = [rotate_point(v, roll, pitch, yaw) for v in VERTS]
+         pts = [project_point(v) for v in rverts]
+
+         # Gefüllte Vorderseite
+         face_xy = [pts[i] for i in FRONT_FACE]
+         draw.polygon(face_xy, outline=255, fill=255)
+
+         # Drahtgitter-Kanten
+         for a, b in EDGES:
+            x0, y0 = pts[a]
+            x1, y1 = pts[b]
+            draw.line((x0, y0, x1, y1), fill=255)
+
+         if annotate:
+            rdeg = math.degrees(roll)
+            pdeg = math.degrees(pitch)
+            draw.text((2, 2), f"R:{rdeg:+.0f}  P:{pdeg:+.0f}", font=font, fill=255)
+
+
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+- **Der Würfel bewegt sich nicht**
+
+  - Stellen Sie sicher, dass I2C auf dem Raspberry Pi aktiviert ist.  
+  - Überprüfen Sie, ob die korrekte I2C-Adresse von Ihrem IMU-Treiber verwendet wird.
+
+- **Die Bewegung wirkt umgekehrt**
+
+  - Schalten Sie ``FLIP_X`` oder ``FLIP_Y`` um, um die Richtung zu invertieren.  
+  - Legen Sie das Board flach hin und neigen Sie es dann langsam entlang einer Achse, um herauszufinden, welche Achse umgedreht werden muss.
+
+- **Der Würfel ist zu ruckelig**
+
+  - Erhöhen Sie die Glättung, indem Sie ``ROLL_EMA`` / ``PITCH_EMA`` verringern (z. B. 0.1).  
+  - Stellen Sie sicher, dass das Board mechanisch stabil liegt und keine Kabel daran ziehen.
+
+- **Der Würfel ist geneigt, obwohl das Board flach liegt**
+
+  - Halten Sie das Board ruhig und starten Sie das Skript neu; die erste Messung wird als Referenz verwendet.  
+  - Stellen Sie sicher, dass das Board wirklich flach liegt, wenn das Programm startet.
+
+- **OLED zeigt nichts an**
+
+  - Überprüfen Sie die OLED-I2C-Adresse (häufig ``0x3C``).  
+  - Kontrollieren Sie die Verkabelung und ob der Display-Kontrast ausreichend ist.  
+  - Stellen Sie sicher, dass ``adafruit-circuitpython-ssd1306`` installiert ist.
+
+----------------------------------------------
+
+**Probieren Sie es selbst aus**
+
+1. **Yaw aus dem Gyroskop hinzufügen**
+
+   Kombinieren Sie Gyroskop-Integration mit Beschleunigungsdaten (ein Komplementärfilter), um eine Yaw-Achse hinzuzufügen  
+   und eine vollständige 3D-Rotation des Würfels zu ermöglichen.
+
+2. **Größe oder Position des Würfels ändern**
+
+   Passen Sie ``CUBE_SIZE`` oder das Projektionszentrum an, um den Würfel zu verschieben oder größer/kleiner darzustellen:
+
+   - Hineinzoomen für einen dramatischeren Effekt  
+   - Den Würfel etwas nach oben verschieben, um mehr Platz für Text zu lassen
+
+3. **Ein Drahtgitter hinzufügen**
+
+   Zeichnen Sie ein einfaches „Boden“-Raster hinter dem Würfel, um die 3D-Bewegung stärker zu betonen.
+
+4. **Auto-Recenter-Funktion hinzufügen**
+
+   Halten Sie eine Taste länger gedrückt (oder verwenden Sie eine Tasteneingabe), um die Referenzorientierung während der Laufzeit zurückzusetzen.
+
+5. **Mehrere Anzeigemodi**
+
+   Umschalten zwischen:
+
+   - Nur Drahtgitter  
+   - Nur gefüllte Fläche  
+   - Flächenschattierung basierend auf dem Neigungswinkel  
+
+Diese Erweiterungen verwandeln den einfachen Gravity-Cube in ein leistungsfähiges 3D-IMU-Visualisierungstool.

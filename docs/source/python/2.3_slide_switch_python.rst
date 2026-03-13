@@ -1,0 +1,244 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_slide:
+
+2.3 Schiebeschalter
+==============================================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie ein Schiebeschalter verwendet wird, um zwei LEDs zu steuern. Schiebeschalter werden häufig als Ein-/Ausschalter in elektronischen Schaltungen eingesetzt. Hier demonstrieren wir seine Funktionsweise mit einem Breadboard-Aufbau. Obwohl Schiebeschalter für mehr Stabilität oft auf Leiterplatten (PCBs) gelötet werden, verwenden wir ihn hier auf einem Breadboard, um seine Funktionsweise besser zu verstehen.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_slide_switch`
+        - |link_slide_switch_buy|
+    *   - :ref:`cpn_capacitor`
+        - |link_capacitor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Der mittlere Pin des Schiebeschalters ist mit GPIO17 verbunden, während zwei LEDs mit GPIO22 und GPIO27 verbunden sind. Der Schalter wechselt zwischen den beiden LEDs und lässt sie abwechselnd aufleuchten.
+
+.. image:: img/fzz/2.1.4_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie den mittleren Pin des Schiebeschalters mit GPIO17.
+2. Verbinden Sie einen seitlichen Pin des Schalters mit GND und den anderen mit VCC.
+3. Verbinden Sie die Anode von LED1 über einen Strombegrenzungswiderstand mit GPIO22.
+4. Verbinden Sie die Anode von LED2 über einen Strombegrenzungswiderstand mit GPIO27.
+5. Verbinden Sie die Kathoden beider LEDs mit GND.
+
+.. image:: img/fzz/2.1.4_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.3_SlideSwitch.py 
+
+Dieses Python-Skript demonstriert die Verwendung eines Schiebeschalters zur Steuerung von zwei LEDs auf dem Fusion HAT+. Beim Ausführen passiert Folgendes:
+
+1. **Schiebeschalter aktiviert**:
+
+   - Schaltet LED1 (verbunden mit GPIO-Pin 22) aus.
+   - Schaltet LED2 (verbunden mit GPIO-Pin 27) ein.
+
+2. **Schiebeschalter nicht aktiviert**:
+
+   - Schaltet LED1 ein.
+   - Schaltet LED2 aus.
+
+3. Das Programm überprüft kontinuierlich alle 0,5 Sekunden den Zustand des Schiebeschalters und passt den Zustand der LEDs entsprechend an.
+
+4. Das Skript läuft unbegrenzt weiter, bis es durch Drücken von ``Ctrl+C`` beendet wird.
+
+----------------------------------------------
+
+**Code**
+
+Hier ist der Python-Code, der die LEDs basierend auf dem Zustand des Schiebeschalters steuert:
+
+.. raw:: html
+
+   <run></run>
+
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from time import sleep  # Import sleep for delay
+
+   # Initialize slider (Button) on GPIO pin 17
+   slider = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   # Initialize LED1 connected to GPIO pin 22
+   led1 = Pin(22,mode=Mode.OUT)
+   # Initialize LED2 connected to GPIO pin 27
+   led2 = Pin(27,mode=Mode.OUT)
+
+   try:
+      # Continuously monitor the state of the slider and control LEDs accordingly
+      while True:
+         if slider.value() == 1:  # Check if the slider is pressed
+               led1.off()  # Turn off LED1
+               led2.on()   # Turn on LED2
+         else:  # If the sensor is not pressed
+               led1.on()   # Turn on LED1
+               led2.off()  # Turn off LED2
+
+         sleep(0.5)  # Pause for 0.5 seconds before rechecking the sensor state
+
+   except KeyboardInterrupt:
+      # Handle a keyboard interrupt (Ctrl+C) for a clean exit from the loop
+      pass
+
+
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Importieren Sie die benötigten Bibliotheken zur Steuerung der GPIO-Pins sowie für Zeitverzögerungen.
+
+   .. code-block:: python
+
+      from fusion_hat.pin import Pin, Mode, Pull
+      from time import sleep  # Importiert sleep für Verzögerungen
+
+2. **Initialisierung der Komponenten**
+
+   Konfigurieren Sie den Schiebeschalter als Eingabe und initialisieren Sie zwei LEDs, die mit den GPIO-Pins 22 und 27 verbunden sind.
+
+   .. code-block:: python
+
+      # Initialisiere den Schiebeschalter (Slider) an GPIO-Pin 17
+      slider = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+      # Initialisiere LED1 an GPIO-Pin 22
+      led1 = Pin(22,mode=Mode.OUT)
+      # Initialisiere LED2 an GPIO-Pin 27
+      led2 = Pin(27,mode=Mode.OUT)
+
+3. **Zustandsüberwachung und LED-Steuerung**
+
+   In der Hauptschleife überwacht das Programm den Zustand des Schiebeschalters. Wenn der Schalter umgelegt wird, wechselt es zwischen LED1 und LED2.
+
+   .. code-block:: python
+
+      # Überwache kontinuierlich den Zustand des Schalters und steuere die LEDs entsprechend
+      while True:
+         if slider.value() == 1:  # Prüfen, ob der Schalter aktiviert ist
+               led1.off()  # LED1 ausschalten
+               led2.on()   # LED2 einschalten
+         else:  # Wenn der Schalter nicht aktiviert ist
+               led1.on()   # LED1 einschalten
+               led2.off()  # LED2 ausschalten
+
+         sleep(0.5)  # 0,5 Sekunden warten, bevor der Zustand erneut überprüft wird
+
+4. **Sauberes Beenden**
+
+   Das Skript beendet sich sauber, wenn es mit Ctrl+C unterbrochen wird.
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           pass
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Schiebeschalter reagiert nicht**
+
+   - **Ursache**: Der Schiebeschalter ist nicht korrekt verbunden oder die Pull-Up/Pull-Down-Konfiguration stimmt nicht.  
+   - **Lösung**: Überprüfen Sie, ob der Schiebeschalter korrekt mit GPIO-Pin 17 und GND verbunden ist. Stellen Sie sicher, dass ``PULL_DOWN`` zur Schalterkonfiguration passt.
+
+2. **LEDs flackern oder verhalten sich unregelmäßig**
+
+   - **Ursache**: Entprellungsprobleme (Debouncing) beim Schiebeschalter.  
+   - **Lösung**: Fügen Sie eine softwarebasierte Entprellung hinzu, um das Eingangssignal zu stabilisieren:
+
+   .. code-block:: python
+
+      if slider.value() == 1:
+         sleep(0.05)  # Entprell-Verzögerung
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Zwei-Wege-Schaltersteuerung**
+
+   Kombinieren Sie zwei Schiebeschalter, um LEDs in einer komplexeren Schaltung zu steuern, beispielsweise als einfaches Lichtsteuerpanel.
+
+2. **Akustisches Feedback**
+
+   Fügen Sie einen Buzzer hinzu, der ein Signal ausgibt, wenn der Schiebeschalter aktiviert wird:
+
+   .. code-block:: python
+
+      from fusion_hat import Buzzer
+      buzzer = Buzzer(Pin(22))
+      if slider.value() == 1:
+         buzzer.on()
+      else:
+         buzzer.off()
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Schiebeschalter mit dem Fusion HAT+ verwendet werden kann, um LEDs zu steuern. Schiebeschalter sind vielseitige und robuste Komponenten, die häufig in Benutzeroberflächen und Steuerungssystemen eingesetzt werden. Durch Experimente mit ihnen können Sie komplexere und interaktive Projekte entwickeln.

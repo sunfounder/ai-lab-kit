@@ -1,0 +1,252 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_thermistor:
+
+2.10 Thermistor
+====================================
+
+**Einführung**
+
+Ein Thermistor ist ein temperaturabhängiger Widerstand, der häufig in Anwendungen zur Temperaturmessung und -regelung eingesetzt wird. Im Gegensatz zu Fotowiderständen, die Licht erkennen, reagieren Thermistoren auf Temperaturänderungen, indem sich ihr Widerstand verändert. Dadurch eignen sie sich ideal für Projekte wie Hitzealarme, Thermostate und Temperaturüberwachungssysteme. In diesem Projekt verwenden wir einen Thermistor, um die Umgebungstemperatur zu messen und sowohl in Celsius als auch in Fahrenheit anzuzeigen.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_thermistor`
+        - |link_thermistor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Die folgenden Schaltpläne zeigen, wie der Thermistor mit dem Fusion HAT+ verbunden wird:
+
+.. image:: img/fzz/2.2.2_sch.png
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung wie im folgenden Verdrahtungsdiagramm gezeigt auf:
+
+.. image:: img/fzz/2.2.2_bb.png
+   :width: 80%
+   :align: center
+
+Stellen Sie sicher, dass:
+
+* der Thermistor korrekt mit dem Fusion HAT+ verbunden ist.
+* Strom- und Masseverbindungen sicher angeschlossen sind.
+* alle Verdrahtungen mit dem Diagramm übereinstimmen, um eine korrekte Funktion zu gewährleisten.
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie das Beispiel mit den folgenden Schritten aus:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.10_Thermistor.py 
+
+Dieses Python-Skript liest ein analoges Signal von einem Thermistor über den Fusion HAT+ und berechnet die entsprechende Temperatur. Beim Ausführen passiert Folgendes:
+
+1. Das Skript liest kontinuierlich die Spannung.
+2. Es berechnet den Thermistor-Widerstand (``Rt``) und bestimmt daraus die Temperatur in Kelvin, Celsius und Fahrenheit.
+3. Die berechneten Temperaturen werden in der Konsole sowohl in Celsius als auch in Fahrenheit ausgegeben, auf zwei Dezimalstellen formatiert, als ``Celsius: <value> C  Fahrenheit: <value> F``.
+4. Der Vorgang wiederholt sich alle 0,2 Sekunden, bis das Skript mit ``Ctrl+C`` unterbrochen wird.
+
+----------------------------------------------
+
+**Code**
+
+Unten befindet sich der Python-Code, der in diesem Projekt verwendet wird:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   # -*- coding: utf-8 -*-
+
+   from fusion_hat.adc import ADC
+   import time
+   import math
+
+   thermistor = ADC('A3')
+
+   # Run the process in a try-except block
+   try:
+      while True:
+         # Read the voltage from the sensor
+         Vr = thermistor.read_voltage()
+         # Calculate the resistance of the thermistor
+         if 3.3 - Vr < 0.1:
+               print("Please check the sensor")
+               continue
+         else:
+               Rt = 10000 * Vr / (3.3 - Vr)
+               # Calculate the temperature in Kelvin
+               temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25)))
+               # Convert Kelvin to Celsius
+               Cel = temp - 273.15
+               # Convert Celsius to Fahrenheit
+               Fah = Cel * 1.8 + 32
+               # Print the temperature in both Celsius and Fahrenheit
+               print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
+               # Wait for 0.2 seconds before the next read
+               time.sleep(0.2)
+
+   # Handle KeyboardInterrupt for graceful termination
+   except KeyboardInterrupt:
+      pass
+
+----------------------------------------------
+
+
+**Den Code verstehen**
+
+1. **Importe:**
+
+   .. code-block:: python
+
+      from fusion_hat.adc import ADC
+      import time
+      import math
+
+
+   Dieses Skript importiert die notwendigen Module: ``ADC`` aus der ``fusion_hat``-Bibliothek zum Lesen der Spannung, ``time`` für die Sleep-Funktion und ``math`` für mathematische Berechnungen.
+
+
+2. **Initialisierung:**
+
+   .. code-block:: python
+
+      thermistor = ADC('A3')
+
+   Initialisiert das ADC-Objekt am Pin A3.
+
+3. **Datenverarbeitung:**
+
+   .. code-block:: python
+
+      while True:
+         # Spannung vom Sensor lesen
+         Vr = thermistor.read_voltage()
+         # Widerstand des Thermistors berechnen
+         if 3.3 - Vr < 0.1:
+            print("Please check the sensor")
+            continue
+         else:
+            Rt = 10000 * Vr / (3.3 - Vr)
+            temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25))) # Temperatur in Kelvin berechnen
+            Cel = temp - 273.15 # Kelvin in Celsius umrechnen
+            Fah = Cel * 1.8 + 32 # Celsius in Fahrenheit umrechnen
+
+   - Liest die Spannung vom Thermistor.
+   - Berechnet den Widerstand des Thermistors.
+   - Verwendet die Steinhart-Hart-Gleichung zur Berechnung der Temperatur in Kelvin.
+   - Wandelt Kelvin in Celsius und Fahrenheit um.
+
+
+4. **Ausgabe:**
+
+   .. code-block:: python
+
+      print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
+      time.sleep(0.2)
+
+   Die berechnete Temperatur wird sowohl in Celsius als auch in Fahrenheit auf dem Bildschirm angezeigt. Eine kurze Verzögerung sorgt dafür, dass sich die Messwerte stabilisieren und verhindert eine übermäßige CPU-Auslastung.
+
+
+
+----------------------------------------------
+
+
+**Fehlerbehebung**
+
+
+1. **Temperaturwerte sind falsch oder instabil**:
+
+   - **Ursache**: Falsche Thermistorparameter oder ein verrauschtes Eingangssignal.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass der Widerstand des Thermistors bei 25 °C (``10000`` in diesem Skript) und der ``3950``-B-Wert zu Ihrem Thermistormodell passen.
+     - Fügen Sie einen Kondensator oder eine Software-Filterung hinzu, um Signalrauschen zu reduzieren.
+
+2. **Divide-by-Zero-Fehler**:
+
+   - **Ursache**: Die Spannung ``Vr`` liegt zu nahe bei 0 oder 3,3 V, wodurch bei der Widerstandsberechnung eine Division durch Null entsteht.
+   - **Lösung**: Stellen Sie sicher, dass die ADC-Eingangsspannung im Bereich von 0–3,3 V liegt, und prüfen Sie die Verbindungen auf Kurzschlüsse oder Unterbrechungen.
+
+----------------------------------------------
+
+
+**Erweiterungsideen**
+
+1. **Temperatur auf einem LCD- oder OLED-Display anzeigen**: Verwenden Sie ein LCD- oder OLED-Display, um die Temperaturwerte dynamisch anzuzeigen.
+
+2. **Datenprotokollierung**: Speichern Sie die Temperaturmesswerte zur Analyse in einer Datei:
+     
+   .. code-block:: python
+
+      with open("temperature_log.txt", "a") as log_file:
+         log_file.write(f"Celsius: {Cel:.2f}, Fahrenheit: {Fah:.2f}\n")
+
+3. **Schwellwertbasierte Warnungen**: Lösen Sie eine Warnung aus, wenn die Temperatur einen festgelegten Schwellenwert überschreitet:
+     
+   .. code-block:: python
+
+      if Cel > 30:
+         print("Warning: High temperature!")
+
+4. **LED- oder Buzzer-Feedback**: Geben Sie visuelles oder akustisches Feedback abhängig von der Temperatur:
+     
+   .. code-block:: python
+
+      from fusion_hat import Pin
+      led = Pin(27.Pin.OUT)
+      if Cel > 30:
+            led.on()
+      else:
+            led.off()
+
+
+----------------------------------------------
+
+
+**Fazit**
+
+Dieses Experiment zeigt, wie ein Thermistor zusammen mit dem Fusion HAT+ verwendet werden kann, um die Umgebungstemperatur präzise zu messen. Durch das Verständnis der Analog-Digital-Umwandlung und der Steinhart-Hart-Gleichung können Sie fortgeschrittene Systeme zur Temperaturüberwachung und -steuerung für verschiedene Anwendungen entwickeln.
+

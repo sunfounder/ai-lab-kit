@@ -1,0 +1,241 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_ac_buzzer:
+
+1.3 Aktiver Summer
+=========================================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie man einen aktiven Summer mithilfe eines NPN-Transistors ansteuert, um einen Piepton zu erzeugen. Aktive Summer sind einfache Bauteile, die in vielen Elektronikprojekten verwendet werden, um akustische Signale zu erzeugen.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt umzusetzen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_buzzer`
+        - \-
+    *   - :ref:`cpn_transistor`
+        - |link_transistor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Die Schaltung verwendet einen aktiven Summer, einen NPN-Transistor und einen 1kΩ-Widerstand. Der Widerstand schützt den Transistor, indem er den Basisstrom begrenzt. Wenn GPIO17 ein High-Signal (3,3 V) ausgibt, leitet der Transistor, sodass Strom durch den Summer fließen kann und ein Piepton entsteht. Wenn GPIO17 ein Low-Signal ausgibt, sperrt der Transistor und der Summer bleibt stumm.
+
+.. image:: img/fzz/1.2.1_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Platzieren Sie den NPN-Transistor, den Summer und den Widerstand auf dem Breadboard.
+2. Verbinden Sie die Basis des Transistors über den Widerstand mit GPIO17.
+3. Verbinden Sie den Emitter des Transistors mit der Stromversorgung (+).
+4. Verbinden Sie den Kollektor des Transistors mit einem Anschluss des Summers.
+5. Verbinden Sie den anderen Anschluss des Summers mit Masse (-).
+
+.. image:: img/fzz/1.2.1_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode in diesem Tutorial befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.3_ActiveBuzzer.py 
+
+Dieses Python-Skript steuert einen Summer, der mit GPIO-Pin 17 eines Raspberry Pi verbunden ist. Wenn das Programm ausgeführt wird:
+
+1. Der Summer schaltet sich alle 0,1 Sekunden ein und aus und erzeugt dadurch einen Piepton.
+2. Das Programm gibt synchron zum Zustand des Summers die Meldungen „Buzzer On“ und „Buzzer Off“ in der Konsole aus.
+3. Das Piepen läuft unbegrenzt weiter, bis der Benutzer das Skript mit ``Ctrl+C`` unterbricht.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code steuert den aktiven Summer und lässt ihn in einer Schleife ein- und ausschalten:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pin import Pin
+   from time import sleep
+
+   # Initialize a Buzzer object on GPIO pin 17
+   buzzer = Buzzer(Pin(17))
+
+   try:
+      while True:
+         # Turn on the buzzer
+         print('Buzzer On')
+         buzzer.on()
+         sleep(0.1)  # Keep the buzzer on for 0.1 seconds
+
+         # Turn off the buzzer
+         print('Buzzer Off')
+         buzzer.off()
+         sleep(0.1)  # Keep the buzzer off for 0.1 seconds
+
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
+      pass
+
+Nach dem Ausführen des Skripts piept der mit dem Raspberry Pi verbundene Summer wiederholt, indem er alle 0,1 Sekunden ein- und ausgeschaltet wird. Gleichzeitig zeigt die Konsole die Meldungen „Buzzer On“ und „Buzzer Off“ an, die mit dem Geräusch des Summers übereinstimmen. Der Summer piept so lange weiter, bis Sie das Programm durch Drücken von ``Ctrl + C`` beenden.
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die Bibliothek ``fusion_hat`` bietet eine einfach zu verwendende Schnittstelle zur Steuerung der GPIO-Pins, und ``time`` wird für Zeitverzögerungen verwendet.
+
+   .. code-block:: python
+
+      from fusion_hat.modules import Buzzer
+      from fusion_hat.pin import Pin
+      from time import sleep
+
+2. **Initialisierung des Summers**
+
+   Das ``Buzzer``-Objekt wird erstellt und mit Pin 17 verknüpft.
+
+   .. code-block:: python
+
+      buzzer = Buzzer(Pin(17))
+
+3. **Steuerungsschleife**
+
+   Das Programm verwendet eine Endlosschleife (``while True``), um den Summer alle 0,1 Sekunden ein- und auszuschalten und so einen Piepton zu erzeugen. Die ``print``-Anweisungen geben Rückmeldungen in der Konsole aus.
+
+   .. code-block:: python
+
+      while True:
+         print('Buzzer On')
+         buzzer.on()
+         sleep(0.1)
+         print('Buzzer Off')
+         buzzer.off()
+         sleep(0.1)
+
+4. **Behandlung von Tastaturunterbrechungen**
+
+   Der ``try-except``-Block stellt sicher, dass das Programm sauber mit ``Ctrl+C`` beendet werden kann, ohne Fehler auszulösen.
+
+   .. code-block:: python
+
+      except KeyboardInterrupt:
+         pass
+
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Kein Ton vom Summer**
+
+   - **Ursache**: Falsche GPIO-Pin-Verbindung oder falsche Verdrahtung des Summers.  
+   - **Lösung**: Stellen Sie sicher, dass der Summer korrekt mit GPIO-Pin 17 und Masse (GND) verbunden ist.
+
+2. **Summer bleibt ständig an oder aus**
+
+   - **Ursache**: Defekter Summer oder Problem mit der GPIO-Konfiguration.  
+   - **Lösung**: Überprüfen Sie die Funktion des Summers, indem Sie ihn direkt mit einer Spannung testen.
+
+3. **Skript reagiert nicht auf KeyboardInterrupt**
+
+   - **Ursache**: Der ``except``-Block verarbeitet die Unterbrechung möglicherweise nicht korrekt.  
+   - **Lösung**: Stellen Sie sicher, dass der ``try...except KeyboardInterrupt``-Block korrekt implementiert ist und keine anderen Prozesse die Hauptschleife blockieren.
+
+4. **Das Piepen ist zu schnell oder störend**
+
+   - **Ursache**: Das Intervall ``sleep(0.1)`` ist möglicherweise zu kurz.  
+   - **Lösung**: Erhöhen Sie die Dauer von ``sleep()``, um längere Pausen zwischen den Signaltönen zu erhalten.
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Benutzerdefinierte Piepmuster**
+
+   Erstellen Sie unterschiedliche Piepmuster für verschiedene Ereignisse oder Benachrichtigungen:
+
+   .. code-block:: python
+
+      def beep_pattern():
+         buzzer.on()
+         sleep(0.3)
+         buzzer.off()
+         sleep(0.1)
+         buzzer.on()
+         sleep(0.1)
+         buzzer.off()
+
+
+2. **Benutzereingabe zur Steuerung des Summers**
+
+   Ermöglichen Sie dem Benutzer, den Summer dynamisch zu starten, zu stoppen oder das Piepmuster zu ändern:
+
+   .. code-block:: python
+
+      while True:
+         command = input("Enter 'on', 'off', or 'pattern': ")
+         if command == 'on':
+            buzzer.on()
+         elif command == 'off':
+            buzzer.off()
+         elif command == 'pattern':
+            beep_pattern()
+
+
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie man einen aktiven Summer mithilfe eines NPN-Transistors und der GPIO-Pins des Raspberry Pi ansteuert. Die einfache Code- und Hardwarestruktur macht es zu einem idealen Einstieg in soundbasierte Elektronikprojekte.

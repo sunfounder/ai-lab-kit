@@ -1,0 +1,366 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_oled:
+
+
+1.10 OLED-Anzeige
+===========================================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie man ein OLED-Display mit SSD1306-Controller über I2C-Kommunikation mit einem Raspberry Pi verwendet. OLED-Displays (Organic Light-Emitting Diode) sind für ihren hohen Kontrast, große Betrachtungswinkel und geringen Stromverbrauch bekannt. Dieses Projekt zeigt, wie das Display initialisiert wird, einfache Formen gezeichnet werden und Text angezeigt wird.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+   :widths: 30 20
+   :header-rows: 1
+
+   *  - KOMPONENTE
+      - KAUFLINK
+
+   *  - :ref:`cpn_oled`
+      - \- 
+   *  - :ref:`cpn_wires`
+      - |link_wires_buy|
+   *  - :ref:`cpn_fusion_hat`
+      - \- 
+   *  - Raspberry Pi
+      - \-
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie den VCC-Pin des OLED-Displays mit 3.3V am Fusion HAT+.
+2. Verbinden Sie den GND-Pin des OLED-Displays mit GND am Fusion HAT+.
+3. Verbinden Sie den SCL-Pin des OLED-Displays mit SCL (GPIO 3) am Fusion HAT+.
+4. Verbinden Sie den SDA-Pin des OLED-Displays mit SDA (GPIO 2) am Fusion HAT+.
+
+.. image:: img/fzz/1.10_oled_bb.png
+   :width: 70%
+   :align: center
+
+----------------------------------------------
+
+**Einrichtungsschritte**
+
+#. Installieren Sie die SSD1306-Treiberbibliothek:
+   
+   Diese Bibliothek ermöglicht die Kommunikation mit SSD1306-OLED-Displays über Python.
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+   
+      sudo pip3 install adafruit-circuitpython-ssd1306 --break
+   
+
+#. Alle Beispielprogramme befinden sich im Verzeichnis ``ai-lab-kit``. Führen Sie das OLED-Beispiel wie folgt aus:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+   
+      cd ~/ai-lab-kit/python/
+      sudo python3 1.10_OLED_Display.py
+
+
+#. Wenn das Beispiel ausgeführt wird, zeigt der OLED-Bildschirm einen gerahmten Kasten mit dem Text **„Hello World!“** in der Mitte an.  
+
+   Dies bestätigt, dass das Display erfolgreich über I2C kommuniziert und sowohl Text als auch einfache Grafiken darstellen kann.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code initialisiert ein OLED-Display und zeigt den Text „Hello World!“ an:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   import board
+   import digitalio
+   from PIL import Image, ImageDraw, ImageFont
+   import adafruit_ssd1306
+
+   # Initialize OLED display dimensions
+   WIDTH = 128
+   HEIGHT = 64
+
+   # Set up I2C communication with the OLED display
+   i2c = board.I2C()  # Utilizes board's SCL and SDA pins
+   oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
+
+   # Clear the OLED display
+   oled.fill(0)
+   oled.show()
+
+   # Create a new image with 1-bit color for drawing
+   image = Image.new("1", (oled.width, oled.height))
+
+   # Obtain a drawing object to manipulate the image
+   draw = ImageDraw.Draw(image)
+
+   # Draw a filled white rectangle as the background
+   draw.rectangle((0, 0, oled.width, oled.height), outline=255, fill=255)
+
+   # Define border size for an inner rectangle
+   BORDER = 5
+   # Draw a smaller black rectangle inside the larger one
+   draw.rectangle(
+      (BORDER, BORDER, oled.width - BORDER - 1, oled.height - BORDER - 1),
+      outline=0,
+      fill=0,
+   )
+
+   # Load the default font for text
+   font = ImageFont.load_default()
+
+   def getfontsize(font, text):
+      # Calculate the size of the text in pixels
+      left, top, right, bottom = font.getbbox(text)
+      return right - left, bottom - top
+
+   # Define the text to be displayed
+   text = "Hello World!"
+   # Get the width and height of the text in pixels
+   (font_width, font_height) = getfontsize(font, text)
+   # Draw the text, centered on the display
+   draw.text(
+      (oled.width // 2 - font_width // 2, oled.height // 2 - font_height // 2),
+      text,
+      font=font,
+      fill=255,
+   )
+
+   # Send the image to the OLED display
+   oled.image(image)
+   oled.show()
+
+Dieses Python-Skript erstellt eine „Hello World!“-Anzeige auf einem SSD1306-OLED-Display. Beim Ausführen passiert Folgendes:
+
+1. Das Skript initialisiert die I2C-Kommunikation mit dem OLED-Display.
+2. Es erstellt einen Schwarz-Weiß-Bildpuffer für Zeichenvorgänge.
+3. Es zeichnet einen weißen Hintergrund mit einem schwarzen Rechteckrahmen.
+4. Es berechnet die Textposition, um „Hello World!“ zentriert auf dem Display anzuzeigen.
+5. Das fertige Bild wird auf das OLED-Display gerendert.
+6. Der Text bleibt auf dem Display sichtbar, bis das Gerät ausgeschaltet oder das Bild aktualisiert wird.
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Der Code importiert die notwendigen Bibliotheken zur Steuerung des Displays und zur Bildverarbeitung.
+
+   .. code-block:: python
+
+      import board
+      import digitalio
+      from PIL import Image, ImageDraw, ImageFont
+      import adafruit_ssd1306
+
+2. **Initialisierung des Displays**
+
+   Das OLED-Display wird mit den angegebenen Abmessungen und der I2C-Adresse initialisiert.
+
+   .. code-block:: python
+
+      WIDTH = 128
+      HEIGHT = 64
+      i2c = board.I2C()
+      oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
+
+3. **Display löschen**
+
+   Das Display wird gelöscht, indem es mit Nullen (schwarz) gefüllt und anschließend aktualisiert wird.
+
+   .. code-block:: python
+
+      oled.fill(0)
+      oled.show()
+
+4. **Erstellen des Bildpuffers**
+
+   Ein Bildpuffer mit 1-Bit-Farbtiefe wird für Zeichenoperationen erstellt.
+
+   .. code-block:: python
+
+      image = Image.new("1", (oled.width, oled.height))
+      draw = ImageDraw.Draw(image)
+
+5. **Zeichenoperationen**
+
+   Rechtecke und Text werden auf den Bildpuffer gezeichnet.
+
+   .. code-block:: python
+
+      # Background rectangle
+      draw.rectangle((0, 0, oled.width, oled.height), outline=255, fill=255)
+      # Inner bordered rectangle
+      draw.rectangle((BORDER, BORDER, oled.width - BORDER - 1, oled.height - BORDER - 1), outline=0, fill=0)
+
+6. **Textdarstellung**
+
+   Der Text wird mithilfe von Schriftmetriken zentriert auf dem Display dargestellt.
+
+   .. code-block:: python
+
+      font = ImageFont.load_default()
+      (font_width, font_height) = getfontsize(font, text)
+      draw.text((oled.width // 2 - font_width // 2, oled.height // 2 - font_height // 2), text, font=font, fill=255)
+
+7. **Display aktualisieren**
+
+   Das fertige Bild wird an das OLED-Display gesendet.
+
+   .. code-block:: python
+
+      oled.image(image)
+      oled.show()
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Display zeigt nichts an**
+
+   - **Ursache**: Falsche I2C-Adresse, Verdrahtungsfehler oder I2C nicht aktiviert.  
+   - **Lösung**: Überprüfen Sie die I2C-Adresse (z. B. 0x3C oder 0x3D), kontrollieren Sie alle Verbindungen und aktivieren Sie I2C in der Raspberry-Pi-Konfiguration (``sudo raspi-config``).
+
+2. **I2C-Kommunikationsfehler**
+
+   - **Ursache**: Probleme mit dem I2C-Bus oder Gerät wird nicht erkannt.  
+   - **Lösung**: Überprüfen Sie, ob das Gerät mit dem Befehl ``i2cdetect -y 1`` erkannt wird. Stellen Sie sicher, dass keine anderen Geräte Konflikte auf dem I2C-Bus verursachen.
+
+3. **Text oder Grafiken werden nicht korrekt angezeigt**
+
+   - **Ursache**: Falsche Farbwerte oder Koordinatenfehler.  
+   - **Lösung**: Beachten Sie, dass im 1-Bit-Farbmodus 0 = schwarz und 255 = weiß bedeutet. Überprüfen Sie außerdem, ob die Koordinaten innerhalb der Displaygrenzen liegen (0–127 für die Breite, 0–63 für die Höhe).
+
+4. **Fehler beim Importieren der Bibliotheken**
+
+   - **Ursache**: Fehlende Abhängigkeiten oder falsche Installation.  
+   - **Lösung**: Stellen Sie sicher, dass alle erforderlichen Bibliotheken korrekt installiert sind, und führen Sie das Programm bei Bedarf mit ``sudo`` aus, falls Berechtigungsprobleme auftreten.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Systeminformationsanzeige**
+
+   Erstellen Sie eine Echtzeit-Systemanzeige, die CPU-Auslastung, Arbeitsspeicher und Temperatur darstellt:
+
+   .. code-block:: python
+
+      import psutil
+      import time
+      
+      while True:
+          # Clear and redraw
+          draw.rectangle((0, 0, oled.width, oled.height), fill=0)
+          
+          # Get system info
+          cpu_percent = psutil.cpu_percent()
+          memory = psutil.virtual_memory()
+          temp = psutil.sensors_temperatures()['cpu_thermal'][0].current
+          
+          # Display info
+          draw.text((0, 0), f"CPU: {cpu_percent}%", font=font, fill=255)
+          draw.text((0, 16), f"RAM: {memory.percent}%", font=font, fill=255)
+          draw.text((0, 32), f"Temp: {temp}C", font=font, fill=255)
+          
+          oled.image(image)
+          oled.show()
+          time.sleep(2)
+
+2. **Scrollender Text**
+
+   Erstellen Sie scrollende Texteffekte für längere Nachrichten:
+
+   .. code-block:: python
+
+      text = "This is a scrolling text message!"
+      text_width = getfontsize(font, text)[0]
+      
+      for x in range(oled.width, -text_width, -1):
+          draw.rectangle((0, 0, oled.width, oled.height), fill=0)
+          draw.text((x, oled.height//2), text, font=font, fill=255)
+          oled.image(image)
+          oled.show()
+          time.sleep(0.05)
+
+3. **Animierte Grafiken**
+
+   Erstellen Sie einfache Animationen mit grundlegenden Formen:
+
+   .. code-block:: python
+
+      for i in range(0, oled.width-10, 5):
+          draw.rectangle((0, 0, oled.width, oled.height), fill=0)
+          draw.rectangle((i, 20, i+10, 30), fill=255)  # Moving rectangle
+          oled.image(image)
+          oled.show()
+          time.sleep(0.1)
+
+4. **Mehrere Seiten**
+
+   Erstellen Sie eine mehrseitige Anzeige mit Tastersteuerung:
+
+   .. code-block:: python
+
+      pages = ["Page 1: Info", "Page 2: Stats", "Page 3: Graph"]
+      current_page = 0
+      
+      # Use buttons to change pages
+      def next_page():
+          global current_page
+          current_page = (current_page + 1) % len(pages)
+          update_display()
+
+5. **Benutzerdefinierte Schriftarten**
+
+   Verwenden Sie verschiedene Schriftarten für eine bessere Darstellung:
+
+   .. code-block:: python
+
+      # Load custom font (requires font file)
+      try:
+          custom_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12)
+      except:
+          custom_font = ImageFont.load_default()
+
+6. **Diagramme und Grafiken**
+
+   Zeigen Sie einfache Balkendiagramme oder Grafiken an:
+
+   .. code-block:: python
+
+      data = [10, 25, 45, 30, 60, 15]
+      for i, value in enumerate(data):
+          x = i * 20 + 5
+          height = int(value / 100 * oled.height)
+          draw.rectangle((x, oled.height-height, x+15, oled.height), fill=255)
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie SSD1306-OLED-Displays über I2C-Kommunikation mit einem Raspberry Pi verwendet werden können. OLED-Displays bieten eine klare, kontrastreiche Darstellung und eignen sich für viele Anwendungen, darunter Systemüberwachung, Benutzeroberflächen und Informationsanzeigen. Durch die Kombination von Text, Formen und Grafiken können Sie informative und visuell ansprechende Displays für Ihre Projekte erstellen. Die hier erlernten Fähigkeiten lassen sich weiter ausbauen, um komplexe Benutzeroberflächen, Datenvisualisierungen und Echtzeit-Überwachungssysteme zu entwickeln.

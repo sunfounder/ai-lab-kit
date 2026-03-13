@@ -1,0 +1,276 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_pa_buzzer:
+
+1.4 Passiver Summer
+===========================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie ein passiver Summer Musik abspielen kann, indem er mit unterschiedlichen Frequenzen angesteuert wird. Passive Summer benötigen – im Gegensatz zu aktiven Summern – ein externes Signal, um einen Ton zu erzeugen.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt umzusetzen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_buzzer`
+        - |link_passive_buzzer_buy|
+    *   - :ref:`cpn_transistor`
+        - |link_transistor_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Die Schaltung verwendet einen passiven Summer, einen NPN-Transistor und einen 1kΩ-Widerstand. Der Widerstand schützt den Transistor vor zu hohem Strom. Durch das Variieren der Frequenz des GPIO-Pins, der mit dem Transistor verbunden ist, erzeugt der Summer unterschiedliche Töne und kann dadurch Musik wiedergeben.
+
+.. image:: img/fzz/1.2.2_sch.png
+
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie die Basis des NPN-Transistors über den Widerstand mit PWM0.
+2. Verbinden Sie den Emitter des Transistors mit der Stromversorgung (+).
+3. Verbinden Sie den Kollektor des Transistors mit einem Anschluss des passiven Summers.
+4. Verbinden Sie den anderen Anschluss des Summers mit Masse (-).
+
+.. image:: img/fzz/1.2.2_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode in diesem Tutorial befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.4_PassiveBuzzer.py
+
+Nach dem Ausführen des Skripts spielt der passive Summer über PWM0 eine kurze Melodie ab. Jede Note wird nacheinander für ihre festgelegte Dauer gespielt, und die aktuelle Note wird während der Wiedergabe in der Konsole angezeigt. Wenn die Melodie beendet ist, stoppt der Summer automatisch, wobei bei ``None``-Noten kurze Pausen entstehen. Sie können das Programm jederzeit durch Drücken von ``Ctrl + C`` beenden.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code erzeugt musikalische Töne mit einem passiven Summer:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.modules import Buzzer
+   from fusion_hat.pwm import PWM
+   from time import sleep
+
+   # Initialize a TonalBuzzer connected to PWM 0
+   tb = Buzzer(PWM('P0'))  # Update this pin number based on your setup
+
+   def play(tune):
+      """
+      Play a musical tune using the buzzer.
+      :param tune: List of tuples (note, duration), where each tuple represents a note and its duration.
+      """
+      for note, duration in tune:
+         print(note)  # Output the current note being played
+         tb.play(note,float(duration))  # Play the note on the buzzer
+      tb.off()  # Stop playing after the tune is complete
+
+   # Define a musical tune as a sequence of notes and durations
+   tune = [('C#4', 0.2), ('D4', 0.2), (None, 0.2),
+      ('Eb4', 0.2), ('E4', 0.2), (None, 0.6),
+      ('F#4', 0.2), ('G4', 0.2), (None, 0.6),
+      ('Eb4', 0.2), ('E4', 0.2), (None, 0.2),
+      ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
+      ('C4', 0.2), ('B4', 0.2), (None, 0.2),
+      ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
+      ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
+      ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+      ('D4', 0.2), ('E4', 0.2)]
+
+
+   try:
+      play(tune)  # Execute the play function to start playing the tune
+
+   except KeyboardInterrupt:
+      # Handle KeyboardInterrupt for graceful termination
+      pass
+
+Dieses Python-Skript spielt eine Melodie über einen passiven Summer ab, der an PWM 0 angeschlossen ist. Beim Ausführen passiert Folgendes:
+
+1. Das Skript durchläuft eine vordefinierte Sequenz musikalischer Noten (``tune``) und spielt jede Note für eine festgelegte Dauer ab.
+2. Während die Noten abgespielt werden, werden sie gleichzeitig in der Konsole ausgegeben, sodass eine visuelle Referenz angezeigt wird.
+3. Die Melodie stoppt automatisch, sobald alle Noten abgespielt wurden. Während Pausen (wenn die Note ``None`` ist) erzeugt der Summer keinen Ton.
+4. Das Programm kann jederzeit mit ``Ctrl+C`` sauber beendet werden.
+
+----------------------------------------------
+
+**Den Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die Klasse ``Buzzer`` aus der Bibliothek ``fusion_hat`` wird verwendet, um Töne zu erzeugen, und ``time.sleep`` sorgt für die zeitlichen Abstände zwischen den Noten.
+
+   .. code-block:: python
+
+       from fusion_hat.modules import Buzzer
+       from fusion_hat.pwm import PWM
+       from time import sleep
+
+2. **Initialisierung des Summers**
+
+   Der ``Buzzer`` wird mit PWM0 verbunden, um Töne zu erzeugen.
+
+   .. code-block:: python
+
+      # Initialize a TonalBuzzer connected to PWM 0
+      tb = Buzzer(PWM('P0'))  # Update this pin number based on your setup
+
+3. **Noten abspielen**
+
+   Die Funktion ``play`` durchläuft eine Liste von Tupeln, die aus musikalischen Noten und deren Dauer bestehen. Jede Note wird für die angegebene Zeit abgespielt und danach kurz gestoppt.
+
+   .. code-block:: python
+
+      def play(tune):
+         for note, duration in tune:
+            print(note)  # Output the current note being played
+            tb.play(note,float(duration))  # Play the note on the buzzer
+         tb.off()  # Stop playing after the tune is complete
+
+4. **Definition der Melodie**
+
+   Die Variable ``tune`` enthält eine Folge von Noten (z. B. ``'C#4'``) und deren Dauer (z. B. 0,2 Sekunden).
+
+   .. code-block:: python
+
+       tune = [
+           ('C#4', 0.2), ('D4', 0.2), (None, 0.2),
+           ('Eb4', 0.2), ('E4', 0.2), (None, 0.6),
+           ('F#4', 0.2), ('G4', 0.2), (None, 0.6),
+           ('Eb4', 0.2), ('E4', 0.2), (None, 0.2),
+           ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
+           ('C4', 0.2), ('B4', 0.2), (None, 0.2),
+           ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
+           ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
+           ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+           ('D4', 0.2), ('E4', 0.2)
+       ]
+
+5. **Behandlung von Tastaturunterbrechungen**
+
+   Der ``try-except``-Block sorgt dafür, dass das Programm sauber beendet wird, wenn es unterbrochen wird (z. B. mit ``Ctrl+C``).
+
+   .. code-block:: python
+
+       try:
+           play(tune)
+       except KeyboardInterrupt:
+           pass
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Kein Ton vom Summer**
+
+   - **Ursache**: Falsche GPIO-Pin-Verbindung oder inkompatibler Summer-Typ.  
+   - **Lösung**: Stellen Sie sicher, dass der TonalBuzzer mit PWM 0 verbunden ist.
+
+2. **Unterbrochener oder ruckelnder Ton**
+
+   - **Ursache**: Ungenaue Zeitsteuerung durch die ``sleep()``-Funktion.  
+   - **Lösung**: Überprüfen Sie, ob die Notendauern in der Liste ``tune`` passend gewählt sind, um einen flüssigen Übergang zu gewährleisten.
+
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Eigene Melodien**
+
+   Erlauben Sie dem Benutzer, eine eigene Folge von Noten und Dauern einzugeben:
+
+   .. code-block:: python
+
+      user_tune = []
+      while True:
+         note = input("Enter a note (or 'stop' to finish): ")
+         if note.lower() == 'stop':
+            break
+         duration = float(input("Enter duration for the note: "))
+         user_tune.append((note, duration))
+      play(user_tune)
+
+
+2. **Mehrere Melodien**
+
+   Fügen Sie mehrere vordefinierte Melodien hinzu und lassen Sie den Benutzer auswählen, welche abgespielt werden soll:
+
+   .. code-block:: python
+
+      tunes = {
+         "tune1": [('C4', 0.5), ('D4', 0.5), (None, 0.5)],
+         "tune2": [('G4', 0.3), ('A4', 0.3), (None, 0.3)]
+      }
+      choice = input("Choose a tune (tune1/tune2): ")
+      play(tunes[choice])
+
+
+3. **Interaktion in Echtzeit**
+
+   Verwenden Sie Taster oder die Tastatur, um Noten interaktiv abzuspielen und den Summer als einfaches Instrument zu verwenden.
+
+4. **Aneinanderreihen mehrerer Melodien**
+
+   Mehrere Melodien können automatisch hintereinander abgespielt werden, um ein längeres Musikstück zu erzeugen.
+
+5. **Dynamische Geschwindigkeitsanpassung**
+
+   Ermöglichen Sie dem Benutzer, die Wiedergabegeschwindigkeit dynamisch anzupassen, indem die Notendauern verändert werden:
+
+   .. code-block:: python
+
+      speed_factor = float(input("Enter speed factor (e.g., 1.0 for normal, 0.5 for faster): "))
+      adjusted_tune = [(note, duration * speed_factor) for note, duration in tune]
+      play(adjusted_tune)
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein passiver Summer zum Abspielen musikalischer Noten verwendet werden kann. Durch die Kombination von Hardware und Software lassen sich verschiedene Töne und Melodien erzeugen, die in interaktiven Projekten eingesetzt werden können.

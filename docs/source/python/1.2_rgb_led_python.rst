@@ -1,0 +1,255 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_rgb:
+
+1.2 RGB-LED
+====================
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie man eine RGB-LED steuert, um verschiedene Farben mit einem Raspberry Pi und GPIO-Programmierung darzustellen. RGB-LEDs sind vielseitige Bauteile, die ein breites Farbspektrum erzeugen können, indem rotes, grünes und blaues Licht mit unterschiedlichen Intensitäten kombiniert wird.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_rgb_led`
+        - |link_rgb_led_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \-
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Nachdem die R-, G- und B-Pins der RGB-LED mit strombegrenzenden Widerständen verbunden wurden, verbinden Sie diese Widerstände jeweils mit PWM0, PWM1 und PWM2. Der längste Pin der LED (GND) wird mit dem GND-Pin des Raspberry Pi verbunden. Unterschiedliche PWM-Werte für die drei Pins erzeugen verschiedene Farben.
+
+.. image:: img/fzz/1.1.2_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie den untenstehenden Schritten, um die Schaltung aufzubauen:
+
+1. Platzieren Sie die RGB-LED auf dem Breadboard.
+2. Verbinden Sie die roten, grünen und blauen Pins der LED über Widerstände mit P0, P1 und P2.
+3. Verbinden Sie den längsten Pin (GND) der LED mit dem GND-Pin des Raspberry Pi.
+
+.. image:: img/fzz/1.1.2_bb.png
+   :width: 80%
+   :align: center
+
+
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.2_RGBLED.py 
+
+Nach dem Start des Programms leuchtet die RGB-LED zuerst rot, dann grün, dann violett, jeweils für 1 Sekunde, und schaltet sich anschließend aus. Durch Drücken von ``Ctrl + C`` wird die LED ebenfalls ausgeschaltet.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code wechselt zwischen verschiedenen Farben der RGB-LED, indem unterschiedliche PWM-Werte für die roten, grünen und blauen Komponenten gesetzt werden:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.modules import RGB_LED
+   from fusion_hat.pwm import PWM
+   from time import sleep
+
+   # Initialize an RGB LED. Connect the red component to P0, green to P1, and blue to P2.
+   rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
+
+   try:
+      # Set the RGB LED to red.
+      rgb_led.color((255, 0, 0))
+      sleep(1)
+
+      # Set the RGB LED to green.
+      rgb_led.color("#00FF22") 
+      sleep(1)
+
+      # Set the RGB LED to purple.
+      rgb_led.color(0xFF00FF)  
+      sleep(1)
+
+      # Set the RGB LED to black.
+      rgb_led.color(0x000000)  
+
+   except KeyboardInterrupt:
+      # Handle a KeyboardInterrupt (Ctrl+C) to exit.
+      rgb_led.color(0x000000)  
+      pass
+
+
+Dieses Skript demonstriert, wie man eine RGB-LED mithilfe der Fusion-Hat-Bibliothek steuert. Es initialisiert die RGB-LED mit bestimmten PWM-Pins und setzt nacheinander verschiedene Farben.
+
+
+----------------------------------------------
+
+
+**Den Code verstehen**
+
+
+Führen Sie das Skript auf einem kompatiblen Gerät mit angeschlossener RGB-LED aus. Die LED wechselt nacheinander zu Rot, Grün und Violett und wird anschließend ausgeschaltet.
+
+
+1. **Importieren der Abhängigkeiten**
+   
+   .. code:: python
+
+      from fusion_hat.modules import RGB_LED
+      from fusion_hat.pwm import PWM
+      from time import sleep
+   
+   Die erforderlichen Module werden importiert. ``RGB_LED`` und ``PWM`` aus der ``fusion_hat``-Bibliothek steuern die RGB-LED, und ``sleep`` wird für Zeitverzögerungen verwendet.
+
+2. **Initialisieren der RGB-LED**
+   
+   .. code:: python
+
+      rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
+
+   Die RGB-LED wird initialisiert, wobei die roten, grünen und blauen Komponenten mit den PWM-Pins ``P0``, ``P1`` und ``P2`` verbunden sind. Die LED verwendet eine gemeinsame Kathoden-Konfiguration.
+
+3. **Farben nacheinander setzen**
+   
+   .. code:: python
+
+      rgb_led.color((255, 0, 0))  # Rot
+      sleep(1)
+      
+      rgb_led.color("#00FF22")  # Grün
+      sleep(1)
+      
+      rgb_led.color(0xFF00FF)  # Violett
+      sleep(1)
+   
+   Das Skript setzt die RGB-LED auf verschiedene Farben und verwendet dabei unterschiedliche Formate:
+
+   - ``(255, 0, 0)``: Tupel, das Rot im RGB-Format darstellt.
+   - ``"#00FF22"``: Hexadezimale Zeichenkette für eine grünliche Farbe.
+   - ``0xFF00FF``: Hexadezimale Ganzzahl für Violett.
+
+4. **LED ausschalten**
+   
+   .. code:: python
+
+      rgb_led.color(0x000000)
+   
+   Das Skript setzt die LED-Farbe auf Schwarz (``0x000000``) und schaltet sie damit effektiv aus.
+
+5. **Unterbrechungen behandeln**
+   
+   .. code:: python
+
+      except KeyboardInterrupt:
+         rgb_led.color(0x000000)
+         pass
+   
+   Wenn der Benutzer das Skript mit ``Ctrl+C`` unterbricht, wird die Ausnahme abgefangen, und die LED wird ausgeschaltet, bevor das Programm beendet wird.
+
+
+----------------------------------------------
+
+
+**Fehlerbehebung**
+
+1. **LED leuchtet nicht**
+
+   - **Ursache**: Falsche Verdrahtung oder falsche GPIO-Pin-Zuordnung.
+   - **Lösung**: Überprüfen Sie, ob die roten, grünen und blauen Pins der RGB-LED mit den richtigen Pins verbunden sind und ob die gemeinsame Kathode oder Anode korrekt angeschlossen ist.
+
+
+2. **Flackern oder instabile Farben**
+
+   - **Ursache**: Instabile Stromversorgung oder falsche Widerstandswerte.
+   - **Lösung**: Verwenden Sie geeignete Widerstände und stellen Sie eine stabile Stromversorgung sicher.
+
+3. **Falsche GPIO-Konfiguration**
+
+   - **Ursache**: Die ``fusion_hat``-Bibliothek ist nicht installiert.
+   - **Lösung**: Siehe :ref:`install_fusion_hat`.
+
+----------------------------------------------
+
+
+**Erweiterungsideen**
+
+1. **Benutzerdefinierte Farbsequenzen**
+
+   Fügen Sie der ``COLORS``-Liste weitere Farben hinzu, einschließlich gedimmter Varianten wie ``(125, 50, 200)`` für einen weicheren Farbton.
+
+
+2. **Benutzerdefinierte Farben**
+
+   Ermöglichen Sie dem Benutzer, eigene RGB-Werte einzugeben:
+
+   .. code-block:: python
+
+        while True:
+            user_color = input("RGB-Werte eingeben (z. B. 125,0,0): ")
+            r, g, b = map(int, user_color.split(","))
+            rgb_led.color = (r, g, b)
+
+
+3. **Zufällige Farben**
+
+   Erzeugen Sie zufällige Farben für ein dynamisches und unvorhersehbares Lichtspektakel:
+
+   .. code-block:: python
+
+      from random import randint
+      while True:
+         rgb_led.color = (randint(1,255) , randint(1,255) , randint(1,255) )
+         sleep(1)
+
+
+----------------------------------------------
+
+
+**Fazit**
+
+Wenn Sie dieser Anleitung gefolgt sind, haben Sie erfolgreich gelernt, wie man eine RGB-LED mit einem Raspberry Pi und Python steuert. Dieses Projekt zeigt die Grundlagen von PWM und Farbvermischung, die sich zu komplexeren Lichteffekten erweitern lassen oder als Grundlage für interaktive Projekte dienen können.

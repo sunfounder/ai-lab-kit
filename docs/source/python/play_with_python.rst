@@ -1,34 +1,85 @@
-.. note::
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
 
-    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche gemeinsam mit anderen Enthusiasten tiefer in Raspberry Pi, Arduino und ESP32 ein.
-
-    **Why Join?**
-
-    - **Expert Support**: Löse Supportfälle nach dem Kauf und technische Herausforderungen mit Unterstützung unserer Community und unseres Teams.
-    - **Learn & Share**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu erweitern.
-    - **Exclusive Previews**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Sneak Peeks.
-    - **Special Discounts**: Profitiere von exklusiven Rabatten auf unsere neuesten Produkte.
-    - **Festive Promotions and Giveaways**: Nimm an Gewinnspielen und saisonalen Aktionen teil.
-
-    👉 Bereit, mit uns zu entdecken und zu gestalten? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
 
 .. _play_with_python:
 
-Mit Python experimentieren
-======================================
+Mit Python experimentieren (Elektronik-Grundlagen)
+==================================================
+
+
+**Ausgabe**
 
 .. toctree::
-    :maxdepth: 3
-    
-    pi5_output_python
-    pi5_input_python
+   :maxdepth: 1
+
+
+   1.1_blinking_led_python.rst 
+   1.2_rgb_led_python.rst 
+   1.3_active_buzzer_python.rst 
+   1.4_passive_buzzer_python.rst 
+   1.5_relay_python.rst 
+   1.6_motor_python.rst 
+   1.7_servo_python.rst 
+   1.8_4-Digit_7-segment_display_python.rst 
+   1.9_ws2812_rgb_module.rst 
+   1.10_oled_screen.rst 
+
+
+
+**Eingabe**
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 1
 
-    pi5_audiovisual_python
+
+   2.1_button_python.rst 
+   2.2_micro_switch_python.rst 
+   2.3_slide_switch_python.rst 
+   2.4_tilt_switch_python.rst 
+   2.5_touch_switch_module_python.rst 
+   2.6_reed_switch_module_python.rst 
+   2.7_pir_python.rst 
+   2.8_potentiometer_python.rst 
+   2.9_photoresistor_python.rst 
+   2.10_thermistor_python.rst 
+   2.11_joystick_python.rst 
+   2.12_rotatary_encoder_python.rst 
+   2.13_ultrasonic_sensor_module_python.rst 
+   2.14_dht_python.rst 
+   2.15_10-axis.rst
+
+**Medien**
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 1
 
-    pi5_extension_python
+   3.1_photograph_python.rst 
+   3.2_video_python.rst 
+   3.3_speaker.rst 
+   3.4_microphone.rst 
+
+
+**Erweiterung**
+
+.. toctree::
+   :maxdepth: 1
+
+
+   4.1_camera_python.rst 
+   4.2_automatic_capture_camera_python.rst 
+   4.3_reversing_alarm_python.rst 
+   4.4_morse_code_generator_python.rst 
+   4.5_welcome_python.rst 
+   4.6_counting_device_python.rst 
+   4.7_smart_fan_python.rst 
+   4.8_game_10_second_python.rst 
+   4.9_traffic_light_python.rst
+   4.10_hue_knob.rst 
+   4.11_servo_angle_meter.rst 
+   4.12_room_monitor.rst 
+   4.13_joystick_eye.rst 
+   4.14_cube.rst 
+   4.15_whack_a_mole.rst
+   4.16_pan_tilt_camera.rst

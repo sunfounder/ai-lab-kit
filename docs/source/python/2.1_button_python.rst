@@ -1,0 +1,275 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_buton:
+
+2.1 Taster
+==============
+
+**Einführung**
+
+In diesem Projekt lernen wir, wie ein Taster verwendet wird, um eine LED zu steuern. Taster sind grundlegende Eingabegeräte, die in vielen elektronischen Projekten eingesetzt werden, um mit Schaltungen und Systemen zu interagieren.
+
+----------------------------------------------
+
+**Benötigte Komponenten**
+
+Um dieses Projekt durchzuführen, benötigen Sie die folgenden Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTE
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_button`
+        - |link_button_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+**Schaltplan**
+
+Wir verwenden einen normalerweise offenen Taster als Eingang für den Raspberry Pi. Wenn der Taster gedrückt wird, erhält GPIO17 ein High-Signal (3,3 V). Der Raspberry Pi erkennt dieses Signal und schaltet die LED ein. Die Schaltungsverbindungen sind in den folgenden Diagrammen dargestellt:
+
+.. image:: img/fzz/2.1.1_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Verdrahtungsdiagramm**
+
+Folgen Sie diesen Schritten, um die Schaltung aufzubauen:
+
+1. Verbinden Sie die Anode (langer Pin) der LED über einen strombegrenzenden Widerstand mit einem GPIO-Pin (GPIO22).
+2. Verbinden Sie die Kathode (kurzer Pin) der LED mit Masse (GND).
+3. Verbinden Sie einen Anschluss des Tasters mit GPIO17 und den anderen Anschluss mit Masse (GND).
+
+.. image:: img/fzz/2.1.1_bb.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+**Beispiel ausführen**
+
+Der gesamte Beispielcode, der in diesem Tutorial verwendet wird, befindet sich im Verzeichnis ``ai-lab-kit``.  
+Folgen Sie diesen Schritten, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.1_Button.py
+
+Dieses Python-Skript demonstriert eine interaktive Schaltung, bei der ein Taster eine LED steuert. Beim Ausführen passiert Folgendes:
+
+1. Beim Drücken des Tasters (verbunden mit GPIO-Pin 17) wird die LED (verbunden mit GPIO-Pin 22) eingeschaltet.
+2. Beim Loslassen des Tasters wird die LED ausgeschaltet.
+3. Das Programm läuft unbegrenzt weiter und überwacht Tastendrücke und -freigaben, um die LED entsprechend zu steuern.
+
+----------------------------------------------
+
+**Code**
+
+Der folgende Python-Code schaltet die LED abhängig vom Drücken und Loslassen des Tasters ein bzw. aus:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+   from fusion_hat.pin import Pin, Mode, Pull
+   from signal import pause  # Import pause function from signal module
+
+   # Initialize an LED object on GPIO pin 22
+   led = Pin(22,mode=Mode.OUT)
+   # Initialize a Button object on GPIO pin 17
+   button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+   # # Link the button's "when_activated" event to the LED's high() method
+   button.when_activated = led.high
+
+   # # Link the button's "when_deactivated" event to the LED's low() method
+   button.when_deactivated = led.low
+
+   # Run an event loop that waits for button events and keeps the script running
+   print("CTRL + C to exit")
+   pause()
+
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Bibliotheken importieren**
+
+   Die ``fusion_hat``-Bibliothek stellt eine einfache Schnittstelle zur Steuerung der GPIO-Pins bereit, und das Modul ``signal`` wird verwendet, um das Programm dauerhaft laufen zu lassen.
+
+   .. code-block:: python
+
+      #!/usr/bin/env python3
+      from fusion_hat.pin import Pin, Mode, Pull
+      from signal import pause  # Importiere die Funktion pause aus dem signal-Modul
+
+
+2. **Initialisierung der Komponenten**
+
+   Die LED ist mit GPIO-Pin 22 verbunden, und der Taster ist mit GPIO-Pin 17 verbunden.
+
+   .. code-block:: python
+
+      # Initialisiere ein LED-Objekt auf GPIO-Pin 22
+      led = Pin(22,mode=Mode.OUT)
+      # Initialisiere ein Button-Objekt auf GPIO-Pin 17
+      button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
+
+3. **Ereignisbehandlung**
+
+   Die Ereignisse ``when_activated`` und ``when_deactivated`` werden jeweils mit den Methoden ``high()`` und ``low()`` der LED verknüpft. Dadurch wird sichergestellt, dass die LED eingeschaltet wird, wenn der Taster gedrückt wird, und ausgeschaltet wird, wenn der Taster losgelassen wird.
+
+   .. code-block:: python
+
+       button.when_activated = led.high
+       button.when_deactivated = led.low
+
+4. **Ereignisschleife**
+
+   Die Funktion ``pause()`` hält das Programm aktiv und wartet auf Ereignisse beim Drücken und Loslassen des Tasters.
+
+   .. code-block:: python
+
+       pause()
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **LED leuchtet nicht**
+
+   - **Ursache**: Falscher GPIO-Pin oder fehlerhafte LED-Verdrahtung.  
+   - **Lösung**: Überprüfen Sie, ob das positive Bein der LED mit GPIO-Pin 22 verbunden ist und das negative Bein über einen Widerstand mit Masse (GND).
+
+2. **Tastendruck hat keine Wirkung**
+
+   - **Ursache**: Falsche Verdrahtung des Tasters oder falsche GPIO-Konfiguration.  
+   - **Lösung**: Stellen Sie sicher, dass der Taster korrekt mit GPIO-Pin 17 und Masse (GND) verbunden ist.
+
+3. **LED bleibt immer an oder aus, unabhängig vom Tastenzustand**
+
+   - **Ursache**: Der Taster löst möglicherweise keine Ereignisse aus.  
+   - **Lösung**: Überprüfen Sie die Funktion des Tasters, indem Sie seine Verbindung mit einem Multimeter oder einer einfachen Testschaltung prüfen.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **LED-Zustand umschalten (Toggle)**
+
+   Ändern Sie das Skript so, dass der LED-Zustand bei jedem Tastendruck umgeschaltet wird, anstatt sie direkt ein- oder auszuschalten:
+
+   .. code-block:: python
+    
+      def toggle():
+         if led.value() == 1:
+            led.off()
+         else:
+            led.on()
+
+      button.when_activated = toggle
+
+2. **Mehrere LEDs steuern**
+
+   Steuern Sie mehrere LEDs mit einem einzigen Taster und wechseln Sie zwischen verschiedenen Mustern:
+
+   .. code-block:: python
+
+      leds = [LED(17), LED(27), LED(22)]
+      current_led = 0
+
+      def cycle_leds():
+         global current_led
+         leds[current_led].off()
+         current_led = (current_led + 1) % len(leds)
+         leds[current_led].on()
+
+      button.when_activated = cycle_leds
+
+3. **Dauer des Tastendrucks**
+
+   Fügen Sie Funktionen hinzu, die unterschiedliche Aktionen ausführen, je nachdem wie lange der Taster gedrückt wird:
+
+   .. code-block:: python
+
+      from time import time
+
+      press_time = None
+
+      def start_timer():
+         global press_time
+         press_time = time()
+
+      def check_duration():
+         global press_time
+         duration = time() - press_time
+         if duration < 2:
+            led.on()
+         else:
+            led.off()
+
+      button.when_activated = start_timer
+      button.when_deactivated = check_duration
+
+4. **Entprellung (Debouncing)**
+
+   Implementieren Sie eine softwarebasierte Entprellung für eine genauere Erkennung von Tastendrücken:
+
+   .. code-block:: python
+
+      from time import time
+
+      press_time = None
+      debounce_time = 0.2
+
+      def press():
+         global press_time
+         press_time = time()
+
+      def debounce():
+         global press_time
+         current_time = time()
+         duration = current_time - press_time
+         if duration < debounce_time:
+            return
+         else:
+            led.on()
+
+      button.when_activated = press
+      button.when_deactivated = debounce
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie ein Taster verwendet werden kann, um eine LED mit dem Fusion HAT+ zu steuern. Taster sind vielseitige Komponenten und können in zahlreichen Anwendungen eingesetzt werden – von einfachen Schaltungen bis hin zu komplexen interaktiven Systemen.

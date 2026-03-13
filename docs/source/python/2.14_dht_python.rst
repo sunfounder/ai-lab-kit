@@ -1,0 +1,231 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_dht:
+
+2.14 DHT-11
+================
+
+**Einführung**
+
+In dieser Lektion lernen Sie, wie Sie einen DHT11-Temperatur- und Luftfeuchtigkeitssensor mit einem Raspberry Pi verbinden und Daten daraus auslesen. Der DHT11 ist ein zuverlässiger und kostengünstiger digitaler Sensor, der in verschiedenen Anwendungen eingesetzt wird, beispielsweise in der Wetterüberwachung und der Umweltkontrolle. Dieses Projekt führt Sie in die Anbindung externer Sensoren, den Umgang mit Echtzeitdaten sowie die grundlegende Ausnahmebehandlung in Python ein. Am Ende wissen Sie, wie Sie Temperaturwerte (sowohl in Celsius als auch in Fahrenheit) und Luftfeuchtigkeitswerte auslesen können.
+
+
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Hier sind die für dieses Projekt erforderlichen Komponenten:
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_humiture_sensor`
+        - |link_humiture_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|  
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+----------------------------------------------
+
+
+**Schaltplan**
+
+Nachfolgend ist der schematische Schaltplan für den Anschluss des DHT11-Sensors dargestellt:
+
+.. image:: img/fzz/2.2.3_sch.png
+   :width: 80%
+   :align: center
+
+
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+Bauen Sie die Schaltung wie im folgenden Verdrahtungsdiagramm dargestellt auf:
+
+.. image:: img/fzz/2.2.3_bb.png
+   :width: 80%
+   :align: center
+
+
+----------------------------------------------
+
+**Ausführen des Beispiels**
+
+
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``.  
+Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: shell
+   
+   cd ~/ai-lab-kit/python/
+   sudo python3 2.14_DHT.py
+
+Dieses Python-Skript liest Temperatur- und Luftfeuchtigkeitsdaten von einem DHT11-Sensor, der über GPIO-Pin 17 mit einem Fusion HAT+ verbunden ist. Bei der Ausführung:
+
+1. Die Daten werden jede Sekunde in der Konsole ausgegeben und liefern so Echtzeitaktualisierungen.
+2. Wenn das Auslesen der Daten nicht erfolgreich ist, gibt das Skript „time out“ aus, was auf einen Fehler beim Lesen der Sensordaten hinweist.
+
+
+----------------------------------------------
+
+**Code**
+
+
+Nachfolgend ist der in diesem Projekt verwendete Python-Code aufgeführt:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   # Import the DHT11 temperature & humidity sensor module
+   from fusion_hat.modules import DHT11
+   # Import sleep function for delays
+   from time import sleep
+
+   # Create a DHT11 sensor object on GPIO pin 17
+   dht11 = DHT11(pin=17)
+
+   # Loop forever
+   while True:
+      # Read data from the DHT11 sensor
+      result = dht11.read()
+
+      # If data was successfully read, unpack humidity and temperature
+      if result:
+         humidity, temperature = result
+
+         # Print the humidity and temperature values
+         print("humidity: %s %%,  Temperature: %s C" % (humidity, temperature))
+      else:
+         # Print timeout message if reading failed
+         print("time out")
+
+      # Wait 1 second before the next reading
+      sleep(1)
+
+
+----------------------------------------------
+
+**Code verstehen**
+
+1. **Import:**  
+
+   .. code-block:: python
+
+      # Import the DHT11 temperature & humidity sensor module
+      from fusion_hat.modules import DHT11
+      # Import sleep function for delays
+      from time import sleep
+
+   Diese Zeilen importieren die für das Skript erforderlichen Module.
+
+2. **Sensorinitialisierung:**  
+
+   .. code-block:: python
+
+      dht11 = DHT11(pin=17)
+
+   Diese Zeile initialisiert den DHT11-Sensor am GPIO-Pin 17.
+
+3. **Daten auslesen:**  
+
+   .. code-block:: python
+
+      while True:
+         result = dht11.read()
+         if result:
+            humidity, temperature = result
+            print ("humidity: %s %%,  Temperature: %s C`" % (humidity, temperature))
+         else:
+            print("time out")
+         sleep(1)
+
+   Die Methode ``read`` sendet ein Startsignal an den DHT11, um Temperatur- und Luftfeuchtigkeitsdaten zu erfassen.
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Keine Ausgabe oder dauerhaft 0.0°C und 0.0 % Werte**:
+
+   - **Ursache**: Probleme mit der Sensorverbindung.  
+   - **Lösung**: Stellen Sie sicher, dass der DHT11-Sensor korrekt mit GPIO-Pin 17, der Stromversorgung und der Masse verbunden ist.
+
+2. **Skript stürzt mit ValueError ab**:
+
+   - **Ursache**: Beschädigte oder unvollständige Sensordaten.  
+   - **Lösung**: Überprüfen Sie, ob die Verbindungen stabil sind und ob der DHT11 ordnungsgemäß funktioniert. Stellen Sie außerdem sicher, dass die Datenleitung keine Störungen aufweist oder frei schwebt.
+
+3. **Hohe CPU-Auslastung**:
+
+   - **Ursache**: Kontinuierliches Abfragen des GPIO-Pins ohne Verzögerungen.  
+   - **Lösung**: Der Code enthält bereits eingebaute Verzögerungen (z. B. ``time.sleep(2)``). Stellen Sie sicher, dass diese nicht entfernt werden.
+
+4. **Falsche Temperatur- oder Luftfeuchtigkeitswerte**:
+
+   - **Ursache**: Kalibrierungsproblem oder defekter Sensor.  
+   - **Lösung**: Testen Sie den DHT11 in einer kontrollierten Umgebung, um die Genauigkeit zu überprüfen. Ersetzen Sie den Sensor, wenn das Problem weiterhin besteht.
+
+5. **Skript beendet sich nicht ordnungsgemäß**:
+
+   - **Ursache**: Dem Skript fehlt eine geeignete Ausnahmebehandlung für manuelle Unterbrechungen.  
+   - **Lösung**: Um eine saubere Beendigung zu ermöglichen, kapseln Sie die Hauptschleife in einen ``try...except KeyboardInterrupt``-Block.
+
+   .. code-block:: python
+
+      try:
+         while True:
+               humidity, temperature = dht11.read()
+               print(f"{time.time():.3f}  Temperature: {temperature}°C  Humidity: {humidity}%")
+               time.sleep(2)
+      except KeyboardInterrupt:
+         print("Exiting gracefully...")
+
+----------------------------------------------
+
+
+**Erweiterungsideen**
+
+1. **Datenprotokollierung**: Speichern Sie Temperatur- und Luftfeuchtigkeitsmesswerte zur späteren Analyse in einer Datei:
+  
+  .. code-block:: python
+
+      with open("dht11_log.txt", "a") as log_file:
+          log_file.write(f"{time.time():.3f}, {temperature}°C, {humidity}%\n")
+
+
+2. **Schwellwertbasierte Warnungen**: Lösen Sie eine Warnung aus, wenn Temperatur oder Luftfeuchtigkeit bestimmte Grenzwerte überschreiten:
+  
+  .. code-block:: python
+
+      if temperature > 30:
+          print("Warning: High temperature!")
+      if humidity > 70:
+          print("Warning: High humidity!")
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt, wie Sie mit einem Fusion HAT+ auf den DHT11-Temperatur- und Luftfeuchtigkeitssensor zugreifen können. Wenn Sie verstehen, wie Sensordaten gelesen und verarbeitet werden, können Sie solche Sensoren in verschiedenste praktische Anwendungen integrieren – von Wetterstationen bis hin zu automatisierten Klimasteuerungssystemen.

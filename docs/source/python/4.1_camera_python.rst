@@ -1,0 +1,481 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
+.. _py_fun_camera:
+
+4.1 Kamera
+===================
+
+**Einführung**
+
+Dieses Projekt zeigt, wie Sie mit dem Raspberry Pi Zero ein einfaches Kamerasystem mit Auslösetaste erstellen können. Wenn Sie die Taste drücken, nimmt die Kamera ein Foto auf, und eine LED blinkt zur Bestätigung der Aktion. Dieses Projekt ist eine gute Möglichkeit, praktische Erfahrung mit GPIO-Steuerung und dem Raspberry-Pi-Kameramodul zu sammeln.
+
+
+----------------------------------------------
+
+**Was Sie benötigen**
+
+Für dieses Projekt werden die folgenden Komponenten benötigt:
+
+
+.. list-table::
+    :widths: 30 20
+    :header-rows: 1
+
+    *   - KOMPONENTENBESCHREIBUNG
+        - KAUFLINK
+
+    *   - :ref:`cpn_breadboard`
+        - |link_breadboard_buy|
+    *   - :ref:`cpn_wires`
+        - |link_wires_buy|
+    *   - :ref:`cpn_resistor`
+        - |link_resistor_buy|
+    *   - :ref:`cpn_led`
+        - |link_led_buy|
+    *   - :ref:`cpn_button`
+        - |link_button_buy|
+    *   - :ref:`cpn_camera_module`
+        - |link_camera_buy|
+    *   - :ref:`cpn_fusion_hat`
+        - \- 
+    *   - Raspberry Pi
+        - \-
+
+
+
+----------------------------------------------
+
+
+**Schaltplan**
+
+Nachfolgend ist die GPIO-Pinbelegung für dieses Projekt dargestellt:
+
+.. image:: img/fzz/4.1.1_sch.png
+   :width: 80%
+   :align: center
+
+----------------------------------------------
+
+
+**Verdrahtungsdiagramm**
+
+#. Um das Kameramodul bequem zu verwenden, wird :ref:`assemble_fusion_hat_pan_tilt` empfohlen.
+
+   .. note:: 
+     
+     Das Zusammenbauen der Pan-Tilt-Halterung kann einige Pins verdecken. Daher wird empfohlen, sie nur bei Verwendung der Kamera zu montieren oder sie nach der Montage außen zu platzieren.
+   
+   
+   .. image:: ../quick_start/img/gimbal_assemble.png
+
+#. Folgen Sie diesem Verdrahtungsdiagramm, um die Schaltung aufzubauen:
+
+   .. image:: img/fzz/4.1.1_bb.png
+      :width: 80%
+      :align: center
+   
+----------------------------------------------
+
+**Beispiel ausführen**
+
+#. Greifen Sie auf den Raspberry-Pi-Desktop zu:
+
+   * :ref:`remote_desktop`: Verwenden Sie **VNC** für eine vollständige Desktop-Umgebung.
+   * |link_rpi_connect|: Verwenden Sie **Raspberry Pi Connect**, um sicher über einen Browser auf Ihren Pi zuzugreifen.
+
+#. Öffnen Sie ein Terminal und wechseln Sie in den Code-Ordner:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+      cd ~/ai-lab-kit/python
+
+#. Führen Sie das Skript aus, um die Kamera zu starten:
+
+   .. raw:: html
+   
+      <run></run>
+   
+   .. code-block:: shell
+
+         sudo python3 4.1_Camera.py
+
+#. Nach dem Start des Programms beginnt die Kamera zu arbeiten.
+
+   - Drücken Sie die Taste, um ein Foto aufzunehmen:
+     
+     - Die LED leuchtet auf.
+     - Ein Foto wird aufgenommen und im Ordner ``Pictures`` gespeichert  
+       (zum Beispiel ``photo_001.jpg``, ``photo_002.jpg``).
+   
+   - Lassen Sie die Taste los:
+     
+     - Die LED erlischt.
+   
+   - Das Programm läuft weiter, bis Sie **Ctrl + C** drücken. Danach wird es
+     ohne Fehlermeldung sauber beendet.
+   
+   .. note::
+      Die QT-Vorschau erfordert eine Desktop-Umgebung.  
+      Wenn die Vorschau nicht gestartet werden kann (z. B. bei Zugriff über SSH),
+      kann die Kamera dennoch Fotos aufnehmen und normal speichern.
+
+----------------------------------------------
+
+**Code**
+
+Hier ist der in diesem Projekt verwendete Python-Code:
+
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   import os
+   import time
+   import threading
+   from picamera2 import Picamera2, Preview
+   from fusion_hat.pin import Pin, Mode, Pull
+
+   # Resolve the correct user's home directory (works with sudo)
+   REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+   USER_HOME = f"/home/{REAL_USER}"
+   PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
+   os.makedirs(PICTURES_DIR, exist_ok=True)
+
+   # Initialize camera
+   camera = Picamera2()
+   camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
+
+   # Photo counter with thread safety
+   photo_index = 1
+   photo_lock = threading.Lock()
+
+   # Track whether preview was started successfully
+   preview_started = False
+
+   # Initialize LED and button
+   led = Pin(17, mode=Mode.OUT)
+   button = Pin(4, mode=Mode.IN, pull=Pull.DOWN)
+
+   def take_photo():
+      """Capture one photo and increment the index."""
+      global photo_index
+      with photo_lock:
+         filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
+         print(f"\nCapturing: {filepath}")
+         camera.capture_file(filepath)
+         print("Saved.")
+         photo_index += 1
+
+   def main():
+      global preview_started
+
+      # Start preview only when a GUI display is available (remote SSH often has no DISPLAY)
+      preview_started = False
+      if os.getenv("DISPLAY"):
+         try:
+               camera.start_preview(Preview.QT)
+               preview_started = True
+         except Exception as e:
+               preview_started = False
+               print(f"Preview start failed (continue without preview): {e}")
+      else:
+         print("No DISPLAY detected (running headless without preview).")
+
+      camera.start()
+
+      print("Camera is running.")
+      print("Press the button to take a photo.")
+      print(f"Photos will be saved to: {PICTURES_DIR}")
+      print("Press Ctrl+C to exit.\n")
+
+      try:
+         while True:
+               if button.value():         # Button pressed (HIGH)
+                  led.on()               # LED on
+                  take_photo()           # Take photo
+                  time.sleep(0.3)        # Simple debounce (avoid multiple shots)
+                  while button.value():  # Wait until button is released
+                     time.sleep(0.01)
+                  led.off()              # LED off after release
+
+               time.sleep(0.01)
+
+      except KeyboardInterrupt:
+         print("\nExiting...")
+
+      finally:
+         # Turn off LED
+         try:
+               led.off()
+         except Exception:
+               pass
+
+         # Stop the camera first
+         try:
+               camera.stop()
+         except Exception:
+               pass
+
+         # Stop preview only if it was started
+         if preview_started:
+               try:
+                  camera.stop_preview()
+               except Exception:
+                  pass
+
+         try:
+               camera.close()
+         except Exception:
+               pass
+
+   if __name__ == "__main__":
+      main()
+
+
+------------------------------------------
+
+
+**Code verstehen**
+
+1. **Importe und Zweck**
+
+   .. code-block:: python
+
+      import os
+      import time
+      import threading
+      from picamera2 import Picamera2, Preview
+      from fusion_hat.pin import Pin, Mode, Pull
+
+   Diese Module sind für folgende Aufgaben zuständig:
+
+   - ``os``: zum Umgang mit Umgebungsvariablen und Dateipfaden.
+   - ``time``: für Zeitverzögerungen und um die Hauptschleife am Laufen zu halten.
+   - ``threading``: sorgt dafür, dass das Aufnehmen von Fotos thread-sicher erfolgt.
+   - ``Picamera2`` und ``Preview``: zur Steuerung der Raspberry-Pi-Kamera und der Vorschau-Modi.
+   - ``Pin``, ``Mode`` und ``Pull``: zur Steuerung der LED und zum Auslesen des Tasters über das Fusion HAT.
+
+2. **Bestimmen des Speicherverzeichnisses (funktioniert mit sudo)**
+
+   .. code-block:: python
+
+      REAL_USER = os.getenv("SUDO_USER") or os.getlogin()
+      USER_HOME = f"/home/{REAL_USER}"
+      PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
+      os.makedirs(PICTURES_DIR, exist_ok=True)
+
+   Dieser Abschnitt stellt sicher, dass Fotos immer im Verzeichnis  
+   ``~/Pictures`` des tatsächlichen Benutzers gespeichert werden:
+
+   - Wenn das Skript mit ``sudo`` ausgeführt wird, verweist ``SUDO_USER`` auf den ursprünglichen Benutzer.
+   - Wenn ``sudo`` nicht verwendet wird, wird der aktuell angemeldete Benutzer verwendet.
+   - Der Ordner ``Pictures`` wird automatisch erstellt, falls er noch nicht existiert.
+
+3. **Initialisierung und Konfiguration der Kamera**
+
+   .. code-block:: python
+
+      camera = Picamera2()
+      camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
+
+   Die Kamera wird initialisiert und für Vorschau und Fotoaufnahme konfiguriert:
+
+   - Es wird eine Vorschauauflösung von ``800 × 600`` verwendet.
+   - Diese Konfiguration funktioniert sowohl mit als auch ohne sichtbares Vorschaufenster.
+
+4. **Fotoindex und Thread-Sicherheit**
+
+   .. code-block:: python
+
+      photo_index = 1
+      photo_lock = threading.Lock()
+
+   - ``photo_index`` speichert die aktuelle Bildnummer.
+   - ``photo_lock`` verhindert, dass mehrere Tastendrücke gleichzeitig überlappende Fotoaufnahmen auslösen.
+
+5. **Status der Vorschau**
+
+   .. code-block:: python
+
+      preview_started = False
+
+   Dieses Flag speichert, ob ein Vorschaufenster erfolgreich gestartet wurde,  
+   sodass das Programm nur dann versucht, die Vorschau zu beenden, wenn sie tatsächlich existiert.
+
+6. **LED- und Tasterkonfiguration**
+
+   .. code-block:: python
+
+      led = Pin(17, mode=Mode.OUT)
+      button = Pin(4, mode=Mode.IN, pull=Pull.DOWN)
+
+   - Die LED ist mit GPIO 17 verbunden und als Ausgang konfiguriert.
+   - Der Taster ist mit GPIO 4 verbunden und als Eingang mit internem Pull-Down-Widerstand konfiguriert.
+   - Ein HIGH-Signal bedeutet, dass die Taste gedrückt wurde.
+
+7. **Funktion zum Aufnehmen eines Fotos**
+
+   .. code-block:: python
+
+      def take_photo():
+         """Capture one photo and increment the index."""
+         global photo_index
+         with photo_lock:
+            filepath = os.path.join(PICTURES_DIR, f"photo_{photo_index:03d}.jpg")
+            print(f"\nCapturing: {filepath}")
+            camera.capture_file(filepath)
+            print("Saved.")
+            photo_index += 1
+
+   Diese Funktion:
+
+   - erstellt einen Dateinamen wie ``photo_001.jpg``.
+   - nimmt ein Bild mit der Kamera auf.
+   - erhöht den Fotoindex, sodass das nächste Bild einen neuen Namen erhält.
+
+8. **Bedingte Vorschau für lokale und entfernte Nutzung**
+
+   .. code-block:: python
+
+      preview_started = False
+      if os.getenv("DISPLAY"):
+         try:
+               camera.start_preview(Preview.QT)
+               preview_started = True
+         except Exception as e:
+               preview_started = False
+               print(f"Preview start failed (continue without preview): {e}")
+      else:
+         print("No DISPLAY detected (running headless without preview).")
+
+   - Wenn eine grafische Desktop-Umgebung verfügbar ist, wird eine QT-Vorschau gestartet.
+   - Wenn das Programm über SSH ohne Anzeige ausgeführt wird, wird die Vorschau übersprungen.
+   - Die Fotoaufnahme funktioniert in beiden Fällen normal.
+
+9. **Hauptschleife und Tasterlogik**
+
+   .. code-block:: python
+
+      try:
+         while True:
+               if button.value():         # Button pressed (HIGH)
+                  led.on()               # LED on
+                  take_photo()           # Take photo
+                  time.sleep(0.3)        # Simple debounce (avoid multiple shots)
+                  while button.value():  # Wait until button is released
+                     time.sleep(0.01)
+                  led.off()              # LED off after release
+
+               time.sleep(0.01)
+
+   Innerhalb der Hauptschleife:
+
+   - Beim Drücken der Taste wird die LED eingeschaltet.
+   - Sofort wird ein Foto aufgenommen.
+   - Das Programm wartet, bis die Taste losgelassen wird, um Mehrfachaufnahmen zu vermeiden.
+   - Nach dem Loslassen der Taste wird die LED ausgeschaltet.
+
+10. **Sauberes Beenden und Freigabe der Ressourcen**
+
+    .. code-block:: python
+
+         except KeyboardInterrupt:
+            print("\nExiting...")
+
+         finally:
+            # Turn off LED
+            try:
+                  led.off()
+            except Exception:
+
+         ...
+
+    Wenn ``Ctrl+C`` gedrückt wird:
+
+    - Die LED wird ausgeschaltet.
+    - Die Kamerapipeline wird gestoppt.
+    - Die Vorschau wird nur beendet, wenn sie zuvor gestartet wurde.
+    - Die Kameraressourcen werden sauber freigegeben.
+
+    Dadurch wird sichergestellt, dass das Programm ohne Fehler beendet wird – sowohl bei lokaler Ausführung mit Bildschirm als auch im Headless-Modus.
+
+
+----------------------------------------------
+
+**Fehlerbehebung**
+
+1. **Foto wird nicht aufgenommen**:
+
+   - **Ursache**: Der Taster ist falsch angeschlossen oder die Kamera wurde nicht initialisiert.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass der Taster mit GPIO-Pin 4 und GND verbunden ist.
+     - Prüfen Sie, ob die Kamera korrekt angeschlossen und über ``raspi-config`` aktiviert ist.
+
+2. **LED blinkt nicht**:
+
+   - **Ursache**: Falsche Verdrahtung der LED oder falsche GPIO-Konfiguration.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass die LED mit GPIO-Pin 17 über einen passenden Widerstand verbunden ist.
+     - Testen Sie die LED separat, um sicherzustellen, dass sie funktioniert.
+
+3. **Skript stürzt mit einem Kamerafehler ab**:
+
+   - **Ursache**: Das Kameramodul wird nicht erkannt oder wird von einem anderen Prozess verwendet.
+   - **Lösung**:
+
+     - Stellen Sie sicher, dass die Kamera korrekt angeschlossen ist, und starten Sie den Raspberry Pi neu.
+     - Prüfen Sie auf Konflikte mit ``sudo lsof /dev/video*``.
+
+----------------------------------------------
+
+**Erweiterungsideen**
+
+1. **Mehrere Fotos**: Erlauben Sie das Aufnehmen mehrerer Fotos in einer Sitzung, jeweils mit einem eindeutigen Dateinamen:
+
+     .. code-block:: python
+
+         counter = 0
+         camera.capture_file(f'{user_home}/photo_{counter}.jpg')
+         counter += 1
+
+2. **Videoaufnahme**: Erweitern Sie die Funktion, sodass beim Drücken der Taste ein Video aufgenommen wird:
+
+     .. code-block:: python
+
+         camera.start_recording(f'{user_home}/my_video.h264')
+         time.sleep(10)
+         camera.stop_recording()
+
+3. **LED-Statusanzeige**: Verwenden Sie die LED, um den Status der Kamera anzuzeigen:
+
+     - Dauerlicht: Kamera bereit.
+     - Blinken: Foto wird aufgenommen.
+
+4. **Fotoverwaltung**: Organisieren Sie aufgenommene Fotos in Ordnern nach Datum oder Ereignis.
+
+5. **Zeitrafferfotografie**: Nehmen Sie in regelmäßigen Abständen Fotos auf, um einen Zeitraffer zu erstellen:
+
+     .. code-block:: python
+
+         for i in range(10):
+             camera.capture_file(f'{user_home}/timelapse_{i}.jpg')
+             time.sleep(5)
+
+----------------------------------------------
+
+**Fazit**
+
+Dieses Projekt zeigt eine grundlegende Kameraanwendung mit einem tastergesteuerten Auslösemechanismus. Es kombiniert GPIO-Steuerung mit der Picamera2-Bibliothek und demonstriert, wie interaktive Raspberry-Pi-Projekte erstellt werden können. Experimentieren Sie weiter, um zusätzliche Funktionen zu integrieren und noch vielseitigere Anwendungen zu entwickeln.
