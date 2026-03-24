@@ -5,6 +5,8 @@
 
 .. _assemble_hat:
 
+.. start_assemble_hat
+
 Assemble and Power on Fusion HAT+ (Important)
 =======================================================
 
@@ -105,6 +107,9 @@ When the battery has sufficient charge, press the **power button** on the Fusion
 
 .. image:: img/power_button.jpg
     :width: 400
+
+.. end_assemble_hat
+
 
 
 .. _assemble_fusion_hat_pan_tilt:
