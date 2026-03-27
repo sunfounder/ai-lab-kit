@@ -65,6 +65,7 @@ This guide will help you understand what the kit can do, how the documentation i
     llm/llm
     opencv/opencv
     mediapipe/mediapipe
+    yolo/yolo
     component
     appendix
     faq
