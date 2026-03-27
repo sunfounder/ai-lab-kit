@@ -85,7 +85,7 @@ Here's the code for capturing photos using the Raspberry Pi camera:
       while True:
          # Capture frame
          frame = picam2.capture_array()
-         Figure: YOLOv8n running in real-time on Raspberry Pi. Objects in the camera feed are accurately detected and annotated, with detected classes and confidence scores displayed on the left. This image shows the model successfully identifying objects such as a person, chair, and TV.
+         
          # Display frame with instructions
          display = frame.copy()
          cv2.putText(display, f"Captured: {count} images", (10, 30),

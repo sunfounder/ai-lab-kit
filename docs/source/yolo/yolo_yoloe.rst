@@ -35,6 +35,11 @@ Figure: I pointed the camera at my cluttered desk, and YOLOE's Prompt-Free mode 
 
 The following code demonstrates how to run YOLOE in Prompt-Free mode on a Raspberry Pi:
 
+.. code-block:: bash
+
+   cd ~/ai-lab-kit/yolo
+   python3 yoloe_prompt_free.py
+
 .. code-block:: python
 
    from ultralytics import YOLO 
@@ -84,6 +89,11 @@ Figure: I held up a piece of paper that was half yellow and half white in front 
 **How it works**: The model encodes text prompts into feature vectors, then matches them against image features to identify regions that best correspond to the text descriptions. This approach allows you to dynamically specify detection targets without retraining the model.
 
 The following code demonstrates how to use text prompts to detect specific objects:
+
+.. code-block:: bash
+
+   cd ~/ai-lab-kit/yolo
+   python3 yoloe_prompt_text.py
 
 .. code-block:: python
 
