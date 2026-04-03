@@ -20,7 +20,10 @@ Download the Exclusive Image File
 
 Download the AI ​​Fusion Lab Kit operating system image file: `Raspberry Pi OS with AI Fusion Lab Kit <https://drive.google.com/file/d/1YiPXtmzyakCKEeTqyKz8b_vQkCVJds-p/view>`_。
 
+This image is based on Raspberry Pi OS and comes with the AI Fusion Lab Kit pre-integrated into the system. It includes all the necessary software, example code, and related configurations required for the AI Fusion Lab Kit. By using this image, you can skip certain setup steps described in the documentation.
 
+If you prefer to use a native Raspberry Pi OS for manual configuration, please install:  
+`Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`
 
 .. include:: /_shared/pi_start/install_os_trixie.rst
    :start-after: start_install_os

@@ -18,6 +18,7 @@ By the end of this chapter, your Fusion HAT+ will be fully prepared and ready fo
     need_components
     fh_install_the_os
     assemble_power_hat
+    run_installer
     fh_set_up_pi
 
 .. note::

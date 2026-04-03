@@ -1,3 +1,7 @@
+.. include:: /index.rst
+   :start-after: start_hello_message
+   :end-before: end_hello_message
+
 1. Run YOLO on Raspberry Pi
 ==============================================================
 
