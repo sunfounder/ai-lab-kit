@@ -45,7 +45,7 @@ This is the most convenient method for most users.
 
       ssh pi@ai-fusion.local
 
-   .. note:: In the AI ​​Fusion Lab Kit operating system, the default username is ``pi`` and the password is ``123456``. The default hostname is ``ai-fusion.local``.
+   .. note:: In the AI ​​Fusion Lab Kit operating system, the default username is ``pi`` and the password is ``123456``. The default hostname is ``ai-fusion``.
 
 
 2. Alternatively, locate your Pi’s IP address from your router’s DHCP list and connect with:
