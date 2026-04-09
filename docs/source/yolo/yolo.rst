@@ -2,6 +2,8 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
+.. _play_with_yolo:
+
 Play with YOLO (Object Detection & Training)
 ======================================================
 

@@ -18,10 +18,10 @@ Installing the Operating System
 Download the Exclusive Image File
 ------------------------------------------------------
 
-Download the AI ​​Fusion Lab Kit operating system image file: `Raspberry Pi OS with AI Fusion Lab Kit <https://sunfounder.github.io/download/ai-fusion-lab-kit/index.html>`_。
+Download the AI ​​Fusion Lab Kit operating system image file: `Raspberry Pi OS with AI Fusion Lab Kit <https://sunfounder.github.io/download/ai-fusion-lab-kit/index.html>`_。 
 
 .. image:: img/fusion_kit_imager_download.png
-   :width: 90%
+   :width: 90% 
 
 This image is based on Raspberry Pi OS and comes with the AI Fusion Lab Kit pre-integrated into the system. It includes all the necessary software, example code, and related configurations required for the AI Fusion Lab Kit. By using this image, you can skip certain setup steps described in the documentation.
 

@@ -113,6 +113,32 @@ AI Features
 
     Please execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
 
+
+**Permission denied when usibg TTS/STT**
+
+    When running TTS (Text-to-Speech) or STT (Speech-to-Text) commands, you encounter a permission error like:
+
+    .. code-block:: bash
+
+        Traceback (most recent call last):
+            File "/home/pi/ai-lab-kit/llm/tts_piper.py", line 3, in <module>
+                tts = Piper()
+                    ^^^^^^^
+            File "/usr/local/lib/python3.11/dist-packages/fusion_hat/tts.py", line 125, in _piper_init_with_speaker
+                _original_piper_init(self, *args, **kwargs)
+            File "/usr/local/lib/python3.11/dist-packages/sunfounder_voice_assistant/tts/piper.py", line 30, in __init__
+                os.makedirs(PIPER_MODEL_DIR, 0o777)
+            File "<frozen os>", line 225, in makedirs
+        PermissionError: [Errno 13] Permission denied: '/opt/piper_models'
+
+
+    This issue occurs in AI Fusion Lab Kit OS version 0.0.1. The system attempts to create a directory (/opt/piper_models) that requires root privileges, but the current user lacks sufficient permissions. Update the AI Fusion Lab Kit OS from version 0.0.1 to 0.1.0 by running the following command:
+
+    .. code-block:: bash
+
+        curl -sSL https://raw.githubusercontent.com/sunfounder/sunfounder-installer-scripts/main/ai-fusion-lab-kit-upgrade-0.0.1-to-0.1.0.sh | sudo bash
+
+
 Computer Vision / MediaPipe
 ---------------------------
 

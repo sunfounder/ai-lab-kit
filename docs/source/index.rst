@@ -40,9 +40,10 @@ This guide will help you understand what the kit can do, how the documentation i
 **Not Sure Where to Start?**
 
 * **Brand-new to the kit?** → Always start with :ref:`get_start`
+* **Learning in Youtube** →  :ref:`youtube_list`
 * **New to coding?** → :ref:`play_with_python`
 * **Interested in AI?** → :ref:`play_with_llm`
-* **Working with cameras?** → :ref:`play_with_opencv` or :ref:`play_with_mediapipe`
+* **Working with cameras?** → :ref:`play_with_opencv` or :ref:`play_with_mediapipe` or :ref:`play_with_yolo`
 * **Need technical details?** → :ref:`cpn_list`
 * **Encountering problems?** → :ref:`faq`
 
@@ -61,6 +62,7 @@ This guide will help you understand what the kit can do, how the documentation i
 
     About This Kit <self>
     quick_start/quick_start
+    video_course/video_course
     python/play_with_python
     llm/llm
     opencv/opencv
