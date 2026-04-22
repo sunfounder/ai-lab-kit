@@ -2,6 +2,10 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
+.. note:: 
+   
+   プリインストールされた「Raspberry Pi OS mit AI Fusion Lab Kit」イメージを使用する場合は、このセクションをスキップできます。このイメージには、本章で説明するすべてのソフトウェアインストール、環境設定、およびサンプルコードのデプロイが既に含まれています。
+
 .. _mediapipe_install:
 
 0. MediaPipe のセットアップ

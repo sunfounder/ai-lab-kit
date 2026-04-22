@@ -5,6 +5,9 @@
 
 .. _assemble_hat:
 
+
+.. start_assemble_hat
+
 Fusion HAT+ の組み立てと電源投入（重要）
 =======================================================
 
@@ -106,6 +109,8 @@ Fusion HAT+ には **2 つのバッテリーインジケーター LED** があ�
 .. image:: img/power_button.jpg
     :width: 400
 
+
+.. end_assemble_hat
 
 .. _assemble_fusion_hat_pan_tilt:
 

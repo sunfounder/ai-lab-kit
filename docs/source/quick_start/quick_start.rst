@@ -7,18 +7,21 @@
 はじめに（重要）
 ===============================
 
-これは本キットコースの最初の章です。  
-ここでは、Raspberry Pi のセットアップ、必要なソフトウェアのインストール、Fusion の充電および電源投入を行います。
+これはこのコースの最初の章です。  
+AI Fusion Lab KitイメージをダウンロードしてSDカードに書き込み、Raspberry Piをセットアップし、デバイスに電源を供給して起動します。
 
-この章を完了すると、Fusion HAT+ の準備が整い、次のレッスンをすぐに開始できる状態になります。  
-
+この章が終わると、Fusion HAT+ が完全に準備され、今後のレッスンに進む準備が整います。
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    /_shared/pi_start/need_components_fusion_hat
-    install_the_os
+    need_components
+    fh_install_the_os
     assemble_power_hat
-    /_shared/pi_start/set_up_pi
     run_installer
+    fh_set_up_pi
 
+.. note::
+   標準のRaspberry Pi OSでの設定をご希望の場合は、
+   ``Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`` をインストールし、
+   :ref:`install_all_modules` を参照して必要なすべての設定を行ってください。
