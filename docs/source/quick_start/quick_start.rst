@@ -7,18 +7,21 @@
 Erste Schritte (Wichtig)
 ===============================
 
-Dies ist das allererste Kapitel dieses Kit-Kurses.  
-Hier richten Sie Ihren Raspberry Pi ein, installieren die benötigte Software, laden den Akku auf und schalten Ihr Fusion HAT+ ein.
+Dies ist das allererste Kapitel dieses Kurses.  
+Sie werden das AI Fusion Lab Kit-Image herunterladen und auf eine SD-Karte flashen, Ihren Raspberry Pi einrichten, das Gerät aufladen und einschalten.
 
 Am Ende dieses Kapitels ist Ihr Fusion HAT+ vollständig vorbereitet und bereit für die kommenden Lektionen.
 
-
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    /_shared/pi_start/need_components_fusion_hat
-    install_the_os
+    need_components
+    fh_install_the_os
     assemble_power_hat
-    /_shared/pi_start/set_up_pi
     run_installer
+    fh_set_up_pi
 
+.. note::
+   Wenn Sie die native Raspberry Pi OS-Konfiguration bevorzugen, installieren Sie bitte 
+   ``Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`` und lesen Sie 
+   :ref:`install_all_modules`, um alle erforderlichen Einstellungen vorzunehmen.

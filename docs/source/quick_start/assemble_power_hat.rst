@@ -5,6 +5,8 @@
 
 .. _assemble_hat:
 
+.. start_assemble_hat
+
 Fusion HAT+ montieren und einschalten (Wichtig)
 =======================================================
 
@@ -105,6 +107,7 @@ Wenn der Akku ausreichend geladen ist, drücken Sie kurz den **Power-Button** au
 .. image:: img/power_button.jpg
     :width: 400
 
+.. end_assemble_hat
 
 .. _assemble_fusion_hat_pan_tilt:
 

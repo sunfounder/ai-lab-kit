@@ -2,6 +2,10 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
+.. note:: 
+   
+   Wenn Sie das vorinstallierte Image „Raspberry Pi OS mit AI Fusion Lab Kit“ verwenden, können Sie diesen Abschnitt überspringen. Dieses Image enthält bereits alle in diesem Kapitel beschriebenen Softwareinstallationen, Umgebungskonfigurationen und Beispielcode-Bereitstellungen.
+
 
 .. _opencv_install:
 

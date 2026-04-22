@@ -2,77 +2,76 @@
 
 .. note::
 
-    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Gemeinschaft auf Facebook! Tauchen Sie tiefer ein in die Welt von Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten.
+    Hallo, willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauchen Sie mit anderen Enthusiasten tiefer in Raspberry Pi, Arduino und ESP32 ein.
 
     **Warum beitreten?**
 
-    - **Expertenunterstützung**: Lösen Sie Nachverkaufsprobleme und technische Herausforderungen mit Hilfe unserer Gemeinschaft und unseres Teams.
-    - **Lernen & Teilen**: Tauschen Sie Tipps und Anleitungen aus, um Ihre Fähigkeiten zu verbessern.
-    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und exklusiven Einblicken.
-    - **Spezialrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
+    - **Expertenunterstützung**: Lösen Sie Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tauschen Sie Tipps und Tutorials aus, um Ihre Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalten Sie frühzeitigen Zugang zu neuen Produktankündigungen und Sneak Peeks.
+    - **Sonderrabatte**: Genießen Sie exklusive Rabatte auf unsere neuesten Produkte.
     - **Festliche Aktionen und Gewinnspiele**: Nehmen Sie an Gewinnspielen und Feiertagsaktionen teil.
 
-    👉 Sind Sie bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
+    👉 Bereit, mit uns zu entdecken und zu gestalten? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
 .. end_hello_message
 
 SunFounder AI Fusion Lab Kit
 =======================================================
 
-**Willkommen zur Dokumentation des AI Fusion Lab Kits**
+**Willkommen zur Dokumentation des AI Fusion Lab Kit**
 
-Das AI Fusion Lab Kit ist eine All-in-One-Lern- und Entwicklungsplattform, die für Einsteiger, Maker und Lehrkräfte entwickelt wurde, um Python-Programmierung, künstliche Intelligenz, Computer Vision und interaktive Hardwareprojekte zu erkunden.
+Das AI Fusion Lab Kit ist eine All-in-One-Lern- und Entwicklungsplattform, die für Anfänger, Maker und Pädagogen entwickelt wurde, um Python-Programmierung, künstliche Intelligenz, Computer Vision und interaktive Hardware-Projekte zu erkunden.
 
 Es kombiniert:
 
 * Ein modulares Hardware-Kit
-* Eine sofort einsatzbereite Softwareumgebung
+* Eine gebrauchsfertige Softwareumgebung
 * Schritt-für-Schritt-Lernmodule
 * KI- und Vision-Tools wie LLMs, OpenCV und MediaPipe
 
-Mit diesem Kit können Sie Projekte erstellen, die Programmierung, Elektronik und moderne KI-Technologie miteinander verbinden — alles auf eine praxisnahe und anfängerfreundliche Weise.
+Mit diesem Kit können Sie Projekte erstellen, die Programmierung, Elektronik und moderne KI-Technologie miteinander verbinden – alles auf praktische, anfängerfreundliche Weise.
 
-**So navigieren Sie durch diese Dokumentation**
+**So navigieren Sie in dieser Dokumentation**
 
-Diese Anleitung hilft Ihnen zu verstehen, was das Kit leisten kann, wie die Dokumentation aufgebaut ist und wo Sie je nach Erfahrungsstand beginnen sollten. Egal, ob Sie Einsteiger, Lehrkraft oder erfahrener Maker sind – hier finden Sie einen klaren Einstiegspfad, der zu Ihren Zielen passt.
+Diese Anleitung hilft Ihnen zu verstehen, was das Kit kann, wie die Dokumentation aufgebaut ist und wo Sie basierend auf Ihrem Erfahrungsstand beginnen sollten. Ob Anfänger, Pädagoge oder erfahrener Maker – Sie finden einen klaren Weg, der zu Ihren Zielen passt.
 
+**Sie wissen nicht, wo Sie anfangen sollen?**
 
-**Nicht sicher, wo Sie anfangen sollen?**
-
-* **Ganz neu beim Kit?** → Beginnen Sie immer mit :ref:`get_start`
-* **Neu im Programmieren?** → :ref:`play_with_python`
-* **Interessieren Sie sich für KI?** → :ref:`play_with_llm`
-* **Arbeiten Sie mit Kameras?** → :ref:`play_with_opencv` oder :ref:`play_with_mediapipe`
+* **Neu beim Kit?** → Beginnen Sie immer mit :ref:`get_start`
+* **Lernen auf YouTube** → :ref:`youtube_list`
+* **Neu beim Programmieren?** → :ref:`play_with_python`
+* **Interessiert an KI?** → :ref:`play_with_llm`
+* **Arbeiten mit Kameras?** → :ref:`play_with_opencv` oder :ref:`play_with_mediapipe` oder :ref:`play_with_yolo`
 * **Benötigen Sie technische Details?** → :ref:`cpn_list`
-* **Treten Probleme auf?** → :ref:`faq`
-
+* **Haben Sie Probleme?** → :ref:`faq`
 
 .. warning::
    
-   Das MediaPipe-Projekt unterstützt derzeit **Debian 13 (Trixie)** nicht.
-   Bitte verwenden Sie **Raspberry Pi OS (Bookworm, Debian 12)**, um vollständige Kompatibilität sicherzustellen.
+   Das MediaPipe-Projekt unterstützt derzeit kein Debian 13 (Trixie).
+   Bitte verwenden Sie Raspberry Pi OS (Bookworm, Debian 12), um die volle Kompatibilität zu gewährleisten.
 
 **Inhalt**
 
 .. toctree::
     :maxdepth: 1
 
-    Über dieses Kit <self>
+    About This Kit <self>
     quick_start/quick_start
+    video_course/video_course
     python/play_with_python
     llm/llm
     opencv/opencv
     mediapipe/mediapipe
+    yolo/yolo
     component
     appendix
     faq
 
+**Kontaktieren Sie uns**
 
-**Kontakt**
+Wenn Sie Fragen haben, wenden Sie sich bitte an **service@sunfounder.com** – wir sind hier, um zu helfen.
 
-Wenn Sie Fragen haben, kontaktieren Sie uns gerne unter **service@sunfounder.com** — wir helfen Ihnen gerne weiter.
-
-    
 **Urheberrechtshinweis**
 
-Alle Inhalte dieser Anleitung, einschließlich, aber nicht beschränkt auf Texte, Bilder und Code, sind Eigentum der Firma SunFounder. Sie dürfen diese Inhalte ausschließlich für persönliches Lernen, Forschung, Freizeit oder andere nicht-kommerzielle bzw. gemeinnützige Zwecke verwenden, unter Einhaltung der geltenden Vorschriften und Urheberrechtsgesetze und ohne die gesetzlichen Rechte des Autors und anderer Rechteinhaber zu verletzen. Für jede Einzelperson oder Organisation, die diese Inhalte ohne Genehmigung zu kommerziellen Zwecken nutzt, behält sich das Unternehmen das Recht vor, rechtliche Schritte einzuleiten.
+Alle Inhalte, einschließlich, aber nicht beschränkt auf Texte, Bilder und Code in diesem Handbuch, sind Eigentum der SunFounder Company. Sie sollten diese nur für persönliches Studium, Forschung, Unterhaltung oder andere nichtkommerzielle oder gemeinnützige Zwecke verwenden, unter Beachtung der entsprechenden Vorschriften und Urheberrechtsgesetze, ohne die gesetzlichen Rechte des Autors und der betreffenden Rechteinhaber zu verletzen. Für jede Einzelperson oder Organisation, die diese ohne Genehmigung für kommerziellen Gewinn nutzt, behält sich das Unternehmen das Recht vor, rechtliche Schritte einzuleiten.
