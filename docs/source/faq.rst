@@ -117,6 +117,7 @@
       dmesg | grep fusion_hat
       lsmod | grep fusion_hat
       ls /sys/class/fusion_hat/fusion_hat
+      cat ~/.ai-fusion
 
 
 **インストールスクリプトが失敗しました。どうすればよいですか？**
