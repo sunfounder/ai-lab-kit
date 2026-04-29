@@ -72,6 +72,59 @@ Nach dem Entfernen der konflikterzeugenden ``RPi.GPIO``-Dateien sollte das
 tasterbasierte Interrupt-Beispiel wieder normal funktionieren.
 
 
+**OSError: Fusion HAT nicht verbunden. Überprüfen Sie, ob das Fusion Hat mit Strom versorgt wird.**
+
+Wenn dieser Fehler beim Ausführen einiger Beispiele auftritt (z. B. beim Aufruf von PWM-Pins), können folgende Ursachen vorliegen:
+
+1. Das Fusion HAT ist nicht richtig verbunden;
+2. Falsche Stromversorgungsmethode;
+3. Der Treiber des Fusion HAT fehlt nach einem Update des Raspberry Pi Systems.
+
+Führen Sie die folgenden Schritte aus, um das Problem zu überprüfen und zu beheben:
+
+1. Führen Sie den folgenden Befehl aus, um den Status des Fusion HAT zu überprüfen:
+
+   .. code-block:: bash
+
+      i2cdetect -y 1
+
+   Unter normalen Bedingungen sollte eine Ausgabe ähnlich der folgenden erscheinen (mit ``UU`` an Adresse ``0x1e``):
+
+   .. code-block:: bash
+
+      pi@ai-fusion:~ $ i2cdetect -y 1
+         0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+      00:                         -- -- -- -- -- -- -- --
+      10: -- -- -- -- -- -- -- UU -- -- -- -- -- -- -- --
+      20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      70: -- -- -- -- -- -- -- --
+
+2. Wenn Sie nicht ``UU``, sondern ``17`` sehen, fehlt der Fusion HAT Treiber. Bitte installieren Sie den Treiber neu, indem Sie die folgenden Befehle ausführen:
+
+   .. code-block:: bash
+
+      cd ~/fusion-hat/driver/
+      make
+      sudo make install
+
+3. Wenn Sie weder ``UU`` noch ``17`` sehen, ist das Fusion HAT nicht mit dem Raspberry Pi verbunden oder es liegt ein Stromversorgungsproblem vor. Bitte stellen Sie sicher, dass Ihr Raspberry Pi richtig mit dem Fusion HAT verbunden ist und dass der Raspberry Pi über das Fusion HAT mit Strom versorgt wird (nicht unabhängig mit Strom versorgt wird).
+
+4. Wenn die oben genannten Schritte das Problem nicht beheben, führen Sie bitte die folgenden Befehle aus und senden Sie uns die Ausgabe:
+
+   .. code-block:: bash
+
+      uname -a
+      cat /etc/os-release
+      i2cdetect -y 1
+      dmesg | grep fusion_hat
+      lsmod | grep fusion_hat
+      ls /sys/class/fusion_hat/fusion_hat
+
+
 **Das Installationsskript ist fehlgeschlagen. Was soll ich tun?**
 
     Stellen Sie sicher, dass Ihr Raspberry Pi OS auf dem neuesten Stand ist
