@@ -26,8 +26,14 @@
       :width: 90%
 
 .. include:: /_shared/pi_start/install_os_trixie.rst
-   :start-after: start_setup_os
-   :end-before: end_setup_os
+   :start-after: start_storage
+   :end-before: end_storage
+
+.. _imager_custom:
+
+.. include:: /_shared/pi_start/install_os_trixie.rst
+   :start-after: start_cutomization_os
+   :end-before: end_cutomization_os
 
 .. include:: /_shared/pi_start/install_os_trixie.rst
    :start-after: start_write_os
