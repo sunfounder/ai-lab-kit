@@ -123,6 +123,7 @@ Führen Sie die folgenden Schritte aus, um das Problem zu überprüfen und zu be
       dmesg | grep fusion_hat
       lsmod | grep fusion_hat
       ls /sys/class/fusion_hat/fusion_hat
+      cat ~/.ai-fusion
 
 
 **Das Installationsskript ist fehlgeschlagen. Was soll ich tun?**
