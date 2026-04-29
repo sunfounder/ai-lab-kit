@@ -66,6 +66,59 @@ Software / Installation
 After removing the conflicting ``RPi.GPIO`` files, the interrupt-based button example should work normally.
 
 
+
+**OSError: Fusion HAT not connected, check if Fusion Hat is powered on**
+
+If you encounter this error when running some examples (e.g., when calling PWM pins), the possible causes are:
+
+1. The Fusion HAT is not properly connected;
+2. Incorrect power supply method;
+3. The Fusion HAT driver is missing after a Raspberry Pi system update.
+
+Follow the steps below to check and resolve the issue:
+
+1. Run the following command to check the status of the Fusion HAT:
+
+   .. code-block:: bash
+
+      i2cdetect -y 1
+
+   Under normal conditions, you should see output similar to the following (with ``UU`` at address ``0x1e``):
+
+   .. code-block:: bash
+
+      pi@ai-fusion:~ $ i2cdetect -y 1
+         0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+      00:                         -- -- -- -- -- -- -- --
+      10: -- -- -- -- -- -- -- UU -- -- -- -- -- -- -- --
+      20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+      70: -- -- -- -- -- -- -- --
+
+2. If you do not see ``UU`` but see ``17`` instead, the Fusion HAT driver is missing. Please reinstall the driver by running the following commands:
+
+   .. code-block:: bash
+
+      cd ~/fusion-hat/driver/
+      make
+      sudo make install
+
+3. If you see neither ``UU`` nor ``17``, it means the Fusion HAT is not connected to the Raspberry Pi or there is a power issue. Please ensure that your Raspberry Pi is properly connected to the Fusion HAT and that the Raspberry Pi is powered by the Fusion HAT (not powered independently).
+
+4. If the above steps do not resolve the issue, please run the following commands and send us the output:
+
+   .. code-block:: bash
+
+      uname -a
+      cat /etc/os-release
+      i2cdetect -y 1
+      dmesg | grep fusion_hat
+      lsmod | grep fusion_hat
+      ls /sys/class/fusion_hat/fusion_hat
+
 **The installation script failed. What should I do?**
 
     Ensure that your Raspberry Pi OS is up-to-date and that you have a stable
