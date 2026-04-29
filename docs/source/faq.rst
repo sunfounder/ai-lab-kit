@@ -118,6 +118,7 @@ Follow the steps below to check and resolve the issue:
       dmesg | grep fusion_hat
       lsmod | grep fusion_hat
       ls /sys/class/fusion_hat/fusion_hat
+      cat ~/.ai-fusion
 
 **The installation script failed. What should I do?**
 
