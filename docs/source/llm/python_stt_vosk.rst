@@ -2,7 +2,9 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
+
 .. _py_stt_whisper:
+.. _test_vosk:
 
 3. STT with Vosk (Offline)
 ==============================================
@@ -22,7 +24,6 @@ In this lesson, we will:
 * Check the microphone on Raspberry Pi.  
 * Install and test Vosk with a chosen language model.  
 
-.. _test_vosk:
 
 .. start_mic
 
