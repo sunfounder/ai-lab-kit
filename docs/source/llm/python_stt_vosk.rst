@@ -3,12 +3,13 @@
    :end-before: end_hello_message
 
 .. _py_stt_whisper:
+.. _test_vosk:
 
 3. STT mit Vosk (Offline)
 ==============================================
 
-Vosk ist eine leichtgewichtige Speech-to-Text-Engine (STT), die viele Sprachen unterstützt und vollständig **offline** auf dem Raspberry Pi ausgeführt werden kann.  
-Sie benötigen nur einmal Internetzugang, um ein Sprachmodell herunterzuladen. Danach funktioniert alles ohne Netzwerkverbindung.  
+Vosk ist eine leichtgewichtige Speech-to-Text-Engine (STT), die viele Sprachen unterstützt und vollständig **offline** auf dem Raspberry Pi ausgeführt werden kann.
+Sie benötigen nur einmal Internetzugang, um ein Sprachmodell herunterzuladen. Danach funktioniert alles ohne Netzwerkverbindung.
 
 .. raw:: html
 
@@ -17,12 +18,10 @@ Sie benötigen nur einmal Internetzugang, um ein Sprachmodell herunterzuladen. D
           Your browser does not support the video tag.
       </video>
 
-In dieser Lektion werden wir:  
+In dieser Lektion werden wir:
 
-* das Mikrofon auf dem Raspberry Pi prüfen,  
-* Vosk mit einem ausgewählten Sprachmodell installieren und testen.  
-
-.. _test_vosk:
+* das Mikrofon auf dem Raspberry Pi prüfen,
+* Vosk mit einem ausgewählten Sprachmodell installieren und testen.
 
 
 .. start_mic

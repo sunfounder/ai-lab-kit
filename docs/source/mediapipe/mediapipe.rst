@@ -25,3 +25,4 @@ Dieser Abschnitt beschreibt, wie man MediaPipe verwendet.
    mp_9_pose_segmentation.rst 
    mp_10_object.rst
    mp_11_object_track.rst
+   mp_12_hand_count_tts.rst

@@ -9,7 +9,7 @@
 
 **Einführung**
 
-In diesem Projekt bauen Sie einen „smarten Ventilator“, der sowohl im manuellen als auch im automatischen Modus betrieben werden kann. Durch die Kombination von Motor, Tastern und einem Thermistor kann der Ventilator verschiedene Geschwindigkeiten einstellen und auf Temperaturänderungen reagieren. Dieses Experiment eignet sich hervorragend, um Motorsteuerung, Temperaturmessung und die Nutzung von GPIO kennenzulernen.
+In diesem Projekt bauen Sie einen „smarten Ventilator", der sowohl im manuellen als auch im automatischen Modus betrieben werden kann. Durch die Kombination von Motor, Tastern und einem Thermistor kann der Ventilator verschiedene Geschwindigkeiten einstellen und auf Temperaturänderungen reagieren. Dieses Experiment eignet sich hervorragend, um Motorsteuerung, Temperaturmessung und die Nutzung von GPIO kennenzulernen.
 
 
 ----------------------------------------------
@@ -39,7 +39,7 @@ Für dieses Projekt benötigen Sie die folgenden Komponenten:
     *   - :ref:`cpn_motor`
         - |link_motor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -64,6 +64,7 @@ Das folgende Schaltbild zeigt, wie der Thermistor, der Taster, der Motortreiber 
 
 Die folgende Abbildung zeigt das Breadboard-Layout und die Verdrahtung:
 
+
 .. image:: img/fzz/4.1.7_bb.png
    :width: 80%
    :align: center
@@ -75,7 +76,7 @@ Die folgende Abbildung zeigt das Breadboard-Layout und die Verdrahtung:
 **Beispiel ausführen**
 
 
-Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``. 
+Der gesamte in diesem Tutorial verwendete Beispielcode befindet sich im Verzeichnis ``ai-lab-kit``.
 Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
 
 
@@ -84,7 +85,7 @@ Führen Sie die folgenden Schritte aus, um das Beispiel auszuführen:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.7_SmartFan.py
 
@@ -115,116 +116,172 @@ Nachfolgend ist das Python-Skript für dieses Projekt aufgeführt:
    thermistor = ADC("A3")
 
    level = 0
-   currentTemp = None
    markTemp = None
 
-   PRINT_INTERVAL = 1.0
+   last_button_state = 0
+   last_press_time = 0
    _last_print = 0.0
 
-   button_event = False  # flag: button was pressed
+   DEBOUNCE_TIME = 0.3
+   PRINT_INTERVAL = 1.0
+   MANUAL_HOLD_TIME = 2.0
+   TEMP_THRESHOLD = 5.0
 
 
    def temperature(samples=5, delay=0.01):
-      """Read thermistor multiple times and return averaged Celsius (float) or None."""
-      vals = []
-      for _ in range(samples):
-         analogVal = thermistor.read()
-         Vr = 3.3 * float(analogVal) / 4095.0
-         if (3.3 - Vr) <= 0.1:
-               return None
-         Rt = 10000.0 * Vr / (3.3 - Vr)
-         tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
-         vals.append(tempK - 273.15)
-         sleep(delay)
-      return sum(vals) / len(vals)
+       """Read thermistor temperature and return average Celsius value."""
+
+       vals = []
+
+       for _ in range(samples):
+           analogVal = thermistor.read()
+           Vr = 3.3 * float(analogVal) / 4095.0
+
+           if Vr <= 0 or (3.3 - Vr) <= 0.1:
+               sleep(delay)
+               continue
+
+           Rt = 10000.0 * Vr / (3.3 - Vr)
+
+           if Rt <= 0:
+               sleep(delay)
+               continue
+
+           tempK = 1.0 / (
+               ((math.log(Rt / 10000.0)) / 3950.0)
+               + (1.0 / (273.15 + 25.0))
+           )
+
+           vals.append(tempK - 273.15)
+           sleep(delay)
+
+       if not vals:
+           return None
+
+       return sum(vals) / len(vals)
 
 
    def motor_run(lv):
-      lv = max(0, min(4, lv))
-      motor.power(0 if lv == 0 else lv * 25)
-      return lv
+       """Set motor power according to level."""
+
+       lv = max(0, min(4, lv))
+       power_table = [0, 25, 50, 75, 100]
+       motor.power(power_table[lv])
+
+       return lv
 
 
-   def changeLevel():
-      """Button press: cycle level 0~4 and set a flag for main loop to print."""
-      global level, button_event
-      level = (level + 1) % 5
-      button_event = True
+   def read_button():
+       """Read current button state."""
 
-
-   BtnPin.when_activated = changeLevel
+       try:
+           return BtnPin.value()
+       except TypeError:
+           return BtnPin.value
 
 
    def main():
-      global level, currentTemp, markTemp, _last_print, button_event
+       """Main loop for button control and temperature auto adjustment."""
 
-      markTemp = temperature()
-      while True:
-         currentTemp = temperature()
-         if currentTemp is None:
-               print("Sensor read failed. Please check the sensor.")
+       global level, markTemp, last_button_state, last_press_time, _last_print
+
+       while markTemp is None:
+           markTemp = temperature()
+           sleep(0.1)
+
+       while True:
+           now = time()
+
+           button_state = read_button()
+
+           if button_state == 1 and last_button_state == 0:
+               if now - last_press_time >= DEBOUNCE_TIME:
+                   old = level
+                   level = (level + 1) % 5
+                   last_press_time = now
+
+                   currentTemp = temperature()
+                   if currentTemp is not None:
+                       markTemp = currentTemp
+
+                   level = motor_run(level)
+
+                   print(
+                       f"[Button] {old} -> {level} | "
+                       f"Power: {0 if level == 0 else level * 25}%"
+                   )
+
+           last_button_state = button_state
+
+           currentTemp = temperature()
+
+           if currentTemp is None:
+               print("Sensor read failed.")
                sleep(0.5)
                continue
 
-         # Handle button event in main loop (stable timing)
-         if button_event:
-               button_event = False
-               markTemp = currentTemp
-               print(f"[Button] Level -> {level} | Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C")
+           auto_allowed = (now - last_press_time) >= MANUAL_HOLD_TIME
 
-         # Periodic temperature print
-         now = time()
-         if now - _last_print >= PRINT_INTERVAL:
-               if markTemp is None:
-                  markTemp = currentTemp
-               print(f"Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C | Level: {level}")
+           if auto_allowed and level != 0:
+               diff = currentTemp - markTemp
+
+               if diff >= TEMP_THRESHOLD:
+                   level = min(4, level + 1)
+                   markTemp = currentTemp
+                   level = motor_run(level)
+                   print(f"[Auto] Temp up -> Level {level}")
+
+               elif diff <= -TEMP_THRESHOLD:
+                   level = max(0, level - 1)
+                   markTemp = currentTemp
+                   level = motor_run(level)
+                   print(f"[Auto] Temp down -> Level {level}")
+
+           if now - _last_print >= PRINT_INTERVAL:
+               print(
+                   f"Temp: {currentTemp:.2f} C | "
+                   f"Mark: {markTemp:.2f} C | "
+                   f"Level: {level}"
+               )
                _last_print = now
 
-         # Auto adjust level based on ±5°C
-         if markTemp is None:
-               markTemp = currentTemp
+           level = motor_run(level)
 
-         if level != 0:
-               diff = currentTemp - markTemp
-               if diff <= -5:
-                  level = max(0, level - 1)
-                  markTemp = currentTemp
-                  print(f"[Auto] Temp down -> Level {level} (Temp: {currentTemp:.2f} °C)")
-               elif diff >= 5:
-                  level = min(4, level + 1)
-                  markTemp = currentTemp
-                  print(f"[Auto] Temp up   -> Level {level} (Temp: {currentTemp:.2f} °C)")
-
-         level = motor_run(level)
-         sleep(0.5)
+           sleep(0.05)
 
 
    try:
-      main()
+       main()
+
    except KeyboardInterrupt:
-      print("\nExiting...")
+       print("\nExiting...")
+
    finally:
-      motor.stop()
-      sleep(0.1)
+       motor.stop()
+       sleep(0.1)
+
 
 
 Dieses Python-Skript kombiniert einen Motor, einen Taster und einen Temperatursensor zu einem temperaturgesteuerten Ventilatorsystem mit einstellbarer Geschwindigkeit. Bei der Ausführung:
 
-1. **Temperaturmessung**: Liest die aktuelle Temperatur in Celsius mithilfe des Thermistors.
+1. **Temperaturmessung**: Liest die aktuelle Temperatur in Celsius mithilfe des Thermistors. Mehrere Messwerte werden für die Genauigkeit gemittelt, und ungültige Messwerte werden übersprungen, anstatt sofort einen Fehler zu verursachen.
 
 2. **Manuelle Geschwindigkeitsanpassung**:
 
    - Ein Taster, der mit GPIO 22 verbunden ist, ermöglicht es dem Benutzer, zwischen fünf Geschwindigkeitsstufen (0 bis 4) zu wechseln.
-   - Jeder Tastendruck erhöht die Geschwindigkeitsstufe, und der Motor läuft mit der entsprechenden Geschwindigkeit. Stufe 0 stoppt den Motor.
+   - Jeder Tastendruck erhöht die Geschwindigkeitsstufe, und der Motor läuft mit der entsprechenden Leistung (0%, 25%, 50%, 75% oder 100%). Stufe 0 stoppt den Motor.
+   - Die Tastereingabe verfügt über einen **Entprellschutz** (0,3 Sekunden), um Fehlauslösungen durch Kontaktprellen zu verhindern.
 
-3. **Automatische Geschwindigkeitsregelung**: Das System passt die Motorgeschwindigkeit automatisch an Temperaturänderungen an:
+3. **Manuelles Prioritätsfenster**: Nach einem Tastendruck wird die automatische Geschwindigkeitsanpassung für **2 Sekunden** (``MANUAL_HOLD_TIME``) unterdrückt. Dies stellt sicher, dass die manuelle Einstellung des Benutzers nicht sofort durch eine automatische Anpassung überschrieben wird.
 
-   - Wenn die Temperatur um **2°C oder mehr steigt**, erhöht sich die Geschwindigkeitsstufe (bis maximal Stufe 4).
-   - Wenn die Temperatur um **2°C oder mehr sinkt**, verringert sich die Geschwindigkeitsstufe (bis minimal Stufe 0).
+4. **Automatische Geschwindigkeitsregelung**: Nach Ablauf des manuellen Prioritätsfensters (und wenn der Ventilator nicht ausgeschaltet ist) passt das System die Motorgeschwindigkeit automatisch an Temperaturänderungen an:
 
-4. **Kontinuierliche Überwachung**: Das System überwacht kontinuierlich die Temperatur und passt die Ventilatorgeschwindigkeit entsprechend an.
+   - Wenn die Temperatur um **5°C** oder mehr steigt, erhöht sich die Geschwindigkeitsstufe (bis maximal Stufe 4).
+   - Wenn die Temperatur um **5°C** oder mehr sinkt, verringert sich die Geschwindigkeitsstufe (bis minimal Stufe 0).
 
-5. **Sauberes Beenden**: Bei ``Ctrl+C`` wird der Motor gestoppt, und das Skript wird ordnungsgemäß beendet.
+5. **Kontinuierliche Überwachung**: Das System überwacht kontinuierlich die Temperatur und den Tasterzustand mit einem schnellen 0,05-Sekunden-Schleifenintervall und gewährleistet so reaktionsschnelle Anpassungen.
+
+6. **Sauberes Beenden**: Bei ``Ctrl+C`` wird der Motor gestoppt, und das Skript wird ordnungsgemäß beendet.
 
 ----------------------------------------------
 
@@ -236,20 +293,39 @@ Dieses Python-Skript kombiniert einen Motor, einen Taster und einen Temperaturse
    .. code-block:: python
 
       def temperature(samples=5, delay=0.01):
-         """Read thermistor multiple times and return averaged Celsius (float) or None."""
-         vals = []
-         for _ in range(samples):
-            analogVal = thermistor.read()
-            Vr = 3.3 * float(analogVal) / 4095.0
-            if (3.3 - Vr) <= 0.1:
-                  return None
-            Rt = 10000.0 * Vr / (3.3 - Vr)
-            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
-            vals.append(tempK - 273.15)
-            sleep(delay)
-         return sum(vals) / len(vals)
+          """Read thermistor temperature and return average Celsius value."""
 
-   Die Funktion ``temperature()`` liest mehrfach den analogen Wert des Thermistors, wandelt ihn in einen Widerstandswert um und berechnet anschließend mithilfe einer mathematischen Formel die entsprechende Temperatur.
+          vals = []
+
+          for _ in range(samples):
+              analogVal = thermistor.read()
+              Vr = 3.3 * float(analogVal) / 4095.0
+
+              if Vr <= 0 or (3.3 - Vr) <= 0.1:
+                  sleep(delay)
+                  continue
+
+              Rt = 10000.0 * Vr / (3.3 - Vr)
+
+              if Rt <= 0:
+                  sleep(delay)
+                  continue
+
+              tempK = 1.0 / (
+                  ((math.log(Rt / 10000.0)) / 3950.0)
+                  + (1.0 / (273.15 + 25.0))
+              )
+
+              vals.append(tempK - 273.15)
+              sleep(delay)
+
+          if not vals:
+              return None
+
+          return sum(vals) / len(vals)
+
+
+   Die Funktion ``temperature()`` nimmt mehrere Messwerte vom Thermistor auf, wandelt jeden Analogwert in einen Widerstandswert um und berechnet die Temperatur in Celsius mithilfe der Steinhart-Hart-Gleichung. Einzelne fehlerhafte Messwerte (Spannung zu niedrig oder Widerstand null) werden mittels ``continue`` **übersprungen**, anstatt die gesamte Messung fehlschlagen zu lassen. Nur wenn **alle** Messwerte ungültig sind, gibt die Funktion ``None`` zurück. Das Endergebnis ist der arithmetische Mittelwert aller gültigen Messwerte und liefert eine stabile und rauschresistente Messung.
 
 
 2. **Motor-Geschwindigkeitssteuerung:**
@@ -257,46 +333,113 @@ Dieses Python-Skript kombiniert einen Motor, einen Taster und einen Temperaturse
    .. code-block:: python
 
       def motor_run(lv):
-         lv = max(0, min(4, lv))
-         motor.power(0 if lv == 0 else lv * 25)
-         return lv
+          """Set motor power according to level."""
 
-   Die Funktion ``motor_run()`` passt die Motorgeschwindigkeit anhand der Variablen ``level`` an. Die Geschwindigkeit wird dabei auf einen Wert zwischen 0 und 1 normiert.
+          lv = max(0, min(4, lv))
+          power_table = [0, 25, 50, 75, 100]
+          motor.power(power_table[lv])
+
+          return lv
 
 
-3. **Manuelle Geschwindigkeitsanpassung:**
+   Die Funktion ``motor_run()`` ordnet die numerische Stufe (0–4) mithilfe einer Lookup-Tabelle einem Prozentsatz der Motorleistung zu. Stufe 0 sendet 0% Leistung (aus), während die Stufen 1 bis 4 jeweils 25%, 50%, 75% und 100% Leistung entsprechen. Die Stufe wird zunächst mit ``max(0, min(4, lv))`` auf den gültigen Bereich begrenzt.
+
+
+3. **Tasterabfrage mit Entprellung:**
 
    .. code-block:: python
 
-      def changeLevel():
-         """Button press: cycle level 0~4 and set a flag for main loop to print."""
-         global level, button_event
-         level = (level + 1) % 5
-         button_event = True
+      def read_button():
+          """Read current button state."""
+
+          try:
+              return BtnPin.value()
+          except TypeError:
+              return BtnPin.value
 
 
-      BtnPin.when_activated = changeLevel
+      # In main():
+      button_state = read_button()
 
-   Die Funktion ``changeLevel()`` wechselt bei jedem Tastendruck zyklisch zwischen den Geschwindigkeitsstufen 0 bis 4.
+      if button_state == 1 and last_button_state == 0:
+          if now - last_press_time >= DEBOUNCE_TIME:
+              old = level
+              level = (level + 1) % 5
+              last_press_time = now
+
+              currentTemp = temperature()
+              if currentTemp is not None:
+                  markTemp = currentTemp
+
+              level = motor_run(level)
+
+              print(
+                  f"[Button] {old} -> {level} | "
+                  f"Power: {0 if level == 0 else level * 25}%"
+              )
+
+      last_button_state = button_state
 
 
-4. **Automatische Geschwindigkeitsanpassung:**
+   Anstatt einen Interrupt-Callback zu verwenden, **pollt** der Code den Tasterzustand in der Hauptschleife. Ein Tastendruck wird durch eine **steigende Flanke** erkannt: Der Tasterzustand wechselt von ``0`` auf ``1`` (``last_button_state == 0`` → ``button_state == 1``). Ein **Entprell-Timer** (``DEBOUNCE_TIME = 0,3`` Sekunden) verhindert, dass Kontaktprellen mehrere Auslösungen verursacht. Wenn ein gültiger Tastendruck erkannt wird, wechselt die Stufe zyklisch 0→1→2→3→4→0, die Referenztemperatur (``markTemp``) wird aktualisiert und die Motorgeschwindigkeit wird sofort übernommen.
+
+
+4. **Hauptschleife und automatische Anpassung:**
 
    .. code-block:: python
 
       def main():
-         global level, currentTemp, markTemp, _last_print, button_event
+          """Main loop for button control and temperature auto adjustment."""
 
-         markTemp = temperature()
-         while True:
-            currentTemp = temperature()
-            if currentTemp is None:
-                  print("Sensor read failed. Please check the sensor.")
+          global level, markTemp, last_button_state, last_press_time, _last_print
+
+          while markTemp is None:
+              markTemp = temperature()
+              sleep(0.1)
+
+          while True:
+              now = time()
+
+              # ... Tasterabfrage (siehe oben) ...
+
+              currentTemp = temperature()
+
+              if currentTemp is None:
+                  print("Sensor read failed.")
                   sleep(0.5)
                   continue
-         ...
 
-   Die Funktion ``main()`` überwacht kontinuierlich die Temperatur und passt die Ventilatorgeschwindigkeit an, wenn sich die Temperatur um mehr als 2°C vom Referenzwert unterscheidet.
+              auto_allowed = (now - last_press_time) >= MANUAL_HOLD_TIME
+
+              if auto_allowed and level != 0:
+                  diff = currentTemp - markTemp
+
+                  if diff >= TEMP_THRESHOLD:
+                      level = min(4, level + 1)
+                      markTemp = currentTemp
+                      level = motor_run(level)
+                      print(f"[Auto] Temp up -> Level {level}")
+
+                  elif diff <= -TEMP_THRESHOLD:
+                      level = max(0, level - 1)
+                      markTemp = currentTemp
+                      level = motor_run(level)
+                      print(f"[Auto] Temp down -> Level {level}")
+
+              # ... periodische Ausgabe ...
+
+              sleep(0.05)
+
+
+   Die Funktion ``main()`` führt eine schnelle Regelschleife (0,05-Sekunden-Intervall) aus. Wichtige Verhaltensweisen:
+
+   - **Initialisierung**: Sie liest wiederholt die Temperatur, bis ein gültiger ``markTemp`` ermittelt wurde, um sicherzustellen, dass das System mit einer bekannten Referenz startet.
+
+   - **Manuelle Priorität**: Nach einem Tastendruck werden automatische Anpassungen für ``MANUAL_HOLD_TIME`` (2 Sekunden) blockiert. Diese ``auto_allowed``-Sperre verhindert, dass das System die manuelle Änderung des Benutzers sofort konterkariert.
+
+   - **Automatische Anpassung**: Wenn die Automatik erlaubt ist und der Ventilator nicht auf Stufe 0 steht, prüft der Code, ob die aktuelle Temperatur um ``TEMP_THRESHOLD`` (±5°C) von der Referenz abgewichen ist. Falls ja, wird die Stufe um eins erhöht oder verringert und die Referenz auf die aktuelle Temperatur zurückgesetzt — dies erzeugt ein **rastendes** Verhalten, das Oszillation um den Schwellwert verhindert.
+
+   - **Periodische Ausgabe**: Alle ``PRINT_INTERVAL`` (1 Sekunde) werden die aktuelle Temperatur, die Referenztemperatur und die Stufe zur Überwachung ausgegeben.
 
 
 
@@ -353,4 +496,4 @@ Dieses Python-Skript kombiniert einen Motor, einen Taster und einen Temperaturse
 
 **Fazit**
 
-Das Projekt „Smarter Ventilator“ zeigt, wie sich manuelle und automatische Steuerung in einem einzigen System kombinieren lassen. Es ist ein praktisches Beispiel für die Integration von Sensoren, Motoren und Benutzerinteraktion in ein funktionales und effizientes System. Erweitern Sie das Projekt mit zusätzlichen Funktionen und erstellen Sie Ihre eigene intelligente Klimasteuerung!
+Das Projekt „Smarter Ventilator" zeigt, wie sich manuelle und automatische Steuerung in einem einzigen System kombinieren lassen. Es ist ein praktisches Beispiel für die Integration von Sensoren, Motoren und Benutzerinteraktion in ein funktionales und effizientes System. Erweitern Sie das Projekt mit zusätzlichen Funktionen und erstellen Sie Ihre eigene intelligente Klimasteuerung!
