@@ -116,117 +116,172 @@ Here’s the Python script for this project:
    thermistor = ADC("A3")
 
    level = 0
-   currentTemp = None
    markTemp = None
 
-   PRINT_INTERVAL = 1.0
+   last_button_state = 0
+   last_press_time = 0
    _last_print = 0.0
 
-   button_event = False  # flag: button was pressed
+   DEBOUNCE_TIME = 0.3
+   PRINT_INTERVAL = 1.0
+   MANUAL_HOLD_TIME = 2.0
+   TEMP_THRESHOLD = 5.0
 
 
    def temperature(samples=5, delay=0.01):
-      """Read thermistor multiple times and return averaged Celsius (float) or None."""
-      vals = []
-      for _ in range(samples):
-         analogVal = thermistor.read()
-         Vr = 3.3 * float(analogVal) / 4095.0
-         if (3.3 - Vr) <= 0.1:
-               return None
-         Rt = 10000.0 * Vr / (3.3 - Vr)
-         tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
-         vals.append(tempK - 273.15)
-         sleep(delay)
-      return sum(vals) / len(vals)
+       """Read thermistor temperature and return average Celsius value."""
+
+       vals = []
+
+       for _ in range(samples):
+           analogVal = thermistor.read()
+           Vr = 3.3 * float(analogVal) / 4095.0
+
+           if Vr <= 0 or (3.3 - Vr) <= 0.1:
+               sleep(delay)
+               continue
+
+           Rt = 10000.0 * Vr / (3.3 - Vr)
+
+           if Rt <= 0:
+               sleep(delay)
+               continue
+
+           tempK = 1.0 / (
+               ((math.log(Rt / 10000.0)) / 3950.0)
+               + (1.0 / (273.15 + 25.0))
+           )
+
+           vals.append(tempK - 273.15)
+           sleep(delay)
+
+       if not vals:
+           return None
+
+       return sum(vals) / len(vals)
 
 
    def motor_run(lv):
-      lv = max(0, min(4, lv))
-      motor.power(0 if lv == 0 else lv * 25)
-      return lv
+       """Set motor power according to level."""
+
+       lv = max(0, min(4, lv))
+       power_table = [0, 25, 50, 75, 100]
+       motor.power(power_table[lv])
+
+       return lv
 
 
-   def changeLevel():
-      """Button press: cycle level 0~4 and set a flag for main loop to print."""
-      global level, button_event
-      level = (level + 1) % 5
-      button_event = True
+   def read_button():
+       """Read current button state."""
 
-
-   BtnPin.when_activated = changeLevel
+       try:
+           return BtnPin.value()
+       except TypeError:
+           return BtnPin.value
 
 
    def main():
-      global level, currentTemp, markTemp, _last_print, button_event
+       """Main loop for button control and temperature auto adjustment."""
 
-      markTemp = temperature()
-      while True:
-         currentTemp = temperature()
-         if currentTemp is None:
-               print("Sensor read failed. Please check the sensor.")
+       global level, markTemp, last_button_state, last_press_time, _last_print
+
+       while markTemp is None:
+           markTemp = temperature()
+           sleep(0.1)
+
+       while True:
+           now = time()
+
+           button_state = read_button()
+
+           if button_state == 1 and last_button_state == 0:
+               if now - last_press_time >= DEBOUNCE_TIME:
+                   old = level
+                   level = (level + 1) % 5
+                   last_press_time = now
+
+                   currentTemp = temperature()
+                   if currentTemp is not None:
+                       markTemp = currentTemp
+
+                   level = motor_run(level)
+
+                   print(
+                       f"[Button] {old} -> {level} | "
+                       f"Power: {0 if level == 0 else level * 25}%"
+                   )
+
+           last_button_state = button_state
+
+           currentTemp = temperature()
+
+           if currentTemp is None:
+               print("Sensor read failed.")
                sleep(0.5)
                continue
 
-         # Handle button event in main loop (stable timing)
-         if button_event:
-               button_event = False
-               markTemp = currentTemp
-               print(f"[Button] Level -> {level} | Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C")
+           auto_allowed = (now - last_press_time) >= MANUAL_HOLD_TIME
 
-         # Periodic temperature print
-         now = time()
-         if now - _last_print >= PRINT_INTERVAL:
-               if markTemp is None:
-                  markTemp = currentTemp
-               print(f"Temp: {currentTemp:.2f} °C | Mark: {markTemp:.2f} °C | Level: {level}")
+           if auto_allowed and level != 0:
+               diff = currentTemp - markTemp
+
+               if diff >= TEMP_THRESHOLD:
+                   level = min(4, level + 1)
+                   markTemp = currentTemp
+                   level = motor_run(level)
+                   print(f"[Auto] Temp up -> Level {level}")
+
+               elif diff <= -TEMP_THRESHOLD:
+                   level = max(0, level - 1)
+                   markTemp = currentTemp
+                   level = motor_run(level)
+                   print(f"[Auto] Temp down -> Level {level}")
+
+           if now - _last_print >= PRINT_INTERVAL:
+               print(
+                   f"Temp: {currentTemp:.2f} C | "
+                   f"Mark: {markTemp:.2f} C | "
+                   f"Level: {level}"
+               )
                _last_print = now
 
-         # Auto adjust level based on ±5°C
-         if markTemp is None:
-               markTemp = currentTemp
+           level = motor_run(level)
 
-         if level != 0:
-               diff = currentTemp - markTemp
-               if diff <= -5:
-                  level = max(0, level - 1)
-                  markTemp = currentTemp
-                  print(f"[Auto] Temp down -> Level {level} (Temp: {currentTemp:.2f} °C)")
-               elif diff >= 5:
-                  level = min(4, level + 1)
-                  markTemp = currentTemp
-                  print(f"[Auto] Temp up   -> Level {level} (Temp: {currentTemp:.2f} °C)")
-
-         level = motor_run(level)
-         sleep(0.5)
+           sleep(0.05)
 
 
    try:
-      main()
+       main()
+
    except KeyboardInterrupt:
-      print("\nExiting...")
+       print("\nExiting...")
+
    finally:
-      motor.stop()
-      sleep(0.1)
+       motor.stop()
+       sleep(0.1)
 
 
 
 This Python script integrates a motor, button, and temperature sensor to create a temperature-controlled fan system with adjustable speed. When executed:
 
-1. **Temperature Sensing**: Reads the current temperature in Celsius using the thermistor.
+1. **Temperature Sensing**: Reads the current temperature in Celsius using the thermistor. Multiple samples are averaged for accuracy, and invalid readings are skipped rather than causing immediate failure.
 
 2. **Manual Speed Adjustment**:
 
    - A button connected to GPIO 22 allows the user to cycle through five speed levels (0 to 4).
-   - Pressing the button increases the speed level, and the motor runs at the corresponding speed. Speed level 0 stops the motor.
+   - Pressing the button increases the speed level, and the motor runs at the corresponding power (0%, 25%, 50%, 75%, or 100%). Speed level 0 stops the motor.
+   - Button input includes **debounce protection** (0.3 seconds) to prevent false triggers from contact bounce.
 
-3. **Automatic Speed Control**: The system adjusts the motor speed automatically based on temperature changes:
+3. **Manual Priority Window**: After a button press, automatic speed adjustment is suppressed for **2 seconds** (``MANUAL_HOLD_TIME``). This ensures the user's manual setting is not immediately overridden by an automatic adjustment.
 
-   - If the temperature increases by 2°C or more, the speed level increases (up to level 4).
-   - If the temperature decreases by 2°C or more, the speed level decreases (down to level 0).
+4. **Automatic Speed Control**: After the manual priority window expires (and when the fan is not off), the system adjusts the motor speed automatically based on temperature changes:
 
-4. **Continuous Monitoring**: The system continuously monitors the temperature and adjusts the fan speed accordingly.
+   - If the temperature increases by **5°C** or more, the speed level increases (up to level 4).
+   - If the temperature decreases by **5°C** or more, the speed level decreases (down to level 0).
 
-5. **Graceful Exit**: On ``Ctrl+C``, the motor stops, and the script exits cleanly.
+5. **Continuous Monitoring**: The system continuously monitors the temperature and button state with a fast 0.05-second loop interval, ensuring responsive adjustments.
+
+6. **Graceful Exit**: On ``Ctrl+C``, the motor stops, and the script exits cleanly.
 
 ----------------------------------------------
 
@@ -238,21 +293,39 @@ This Python script integrates a motor, button, and temperature sensor to create 
    .. code-block:: python
 
       def temperature(samples=5, delay=0.01):
-         """Read thermistor multiple times and return averaged Celsius (float) or None."""
-         vals = []
-         for _ in range(samples):
-            analogVal = thermistor.read()
-            Vr = 3.3 * float(analogVal) / 4095.0
-            if (3.3 - Vr) <= 0.1:
-                  return None
-            Rt = 10000.0 * Vr / (3.3 - Vr)
-            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
-            vals.append(tempK - 273.15)
-            sleep(delay)
-         return sum(vals) / len(vals)
+          """Read thermistor temperature and return average Celsius value."""
+
+          vals = []
+
+          for _ in range(samples):
+              analogVal = thermistor.read()
+              Vr = 3.3 * float(analogVal) / 4095.0
+
+              if Vr <= 0 or (3.3 - Vr) <= 0.1:
+                  sleep(delay)
+                  continue
+
+              Rt = 10000.0 * Vr / (3.3 - Vr)
+
+              if Rt <= 0:
+                  sleep(delay)
+                  continue
+
+              tempK = 1.0 / (
+                  ((math.log(Rt / 10000.0)) / 3950.0)
+                  + (1.0 / (273.15 + 25.0))
+              )
+
+              vals.append(tempK - 273.15)
+              sleep(delay)
+
+          if not vals:
+              return None
+
+          return sum(vals) / len(vals)
 
 
-   The ``temperature()`` function reads the thermistor’s analog value, converts it into resistance, and calculates the corresponding temperature using a mathematical formula.
+   The ``temperature()`` function takes multiple samples from the thermistor, converts each analog reading into a resistance value, and calculates the temperature in Celsius using the Steinhart-Hart equation. Individual bad readings (voltage too low or resistance zero) are **skipped** via ``continue`` rather than causing the entire measurement to fail. Only if **all** samples are invalid does the function return ``None``. The final result is the arithmetic mean of all valid samples, giving a stable and noise-resistant reading.
 
 
 2. **Motor Speed Control:**
@@ -260,47 +333,113 @@ This Python script integrates a motor, button, and temperature sensor to create 
    .. code-block:: python
 
       def motor_run(lv):
-         lv = max(0, min(4, lv))
-         motor.power(0 if lv == 0 else lv * 25)
-         return lv
+          """Set motor power according to level."""
+
+          lv = max(0, min(4, lv))
+          power_table = [0, 25, 50, 75, 100]
+          motor.power(power_table[lv])
+
+          return lv
 
 
-   The ``motor_run()`` function adjusts the motor’s speed based on the ``level`` variable. The speed is normalized to a value between 0 and 1.
+   The ``motor_run()`` function maps the numeric level (0–4) to a percentage of motor power using a lookup table. Level 0 sends 0% power (off), while levels 1 through 4 correspond to 25%, 50%, 75%, and 100% power respectively. The level is first clamped to the valid range with ``max(0, min(4, lv))``.
 
 
-3. **Manual Speed Adjustment:**
+3. **Button Reading with Debounce:**
 
    .. code-block:: python
 
-      def changeLevel():
-         """Button press: cycle level 0~4 and set a flag for main loop to print."""
-         global level, button_event
-         level = (level + 1) % 5
-         button_event = True
+      def read_button():
+          """Read current button state."""
+
+          try:
+              return BtnPin.value()
+          except TypeError:
+              return BtnPin.value
 
 
-      BtnPin.when_activated = changeLevel
+      # In main():
+      button_state = read_button()
 
-   The ``changeLevel()`` function cycles through speed levels 0-4 when the button is pressed.
+      if button_state == 1 and last_button_state == 0:
+          if now - last_press_time >= DEBOUNCE_TIME:
+              old = level
+              level = (level + 1) % 5
+              last_press_time = now
+
+              currentTemp = temperature()
+              if currentTemp is not None:
+                  markTemp = currentTemp
+
+              level = motor_run(level)
+
+              print(
+                  f"[Button] {old} -> {level} | "
+                  f"Power: {0 if level == 0 else level * 25}%"
+              )
+
+      last_button_state = button_state
 
 
-4. **Automatic Speed Adjustment:**
+   Instead of using an interrupt callback, the code **polls** the button state in the main loop. A button press is detected by a **rising edge**: the button state transitions from ``0`` to ``1`` (``last_button_state == 0`` → ``button_state == 1``). A **debounce timer** (``DEBOUNCE_TIME = 0.3`` seconds) prevents contact bounce from triggering multiple presses. When a valid press is detected, the level cycles through 0→1→2→3→4→0, the reference temperature (``markTemp``) is updated, and the motor speed is applied immediately.
+
+
+4. **Main Loop and Automatic Adjustment:**
 
    .. code-block:: python
 
       def main():
-         global level, currentTemp, markTemp, _last_print, button_event
+          """Main loop for button control and temperature auto adjustment."""
 
-         markTemp = temperature()
-         while True:
-            currentTemp = temperature()
-            if currentTemp is None:
-                  print("Sensor read failed. Please check the sensor.")
+          global level, markTemp, last_button_state, last_press_time, _last_print
+
+          while markTemp is None:
+              markTemp = temperature()
+              sleep(0.1)
+
+          while True:
+              now = time()
+
+              # ... button polling (see above) ...
+
+              currentTemp = temperature()
+
+              if currentTemp is None:
+                  print("Sensor read failed.")
                   sleep(0.5)
                   continue
-         ...
 
-   The ``main()`` function continuously monitors temperature and adjusts the fan speed if the temperature deviates by more than 2°C from the reference temperature.
+              auto_allowed = (now - last_press_time) >= MANUAL_HOLD_TIME
+
+              if auto_allowed and level != 0:
+                  diff = currentTemp - markTemp
+
+                  if diff >= TEMP_THRESHOLD:
+                      level = min(4, level + 1)
+                      markTemp = currentTemp
+                      level = motor_run(level)
+                      print(f"[Auto] Temp up -> Level {level}")
+
+                  elif diff <= -TEMP_THRESHOLD:
+                      level = max(0, level - 1)
+                      markTemp = currentTemp
+                      level = motor_run(level)
+                      print(f"[Auto] Temp down -> Level {level}")
+
+              # ... periodic print ...
+
+              sleep(0.05)
+
+
+   The ``main()`` function runs a fast control loop (0.05-second interval). Key behaviors:
+
+   - **Initialization**: It repeatedly reads the temperature until a valid ``markTemp`` is obtained, ensuring the system starts with a known reference.
+
+   - **Manual Priority**: After a button press, automatic adjustments are blocked for ``MANUAL_HOLD_TIME`` (2 seconds). This ``auto_allowed`` gate prevents the system from immediately counteracting the user’s manual change.
+
+   - **Automatic Adjustment**: When auto is allowed and the fan is not at level 0, the code checks whether the current temperature has deviated by ``TEMP_THRESHOLD`` (±5°C) from the reference. If so, the level is stepped up or down by one, and the reference is reset to the current temperature — this creates a **latching** behavior that prevents oscillation around the threshold.
+
+   - **Periodic Output**: Every ``PRINT_INTERVAL`` (1 second), the current temperature, reference temperature, and level are printed for monitoring.
 
 
 
