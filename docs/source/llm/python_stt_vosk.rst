@@ -22,9 +22,10 @@ In this lesson, we will:
 * Check the microphone on Raspberry Pi.  
 * Install and test Vosk with a chosen language model.  
 
+.. _test_vosk:
+
 .. start_mic
 
-.. _test_vosk:
 
 Run the program
 --------------------------
