@@ -22,9 +22,11 @@ In dieser Lektion werden wir:
 * das Mikrofon auf dem Raspberry Pi prüfen,  
 * Vosk mit einem ausgewählten Sprachmodell installieren und testen.  
 
+.. _test_vosk:
+
+
 .. start_mic
 
-.. _test_vosk:
 
 Programm ausführen
 --------------------------
