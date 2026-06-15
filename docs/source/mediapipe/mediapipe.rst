@@ -26,3 +26,4 @@ This section is about how to use MediaPipe.
    mp_10_object.rst
    mp_11_object_track.rst
    mp_12_hand_count_tts.rst
+   mp_13_hand_count_auto_tts.rst
