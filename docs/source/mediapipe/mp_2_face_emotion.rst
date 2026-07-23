@@ -4,102 +4,103 @@
 
 .. _mp_face_emotion:
 
-2. Emotion Detection
-==========================================
+2. Détection d'Émotions
+===============================================
 
 -----------------------------
-1. Overview
+1. Aperçu
 -----------------------------
 
-In this section, we extend Face Mesh detection to perform
-basic emotion recognition.
+Dans cette section, nous étendons la détection Face Mesh pour effectuer
+une reconnaissance de base des émotions.
 
-Instead of using deep learning models, this method uses
-facial landmark geometry (eyes and mouth ratios) to classify
-expressions in real time.
+Au lieu d'utiliser des modèles d'apprentissage profond, cette méthode utilise
+la géométrie des points de repère faciaux (rapports des yeux et de la bouche) pour classer
+les expressions en temps réel.
 
 .. image:: img/mp_face_emotion_happy.png
    :align: center
 
-Recognizable emotions:
+Émotions reconnaissables :
 
-- 😮 Surprised
-- 😀 Happy
-- 😢 Sad
-- 😠 Angry
-- 😐 Neutral
+- 😮 Surpris
+- 😀 Heureux
+- 😢 Triste
+- 😠 En colère
+- 😐 Neutre
 
 -----------------------------
-2. How it Works
+2. Comment ça Fonctionne
 -----------------------------
 
-The program follows these steps:
+Le programme suit ces étapes :
 
-1. Use ``Picamera2`` + ``MediaPipe FaceMesh`` to obtain 468 landmarks.
-2. Select key feature points around the eyes and mouth.
-3. Calculate normalized ratios:
-   
-   - Eye openness
-   - Mouth width
-   - Mouth openness
+1. Utiliser ``Picamera2`` + ``MediaPipe FaceMesh`` pour obtenir 468 points de repère.
+2. Sélectionner les points caractéristiques clés autour des yeux et de la bouche.
+3. Calculer les rapports normalisés :
 
-4. Compare values with preset thresholds.
-5. Display the detected emotion using OpenCV.
+   - Ouverture des yeux
+   - Largeur de la bouche
+   - Ouverture de la bouche
 
-Advantages of this approach:
+4. Comparer les valeurs avec des seuils prédéfinis.
+5. Afficher l'émotion détectée à l'aide d'OpenCV.
 
-- Fast and lightweight (suitable for Raspberry Pi)
-- No neural network required
-- Easy to adjust thresholds
+Avantages de cette approche :
+
+- Rapide et léger (adapté au Raspberry Pi)
+- Aucun réseau neuronal requis
+- Facile à ajuster les seuils
 
 ------------------------
-3. Run the Code
+3. Exécuter le Code
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Avant de commencer, assurez-vous :
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Que le support motorisé est assemblé
+   * Que vous pouvez accéder au bureau du Raspberry Pi
+   * Que le package de code est installé
+   * Que Fusion HAT+ est installé et configuré
+   * Qu'OpenCV est installé
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Pour les instructions détaillées, voir :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Ouvrez le terminal et entrez la commande suivante :
 
    .. code-block:: bash
 
         sudo python3 ~/ai-lab-kit/mediapipe/mp_face_emotion.py
-#. After running the program, a video window opens and displays the live camera feed.
+
+#. Après avoir exécuté le programme, une fenêtre vidéo s'ouvre et affiche le flux en direct de la caméra.
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_2.mp4" type="video/mp4">
-             Your browser does not support the video tag.
+             Votre navigateur ne supporte pas la balise vidéo.
          </video>
 
-   When a face appears in front of the camera, the system:
-   
-   - Detects 468 facial landmarks in real time  
-   - Calculates eye openness and mouth openness ratios  
-   - Classifies the current facial expression  
-   
-   The detected emotion label (such as ``Happy``, ``Surprised``, ``Sad``, ``Angry`` or ``Neutral``) is displayed on the video screen.
-   
-   As the user changes facial expressions, the emotion label updates instantly.
-   
-   If no face is detected, the program continues showing the normal camera feed without an emotion label.
-   
-   Press ``q`` to exit the program. The camera will stop and the OpenCV window will close automatically.
+   Lorsqu'un visage apparaît devant la caméra, le système :
+
+   - Détecte 468 points de repère faciaux en temps réel
+   - Calcule les rapports d'ouverture des yeux et d'ouverture de la bouche
+   - Classifie l'expression faciale actuelle
+
+   L'étiquette d'émotion détectée (comme ``Happy``, ``Surprised``, ``Sad``, ``Angry`` ou ``Neutral``) est affichée sur l'écran vidéo.
+
+   Au fur et à mesure que l'utilisateur change d'expression faciale, l'étiquette d'émotion se met à jour instantanément.
+
+   Si aucun visage n'est détecté, le programme continue d'afficher le flux normal de la caméra sans étiquette d'émotion.
+
+   Appuyez sur ``q`` pour quitter le programme. La caméra s'arrête et la fenêtre OpenCV se ferme automatiquement.
 
 
 -----------------------------
-4. Complete Code
+4. Code Complet
 -----------------------------
 
 .. code-block:: python
@@ -213,13 +214,13 @@ Advantages of this approach:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running, the recognized emotion category will be displayed in real-time on the camera feed, along with debug information including mouth width, mouth openness, eye openness, etc.
+Après l'exécution, la catégorie d'émotion reconnue sera affichée en temps réel sur le flux de la caméra, ainsi que des informations de débogage comprenant la largeur de la bouche, l'ouverture de la bouche, l'ouverture des yeux, etc.
 
 -----------------------------
-5. Key Steps Explanation
+5. Explication des Étapes Clés
 -----------------------------
 
-#. Select key points
+#. Sélectionner les points clés
 
    .. code-block:: python
 
@@ -230,22 +231,22 @@ After running, the recognized emotion category will be displayed in real-time on
       MOUTH_LEFT, MOUTH_RIGHT = 61, 291
       LIP_UP, LIP_DOWN = 13, 14
 
-   These indices correspond to:
+   Ces indices correspondent à :
 
-   - 159, 145 → Upper and lower edges of the left eye
-   - 386, 374 → Upper and lower edges of the right eye
-   - 33, 263 → Eye centers (used for normalization)
-   - 61, 291 → Mouth corners
-   - 13, 14 → Upper and lower lip midpoints
+   - 159, 145 → Bords supérieur et inférieur de l'œil gauche
+   - 386, 374 → Bords supérieur et inférieur de l'œil droit
+   - 33, 263 → Centres des yeux (utilisés pour la normalisation)
+   - 61, 291 → Coins de la bouche
+   - 13, 14 → Points médians des lèvres supérieure et inférieure
 
    .. image:: img/mp_face_point.jpg
       :align: center
 
-#. Normalize distances
+#. Normaliser les distances
 
-   To reduce the influence of camera distance,
-   use the distance between the two eye centers
-   as the normalization scale.
+   Pour réduire l'influence de la distance de la caméra,
+   utilisez la distance entre les deux centres des yeux
+   comme échelle de normalisation.
 
    .. code-block:: python
 
@@ -260,7 +261,7 @@ After running, the recognized emotion category will be displayed in real-time on
           landmarks[R_EYE_CENTER]
       )
 
-#. Calculate geometric features
+#. Calculer les caractéristiques géométriques
 
    .. code-block:: python
 
@@ -286,13 +287,13 @@ After running, the recognized emotion category will be displayed in real-time on
 
       eye_open = 0.5 * (eye_open_L + eye_open_R)
 
-   Calculated features:
+   Caractéristiques calculées :
 
-   - ``mouth_width`` → Horizontal mouth width
-   - ``mouth_open`` → Vertical mouth opening
-   - ``eye_open`` → Average eye openness
+   - ``mouth_width`` → Largeur horizontale de la bouche
+   - ``mouth_open`` → Ouverture verticale de la bouche
+   - ``eye_open`` → Ouverture moyenne des yeux
 
-#. Classify emotion using thresholds
+#. Classifier l'émotion à l'aide de seuils
 
    .. code-block:: python
 
@@ -307,44 +308,44 @@ After running, the recognized emotion category will be displayed in real-time on
       else:
           label = "Neutral"
 
-   Emotion rules (empirical thresholds):
+   Règles d'émotion (seuils empiriques) :
 
-   - Surprised → Mouth and eyes are wide open
-   - Happy → Mouth wide, eyes normal
-   - Sad / Angry → Mouth and eyes mostly closed
-   - Neutral → Does not match other conditions
+   - Surpris → Bouche et yeux grands ouverts
+   - Heureux → Bouche large, yeux normaux
+   - Triste / En colère → Bouche et yeux principalement fermés
+   - Neutre → Ne correspond pas aux autres conditions
 
 -----------------------------------------------------
-6. Threshold and Robustness Adjustment
+6. Ajustement des Seuils et Robustesse
 -----------------------------------------------------
 
-- Thresholds like ``0.08``, ``0.035``, ``0.018`` are based on empirical values at 640×480 resolution.
-- If the camera is closer or the resolution is different, adjust the thresholds using the debug information (mw/mo/eo).
-- Emotion judgment logic can be modified to be more complex or use trained models for higher accuracy, such as calculating the relative position of mouth corners, mouth shape, and other features.
+- Les seuils comme ``0.08``, ``0.035``, ``0.018`` sont basés sur des valeurs empiriques en résolution 640x480.
+- Si la caméra est plus proche ou la résolution différente, ajustez les seuils en utilisant les informations de débogage (mw/mo/eo).
+- La logique de jugement des émotions peut être modifiée pour être plus complexe ou utiliser des modèles entraînés pour une précision plus élevée, comme le calcul de la position relative des coins de la bouche, la forme de la bouche, etc.
 
 ------------------------------------------------------------
-7. Troubleshooting
+7. Dépannage
 ------------------------------------------------------------
 
-- Emotion recognition not sensitive
+- La reconnaissance des émotions n'est pas sensible
 
-  Thresholds may not match the current camera distance.  
-  Adjust ``mouth_open`` and ``eye_open`` values.
+  Les seuils peuvent ne pas correspondre à la distance actuelle de la caméra.
+  Ajustez les valeurs ``mouth_open`` et ``eye_open``.
 
-- Detection latency
+- Latence de détection
 
-  Resolution may be too high.  
-  Reduce resolution or disable ``refine_landmarks``.
+  La résolution peut être trop élevée.
+  Réduisez la résolution ou désactivez ``refine_landmarks``.
 
-- Cannot recognize emotion
+- Impossible de reconnaître l'émotion
 
-  Lighting may be insufficient or the face angle is skewed.  
-  Improve lighting and face the camera directly.
+  L'éclairage peut être insuffisant ou l'angle du visage est de travers.
+  Améliorez l'éclairage et faites face à la caméra directement.
 
 -----------------------------
-8.  Summary
+8. Résumé
 -----------------------------
 
-- This chapter implemented lightweight emotion recognition based on **geometric features + FaceMesh landmarks**.
-- Offers advantages of **high real-time performance** and **adjustable thresholds**.
-- Can be used in projects like interactive art, HCI, classroom/meeting state detection.
+- Ce chapitre a implémenté la reconnaissance légère des émotions basée sur les **caractéristiques géométriques + points de repère FaceMesh**.
+- Offre des avantages de **haute performance en temps réel** et de **seuils ajustables**.
+- Peut être utilisé dans des projets comme l'art interactif, l'IHM, la détection d'état en classe/réunion.

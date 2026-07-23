@@ -5,32 +5,32 @@
 .. _mp_hand_gesture:
 
 
-6. Hand Gesture Recognizer
-==================================================
+6. Reconnaissance de Gestes de la Main
+==========================================================
 
 ------------------------------------------------------------
-1. Overview
+1. Aperçu
 ------------------------------------------------------------
 
-In the previous chapter, we used MediaPipe Hands
-to obtain 21 hand landmarks and visualize the hand skeleton.
+Dans le chapitre précédent, nous avons utilisé MediaPipe Hands
+pour obtenir 21 points de repère de la main et visualiser le squelette de la main.
 
-This chapter introduces **MediaPipe Tasks – Gesture Recognizer**,
-which can directly output semantic gesture labels such as:
+Ce chapitre présente **MediaPipe Tasks – Gesture Recognizer**,
+qui peut directement produire des étiquettes de gestes sémantiques telles que :
 
 - ``Thumb_Up``
 - ``Open_Palm``
 - ``Victory``
 - ``Closed_Fist``
 
-By combining:
+En combinant :
 
-- ``Picamera2`` for video capture
-- ``MediaPipe Hands`` for landmark visualization
-- ``Gesture Recognizer`` for classification
+- ``Picamera2`` pour la capture vidéo
+- ``MediaPipe Hands`` pour la visualisation des points de repère
+- ``Gesture Recognizer`` pour la classification
 
-we can achieve real-time gesture recognition
-with both skeleton rendering and label display.
+nous pouvons réaliser une reconnaissance de gestes en temps réel
+avec à la fois le rendu du squelette et l'affichage des étiquettes.
 
 .. image:: img/mp_hang_gesture.png
    :alt: Gesture Recognizer
@@ -38,41 +38,41 @@ with both skeleton rendering and label display.
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Comment ça Fonctionne
 ------------------------------------------------------------
 
-The program performs the following steps:
+Le programme effectue les étapes suivantes :
 
-1. Capture video frames using ``Picamera2``.
-2. (Optional) Use ``MediaPipe Hands`` to draw landmarks.
-3. Use **MediaPipe Tasks – Gesture Recognizer** in ``VIDEO`` mode.
-4. For each detected hand, obtain:
+1. Capturer des images vidéo avec ``Picamera2``.
+2. (Optionnel) Utiliser ``MediaPipe Hands`` pour dessiner les points de repère.
+3. Utiliser **MediaPipe Tasks – Gesture Recognizer** en mode ``VIDEO``.
+4. Pour chaque main détectée, obtenir :
 
-   - Gesture category list (label + confidence)
-   - Handedness (Left / Right)
-   - Normalized landmarks
+   - La liste des catégories de gestes (étiquette + confiance)
+   - La latéralité (Gauche / Droite)
+   - Les points de repère normalisés
 
-5. Select the top-1 gesture and draw
-   "label + confidence score"
-   above the corresponding hand.
+5. Sélectionner le meilleur geste (top-1) et dessiner
+   « étiquette + score de confiance »
+   au-dessus de la main correspondante.
 
 .. note::
 
-   This chapter uses the MediaPipe **Tasks API (0.10+)**.
+   Ce chapitre utilise l'API **MediaPipe Tasks (0.10+)**.
 
 
 ------------------------------------------------------------
-3. Model
+3. Modèle
 ------------------------------------------------------------
 
-Gesture Recognizer requires a model file:
+Gesture Recognizer nécessite un fichier de modèle :
 
 ``gesture_recognizer.task``
 
-The model file is already included in the example directory.
-Please use the provided version.
+Le fichier de modèle est déjà inclus dans le répertoire d'exemple.
+Veuillez utiliser la version fournie.
 
-The built-in model supports the following gesture labels:
+Le modèle intégré supporte les étiquettes de gestes suivantes :
 
 - 0 → ``Unknown``
 - 1 → ``Closed_Fist``
@@ -84,59 +84,59 @@ The built-in model supports the following gesture labels:
 - 7 → ``ILoveYou``
 
 ------------------------
-4. Run the Code
+4. Exécuter le Code
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Avant de commencer, assurez-vous :
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Que le support motorisé est assemblé
+   * Que vous pouvez accéder au bureau du Raspberry Pi
+   * Que le package de code est installé
+   * Que Fusion HAT+ est installé et configuré
+   * Qu'OpenCV est installé
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Pour les instructions détaillées, voir :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Ouvrez le terminal et entrez la commande suivante :
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_gesture.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Après avoir exécuté le programme, une fenêtre intitulée « Show Video » s'ouvre et affiche le flux en direct de la caméra.
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_6.mp4" type="video/mp4">
-             Your browser does not support the video tag.
+             Votre navigateur ne supporte pas la balise vidéo.
          </video>
-         
-   When one or two hands appear in front of the camera, the program:
-   
-   - Detects and draws the 21 hand landmarks and connection lines (hand skeleton) in real time.
-   - Runs the Gesture Recognizer model on each frame to classify the gesture.
-   
-   If a gesture is recognized with a score above ``SCORE_THRESHOLD`` (default 0.5), the program shows a label near the corresponding hand, including:
-   
-   - Handedness (Left/Right)
-   - Gesture name (for example, ``Thumb_Up``, ``Open_Palm``, ``Victory``)
-   - Confidence score (for example, ``0.87``)
-   
-   A thin bounding box is also drawn around the hand area to make the label placement clearer.
-   
-   As you change hand poses, the gesture label and score update continuously in real time.
-   
-   If no hand is detected, or the gesture confidence is below the threshold, only the hand skeleton (or the raw camera feed) is shown without gesture labels.
-   
-   Press ``q`` to exit the program. The camera stops and the OpenCV window closes automatically.
+
+   Lorsqu'une ou deux mains apparaissent devant la caméra, le programme :
+
+   - Détecte et dessine les 21 points de repère de la main et les lignes de connexion (squelette de la main) en temps réel.
+   - Exécute le modèle Gesture Recognizer sur chaque image pour classer le geste.
+
+   Si un geste est reconnu avec un score supérieur à ``SCORE_THRESHOLD`` (valeur par défaut 0,5), le programme affiche une étiquette près de la main correspondante, comprenant :
+
+   - La latéralité (Gauche/Droite)
+   - Le nom du geste (par exemple, ``Thumb_Up``, ``Open_Palm``, ``Victory``)
+   - Le score de confiance (par exemple, ``0.87``)
+
+   Une fine boîte englobante est également dessinée autour de la zone de la main pour rendre le placement de l'étiquette plus clair.
+
+   Au fur et à mesure que vous changez de pose de la main, l'étiquette et le score du geste se mettent à jour en continu en temps réel.
+
+   Si aucune main n'est détectée, ou si la confiance du geste est inférieure au seuil, seul le squelette de la main (ou le flux brut de la caméra) est affiché sans étiquettes de geste.
+
+   Appuyez sur ``q`` pour quitter le programme. La caméra s'arrête et la fenêtre OpenCV se ferme automatiquement.
 
 
 -----------------------------
-5. Complete Code
+5. Code Complet
 -----------------------------
 
 .. code-block:: python
@@ -281,108 +281,108 @@ The built-in model supports the following gesture labels:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the window will display the hand skeleton (optional) and gesture text boxes. When a gesture matching the model's categories is recognized, it will display above the corresponding hand's bounding box:
+Après avoir exécuté le script, la fenêtre affichera le squelette de la main (optionnel) et les boîtes de texte des gestes. Lorsqu'un geste correspondant aux catégories du modèle est reconnu, il s'affichera au-dessus de la boîte englobante de la main correspondante :
 
-- Left/Right hand (handedness)
-- Gesture name (e.g., ``Thumb_Up``)
-- Confidence score (0~1)
-
------------------------------
-6. Code Explanation
------------------------------
-
-This example combines two parts:
-
-- **Hands (Solutions API)**: used for drawing the hand skeleton (21 landmarks + connections).
-- **Gesture Recognizer (Tasks API)**: used for predicting a gesture label such as ``Thumb_Up`` or ``Open_Palm``.
-
-**High-level flow**
-
-#. Initialize Hands for landmark drawing (optional but helpful for visualization).
-#. Load the Gesture Recognizer model (``gesture_recognizer.task``) and enable ``VIDEO`` mode.
-#. Start the camera and process frames in a loop:
-
-   - Convert the frame to RGB (MediaPipe requires RGB).
-   - Run Hands to draw the skeleton.
-   - Run Gesture Recognizer to get ``label + score`` for each hand.
-   - Draw the label near the corresponding hand.
-
-#. Press ``q`` to exit and release resources.
-
-**Key points to understand**
-
-- Model file
-
-  Gesture Recognizer requires ``gesture_recognizer.task``. Make sure the model file is placed in the same folder as the script (or update the path).
-
-- VIDEO mode requires timestamps
-
-  ``recognize_for_video()`` needs a continuously increasing timestamp in milliseconds. In this example, we generate it using OpenCV tick time.
-
-- Show labels with a confidence threshold
-
-  Only gestures with score >= ``SCORE_THRESHOLD`` are displayed. This avoids showing unstable predictions.
+- Main gauche/droite (latéralité)
+- Nom du geste (par exemple, ``Thumb_Up``)
+- Score de confiance (0~1)
 
 -----------------------------
-7. Parameters and Tuning
+6. Explication du Code
+-----------------------------
+
+Cet exemple combine deux parties :
+
+- **Hands (Solutions API)** : utilisé pour dessiner le squelette de la main (21 points de repère + connexions).
+- **Gesture Recognizer (Tasks API)** : utilisé pour prédire une étiquette de geste comme ``Thumb_Up`` ou ``Open_Palm``.
+
+**Flux général**
+
+#. Initialiser Hands pour le dessin des points de repère (optionnel mais utile pour la visualisation).
+#. Charger le modèle Gesture Recognizer (``gesture_recognizer.task``) et activer le mode ``VIDEO``.
+#. Démarrer la caméra et traiter les images dans une boucle :
+
+   - Convertir l'image en RGB (MediaPipe nécessite RGB).
+   - Exécuter Hands pour dessiner le squelette.
+   - Exécuter Gesture Recognizer pour obtenir ``étiquette + score`` pour chaque main.
+   - Dessiner l'étiquette près de la main correspondante.
+
+#. Appuyer sur ``q`` pour quitter et libérer les ressources.
+
+**Points clés à comprendre**
+
+- Fichier de modèle
+
+  Gesture Recognizer nécessite ``gesture_recognizer.task``. Assurez-vous que le fichier de modèle est placé dans le même dossier que le script (ou mettez à jour le chemin).
+
+- Le mode VIDEO nécessite des horodatages
+
+  ``recognize_for_video()`` a besoin d'un horodatage en millisecondes qui augmente continuellement. Dans cet exemple, nous le générons en utilisant le temps tick d'OpenCV.
+
+- Afficher les étiquettes avec un seuil de confiance
+
+  Seuls les gestes avec un score >= ``SCORE_THRESHOLD`` sont affichés. Cela évite d'afficher des prédictions instables.
+
+-----------------------------
+7. Paramètres et Réglage
 -----------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Parameter
+   * - Paramètre
      - Description
      - Suggestion
    * - ``SCORE_THRESHOLD``
-     - Gestures below this score are ignored
-     - Increase to reduce false positives; decrease to improve recall
+     - Les gestes en dessous de ce score sont ignorés
+     - Augmentez pour réduire les faux positifs ; diminuez pour améliorer le rappel
    * - ``max_num_hands``
-     - Number of hands to detect simultaneously
-     - 2 is sufficient for most scenarios
+     - Nombre de mains à détecter simultanément
+     - 2 est suffisant pour la plupart des scénarios
    * - ``running_mode=VIDEO``
-     - Video stream mode, requires timestamp
-     - Keep using (streaming recognition is more stable)
-   * - Resolution
-     - Affects speed and accuracy
-     - Recommended 640×480 or lower on Raspberry Pi for better FPS
+     - Mode flux vidéo, nécessite un horodatage
+     - Continuez à utiliser (la reconnaissance en continu est plus stable)
+   * - Résolution
+     - Affecte la vitesse et la précision
+     - Recommandé 640x480 ou moins sur Raspberry Pi pour de meilleurs FPS
 
 -------------------------------------------------------
-8. Troubleshooting
+8. Dépannage
 -------------------------------------------------------
 
 - ``FileNotFoundError: gesture_recognizer.task``
 
-  This usually means the model file path is incorrect.
-  Make sure the model file is placed in the same directory as the script,
-  or update ``GESTURE_MODEL_PATH`` accordingly.
+  Cela signifie généralement que le chemin du fichier de modèle est incorrect.
+  Assurez-vous que le fichier de modèle est placé dans le même répertoire que le script,
+  ou mettez à jour ``GESTURE_MODEL_PATH`` en conséquence.
 
 - ``ImportError: cannot import name 'vision'``
 
-  This error indicates that the MediaPipe version is outdated.
-  Upgrade MediaPipe to version 0.10 or later using:
+  Cette erreur indique que la version de MediaPipe est obsolète.
+  Mettez à jour MediaPipe vers la version 0.10 ou ultérieure en utilisant :
 
   ``pip install --upgrade mediapipe``
 
-- Recognized category differs from expectation
+- La catégorie reconnue diffère des attentes
 
-  The model category set may differ, or lighting conditions may affect recognition.
-  Try improving lighting, simplifying the background,
-  or switching to a different model version.
+  L'ensemble des catégories du modèle peut différer, ou les conditions d'éclairage peuvent affecter la reconnaissance.
+  Essayez d'améliorer l'éclairage, de simplifier l'arrière-plan,
+  ou de passer à une version de modèle différente.
 
-- Low frame rate
+- Faible fréquence d'images
 
-  Raspberry Pi performance may be limited.
-  Reduce resolution, disable skeleton drawing,
-  or close unnecessary background processes.
+  Les performances du Raspberry Pi peuvent être limitées.
+  Réduisez la résolution, désactivez le dessin du squelette,
+  ou fermez les processus d'arrière-plan inutiles.
 
 -----------------------------
-9. Summary
+8. Résumé
 -----------------------------
 
-- **Gesture Recognizer** enables real-time semantic gesture recognition on Raspberry Pi;
-- Combined with **Hands** skeleton rendering, it's both intuitive and easy to debug;
-- By adjusting thresholds and resolution, a balance between "stability / speed" can be achieved;
-- Future possibilities:
+- **Gesture Recognizer** permet la reconnaissance de gestes sémantiques en temps réel sur Raspberry Pi ;
+- Combiné avec le rendu du squelette **Hands**, c'est à la fois intuitif et facile à déboguer ;
+- En ajustant les seuils et la résolution, un équilibre entre « stabilité / vitesse » peut être atteint ;
+- Possibilités futures :
 
-  - Map different gestures to specific commands (shortcuts, GPIO control, etc.);
-  - Train custom gesture models for specific scenarios.
+  - Mapper différents gestes à des commandes spécifiques (raccourcis, contrôle GPIO, etc.) ;
+  - Entraîner des modèles de gestes personnalisés pour des scénarios spécifiques.

@@ -4,122 +4,122 @@
 
 .. _mp_tracking:
 
-11. Object Tracking with Pan-Tilt Camera
-=============================================
+11. Suivi d'Objets avec Caméra sur Support Motorisé
+=====================================================
 
 ------------------------------------------------------------
-1. Overview
+1. Aperçu
 ------------------------------------------------------------
 
-In this chapter, we extend MediaPipe object detection
-to build a simple **object tracking system**
-using a pan-tilt servo platform.
+Dans ce chapitre, nous étendons la détection d'objets MediaPipe
+pour construire un **système de suivi d'objets** simple
+à l'aide d'une plateforme à servos panoramique/inclinaison.
 
-The system detects a specified target object
-(for example, a "banana")
-and automatically adjusts two servos
-to keep the object centered in the camera view.
+Le système détecte un objet cible spécifié
+(par exemple, une « banane »)
+et ajuste automatiquement deux servos
+pour maintenir l'objet centré dans le champ de la caméra.
 
 .. image:: img/mp_object_track.png
    :width: 500
    :align: center
 
-This project combines:
+Ce projet combine :
 
-- Real-time object detection
-- Servo motor control
-- Proportional tracking logic
-- Visual feedback overlay
+- La détection d'objets en temps réel
+- Le contrôle de moteurs servo
+- La logique de suivi proportionnel
+- La superposition de retour visuel
 
-It demonstrates how computer vision can directly drive
-physical hardware in real time.
+Il démontre comment la vision par ordinateur peut directement piloter
+du matériel physique en temps réel.
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Comment ça Fonctionne
 ------------------------------------------------------------
 
-The tracking system follows these steps:
+Le système de suivi suit ces étapes :
 
-1. Initialize pan and tilt servos to the center position.
-2. Configure the Raspberry Pi camera for video streaming.
-3. Load the EfficientDet Lite0 model for object detection.
-4. Detect objects in each frame using MediaPipe Tasks.
-5. Identify the target object (e.g., "banana").
-6. Compute the object's offset relative to the frame center.
-7. Adjust servo angles using proportional control.
-8. Display tracking guides and status on the screen.
+1. Initialiser les servos panoramique et d'inclinaison à la position centrale.
+2. Configurer la caméra Raspberry Pi pour la diffusion vidéo.
+3. Charger le modèle EfficientDet Lite0 pour la détection d'objets.
+4. Détecter les objets dans chaque image à l'aide de MediaPipe Tasks.
+5. Identifier l'objet cible (par exemple, « banana »).
+6. Calculer le décalage de l'objet par rapport au centre de l'image.
+7. Ajuster les angles des servos à l'aide d'un contrôle proportionnel.
+8. Afficher les guides de suivi et l'état à l'écran.
 
-This example shows how vision-based feedback
-can be used to control hardware movement dynamically.
+Cet exemple montre comment le retour visuel
+peut être utilisé pour contrôler dynamiquement le mouvement du matériel.
 
 ------------------------
-3. Run the Code
+3. Exécuter le Code
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Avant de commencer, assurez-vous :
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Que le support motorisé est assemblé
+   * Que vous pouvez accéder au bureau du Raspberry Pi
+   * Que le package de code est installé
+   * Que Fusion HAT+ est installé et configuré
+   * Qu'OpenCV est installé
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Pour les instructions détaillées, voir :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Ouvrez le terminal et entrez la commande suivante :
 
    .. code-block:: bash
 
        sudo python3 ~/ai-lab-kit/mediapipe/mp_track_object.py
 
-#. After running the program, the camera window opens and begins real-time object detection.
+#. Après avoir exécuté le programme, la fenêtre de la caméra s'ouvre et commence la détection d'objets en temps réel.
 
    .. raw:: html
-   
+
          <video width="300" loop muted controls>
              <source src="../_static/video/object_tracking.mp4" type="video/mp4">
-             Your browser does not support the video tag.
+             Votre navigateur ne supporte pas la balise vidéo.
          </video>
-   
-   The system searches for the specified target object (default: ``banana``).
-   A yellow crosshair is displayed at the center of the screen as a reference point.
-   
-   When the target object appears in the frame:
-   
-   - MediaPipe detects the object using the EfficientDet Lite0 model.
-   - The center of the detected bounding box is calculated.
-   - If the object is outside the center deadzone, the pan and tilt servos move step-by-step.
-   - The camera physically rotates to keep the object near the center of the frame.
-   - A green tracking box is drawn around the object.
-   - The screen displays:
-   
-     - ``Tracking banana`` (status)
-     - Current servo angles (Pan / Tilt)
-   
-   When the object is not detected:
-   
-   - The servos stop moving.
-   - The status text changes to ``No banana found`` (displayed in red).
-   
-   The tracking logic uses a simple 4-direction deadzone control:
-   the servos only move when the object is sufficiently far from the center,
-   preventing jitter.
-   
-   Press ``q`` to stop the program.
-   
-   When exiting:
-   
-   - Both servos return to the center position.
-   - The camera stops.
-   - The display window closes.
-   - A message is printed: ``Tracking stopped. Servos centered.``
+
+   Le système recherche l'objet cible spécifié (par défaut : ``banana``).
+   Un réticule jaune est affiché au centre de l'écran comme point de référence.
+
+   Lorsque l'objet cible apparaît dans l'image :
+
+   - MediaPipe détecte l'objet à l'aide du modèle EfficientDet Lite0.
+   - Le centre de la boîte englobante détectée est calculé.
+   - Si l'objet est en dehors de la zone morte centrale, les servos panoramique et d'inclinaison se déplacent par pas.
+   - La caméra tourne physiquement pour maintenir l'objet près du centre de l'image.
+   - Une boîte de suivi verte est dessinée autour de l'objet.
+   - L'écran affiche :
+
+     - ``Tracking banana`` (statut)
+     - Les angles actuels des servos (Pan / Tilt)
+
+   Lorsque l'objet n'est pas détecté :
+
+   - Les servos cessent de bouger.
+   - Le texte de statut devient ``No banana found`` (affiché en rouge).
+
+   La logique de suivi utilise un contrôle de zone morte simple à 4 directions :
+   les servos ne bougent que lorsque l'objet est suffisamment loin du centre,
+   empêchant les tremblements.
+
+   Appuyez sur ``q`` pour arrêter le programme.
+
+   Lors de la sortie :
+
+   - Les deux servos retournent à la position centrale.
+   - La caméra s'arrête.
+   - La fenêtre d'affichage se ferme.
+   - Un message est affiché : ``Tracking stopped. Servos centered.``
 
 -----------------------------
-4. Complete Code
+4. Code Complet
 -----------------------------
 
 .. code-block:: python
@@ -179,22 +179,22 @@ can be used to control hardware movement dynamically.
        """Basic 4-direction tracking with deadzone"""
        if x is None:
            return 0, 0
-       
+
        pan_move = 0
        tilt_move = 0
-       
+
        # Left/right movement decision
        if x < CX - DEADZONE:
            pan_move = 1          # Move right
        elif x > CX + DEADZONE:
            pan_move = -1         # Move left
-       
-       # Up/down movement decision  
+
+       # Up/down movement decision
        if y < CY - DEADZONE:
            tilt_move = -1        # Move down
        elif y > CY + DEADZONE:
            tilt_move = 1         # Move up
-       
+
        return pan_move, tilt_move
 
    # -------------------- Main Tracking Loop --------------------
@@ -206,14 +206,14 @@ can be used to control hardware movement dynamically.
            # Capture frame from camera
            frame = cam.capture_array()
            frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
-           
+
            # Convert to RGB for MediaPipe
            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
-           
+
            # Detect objects in frame
            detections = detector.detect_for_video(mp_image, int(time.time() * 1000))
-           
+
            # Search for target object
            obj_x = obj_y = None
            for detection in detections.detections:
@@ -225,47 +225,47 @@ can be used to control hardware movement dynamically.
                        obj_x = bbox.origin_x + bbox.width // 2
                        obj_y = bbox.origin_y + bbox.height // 2
                        break
-           
+
            # Process tracking if object found
            if obj_x is not None:
                pan_move, tilt_move = simple_track(obj_x, obj_y)
                pan_pos += pan_move
                tilt_pos += tilt_move
-               
+
                # Limit servo angles to safe ranges
                pan_pos = max(-90, min(90, pan_pos))
                tilt_pos = max(-45, min(45, tilt_pos))
-               
+
                # Send commands to servos
                pan.angle(pan_pos)
                tilt.angle(tilt_pos)
-               
+
                # Draw tracking box around object
-               cv2.rectangle(frame, 
-                            (obj_x - 30, obj_y - 30), 
-                            (obj_x + 30, obj_y + 30), 
+               cv2.rectangle(frame,
+                            (obj_x - 30, obj_y - 30),
+                            (obj_x + 30, obj_y + 30),
                             (0, 255, 0), 2)
                status = f"Tracking {TARGET}"
                color = (0, 255, 0)  # Green for tracking
            else:
                status = f"No {TARGET} found"
                color = (0, 0, 255)  # Red for not found
-           
+
            # Draw center crosshair for reference
            cv2.line(frame, (CX - 20, CY), (CX + 20, CY), (0, 255, 255), 2)
            cv2.line(frame, (CX, CY - 20), (CX, CY + 20), (0, 255, 255), 2)
-           
+
            # Display status information
-           cv2.putText(frame, status, (10, 30), 
+           cv2.putText(frame, status, (10, 30),
                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
-           cv2.putText(frame, f"Pan: {pan_pos:.0f} Tilt: {tilt_pos:.0f}", 
+           cv2.putText(frame, f"Pan: {pan_pos:.0f} Tilt: {tilt_pos:.0f}",
                       (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
-           cv2.putText(frame, "Press 'q' to quit", (10, 90), 
+           cv2.putText(frame, "Press 'q' to quit", (10, 90),
                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-           
+
            # Show video window
            cv2.imshow(f"Track: {TARGET}", frame)
-           
+
            # Exit on 'q' key press
            if cv2.waitKey(1) & 0xFF == ord('q'):
                break
@@ -280,10 +280,10 @@ can be used to control hardware movement dynamically.
        print("Tracking stopped. Servos centered.")
 
 -----------------------------
-5. Code Explanation
+5. Explication du Code
 -----------------------------
 
-**Configuration Section**
+**Section de Configuration**
 
 .. code-block:: python
 
@@ -293,13 +293,13 @@ can be used to control hardware movement dynamically.
    SCORE_THRESHOLD = 0.3
    DEADZONE = 50
 
-- ``TARGET``: Object category to track (must be in COCO dataset classes);
-- ``W, H``: Camera resolution - balanced between speed and detail;
-- ``CX, CY``: Frame center coordinates for tracking reference;
-- ``SCORE_THRESHOLD``: Minimum confidence for valid detection;
-- ``DEADZONE``: Distance from center before servo movement starts (reduces jitter).
+- ``TARGET`` : Catégorie d'objet à suivre (doit être dans les classes du jeu de données COCO) ;
+- ``W, H`` : Résolution de la caméra - équilibrée entre vitesse et détails ;
+- ``CX, CY`` : Coordonnées du centre de l'image pour la référence de suivi ;
+- ``SCORE_THRESHOLD`` : Confiance minimale pour une détection valide ;
+- ``DEADZONE`` : Distance du centre avant le début du mouvement du servo (réduit les tremblements).
 
-**Servo Initialization**
+**Initialisation des Servos**
 
 .. code-block:: python
 
@@ -309,11 +309,11 @@ can be used to control hardware movement dynamically.
    pan.angle(0)
    tilt.angle(0)
 
-- ``Servo(2)`` and ``Servo(3)`` correspond to channels on Fusion HAT;
-- ``.angle(0)`` centers servos at 0° position;
-- ``time.sleep(1)`` ensures servos reach position before continuing.
+- ``Servo(2)`` et ``Servo(3)`` correspondent aux canaux sur Fusion HAT ;
+- ``.angle(0)`` centre les servos à la position 0° ;
+- ``time.sleep(1)`` garantit que les servos atteignent la position avant de continuer.
 
-**Camera Setup**
+**Configuration de la Caméra**
 
 .. code-block:: python
 
@@ -322,11 +322,11 @@ can be used to control hardware movement dynamically.
        main={"size": (W, H), "format": "XRGB8888"}
    ))
 
-- Uses Picamera2 library for modern camera API;
-- ``XRGB8888`` format provides 8-bit color channels;
-- ``time.sleep(2)`` allows camera sensor to stabilize.
+- Utilise la bibliothèque Picamera2 pour une API caméra moderne ;
+- Le format ``XRGB8888`` fournit des canaux couleur 8 bits ;
+- ``time.sleep(2)`` permet au capteur de la caméra de se stabiliser.
 
-**MediaPipe Detector**
+**Détecteur MediaPipe**
 
 .. code-block:: python
 
@@ -337,11 +337,11 @@ can be used to control hardware movement dynamically.
        running_mode=vision.RunningMode.VIDEO
    )
 
-- Loads EfficientDet Lite0 model from same directory;
-- ``RunningMode.VIDEO`` optimized for continuous frame processing;
-- ``detect_for_video()`` requires timestamp for each frame.
+- Charge le modèle EfficientDet Lite0 depuis le même répertoire ;
+- ``RunningMode.VIDEO`` optimisé pour le traitement continu d'images ;
+- ``detect_for_video()`` nécessite un horodatage pour chaque image.
 
-**Tracking Function**
+**Fonction de Suivi**
 
 .. code-block:: python
 
@@ -350,23 +350,23 @@ can be used to control hardware movement dynamically.
            pan_move = 1      # Object left → move right
        elif x > CX + DEADZONE:
            pan_move = -1     # Object right → move left
-       
+
        if y < CY - DEADZONE:
            tilt_move = -1    # Object up → move down
        elif y > CY + DEADZONE:
            tilt_move = 1     # Object down → move up
 
-- Simple proportional control (not true PID);
-- Deadzone prevents servo jitter from small movements;
-- Returns movement values of -1, 0, or 1 for each axis.
+- Contrôle proportionnel simple (pas un vrai PID) ;
+- La zone morte empêche les tremblements du servo pour les petits mouvements ;
+- Retourne des valeurs de mouvement de -1, 0 ou 1 pour chaque axe.
 
-**Main Loop Processing**
+**Traitement de la Boucle Principale**
 
 .. code-block:: python
 
    # Object detection
    detections = detector.detect_for_video(mp_image, int(time.time() * 1000))
-   
+
    # Find target object
    for detection in detections.detections:
        for category in detection.categories:
@@ -375,12 +375,12 @@ can be used to control hardware movement dynamically.
                obj_x = bbox.origin_x + bbox.width // 2
                obj_y = bbox.origin_y + bbox.height // 2
 
-1. Convert frame to MediaPipe image format;
-2. Run object detection with current timestamp;
-3. Search detections for target object (case-insensitive);
-4. Calculate object center coordinates.
+1. Convertir l'image au format MediaPipe ;
+2. Exécuter la détection d'objets avec l'horodatage actuel ;
+3. Rechercher l'objet cible dans les détections (insensible à la casse) ;
+4. Calculer les coordonnées du centre de l'objet.
 
-**Servo Control Logic**
+**Logique de Contrôle des Servos**
 
 .. code-block:: python
 
@@ -388,38 +388,38 @@ can be used to control hardware movement dynamically.
        pan_move, tilt_move = simple_track(obj_x, obj_y)
        pan_pos += pan_move
        tilt_pos += tilt_move
-       
+
        # Enforce safe angle limits
        pan_pos = max(-90, min(90, pan_pos))
        tilt_pos = max(-45, min(45, tilt_pos))
-       
+
        pan.angle(pan_pos)
        tilt.angle(tilt_pos)
 
-1. Get movement commands from tracking function;
-2. Update position accumulators;
-3. Clamp positions to mechanical limits;
-4. Send new angles to servos.
+1. Obtenir les commandes de mouvement de la fonction de suivi ;
+2. Mettre à jour les accumulateurs de position ;
+3. Limiter les positions aux limites mécaniques ;
+4. Envoyer les nouveaux angles aux servos.
 
-**Visual Feedback**
+**Retour Visuel**
 
 .. code-block:: python
 
    # Tracking box (green when tracking)
    cv2.rectangle(frame, (obj_x-30, obj_y-30), (obj_x+30, obj_y+30), (0,255,0), 2)
-   
+
    # Center crosshair (yellow)
    cv2.line(frame, (CX-20, CY), (CX+20, CY), (0,255,255), 2)
    cv2.line(frame, (CX, CY-20), (CX, CY+20), (0,255,255), 2)
-   
+
    # Status text
    cv2.putText(frame, status, (10,30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
 
-- Green box: Currently tracked object;
-- Yellow crosshair: Frame center reference;
-- Status text: Tracking state and servo angles.
+- Boîte verte : Objet actuellement suivi ;
+- Réticule jaune : Référence du centre de l'image ;
+- Texte de statut : État de suivi et angles des servos.
 
-**Cleanup Routine**
+**Routine de Nettoyage**
 
 .. code-block:: python
 
@@ -430,37 +430,37 @@ can be used to control hardware movement dynamically.
        cam.stop()
        cv2.destroyAllWindows()
 
-- Returns servos to center position;
-- Stops camera capture;
-- Closes OpenCV windows;
-- Runs even if error occurs (``try...finally``).
+- Ramène les servos à la position centrale ;
+- Arrête la capture de la caméra ;
+- Ferme les fenêtres OpenCV ;
+- S'exécute même en cas d'erreur (``try...finally``).
 
 ------------------------------------------------------
-6. Configuration Options
+6. Options de Configuration
 ------------------------------------------------------
 
-**Changing Target Object**
+**Changer l'Objet Cible**
 
 .. code-block:: python
 
    # Track different objects
    TARGET = "person"      # People tracking
-   TARGET = "cup"         # Cup/glass tracking  
+   TARGET = "cup"         # Cup/glass tracking
    TARGET = "book"        # Book tracking
    TARGET = "bottle"      # Bottle tracking
 
-**Adjusting Tracking Parameters**
+**Ajustement des Paramètres de Suivi**
 
 .. code-block:: python
 
    # Slower, smoother tracking
    DEADZONE = 75          # Larger deadzone = less sensitive
-   
-   # Faster, more responsive tracking  
+
+   # Faster, more responsive tracking
    DEADZONE = 30          # Smaller deadzone = more sensitive
    pan_move = 2           # Larger movement steps
 
-**Servo Range Limits**
+**Limites de Plage des Servos**
 
 .. code-block:: python
 
@@ -468,108 +468,108 @@ can be used to control hardware movement dynamically.
    pan_pos = max(-60, min(60, pan_pos))    # ±60° pan limit
    tilt_pos = max(-30, min(30, tilt_pos))  # ±30° tilt limit
 
-**Performance Tuning**
+**Réglage des Performances**
 
 .. code-block:: python
 
    # Lower resolution for speed
    W, H = 320, 240       # Faster processing
-   
+
    # Higher threshold for reliability
    SCORE_THRESHOLD = 0.5  # Fewer false positives
 
 ------------------------------------------------------
-7. Performance Considerations
+7. Considérations sur les Performances
 ------------------------------------------------------
 
-.. list-table:: Performance Factors
+.. list-table:: Facteurs de Performance
    :header-rows: 1
 
-   * - Factor
-     - Effect on Performance
-     - Recommendation
-   * - Camera Resolution
-     - Higher = slower detection
-     - 640x480 good balance
-   * - Detection Threshold
-     - Lower = more detections but more false positives
-     - 0.3-0.5 optimal
-   * - Deadzone Size
-     - Larger = smoother but less responsive
+   * - Facteur
+     - Effet sur les Performances
+     - Recommandation
+   * - Résolution de la Caméra
+     - Plus élevée = détection plus lente
+     - 640x480 bon équilibre
+   * - Seuil de Détection
+     - Plus bas = plus de détections mais plus de faux positifs
+     - 0,3-0,5 optimal
+   * - Taille de la Zone Morte
+     - Plus grande = plus fluide mais moins réactive
      - 40-60 pixels
-   * - Servo Speed
-     - Faster = more responsive but may overshoot
-     - Consider acceleration control
-   * - Model Size
-     - Lite0 fastest, Lite2 most accurate
-     - Lite0 for real-time tracking
+   * - Vitesse du Servo
+     - Plus rapide = plus réactif mais peut dépasser
+     - Envisagez un contrôle d'accélération
+   * - Taille du Modèle
+     - Lite0 le plus rapide, Lite2 le plus précis
+     - Lite0 pour le suivi en temps réel
 
-**Expected Performance:**
+**Performances attendues :**
 
-- **Raspberry Pi 4:** 8-15 FPS with 640x480
-- **Detection Latency:** 100-200ms
-- **Servo Response Time:** 50-100ms per degree
-- **Total System Latency:** 200-400ms
+- **Raspberry Pi 4:** 8-15 FPS en 640x480
+- **Latence de détection :** 100-200ms
+- **Temps de réponse du servo :** 50-100ms par degré
+- **Latence totale du système :** 200-400ms
 
 ------------------------------------------------------
-8. Troubleshooting Guide
+8. Guide de Dépannage
 ------------------------------------------------------
 
-.. list-table:: Common Issues and Solutions
+.. list-table:: Problèmes Courants et Solutions
    :header-rows: 1
 
-   * - Issue
-     - Possible Cause
+   * - Problème
+     - Cause Possible
      - Solution
-   * - No object detection
-     - Object not in COCO classes
-     - Use supported object names
-   * - Jerky servo movement
-     - Deadzone too small
-     - Increase DEADZONE to 60-80
-   * - Servo overshoot
-     - Movement step too large
-     - Change pan_move from 1 to 0.5
-   * - Low frame rate
-     - Resolution too high
-     - Reduce to 320x240
-   * - Camera not working
-     - Camera not enabled
-     - Run ``sudo raspi-config``
-   * - Servos not moving
-     - Incorrect wiring or power
-     - Check connections and power supply
-   * - Object lost frequently
-     - Threshold too high
-     - Reduce SCORE_THRESHOLD to 0.2
-   * - Incorrect tracking direction
-     - Servo orientation reversed
-     - Swap pan_move signs
+   * - Aucune détection d'objet
+     - Objet pas dans les classes COCO
+     - Utilisez des noms d'objets supportés
+   * - Mouvement du servo saccadé
+     - Zone morte trop petite
+     - Augmentez DEADZONE à 60-80
+   * - Dépassement du servo
+     - Pas de mouvement trop grand
+     - Changez pan_move de 1 à 0,5
+   * - Faible FPS
+     - Résolution trop élevée
+     - Réduisez à 320x240
+   * - Caméra ne fonctionne pas
+     - Caméra non activée
+     - Exécutez ``sudo raspi-config``
+   * - Les servos ne bougent pas
+     - Câblage ou alimentation incorrect
+     - Vérifiez les connexions et l'alimentation
+   * - Objet perdu fréquemment
+     - Seuil trop élevé
+     - Réduisez SCORE_THRESHOLD à 0,2
+   * - Direction de suivi incorrecte
+     - Orientation du servo inversée
+     - Échangez les signes de pan_move
 
-**Debugging Tips:**
+**Conseils de débogage :**
 
-1. **Test servos separately:**
-   
+1. **Testez les servos séparément :**
+
    .. code-block:: python
 
       pan.angle(45)   # Should move right
       time.sleep(1)
       pan.angle(-45)  # Should move left
 
-2. **Verify object detection:**
-   
+2. **Vérifiez la détection d'objets :**
+
    .. code-block:: python
 
       print(f"Found: {category.category_name} {c.score:.2f}")
 
-3. **Check object coordinates:**
-   
+3. **Vérifiez les coordonnées de l'objet :**
+
    .. code-block:: python
 
       print(f"Object at: ({obj_x}, {obj_y}), Center: ({CX}, {CY})")
 
-4. **Monitor frame rate:**
-   
+4. **Surveillez la fréquence d'images :**
+
    .. code-block:: python
 
       import time
@@ -579,10 +579,10 @@ can be used to control hardware movement dynamically.
       print(f"FPS: {fps:.1f}")
 
 ------------------------------------------------------
-9. Advanced Modifications
+9. Modifications Avancées
 ------------------------------------------------------
 
-**1. PID Control Implementation**
+**1. Implémentation du Contrôle PID**
 
 .. code-block:: python
 
@@ -591,7 +591,7 @@ can be used to control hardware movement dynamically.
            self.kp, self.ki, self.kd = kp, ki, kd
            self.prev_error = 0
            self.integral = 0
-       
+
        def update(self, error, dt=1.0):
            self.integral += error * dt
            derivative = (error - self.prev_error) / dt
@@ -599,7 +599,7 @@ can be used to control hardware movement dynamically.
            self.prev_error = error
            return output
 
-**2. Multiple Object Tracking**
+**2. Suivi d'Objets Multiples**
 
 .. code-block:: python
 
@@ -615,38 +615,38 @@ can be used to control hardware movement dynamically.
            best_dist = dist
            best_obj = (obj_x, obj_y)
 
-**3. Speed Proportional to Distance**
+**3. Vitesse Proportionnelle à la Distance**
 
 .. code-block:: python
 
    def adaptive_track(x, y):
        if x is None:
            return 0, 0
-       
+
        # Calculate distance from center
        dx = x - CX
        dy = y - CY
-       
+
        # Speed proportional to distance (with deadzone)
        pan_move = 0
        tilt_move = 0
-       
+
        if abs(dx) > DEADZONE:
            pan_move = dx * 0.02  # 2% of distance per frame
-           
+
        if abs(dy) > DEADZONE:
            tilt_move = dy * 0.02
-           
+
        return pan_move, tilt_move
 
-**4. Object Memory (Inertial Tracking)**
+**4. Mémoire d'Objet (Suivi Inertiel)**
 
 .. code-block:: python
 
    # Keep tracking briefly when object lost
    OBJECT_TIMEOUT = 10  # frames
    lost_counter = 0
-   
+
    if obj_x is not None:
        last_x, last_y = obj_x, obj_y
        lost_counter = 0
@@ -655,84 +655,84 @@ can be used to control hardware movement dynamically.
        lost_counter += 1
 
 ------------------------------------------------------
-10. Applications and Extensions
+10. Applications et Extensions
 ------------------------------------------------------
 
-**Educational Applications:**
+**Applications Éducatives :**
 
-- Robotics and automation principles
-- Computer vision fundamentals
-- Control systems (P vs PID)
-- Real-time system design
+- Principes de robotique et d'automatisation
+- Fondamentaux de la vision par ordinateur
+- Systèmes de contrôle (P vs PID)
+- Conception de systèmes en temps réel
 
-**Practical Applications:**
+**Applications Pratiques :**
 
-- Security camera auto-tracking
-- Videoconferencing camera automation
-- Wildlife observation
-- Assistive technology for tracking
+- Suivi automatique pour caméra de sécurité
+- Automatisation de caméra de visioconférence
+- Observation de la faune
+- Technologie d'assistance pour le suivi
 
-**Extension Projects:**
+**Projets d'Extension :**
 
-1. **Web Interface:** Remote control via browser
-2. **Preset Positions:** Save/load common tracking positions
-3. **Object Learning:** Train on custom objects
-4. **Multi-camera:** Coordinate multiple tracking units
-5. **Cloud Integration:** Upload tracking data for analysis
-6. **Audio Feedback:** Announce tracking status
-7. **Gesture Control:** Use hand gestures to control tracking
-
------------------------------
-11. Safety and Best Practices
------------------------------
-
-1. **Mechanical Safety:**
-
-   - Secure all moving parts
-   - Use cable management
-   - Avoid pinch points
-   - Set reasonable angle limits
-
-2. **Electrical Safety:**
-
-   - Use external power for servos
-   - Ensure proper grounding
-   - Avoid overloading power supply
-   - Use appropriate gauge wires
-
-3. **Software Safety:**
-
-   - Always include servo centering on exit
-   - Implement emergency stop mechanism
-   - Log errors for debugging
-   - Validate inputs and limits
-
-4. **Operational Safety:**
-
-   - Keep clear of moving mechanism
-   - Monitor for overheating
-   - Regular maintenance checks
-   - Have manual override capability
+1. **Interface Web :** Contrôle à distance via navigateur
+2. **Positions Prédéfinies :** Sauvegarder/charger des positions de suivi courantes
+3. **Apprentissage d'Objets :** Entraînement sur des objets personnalisés
+4. **Multi-caméra :** Coordonner plusieurs unités de suivi
+5. **Intégration Cloud :** Télécharger les données de suivi pour analyse
+6. **Retour Audio :** Annoncer l'état du suivi
+7. **Contrôle Gestuel :** Utiliser des gestes de la main pour contrôler le suivi
 
 -----------------------------
-12. Summary
+11. Sécurité et Bonnes Pratiques
 -----------------------------
 
-This chapter demonstrated a complete object tracking system using:
+1. **Sécurité Mécanique :**
 
-1. **MediaPipe Tasks** for reliable object detection
-2. **Pan-tilt servos** for physical tracking
-3. **Simple proportional control** for movement logic
-4. **OpenCV** for visual feedback and display
+   - Fixez toutes les pièces mobiles
+   - Utilisez une gestion des câbles
+   - Évitez les points de pincement
+   - Définissez des limites d'angle raisonnables
 
-The system provides a foundation for more advanced tracking applications and demonstrates key concepts in real-time computer vision, control systems, and embedded Python programming.
+2. **Sécurité Électrique :**
 
-By modifying the target object, adjusting parameters, and extending the control logic, this system can be adapted for various applications from educational demonstrations to practical automation solutions.
+   - Utilisez une alimentation externe pour les servos
+   - Assurez une mise à la terre appropriée
+   - Évitez de surcharger l'alimentation
+   - Utilisez des fils de calibre approprié
 
-**Next Steps:**
+3. **Sécurité Logicielle :**
 
-- Implement PID control for smoother tracking
-- Add object memory for temporary occlusion handling
-- Create web interface for remote monitoring
-- Integrate with home automation systems
-- Train custom object detection models
+   - Incluez toujours le centrage des servos à la sortie
+   - Implémentez un mécanisme d'arrêt d'urgence
+   - Enregistrez les erreurs pour le débogage
+   - Validez les entrées et les limites
+
+4. **Sécurité Opérationnelle :**
+
+   - Restez à l'écart du mécanisme en mouvement
+   - Surveillez la surchauffe
+   - Effectuez des vérifications de maintenance régulières
+   - Ayez une capacité de contournement manuel
+
+-----------------------------
+12. Résumé
+-----------------------------
+
+Ce chapitre a démontré un système complet de suivi d'objets utilisant :
+
+1. **MediaPipe Tasks** pour une détection d'objets fiable
+2. **Des servos panoramique/inclinaison** pour le suivi physique
+3. **Un contrôle proportionnel simple** pour la logique de mouvement
+4. **OpenCV** pour le retour visuel et l'affichage
+
+Le système fournit une base pour des applications de suivi plus avancées et démontre des concepts clés en vision par ordinateur en temps réel, systèmes de contrôle et programmation Python embarquée.
+
+En modifiant l'objet cible, en ajustant les paramètres et en étendant la logique de contrôle, ce système peut être adapté à diverses applications, des démonstrations éducatives aux solutions d'automatisation pratiques.
+
+**Prochaines étapes :**
+
+- Implémenter le contrôle PID pour un suivi plus fluide
+- Ajouter une mémoire d'objet pour la gestion d'occultation temporaire
+- Créer une interface Web pour la surveillance à distance
+- Intégrer avec des systèmes domotiques
+- Entraîner des modèles de détection d'objets personnalisés

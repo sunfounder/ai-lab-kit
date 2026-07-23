@@ -4,53 +4,52 @@
 
 
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: Si vous utilisez l'image préinstallée "Raspberry Pi OS with AI Fusion Lab Kit", vous pouvez sauter cette section. Cette image inclut déjà toutes les installations logicielles, les configurations d'environnement et les déploiements de code d'exemple décrits dans ce chapitre.
 
 
 .. _opencv_install:
 
-0. Setup OpenCV
-=========================================================================
+0. Installer OpenCV
+======================================================================
 
-This chapter shows you how to install OpenCV on the Raspberry Pi and verify that it works correctly.
+Ce chapitre vous explique comment installer OpenCV sur le Raspberry Pi et vérifier qu'il fonctionne correctement.
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. Pour utiliser le module caméra facilement, :ref:`assemble_fusion_hat_pan_tilt` est recommandé.
 
-   .. note:: 
-     
-      Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+      L'assemblage du support motorisé peut obstruer certaines broches, il est donc recommandé de l'assembler uniquement lors de l'utilisation de la caméra, ou de le placer à l'extérieur après assemblage.
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. Accédez au bureau du Raspberry Pi :
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
-
-
-#. Complete the setup in :ref:`install_all_modules` (download the provided code package, and finish the Fusion HAT+ installation and configuration).
+   * :ref:`remote_desktop` : Utilisez **VNC** pour une expérience de bureau complète.
+   * |link_rpi_connect| : Utilisez **Raspberry Pi Connect** pour accéder à votre Pi en toute sécurité depuis n'importe quel navigateur.
 
 
-#. Now, update the Raspberry Pi software sources to ensure you get the latest packages:
+#. Suivez la procédure dans :ref:`install_all_modules` (téléchargez le package de code fourni et terminez l'installation et la configuration de Fusion HAT+).
+
+
+#. Maintenant, mettez à jour les sources logicielles du Raspberry Pi pour obtenir les derniers packages :
 
    .. code-block:: shell
 
       sudo apt update
 
-#. Use the following command to install the Python 3 version of OpenCV:
+#. Utilisez la commande suivante pour installer la version Python 3 d'OpenCV :
 
    .. code-block:: bash
 
       sudo apt install python3-opencv
 
-#. Run the command below to verify that OpenCV has been installed successfully:
+#. Exécutez la commande ci-dessous pour vérifier qu'OpenCV a été installé avec succès :
 
    .. code-block:: bash
 
       python3 -c "import cv2; print(cv2.__version__)"
 
-   If the OpenCV version number is displayed, the installation was successful.
+   Si le numéro de version d'OpenCV s'affiche, l'installation a réussi.
 
    .. image:: img/install_opencv_check_version.png
       :align: center

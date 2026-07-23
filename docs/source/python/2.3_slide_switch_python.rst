@@ -4,25 +4,25 @@
 
 .. _py_slide:
 
-2.3 Slide Switch
-==============================================
+2.3 Interrupteur a glissiere
+=================================
 
 **Introduction**
 
-In this project, we will learn how to use a slide switch to control two LEDs. Slide switches are commonly used as power switches in electronic circuits. Here, we demonstrate its functionality using a breadboard setup. While slide switches are often soldered onto PCBs for stability, we will use it in a flexible breadboard configuration to better understand its operation.
+Dans ce projet, nous allons apprendre a utiliser un interrupteur a glissiere pour controler deux LED. Les interrupteurs a glissiere sont couramment utilises comme interrupteurs d'alimentation dans les circuits electroniques. Ici, nous montrons leur fonctionnement en utilisant une plaque d'essai. Bien que les interrupteurs a glissiere soient souvent soudees sur des PCB pour la stabilite, nous les utiliserons dans une configuration flexible sur plaque d'essai pour mieux comprendre leur fonctionnement.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-To complete this project, gather the following components:
+Pour realiser ce projet, rassemblez les composants suivants :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -37,16 +37,16 @@ To complete this project, gather the following components:
     *   - :ref:`cpn_capacitor`
         - |link_capacitor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema de circuit**
 
-The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected to GPIO22 and GPIO27. The switch toggles between the two LEDs, alternately lighting them up.
+La broche centrale de l'interrupteur a glissiere est connectee a GPIO17, tandis que deux LED sont connectees a GPIO22 et GPIO27. L'interrupteur bascule entre les deux LED, les allumant alternativement.
 
 .. image:: img/fzz/2.1.4_sch.png
    :width: 80%
@@ -57,15 +57,15 @@ The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Follow these steps to build the circuit:
+Suivez ces etapes pour construire le circuit :
 
-1. Connect the middle pin of the Slide Switch to GPIO17.
-2. Connect one side pin of the Slide Switch to GND and the other to VCC.
-3. Connect LED1’s anode to GPIO22 via a current-limiting resistor.
-4. Connect LED2’s anode to GPIO27 via a current-limiting resistor.
-5. Connect the cathodes of both LEDs to GND.
+1. Connectez la broche centrale de l'interrupteur a glissiere a GPIO17.
+2. Connectez une broche laterale de l'interrupteur a GND et l'autre a VCC.
+3. Connectez l'anode de LED1 a GPIO22 via une resistance de limitation de courant.
+4. Connectez l'anode de LED2 a GPIO27 via une resistance de limitation de courant.
+5. Connectez les cathodes des deux LED a GND.
 
 .. image:: img/fzz/2.1.4_bb.png
    :width: 80%
@@ -74,11 +74,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Executer l'exemple**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l'exemple :
 
 
 .. raw:: html
@@ -86,31 +86,31 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 2.3_SlideSwitch.py 
+   sudo python3 2.3_SlideSwitch.py
 
-This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT+. When executed:
+Ce script Python montre l'utilisation d'un interrupteur a glissiere pour controler deux LED sur le Fusion HAT+. Lors de l'execution :
 
-1. **Slide Switch Activated**:
+1. **Interrupteur a glissiere active** :
 
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+   - Eteint LED1 (connectee a la broche GPIO 22).
+   - Allume LED2 (connectee a la broche GPIO 27).
 
-2. **Slide Switch Not Activated**:
+2. **Interrupteur a glissiere non active** :
 
-   - Turns on LED1.
-   - Turns off LED2.
+   - Allume LED1.
+   - Eteint LED2.
 
-3. The program continuously checks the state of the slide switch every 0.5 seconds and adjusts the LEDs accordingly.
+3. Le programme verifie en continu l'etat de l'interrupteur a glissiere toutes les 0,5 secondes et ajuste les LED en consequence.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Le script s'execute indefiniment jusqu'a ce qu'il soit interrompu en appuyant sur ``Ctrl+C``.
 
 ----------------------------------------------
 
 **Code**
 
-Here’s the Python code to control the LEDs based on the state of the Slide Switch:
+Voici le code Python pour controler les LED en fonction de l'etat de l'interrupteur a glissiere :
 
 
 .. raw:: html
@@ -153,20 +153,20 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Library Imports**
+1. **Importation des bibliotheques**
 
-   Import necessary libraries for GPIO control and adding delays.
+   Importez les bibliotheques necessaires pour le controle GPIO et l'ajout de pauses.
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from time import sleep  # Import sleep for delay
 
-2. **Component Initialization**
+2. **Initialisation des composants**
 
-   Configure the Slide Switch as a Button and initialize two LEDs connected to GPIO pins 22 and 27.
+   Configurez l'interrupteur a glissiere comme un bouton et initialisez deux LED connectees aux broches GPIO 22 et 27.
 
    .. code-block:: python
 
@@ -178,9 +178,9 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **State Monitoring and LED Control**
+3. **Surveillance de l'etat et controle des LED**
 
-   In the main loop, the program monitors the state of the Slide Switch. When the switch is toggled, it alternates between turning on LED1 and LED2.
+   Dans la boucle principale, le programme surveille l'etat de l'interrupteur a glissiere. Lorsque l'interrupteur est bascule, il alterne entre l'allumage de LED1 et LED2.
 
    .. code-block:: python
 
@@ -195,9 +195,9 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
          sleep(0.5)  # Pause for 0.5 seconds before rechecking the sensor state
 
-4. **Graceful Exit**
+4. **Arret propre**
 
-   The script terminates gracefully when interrupted using Ctrl+C.
+   Le script se termine proprement lorsqu'il est interrompu avec Ctrl+C.
 
    .. code-block:: python
 
@@ -207,19 +207,19 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
 
-1. **Slide Switch Does Not Respond**  
+1. **L'interrupteur a glissiere ne repond pas**
 
-   - **Cause**: The slide switch is not connected properly, or the pull-up resistor configuration is incorrect.  
-   - **Solution**: Confirm that the slide switch is connected to GPIO pin 17 and ground. Ensure ``PULL_DOWN`` matches the switch configuration.
+   - **Cause** : L'interrupteur a glissiere n'est pas correctement connectee ou la configuration de la resistance pull-up est incorrecte.
+   - **Solution** : Confirmez que l'interrupteur a glissiere est connectee a la broche GPIO 17 et a la masse. Assurez-vous que ``PULL_DOWN`` correspond a la configuration de l'interrupteur.
 
 
-2. **LEDs Flicker or Behave Erratically**  
+2. **Les LED scintillent ou se comportent de maniere erratique**
 
-   - **Cause**: Debounce issues with the slide switch.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **Cause** : Problemes d'anti-rebond avec l'interrupteur a glissiere.
+   - **Solution** : Ajoutez un anti-rebond logiciel pour stabiliser le signal d'entree :
 
    .. code-block:: python
 
@@ -228,17 +228,17 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idees d'extension**
 
 
-1. **Two-Way Switch Control**  
+1. **Controle a deux interrupteurs**
 
-   Combine two slide switches to control LEDs in a more complex setup, such as a simple light control panel.
+   Combinez deux interrupteurs a glissiere pour controler des LED dans une configuration plus complexe, comme un simple panneau de commande d'eclairage.
 
 
-2. **Audio Feedback**  
+2. **Retour sonore**
 
-   Add a buzzer that sounds when the slide switch is activated:
+   Ajoutez un buzzer qui emet un son lorsque l'interrupteur a glissiere est active :
 
    .. code-block:: python
 
@@ -255,4 +255,4 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 **Conclusion**
 
-This project demonstrates how to use a Slide Switch with the Fusion HAT+ to control LEDs. Slide Switches are versatile and durable components, often employed in user interfaces and control systems. Experimenting with them opens up possibilities for creating advanced and interactive projects.
+Ce projet montre comment utiliser un interrupteur a glissiere avec le Fusion HAT+ pour controler des LED. Les interrupteurs a glissiere sont des composants polyvalents et durables, souvent utilises dans les interfaces utilisateur et les systemes de controle. Les experimenter ouvre des possibilites pour creer des projets avances et interactifs.

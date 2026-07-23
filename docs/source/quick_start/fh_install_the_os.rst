@@ -5,8 +5,8 @@
 
 .. _install_os_sd_fusion_kit:
 
-Installing the Operating System
-===================================
+Installation du systeme d'exploitation
+======================================
 
 
 
@@ -15,29 +15,29 @@ Installing the Operating System
    :end-before: end_imager
 
 
-Download the Exclusive Image File
+Telecharger le fichier image exclusif
 ------------------------------------------------------
 
-Download the AI ​​Fusion Lab Kit operating system image file: `Raspberry Pi OS with AI Fusion Lab Kit <https://sunfounder.github.io/download/ai-fusion-lab-kit/index.html>`_。 
+Telechargez le fichier image du systeme d'exploitation AI Fusion Lab Kit : `Raspberry Pi OS with AI Fusion Lab Kit <https://sunfounder.github.io/download/ai-fusion-lab-kit/index.html>`_.
 
 .. image:: img/fusion_kit_imager_download.png
-   :width: 90% 
+   :width: 90%
 
-This image is based on Raspberry Pi OS and comes with the AI Fusion Lab Kit pre-integrated into the system. It includes all the necessary software, example code, and related configurations required for the AI Fusion Lab Kit. By using this image, you can skip certain setup steps described in the documentation.
+Cette image est basee sur Raspberry Pi OS et est livree avec le AI Fusion Lab Kit pre-integre dans le systeme. Elle comprend tous les logiciels necessaires, les exemples de code et les configurations associees requises pour le AI Fusion Lab Kit. En utilisant cette image, vous pouvez ignorer certaines etapes de configuration decrites dans la documentation.
 
-If you prefer to use a native Raspberry Pi OS for manual configuration, please install:  
+Si vous preferez utiliser un systeme Raspberry Pi OS natif pour une configuration manuelle, veuillez installer :
 `Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`
 
 .. include:: /_shared/pi_start/install_os_trixie.rst
    :start-after: start_install_os
    :end-before: end_install_os
 
-3. Go to the OS section and choose the **Use custom** 
-   
+3. Allez dans la section OS et choisissez **Use custom**
+
    .. image:: img/fusion_kit_imager1.png
       :width: 90%
 
-   And select the downloaded image file ``ai.fusion.lab.kit-bookworm.64.full.20xx.xx.xx-latest.zip``.
+   Et selectionnez le fichier image telecharge ``ai.fusion.lab.kit-bookworm.64.full.20xx.xx.xx-latest.zip``.
 
    .. image:: img/fusion_kit_imager2.png
       :width: 90%

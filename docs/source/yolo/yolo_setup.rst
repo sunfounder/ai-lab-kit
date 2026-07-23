@@ -2,33 +2,33 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: Si vous utilisez l'image préinstallée « Raspberry Pi OS with AI Fusion Lab Kit », vous pouvez sauter cette section. Cette image inclut déjà toutes les installations logicielles, les configurations d'environnement et les déploiements de code d'exemple décrits dans ce chapitre.
 
 
-0. Setup YOLO Environment
-==============================
+0. Configuration de l'environnement YOLO
+=============================================
 
 
 
-This chapter shows you how to install Yolo on the Raspberry Pi and verify that it works correctly.
+Ce chapitre vous montre comment installer YOLO sur le Raspberry Pi et vérifier qu'il fonctionne correctement.
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. Pour utiliser le module caméra facilement, il est recommandé d'assembler le :ref:`assemble_fusion_hat_pan_tilt`.
 
-   .. note:: 
-     
-      Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+      L'assemblage du pan-tilt peut masquer certaines broches, il est donc recommandé de l'assembler uniquement lors de l'utilisation de la caméra, ou de le placer à l'extérieur après l'assemblage.
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. Accédez au bureau du Raspberry Pi :
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: Utilisez **VNC** pour une expérience de bureau complète.
+   * |link_rpi_connect|: Utilisez **Raspberry Pi Connect** pour accéder à votre Pi en toute sécurité depuis n'importe quel navigateur.
 
 
 
-3. Install required dependencies:
+3. Installez les dépendances requises :
 
    .. code-block:: bash
 
@@ -36,16 +36,16 @@ This chapter shows you how to install Yolo on the Raspberry Pi and verify that i
       sudo apt upgrade -y
       sudo apt install python3-pip python3-opencv python3-numpy python3-picamera2 -y
 
-4. Install Ultralytics (the official YOLO library):
+4. Installez Ultralytics (la bibliothèque officielle YOLO) :
 
    .. code-block:: bash
 
-      # Install CPU version of PyTorch (specify CPU source)
+      # Installer la version CPU de PyTorch (spécifier la source CPU)
       pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu --break-system-packages
 
-      # Install ultralytics, but skip torch dependencies
+      # Installer ultralytics, mais ignorer les dépendances torch
       pip3 install ultralytics --no-deps --break-system-packages
 
-      # Manually install ultralytics' other dependencies
+      # Installer manuellement les autres dépendances d'ultralytics
       pip3 install pyyaml requests psutil polars tqdm matplotlib seaborn --break-system-packages
 

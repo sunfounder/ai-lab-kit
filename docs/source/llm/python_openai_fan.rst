@@ -4,18 +4,18 @@
 
 .. _py_voice_controlled_fan:
 
-(Example) Voice-Controlled Smart Fan
+(Exemple) Ventilateur intelligent commande par la voix
 ==================================================
 
 **Introduction**
 
-This project creates an intelligent **Voice-Controlled Smart Fan** that combines speech recognition, AI processing, and motor control. The system allows users to control fan speed using natural voice commands and provides multiple control methods:
+Ce projet cree un **Ventilateur intelligent commande par la voix** qui combine la reconnaissance vocale, le traitement IA et le controle moteur. Le systeme permet aux utilisateurs de controler la vitesse du ventilateur en utilisant des commandes vocales naturelles et offre plusieurs methodes de controle :
 
-1. **Voice Commands** using speech-to-text for hands-free operation
-2. **Physical Button** for manual speed adjustment
-3. **AI Interpretation** using OpenAI's GPT to understand natural language
-4. **Auditory Feedback** with a buzzer for button presses
-5. **Dual Control Interface** supporting both voice and physical interaction
+1. **Commandes vocales** utilisant la reconnaissance vocale pour un fonctionnement mains libres
+2. **Bouton physique** pour le reglage manuel de la vitesse
+3. **Interpretation IA** utilisant OpenAI GPT pour comprendre le langage naturel
+4. **Retour sonore** avec un buzzer pour les pressions de bouton
+5. **Interface de controle double** prenant en charge l'interaction vocale et physique
 
 .. raw:: html
 
@@ -24,26 +24,26 @@ This project creates an intelligent **Voice-Controlled Smart Fan** that combines
           Your browser does not support the video tag.
       </video>
 
-The smart fan understands commands like "make it faster," "slow down please," or "turn off the fan" and responds with appropriate actions and verbal confirmation.
+Le ventilateur intelligent comprend des commandes comme "make it faster", "slow down please" ou "turn off the fan" et repond avec des actions appropriees et une confirmation verbale.
 
-You can combine various input and output modules to create voice-controlled smart devices. See:
+Vous pouvez combiner divers modules d'entree et de sortie pour creer des appareils intelligents commandes par la voix. Voir :
 
-* :ref:`py_online_llm` 
+* :ref:`py_online_llm`
 * :ref:`py_stt_whisper`
 * :ref:`py_motor`
 
 ----------------------------------------------
 
-**What You'll need**
+**Ce dont vous aurez besoin**
 
-The following components are required for this project:
+Les composants suivants sont necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
     *   - :ref:`cpn_motor`
         - |link_motor_buy|
     *   - :ref:`cpn_button`
@@ -59,9 +59,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Connect the components to the Fusion HAT+ as follows:
+Connectez les composants au Fusion HAT+ comme suit :
 
 .. image:: img/fzz/llm_fan_bb.png
    :width: 80%
@@ -75,10 +75,10 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**Executer l'exemple**
 
 
-#. Run the code
+#. Executez le code
 
    .. raw:: html
 
@@ -89,29 +89,29 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_fan.py
 
-#. Control the fan
+#. Controler le ventilateur
 
-   You can control the fan using voice commands, the button, or natural language.
+   Vous pouvez controler le ventilateur en utilisant des commandes vocales, le bouton ou le langage naturel.
 
-   * Voice Commands:
+   * Commandes vocales :
 
-     - "Make it faster" / "Increase speed" → Sets to maximum (100%)
-     - "Slow down" / "Reduce speed" → Sets to low (25%)
-     - "Medium speed please" → Sets to medium (50%)
-     - "Turn off" / "Stop" → Stops motor (0%)
-     - "What's the current speed?" → Reports current speed
-     - "Make it cooler" → Interprets as a request for higher speed
+     - "Make it faster" / "Increase speed" → Regle au maximum (100%)
+     - "Slow down" / "Reduce speed" → Regle au minimum (25%)
+     - "Medium speed please" → Regle a moyen (50%)
+     - "Turn off" / "Stop" → Arrete le moteur (0%)
+     - "What's the current speed?" → Signale la vitesse actuelle
+     - "Make it cooler" → Interprete comme une demande de vitesse plus elevee
 
-   * Button Control:
+   * Controle par bouton :
 
-     - Each press increases speed by 10%
-     - At 100%, the next press cycles back to 0%
-     - An audible beep confirms each press
-     - The current speed percentage is displayed on screen
+     - Chaque pression augmente la vitesse de 10%
+     - A 100%, la pression suivante revient a 0%
+     - Un bip sonore confirme chaque pression
+     - Le pourcentage de vitesse actuelle est affiche a l'ecran
 
-   * Natural Language Understanding:
+   * Comprehension du langage naturel :
 
-     The AI can also understand variations such as:
+     L'IA peut egalement comprendre des variations telles que :
 
      - "I'm feeling hot, can you make it faster?"
      - "Could you please turn the fan down a bit?"
@@ -122,15 +122,15 @@ Connect the components to the Fusion HAT+ as follows:
 
 **Code**
 
-Here is the full Python script for the Voice-Controlled Smart Fan:
+Voici le script Python complet pour le Ventilateur intelligent commande par la voix :
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: python
-   
-   
+
+
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
    from fusion_hat.motor import Motor
@@ -138,60 +138,60 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
    from fusion_hat.pin import Pin
    import random, time
    from fusion_hat.stt import STT
-   
+
    # Initialize Speech-to-Text with English language
    stt = STT(language="en-us")
-   
+
    # Initialize motor on port M0
    motor = Motor('M0')
-   
+
    # Initialize button on GPIO 17 with pull-up and debounce
    button = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP, bounce_time=0.05)
-   
+
    # Initialize buzzer on GPIO 4
    buzzer = Buzzer(Pin(4))
-   
+
    # Global speed variable (0-100%)
    speed = 0
-   
+
    # Function for auditory feedback
    def beep():
        buzzer.on()
        time.sleep(0.1)
        buzzer.off()
-   
+
    # Debounce variables for button
-   last_triggered = 0 
-   
+   last_triggered = 0
+
    # Button callback function
    def speed_up():
        global speed, last_triggered
-       
+
        # Debounce: ignore if pressed within 500ms
        if time.time() - last_triggered < 0.5:
            return
-       
+
        last_triggered = time.time()
-       
+
        # Increase speed by 10%
        speed += 10
-       
+
        # Wrap around at 100% (go back to 0)
        if speed > 100:
            motor.stop()
            speed = 0
        else:
            motor.power(speed)
-       
+
        # Auditory feedback
        beep()
-       
+
        # Print current speed
        print(f"Speed set to: {speed}%")
-   
+
    # Attach callback to button
    button.when_activated = speed_up
-   
+
    # Function to parse natural language response and set appropriate speed
    def parse_response_for_speed(text_response):
        """
@@ -200,39 +200,39 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
        Returns the speed level to set (100, 50, 25, or 0)
        """
        text_lower = text_response.lower()
-       
+
        # Check for "stop" or "off" keywords - highest priority
        if any(word in text_lower for word in ['stop', 'off', 'zero', '0%', 'turn off', 'shut off', 'halt']):
            return 0
-       
+
        # Check for "slow" or "low" keywords
        if any(word in text_lower for word in ['slow', 'low', '25%', 'quarter', 'minimum', 'gentle']):
            return 25
-       
+
        # Check for "medium" or "half" keywords
        if any(word in text_lower for word in ['medium', 'half', '50%', 'moderate', 'normal']):
            return 50
-       
+
        # Check for "fast" or "high" or "full" keywords
        if any(word in text_lower for word in ['fast', 'high', 'full', '100%', 'maximum', 'top']):
            return 100
-       
+
        # If no specific keywords found, return -1 to indicate no speed change
        return -1
-   
+
    # Setup LLM with specific instructions for fan control
    INSTRUCTIONS = '''
    You are a fan control assistant. Your task is to interpret the user's speech input and respond with natural language.
-   
+
    ### Input Format:
    The user will speak their command for fan control.
-   
+
    ### CRITICAL RULES:
    1. **BE DECISIVE**: Always take clear action based on user requests. Do NOT ask follow-up questions.
    2. **NO CLARIFICATION QUESTIONS**: Never ask "Would you like me to..." or "Should I..." questions.
    3. **ASSUME INTENT**: If the user's request is ambiguous, make a reasonable assumption and take action.
    4. **CONFIRM ACTION**: Always state what action you are taking in your response.
-   
+
    ### Response Guidelines:
    1. Respond naturally and conversationally to the user's request.
    2. Acknowledge what the user asked for.
@@ -243,76 +243,76 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
       - For low speed: use words like "slow", "low", "quarter speed", "25%"
       - For stopping: use words like "stop", "off", "zero", "turning off"
    5. If the user asks about current status, respond with helpful information.
-   
+
    ### Example Responses:
-   
+
    **When asked to go fast:**
    "I'll set the fan to maximum speed for you. Full speed activated!"
-   
+
    **When asked to slow down:**
    "Reducing the fan speed to low. Enjoy the gentle breeze."
-   
+
    **When asked for medium speed:**
    "Setting the fan to medium speed. This should be comfortable."
-   
+
    **When asked to stop:**
    "Stopping the fan now. The motor is turned off."
-   
+
    **When asked about status:**
    "Your fan is currently at 50% speed. Would you like me to adjust it?"
-   
+
    '''
-   
+
    WELCOME = "Hello, I am a fan control assistant. You can ask me to set the fan to fast, medium, slow, or stop it completely. You can also press the button to increase the speed by 10% or decrease it by 10%. If you ask about the current status, I will tell you the current speed. If you don't know what to do, you can ask me for instructions. Good luck!"
-   
+
    # Initialize OpenAI LLM
    llm = OpenAI(
        api_key=OPENAI_API_KEY,
        model="gpt-4o",
    )
-   
+
    # Set how many messages to keep
    llm.set_max_messages(20)
-   
+
    # Set instructions
    llm.set_instructions(INSTRUCTIONS)
-   
+
    # Set welcome message
    llm.set_welcome(WELCOME)
-   
+
    print(WELCOME)
-   
+
    # Main loop for voice control
    while True:
        print("Say something")
-       
+
        # Listen for speech input
        for result in stt.listen(stream=True):
            if result["done"]:
                # Print final recognized text
                print(f"\r\x1b[Kfinal: {result['final']}")
-               
+
                # Get the recognized speech
                input_text = result['final']
-               
+
                # Add current speed context to the input
                contextual_input = f"Current speed is {speed}%. User says: {input_text}"
-               
+
                # Get response from LLM
                response = llm.prompt(contextual_input, stream=True)
-               
+
                # Collect the full response
                full_response = ""
                for next_word in response:
                    if next_word:
                        print(next_word, end="", flush=True)
                        full_response += next_word
-               
+
                print("\n")  # Add newline after response
-               
+
                # Parse the response to determine speed setting
                new_speed = parse_response_for_speed(full_response)
-               
+
                # Apply speed change if detected
                if new_speed >= 0:
                    speed = new_speed
@@ -320,127 +320,127 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
                    print(f"Speed set to: {speed}%")
                else:
                    print("No speed change detected in response")
-                   
+
            else:
                # Print partial recognition results
                print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. Speech-to-Text Initialization
+1. Initialisation de la reconnaissance vocale
 
-   The system uses STT (Speech-to-Text) for voice recognition:
-   
+   Le systeme utilise STT (Speech-to-Text) pour la reconnaissance vocale :
+
    .. code-block:: python
-   
+
       stt = STT(language="en-us")
-      
+
       for result in stt.listen(stream=True):
           if result["done"]:
               input_text = result['final']
           else:
               print(f"partial: {result['partial']}")
 
-   This provides real-time speech recognition with partial results as you speak.
+   Ceci fournit une reconnaissance vocale en temps reel avec des resultats partiels pendant que vous parlez.
 
-2. Motor Control Setup
+2. Configuration du controle moteur
 
-   The fan motor is controlled via PWM on port M0:
-   
+   Le moteur du ventilateur est controle via PWM sur le port M0 :
+
    .. code-block:: python
-   
+
       motor = Motor('M0')
-      
+
       # Set speed as percentage (0-100)
       motor.power(speed)
-      
+
       # Stop the motor completely
       motor.stop()
 
-3. Button with Debounce
+3. Bouton avec anti-rebond
 
-   The button includes debounce to prevent multiple triggers:
-   
+   Le bouton inclut un anti-rebond pour empecher les declenchements multiples :
+
    .. code-block:: python
-   
+
       button = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP, bounce_time=0.05)
       last_triggered = 0
-      
+
       def speed_up():
           global speed, last_triggered
           if time.time() - last_triggered < 0.5:  # 500ms debounce
               return
           last_triggered = time.time()
 
-4. Auditory Feedback
+4. Retour sonore
 
-   A buzzer provides audible confirmation:
-   
+   Un buzzer fournit une confirmation sonore :
+
    .. code-block:: python
-   
+
       buzzer = Buzzer(Pin(4))
-      
+
       def beep():
           buzzer.on()
           time.sleep(0.1)
           buzzer.off()
 
-5. Keyword Parsing Function
+5. Fonction d'analyse de mots-cles
 
-   The system parses AI responses for speed commands:
-   
+   Le systeme analyse les reponses de l'IA pour les commandes de vitesse :
+
    .. code-block:: python
-   
+
       def parse_response_for_speed(text_response):
           text_lower = text_response.lower()
-          
+
           # Check for "stop" or "off" keywords
           if any(word in text_lower for word in ['stop', 'off', 'zero']):
               return 0
-          
+
           # Check for "slow" or "low" keywords
           if any(word in text_lower for word in ['slow', 'low', '25%']):
               return 25
-          
+
           # Similar checks for medium and fast
-          
+
           return -1  # No speed change
 
-6. Contextual Input to AI
+6. Entree contextuelle pour l'IA
 
-   The current speed is included in the prompt for context-aware responses:
-   
+   La vitesse actuelle est incluse dans l'invite pour des reponses contextuelles :
+
    .. code-block:: python
-   
+
       contextual_input = f"Current speed is {speed}%. User says: {input_text}"
       response = llm.prompt(contextual_input, stream=True)
 
-7. Streaming Response Processing
+7. Traitement de la reponse en continu
 
-   AI responses are processed word-by-word:
-   
+   Les reponses de l'IA sont traitees mot par mot :
+
    .. code-block:: python
-   
+
       full_response = ""
       for next_word in response:
           if next_word:
               print(next_word, end="", flush=True)
               full_response += next_word
 
-8. Dual Control Logic
+8. Logique de controle double
 
-   The system supports both voice and button control:
-   
+   Le systeme prend en charge le controle vocal et par bouton :
+
    .. code-block:: python
-   
+
       # Voice control in main loop
       new_speed = parse_response_for_speed(full_response)
       if new_speed >= 0:
           speed = new_speed
           motor.power(speed)
-      
+
       # Button control via callback
       def speed_up():
           speed += 10
@@ -448,25 +448,25 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
               speed = 0
           motor.power(speed)
 
-9. Clear Terminal Output
+9. Affichage terminal clair
 
-   Uses ANSI escape codes for clean console display:
-   
+   Utilise les codes d'echappement ANSI pour un affichage console propre :
+
    .. code-block:: python
-   
+
       print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
-      
-   - ``\r``: Carriage return (go to start of line)
-   - ``\x1b[K``: Clear from cursor to end of line
-   - ``end=""``: No newline
-   - ``flush=True``: Immediate display
 
-10. Intelligent AI Instructions
+   - ``\r`` : Retour chariot (aller au debut de la ligne)
+   - ``\x1b[K`` : Effacer du curseur a la fin de la ligne
+   - ``end=""`` : Pas de nouvelle ligne
+   - ``flush=True`` : Affichage immediat
 
-    The AI is specifically instructed to be decisive and avoid clarification questions:
-    
+10. Instructions IA intelligentes
+
+    L'IA est specifiquement instruite d'etre decisive et d'eviter les questions de clarification :
+
     .. code-block:: python
-    
+
         INSTRUCTIONS = '''
         CRITICAL RULES:
         1. BE DECISIVE: Always take clear action based on user requests.
@@ -477,52 +477,52 @@ Here is the full Python script for the Voice-Controlled Smart Fan:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-- Motor not spinning
+- Le moteur ne tourne pas
 
-  - Verify motor connections: M0 port, correct polarity
-  - Test motor directly: ``motor.power(50)`` should spin at 50%
-  - Ensure speed variable is being set (0-100 range)
+  - Verifiez les connexions du moteur : port M0, polarite correcte
+  - Testez le moteur directement : ``motor.power(50)`` devrait tourner a 50%
+  - Assurez-vous que la variable de vitesse est definie (plage 0-100)
 
-- Button not responding
+- Le bouton ne repond pas
 
-  - Check wiring: GPIO 17 to button, other side to 3.3V
-  - Verify pull-up configuration
-  - Test with simple script: print when button state changes
-  - Check debounce time (0.5 seconds may be too long)
+  - Verifiez le cablage : GPIO 17 au bouton, autre cote au 3.3V
+  - Verifiez la configuration du pull-up
+  - Testez avec un script simple : afficher lorsque l'etat du bouton change
+  - Verifiez le temps d'anti-rebond (0,5 seconde peut etre trop long)
 
-- No buzzer sound
+- Pas de son du buzzer
 
-  - Test buzzer directly: ``buzzer.on()`` should produce continuous tone
-  - Check if buzzer is piezo (needs PWM) or active (works with DC)
+  - Testez le buzzer directement : ``buzzer.on()`` devrait produire un son continu
+  - Verifiez si le buzzer est piezoelectrique (necessite PWM) ou actif (fonctionne avec DC)
 
-- AI not understanding commands
+- L'IA ne comprend pas les commandes
 
-  - Check API key in ``secret.py``
-  - Verify internet connection
-  - Examine AI instructions: ensure they're properly formatted
-  - Test with simpler commands first
+  - Verifiez la cle API dans ``secret.py``
+  - Verifiez la connexion Internet
+  - Examinez les instructions de l'IA : assurez-vous qu'elles sont correctement formatees
+  - Testez d'abord avec des commandes plus simples
 
-- Speed changes unexpectedly
+- Les changements de vitesse sont inattendus
 
-  - Check button debounce: may be triggering multiple times
-  - Verify keyword parsing: some phrases may trigger unintended speeds
-  - Add print statements to trace speed changes
+  - Verifiez l'anti-rebond du bouton : peut se declencher plusieurs fois
+  - Verifiez l'analyse des mots-cles : certaines phrases peuvent declencher des vitesses non desirees
+  - Ajoutez des instructions d'affichage pour tracer les changements de vitesse
 
-- Poor speech recognition accuracy
+- Mauvaise precision de la reconnaissance vocale
 
-  - Reduce background noise
-  - Speak clearly and at moderate pace
-  - Consider using external USB microphone for better quality
-  - Adjust STT parameters if available
+  - Reduisez le bruit de fond
+  - Parlez clairement et a un rythme modere
+  - Envisagez d'utiliser un microphone USB externe pour une meilleure qualite
+  - Ajustez les parametres STT si disponibles
 
-- Motor makes noise but doesn't spin
+- Le moteur fait du bruit mais ne tourne pas
 
-  - Check if motor is stuck or blocked
-  - Verify power supply voltage matches motor requirements
-  - Some motors need capacitor across terminals for smooth operation
+  - Verifiez si le moteur est bloque ou obstrue
+  - Verifiez que la tension d'alimentation correspond aux besoins du moteur
+  - Certains moteurs necessitent un condensateur aux bornes pour un fonctionnement fluide
 
 ----------------------------------------------
 
-This voice-controlled fan demonstrates how natural language processing, physical controls, and intelligent systems can create intuitive and accessible smart home devices that respond to human needs and preferences!
+Ce ventilateur commande par la voix demontre comment le traitement du langage naturel, les controles physiques et les systemes intelligents peuvent creer des appareils domestiques intelligents intuitifs et accessibles qui repondent aux besoins et preferences humaines !

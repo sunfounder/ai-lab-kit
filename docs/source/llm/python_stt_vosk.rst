@@ -6,11 +6,11 @@
 .. _py_stt_whisper:
 .. _test_vosk:
 
-3. STT with Vosk (Offline)
+3. Reconnaissance vocale avec Vosk (hors ligne)
 ==============================================
 
-Vosk is a lightweight speech-to-text (STT) engine that supports many languages and runs fully **offline** on Raspberry Pi.  
-You only need internet access once to download a language model. After that, everything works without a network connection.  
+Vosk est un moteur leger de reconnaissance vocale (STT) qui prend en charge de nombreuses langues et fonctionne entierement **hors ligne** sur Raspberry Pi.
+Vous n'avez besoin d'un acces Internet qu'une seule fois pour telecharger un modele de langue. Ensuite, tout fonctionne sans connexion reseau.
 
 .. raw:: html
 
@@ -19,16 +19,16 @@ You only need internet access once to download a language model. After that, eve
           Your browser does not support the video tag.
       </video>
 
-In this lesson, we will:  
+Dans cette lecon, nous allons :
 
-* Check the microphone on Raspberry Pi.  
-* Install and test Vosk with a chosen language model.  
+* Verifier le microphone sur Raspberry Pi.
+* Installer et tester Vosk avec un modele de langue choisi.
 
 
 .. start_mic
 
 
-Run the program
+Executer le programme
 --------------------------
 
 .. code-block:: bash
@@ -36,13 +36,13 @@ Run the program
    cd ~/ai-lab-kit/llm
    sudo python3 stt_vosk_stream.py
 
-The first time you run this code with a new language, Vosk will:
+La premiere fois que vous executerez ce code avec une nouvelle langue, Vosk va :
 
-* **Automatically download the language model** (by default, the small version).
-* **Print out the list of supported languages**.
-* Start **listening** for audio input through the microphone.
+* **Telecharger automatiquement le modele de langue** (par defaut, la version legere).
+* **Afficher la liste des langues prises en charge**.
+* Commencer a **ecouter** l'entree audio via le microphone.
 
-You’ll see something like this in the terminal:
+Vous verrez quelque chose comme ceci dans le terminal :
 
 .. code-block:: text
 
@@ -50,17 +50,17 @@ You’ll see something like this in the terminal:
          ['ar', 'ar-tn', 'ca', 'cn', 'cs', 'de', 'en-gb', 'en-in', 'en-us', 'eo', 'es', 'fa', 'fr', 'gu', 'hi', 'it', 'ja', 'ko', 'kz', 'nl', 'pl', 'pt', 'ru', 'sv', 'te', 'tg', 'tr', 'ua', 'uz', 'vn']
          Say something
 
-This means:
+Cela signifie :
 
-   * The model file (``vosk-model-small-en-us-0.15``) has been downloaded.  
-   * The list of supported languages has been printed.  
-   * The system is now listening — say something into the Fusion HAT+ microphone, and the recognized text will appear in the terminal.
+   * Le fichier du modele (``vosk-model-small-en-us-0.15``) a ete telecharge.
+   * La liste des langues prises en charge a ete affichee.
+   * Le systeme ecoute maintenant — dites quelque chose dans le microphone du Fusion HAT+, et le texte reconnu apparaitra dans le terminal.
 
-**Tips:**
+**Conseils :**
 
-* Keep the microphone about **15–30 cm** away for better accuracy.  
-* Choose a **model that matches your language and accent**.  
-* Use a quiet environment to improve recognition.
+* Maintenez le microphone a environ **15-30 cm** pour une meilleure precision.
+* Choisissez un **modele qui correspond a votre langue et votre accent**.
+* Utilisez un environnement silencieux pour ameliorer la reconnaissance.
 
 Code
 ---------------
@@ -80,39 +80,39 @@ Code
                print(f"partial: {result['partial']}", end="\r", flush=True)
 
 
-**Code explanation:**
+**Explication du code :**
 
-* ``stt.listen(stream=True)`` — Starts streaming speech recognition and yields intermediate results as you speak.  
-* ``result["partial"]`` — Displays the **real-time recognized text** (updated continuously).  
-* ``result["final"]`` — Displays the **final recognized sentence** when you stop speaking.  
-* The loop runs continuously, allowing **hands-free real-time transcription**.
+* ``stt.listen(stream=True)`` — Demarre la reconnaissance vocale en continu et produit des resultats intermediaires pendant que vous parlez.
+* ``result["partial"]`` — Affiche le **texte reconnu en temps reel** (mis a jour en continu).
+* ``result["final"]`` — Affiche la **phrase finale reconnue** lorsque vous arretez de parler.
+* La boucle s'execute en continu, permettant une **transcription en temps reel mains libres**.
 
-Tip: This streaming mode is perfect for **voice assistants**, **command control**, or **live transcription**.
+**Conseil :** Ce mode de streaming est parfait pour les **assistants vocaux**, le **controle par commandes** ou la **transcription en direct**.
 
-Troubleshooting
+Depannage
 -----------------
 
-* **No such file or directory (when running `arecord`)**
+* **No such file or directory (lors de l'execution de `arecord`)**
 
-  You may have used the wrong card/device number.  
-  Run:
+  Vous avez peut-etre utilise le mauvais numero de carte/peripherique.
+  Executez :
 
   .. code-block:: bash
 
      arecord -l
 
-  and replace ``1,0`` with the numbers shown for your USB microphone.
+  et remplacez ``1,0`` par les numeros affiches pour votre microphone USB.
 
 
-* **Vosk does not recognize speech**
+* **Vosk ne reconnait pas la parole**
 
-  * Make sure the **language code** matches your model (e.g. ``en-us`` for English, ``zh-cn`` for Chinese).  
-  * Keep the microphone 15–30 cm away and avoid background noise.  
-  * Speak clearly and slowly.
+  * Assurez-vous que le **code de langue** correspond a votre modele (par ex., ``en-us`` pour l'anglais, ``fr`` pour le francais).
+  * Maintenez le microphone a 15-30 cm et evitez le bruit de fond.
+  * Parlez clairement et lentement.
 
-* **High latency / slow recognition**
+* **Latence elevee / reconnaissance lente**
 
-  * The default auto-download is a **small model** (faster, but less accurate).  
-  * If it’s still slow, close other programs to free CPU.  
+  * Le telechargement automatique par defaut est un **petit modele** (plus rapide, mais moins precis).
+  * Si c'est encore lent, fermez les autres programmes pour liberer le CPU.
 
 .. end_mic

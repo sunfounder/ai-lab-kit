@@ -4,25 +4,25 @@
 
 .. _py_touch:
 
-2.5 Touch Switch Module
-================================
+2.5 Module Interrupteur Tactile
+=====================================
 
 **Introduction**
 
-In this project, we explore the use of a Touch Switch Module. This component replaces traditional mechanical switches and offers benefits such as precise control, fine touch sensitivity, and minimal mechanical wear. Touch switches are commonly used in modern appliances and devices where reliability and ease of operation are essential.
+Dans ce projet, nous explorons l'utilisation d'un module interrupteur tactile. Ce composant remplace les interrupteurs mecaniques traditionnels et offre des avantages tels qu'un controle precis, une sensibilite tactile fine et une usure mecanique minimale. Les interrupteurs tactiles sont couramment utilises dans les appareils modernes ou la fiabilite et la facilite d'utilisation sont essentielles.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-To complete this project, you will need the following components:
+Pour realiser ce projet, vous aurez besoin des composants suivants :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,16 +35,16 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_touch_switch`
         - |link_touch_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema de circuit**
 
-Below is the schematic diagram showing how to connect the Touch Switch Module to the Raspberry Pi and LEDs:
+Voici le schema de principe montrant comment connecter le module interrupteur tactile au Raspberry Pi et aux LED :
 
 .. image:: img/fzz/2.1.3_sch.png
    :width: 100%
@@ -52,13 +52,13 @@ Below is the schematic diagram showing how to connect the Touch Switch Module to
 
 ------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Follow these steps to build the circuit:
+Suivez ces etapes pour construire le circuit :
 
-1. Connect the Touch Switch Module output pin to GPIO17.
-2. Connect LED1 anode to GPIO22 and LED2 anode to GPIO27 via appropriate resistors.
-3. Connect the cathodes of both LEDs and the Touch Switch ground pin to GND.
+1. Connectez la broche de sortie du module interrupteur tactile a GPIO17.
+2. Connectez l'anode de LED1 a GPIO22 et l'anode de LED2 a GPIO27 via des resistances appropriees.
+3. Connectez les cathodes des deux LED et la broche de masse de l'interrupteur tactile a GND.
 
 .. image:: img/fzz/2.1.3_bb.png
    :width: 80%
@@ -67,11 +67,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Executer l'exemple**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l'exemple :
 
 
 .. raw:: html
@@ -79,33 +79,33 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.5_TouchSwitch.py
 
-This Python script uses a touch sensor to control two LEDs connected to a Raspberry Pi. When executed:
+Ce script Python utilise un capteur tactile pour controler deux LED connectees a un Raspberry Pi. Lors de l'execution :
 
-1. **Touch Sensor Pressed**:
+1. **Capteur tactile presse** :
 
-   - Prints "You touch it!" to the console.
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+   - Affiche "You touch it!" sur la console.
+   - Eteint LED1 (connectee a la broche GPIO 22).
+   - Allume LED2 (connectee a la broche GPIO 27).
 
-2. **Touch Sensor Not Pressed**:
+2. **Capteur tactile non presse** :
 
-   - LED1 turns on.
-   - LED2 turns off.
+   - LED1 s'allume.
+   - LED2 s'eteint.
 
-3. The program continuously monitors the touch sensor's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. Le programme surveille en continu l'etat du capteur tactile toutes les 0,5 secondes et ajuste les LED en consequence.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Le script s'execute indefiniment jusqu'a ce qu'il soit interrompu en appuyant sur ``Ctrl+C``.
 
 
 ----------------------------------------------
 
 **Code**
 
-The following Python code controls two LEDs based on the state of the Touch Switch Module:
+Le code Python suivant controle deux LED en fonction de l'etat du module interrupteur tactile :
 
 
 .. raw:: html
@@ -147,11 +147,11 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Library Import**
+1. **Importation de la bibliotheque**
 
-   The ``fusion_hat`` library is used to simplify GPIO control, and the ``sleep`` function provides delay functionality.
+   La bibliotheque ``fusion_hat`` est utilisee pour simplifier le controle GPIO, et la fonction ``sleep`` fournit la fonctionnalite de pause.
 
    .. code-block:: python
 
@@ -159,9 +159,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
       from time import sleep  # Import sleep for delay
 
 
-2. **Component Initialization**
+2. **Initialisation des composants**
 
-   The touch sensor is configured as a button on GPIO17, and two LEDs are initialized on GPIO22 and GPIO27.
+   Le capteur tactile est configure comme un bouton sur GPIO17, et deux LED sont initialisees sur GPIO22 et GPIO27.
 
    .. code-block:: python
 
@@ -173,9 +173,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **Main Loop**
+3. **Boucle principale**
 
-   The program continuously checks the state of the Touch Switch Module. When touched, LED2 turns on and LED1 off; otherwise, LED1 is on, and LED2 is off.
+   Le programme verifie en continu l'etat du module interrupteur tactile. Lorsqu'il est touche, LED2 s'allume et LED1 s'eteint ; sinon, LED1 est allumee et LED2 est eteinte.
 
    .. code-block:: python
 
@@ -188,9 +188,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
                led2.off()
            sleep(0.5)
 
-4. **Interrupt Handling**
+4. **Gestion des interruptions**
 
-   A ``try-except`` block ensures that the program exits cleanly upon receiving a keyboard interrupt (Ctrl+C).
+   Un bloc ``try-except`` garantit que le programme se termine proprement lors de la reception d'une interruption clavier (Ctrl+C).
 
    .. code-block:: python
 
@@ -199,23 +199,23 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-1. **No Response from Touch Sensor**  
+1. **Aucune reponse du capteur tactile**
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the touch sensor is connected to GPIO pin 17 and ground, and verify that ``PULL_DOWN`` matches the sensor's active-low configuration.
+   - **Cause** : Cablage incorrect ou configuration de broche GPIO.
+   - **Solution** : Assurez-vous que le capteur tactile est connecte a la broche GPIO 17 et a la masse, et verifiez que ``PULL_DOWN`` correspond a la configuration active-low du capteur.
 
-2. **Sensor Always Reads Pressed or Not Pressed**  
+2. **Le capteur lit toujours presse ou non presse**
 
-   - **Cause**: Faulty sensor or wiring.  
-   - **Solution**: Test the sensor with a multimeter or replace it. Check for loose or incorrect connections.
+   - **Cause** : Capteur ou cablage defectueux.
+   - **Solution** : Testez le capteur avec un multimetre ou remplacez-le. Verifiez les connexions desserrees ou incorrectes.
 
 
-3. **LEDs Flicker or Behave Erratically**  
+3. **Les LED scintillent ou se comportent de maniere erratique**
 
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **Cause** : Problemes d'anti-rebond du bouton.
+   - **Solution** : Ajoutez un anti-rebond logiciel pour stabiliser le signal d'entree :
 
    .. code-block:: python
 
@@ -225,11 +225,11 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idees d'extension**
 
-1. **Touch Duration Detection**  
+1. **Detection de la duree du toucher**
 
-   Add functionality to detect how long the touch sensor is pressed and adjust LED behavior:
+   Ajoutez la possibilite de detecter la duree pendant laquelle le capteur tactile est presse et ajustez le comportement des LED :
 
    .. code-block:: python
 
@@ -244,9 +244,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
             duration = time() - start_time
             print(f"Sensor was touched for {duration:.2f} seconds")
 
-2. **Adjustable Delay**  
+2. **Pause ajustable**
 
-   Allow the user to modify the delay dynamically to fine-tune responsiveness:
+   Permettez a l'utilisateur de modifier la pause dynamiquement pour affiner la reactivite :
 
    .. code-block:: python
 
@@ -258,4 +258,4 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 
 **Conclusion**
 
-This project demonstrates how to use a Touch Switch Module with the Fusion HAT+ to control LEDs. Touch switches are versatile and reliable components, often used in modern devices for seamless and intuitive interaction.
+Ce projet montre comment utiliser un module interrupteur tactile avec le Fusion HAT+ pour controler des LED. Les interrupteurs tactiles sont des composants polyvalents et fiables, souvent utilises dans les appareils modernes pour une interaction intuitive et transparente.

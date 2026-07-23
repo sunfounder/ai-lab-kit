@@ -8,82 +8,71 @@ FAQ
 =====================
 
 
-Below are some of the most common questions users may encounter while using the
-AI Fusion Lab Kit. If your issue is not listed here, please refer to the
-troubleshooting notes in each chapter or contact support.
+Vous trouverez ci-dessous quelques-unes des questions les plus frequentes que les utilisateurs peuvent rencontrer en utilisant le AI Fusion Lab Kit. Si votre probleme n'est pas liste ici, veuillez consulter les notes de depannage dans chaque chapitre ou contacter le support.
 
-General Questions
------------------
+Questions generales
+-------------------
 
-**Where can I download the system image?**
+**Ou puis-je telecharger l'image du systeme ?**
 
-    You can find the recommended Raspberry Pi system image and setup
-    instructions in the :ref:`get_start` section. The documentation also
-    provides step-by-step installation guidance for beginners.
+    Vous trouverez l'image recommandee du systeme Raspberry Pi ainsi que les instructions d'installation dans la section :ref:`get_start`. La documentation fournit egalement un guide d'installation pas a pas pour les debutants.
 
-**Do I need an internet connection to use the kit?**
+**Ai-je besoin d'une connexion Internet pour utiliser le kit ?**
 
-    Basic Python and hardware examples do not require internet access.
-    However, cloud-based LLMs and some AI features do require an active
-    internet connection.
+    Les exemples Python de base et les exemples materiels ne necessitent pas de connexion Internet. Cependant, les LLM bases sur le cloud et certaines fonctionnalites d'IA necessitent une connexion Internet active.
 
-**Which Raspberry Pi models are supported?**
+**Quels modeles de Raspberry Pi sont pris en charge ?**
 
-    The kit officially supports Raspberry Pi 4B and Raspberry Pi 5.
-    Other models may work but are not guaranteed due to performance
-    or compatibility limitations.
+    Le kit supporte officiellement le Raspberry Pi 4B et le Raspberry Pi 5. D'autres modeles peuvent fonctionner mais ne sont pas garantis en raison de limitations de performances ou de compatibilite.
 
-**Do I need to power the FusionHAT separately?**
+**Dois-je alimenter le FusionHAT separement ?**
 
-    Yes. *The FusionHAT requires its own power supply*. The Raspberry Pi power
-    input does not supply power to the FusionHAT. If the FusionHAT is not
-    powered, certain functions — such as the speaker or other onboard modules —
-    may not work properly.
+    Oui. *Le FusionHAT necessite sa propre alimentation*. L'entree d'alimentation du Raspberry Pi ne fournit pas d'energie au FusionHAT. Si le FusionHAT n'est pas alimente, certaines fonctions — comme le haut-parleur ou d'autres modules integres — peuvent ne pas fonctionner correctement.
 
-Software / Installation
+Logiciel / Installation
 -----------------------
 
 **RuntimeError: Failed to add edge detection / RuntimeError: Cannot determine SOC peripheral base address**
 
-    This issue is usually caused by a conflict between the system-installed ``RPi.GPIO`` library and the GPIO library used by Fusion HAT.  
-    To solve it, please manually remove the system ``RPi.GPIO`` package files and then run the program again.
+    Ce probleme est generalement cause par un conflit entre la bibliotheque ``RPi.GPIO`` installee par le systeme et la bibliotheque GPIO utilisee par Fusion HAT.
+    Pour le resoudre, veuillez supprimer manuellement les fichiers du paquet systeme ``RPi.GPIO``, puis relancer le programme.
 
-    1. Remove the system ``RPi.GPIO`` files:
+    1. Supprimez les fichiers systeme ``RPi.GPIO`` :
 
        .. code-block:: bash
 
           sudo pip3 uninstall RPi.GPIO --break
           sudo rm -rf /usr/lib/python3/dist-packages/RPi.GPIO*
 
-    2. Reboot the Raspberry Pi:
+    2. Redemarrez le Raspberry Pi :
 
        .. code-block:: bash
 
           sudo reboot
 
-    3. Run the example again (do not use sudo unless required):
+    3. Relancez l'exemple (n'utilisez pas sudo sauf si necessaire) :
 
-After removing the conflicting ``RPi.GPIO`` files, the interrupt-based button example should work normally.
+Apres avoir supprime les fichiers ``RPi.GPIO`` conflictuels, l'exemple de bouton base sur les interruptions devrait fonctionner normalement.
 
 
 
 **OSError: Fusion HAT not connected, check if Fusion Hat is powered on**
 
-If you encounter this error when running some examples (e.g., when calling PWM pins), the possible causes are:
+Si vous rencontrez cette erreur lors de l'execution de certains exemples (par exemple, lors de l'appel des broches PWM), les causes possibles sont :
 
-1. The Fusion HAT is not properly connected;
-2. Incorrect power supply method;
-3. The Fusion HAT driver is missing after a Raspberry Pi system update.
+1. Le Fusion HAT n'est pas correctement connecte ;
+2. Une methode d'alimentation incorrecte ;
+3. Le pilote du Fusion HAT est manquant apres une mise a jour du systeme Raspberry Pi.
 
-Follow the steps below to check and resolve the issue:
+Suivez les etapes ci-dessous pour verifier et resoudre le probleme :
 
-1. Run the following command to check the status of the Fusion HAT:
+1. Executez la commande suivante pour verifier l'etat du Fusion HAT :
 
    .. code-block:: bash
 
       i2cdetect -y 1
 
-   Under normal conditions, you should see output similar to the following (with ``UU`` at address ``0x1e``):
+   Dans des conditions normales, vous devriez voir un resultat similaire a ce qui suit (avec ``UU`` a l'adresse ``0x1e``) :
 
    .. code-block:: bash
 
@@ -98,7 +87,7 @@ Follow the steps below to check and resolve the issue:
       60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
       70: -- -- -- -- -- -- -- --
 
-2. If you do not see ``UU`` but see ``17`` instead, the Fusion HAT driver is missing. Please reinstall the driver by running the following commands:
+2. Si vous ne voyez pas ``UU`` mais ``17`` a la place, le pilote du Fusion HAT est manquant. Veuillez reinstaller le pilote en executant les commandes suivantes :
 
    .. code-block:: bash
 
@@ -106,9 +95,9 @@ Follow the steps below to check and resolve the issue:
       make
       sudo make install
 
-3. If you see neither ``UU`` nor ``17``, it means the Fusion HAT is not connected to the Raspberry Pi or there is a power issue. Please ensure that your Raspberry Pi is properly connected to the Fusion HAT and that the Raspberry Pi is powered by the Fusion HAT (not powered independently).
+3. Si vous ne voyez ni ``UU`` ni ``17``, cela signifie que le Fusion HAT n'est pas connecte au Raspberry Pi ou qu'il y a un probleme d'alimentation. Veuillez vous assurer que votre Raspberry Pi est correctement connecte au Fusion HAT et que le Raspberry Pi est alimente par le Fusion HAT (et non de maniere independante).
 
-4. If the above steps do not resolve the issue, please run the following commands and send us the output:
+4. Si les etapes ci-dessus ne resolvent pas le probleme, veuillez executer les commandes suivantes et nous envoyer le resultat :
 
    .. code-block:: bash
 
@@ -120,39 +109,30 @@ Follow the steps below to check and resolve the issue:
       ls /sys/class/fusion_hat/fusion_hat
       cat ~/.ai-fusion
 
-**The installation script failed. What should I do?**
+**Le script d'installation a echoue. Que dois-je faire ?**
 
-    Ensure that your Raspberry Pi OS is up-to-date and that you have a stable
-    network connection during installation. Try running the setup script again.
-    If the issue persists, reboot the system and recheck your Python version.
+    Assurez-vous que votre systeme Raspberry Pi OS est a jour et que vous disposez d'une connexion reseau stable pendant l'installation. Essayez de relancer le script d'installation. Si le probleme persiste, redemarrez le systeme et verifiez a nouveau votre version de Python.
 
-**Python examples cannot run. What might be the cause?**
+**Les exemples Python ne peuvent pas s'executer. Quelle peut en etre la cause ?**
 
-    This is usually related to missing Python libraries or incorrect
-    environment setup. Verify that the dependencies were installed
-    through the setup guide in :ref:`get_start`.
+    Cela est generalement lie a des bibliotheques Python manquantes ou a une configuration d'environnement incorrecte. Verifiez que les dependances ont bien ete installees via le guide d'installation dans :ref:`get_start`.
 
-**The camera is not detected.**
+**La camera n'est pas detectee.**
 
-    Make sure the ribbon cable is firmly connected and not inserted backwards.
-    Also confirm that the camera interface is enabled in the Raspberry Pi
-    configuration settings.
+    Assurez-vous que le ruban de connexion est fermement branche et qu'il n'est pas insere a l'envers. Verifiez egalement que l'interface de la camera est activee dans les parametres de configuration du Raspberry Pi.
 
-AI Features
------------
+Fonctionnalites IA
+------------------
 
-**LLM responses are slow or not returning.**
+**Les reponses du LLM sont lentes ou ne reviennent pas.**
 
-    This often indicates poor internet connectivity or API-rate limits from
-    the selected model provider. Try switching networks or testing with a
-    different model.
+    Cela indique souvent une mauvaise connectivite Internet ou des limites de taux d'API du fournisseur de modele selectionne. Essayez de changer de reseau ou de tester avec un modele different.
 
-**Speech-to-Text (STT) is inaccurate.**
+**La reconnaissance vocale (STT) est imprecise.**
 
-    Check your microphone connection and reduce background noise. Some models
-    may require additional language packs or configuration adjustments.
+    Verifiez la connexion de votre microphone et reduisez le bruit ambiant. Certains modeles peuvent necessiter des packs de langue supplementaires ou des ajustements de configuration.
 
-**Show 'Error querying device -1' in the Vosk STT module.**
+**Message 'Error querying device -1' dans le module STT Vosk.**
 
     .. code-block:: bash
 
@@ -165,12 +145,12 @@ AI Features
             raise PortAudioError(f'Error querying device {device}')
         sounddevice.PortAudioError: Error querying device -1
 
-    Please execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
+    Veuillez executer ``sudo /opt/setup_fusion_hat_audio.sh`` pour reconfigurer l'audio
 
 
-**Permission denied when usibg TTS/STT**
+**Permission denied lors de l'utilisation de TTS/STT**
 
-    When running TTS (Text-to-Speech) or STT (Speech-to-Text) commands, you encounter a permission error like:
+    Lors de l'execution de commandes TTS (Text-to-Speech) ou STT (Speech-to-Text), vous rencontrez une erreur de permission comme :
 
     .. code-block:: bash
 
@@ -186,50 +166,42 @@ AI Features
         PermissionError: [Errno 13] Permission denied: '/opt/piper_models'
 
 
-    This issue occurs in AI Fusion Lab Kit OS version 0.0.1. The system attempts to create a directory (/opt/piper_models) that requires root privileges, but the current user lacks sufficient permissions. Update the AI Fusion Lab Kit OS from version 0.0.1 to 0.1.0 by running the following command:
+    Ce probleme se produit dans la version 0.0.1 du systeme d'exploitation AI Fusion Lab Kit. Le systeme tente de creer un repertoire (/opt/piper_models) qui necessite des privileges root, mais l'utilisateur actuel ne dispose pas des autorisations suffisantes. Mettez a jour le systeme d'exploitation AI Fusion Lab Kit de la version 0.0.1 vers 0.1.0 en executant la commande suivante :
 
     .. code-block:: bash
 
         curl -sSL https://raw.githubusercontent.com/sunfounder/sunfounder-installer-scripts/main/ai-fusion-lab-kit-upgrade-0.0.1-to-0.1.0.sh | sudo bash
 
 
-Computer Vision / MediaPipe
----------------------------
+Vision par ordinateur / MediaPipe
+---------------------------------
 
-**OpenCV examples show errors when accessing the camera.**
+**Les exemples OpenCV affichent des erreurs lors de l'acces a la camera.**
 
-    Only one process can access the camera at a time. Ensure that no other
-    camera applications are running in the background.
+    Un seul processus peut acceder a la camera a la fois. Assurez-vous qu'aucune autre application camera ne fonctionne en arriere-plan.
 
-**MediaPipe examples run slowly.**
+**Les exemples MediaPipe s'executent lentement.**
 
-    Real-time computer vision requires significant processing power. Consider
-    reducing the input resolution or closing other processes to free system
-    resources.
+    La vision par ordinateur en temps reel necessite une puissance de calcul importante. Pensez a reduire la resolution d'entree ou a fermer d'autres processus pour liberer des ressources systeme.
 
-**MediaPipe projects do not work on the latest Raspberry Pi OS.**
+**Les projets MediaPipe ne fonctionnent pas sur la derniere version de Raspberry Pi OS.**
 
-    MediaPipe currently does not support the newest (Trixie version) Raspberry Pi system
-    releases due to dependency and architecture changes. Please use the legecy version
-    (Bookworm version) that supports all MediaPipe-based examples.
+    MediaPipe ne supporte actuellement pas les dernieres versions du systeme Raspberry Pi (version Trixie) en raison de changements de dependances et d'architecture. Veuillez utiliser la version legacy (version Bookworm) qui prend en charge tous les exemples bases sur MediaPipe.
 
-Hardware Issues
----------------
-
-**A component does not respond.**
-
-    Recheck your wiring connections and ensure proper orientation.
-    Refer to the :ref:`cpn_list` section for pin descriptions and sample diagrams.
-
-**The device suddenly stops working.**
-
-    This may be caused by power instability. Please ensure your power supply
-    meets the recommended specifications for the Raspberry Pi model in use.
-
-Contact and Support
+Problemes materiels
 -------------------
 
-**How can I get additional help?**
+**Un composant ne repond pas.**
 
-    You may consult the documentation for detailed troubleshooting steps.
-    If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
+    Revérifiez vos connexions de câblage et assurez-vous de l'orientation correcte. Reportez-vous a la section :ref:`cpn_list` pour les descriptions des broches et les schemas d'exemple.
+
+**L'appareil cesse soudainement de fonctionner.**
+
+    Cela peut etre cause par une instabilite de l'alimentation. Assurez-vous que votre alimentation repond aux specifications recommandées pour le modele de Raspberry Pi utilise.
+
+Contact et support
+------------------
+
+**Comment puis-je obtenir de l'aide supplementaire ?**
+
+    Vous pouvez consulter la documentation pour des etapes de depannage detaillees. Si vous avez des questions, n'hesitez pas a nous contacter a **service@sunfounder.com** — nous sommes la pour vous aider.

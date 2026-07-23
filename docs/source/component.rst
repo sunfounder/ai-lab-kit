@@ -4,18 +4,18 @@
 
 .. _cpn_list:
 
-Components
+Composants
 ================================================
 
-.. After opening the package, please check whether the quantity of components is compliance with product description and whether all components are in good condition.
+.. Apres avoir ouvert le paquet, veuillez verifier que la quantite de composants est conforme a la description du produit et que tous les composants sont en bon etat.
 
 .. .. image:: img/list.png
 ..     :width: 800
 
-Below is the introduction to each component, which contains the operating principle of the component and the corresponding projects.
+Vous trouverez ci-dessous la presentation de chaque composant, comprenant son principe de fonctionnement et les projets correspondants.
 
 
-**Basic**
+**Base**
 
 .. toctree::
     :maxdepth: 1
@@ -29,14 +29,14 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_wires
     ../_shared/component/cpn_battery_3pin
 
-**Chip**
+**Puce**
 
 .. toctree::
     :maxdepth: 1
 
     ../_shared/component/cpn_74hc595
 
-**Display**
+**Affichage**
 
 .. toctree::
     :maxdepth: 1
@@ -48,14 +48,14 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_ws2812_module
 
 
-**Sound**
+**Son**
 
 .. toctree::
     :maxdepth: 1
 
     ../_shared/component/cpn_buzzer
 
-**Driver**
+**Pilote**
 
 .. toctree::
     :maxdepth: 1
@@ -63,9 +63,9 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_motor_xh254
     ../_shared/component/cpn_servo_sf006pro
     ../_shared/component/cpn_relay_6pin
-    
 
-**Controller**
+
+**Controleur**
 
 .. toctree::
     :maxdepth: 1
@@ -76,7 +76,7 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_potentiometer
     ../_shared/component/cpn_joystick_module
 
-**Sensor**
+**Capteur**
 
 .. toctree::
     :maxdepth: 1

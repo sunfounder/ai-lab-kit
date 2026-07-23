@@ -2,72 +2,72 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-5. MeanShift Object Tracking
-===============================
+5. Suivi d'Objets avec MeanShift
+=========================================
 
-MeanShift is a classic histogram-based object tracking algorithm.  
-In this lesson, we’ll not only implement a complete **MeanShift tracking** example, but also explain **why** each step is taken and **what’s happening under the hood**.
+MeanShift est un algorithme classique de suivi d'objets basé sur l'histogramme.
+Dans cette leçon, nous allons non seulement implémenter un exemple complet de **suivi MeanShift**, mais aussi expliquer **pourquoi** chaque étape est effectuée et **ce qui se passe sous le capot**.
 
 .. raw:: html
 
       <video width="400" loop muted controls>
           <source src="../_static/video/Opencv_5.mp4" type="video/mp4">
-          Your browser does not support the video tag.
+          Votre navigateur ne supporte pas la balise vidéo.
       </video>
-   
-1. What is MeanShift?
+
+1. Qu'est-ce que MeanShift ?
 -------------------------
 
-MeanShift iteratively shifts a window according to probability density to **find the most likely location of the target**.
+MeanShift déplace itérativement une fenêtre en fonction de la densité de probabilité pour **trouver l'emplacement le plus probable de la cible**.
 
-In plain words:  
-You first give the algorithm an “initial target region.” It computes the color features of this region (e.g., the target’s color histogram), and then in each subsequent frame finds the area most similar to that color and moves the rectangle there.
+En termes simples :
+Vous donnez d'abord à l'algorithme une « région cible initiale ». Il calcule les caractéristiques de couleur de cette région (par exemple, l'histogramme de couleur de la cible), puis dans chaque image suivante, il trouve la zone la plus similaire à cette couleur et y déplace le rectangle.
 
-This process doesn’t rely on deep learning and requires no pre-training—it’s very lightweight.
+Ce processus ne repose pas sur l'apprentissage profond et ne nécessite aucun pré-entraînement. Il est très léger.
 
 .. image:: img/opencv_meanshift.png
-   :alt: MeanShift tracking
+   :alt: Suivi MeanShift
    :align: center
 
-2. Run the Code
+2. Exécuter le Code
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   Avant de commencer, assurez-vous :
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Que le support motorisé est assemblé
+   * Que vous pouvez accéder au bureau du Raspberry Pi
+   * Que le package de code est installé
+   * Que Fusion HAT+ est installé et configuré
+   * Qu'OpenCV est installé
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Pour les instructions détaillées, voir :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Ouvrez le terminal et entrez la commande suivante :
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_5_meanshift.py
 
-#. When you run the program, an OpenCV window named **MeanShift Tracker** will appear and start playing the video file ``sample2.mp4``.  
+#. Lorsque vous exécutez le programme, une fenêtre OpenCV nommée **MeanShift Tracker** apparaît et commence à lire le fichier vidéo ``sample2.mp4``.
 
-   A green rectangle will be drawn around the target object and updated in real time using the MeanShift tracking algorithm.
-   
-   The tracking window will move as the object moves in the video.
-   
-   You can exit the program in two ways:
-   
-   * Press the **q** key on the keyboard  
-   * Close the window by clicking the close button (X)  
-   
-   After exiting, the video playback stops and all OpenCV windows are closed.
+   Un rectangle vert sera dessiné autour de l'objet cible et mis à jour en temps réel à l'aide de l'algorithme de suivi MeanShift.
 
-3. Complete Code
+   La fenêtre de suivi se déplacera au fur et à mesure que l'objet bouge dans la vidéo.
+
+   Vous pouvez quitter le programme de deux manières :
+
+   * Appuyer sur la touche **q** du clavier
+   * Fermer la fenêtre en cliquant sur le bouton de fermeture (X)
+
+   Après la sortie, la lecture vidéo s'arrête et toutes les fenêtres OpenCV sont fermées.
+
+3. Code Complet
 -----------------------
 
-Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
+Voici le script complet de suivi MeanShift (``cv_5_meanshift.py``) :
 
 .. code-block:: python
 
@@ -152,18 +152,18 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
    cap.release()
    cv2.destroyAllWindows()
 
-4. Explanation
+4. Explication
 ---------------------------
 
-#. Open the video file:
+#. Ouvrir le fichier vidéo :
 
    .. code-block:: python
 
       cap = cv2.VideoCapture("sample2.mp4")
 
-   This creates a video capture object so OpenCV can read frames from the file.
+   Cela crée un objet de capture vidéo afin qu’OpenCV puisse lire les images du fichier.
 
-#. Read the first frame and make sure it works:
+#. Lire la première image et vérifier qu’elle fonctionne :
 
    .. code-block:: python
 
@@ -171,28 +171,28 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
       if not ret:
           raise RuntimeError("Cannot read the video file.")
 
-   MeanShift tracking needs an initial frame to learn what to track.
+   Le suivi MeanShift a besoin d’une image initiale pour apprendre ce qu’il doit suivre.
 
-#. Set the initial tracking window (the object you want to track):
+#. Définir la fenêtre de suivi initiale (l’objet que vous voulez suivre) :
 
    .. code-block:: python
 
       x, y, w, h = 80, 100, 80, 80
       track_window = (x, y, w, h)
 
-   This rectangle is the starting position of the target (ROI).  
-   You usually adjust these values to match the object in the first frame.
+   Ce rectangle est la position de départ de la cible (ROI).
+   Vous ajustez généralement ces valeurs pour correspondre à l’objet dans la première image.
 
-#. Convert the first frame to HSV and extract the ROI:
+#. Convertir la première image en HSV et extraire la ROI :
 
    .. code-block:: python
 
       hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
       roi_hsv = hsv_frame[y:y+h, x:x+w]
 
-   HSV is commonly used for tracking because the Hue channel describes color more consistently than RGB/BGR.
+   HSV est couramment utilisé pour le suivi car le canal de Teinte décrit la couleur de manière plus cohérente que RGB/BGR.
 
-#. Build a mask to ignore weak/invalid pixels in the ROI:
+#. Construire un masque pour ignorer les pixels faibles/invalides dans la ROI :
 
    .. code-block:: python
 
@@ -202,29 +202,29 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
           np.array((180, 255, 255), dtype=np.uint8)
       )
 
-   This filters out pixels with very low saturation/value (often shadows or noise), improving tracking stability.
+   Cela filtre les pixels avec une saturation/valeur très faible (souvent des ombres ou du bruit), améliorant la stabilité du suivi.
 
-#. Compute and normalize the ROI histogram (Hue channel):
+#. Calculer et normaliser l’histogramme de la ROI (canal de Teinte) :
 
    .. code-block:: python
 
       roi_hist = cv2.calcHist([roi_hsv], [0], roi_mask, [180], [0, 180])
       cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
 
-   - The histogram describes the target’s color distribution (Hue).
-   - Normalization makes the histogram scale consistent across different lighting or ROI sizes.
+   - L’histogramme décrit la distribution des couleurs de la cible (Teinte).
+   - La normalisation rend l’échelle de l’histogramme cohérente entre différents éclairages ou tailles de ROI.
 
-#. Define termination criteria for MeanShift:
+#. Définir les critères de terminaison pour MeanShift :
 
    .. code-block:: python
 
       termination = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 15, 2)
 
-   MeanShift will stop when either:
-   - it runs 15 iterations, or
-   - the window movement is smaller than 2 pixels.
+   MeanShift s’arrêtera lorsque :
+   - il atteint 15 itérations, ou
+   - le déplacement de la fenêtre est inférieur à 2 pixels.
 
-#. Set a playback delay based on the video FPS:
+#. Définir un délai de lecture basé sur les FPS de la vidéo :
 
    .. code-block:: python
 
@@ -233,43 +233,43 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
           fps = 30.0
       delay_ms = int(1000 / fps)
 
-   This keeps playback close to the original video speed.  
-   If FPS cannot be read, it falls back to 30 FPS.
+   Cela maintient la lecture proche de la vitesse vidéo d’origine.
+   Si les FPS ne peuvent pas être lus, on utilise 30 FPS par défaut.
 
-#. Convert each frame to HSV (for tracking):
+#. Convertir chaque image en HSV (pour le suivi) :
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-   Tracking is performed in HSV so we can match the target’s Hue histogram.
+   Le suivi est effectué en HSV pour correspondre à l’histogramme de Teinte de la cible.
 
-#. Back projection (find where the target color is likely to be):
+#. Rétroprojection (trouver où la couleur cible est susceptible d’être) :
 
    .. code-block:: python
 
       bp = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], scale=1)
 
-   Back projection produces a probability map: bright areas are more likely to match the ROI histogram.
+   La rétroprojection produit une carte de probabilité : les zones claires sont plus susceptibles de correspondre à l’histogramme de la ROI.
 
-#. Update the tracking window using MeanShift:
+#. Mettre à jour la fenêtre de suivi avec MeanShift :
 
    .. code-block:: python
 
       _, track_window = cv2.meanShift(bp, track_window, termination)
 
-   MeanShift moves the tracking window toward the highest-density area in the probability map, updating the target position frame by frame.
+   MeanShift déplace la fenêtre de suivi vers la zone de plus haute densité dans la carte de probabilité, mettant à jour la position de la cible image par image.
 
-#. Draw the tracking result:
+#. Dessiner le résultat du suivi :
 
    .. code-block:: python
 
       x, y, w, h = track_window
       cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-   This draws the current tracking rectangle on the video frame.
+   Cela dessine le rectangle de suivi actuel sur l’image vidéo.
 
-#. Display the window and exit conditions:
+#. Afficher la fenêtre et les conditions de sortie :
 
    .. code-block:: python
 
@@ -280,17 +280,17 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
       if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   - Press ``q`` to quit.
-   - Closing the window also exits safely.
+   - Appuyez sur ``q`` pour quitter.
+   - La fermeture de la fenêtre permet également de sortir en toute sécurité.
 
-#. Release resources:
+#. Libérer les ressources :
 
    .. code-block:: python
 
       cap.release()
       cv2.destroyAllWindows()
 
-   Always release the video and close windows to free system resources.
+   Libérez toujours la vidéo et fermez les fenêtres pour libérer les ressources système.
 
 5. MeanShift vs. CAMShift
 ----------------------------
@@ -299,40 +299,40 @@ Below is the full MeanShift tracking script (``cv_5_meanshift.py``):
    :header-rows: 1
    :widths: 20 40 40
 
-   * - Feature
+   * - Caractéristique
      - MeanShift
      - CAMShift
-   * - Window size
-     - Fixed
-     - Auto-adjusts (adapts to target scale)
-   * - Rotating target
-     - Not supported
-     - Supported
-   * - Suitable scenarios
-     - Target size relatively stable
-     - Target may scale/rotate
+   * - Taille de fenêtre
+     - Fixe
+     - Auto-adaptative (s’adapte à l’échelle de la cible)
+   * - Rotation de la cible
+     - Non supportée
+     - Supportée
+   * - Scénarios adaptés
+     - Taille de cible relativement stable
+     - La cible peut changer d’échelle/rotation
    * - Applications
-     - Simple tracking, balls, markers
-     - Practical tracking, surveillance, recognition
+     - Suivi simple, balles, marqueurs
+     - Suivi pratique, surveillance, reconnaissance
 
 
-6. Advanced: Select ROI with the Mouse
+6. Avancé : Sélectionner la ROI avec la Souris
 --------------------------------------
 
-Previously, we used fixed values:
+Précédemment, nous avons utilisé des valeurs fixes :
 
 .. code-block:: python
 
    x, y, w, h = 150, 200, 80, 80
 
-That’s simple but not flexible.  
-If you switch videos or the target starts elsewhere, you’d have to change the code.
+C’est simple mais pas flexible.
+Si vous changez de vidéo ou si la cible commence ailleurs, vous devez modifier le code.
 
-OpenCV provides ``cv2.selectROI`` so you can **select the target region interactively on the first frame** with the mouse, and the program will obtain ``(x, y, w, h)`` automatically.
+OpenCV fournit ``cv2.selectROI`` pour **sélectionner la région cible interactivement sur la première image** avec la souris, et le programme obtiendra ``(x, y, w, h)`` automatiquement.
 
-**Modified initialization code**
+**Code d’initialisation modifié**
 
-Run ``cv_5_meanshift_auto.py`` for the modified code.
+Exécutez ``cv_5_meanshift_auto.py`` pour le code modifié.
 
 .. code-block:: bash
 
@@ -370,49 +370,48 @@ Run ``cv_5_meanshift_auto.py`` for the modified code.
    cv2.destroyWindow("Select ROI")
    ...
 
-When you run the program, the first frame of the video will be displayed and you will be asked to select a Region of Interest (ROI) using the mouse.
+Lorsque vous exécutez le programme, la première image de la vidéo sera affichée et vous serez invité à sélectionner une région d’intérêt (ROI) à l’aide de la souris.
 
-Drag the mouse to draw a rectangle around the target object, then press **Enter** or **Space** to confirm the selection.  
-Press **Esc** to cancel the selection.
+Faites glisser la souris pour dessiner un rectangle autour de l’objet cible, puis appuyez sur **Entrée** ou **Espace** pour confirmer la sélection.
+Appuyez sur **Esc** pour annuler la sélection.
 
-After confirming the ROI, a window named **MeanShift Tracker** will appear.  
-The selected object will be tracked with a green bounding box, and the box will move as the object moves in the video.
+Après avoir confirmé la ROI, une fenêtre nommée **MeanShift Tracker** apparaîtra.
+L’objet sélectionné sera suivi avec une boîte englobante verte, et la boîte se déplacera au fur et à mesure que l’objet bouge dans la vidéo.
 
-To stop the program:
+Pour arrêter le programme :
 
-* Press the **q** key on the keyboard  
-* Or close the display window using the close button (X)  
+* Appuyez sur la touche **q** du clavier
+* Ou fermez la fenêtre d’affichage avec le bouton de fermeture (X)
 
-After exiting, the video playback stops and all OpenCV windows are closed.
+Après la sortie, la lecture vidéo s’arrête et toutes les fenêtres OpenCV sont fermées.
 
 .. image:: img/opencv_meanshift_mouse.png
-   :alt: Interactive ROI selection window
+   :alt: Fenêtre de sélection interactive de la ROI
    :align: center
 
-**Notes**
+**Remarques**
 
-``cv2.selectROI`` is OpenCV’s built-in interactive ROI selector—great for manual initialization.  
-It returns ``(x, y, w, h)``, which is fully compatible with ``track_window``, so you don’t need to change the main CAMShift/MeanShift logic.  
-This lets you reuse the same program on different videos and targets.
+``cv2.selectROI`` est le sélecteur de ROI interactif intégré d’OpenCV, idéal pour l’initialisation manuelle.
+Il retourne ``(x, y, w, h)``, qui est totalement compatible avec ``track_window``, vous n’avez donc pas besoin de modifier la logique principale CAMShift/MeanShift.
+Cela vous permet de réutiliser le même programme sur différentes vidéos et cibles.
 
 
-7. Advanced II: Dynamically Compute HSV Thresholds for the ROI
+7. Avancé II : Calcul Dynamique des Seuils HSV pour la ROI
 --------------------------------------------------------------
 
-The original ``cv_5_meanshift.py`` uses manually set HSV thresholds, suitable when the target color is fixed and lighting is stable.
-
+Le fichier ``cv_5_meanshift.py`` d’origine utilise des seuils HSV définis manuellement, adaptés lorsque la couleur de la cible est fixe et l’éclairage stable.
 
 .. code-block:: python
 
    # apply mask on the HSV frame
    roi_mask = cv2.inRange(roi_hsv, lower, upper)
 
-If lighting varies significantly or the target color isn’t fixed, hard-coded ``inRange`` bounds may be suboptimal.  
-A smarter approach is to **automatically compute the HSV lower/upper bounds from the selected ROI**.
+Si l’éclairage varie significativement ou si la couleur de la cible n’est pas fixe, les limites ``inRange`` codées en dur peuvent être sous-optimales.
+Une approche plus intelligente consiste à **calculer automatiquement les limites inférieure/supérieure HSV à partir de la ROI sélectionnée**.
 
-**Example: Auto-computing HSV thresholds**
+**Exemple : Calcul automatique des seuils HSV**
 
-Run ``cv_5_meanshift_auto.py`` for the modified code.
+Exécutez ``cv_5_meanshift_auto.py`` pour le code modifié.
 
 .. code-block:: bash
 
@@ -453,17 +452,17 @@ Run ``cv_5_meanshift_auto.py`` for the modified code.
    roi_mask = cv2.inRange(roi_hsv, lower, upper)
 
 
-When selecting very dark or very bright targets, you no longer need to tweak thresholds manually; it also adapts quickly to different lighting and colors.
+Lors de la sélection de cibles très sombres ou très lumineuses, vous n’avez plus besoin de modifier manuellement les seuils ; cela s’adapte également rapidement aux différents éclairages et couleurs.
 
 .. note::
 
-   - ``np.percentile`` (5%–95%) trims extremes (edges, shadows, highlights, etc.) within the ROI, improving robustness.  
-   - ``pad_h``, ``pad_s``, ``pad_v`` provide tolerance so mild color shifts are still captured.  
-   - ``lower`` and ``upper`` are the dynamic HSV bounds used directly with ``cv2.inRange``.
+   - ``np.percentile`` (5 %–95 %) élimine les extrêmes (bords, ombres, hautes lumières, etc.) dans la ROI, améliorant la robustesse.
+   - ``pad_h``, ``pad_s``, ``pad_v`` fournissent une tolérance pour que les petits changements de couleur soient encore capturés.
+   - ``lower`` et ``upper`` sont les limites HSV dynamiques utilisées directement avec ``cv2.inRange``.
 
 
-**Summary**
+**Résumé**
 
-- Use ``cv2.selectROI`` for flexible target initialization.  
-- Use ``np.percentile`` to auto-compute HSV bounds for adaptability.  
-- Combined with ``cv2.inRange`` and CAMShift/MeanShift, this approach remains stable under challenging lighting and target variations.
+- Utilisez ``cv2.selectROI`` pour une initialisation flexible de la cible.
+- Utilisez ``np.percentile`` pour calculer automatiquement les limites HSV pour l’adaptabilité.
+- Combiné avec ``cv2.inRange`` et CAMShift/MeanShift, cette approche reste stable sous des éclairages et des variations de cible difficiles.

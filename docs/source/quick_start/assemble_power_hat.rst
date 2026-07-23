@@ -7,103 +7,103 @@
 
 .. start_assemble_hat
 
-Assemble and Power on Fusion HAT+ (Important)
+Assembler et alimenter le Fusion HAT+ (Important)
 =======================================================
 
-Connect Fusion HAT+ to Raspberry Pi
-----------------------------------------
+Connecter le Fusion HAT+ au Raspberry Pi
+-----------------------------------------
 
-Here, we'll teach you how to assemble the Fusion HAT+.
+Nous allons vous montrer comment assembler le Fusion HAT+.
 
-#. Assemble the base.
-#. Stick the battery to the base.
-#. Secure the Raspberry Pi with with standoffs.
-#. Connect the FPC cable to the Raspberry Pi. (We will assemble it and the Camera Module when assembled the pan-tilt.)
-#. Plug the Fusion HAT+ into the 40-pin connector on the Raspberry Pi. 
-#. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT+ will not work.)
+#. Assemblez le socle.
+#. Fixez la batterie au socle.
+#. Fixez le Raspberry Pi a l'aide d'entretoises.
+#. Connectez le cable FPC au Raspberry Pi. (Nous l'assemblerons ainsi que le module camera lors du montage du pied panoramique.)
+#. Branchez le Fusion HAT+ sur le connecteur 40 broches du Raspberry Pi.
+#. **Inserez la batterie.** (Ceci est tres important. Si vous n'inserez pas la batterie, le Fusion HAT+ ne fonctionnera pas.)
 
 
-For the details of the assembly, please check the video below.
+Pour les details de l'assemblage, veuillez regarder la video ci-dessous.
 
 .. raw:: html
 
-  <iframe width="100%" 
+  <iframe width="100%"
     style="aspect-ratio: 16/9; max-width: 100%;"
-    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
     </iframe>
 
 
 
-Charge
+Charger
 -------------------
 
-Before the first use, it is recommended to fully charge the battery. You can use the included USB Type-C charging cable, or your own USB-C charger.  
+Avant la premiere utilisation, il est recommande de charger completement la batterie. Vous pouvez utiliser le cable de charge USB Type-C inclus, ou votre propre chargeur USB-C.
 
 .. note::
 
-  The battery may arrive with low charge because Amazon requires it to be below 30% before air shipment. You **MUST** fully charge it before use to prevent over-discharge and damage.
-  Plug the USB-C to Fusion HAT+, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
+  La batterie peut arriver avec une charge faible car Amazon exige qu'elle soit inferieure a 30% avant le transport aerien. Vous **DEVEZ** la charger completement avant utilisation pour eviter une decharge excessive et des dommages.
+  Branchez le cable USB-C sur le Fusion HAT+ et la batterie se chargera automatiquement. Vous n'avez pas besoin de connecter l'alimentation au Raspberry Pi.
 
-* We recommend using a **5V 3A power supply**, such as the official Raspberry Pi 15W adapter.  
-* You can also use a **USB-C PD (Power Delivery)** charger or a **QC 2.0 fast charger**.  
-* Charging from 0% to full typically takes about **2 hours**.  
+* Nous recommandons d'utiliser une **alimentation 5V 3A**, comme l'adaptateur officiel Raspberry Pi 15W.
+* Vous pouvez egalement utiliser un chargeur **USB-C PD (Power Delivery)** ou un chargeur rapide **QC 2.0**.
+* La charge de 0% a pleine capacite prend generalement environ **2 heures**.
 
 .. image:: img/power_charge.jpg
    :width: 400
    :align: center
 
-The Fusion HAT+ includes **two battery indicator LEDs**, showing the battery voltage level:  
+Le Fusion HAT+ est equipe de **deux LED d'indication de batterie**, indiquant le niveau de tension de la batterie :
 
 .. list-table::
    :header-rows: 1
    :widths: 40 40
 
-   * - LED Status
-     - Battery Voltage
-   * - 2 LEDs ON
-     - > 7.4V
-   * - 1 LED ON
-     - < 7.4V
-   * - Both LEDs OFF
-     - < 6.5V
+   * - Etat des LED
+     - Tension de la batterie
+   * - 2 LED ALLUMEES
+     - > 7,4 V
+   * - 1 LED ALLUMEE
+     - < 7,4 V
+   * - Les deux LED ETEINTES
+     - < 6,5 V
 
-When charging, one of the LEDs will blink to indicate charging progress:  
+Lors de la charge, l'une des LED clignote pour indiquer la progression de la charge :
 
 .. list-table::
    :header-rows: 1
    :widths: 40 40
 
-   * - LED Status
-     - Battery Voltage
-   * - 1 LED ON, 1 LED Blinking
-     - > 7.4V
-   * - Only 1 LED Blinking
-     - < 7.4V
+   * - Etat des LED
+     - Tension de la batterie
+   * - 1 LED ALLUMEE, 1 LED Clignotante
+     - > 7,4 V
+   * - Seulement 1 LED Clignotante
+     - < 7,4 V
 
 
-After fully charged:
+Apres une charge complete :
 
-* **If the Fusion HAT+ is ON**, both LEDs will remain lit.  
-* **If the Fusion HAT+ is OFF**, both LEDs will turn off.  
+* **Si le Fusion HAT+ est ALLUME**, les deux LED restent allumees.
+* **Si le Fusion HAT+ est ETEINT**, les deux LED s'eteignent.
 
 .. note::
 
-   For extended programming or debugging sessions, you can keep the Fusion HAT+ powered  
-   by connecting the USB-C cable, which will charge the battery and run the Fusion HAT+ at the same time. 
-   Even if you run the Fusion HAT+ while the charer is connected, the battery **cannot** be removed.
+   Pour des sessions de programmation ou de debogage prolongees, vous pouvez maintenir le Fusion HAT+ alimente
+   en branchant le cable USB-C, ce qui chargera la batterie et fera fonctionner le Fusion HAT+ en meme temps.
+   Meme si vous faites fonctionner le Fusion HAT+ alors que le chargeur est branche, la batterie **ne peut pas** etre retiree.
 
-Power ON
+Mettre sous tension
 ----------------------
 
-When the battery has sufficient charge, press the **power button** on the Fusion HAT+ briefly. 
+Lorsque la batterie est suffisamment chargee, appuyez brievement sur le **bouton d'alimentation** du Fusion HAT+.
 
-* The **PWR LED** will turn on.  
-* The **battery LEDs** will also light up.  
-* The Raspberry Pi will power on automatically.  
+* La **LED PWR** s'allume.
+* Les **LED de batterie** s'allument egalement.
+* Le Raspberry Pi se met sous tension automatiquement.
 
 .. image:: img/power_button.jpg
     :width: 400
@@ -114,27 +114,27 @@ When the battery has sufficient charge, press the **power button** on the Fusion
 
 .. _assemble_fusion_hat_pan_tilt:
 
-Assemble the Pan-tilt (For Camera) 
+Assembler le pied panoramique (Pour la camera)
 ------------------------------------------------------
 
-To make using the camera module easier, you can assemble a pan-tilt.
+Pour faciliter l'utilisation du module camera, vous pouvez assembler un pied panoramique.
 
-.. note:: 
-  
-  Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+.. note::
+
+  L'assemblage du pied panoramique peut masquer certaines broches, il est donc recommande de ne l'assembler que lors de l'utilisation de la camera, ou de le placer a l'exterieur apres l'assemblage.
 
 
 .. image:: img/gimbal_assemble.png
 
-For the details of the assembly, please check the video below.
+Pour les details de l'assemblage, veuillez regarder la video ci-dessous.
 
 .. raw:: html
 
-  <iframe width="100%" 
+  <iframe width="100%"
     style="aspect-ratio: 16/9; max-width: 100%;"
-    src="https://www.youtube.com/embed/7CkGPKnbjM4" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    src="https://www.youtube.com/embed/7CkGPKnbjM4"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
     </iframe>

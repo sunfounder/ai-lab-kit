@@ -4,21 +4,21 @@
 
 .. _py_homework_grading_demo:
 
-(Example) Homework Grading Demo with Pan-Tilt Camera
+(Exemple) Correction de devoirs avec camera panoramique
 =====================================================
 
 **Introduction**
 
-This project creates an interactive **AI Homework Grading Assistant** that combines computer vision, artificial intelligence, and robotics. The system:
+Ce projet cree un **Assistant de correction de devoirs IA** interactif qui combine la vision par ordinateur, l'intelligence artificielle et la robotique. Le systeme :
 
-1. **Captures photos** of handwritten or printed homework questions using a Raspberry Pi camera
-2. **Analyzes content** using OpenAI's GPT-4 Vision model to determine if answers are correct
-3. **Provides physical feedback** through servo-controlled pan-tilt head movements:
+1. **Capture des photos** de questions de devoirs manuscrites ou imprimees en utilisant une camera Raspberry Pi
+2. **Analyse le contenu** en utilisant le modele de vision GPT-4 d'OpenAI pour determiner si les reponses sont correctes
+3. **Fournit un retour physique** via les mouvements d'un pantilt controle par servomoteurs :
 
-   - *Nods* for correct answers
-   - *Shakes* for incorrect answers
-   
-4. **Uses simple interaction** triggered by a single button press
+   - *Hochement* pour les reponses correctes
+   - *Secouement* pour les reponses incorrectes
+
+4. **Utilise une interaction simple** declenchee par une seule pression de bouton
 
 .. raw:: html
 
@@ -27,9 +27,9 @@ This project creates an interactive **AI Homework Grading Assistant** that combi
           Your browser does not support the video tag.
       </video>
 
-This demonstration showcases how AI can interact with the physical world, creating an engaging educational tool that provides immediate visual feedback on homework accuracy.
+Cette demonstration montre comment l'IA peut interagir avec le monde physique, creant ainsi un outil pedagogique engageant qui fournit un retour visuel immediat sur l'exactitude des devoirs.
 
-You can use other LLM modules and hardware components to build your own AI-assisted learning devices. See:
+Vous pouvez utiliser d'autres modules LLM et composants materielles pour construire vos propres dispositifs d'apprentissage assisted par IA. Voir :
 
 * :ref:`py_online_llm`
 * :ref:`cpn_servo`
@@ -37,40 +37,40 @@ You can use other LLM modules and hardware components to build your own AI-assis
 
 ----------------------------------------------
 
-**What You'll Need**
+**Ce dont vous aurez besoin**
 
-The following components are required for this project:
+Les composants suivants sont necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
     *   - :ref:`cpn_servo`
         - |link_servo_buy|
-    *   - Pan-Tilt
-        - 
+    *   - Pantilt
+        -
     *   - :ref:`cpn_camera_module`
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
         - \-
     *   - Raspberry Pi
         - \-
-    *   - Homework sample (printed or handwritten)
+    *   - Echantillon de devoir (imprime ou manuscrit)
         - \-
 
 ----------------------------------------------
 
-**Hardware Setup**
+**Configuration materielle**
 
-To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+Pour utiliser le module camera facilement, :ref:`assemble_fusion_hat_pan_tilt` est recommande.
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     L'assemblage du pantilt peut obstruer certaines broches, il est donc recommande de ne l'assembler que lors de l'utilisation de la camera, ou de le placer a l'exterieur apres assemblage.
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
 ----------------------------------------------
@@ -81,31 +81,31 @@ To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recomm
 
 ----------------------------------------------
 
-**Running the Code**
+**Executer le code**
 
-#. Create Homework Sample:
+#. Creez un echantillon de devoir :
 
-   - Write or print a simple math problem with answer
-   - Example: "5 + 3 = 8" (correct) or "5 + 3 = 7" (incorrect)
-   - Ensure clear handwriting or printing
+   - Ecrivez ou imprimez un probleme mathematique simple avec la reponse
+   - Exemple : "5 + 3 = 8" (correct) ou "5 + 3 = 7" (incorrect)
+   - Assurez-vous d'une ecriture ou impression claire
 
-#. Run the Program:
-   
+#. Executez le programme :
+
    .. code-block:: bash
-   
+
       cd ~/ai-lab-kit/llm
       python3 llm_openai_homework.py
 
-#. Follow On-Screen Instructions:
+#. Suivez les instructions a l'ecran :
 
-   - Position homework under camera
-   - Press User Button (USR) on Fusion HAT+
-   - Watch for servo response
+   - Positionnez le devoir sous la camera
+   - Appuyez sur le bouton utilisateur (USR) du Fusion HAT+
+   - Observez la reponse du servomoteur
 
-#. Expected Output:
-   
+#. Resultat attendu :
+
    .. code-block:: text
-   
+
       HOMEWORK GRADING DEMO
       ==================================================
       Instructions:
@@ -116,12 +116,12 @@ To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recomm
       5. AI will grade the answer
       6. Servo will nod (correct) or shake (incorrect)
       ==================================================
-      
+
       Waiting for button press...
-      
+
       ==================================================
       Button pressed - Starting grading process
-      
+
       Taking photo...
       Photo captured
       Sending to AI for grading...
@@ -133,7 +133,7 @@ To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recomm
 
 **Code**
 
-Here is the full Python script for the Homework Grading Demo:
+Voici le script Python complet pour la Demonstration de correction de devoirs :
 
 
 .. raw:: html
@@ -141,19 +141,19 @@ Here is the full Python script for the Homework Grading Demo:
    <run></run>
 
 .. code-block:: python
-   
+
    #!/usr/bin/env python3
    """
    Homework Grading Demo with Pan-Tilt Camera
    Press User Button to take photo, LLM grades, servo nods or shakes
    """
-   
+
    import time
    from fusion_hat.llm import OpenAI
    from fusion_hat.servo import Servo
    from fusion_hat.user_button import UserButton
    from picamera2 import Picamera2, Preview
-   
+
    # ========== LLM SETTINGS ==========
    # Create a secret.py file with: OPENAI_API_KEY = "your-api-key-here"
    try:
@@ -162,51 +162,51 @@ Here is the full Python script for the Homework Grading Demo:
        print("ERROR: Please create a secret.py file with your OpenAI API key")
        print("Example content: OPENAI_API_KEY = 'sk-...'")
        exit()
-   
+
    # LLM instructions for grading
    INSTRUCTIONS = """You are a homework grading assistant.
-   When you see a photo of a homework question with an answer, 
+   When you see a photo of a homework question with an answer,
    determine if the answer is correct or incorrect.
-   
+
    Respond with ONLY ONE WORD:
    - If the answer is CORRECT, respond: "CORRECT"
    - If the answer is INCORRECT, respond: "INCORRECT"
-   
+
    Do not provide any other text, explanations, or justifications.
    Only respond with "CORRECT" or "INCORRECT"."""
-   
+
    # Initialize LLM
    llm = OpenAI(
        api_key=OPENAI_API_KEY,
        model="gpt-4o"
    )
-   
+
    # Set LLM settings
    llm.set_max_messages(5)
    llm.set_instructions(INSTRUCTIONS)
-   
+
    # ========== HARDWARE SETTINGS ==========
    PAN_CHANNEL = 2      # Horizontal servo for shaking head
    TILT_CHANNEL = 3     # Vertical servo for nodding head
-   
+
    # Servo center positions
    TILT_CENTER = 0      # Looking straight ahead
    PAN_CENTER = 0       # Center position
-   
+
    # ========== INITIALIZE HARDWARE ==========
    print("Initializing Homework Grading Demo...")
    print("-" * 50)
-   
+
    # Initialize servos
    pan_servo = Servo(PAN_CHANNEL)
    tilt_servo = Servo(TILT_CHANNEL)
-   
+
    # Center servos
    tilt_servo.angle(TILT_CENTER)
    pan_servo.angle(PAN_CENTER)
    time.sleep(1)
    print("Servos ready")
-   
+
    # Initialize camera
    camera = Picamera2()
    camera_config = camera.create_preview_configuration(main={"size": (1280, 720)})
@@ -215,12 +215,12 @@ Here is the full Python script for the Homework Grading Demo:
    camera.start()
    time.sleep(2)
    print("Camera ready")
-   
+
    # Initialize user button
    user_button = UserButton()
    print("User button ready")
    print("-" * 50)
-   
+
    # ========== SERVO MOVEMENT FUNCTIONS ==========
    def nod_head():
        """
@@ -234,7 +234,7 @@ Here is the full Python script for the Homework Grading Demo:
        time.sleep(0.2)
        # Return to center
        tilt_servo.angle(TILT_CENTER)
-   
+
    def shake_head():
        """
        Shaking head movement for "incorrect"
@@ -250,29 +250,29 @@ Here is the full Python script for the Homework Grading Demo:
        time.sleep(0.15)
        # Return to center
        pan_servo.angle(PAN_CENTER)
-   
+
    # ========== GRADING FUNCTION ==========
    def grade_homework():
        """
        Main grading function: take photo, send to LLM, move servo
        """
        print("\nTaking photo...")
-       
+
        # Capture image
        img_path = './homework.jpg'
        camera.capture_file(img_path)
        print("Photo captured")
-       
+
        # Send to LLM for grading
        print("Sending to AI for grading...")
-       
+
        prompt = "Look at this homework question and answer. Is the answer correct? Respond with only one word: 'CORRECT' or 'INCORRECT'."
-       
+
        response = llm.prompt(prompt, image_path=img_path)
        response_text = response.strip().upper()
-       
+
        print(f"AI response: {response_text}")
-       
+
        # Move servo based on response
        if "INCORRECT" in response_text:
            print("Answer is incorrect - shaking head")
@@ -282,7 +282,7 @@ Here is the full Python script for the Homework Grading Demo:
            nod_head()
        else:
            print(f"Unexpected response: {response_text}")
-   
+
    # ========== BUTTON CALLBACK ==========
    def on_button_click():
        """
@@ -292,7 +292,7 @@ Here is the full Python script for the Homework Grading Demo:
        print("Button pressed - Starting grading process")
        grade_homework()
        print("=" * 50)
-   
+
    # ========== MAIN DEMO ==========
    def main():
        """
@@ -309,33 +309,33 @@ Here is the full Python script for the Homework Grading Demo:
        print("6. Servo will nod (correct) or shake (incorrect)")
        print("=" * 50)
        print("\nWaiting for button press...")
-       
+
        # Set button callback
        user_button.set_on_click(on_button_click)
-       
+
        # Keep program running
        try:
            while True:
                time.sleep(0.1)
        except KeyboardInterrupt:
            print("\nDemo stopped by user")
-   
+
    # ========== CLEANUP ==========
    def cleanup():
        """
        Clean up resources
        """
        print("\nCleaning up...")
-       
+
        # Return servos to center
        tilt_servo.angle(TILT_CENTER)
        pan_servo.angle(PAN_CENTER)
-       
+
        # Stop camera
        camera.stop()
-       
+
        print("Demo ended")
-   
+
    # ========== RUN DEMO ==========
    if __name__ == "__main__":
        try:
@@ -345,51 +345,51 @@ Here is the full Python script for the Homework Grading Demo:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. LLM Configuration and Setup
+1. Configuration et installation du LLM
 
-   The system uses OpenAI's GPT-4o with Vision capabilities to analyze images:
-   
+   Le systeme utilise OpenAI GPT-4o avec des capacites de vision pour analyser les images :
+
    .. code-block:: python
-   
+
       # Import and initialize the LLM
       from fusion_hat.llm import OpenAI
       llm = OpenAI(api_key=OPENAI_API_KEY, model="gpt-4o")
-      
+
       # Set specific instructions for consistent responses
       INSTRUCTIONS = """You are a homework grading assistant..."""
       llm.set_instructions(INSTRUCTIONS)
-      
+
       # Limit conversation history to manage tokens
       llm.set_max_messages(5)
 
-2. Hardware Initialization
+2. Initialisation du materiel
 
-   Three hardware components are initialized: servos, camera, and button:
-   
+   Trois composants materielles sont initialises : les servomoteurs, la camera et le bouton :
+
    .. code-block:: python
-   
+
       # Servo control for pan-tilt mechanism
       pan_servo = Servo(PAN_CHANNEL)   # Channel 2 for horizontal movement
       tilt_servo = Servo(TILT_CHANNEL) # Channel 3 for vertical movement
-      
+
       # Camera setup with preview
       camera = Picamera2()
       camera_config = camera.create_preview_configuration(main={"size": (1280, 720)})
       camera.configure(camera_config)
       camera.start_preview(Preview.QT)
       camera.start()
-      
+
       # User button for interaction
       user_button = UserButton()
 
-3. Servo Animation Functions
+3. Fonctions d'animation des servomoteurs
 
-   Natural-looking movements for nodding and shaking:
-   
+   Mouvements naturels pour hocher et secouer la tete :
+
    .. code-block:: python
-   
+
       def nod_head():
           """Nodding head movement for 'correct' answers"""
           tilt_servo.angle(15)    # Look down
@@ -397,7 +397,7 @@ Here is the full Python script for the Homework Grading Demo:
           tilt_servo.angle(-10)   # Look up
           time.sleep(0.2)
           tilt_servo.angle(TILT_CENTER)  # Return to center
-      
+
       def shake_head():
           """Shaking head movement for 'incorrect' answers"""
           pan_servo.angle(-20)    # Look left
@@ -408,51 +408,51 @@ Here is the full Python script for the Homework Grading Demo:
           time.sleep(0.15)
           pan_servo.angle(PAN_CENTER)  # Return to center
 
-4. Image Capture and AI Analysis
+4. Capture d'image et analyse IA
 
-   The main grading workflow:
-   
+   Le flux de travail principal de correction :
+
    .. code-block:: python
-   
+
       def grade_homework():
           # Capture image from camera
           img_path = './homework.jpg'
           camera.capture_file(img_path)
-          
+
           # Send image to LLM with specific prompt
           prompt = "Look at this homework question and answer..."
           response = llm.prompt(prompt, image_path=img_path)
           response_text = response.strip().upper()
-          
+
           # Interpret response and trigger appropriate servo movement
           if "INCORRECT" in response_text:
               shake_head()
           elif "CORRECT" in response_text:
               nod_head()
 
-5. Button Event Handling
+5. Gestion des evenements du bouton
 
-   Simple callback system for user interaction:
-   
+   Systeme de rappel simple pour l'interaction utilisateur :
+
    .. code-block:: python
-   
+
       def on_button_click():
           print("Button pressed - Starting grading process")
           grade_homework()
-      
+
       # Assign callback to button
       user_button.set_on_click(on_button_click)
 
-6. Main Application Loop
+6. Boucle d'application principale
 
-   Minimal main loop that waits for button presses:
-   
+   Boucle principale minimale qui attend les pressions de bouton :
+
    .. code-block:: python
-   
+
       def main():
           print("Waiting for button press...")
           user_button.set_on_click(on_button_click)
-          
+
           # Keep program running until interrupted
           try:
               while True:
@@ -460,78 +460,78 @@ Here is the full Python script for the Homework Grading Demo:
           except KeyboardInterrupt:
               print("\nDemo stopped by user")
 
-7. Resource Cleanup
+7. Nettoyage des ressources
 
-   Proper shutdown procedure:
-   
+   Procedure d'arret appropriee :
+
    .. code-block:: python
-   
+
       def cleanup():
           # Return servos to neutral position
           tilt_servo.angle(TILT_CENTER)
           pan_servo.angle(PAN_CENTER)
-          
+
           # Stop camera
           camera.stop()
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-- No module named ``picamera2``
+- Pas de module nomme ``picamera2``
 
-  Install the required library:
-  
+  Installez la bibliotheque requise :
+
   .. code-block:: bash
-     
+
      sudo apt update
      sudo apt install python3-picamera2
 
-- Camera not detected
+- Camera non detectee
 
-  1. Check camera connection: ensure ribbon cable is inserted correctly
-  2. Verify camera is enabled: ``sudo raspi-config`` → Interface Options → Camera
-  3. Test camera independently: ``libcamera-hello``
+  1. Verifiez la connexion de la camera : assurez-vous que le cable ruban est correctement insere
+  2. Verifiez que la camera est activee : ``sudo raspi-config`` → Interface Options → Camera
+  3. Testez la camera independamment : ``libcamera-hello``
 
-- Servos not moving
+- Les servomoteurs ne bougent pas
 
-  1. Check power connections: servos need 5V power
-  2. Verify servo channels match code (Channels 2 and 3)
-  3. Test servos independently with simple angle commands
+  1. Verifiez les connexions d'alimentation : les servomoteurs necessitent du 5V
+  2. Verifiez que les canaux des servomoteurs correspondent au code (Canaux 2 et 3)
+  3. Testez les servomoteurs independamment avec des commandes d'angle simples
 
-- AI not responding or error
+- L'IA ne repond pas ou erreur
 
-  1. Verify API key in ``secret.py`` is correct
-  2. Check internet connection: ``ping 8.8.8.8``
-  3. Ensure you have credits in your OpenAI account
-  4. Verify model "gpt-4o" is available in your account
+  1. Verifiez que la cle API dans ``secret.py`` est correcte
+  2. Verifiez la connexion Internet : ``ping 8.8.8.8``
+  3. Assurez-vous d'avoir des credits dans votre compte OpenAI
+  4. Verifiez que le modele "gpt-4o" est disponible dans votre compte
 
-- Incorrect servo movements
+- Mouvements incorrects des servomoteurs
 
-  1. Check if pan and tilt servos are swapped
-  2. Adjust angle values in ``nod_head()`` and ``shake_head()`` functions
-  3. Verify servo center positions (may need calibration)
+  1. Verifiez si les servomoteurs panoramique et d'inclinaison sont intervertis
+  2. Ajustez les valeurs d'angle dans les fonctions ``nod_head()`` et ``shake_head()``
+  3. Verifiez les positions centrales des servomoteurs (peuvent necessiter un etalonnage)
 
-- Image too blurry or dark
+- Image trop floue ou trop sombre
 
-  1. Ensure adequate lighting on homework
-  2. Adjust camera focus if adjustable
-  3. Position camera 15-30cm from paper
-  4. Use high-contrast pen/marker for handwriting
+  1. Assurez-vous d'un eclairage adequat sur le devoir
+  2. Ajustez la mise au point de la camera si elle est reglable
+  3. Positionnez la camera a 15-30 cm du papier
+  4. Utilisez un stylo/marqueur a contraste eleve pour l'ecriture manuscrite
 
-- Button not responding
+- Le bouton ne repond pas
 
-  1. Check if User Button LED lights when pressed
-  2. Verify button callback is registered
-  3. Test button with simple print statement
+  1. Verifiez si la LED du bouton utilisateur s'allume lorsqu'on appuie
+  2. Verifiez que le rappel du bouton est enregistre
+  3. Testez le bouton avec une simple instruction d'affichage
 
-- AI returns unexpected response
+- L'IA renvoie une reponse inattendue
 
-  1. Check prompt formatting in code
-  2. Ensure image clearly shows question AND answer
-  3. Test with very simple arithmetic problems first
+  1. Verifiez le formatage de l'invite dans le code
+  2. Assurez-vous que l'image montre clairement la question ET la reponse
+  3. Testez d'abord avec des problemes arithmetiques tres simples
 
 ----------------------------------------------
 
 
-This homework grading demo showcases how AI vision models can interact with physical hardware to create engaging educational experiences, blending digital intelligence with tangible feedback mechanisms!
+Cette demonstration de correction de devoirs montre comment les modeles de vision IA peuvent interagir avec du materiel physique pour creer des experiences educatives engageantes, melangeant l'intelligence numerique avec des mecanismes de retour tangibles !

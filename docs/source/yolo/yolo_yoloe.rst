@@ -2,42 +2,41 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-2. Detect Anything with YOLOE
-===================================
+2. Détecter N'importe Quoi avec YOLOE
+===========================================
 
+YOLOE (You Only Look Once with Embeddings) est le dernier membre de la famille YOLO, introduisant des capacités d'apprentissage conjoint langage-vision au YOLO traditionnel. En termes simples, YOLOE peut non seulement détecter les objets sur lesquels il a été entraîné, mais aussi détecter de nouveaux objets arbitraires via des descriptions textuelles ou des indications sans réentraînement.
 
-YOLOE (You Only Look Once with Embeddings) is the latest member of the YOLO family, introducing language-vision joint learning capabilities to traditional YOLO. Simply put, YOLOE can not only detect objects it was trained on, but also detect arbitrary new objects through text descriptions or prompts without retraining.
+Principales caractéristiques de YOLOE :
 
-Key features of YOLOE:
+* **Détection à vocabulaire ouvert** : Détectez des objets arbitraires via des descriptions textuelles, sans vous limiter à des catégories prédéfinies
+* **Mode sans indication** : Détectez automatiquement les objets saillants dans les images sans aucune indication
+* **Déploiement efficace** : Hérite de l'architecture efficace de YOLO, fonctionne de manière fluide sur Raspberry Pi
+* **Support multi-tâches** : Prend en charge diverses tâches, y compris la détection d'objets et la segmentation d'instances
 
-* **Open-vocabulary detection**: Detect arbitrary objects through text descriptions, not limited to predefined categories
-* **Prompt-Free mode**: Automatically detect salient objects in images without any prompts
-* **Efficient deployment**: Inherits YOLO's efficient architecture, runs smoothly on Raspberry Pi
-* **Multi-task support**: Supports various tasks including object detection and instance segmentation
+Cela rend YOLOE particulièrement adapté au prototypage rapide et aux applications nécessitant une détection flexible de divers objets.
 
-This makes YOLOE particularly suitable for rapid prototyping and applications requiring flexible detection of various objects.
-
-Installing Dependencies
+Installation des Dépendances
 ---------------------------------------------------
 
-First, install the CLIP library required by YOLOE:
+Tout d'abord, installez la bibliothèque CLIP requise par YOLOE :
 
 .. code-block:: bash
 
    pip3 install git+https://github.com/ultralytics/CLIP.git --break-system-packages
 
-Prompt-Free Mode
+Mode Sans Indication
 -----------------------------
 
-Prompt-Free mode is the most intuitive way to use YOLOE. In this mode, the model automatically detects all salient objects in the image without any text prompts. This behaves similarly to traditional YOLO but with better open-vocabulary capabilities.
+Le mode sans indication est la manière la plus intuitive d'utiliser YOLOE. Dans ce mode, le modèle détecte automatiquement tous les objets saillants de l'image sans aucune indication textuelle. Cela se comporte de manière similaire au YOLO traditionnel mais avec de meilleures capacités de vocabulaire ouvert.
 
 .. image:: img/yolo_prompt_free1.png
 
-Figure: I pointed the camera at my cluttered desk, and YOLOE's Prompt-Free mode automatically identified and segmented all salient objects in view—monitor, keyboard, water cup, notebook, mouse... Each object is annotated with a different colored segmentation mask, without requiring any text prompts. Everything is clearly presented at a glance.
+Figure : J'ai pointé la caméra vers mon bureau encombré, et le mode sans indication de YOLOE a automatiquement identifié et segmenté tous les objets saillants en vue — moniteur, clavier, gobelet d'eau, bloc-notes, souris... Chaque objet est annoté avec un masque de segmentation de couleur différente, sans nécessiter d'indications textuelles. Tout est présenté clairement en un coup d'œil.
 
-**How it works**: The model automatically identifies foreground objects in the image through visual feature analysis and performs segmentation. This approach is suitable for quickly browsing image content or when you're unsure what objects need to be detected.
+**Comment ça fonctionne** : Le modèle identifie automatiquement les objets de premier plan dans l'image grâce à une analyse des caractéristiques visuelles et effectue la segmentation. Cette approche est adaptée pour parcourir rapidement le contenu d'une image ou lorsque vous ne savez pas quels objets doivent être détectés.
 
-The following code demonstrates how to run YOLOE in Prompt-Free mode on a Raspberry Pi:
+Le code suivant montre comment exécuter YOLOE en mode sans indication sur un Raspberry Pi :
 
 .. code-block:: bash
 
@@ -46,7 +45,7 @@ The following code demonstrates how to run YOLOE in Prompt-Free mode on a Raspbe
 
 .. code-block:: python
 
-   from ultralytics import YOLO 
+   from ultralytics import YOLO
    from picamera2 import Picamera2
    import cv2
 
@@ -67,32 +66,32 @@ The following code demonstrates how to run YOLOE in Prompt-Free mode on a Raspbe
       results = model.predict(frame, imgsz=320)
       annotated = results[0].plot()
       cv2.imshow("YOLOE Prompt-Free", annotated)
-      
+
       if cv2.waitKey(1) & 0xFF == ord('q'):
          break
 
    cv2.destroyAllWindows()
    picam2.stop()
 
-**Features of Prompt-Free Mode**:
+**Fonctionnalités du mode sans indication** :
 
-* **No configuration needed**: Run directly to detect salient objects in images
-* **Automatic segmentation**: Outputs both detection boxes and segmentation masks
-* **No class labels**: Only shows detected object locations without category names
-* **Use cases**: Quick browsing, general object detection, discovering unknown objects
+* **Aucune configuration nécessaire** : Exécutez directement pour détecter les objets saillants dans les images
+* **Segmentation automatique** : Produit à la fois des boîtes de détection et des masques de segmentation
+* **Pas d'étiquettes de classe** : Affiche uniquement les emplacements des objets détectés sans noms de catégorie
+* **Cas d'utilisation** : Parcours rapide, détection d'objets généraux, découverte d'objets inconnus
 
-Text Prompt Mode
+Mode d'Indication Textuelle
 ----------------------------------
 
-Text prompt mode is where YOLOE's power truly shines. Through natural language descriptions, you can tell the model what objects to detect, and the model will identify and locate these objects in real-time.
+Le mode d'indication textuelle est là où la puissance de YOLOE brille vraiment. Grâce à des descriptions en langage naturel, vous pouvez indiquer au modèle quels objets détecter, et le modèle identifiera et localisera ces objets en temps réel.
 
 .. image:: img/yolo_prompt_word.png
 
-Figure: I held up a piece of paper that was half yellow and half white in front of the camera, and used a text prompt to tell the model to look for "yellow paper". YOLOE accurately understood this description, segmenting only the yellow half of the paper and marking it with a bounding box, while completely ignoring the white portion. This demonstrates YOLOE's ability to perform fine-grained object recognition through natural language.
+Figure : J'ai tenu un morceau de papier moitié jaune moitié blanc devant la caméra, et j'ai utilisé une indication textuelle pour demander au modèle de chercher du « papier jaune ». YOLOE a compris précisément cette description, segmentant uniquement la moitié jaune du papier et la marquant d'une boîte englobante, tout en ignorant complètement la partie blanche. Cela démontre la capacité de YOLOE à effectuer une reconnaissance d'objets fine grâce au langage naturel.
 
-**How it works**: The model encodes text prompts into feature vectors, then matches them against image features to identify regions that best correspond to the text descriptions. This approach allows you to dynamically specify detection targets without retraining the model.
+**Comment ça fonctionne** : Le modèle encode les indications textuelles en vecteurs de caractéristiques, puis les compare aux caractéristiques de l'image pour identifier les régions qui correspondent le mieux aux descriptions textuelles. Cette approche vous permet de spécifier dynamiquement les cibles de détection sans réentraîner le modèle.
 
-The following code demonstrates how to use text prompts to detect specific objects:
+Le code suivant montre comment utiliser des indications textuelles pour détecter des objets spécifiques :
 
 .. code-block:: bash
 
@@ -127,40 +126,40 @@ The following code demonstrates how to use text prompts to detect specific objec
       results = model.predict(frame, conf=0.3)  # set confidence threshold to 0.3
       annotated = results[0].plot()
       cv2.imshow("YOLOE on Raspberry Pi", annotated)
-      
+
       if cv2.waitKey(1) & 0xFF == ord('q'):
          break
 
    cv2.destroyAllWindows()
    picam2.stop()
 
-**Features of Text Prompt Mode**:
+**Fonctionnalités du mode d'indication textuelle** :
 
-* **Dynamic detection**: Modify detection targets at any time without retraining
-* **Natural language**: Use everyday language to describe objects, like "blue car", "wooden chair"
-* **Multi-target detection**: Specify multiple detection targets at once
-* **Fine-grained control**: Describe attributes like color, material, shape, etc.
-* **Confidence threshold**: Control detection sensitivity through the ``conf`` parameter
+* **Détection dynamique** : Modifiez les cibles de détection à tout moment sans réentraînement
+* **Langage naturel** : Utilisez le langage courant pour décrire les objets, comme « voiture bleue », « chaise en bois »
+* **Détection multi-cibles** : Spécifiez plusieurs cibles de détection à la fois
+* **Contrôle fin** : Décrivez des attributs comme la couleur, le matériau, la forme, etc.
+* **Seuil de confiance** : Contrôlez la sensibilité de la détection via le paramètre ``conf``
 
-Advanced Usage
+Utilisation Avancée
 -------------------------------------
 
-**Dynamically Switching Detection Targets**
+**Changement Dynamique des Cibles de Détection**
 
-You can modify text prompts at runtime without restarting the program:
+Vous pouvez modifier les indications textuelles pendant l'exécution sans redémarrer le programme :
 
 .. code-block:: python
 
    # Initialize model
    model = YOLOE("yoloe-26n-seg.pt")
-   
+
    # Initial detection targets
    current_names = ["red apple"]
    model.set_classes(current_names, model.get_text_pe(current_names))
-   
+
    while True:
       frame = picam2.capture_array()
-      
+
       # Check if detection target needs to be switched
       key = cv2.waitKey(1) & 0xFF
       if key == ord('1'):
@@ -171,17 +170,17 @@ You can modify text prompts at runtime without restarting the program:
          current_names = ["orange"]
          model.set_classes(current_names, model.get_text_pe(current_names))
          print("Now detecting: orange")
-      
+
       results = model.predict(frame, conf=0.3)
       annotated = results[0].plot()
       cv2.imshow("YOLOE", annotated)
-      
+
       if key == ord('q'):
          break
 
-**Using More Complex Text Descriptions**
+**Utilisation de Descriptions Textuelles Plus Complexes**
 
-YOLOE supports complex natural language descriptions for more precise object localization:
+YOLOE prend en charge des descriptions en langage naturel complexes pour une localisation d'objets plus précise :
 
 .. code-block:: python
 
@@ -194,64 +193,64 @@ YOLOE supports complex natural language descriptions for more precise object loc
    ]
    model.set_classes(names, model.get_text_pe(names))
 
-**Adjusting Detection Parameters**
+**Ajustement des Paramètres de Détection**
 
-Performance optimization for Raspberry Pi:
+Optimisation des performances pour Raspberry Pi :
 
 .. code-block:: python
 
    # Performance optimization configuration
    results = model.predict(
-       frame, 
+       frame,
        imgsz=224,        # Lower resolution for faster speed
        conf=0.4,         # Higher confidence threshold reduces false positives
        iou=0.5,          # Adjust IOU threshold
        verbose=False     # Disable verbose output
    )
 
-Performance Optimization Tips
+Conseils d'Optimisation des Performances
 -------------------------------------------------
 
-When running YOLOE on Raspberry Pi, the following optimizations can help achieve better performance:
+Lors de l'exécution de YOLOE sur Raspberry Pi, les optimisations suivantes peuvent aider à obtenir de meilleures performances :
 
-1. **Choose the right model**:
+1. **Choisissez le bon modèle** :
 
-   - ``yoloe-26n-seg.pt``: Nano version, fastest speed
-   - ``yoloe-11s-seg-pf.pt``: S version, higher accuracy but slower
+   - ``yoloe-26n-seg.pt`` : Version nano, vitesse la plus rapide
+   - ``yoloe-11s-seg-pf.pt`` : Version S, précision plus élevée mais plus lente
 
-2. **Reduce input resolution**:
+2. **Réduisez la résolution d'entrée** :
 
-   - ``imgsz=224``: Fastest speed
-   - ``imgsz=320``: Balanced choice (recommended)
-   - ``imgsz=416``: Higher accuracy
+   - ``imgsz=224`` : Vitesse la plus rapide
+   - ``imgsz=320`` : Choix équilibré (recommandé)
+   - ``imgsz=416`` : Précision plus élevée
 
-3. **Adjust confidence threshold**:
+3. **Ajustez le seuil de confiance** :
 
-   - Increasing the ``conf`` parameter (e.g., to 0.5) reduces detection count and improves speed
+   - L'augmentation du paramètre ``conf`` (par exemple, à 0,5) réduit le nombre de détections et améliore la vitesse
 
-4. **Reduce detection categories**:
+4. **Réduisez les catégories de détection** :
 
-   - In text prompt mode, limiting the length of the ``names`` list can improve inference speed
+   - En mode d'indication textuelle, limiter la longueur de la liste ``names`` peut améliorer la vitesse d'inférence
 
 FAQ
 -------------------------
 
-**Q: What's the difference between YOLOE and traditional YOLO?**
+**Q : Quelle est la différence entre YOLOE et le YOLO traditionnel ?**
 
-A: Traditional YOLO can only detect fixed categories defined during training, while YOLOE can detect arbitrary objects through text prompts without retraining.
+R : Le YOLO traditionnel ne peut détecter que les catégories fixes définies lors de l'entraînement, tandis que YOLOE peut détecter des objets arbitraires via des indications textuelles sans réentraînement.
 
-**Q: Does Prompt-Free mode detect all objects?**
+**Q : Le mode sans indication détecte-t-il tous les objets ?**
 
-A: Prompt-Free mode detects visually salient objects in the image but doesn't provide category labels, making it suitable for quickly browsing scenes.
+R : Le mode sans indication détecte les objets visuellement saillants dans l'image mais ne fournit pas d'étiquettes de catégorie, ce qui le rend adapté pour parcourir rapidement les scènes.
 
-**Q: Does text prompt support Chinese?**
+**Q : L'indication textuelle supporte-t-elle le français ?**
 
-A: English prompts are recommended for best results, as the model is primarily trained on English data.
+R : Les indications en anglais sont recommandées pour de meilleurs résultats, car le modèle est principalement entraîné sur des données en anglais.
 
-**Q: What's the speed of running YOLOE on Raspberry Pi?**
+**Q : Quelle est la vitesse d'exécution de YOLOE sur Raspberry Pi ?**
 
-A: On Raspberry Pi 5, using the nano model with 320 resolution, you can achieve 3-5 FPS real-time performance.
+R : Sur Raspberry Pi 5, en utilisant le modèle nano avec une résolution de 320, vous pouvez atteindre des performances en temps réel de 3 à 5 FPS.
 
-**Q: Can I use multiple text prompts simultaneously?**
+**Q : Puis-je utiliser plusieurs indications textuelles simultanément ?**
 
-A: Yes, simply add multiple descriptions to the ``names`` list, and the model will detect all of these objects simultaneously.
+R : Oui, ajoutez simplement plusieurs descriptions à la liste ``names``, et le modèle détectera tous ces objets simultanément.

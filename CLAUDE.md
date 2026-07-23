@@ -1,46 +1,47 @@
-# AI Fusion Lab Kit Documentation Repository
+# Dépôt de documentation du Kit AI Fusion Lab
 
-> **Canonical AI guidance.** This is the authoritative CLAUDE.md for the AI Fusion Lab Kit documentation project. All language-variant repositories (`ai-lab-kit-rtd-*-sync`) should sync their CLAUDE.md from this file. When adding rules or fixes, update this file first, then propagate to other language repos.
+> **Guide IA canonique.** Ceci est le CLAUDE.md faisant autorité pour le projet de documentation AI Fusion Lab Kit. Tous les dépôts de variantes linguistiques (`ai-lab-kit-rtd-*-sync`) doivent synchroniser leur CLAUDE.md à partir de ce fichier. Lors de l'ajout de règles ou de corrections, mettez d'abord ce fichier à jour, puis propagez les modifications aux autres dépôts linguistiques.
 
-## Project Identity
+## Identité du projet
 
-| Field | Value |
+| Champ | Valeur |
 |---|---|
-| **Product** | SunFounder AI Fusion Lab Kit — all-in-one AI/electronics learning platform |
-| **Repository** | `https://github.com/sunfounder/ai-lab-kit` |
+| **Produit** | SunFounder AI Fusion Lab Kit — plateforme d'apprentissage tout-en-un IA/électronique |
+| **Dépôt** | `https://github.com/sunfounder/ai-lab-kit` |
 | **Documentation** | Sphinx + ReadTheDocs (`sphinx_rtd_theme`) |
-| **Published at** | `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/` |
-| **Company** | SunFounder (service@sunfounder.com) |
-| **License** | GPL v2 |
+| **Publié sur** | `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/` |
+| **Entreprise** | SunFounder (service@sunfounder.com) |
+| **Licence** | GPL v2 |
 
-The AI Fusion Lab Kit combines a modular hardware kit with step-by-step learning modules covering Python programming, electronic components, computer vision (OpenCV, MediaPipe), object detection (YOLO), and large language models (Ollama, OpenAI, DeepSeek, xAI, Doubao, Qwen, Gemini). This repository's `docs` branch contains **only documentation** — a Sphinx documentation site built via ReadTheDocs.
+Le Kit AI Fusion Lab combine un kit matériel modulaire avec des modules d'apprentissage étape par étape couvrant la programmation Python, les composants électroniques, la vision par ordinateur (OpenCV, MediaPipe), la détection d'objets (YOLO) et les grands modèles de langage (Ollama, OpenAI, DeepSeek, xAI, Doubao, Qwen, Gemini). La branche `docs` de ce dépôt contient **uniquement la documentation** — un site de documentation Sphinx construit via ReadTheDocs.
 
 ---
 
-## Branch Strategy
+## Stratégie de branches
 
-| Branch | Role |
+| Branche | Rôle |
 |---|---|
-| `main` | Product source code, system image, installer, examples |
-| `docs` | **Documentation source** — Sphinx RST files, images, RTD config |
+| `main` | Code source du produit, image système, installateur, exemples |
+| `docs` | **Source de la documentation** — Fichiers RST Sphinx, images, configuration RTD |
 
-### Cardinal Rule
+### Règle fondamentale
 
-> **`docs` is the documentation branch.** All documentation changes (content, structure, images, configuration) happen on `docs`. The `main` branch is for product source code and images. These two branches serve different purposes and should not be confused.
+> **`docs` est la branche de documentation.** Toutes les modifications de documentation (contenu, structure, images, configuration) se font sur `docs`. La branche `main` est destinée au code source du produit et aux images. Ces deux branches servent des objectifs différents et ne doivent pas être confondues.
 
-### Language Branches
+### Branches linguistiques
 
-| Branch | Language | `conf.py` `language` | Published URL |
+| Branche | Langue | `conf.py` `language` | URL publiée |
 |---|---|---|---|
-| `docs` | English (source) | `'en'` | `/en/latest/` |
-| `docs-de` | German | `'de'` | `/de/latest/` |
-| `docs-ja` | Japanese | `'ja'` | `/ja/latest/` |
+| `docs` | Anglais (source) | `'en'` | `/en/latest/` |
+| `docs-de` | Allemand | `'de'` | `/de/latest/` |
+| `docs-fr` | Francais | `'fr'` | `/fr/latest/` |
+| `docs-ja` | Japonais | `'ja'` | `/ja/latest/` |
 
-Additional language branches (`docs-es`, `docs-fr`, `docs-it`, `docs-zh`) may be created from `docs` as needed.
+Des branches linguistiques supplémentaires (`docs-es`, `docs-it`, `docs-zh`) peuvent être créées à partir de `docs` selon les besoins.
 
 ---
 
-## Repository Layout (docs branch)
+## Structure du dépôt (branche docs)
 
 ```
 ai-lab-kit/
@@ -108,11 +109,11 @@ ai-lab-kit/
 
 ---
 
-## Documentation Conventions
+## Conventions de documentation
 
-### RST File Boilerplate
+### Structure standard des fichiers RST
 
-Every page follows this exact pattern:
+Chaque page suit exactement ce modèle :
 
 ```rst
 .. include:: /index.rst
@@ -125,31 +126,31 @@ Page Title
 ===========
 ```
 
-The `start_hello_message` / `end_hello_message` markers are defined in `index.rst` and contain the Facebook community note. The `.. include::` directive pulls it into every page.
+Les marqueurs `start_hello_message` / `end_hello_message` sont définis dans `index.rst` et contiennent la note de la communauté Facebook. La directive `.. include::` l'insère dans chaque page.
 
-### Reference Labels
+### Étiquettes de référence
 
-Each `.rst` file defines a reference label for cross-document linking. These labels are code identifiers, not human-readable text — **never translate them**.
+Chaque fichier `.rst` définit une étiquette de référence pour les liens inter-documents. Ces étiquettes sont des identifiants de code, pas du texte lisible — **ne jamais les traduire**.
 
-Key reference labels:
+Étiquettes de référence clés :
 
-| Label | File | Content |
+| Étiquette | Fichier | Contenu |
 |---|---|---|
-| `get_start` | `quick_start/quick_start.rst` | Getting started chapter |
-| `youtube_list` | `video_course/video_course.rst` | YouTube video course |
-| `play_with_python` | `python/play_with_python.rst` | Python chapter |
-| `play_with_llm` | `llm/llm.rst` | AI / LLM chapter |
-| `play_with_opencv` | `opencv/opencv.rst` | OpenCV chapter |
-| `play_with_mediapipe` | `mediapipe/mediapipe.rst` | MediaPipe chapter |
-| `play_with_yolo` | `yolo/yolo.rst` | YOLO chapter |
-| `cpn_list` | `component.rst` | Component reference |
-| `faq` | `faq.rst` | Frequently asked questions |
+| `get_start` | `quick_start/quick_start.rst` | Chapitre Premiers pas |
+| `youtube_list` | `video_course/video_course.rst` | Cours vidéo YouTube |
+| `play_with_python` | `python/play_with_python.rst` | Chapitre Python |
+| `play_with_llm` | `llm/llm.rst` | Chapitre IA / LLM |
+| `play_with_opencv` | `opencv/opencv.rst` | Chapitre OpenCV |
+| `play_with_mediapipe` | `mediapipe/mediapipe.rst` | Chapitre MediaPipe |
+| `play_with_yolo` | `yolo/yolo.rst` | Chapitre YOLO |
+| `cpn_list` | `component.rst` | Référence des composants |
+| `faq` | `faq.rst` | Foire aux questions |
 
-Individual lessons also define labels (e.g., `py_led` in `python/1.1_blinking_led_python.rst`). These labels **must remain consistent** across all language variants — they are the cross-document linking mechanism.
+Les leçons individuelles définissent également des étiquettes (ex. `py_led` dans `python/1.1_blinking_led_python.rst`). Ces étiquettes **doivent rester cohérentes** dans toutes les variantes linguistiques — elles constituent le mécanisme de liaison inter-documents.
 
-### Include Directives
+### Directives Include
 
-The primary `include` pattern in this project is the hello message import:
+Le principal motif `include` dans ce projet est l'importation du message d'accueil :
 
 ```rst
 .. include:: /index.rst
@@ -157,59 +158,59 @@ The primary `include` pattern in this project is the hello message import:
    :end-before: end_hello_message
 ```
 
-Markers in `index.rst` use the format:
+Les marqueurs dans `index.rst` utilisent le format :
 ```rst
 .. start_hello_message
 
 .. note::
-    Hello, welcome to the SunFounder ...
+    Bonjour, bienvenue chez SunFounder ...
 
 .. end_hello_message
 ```
 
-When content in this block changes, it affects every page that includes it. Ensure consistency when modifying.
+Lorsque le contenu de ce bloc change, cela affecte chaque page qui l'inclut. Assurez la cohérence lors des modifications.
 
-### Link Substitutions (`rst_epilog` in `conf.py`)
+### Substitutions de liens (`rst_epilog` dans `conf.py`)
 
-All external links live as RST substitutions in `conf.py` under `rst_epilog`. There are three groups:
+Tous les liens externes sont définis comme substitutions RST dans `conf.py` sous `rst_epilog`. Il y a trois groupes :
 
-**Component purchase links** (25+ links for LEDs, sensors, motors, etc.):
+**Liens d'achat de composants** (plus de 25 liens pour LED, capteurs, moteurs, etc.) :
 ```rst
 .. |link_led_buy| raw:: html
-    <a href="https://www.sunfounder.com/products/..." target="_blank">BUY</a>
+    <a href="https://www.sunfounder.com/products/..." target="_blank">ACHETER</a>
 ```
 
-**Language-specific tutorial links** (6 languages):
-| Substitution | Purpose |
+**Liens de tutoriels par langue** (6 langues) :
+| Substitution | Usage |
 |---|---|
-| `\|link_sf_facebook\|` | SunFounder Facebook community |
-| `\|link_en_tutorials\|` | English online tutorials |
-| `\|link_german_tutorials\|` | German online tutorials |
-| `\|link_jp_tutorials\|` | Japanese online tutorials |
-| `\|link_es_tutorials\|` | Spanish online tutorials |
-| `\|link_fr_tutorials\|` | French online tutorials |
-| `\|link_it_tutorials\|` | Italian online tutorials |
+| `\|link_sf_facebook\|` | Communauté Facebook SunFounder |
+| `\|link_en_tutorials\|` | Tutoriels en ligne en anglais |
+| `\|link_german_tutorials\|` | Tutoriels en ligne en allemand |
+| `\|link_jp_tutorials\|` | Tutoriels en ligne en japonais |
+| `\|link_es_tutorials\|` | Tutoriels en ligne en espagnol |
+| `\|link_fr_tutorials\|` | Tutoriels en ligne en français |
+| `\|link_it_tutorials\|` | Tutoriels en ligne en italien |
 
-**External reference links** (Raspberry Pi tools, AI platforms, etc.):
-| Substitution | Purpose |
+**Liens de référence externes** (outils Raspberry Pi, plateformes IA, etc.) :
+| Substitution | Usage |
 |---|---|
-| `\|link_rpi_imager\|` | Raspberry Pi Imager download |
+| `\|link_rpi_imager\|` | Téléchargement de Raspberry Pi Imager |
 | `\|link_rpi_connect\|` | Raspberry Pi Connect |
-| `\|link_ollama\|` | Ollama download |
-| `\|link_ollama_hub\|` | Ollama model hub |
-| `\|link_openai_platform\|` | OpenAI API keys |
-| `\|link_deepseek\|` | DeepSeek platform |
-| `\|link_grok_ai\|` | xAI Cloud Console |
+| `\|link_ollama\|` | Téléchargement d'Ollama |
+| `\|link_ollama_hub\|` | Hub de modèles Ollama |
+| `\|link_openai_platform\|` | Clés API OpenAI |
+| `\|link_deepseek\|` | Plateforme DeepSeek |
+| `\|link_grok_ai\|` | Console Cloud xAI |
 | `\|link_doubao\|` | Volcengine (Doubao) |
 | `\|link_aliyun\|` | Alibaba Bailian (Qwen) |
 | `\|link_google_ai\|` | Google AI Studio (Gemini) |
-| `\|link_piper_voice\|` | Piper TTS voices |
+| `\|link_piper_voice\|` | Voix Piper TTS |
 
-When adding a new external link, add the `.. |link_xxx|` definition to `conf.py` `rst_epilog`. Never hardcode external URLs in `.rst` files.
+Lors de l'ajout d'un nouveau lien externe, ajoutez la définition `.. |link_xxx|` dans `conf.py` `rst_epilog`. Ne jamais coder en dur les URL externes dans les fichiers `.rst`.
 
-### Image Paths
+### Chemins d'images
 
-All images live under `docs/source/img/` and are referenced with `img/` relative paths:
+Toutes les images se trouvent sous `docs/source/img/` et sont référencées avec des chemins relatifs `img/` :
 
 ```rst
 .. image:: img/led_circuit.png
@@ -217,282 +218,283 @@ All images live under `docs/source/img/` and are referenced with `img/` relative
    :align: center
 ```
 
-Images are organized by chapter (e.g., `img/python/`, `img/opencv/`, `img/mediapipe/`).
+Les images sont organisées par chapitre (ex. `img/python/`, `img/opencv/`, `img/mediapipe/`).
 
-### File Naming
+### Nommage des fichiers
 
-- **Python lessons**: `X.Y_descriptive_name_python.rst` (e.g., `1.1_blinking_led_python.rst`, `2.14_dht_python.rst`)
-- **OpenCV lessons**: `cv_N_descriptive_name.rst` (e.g., `cv_0_setup.rst`, `cv_8_face.rst`)
-- **MediaPipe lessons**: `mp_N_descriptive_name.rst` (e.g., `mp_0_setup.rst`, `mp_7_pose.rst`)
-- **YOLO lessons**: `yolo_descriptive_name.rst`
-- **LLM lessons**: `python_descriptive_name.rst` (e.g., `python_llm_ollama.rst`, `python_openai_health.rst`)
-- **Quick start**: `snake_case_descriptive.rst`
-- **Chapter indexes**: `descriptive_name.rst` (e.g., `play_with_python.rst`, `llm.rst`, `opencv.rst`)
-- **Root pages**: `index.rst`, `faq.rst`, `component.rst`, `appendix.rst`
+- **Leçons Python** : `X.Y_nom_descriptif_python.rst` (ex. `1.1_blinking_led_python.rst`, `2.14_dht_python.rst`)
+- **Leçons OpenCV** : `cv_N_nom_descriptif.rst` (ex. `cv_0_setup.rst`, `cv_8_face.rst`)
+- **Leçons MediaPipe** : `mp_N_nom_descriptif.rst` (ex. `mp_0_setup.rst`, `mp_7_pose.rst`)
+- **Leçons YOLO** : `yolo_nom_descriptif.rst`
+- **Leçons LLM** : `python_nom_descriptif.rst` (ex. `python_llm_ollama.rst`, `python_openai_health.rst`)
+- **Premiers pas** : `snake_case_descriptif.rst`
+- **Index de chapitre** : `nom_descriptif.rst` (ex. `play_with_python.rst`, `llm.rst`, `opencv.rst`)
+- **Pages racines** : `index.rst`, `faq.rst`, `component.rst`, `appendix.rst`
 
-### RST Section Underlines
+### Soulignements de sections RST
 
-- Title (top-level): `=====` overline and underline
-- Section: `------` underline
-- Sub-section: `~~~~~~` underline
-- The overline/underline must be at least as long as the title text
-- For CJK titles: CJK characters count as 2 display columns each; the underline must match the display width, not character count
+- Titre (niveau supérieur) : `=====` surlignement et soulignement
+- Section : `------` soulignement
+- Sous-section : `~~~~~~` soulignement
+- Le surlignement/soulignement doit être au moins aussi long que le texte du titre
+- Pour les titres CJK : les caractères CJK comptent pour 2 colonnes d'affichage chacun ; le soulignement doit correspondre à la largeur d'affichage, pas au nombre de caractères
 
 ---
 
-## Build & Preview
+## Compilation et prévisualisation
 
-### Local Build (Sphinx)
+### Compilation locale (Sphinx)
 
 ```bash
 cd docs
 pip install -r requirements.txt
-make html          # Output: docs/build/html/index.html
+make html          # Sortie : docs/build/html/index.html
 ```
 
-On Windows:
+Sous Windows :
 ```batch
 cd docs
-make.bat html      # Also runs: git submodule update --init --remote
+make.bat html      # Exécute aussi : git submodule update --init --remote
 ```
 
-**Note**: `make.bat` automatically syncs the `_shared` submodule before building. The Makefile does not.
+**Remarque** : `make.bat` synchronise automatiquement le sous-module `_shared` avant la compilation. Le Makefile ne le fait pas.
 
 ### ReadTheDocs
 
-Builds automatically on push to the `docs` branch. Configuration in `.readthedocs.yaml`:
-- OS: Ubuntu 22.04, Python 3.11
-- Sphinx config: `docs/source/conf.py`
-- Submodules: included (all, recursive)
-- Builds all formats (HTML, PDF, ePub)
+Compilation automatique lors du push sur la branche `docs`. Configuration dans `.readthedocs.yaml` :
+- OS : Ubuntu 22.04, Python 3.11
+- Configuration Sphinx : `docs/source/conf.py`
+- Sous-modules : inclus (tous, récursif)
+- Compile tous les formats (HTML, PDF, ePub)
 
-### Published URLs
+### URL publiées
 
 ```
-https://docs.sunfounder.com/projects/ai-lab-kit/en/latest/
+https://docs.sunfounder.com/projects/ai-lab-kit/fr/latest/
 ```
 
 ---
 
-## Sphinx Configuration (conf.py)
+## Configuration Sphinx (conf.py)
 
 ### Extensions
 
-| Extension | Purpose |
+| Extension | Usage |
 |---|---|
-| `sphinx_copybutton` | Adds copy button to code blocks |
-| `sphinx_rtd_theme` | ReadTheDocs theme |
-| `sphinx.ext.intersphinx` | Cross-project reference linking |
+| `sphinx_copybutton` | Ajoute un bouton de copie aux blocs de code |
+| `sphinx_rtd_theme` | Thème ReadTheDocs |
+| `sphinx.ext.intersphinx` | Liaison de références inter-projets |
 
-`sphinx.ext.autosectionlabel` is **disabled** — keep commented out. Causes duplicate label warnings with CJK section titles.
+`sphinx.ext.autosectionlabel` est **désactivé** — laisser commenté. Provoque des avertissements de doublons d'étiquettes avec les titres de section CJK.
 
-### Theme
+### Thème
 
-- **Theme**: `sphinx_rtd_theme`
-- **Options**: flyout attached, version/language selectors disabled
-- **GitHub integration**: Enabled, pointing to `sunfounder/ai-lab-kit` on the `docs` branch
+- **Thème** : `sphinx_rtd_theme`
+- **Options** : panneau latéral attaché, sélecteurs de version/langue désactivés
+- **Intégration GitHub** : Activée, pointant vers `sunfounder/ai-lab-kit` sur la branche `docs`
 
-### Custom Assets
+### Ressources personnalisées
 
-**JavaScript** (loaded in order):
-- `https://ezblock.cc/readDocFile/custom.js` — SunFounder shared custom JS
-- `./lang.js` — Multi-language auto-detection and redirect
-- ACE code editor: `ace.js`, `ext-language_tools.js`, `theme-chrome.js`, `mode-python.js`, `mode-sh.js`, `monokai.js`
-- xterm.js terminal: `xterm.js`, `FitAddon.js`
-- `readTheDocIndex.js` — Custom page behavior
+**JavaScript** (chargé dans l'ordre) :
+- `https://ezblock.cc/readDocFile/custom.js` — JS personnalisé partagé SunFounder
+- `./lang.js` — Détection automatique de la langue et redirection
+- Éditeur de code ACE : `ace.js`, `ext-language_tools.js`, `theme-chrome.js`, `mode-python.js`, `mode-sh.js`, `monokai.js`
+- Terminal xterm.js : `xterm.js`, `FitAddon.js`
+- `readTheDocIndex.js` — Comportement personnalisé des pages
 
-**CSS**:
-- `https://ezblock.cc/readDocFile/custom.css` — SunFounder shared custom CSS
-- `readTheDoc/src/css/index.css` — Custom page styles
-- `readTheDoc/src/css/xterm.css` — Terminal styles
+**CSS** :
+- `https://ezblock.cc/readDocFile/custom.css` — CSS personnalisé partagé SunFounder
+- `readTheDoc/src/css/index.css` — Styles de page personnalisés
+- `readTheDoc/src/css/xterm.css` — Styles du terminal
 
-**Template**: `_templates/layout.html` — extends default RTD layout, adds SunFounder nav bar with logo linking to `https://sunfounder.com`.
+**Template** : `_templates/layout.html` — étend la mise en page RTD par défaut, ajoute la barre de navigation SunFounder avec le logo liant vers `https://sunfounder.com`.
 
-### Multi-Language
+### Multi-langue
 
-The `lang.js` script in `_static/` handles automatic language detection via browser language and redirects to the appropriate URL.
+Le script `lang.js` dans `_static/` gère la détection automatique de la langue via la langue du navigateur et redirige vers l'URL appropriée.
 
-Published URLs follow the pattern `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/`.
+Les URL publiées suivent le modèle `https://docs.sunfounder.com/projects/ai-lab-kit/<langue>/latest/`.
 
-The `language` variable in `conf.py` is set to `'en'` by default. When building for other languages:
-- Set `language = '<locale>'` in `conf.py`
-- Add `.po` translation files under `docs/source/locale/`
-- Update the `link_<lang>_tutorials` substitution with the correct description translation
+La variable `language` dans `conf.py` est définie sur `'en'` par défaut. Pour compiler dans d'autres langues :
+- Définir `language = '<locale>'` dans `conf.py`
+- Ajouter des fichiers de traduction `.po` sous `docs/source/locale/`
+- Mettre à jour la substitution `link_<langue>_tutorials` avec la traduction correcte de la description
 
-Supported languages: `en`, `de`, `es`, `fr`, `it`, `ja`, `zh`.
+Langues supportées : `en`, `de`, `es`, `fr`, `it`, `ja`, `zh`.
 
 ---
 
-## Common Maintenance Tasks
+## Tâches de maintenance courantes
 
-### Adding a New Python Lesson
+### Ajouter une nouvelle leçon Python
 
-1. Create the `.rst` file in `docs/source/python/` following the naming convention
-2. Start with the standard boilerplate (include hello message + ref label + title)
-3. Define a `.. _ref_label:` at the top if the page will be cross-referenced
-4. Add the file to the appropriate `.. toctree::` in `python/play_with_python.rst` under the correct section (Output / Input / Camera & Audio / Projects)
-5. If new components are introduced, add their purchase links to `conf.py` `rst_epilog`
-6. Build locally to verify: `cd docs && make.bat html`
-7. Commit on `docs`
+1. Créer le fichier `.rst` dans `docs/source/python/` en suivant la convention de nommage
+2. Commencer par le modèle standard (include message d'accueil + étiquette ref + titre)
+3. Définir un `.. _ref_label:` en haut si la page sera référencée
+4. Ajouter le fichier au `.. toctree::` approprié dans `python/play_with_python.rst` sous la bonne section (Output / Input / Camera & Audio / Projects)
+5. Si de nouveaux composants sont introduits, ajouter leurs liens d'achat dans `conf.py` `rst_epilog`
+6. Compiler localement pour vérifier : `cd docs && make.bat html`
+7. Commiter sur `docs`
 
-### Adding a New Chapter
+### Ajouter un nouveau chapitre
 
-1. Create a directory under `docs/source/` (e.g., `new_chapter/`)
-2. Create the chapter index `.rst` with standard boilerplate + `.. _ref_label:` + toctree
-3. Add the chapter to the root toctree in `index.rst`
-4. Add the `ref_label` to the navigation section in `index.rst`
-5. Build locally to verify
+1. Créer un répertoire sous `docs/source/` (ex. `nouveau_chapitre/`)
+2. Créer l'index de chapitre `.rst` avec le modèle standard + `.. _ref_label:` + toctree
+3. Ajouter le chapitre au toctree racine dans `index.rst`
+4. Ajouter le `ref_label` à la section de navigation dans `index.rst`
+5. Compiler localement pour vérifier
 
-### Updating the Root Toctree
+### Mettre à jour le toctree racine
 
-The root toctree in `index.rst` has 11 entries in this order:
+Le toctree racine dans `index.rst` comporte 11 entrées dans cet ordre :
 
-1. **About This Kit** — `self` (self-referencing)
-2. **Getting Started** — `quick_start/quick_start`
-3. **Video Course** — `video_course/video_course`
-4. **Play with Python** — `python/play_with_python`
-5. **AI (LLM)** — `llm/llm`
+1. **À propos de ce kit** — `self` (auto-référencement)
+2. **Premiers pas** — `quick_start/quick_start`
+3. **Cours vidéo** — `video_course/video_course`
+4. **Jouer avec Python** — `python/play_with_python`
+5. **IA (LLM)** — `llm/llm`
 6. **OpenCV** — `opencv/opencv`
 7. **MediaPipe** — `mediapipe/mediapipe`
 8. **YOLO** — `yolo/yolo`
-9. **Components** — `component`
-10. **Appendix** — `appendix`
+9. **Composants** — `component`
+10. **Annexe** — `appendix`
 11. **FAQ** — `faq`
 
-### Adding Content with Include Markers
+### Ajouter du contenu avec des marqueurs Include
 
-When content needs to be shared between pages:
+Lorsque du contenu doit être partagé entre plusieurs pages :
 
-1. Add `.. start_<marker>` before and `.. end_<marker>` after the reusable block in the source file
-2. In the destination file, use:
+1. Ajouter `.. start_<marqueur>` avant et `.. end_<marqueur>` après le bloc réutilisable dans le fichier source
+2. Dans le fichier de destination, utiliser :
    ```rst
-   .. include:: /source_file.rst
-       :start-after: start_<marker>
-       :end-before: end_<marker>
+   .. include:: /fichier_source.rst
+       :start-after: start_<marqueur>
+       :end-before: end_<marqueur>
    ```
 
-### Modifying the Submodule
+### Modifier le sous-module
 
-The `docs/source/_shared/` directory is a Git submodule pointing to `https://github.com/sunfounder/sf-shared.git` (branch: `main`). Changes to shared component docs, appendix pages, or Pi setup guides must be made in the `sf-shared` repository, not here.
+Le répertoire `docs/source/_shared/` est un sous-module Git pointant vers `https://github.com/sunfounder/sf-shared.git` (branche : `main`). Les modifications des documents de composants partagés, des pages d'annexe ou des guides de démarrage Pi doivent être effectuées dans le dépôt `sf-shared`, pas ici.
 
-To update the submodule pointer:
+Pour mettre à jour le pointeur du sous-module :
 ```bash
 cd docs/source/_shared
 git pull origin main
 cd ../../..
 git add docs/source/_shared
-git commit -m "Update _shared submodule"
+git commit -m "Mise à jour du sous-module _shared"
 ```
 
-### Verifying Language Branches
+### Vérification des branches linguistiques
 
-The `docs` branch is the **English source** and must never contain translated content. After any operation that touches the remote repository (push, merge, force-push), verify the integrity of the `docs` branch and all language branches:
+La branche `docs` est la **source anglaise** et ne doit jamais contenir de contenu traduit. Après toute opération qui touche le dépôt distant (push, merge, force-push), vérifiez l'intégrité de la branche `docs` et de toutes les branches linguistiques :
 
-**1. Verify `docs` is English:**
+**1. Vérifier que `docs` est en anglais :**
 
 ```bash
 git show remotes/origin/docs:docs/source/conf.py | grep "language ="
-# Expected: language = 'en'
+# Attendu : language = 'en'
 ```
 
-If the remote `docs` shows a non-English language, restore it from the canonical English source immediately:
+Si le `docs` distant affiche une langue autre que l'anglais, restaurez-le immédiatement depuis la source anglaise canonique :
 
 ```bash
-# From the canonical English workspace:
+# Depuis l'espace de travail anglais canonique :
 git push origin docs --force
 ```
 
-**2. Verify each language branch has the correct language code:**
+**2. Vérifier que chaque branche linguistique a le bon code de langue :**
 
-| Branch | Expected `conf.py` | Published URL |
+| Branche | `conf.py` attendu | URL publiée |
 |---|---|---|
 | `docs` | `language = 'en'` | `/en/latest/` |
 | `docs-de` | `language = 'de'` | `/de/latest/` |
+| `docs-fr` | `language = 'fr'` | `/fr/latest/` |
 | `docs-ja` | `language = 'ja'` | `/ja/latest/` |
 
-Additional branches (`docs-es`, `docs-fr`, `docs-it`, `docs-zh`) follow the same pattern.
+Les branches supplémentaires (`docs-es`, `docs-fr`, `docs-it`, `docs-zh`) suivent le même modèle.
 
-**3. Quick verification script for all branches:**
+**3. Script de vérification rapide pour toutes les branches :**
 
 ```bash
-for b in docs docs-de docs-ja; do
+for b in docs docs-de docs-fr docs-ja; do
   lang=$(git show "remotes/origin/$b:docs/source/conf.py" 2>/dev/null | grep "language =")
   echo "$b: $lang"
 done
 ```
 
-**4. When creating a new language branch:**
+**4. Lors de la création d'une nouvelle branche linguistique :**
 
-- Always branch from `docs` (English), never from another language branch
-- Update `conf.py`: set `language = '<code>'`, comment out `sphinx.ext.autosectionlabel`
-- Translate all `.rst` files and `README.md`
-- Translate `CLAUDE.md` and update the branch identifier
-- Run `make html` and resolve all warnings before committing
-- **CJK languages (Chinese, Japanese)**: CJK characters count as 2 display columns — section underlines/overlines must be 2× the character count. Inline `**markup**` adjacent to CJK characters needs `\ ` (escaped space) as delimiter.
-- After pushing, verify the remote branch content matches the intended language
+- Toujours créer depuis `docs` (anglais), jamais depuis une autre branche linguistique
+- Mettre à jour `conf.py` : définir `language = '<code>'`, commenter `sphinx.ext.autosectionlabel`
+- Traduire tous les fichiers `.rst` et `README.md`
+- Traduire `CLAUDE.md` et mettre à jour l'identifiant de la branche
+- Exécuter `make html` et résoudre tous les avertissements avant de commiter
+- **Langues CJK (chinois, japonais)** : les caractères CJK comptent pour 2 colonnes d'affichage — les soulignements/surlignements de section doivent être 2× le nombre de caractères. Le `**markup**` en ligne adjacent aux caractères CJK nécessite `\ ` (espace échappé) comme délimiteur.
+- Après le push, vérifier que le contenu de la branche distante correspond à la langue prévue
 
 ---
 
-## Notes for AI Assistants
+## Notes pour les assistants IA
 
-When working on this repository:
+Lorsque vous travaillez sur ce dépôt :
 
-1. **The `docs` branch is documentation-only.** Product source code and system images live on `main`. Do not add Python scripts, binaries, or disk images to `docs`.
-2. **The Facebook community note** at the top of each `.rst` file is imported from `index.rst` via the `start_hello_message` / `end_hello_message` include block. It is part of SunFounder's documentation standard and appears on nearly every user-facing page.
-3. **`conf.py` link substitutions** are the single source of external URLs. Never hardcode external links in `.rst` files — use `|link_xxx|` substitutions.
-4. **Reference labels** (`.. _label:`) are code identifiers, not human-readable text. Never translate them.
-5. **RST section underlines (and overlines) must match title display width.**
+1. **La branche `docs` est exclusivement dédiée à la documentation.** Le code source du produit et les images système se trouvent sur `main`. N'ajoutez pas de scripts Python, de binaires ou d'images disque à `docs`.
+2. **La note de la communauté Facebook** en haut de chaque fichier `.rst` est importée depuis `index.rst` via le bloc include `start_hello_message` / `end_hello_message`. Elle fait partie du standard de documentation SunFounder et apparaît sur presque toutes les pages visibles par l'utilisateur.
+3. **Les substitutions de liens `conf.py`** sont la source unique des URL externes. Ne jamais coder en dur des liens externes dans les fichiers `.rst` — utilisez les substitutions `|link_xxx|`.
+4. **Les étiquettes de référence** (`.. _label:`) sont des identifiants de code, pas du texte lisible. Ne jamais les traduire.
+5. **Les soulignements (et surlignements) de sections RST doivent correspondre à la largeur d'affichage du titre.**
    
-   - For single-underline headings (title followed by `=` or `-`), the underline must be at least as long as the title text.
-   - For overline+underline headings (e.g., `====` above and below the title), **both** the overline and underline must use the same character, be the **exact same length**, and be at least as long as the title. When translating titles, always update both lines together.
-   - **CJK display width**: docutils counts CJK characters as **2 display columns** each (ASCII = 1 column). The overline/underline must match the total display width, not the character count.
+   - Pour les titres à soulignement simple (titre suivi de `=` ou `-`), le soulignement doit être au moins aussi long que le texte du titre.
+   - Pour les titres à surlignement + soulignement (ex. `====` au-dessus et en dessous du titre), **les deux** — surlignement et soulignement — doivent utiliser le même caractère, avoir la **même longueur exacte** et être au moins aussi longs que le titre. Lors de la traduction des titres, mettez toujours à jour les deux lignes ensemble.
+   - **Largeur d'affichage CJK** : docutils compte les caractères CJK comme **2 colonnes d'affichage** chacun (ASCII = 1 colonne). Le surlignement/soulignement doit correspondre à la largeur d'affichage totale, pas au nombre de caractères.
    
-   Translated titles are often longer than the English originals — extend overlines and underlines accordingly. When the title contains CJK characters, the underline/overline will be significantly longer than the character count suggests.
+   Les titres traduits sont souvent plus longs que les originaux anglais — étendez les surlignements et soulignements en conséquence. Lorsque le titre contient des caractères CJK, le soulignement/surlignement sera significativement plus long que ce que le nombre de caractères suggère.
 
-6. **Inline strong markup (`**...**`) breaks when adjacent to CJK characters.** docutils inline markup recognition requires the `**` delimiters to be adjacent to whitespace or ASCII punctuation (`- : / . , ; ! ? ' " ( ) [ ] { } < >`). CJK characters (Chinese, Japanese, Korean) are **not** valid delimiters.
+6. **Le markup en ligne gras (`**...**`) se casse lorsqu'il est adjacent à des caractères CJK.** La reconnaissance du markup en ligne docutils exige que les délimiteurs `**` soient adjacents à des espaces ou à la ponctuation ASCII (`- : / . , ; ! ? ' " ( ) [ ] { } < >`). Les caractères CJK (chinois, japonais, coréen) ne sont **pas** des délimiteurs valides.
 
-   When `**text**` is immediately preceded or followed by a CJK character, docutils emits `WARNING: Inline strong start-string without end-string.` because it cannot find the closing `**`.
+   Lorsque `**texte**` est immédiatement précédé ou suivi d'un caractère CJK, docutils émet `WARNING: Inline strong start-string without end-string.` car il ne peut pas trouver le `**` fermant.
 
-   **Fix**: Insert `\ ` (backslash-escaped space) between the `**` delimiter and the adjacent CJK character:
+   **Correction** : Insérez `\ ` (espace échappé par antislash) entre le délimiteur `**` et le caractère CJK adjacent :
 
    ```rst
-   # WRONG — closing ** followed by CJK に, warning emitted:
+   # FAUX — ** fermant suivi du CJK に, avertissement émis :
    **PI3V3**にブリッジすると
 
-   # RIGHT — \  acts as a valid delimiter:
+   # CORRECT — \  agit comme un délimiteur valide :
    **PI3V3**\ にブリッジすると
 
-   # WRONG — opening ** preceded by CJK は, warning emitted:
+   # FAUX — ** ouvrant précédé du CJK は, avertissement émis :
    または**コマンドラインツール**
 
-   # RIGHT:
+   # CORRECT :
    または\ **コマンドラインツール**
    ```
 
-   This applies equally to other inline markup (`*emphasis*`, ```literal```) when adjacent to CJK text. Always check the build warnings for "Inline ... start-string without end-string" after translating content with inline markup.
+   Cela s'applique également aux autres markups en ligne (`*emphase*`, ```littéral```) lorsqu'ils sont adjacents à du texte CJK. Vérifiez toujours les avertissements de compilation pour "Inline ... start-string without end-string" après avoir traduit du contenu avec du markup en ligne.
 
-7. **Nested lists require blank lines and correct indentation in RST.** When a numbered list item or bullet item contains sub-bullets, a blank line must precede the nested list, and the nested items must be indented to align with the text of the parent item (typically 3+ spaces). Without the blank line, RST renders the bullets as a single run-on line.
+7. **Les listes imbriquées nécessitent des lignes vides et une indentation correcte en RST.** Lorsqu'un élément de liste numérotée ou à puces contient des sous-puces, une ligne vide doit précéder la liste imbriquée, et les éléments imbriqués doivent être indentés pour s'aligner avec le texte de l'élément parent (généralement 3+ espaces). Sans la ligne vide, RST rend les puces comme une seule ligne continue.
 
-   **Wrong** (sub-bullets without blank line):
+   **Faux** (sous-puces sans ligne vide) :
    ```rst
-   3. **Parent item**:
-      - First sub-item
-      - Second sub-item
+   3. **Élément parent** :
+      - Premier sous-élément
+      - Deuxième sous-élément
    ```
 
-   **Correct**:
+   **Correct** :
    ```rst
-   3. **Parent item**:
+   3. **Élément parent** :
 
-        - First sub-item
-        - Second sub-item
+        - Premier sous-élément
+        - Deuxième sous-élément
    ```
 
-8. **Code blocks** (Python, bash, shell) are never translated. Command strings and file paths stay as-is.
-9. **The `_static` and `_templates` directories** contain custom assets. Changes here affect the global look and behavior of the published site across all pages.
-10. **Build output** goes to `docs/build/` and is gitignored — never commit build artifacts.
-11. **Images** are all under `docs/source/img/`. When adding new images, place them there (organized by chapter subdirectory) and reference with relative paths.
-12. **The `_shared` submodule** contains cross-product content (component references, appendix, Pi setup guides). Changes to these files must go through the `sf-shared` repository, not be edited directly here.
-13. **The `show` script** at the repo root is a GPL license display utility — it is Python 2 syntax and should be considered legacy.
-14. **Lesson file numbering** follows a consistent scheme: `X.Y_` for Python lessons (where X = section, Y = lesson within section), `cv_N_` for OpenCV, `mp_N_` for MediaPipe. When adding lessons within an existing section, renumber carefully to avoid breaking cross-references.
-15. **The `make.bat` Windows build script** automatically runs `git submodule update --init --remote` before building. The `Makefile` does not — when using `make html` on Linux/macOS, ensure the submodule is up to date manually if needed.
+8. **Les blocs de code** (Python, bash, shell) ne sont jamais traduits. Les chaînes de commande et les chemins de fichiers restent tels quels.
+9. **Les répertoires `_static` et `_templates`** contiennent des ressources personnalisées. Les modifications ici affectent l'apparence et le comportement globaux du site publié sur toutes les pages.
+10. **La sortie de compilation** va dans `docs/build/` et est gitignorée — ne jamais commiter les artefacts de compilation.
+11. **Les images** sont toutes sous `docs/source/img/`. Lors de l'ajout de nouvelles images, placez-les là (organisées par sous-répertoire de chapitre) et référencez-les avec des chemins relatifs.
+12. **Le sous-module `_shared`** contient du contenu inter-produits (références de composants, annexe, guides de démarrage Pi). Les modifications de ces fichiers doivent passer par le dépôt `sf-shared`, et ne pas être éditées directement ici.
+13. **Le script `show`** à la racine du dépôt est un utilitaire d'affichage de licence GPL — il est en syntaxe Python 2 et doit être considéré comme hérité.
+14. **La numérotation des fichiers de leçon** suit un schéma cohérent : `X.Y_` pour les leçons Python (où X = section, Y = leçon dans la section), `cv_N_` pour OpenCV, `mp_N_` pour MediaPipe. Lors de l'ajout de leçons dans une section existante, renumérotez soigneusement pour éviter de casser les références croisées.
+15. **Le script de compilation Windows `make.bat`** exécute automatiquement `git submodule update --init --remote` avant la compilation. Le `Makefile` ne le fait pas — lorsque vous utilisez `make html` sur Linux/macOS, assurez-vous que le sous-module est à jour manuellement si nécessaire.

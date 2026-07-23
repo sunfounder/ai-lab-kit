@@ -4,38 +4,38 @@
    
 .. _py_hue_knob:
 
-4.10 Hue Knob
-==============================
+4.10 Potard de teinte
+=============================
 
 **Introduction**
 
-In this lesson, you will build a **Hue Knob** — an interactive color controller that uses a rotary encoder to adjust the hue of a circular WS2812 LED module.  
-This WS2812 LED module contains 12 individually addressable WS2812 RGB LEDs, driven through the Fusion HAT+’s SPI-based NeoPixel interface.  
-The external rotary encoder provides real-time user input via standard GPIO pins.
+Dans cette lecon, vous allez construire un **Potard de teinte** — un controleur de couleur interactif qui utilise un encodeur rotatif pour regler la teinte d’un module LED circulaire WS2812.
+Ce module LED WS2812 contient 12 LEDs RGB WS2812 individuellement adressables, pilotes via l’interface NeoPixel basee sur SPI du Fusion HAT+.
+L’encodeur rotatif externe fournit une entree utilisateur en temps reel via les broches GPIO standard.
 
-As you rotate the encoder, the 12 LEDs smoothly cycle through the full RGB color spectrum.  
-Pressing the encoder’s built-in button resets the hue back to the starting value.  
+En tournant l’encodeur, les 12 LEDs parcourent en douceur tout le spectre de couleurs RVB.
+Appuyer sur le bouton integre de l’encodeur reinitialise la teinte a la valeur de depart.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-The following components are required for this project:
+Les composants suivants sont necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - PRESENTATION DU COMPOSANT
+        - LIEN D’ACHAT
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_rotary_encoder`
-        - |link_rotary_encoder_buy| 
+        - |link_rotary_encoder_buy|
     *   - :ref:`cpn_circular_ws2812_module`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -43,9 +43,9 @@ The following components are required for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Refer to the wiring diagram for assembling the components:
+Reportez-vous au schema de cablage pour assembler les composants :
 
 
 .. image:: img/fzz/4.10_hub_color_bb.png
@@ -55,44 +55,44 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Etapes de configuration**
 
-#. Before running the code, you need to install the required library:
+#. Avant d’executer le code, vous devez installer la bibliotheque requise :
 
-   This library provides the necessary functions to control NeoPixel LEDs using SPI communication.
+   Cette bibliotheque fournit les fonctions necessaires pour controler les LEDs NeoPixel via la communication SPI.
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-   
+
       sudo pip3 install adafruit-circuitpython-neopixel-spi --break
 
-#. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
+#. Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``. Suivez ces etapes pour executer l’exemple :
 
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-      
+
       cd ~/ai-lab-kit/python/
       sudo python3 4.10_Hue_Knob.py
 
-#. When the script runs, the WS2812 module ring responds to the rotary encoder:
+#. Lorsque le script s’execute, l’anneau du module WS2812 repond a l’encodeur rotatif :
 
-   * LEDs start in red (Hue 0°).
-   * Rotate the encoder to smoothly cycle through the full RGB color wheel. Colors transition continuously (red → yellow → green → blue → purple → red). The terminal prints the current hue and RGB values.* 
-   * Press the encoder button to reset the hue back to 0° (red).
-   * Press Ctrl+C to exit. All LEDs turn off before the program closes.
+   * Les LEDs commencent en rouge (Teinte 0°).
+   * Tournez l’encodeur pour parcourir en douceur toute la roue chromatique RVB. Les couleurs transitionnent en continu (rouge → jaune → vert → bleu → violet → rouge). Le terminal affiche la teinte actuelle et les valeurs RVB.
+   * Appuyez sur le bouton de l’encodeur pour reinitialiser la teinte a 0° (rouge).
+   * Appuyez sur Ctrl+C pour quitter. Toutes les LEDs s’eteignent avant la fermeture du programme.
 
 ----------------------------------------------
 
 **Code**
 
-Here is the Python script for the traffic light simulation:
+Voici le script Python pour la simulation de feux de circulation :
 
 .. raw:: html
 
@@ -202,124 +202,124 @@ Here is the Python script for the traffic light simulation:
 
 -------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **NeoPixel Initialization**
+1. **Initialisation NeoPixel**
 
-   - The script uses SPI to control a NeoPixel LED ring/strip (``LED_COUNT = 12``).
-   - ``auto_write=False`` is enabled so the LEDs update only when ``strip.show()`` is called, which prevents flicker and improves performance.
-   - The LEDs are cleared at startup using ``strip.fill(0)`` and ``strip.show()``.
+   - Le script utilise SPI pour controler un anneau/bandeau de LEDs NeoPixel (``LED_COUNT = 12``).
+   - ``auto_write=False`` est active pour que les LEDs se mettent a jour uniquement lorsque ``strip.show()`` est appele, ce qui evite le scintillement et ameliore les performances.
+   - Les LEDs sont effacees au demarrage en utilisant ``strip.fill(0)`` et ``strip.show()``.
 
-2. **Rotary Encoder Hardware Setup**
+2. **Configuration materielle de l'encodeur rotatif**
 
-   - Three GPIO pins are used:
-     - ``CLK_PIN`` and ``DT_PIN`` provide the quadrature signals for rotation direction and steps.
-     - ``SW_PIN`` is the encoder button input.
-   - All pins use internal pull-ups (``Pull.UP``), and the button is **active LOW** (pressed = ``0``).
+   - Trois broches GPIO sont utilisees :
+     - ``CLK_PIN`` et ``DT_PIN`` fournissent les signaux en quadrature pour la direction et les pas de rotation.
+     - ``SW_PIN`` est l'entree du bouton de l'encodeur.
+   - Toutes les broches utilisent des resistances de tirage internes (``Pull.UP``), et le bouton est **actif a LOW** (presse = ``0``).
 
-3. **Key Parameters (Tuning Behavior)**
+3. **Parametres cles (reglage du comportement)**
 
-   - ``DETENTS_PER_CYCLE`` defines how many physical “clicks” are needed to complete a full hue rotation (0–360°).
-     - A larger value gives finer color control.
-   - ``TRANSITIONS_PER_DETENT`` converts raw quadrature transitions into “one detent = one count”.
-     - Many encoders output 2 transitions per detent, but some produce 4. Adjusting this value improves accuracy.
+   - ``DETENTS_PER_CYCLE`` definit le nombre de “clics” physiques necessaires pour effectuer une rotation complete de la teinte (0–360°).
+     - Une valeur plus grande donne un controle plus fin des couleurs.
+   - ``TRANSITIONS_PER_DETENT`` convertit les transitions brutes en quadrature en “un cran = un comptage”.
+     - De nombreux encodeurs produisent 2 transitions par cran, mais certains en produisent 4. Ajuster cette valeur ameliore la precision.
 
 4. ``hue_to_rgb()``
 
-   - Converts a hue value in the range ``0.0 ~ 1.0`` into an RGB tuple ``(R, G, B)`` with values ``0 ~ 255``.
-   - This makes it easy to generate smooth color changes using the HSV color model.
+   - Convertit une valeur de teinte dans la plage ``0.0 ~ 1.0`` en un tuple RVB ``(R, G, B)`` avec des valeurs ``0 ~ 255``.
+   - Cela permet de generer facilement des changements de couleur fluides en utilisant le modele de couleur HSV.
 
-5. ``apply_color_from_detent()`` 
+5. ``apply_color_from_detent()``
 
-   - Maps the encoder detent count to a hue index using modulo:
+   - Mappe le compte de crans de l'encodeur a un index de teinte en utilisant le modulo :
      - ``hue_idx = detent % DETENTS_PER_CYCLE``
-   - Converts the hue into an RGB color and updates all LEDs with ``strip.fill(color)`` followed by ``strip.show()``.
-   - Uses ``last_hue_idx`` to avoid refreshing the LEDs when the calculated hue does not change, which reduces unnecessary updates.
-   - Prints the current hue angle, detent value, and RGB color for debugging/feedback.
+   - Convertit la teinte en couleur RVB et met a jour toutes les LEDs avec ``strip.fill(color)`` suivi de ``strip.show()``.
+   - Utilise ``last_hue_idx`` pour eviter de rafraichir les LEDs lorsque la teinte calculee ne change pas, ce qui reduit les mises a jour inutiles.
+   - Affiche l'angle de teinte actuel, la valeur du cran et la couleur RVB pour le debogage/feedback.
 
 6. ``reset_all()``
 
-   - Resets the internal counter state:
-     - ``raw`` (raw transition count)
-     - ``last_detent`` (last displayed detent)
-     - ``last_hue_idx`` (last displayed hue index)
-   - Calls ``apply_color_from_detent(0)`` to immediately restore the LEDs to the starting color (Hue = 0°).
+   - Reinitialise l'etat du compteur interne :
+     - ``raw`` (nombre de transitions brutes)
+     - ``last_detent`` (dernier cran affiche)
+     - ``last_hue_idx`` (dernier index de teinte affiche)
+   - Appelle ``apply_color_from_detent(0)`` pour restaurer immediatement les LEDs a la couleur de depart (Teinte = 0°).
 
-7. **Main Loop (Polling + Direction Detection)**
+7. **Boucle principale (interrogation + detection de direction)**
 
-   - The program polls ``CLK`` continuously and checks for changes:
-     - If ``CLK`` changes, the encoder moved one step in the quadrature sequence.
-   - Direction is determined by comparing DT to CLK:
-     - ``dt.value() != c`` means one rotation direction (increment)
-     - otherwise decrement
-   - The raw transition count is converted into detents:
+   - Le programme interroge ``CLK`` en continu et verifie les changements :
+     - Si ``CLK`` change, l'encodeur a avance d'un pas dans la sequence en quadrature.
+   - La direction est determinee en comparant DT a CLK :
+     - ``dt.value() != c`` signifie une direction de rotation (incrementation)
+     - sinon decrementation
+   - Le nombre de transitions brutes est converti en crans :
      - ``detent = raw // TRANSITIONS_PER_DETENT``
-   - The LED color is updated only when the detent value changes.
+   - La couleur des LEDs est mise a jour uniquement lorsque la valeur du cran change.
 
-8. **Button Reset and Debounce**
+8. **Reinitialisation du bouton et anti-rebond**
 
-   - When the button is pressed (``sw.value() == 0``), the program calls ``reset_all()``.
-   - A short debounce delay is applied, and the script waits until the button is released to prevent multiple resets from a single press.
+   - Lorsque le bouton est presse (``sw.value() == 0``), le programme appelle ``reset_all()``.
+   - Un court delai anti-rebond est applique et le script attend que le bouton soit relache pour empecher plusieurs reinitialisations a partir d'une seule pression.
 
-9. **Clean Exit**
+9. **Sortie propre**
 
-   - Pressing ``Ctrl + C`` exits the program.
-   - In the ``finally`` block, all LEDs are turned off (``strip.fill(0)`` and ``strip.show()``) so the hardware is left in a safe state.
+   - Appuyer sur ``Ctrl + C`` quitte le programme.
+   - Dans le bloc ``finally``, toutes les LEDs sont eteintes (``strip.fill(0)`` et ``strip.show()``) pour laisser le materiel dans un etat sûr.
 
-**Troubleshooting**
+**Depannage**
 -------------------
 
-- **LEDs do not light up**
+- **Les LEDs ne s'allument pas**
 
-  - Check wiring to the WS2812 LED module.
-  - Ensure the Fusion HAT+ SPI NeoPixel interface is enabled.
-  - Make sure you are using a supported WS2812/WS2812B LED module.
+  - Verifiez le cablage du module LED WS2812.
+  - Assurez-vous que l'interface NeoPixel SPI du Fusion HAT+ est activee.
+  - Assurez-vous d'utiliser un module LED WS2812/WS2812B supporte.
 
-- **Colors change too quickly or too slowly**
+- **Les couleurs changent trop vite ou trop lentement**
 
-  - Adjust ``STEPS_PER_CYCLE`` to refine or increase sensitivity.
+  - Ajustez ``STEPS_PER_CYCLE`` pour affiner ou augmenter la sensibilite.
 
-- **Button press does not reset hue**
+- **L'appui sur le bouton ne reinitialise pas la teinte**
 
-  - Verify SW is connected to GPIO27.
-  - Ensure the pin is configured with ``pull=Pin.PULL_UP``.
+  - Verifiez que SW est connecte a la GPIO27.
+  - Assurez-vous que la broche est configuree avec ``pull=Pin.PULL_UP``.
 
-- **Script exits immediately**
+- **Le script se termine immediatement**
 
-  - Confirm ``pause()`` is imported from ``signal``.
-  - Make sure no other process is using SPI.
+  - Confirmez que ``pause()`` est importee depuis ``signal``.
+  - Assurez-vous qu'aucun autre processus n'utilise le SPI.
 
 
-**Try It Yourself**
+**Essayez par vous-meme**
 -------------------
 
-Want to extend this project further? Try these ideas:
+Vous voulez etendre ce projet davantage ? Essayez ces idees :
 
-1. **Add Brightness Control**  
+1. **Ajouter le controle de luminosite**
 
-   Use another variable (e.g., encoder press + rotation) to adjust LED brightness from 0–255.
+   Utilisez une autre variable (par exemple, pression de l'encodeur + rotation) pour regler la luminosite des LEDs de 0 a 255.
 
-2. **Add Multiple Display Modes**  
+2. **Ajouter plusieurs modes d'affichage**
 
-   Press the encoder to cycle through modes:
+   Appuyez sur l'encodeur pour parcourir les modes :
 
-   - Solid color (default)
-   - Rainbow animation
-   - Breathing effect
-   - Color wipe
+   - Couleur unie (par defaut)
+   - Animation arc-en-ciel
+   - Effet de respiration
+   - Balayage de couleur
 
-3. **Add a Power Toggle**  
+3. **Ajouter une bascule d'alimentation**
 
-   Long-press the encoder button to turn the LED ring on/off.
+   Appuyez longuement sur le bouton de l'encodeur pour allumer/eteindre l'anneau de LEDs.
 
-4. **Make Hue Change Smoother**  
+4. **Rendre le changement de teinte plus fluide**
 
-   Increase ``STEPS_PER_CYCLE`` or add interpolation for buttery-smooth transitions.
+   Augmentez ``STEPS_PER_CYCLE`` ou ajoutez une interpolation pour des transitions parfaitement lisses.
 
-5. **Show Direction Feedback**  
+5. **Afficher le retour de direction**
 
-   Glow one LED green when rotating clockwise, red when counterclockwise.
+   Faites briller une LED en vert lors d'une rotation horaire, en rouge lors d'une rotation antihoraire.
 
-These small extensions turn the simple “Hue Knob” into a versatile RGB control interface.
+Ces petites extensions transforment le simple “Potard de teinte” en une interface de controle RVB polyvalente.
 
 

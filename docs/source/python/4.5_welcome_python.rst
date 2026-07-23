@@ -5,27 +5,27 @@
 .. _py_fun_welcome:
 
 
-4.5 Welcome
-==============================
+4.5 Bienvenue
+=====================
 
 **Introduction**
 
-Have you ever noticed the automatic doors in convenience stores that open with a welcoming chime when someone approaches? This project replicates that functionality on a smaller scale. Using a PIR sensor, servo motor, LED, and buzzer, you’ll create a miniature "automatic door" system. When motion is detected, the system lights an LED, "opens" the door using a servo, and plays a welcoming chime with a buzzer.
+Avez-vous deja remarque les portes automatiques dans les magasins qui s’ouvrent avec une sonnerie d’accueil lorsqu’une personne s’approche ? Ce projet reproduit cette fonctionnalite a plus petite echelle. A l’aide d’un capteur PIR, d’un servomoteur, d’une LED et d’un buzzer, vous allez creer un systeme miniature de "porte automatique". Lorsqu’un mouvement est detecte, le systeme allume une LED, "ouvre" la porte a l’aide d’un servomoteur et joue une sonnerie d’accueil avec un buzzer.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-Below are the components required for this project:
+Voici les composants necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - PRESENTATION DU COMPOSANT
+        - LIEN D’ACHAT
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -42,7 +42,7 @@ Below are the components required for this project:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -52,9 +52,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schema de circuit**
 
-Below is the circuit diagram for this project:
+Voici le schema de circuit pour ce projet :
 
 .. image:: img/fzz/4.1.5_sch.png
    :width: 100%
@@ -65,9 +65,9 @@ Below is the circuit diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Follow the wiring diagram to assemble the circuit:
+Suivez le schema de cablage pour assembler le circuit :
 
 
 .. image:: img/fzz/4.1.5_bb.png
@@ -77,7 +77,7 @@ Follow the wiring diagram to assemble the circuit:
 
 .. note::
 
-   Adjust the potentiometers on the PIR sensor module for optimal sensitivity and detection range. Rotate both potentiometers fully counterclockwise for best performance.
+   Reglez les potentiometres du capteur PIR pour une sensibilite et une portee de detection optimales. Tournez les deux potentiometres completement dans le sens antihoraire pour de meilleures performances.
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 300
@@ -86,11 +86,11 @@ Follow the wiring diagram to assemble the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Execution de l’exemple**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l’exemple :
 
 
 .. raw:: html
@@ -98,7 +98,7 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.5_Welcome.py
 
@@ -194,97 +194,97 @@ Below is the Python script for the project:
       buzPin.off()
       ledPin.off()
 
-This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer to create an automated welcoming system. When executed:
+Ce script Python integre un capteur de mouvement PIR, un servomoteur, une LED et un buzzer pour creer un systeme d'accueil automatise. Lors de l'execution :
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO pin 22 detects motion.
+1. **Detection de mouvement** : Un capteur de mouvement PIR connecte a la broche GPIO 22 detecte le mouvement.
 
-2. **Door Automation**: When motion is detected:
+2. **Automatisation de la porte** : Lorsqu'un mouvement est detecte :
 
-     - The servo motor (on PWM 4) opens a door by moving from 0° to 180°.
-     - The LED (on GPIO pin 17) turns on.
-     - A welcoming chime is played through the buzzer (on PWM 0).
-     - The servo motor closes the door by moving back from 180° to 0°.
-     - The LED turns off.
+     - Le servomoteur (sur PWM 4) ouvre une porte en passant de 0° a 180°.
+     - La LED (sur la broche GPIO 17) s'allume.
+     - Une sonnerie d'accueil est jouee via le buzzer (sur PWM 0).
+     - Le servomoteur ferme la porte en revenant de 180° a 0°.
+     - La LED s'eteint.
 
-3. **Continuous Monitoring**: The system continuously monitors for motion and triggers the above sequence whenever motion is detected.
+3. **Surveillance continue** : Le systeme surveille en permanence les mouvements et declenche la sequence ci-dessus chaque fois qu'un mouvement est detecte.
 
-4. **Graceful Exit**: On ``Ctrl+C``, the buzzer and LED are turned off, and the script exits cleanly.
-
-
-----------------------------------------------
-
-**Understanding the Code**
-
-1. **Motion Detection:** The PIR sensor detects motion and triggers the system.
-
-2. **Servo Control:** The servo motor opens and closes the door using angles from 0° to 180°.
-
-3. **Buzzer Melody:** A welcoming tune is played using the ``Buzzer``.
-
-4. **Reset:** After the chime, the system closes the door and turns off the LED, ready for the next event.
-
+4. **Sortie propre** : Sur ``Ctrl+C``, le buzzer et la LED sont eteints et le script se termine correctement.
 
 
 ----------------------------------------------
 
+**Comprendre le code**
 
-**Troubleshooting**
+1. **Detection de mouvement :** Le capteur PIR detecte le mouvement et declenche le systeme.
 
-1. **Motion Not Detected**:
+2. **Controle du servomoteur :** Le servomoteur ouvre et ferme la porte en utilisant des angles de 0° a 180°.
 
-   - **Cause**: PIR sensor not wired correctly or environmental interference.
-   - **Solution**:
+3. **Melodie du buzzer :** Un air d'accueil est joue a l'aide du ``Buzzer``.
 
-     - Ensure the PIR sensor is connected to GPIO pin 22, power, and ground.
-     - Adjust the sensor's sensitivity and delay potentiometers if available.
+4. **Reinitialisation :** Apres la sonnerie, le systeme ferme la porte et eteint la LED, pret pour l'evenement suivant.
 
-2. **Servo Not Moving**:
 
-   - **Cause**: Incorrect servo configuration or power supply issues.
-   - **Solution**:
-
-     - Verify the servo is connected to P4 and powered correctly.
-
-3. **Chime Not Playing**:
-
-   - **Cause**: Buzzer misconfiguration or incorrect tune format.
-   - **Solution**:
-
-     - Ensure the buzzer is connected to P0.
-     - Verify the ``tune`` list contains valid note and duration pairs.
-
-4. **LED Not Turning On**:
-
-   - **Cause**: LED wiring or GPIO configuration issues.
-   - **Solution**: Verify the LED is connected to GPIO pin 17 with an appropriate resistor.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Depannage**
 
-1. **Adjustable Chime**: Add more melodies or allow the user to select different chimes for different events.
+1. **Mouvement non detecte** :
 
-2. **Time-Based Operation**: Disable the system during specific hours (e.g., at night):
+   - **Cause :** Capteur PIR mal branche ou interference environnementale.
+   - **Solution :**
+
+     - Assurez-vous que le capteur PIR est connecte a la broche GPIO 22, a l'alimentation et a la masse.
+     - Ajustez les potentiometres de sensibilite et de delai du capteur si disponibles.
+
+2. **Le servo ne bouge pas** :
+
+   - **Cause :** Configuration incorrecte du servomoteur ou probleme d'alimentation.
+   - **Solution :**
+
+     - Verifiez que le servomoteur est connecte a P4 et alimente correctement.
+
+3. **La sonnerie ne joue pas** :
+
+   - **Cause :** Mauvaise configuration du buzzer ou format de melodie incorrect.
+   - **Solution :**
+
+     - Assurez-vous que le buzzer est connecte a P0.
+     - Verifiez que la liste ``tune`` contient des paires note/duree valides.
+
+4. **La LED ne s'allume pas** :
+
+   - **Cause :** Problemes de cablage de la LED ou de configuration GPIO.
+   - **Solution :** Verifiez que la LED est connectee a la broche GPIO 17 avec une resistance appropriee.
+
+----------------------------------------------
+
+
+**Idees d'extension**
+
+1. **Sonnerie reglable** : Ajoutez plus de melodies ou permettez a l'utilisateur de choisir differentes sonneries pour differents evenements.
+
+2. **Fonctionnement horaire** : Desactivez le systeme a des heures specifiques (par exemple, la nuit) :
 
      .. code-block:: python
 
          from datetime import datetime
-         if 8 <= datetime.now().hour < 22:  # Operate only between 8 AM and 10 PM
+         if 8 <= datetime.now().hour < 22:  # Fonctionne seulement entre 8h et 22h
              opendoor()
 
-3. **Data Logging**: Log motion detection events and timestamps to a file for analysis:
+3. **Journalisation des donnees** : Enregistrez les evenements de detection de mouvement et les horodatages dans un fichier pour analyse :
 
      .. code-block:: python
 
          with open("motion_log.txt", "a") as log_file:
              log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - Motion detected\n")
 
-4. **Voice Greetings**: Replace the buzzer chime with pre-recorded voice messages using a speaker.
+4. **Messages vocaux** : Remplacez la sonnerie du buzzer par des messages vocaux pre-enregistres utilisant un haut-parleur.
 
 ----------------------------------------------
 
 
 **Conclusion**
 
-This project replicates the functionality of automatic doors in a fun and educational way. It introduces concepts like motion detection, servo control, and sound generation, making it a great entry point for IoT and automation projects. Try expanding it by adding features like remote notifications or cloud integration for real-time monitoring.
+Ce projet reproduit la fonctionnalite des portes automatiques de maniere ludique et educative. Il introduit des concepts comme la detection de mouvement, le controle de servomoteur et la generation sonore, ce qui en fait un excellent point d'entree pour les projets IoT et d'automatisation. Essayez de l'etendre en ajoutant des fonctionnalites comme les notifications a distance ou l'integration cloud pour une surveillance en temps reel.

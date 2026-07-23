@@ -4,94 +4,94 @@
 
 .. _py_photograph:
 
-3.1 Photograph Module
-==========================
+3.1 Module Photographie
+==============================
 
 **Introduction**
 
-This project introduces you to using the Raspberry Pi camera module to capture a photograph. The camera module can take high-quality still images and videos, making it a versatile tool for projects ranging from photography to computer vision.
+Ce projet vous initie a l’utilisation du module camera Raspberry Pi pour prendre une photographie. Le module camera peut capturer des images fixes et des videos de haute qualite, ce qui en fait un outil polyvalent pour des projets allant de la photographie a la vision par ordinateur.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-Below are the components required for this project:
+Voici les composants necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    * - COMPONENT INTRODUCTION
-      - PURCHASE LINK
+    * - PRESENTATION DU COMPOSANT
+      - LIEN D’ACHAT
 
     * - :ref:`cpn_camera_module`
       - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Experimental Procedures**
+**Procedures experimentales**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. Pour utiliser le module camera facilement, il est recommande de :ref:`assemble_fusion_hat_pan_tilt`.
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     L’assemblage du support orientable peut masquer certaines broches, il est donc recommande de l’assembler uniquement lors de l’utilisation de la camera, ou de le placer a l’exterieur apres assemblage.
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. Accedez au bureau Raspberry Pi :
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop` : Utilisez **VNC** pour une experience de bureau complete.
+   * |link_rpi_connect| : Utilisez **Raspberry Pi Connect** pour acceder a votre Pi en toute securite depuis n’importe quel navigateur.
 
-#. Open a Terminal and go to the code folder:
+#. Ouvrez un terminal et rendez-vous dans le dossier des codes :
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
-#. Run the script to start the camera:
+#. Executez le script pour demarrer la camera :
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       sudo python3 3.1_Photograph.py
 
-#. After the script starts, press the **Fusion HAT+ USR button** to take photos.
+#. Apres le demarrage du script, appuyez sur le **bouton USR du Fusion HAT+** pour prendre des photos.
 
    .. image:: img/3.1_user_button.png
       :width: 50%
 
-   * Each press captures a picture.
-   * Photos are saved in ``~/user/Pictures`` as ``my_photo.jpg``.
-   * Press ``Ctrl+C`` to stop the script.
+   * Chaque pression capture une image.
+   * Les photos sont enregistrees dans ``~/user/Pictures`` sous le nom ``my_photo.jpg``.
+   * Appuyez sur ``Ctrl+C`` pour arreter le script.
 
    .. image:: img/3.1_take_photo.jpg
       :width: 70%
 
 .. note::
-   QT preview requires a desktop environment.
-   If the preview cannot be started (for example, over SSH),
-   the camera can still capture and save photos normally.
+   L’apercu QT necessite un environnement de bureau.
+   Si l’apercu ne peut pas etre lance (par exemple, via SSH),
+   la camera peut toujours capturer et enregistrer des photos normalement.
 
 ----------------------------------------------
 
 
 **Code**
 
-Below is the Python code used for this project:
+Voici le code Python utilise pour ce projet :
 
 .. raw:: html
 
@@ -145,9 +145,9 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Imports and Purpose**
+1. **Importations et objectif**
 
    .. code-block:: python
 
@@ -155,15 +155,15 @@ Below is the Python code used for this project:
       from picamera2 import Picamera2, Preview
       from fusion_hat.user_button import UserButton
 
-   These modules provide:
-   
-   - ``os`` and ``pwd``: used to correctly locate the real user’s home directory,
-     even when the program is run with ``sudo``.
-   - ``time``: keeps the program running in a loop.
-   - ``Picamera2`` and ``Preview``: control the Raspberry Pi camera and preview modes.
-   - ``UserButton``: reads the Fusion HAT+ USR button.
+   Ces modules fournissent :
 
-2. **Resolving the Save Path**
+   - ``os`` et ``pwd`` : utilises pour localiser correctement le repertoire personnel de l’utilisateur reel,
+     meme lorsque le programme est execute avec ``sudo``.
+   - ``time`` : maintient le programme en execution dans une boucle.
+   - ``Picamera2`` et ``Preview`` : controlent la camera Raspberry Pi et les modes d’apercu.
+   - ``UserButton`` : lit le bouton USR du Fusion HAT+.
+
+2. **Resolution du chemin de sauvegarde**
 
    .. code-block:: python
 
@@ -172,25 +172,25 @@ Below is the Python code used for this project:
       os.makedirs(f"{home}/Pictures", exist_ok=True)
       photo = f"{home}/Pictures/my_photo.jpg"
 
-   This section determines where photos are saved:
+   Cette section determine ou les photos sont enregistrees :
 
-   - If the script is run with ``sudo``, ``SUDO_USER`` is used to find the
-     original user’s home directory.
-   - Otherwise, the current user’s home directory is used.
-   - A ``Pictures`` folder is created if it does not already exist.
-   - All photos are saved as ``my_photo.jpg`` (each new photo overwrites the last).
+   - Si le script est execute avec ``sudo``, ``SUDO_USER`` est utilise pour trouver le
+     repertoire personnel de l’utilisateur d’origine.
+   - Sinon, le repertoire personnel de l’utilisateur actuel est utilise.
+   - Un dossier ``Pictures`` est cree s’il n’existe pas deja.
+   - Toutes les photos sont enregistrees sous ``my_photo.jpg`` (chaque nouvelle photo ecrase la precedente).
 
-3. **Camera Initialization**
+3. **Initialisation de la camera**
 
    .. code-block:: python
 
       camera = Picamera2()
       camera.configure(camera.create_preview_configuration())
 
-   The camera object is created and configured with a default preview setup.
-   This configuration works both with and without a visible preview window.
+   L’objet camera est cree et configure avec une configuration d’apercu par defaut.
+   Cette configuration fonctionne avec ou sans fenetre d’apercu visible.
 
-4. **Photo Capture Function**
+4. **Fonction de capture photo**
 
    .. code-block:: python
 
@@ -198,20 +198,20 @@ Below is the Python code used for this project:
           camera.capture_file(photo)
           print(f"Saved: {photo}")
 
-   This function is called whenever the USR button is pressed.
-   It captures a photo and saves it to the predefined path, then prints
-   the save location.
+   Cette fonction est appelee chaque fois que le bouton USR est presse.
+   Elle capture une photo et l’enregistre dans le chemin predefini, puis affiche
+   l’emplacement de sauvegarde.
 
-5. **USR Button Binding**
+5. **Liaison du bouton USR**
 
    .. code-block:: python
 
       UserButton().set_on_click(shot)
 
-   The Fusion HAT+ USR button is linked to the ``shot`` function.
-   Each button press triggers a photo capture.
+   Le bouton USR du Fusion HAT+ est lie a la fonction ``shot``.
+   Chaque pression sur le bouton declenche une capture photo.
 
-6. **Conditional Preview Start**
+6. **Demarrage conditionnel de l’apercu**
 
    .. code-block:: python
 
@@ -223,12 +223,12 @@ Below is the Python code used for this project:
           except Exception as e:
               print(f"Preview disabled: {e}")
 
-   - The program checks whether a graphical display is available.
-   - If a display exists, it attempts to start a QT preview window.
-   - If no display is available (for example, when running over SSH),
-     the preview is skipped without stopping the program.
+   - Le programme verifie si un affichage graphique est disponible.
+   - Si un affichage existe, il tente de demarrer une fenetre d’apercu QT.
+   - Si aucun affichage n’est disponible (par exemple, lors d’une connexion via SSH),
+     l’apercu est ignore sans arreter le programme.
 
-7. **Camera Start and Main Loop**
+7. **Demarrage de la camera et boucle principale**
 
    .. code-block:: python
 
@@ -239,10 +239,10 @@ Below is the Python code used for this project:
           while True:
               time.sleep(0.1)
 
-   The camera is started, and the program enters an infinite loop to
-   keep running and listening for button presses.
+   La camera est demarree et le programme entre dans une boucle infinie pour
+   rester actif et ecouter les pressions sur le bouton.
 
-8. **Clean Exit and Resource Cleanup**
+8. **Sortie propre et nettoyage des ressources**
 
    .. code-block:: python
 
@@ -257,43 +257,43 @@ Below is the Python code used for this project:
           try: camera.close()
           except: pass
 
-   When ``Ctrl+C`` is pressed:
+   Lorsque ``Ctrl+C`` est presse :
 
-   - The camera is stopped.
-   - The preview is stopped only if it was successfully started.
-   - The camera resources are released cleanly.
+   - La camera est arretee.
+   - L’apercu est arrete seulement s’il a ete demarre avec succes.
+   - Les ressources de la camera sont liberees proprement.
 
-   This ensures the program exits without error messages, regardless of
-   whether a preview window was used.
+   Cela garantit que le programme se termine sans messages d’erreur, independamment
+   de l’utilisation ou non d’une fenetre d’apercu.
 
 -------------------------
 
-**Troubleshooting**
+**Depannage**
 
 
-1. **No Preview Window**
+1. **Pas de fenetre d’apercu**
 
-   - **Cause:** Camera not enabled, missing display, or Picamera2 not installed.
-   - **Fix:** Run on a system with a display (not pure SSH), and test Picamera2 with a simple script.
+   - **Cause :** Camera non activee, affichage manquant ou Picamera2 non installe.
+   - **Solution :** Executez sur un systeme avec un affichage (pas uniquement SSH) et testez Picamera2 avec un script simple.
 
-2. **USR Button Not Working**
+2. **Le bouton USR ne fonctionne pas**
 
-   - **Cause:** Fusion HAT+ not seated correctly, button not detected, or wrong photo folder checked.
-   - **Fix:** Reconnect HAT, run script with ``sudo``, and check photos under ``~/Pictures``.
+   - **Cause :** Fusion HAT+ mal insere, bouton non detecte ou mauvais dossier de photos consulte.
+   - **Solution :** Reconnectez le HAT, executez le script avec ``sudo`` et verifiez les photos dans ``~/Pictures``.
 
-3. **Photos Saved to Wrong Location**
+3. **Photos enregistrees au mauvais endroit**
 
-   - **Cause:** Running with ``sudo`` may confuse home directories.
-   - **Fix:** Script already handles this; print ``REAL_USER`` or ``PICTURES_DIR`` if unsure.
+   - **Cause :** L’execution avec ``sudo`` peut perturber les repertoires personnels.
+   - **Solution :** Le script gere deja cela ; imprimez ``REAL_USER`` ou ``PICTURES_DIR`` en cas de doute.
 
-4. **Preview Freezes**
+4. **L’apercu se fige**
 
-   - **Cause:** Camera in use by another app or low system resources.
-   - **Fix:** Close other apps, update the system, or reboot the Pi.
+   - **Cause :** Camera utilisee par une autre application ou ressources systeme insuffisantes.
+   - **Solution :** Fermez les autres applications, mettez a jour le systeme ou redemarrez le Pi.
 
 --------------
 
 **Conclusion**
 
-This script lets you capture photos using the Fusion HAT+ USR button and save them automatically to ``~/Pictures``.  
-The setup is ideal for simple camera projects and can be extended for timelapses, DIY camera builds, or classroom demos.
+Ce script vous permet de capturer des photos a l’aide du bouton USR du Fusion HAT+ et de les enregistrer automatiquement dans ``~/Pictures``.
+La configuration est ideale pour des projets de camera simples et peut etre etendue pour des timelapses, des constructions de camera DIY ou des demonstrations en classe.

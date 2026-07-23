@@ -4,29 +4,29 @@
 
 .. _play_with_opencv:
 
-Play with OpenCV (Computer Vision Basics)
-==================================================
+Jouer avec OpenCV (Les bases de la vision par ordinateur)
+==========================================================
 
-This mini-course is a hands-on introduction to computer vision with **OpenCV** in **Python**.  
-You’ll learn how to load and display images, work with video streams, access a Raspberry Pi camera, detect colors, track objects with MeanShift/CAMShift, extract edges with Canny, and run lightweight face/eye detection with Haar cascades.
+Ce mini-cours est une introduction pratique à la vision par ordinateur avec **OpenCV** en **Python**.
+Vous apprendrez à charger et afficher des images, travailler avec des flux vidéo, accéder à une caméra Raspberry Pi, détecter des couleurs, suivre des objets avec MeanShift/CAMShift, extraire des contours avec Canny, et exécuter une détection légère de visages/yeux avec les cascades Haar.
 
 .. note::
 
-   Most chapters include both **concept explanations** and a **complete code block**.  
-   Start each chapter by running the provided script, then tweak parameters (thresholds, kernel sizes, ROI) to see immediate effects.
+   La plupart des chapitres incluent à la fois des **explications conceptuelles** et un **bloc de code complet**.
+   Commencez chaque chapitre en exécutant le script fourni, puis modifiez les paramètres (seuils, tailles de noyau, ROI) pour observer les effets immédiats.
 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: Sommaire :
 
-   cv_0_setup.rst 
-   cv_1_imshow.rst 
-   cv_2_video.rst 
-   cv_3_camera.rst 
-   cv_4_color.rst 
-   cv_5_meanshift.rst 
-   cv_6_camshift.rst 
-   cv_7_canny.rst 
+   cv_0_setup.rst
+   cv_1_imshow.rst
+   cv_2_video.rst
+   cv_3_camera.rst
+   cv_4_color.rst
+   cv_5_meanshift.rst
+   cv_6_camshift.rst
+   cv_7_canny.rst
    cv_8_face.rst
    cv_9_color_track.rst

@@ -2,12 +2,12 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-6. Local Voice Chatbot
+6. Assistant vocal local
 ===========================
 
-In this lesson, you will combine everything you've learned — **speech recognition (STT)**,  
-**text-to-speech (TTS)**, and a **local LLM (Ollama)** — to build a fully offline **voice chatbot**  
-that runs on your Fusion HAT+.
+Dans cette lecon, vous allez combiner tout ce que vous avez appris — **la reconnaissance vocale (STT)**,
+**la synthese vocale (TTS)** et un **LLM local (Ollama)** — pour construire un **assistant vocal entierement hors ligne**
+qui fonctionne sur votre Fusion HAT+.
 
 .. raw:: html
 
@@ -16,61 +16,61 @@ that runs on your Fusion HAT+.
           Your browser does not support the video tag.
       </video>
 
-The workflow is simple:
+Le fonctionnement est simple :
 
-#. **Listen** — The microphone captures your speech and transcribes it with **Vosk**.  
-#. **Think** — The text is sent to a local **LLM** running on Ollama (e.g., ``llama3.2:3b``).  
-#. **Speak** — The chatbot answers aloud using **Piper TTS**.  
+#. **Ecouter** — Le microphone capture votre parole et la retranscrit avec **Vosk**.
+#. **Reflechir** — Le texte est envoye a un **LLM** local fonctionnant sur Ollama (par ex., ``llama3.2:3b``).
+#. **Parler** — L'assistant repond a voix haute en utilisant **Piper TTS**.
 
-This creates a **hands-free conversational robot** that can understand and respond in real time.
+Cela cree un **robot conversationnel mains libres** capable de comprendre et de repondre en temps reel.
 
 ----
 
-Before You Start
+Avant de commencer
 ----------------
 
-Make sure you have prepared the following:
+Assurez-vous d'avoir prepare les elements suivants :
 
-* Tested **Piper TTS** (:ref:`test_piper`) and chosen a working voice model.  
-* Tested **Vosk STT** (:ref:`test_vosk`) and chosen the right language pack (e.g., ``en-us``).  
-* Installed **Ollama** (:ref:`download_ollama`) on your Pi or another computer, and downloaded a model such as ``llama3.2:3b`` (or a smaller one like ``moondream:1.8b`` if memory is limited).
+* Teste **Piper TTS** (:ref:`test_piper`) et choisi un modele vocal fonctionnel.
+* Teste **Vosk STT** (:ref:`test_vosk`) et choisi le pack de langue adapte (par ex., ``en-us``).
+* Installe **Ollama** (:ref:`download_ollama`) sur votre Pi ou un autre ordinateur, et telecharge un modele comme ``llama3.2:3b`` (ou un plus petit comme ``moondream:1.8b`` si la memoire est limitee).
 
 ----
 
-Run the Code
+Executer le code
 --------------
 
-#. Open the example script:
+#. Ouvrez le script d'exemple :
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       sudo nano local_voice_chatbot.py
 
-#. Update the parameters as needed:
+#. Mettez a jour les parametres selon vos besoins :
 
-   * ``stt = Vosk(language="en-us")``: Change this to match your accent/language package (e.g., ``en-us``, ``zh-cn``, ``es``).  
-   * ``tts.set_model("en_US-amy-low")``: Replace with the Piper voice model you verified in :ref:`test_piper`.  
-   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``: Update both ``ip`` and ``model`` to your own setup.  
+   * ``stt = Vosk(language="en-us")`` : Modifiez ceci pour correspondre a votre accent/pack de langue (par ex., ``en-us``, ``fr``, ``es``).
+   * ``tts.set_model("en_US-amy-low")`` : Remplacez par le modele vocal Piper que vous avez verifie dans :ref:`test_piper`.
+   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")`` : Mettez a jour ``ip`` et ``model`` selon votre configuration.
 
-     * ``ip``: If Ollama runs on the **same Pi**, use ``localhost``. If Ollama runs on another computer in your LAN, enable **Expose to network** in Ollama and set ``ip`` to that computer’s LAN IP.  
-     * ``model``: Must exactly match the model name you downloaded/activated in Ollama.  
+     * ``ip`` : Si Ollama fonctionne sur le **meme Pi**, utilisez ``localhost``. Si Ollama fonctionne sur un autre ordinateur de votre LAN, activez **Expose to network** dans Ollama et definissez ``ip`` avec l'adresse IP LAN de cet ordinateur.
+     * ``model`` : Doit correspondre exactement au nom du modele que vous avez telecharge/active dans Ollama.
 
-#. Run the script:
+#. Executez le script :
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       sudo python3 local_voice_chatbot.py
 
-#. After running, you should see:
+#. Apres l'execution, vous devriez voir :
 
-   * The bot greets you with a spoken welcome message.  
-   * It waits for speech input.  
-   * Vosk transcribes your speech into text.  
-   * The text is sent to Ollama, which streams back a reply.  
-   * The reply is cleaned (removing hidden reasoning) and spoken aloud by Piper.  
-   * Stop the program anytime with ``Ctrl+C``.
+   * Le bot vous accueille avec un message de bienvenue parle.
+   * Il attend une entree vocale.
+   * Vosk retranscrit votre parole en texte.
+   * Le texte est envoye a Ollama, qui renvoie une reponse en continu.
+   * La reponse est nettoyee (suppression du raisonnement cache) et prononcee a voix haute par Piper.
+   * Arretez le programme a tout moment avec ``Ctrl+C``.
 
 ----
 
@@ -120,7 +120,7 @@ Code
 
        try:
            while True:
-               print("\n🎤 Listening... (Press Ctrl+C to stop)")
+               print("\n Listening... (Press Ctrl+C to stop)")
 
                # Collect final transcript from Vosk
                text = ""
@@ -165,10 +165,10 @@ Code
 
 ----
 
-Code Analysis
+Analyse du code
 -------------
 
-**Imports and global setup**
+**Imports et configuration globale**
 
 .. code-block:: python
 
@@ -178,35 +178,35 @@ Code Analysis
    from fusion_hat.stt import Vosk
    from fusion_hat.tts import Piper
 
-Brings in the three subsystems you built earlier:
-**Vosk** for speech-to-text (STT), **Ollama** for the LLM, and **Piper** for text-to-speech (TTS).
+Importe les trois sous-systemes que vous avez construits precedemment :
+**Vosk** pour la reconnaissance vocale (STT), **Ollama** pour le LLM, et **Piper** pour la synthese vocale (TTS).
 
 
 
-**Initialize STT (Vosk)**
+**Initialiser le STT (Vosk)**
 
 .. code-block:: python
 
    stt = Vosk(language="en-us")
 
-Loads the Vosk model for US English.  
-Change the language code (e.g., ``zh-cn``, ``es``) to match your voice pack for better accuracy.
+Charge le modele Vosk pour l'anglais americain.
+Changez le code de langue (par ex., ``fr``, ``es``) pour correspondre a votre pack vocal pour une meilleure precision.
 
 
 
-**Initialize TTS (Piper)**
+**Initialiser le TTS (Piper)**
 
 .. code-block:: python
 
    tts = Piper()
    tts.set_model("en_US-amy-low")
 
-Creates a Piper engine and selects a specific voice.  
-Pick a model you’ve tested in :ref:`test_piper`. Lower-quality voices are faster and use less CPU.
+Cree un moteur Piper et selectionne une voix specifique.
+Choisissez un modele que vous avez teste dans :ref:`test_piper`. Les voix de moindre qualite sont plus rapides et utilisent moins de CPU.
 
 
 
-**LLM instructions and welcome line**
+**Instructions LLM et message de bienvenue**
 
 .. code-block:: python
 
@@ -216,14 +216,14 @@ Pick a model you’ve tested in :ref:`test_piper`. Lower-quality voices are fast
    )
    WELCOME = "Hello! I'm your voice chatbot. Speak when you're ready."
 
-Two key UX choices:
+Deux choix UX cles :
 
-* Keep **answers short and direct** (helps with TTS clarity).
-* Explicitly forbid hidden “chain-of-thought” tags to reduce noisy outputs.
+* Gardez les **reponses courtes et directes** (aide a la clarte du TTS).
+* Interdisez explicitement les balises cachees de "chaine de pensee" pour reduire le bruit.
 
 
 
-**Connect to Ollama and set conversation scope**
+**Se connecter a Ollama et definir la portee de la conversation**
 
 .. code-block:: python
 
@@ -231,10 +231,10 @@ Two key UX choices:
    llm.set_max_messages(20)
    llm.set_instructions(INSTRUCTIONS)
 
-* ``ip="localhost"`` assumes the Ollama server runs on the same Pi. If it runs on another LAN machine, put that computer’s **LAN IP** and enable *Expose to network* in Ollama.
-* ``set_max_messages(20)`` keeps a short conversational history. Lower this if memory/latency is tight.
+* ``ip="localhost"`` suppose que le serveur Ollama fonctionne sur le meme Pi. S'il fonctionne sur une autre machine du LAN, mettez l'**IP LAN** de cet ordinateur et activez *Expose to network* dans Ollama.
+* ``set_max_messages(20)`` conserve un historique de conversation court. Reduisez-le si la memoire/la latence est limitee.
 
-**Strip hidden reasoning / tags before speaking**
+**Supprimer le raisonnement cache / les balises avant de parler**
 
 .. code-block:: python
 
@@ -247,25 +247,25 @@ Two key UX choices:
        text = re.sub(r"\[/?thinking\]", "", text, flags=re.IGNORECASE)
        return re.sub(r"\s+\n", "\n", text).strip()
 
-Some models may emit internal-style tags (e.g., ``<think>…``).  
-This function removes those so your TTS **only** speaks the final answer.
+Certains modeles peuvent emettre des balises internes (par ex., ``<think>...``).
+Cette fonction les supprime pour que votre TTS **ne prononce que** la reponse finale.
 
-**Tip:** If you see other artifacts on screen (because you stream raw tokens), this function already ensures **spoken** output stays clean.
+**Conseil :** Si vous voyez d'autres artefacts a l'ecran (parce que vous diffusez des jetons bruts), cette fonction garantit deja que la sortie **parlee** reste propre.
 
-**Main loop: greet once, then listen → think → speak**
+**Boucle principale : accueillir une fois, puis ecouter → reflechir → parler**
 
 .. code-block:: python
 
    print(WELCOME)
    tts.say(WELCOME)
 
-Greets the user via terminal and speaker. Happens once at startup.
+Accueille l'utilisateur via le terminal et le haut-parleur. Se produit une fois au demarrage.
 
-**Listen (streaming STT with live partials)**
+**Ecouter (STT en streaming avec resultats partiels en direct)**
 
 .. code-block:: python
 
-   print("\n🎤 Listening... (Press Ctrl+C to stop)")
+   print("\n Listening... (Press Ctrl+C to stop)")
 
    text = ""
    for result in stt.listen(stream=True):
@@ -275,10 +275,10 @@ Greets the user via terminal and speaker. Happens once at startup.
        else:
            print(f"[YOU] {result['partial']}", end="\r", flush=True)
 
-* ``stream=True`` yields **partial** transcripts for immediate feedback and a **final** transcript when the utterance ends.
-* The final recognized text is stored in ``text`` and printed once.
+* ``stream=True`` produit des transcriptions **partielles** pour un retour immediat et une transcription **finale** lorsque l'utterance se termine.
+* Le texte final reconnu est stocke dans ``text`` et affiche une fois.
 
-**Guard:** If nothing was recognized, you skip the LLM call:
+**Garde :** Si rien n'a ete reconnu, vous sautez l'appel LLM :
 
 .. code-block:: python
 
@@ -287,9 +287,9 @@ Greets the user via terminal and speaker. Happens once at startup.
        time.sleep(0.1)
        continue
 
-This avoids sending empty prompts to the model (saves time and tokens).
+Cela evite d'envoyer des invites vides au modele (economise du temps et des jetons).
 
-**Think (LLM) with streamed printing**
+**Reflechir (LLM) avec impression en continu**
 
 .. code-block:: python
 
@@ -301,12 +301,12 @@ This avoids sending empty prompts to the model (saves time and tokens).
            reply_accum += next_word
    print("")
 
-* Sends the final transcript to the local LLM and **prints tokens as they arrive** for low latency.
-* Meanwhile, you accumulate the full reply in ``reply_accum`` for post-processing.
+* Envoie la transcription finale au LLM local et **affiche les jetons au fur et a mesure** pour une faible latence.
+* Pendant ce temps, vous accumulez la reponse complete dans ``reply_accum`` pour le post-traitement.
 
-**Note:** If you’d rather **not** show raw tokens, set ``stream=False`` and just print the final string.
+**Remarque :** Si vous preferez **ne pas** afficher les jetons bruts, definissez ``stream=False`` et affichez simplement la chaine finale.
 
-**Speak (clean first, then TTS once)**
+**Parler (nettoyer d'abord, puis TTS une seule fois)**
 
 .. code-block:: python
 
@@ -316,11 +316,11 @@ This avoids sending empty prompts to the model (saves time and tokens).
    else:
        tts.say("Sorry, I didn't catch that.")
 
-* Cleans the final text to remove hidden tags, then **speaks exactly once**.  
-* Keeping TTS to a single pass avoids repeated prompts like “[LLM] / [SAY]”.
+* Nettoie le texte final pour supprimer les balises cachees, puis **parle exactement une fois**.
+* Garder le TTS a un seul passage evite les invites repetees comme "[LLM] / [SAY]".
 
 
-**Exit and teardown**
+**Sortie et arret**
 
 .. code-block:: python
 
@@ -330,34 +330,30 @@ This avoids sending empty prompts to the model (saves time and tokens).
        tts.say("Goodbye!")
        print("Bye.")
 
-Use **Ctrl+C** to stop. The bot says a short goodbye to signal a clean exit.
+Utilisez **Ctrl+C** pour arreter. Le bot dit un court aurevoir pour signaler un arret propre.
 
 
 ----
 
-Troubleshooting & FAQ
+Depannage et FAQ
 ---------------------
 
-* **Model is too large (memory error)**
+* **Le modele est trop volumineux (erreur memoire)**
 
-  Use a smaller model like ``moondream:1.8b`` or run Ollama on a more powerful computer.  
+  Utilisez un modele plus petit comme ``moondream:1.8b`` ou executez Ollama sur un ordinateur plus puissant.
 
-* **No response from Ollama**
+* **Pas de reponse d'Ollama**
 
-  Make sure Ollama is running (``ollama serve`` or desktop app open). If remote, enable **Expose to network** and check IP address.  
+  Assurez-vous qu'Ollama est en cours d'execution (``ollama serve`` ou application de bureau ouverte). Si a distance, activez **Expose to network** et verifiez l'adresse IP.
 
-* **Vosk not recognizing speech** 
+* **Vosk ne reconnait pas la parole**
 
-  Verify your microphone works. Try another language pack (``zh-cn``, ``es`` etc.) if needed.  
+  Verifiez que votre microphone fonctionne. Essayez un autre pack de langue (``fr``, ``es``, etc.) si necessaire.
 
-* **Piper silent or errors**  
+* **Piper silencieux ou erreurs**
 
-  Confirm the chosen voice model is downloaded and tested in :ref:`test_piper`.  
+  Confirmez que le modele vocal choisi est telecharge et teste dans :ref:`test_piper`.
 
-* **Answers too long or off-topic**
+* **Reponses trop longues ou hors sujet**
 
-  Edit ``INSTRUCTIONS`` to add: **“Keep answers short and to the point.”**  
-
-
-
-
+  Modifiez ``INSTRUCTIONS`` pour ajouter : **"Keep answers short and to the point."**

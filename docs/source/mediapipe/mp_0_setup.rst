@@ -4,69 +4,69 @@
 
 
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: Si vous utilisez l'image préinstallée "Raspberry Pi OS with AI Fusion Lab Kit", vous pouvez sauter cette section. Cette image inclut déjà toutes les installations logicielles, les configurations d'environnement et les déploiements de code d'exemple décrits dans ce chapitre.
 
 
 .. _mediapipe_install:
 
-0. Setup MediaPipe
-====================================================================
+0. Installer MediaPipe
+==========================================================================
 
-About the OS Version
+À propos de la Version du Système d'Exploitation
 -------------------------------
 
 .. warning::
 
-   **Recommended OS**: Raspberry Pi OS Bookworm (Debian 12, 64-bit)
+   **OS recommandé** : Raspberry Pi OS Bookworm (Debian 12, 64 bits)
 
-   Raspberry Pi OS Trixie (Debian 13) is not recommended because:
+   Raspberry Pi OS Trixie (Debian 13) n'est pas recommandé car :
 
-   * MediaPipe does not yet support Python 3.13.
-   * Picamera2 only works with the system Python.
+   * MediaPipe ne supporte pas encore Python 3.13.
+   * Picamera2 fonctionne uniquement avec le Python système.
 
-This tutorial will be updated once Trixie becomes supported.
+Ce tutoriel sera mis à jour dès que Trixie sera supporté.
 
-If you would like to request official MediaPipe support for Python 3.13, you can submit feedback here:
+Si vous souhaitez demander le support officiel de MediaPipe pour Python 3.13, vous pouvez soumettre un retour ici :
 
-* GitHub Issue: https://github.com/google-ai-edge/mediapipe/issues/5708
-* Support Page: https://ai.google.dev/edge/mediapipe/support
+* GitHub Issue : https://github.com/google-ai-edge/mediapipe/issues/5708
+* Page de support : https://ai.google.dev/edge/mediapipe/support
 
 
 
-Before You Start
+Avant de Commencer
 ----------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Avant de commencer, assurez-vous :
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Que le support motorisé est assemblé
+   * Que vous pouvez accéder au bureau du Raspberry Pi
+   * Que le package de code est installé
+   * Que Fusion HAT+ est installé et configuré
+   * Qu'OpenCV est installé
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Pour les instructions détaillées, voir :ref:`opencv_install`.
 
-These preparations ensure MediaPipe can run with full graphical and camera functionality on your Raspberry Pi.
+Ces préparations garantissent que MediaPipe peut fonctionner avec toutes les fonctionnalités graphiques et de la caméra sur votre Raspberry Pi.
 
 
-Installation Steps
+Étapes d'Installation
 ----------------------------------
 
-#. Install MediaPipe
+#. Installer MediaPipe
 
-   Install MediaPipe using pip. On Raspberry Pi OS Bookworm (Debian 12, 64-bit),
-   pip will download the correct wheel automatically.
+   Installez MediaPipe avec pip. Sur Raspberry Pi OS Bookworm (Debian 12, 64 bits),
+   pip téléchargera la wheel correcte automatiquement.
 
    .. code-block:: bash
 
       sudo pip install mediapipe --break-system-packages
 
-#. Verify the installation
+#. Vérifier l'installation
 
-   Run the following command to confirm that MediaPipe is installed correctly.
+   Exécutez la commande suivante pour confirmer que MediaPipe est installé correctement.
 
    .. code-block:: bash
 
@@ -75,54 +75,54 @@ Installation Steps
       print("MediaPipe version:", mp.__version__)
       EOF
 
-   Expected output:
+   Sortie attendue :
 
    .. code-block:: text
 
       MediaPipe version: 0.10.18
 
 
-Common Issues & Solutions
+Problèmes Courants et Solutions
 -------------------------
 
-#. MediaPipe installation fails
+#. L'installation de MediaPipe échoue
 
-   This usually happens when using an unsupported OS version.
+   Cela se produit généralement lors de l'utilisation d'une version non supportée du système d'exploitation.
 
-   Solution:
+   Solution :
 
-   * MediaPipe currently works only on Raspberry Pi OS Bookworm (Debian 12, 64-bit).
-   * Raspberry Pi OS Trixie (Debian 13, Python 3.13) is not supported.
+   * MediaPipe fonctionne actuellement uniquement sur Raspberry Pi OS Bookworm (Debian 12, 64 bits).
+   * Raspberry Pi OS Trixie (Debian 13, Python 3.13) n'est pas supporté.
 
-#. Camera cannot be opened in MediaPipe or OpenCV
+#. La caméra ne peut pas être ouverte dans MediaPipe ou OpenCV
 
-   This usually happens when the Raspberry Pi camera interface is not enabled.
+   Cela se produit généralement lorsque l'interface de la caméra Raspberry Pi n'est pas activée.
 
-   Solution:
+   Solution :
 
-   * Enable the camera in ``raspi-config``:
+   * Activez la caméra dans ``raspi-config`` :
      Interface Options → Camera → Enable
 
-#. OpenCV import errors
+#. Erreurs d'importation OpenCV
 
-   Some pip-installed versions of OpenCV may be incompatible with Raspberry Pi OS libraries.
+   Certaines versions d'OpenCV installées via pip peuvent être incompatibles avec les bibliothèques de Raspberry Pi OS.
 
-   Solution:
+   Solution :
 
    .. code-block:: bash
 
       sudo apt install python3-opencv
 
-#. MediaPipe cannot be imported after installation
+#. MediaPipe ne peut pas être importé après l'installation
 
-   This may happen if pip, setuptools, or wheel are outdated.
+   Cela peut se produire si pip, setuptools ou wheel sont obsolètes.
 
-   Solution:
+   Solution :
 
    .. code-block:: bash
 
       sudo pip install --upgrade pip setuptools wheel
 
 
-Your MediaPipe is now ready.  
-You can proceed to the next section to run real-time face detection using the Raspberry Pi camera.
+Votre MediaPipe est maintenant prêt.
+Vous pouvez passer à la section suivante pour exécuter la détection faciale en temps réel avec la caméra Raspberry Pi.

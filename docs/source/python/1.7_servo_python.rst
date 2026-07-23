@@ -5,38 +5,38 @@
 .. _py_servo:
 
 1.7 Servo
-==============================
+=============
 
 **Introduction**
 
-In this project, we will learn how to control a servo motor using a Raspberry Pi. Servo motors are commonly used in robotics and automation for precise control of angular motion.
+Dans ce projet, nous allons apprendre a controler un servomoteur en utilisant un Raspberry Pi. Les servomoteurs sont couramment utilises en robotique et en automatisation pour le controle precis du mouvement angulaire.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-To complete this project, you will need the following components:
+Pour realiser ce projet, vous aurez besoin des composants suivants :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
 
     *   - :ref:`cpn_servo`
         - |link_servo_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema de circuit**
 
-The circuit diagram below shows the connections required for controlling the servo motor.
+Le schema de circuit ci-dessous montre les connexions requises pour controler le servomoteur.
 
 .. image:: img/fzz/1.3.2_sch.png
    :width: 80%
@@ -46,7 +46,7 @@ The circuit diagram below shows the connections required for controlling the ser
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
 
 .. image:: img/fzz/1.3.2_bb.png
@@ -55,11 +55,11 @@ The circuit diagram below shows the connections required for controlling the ser
 
 ----------------------------------------------
 
-**Running the Example**
+**Executer l'exemple**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l'exemple :
 
 
 .. raw:: html
@@ -67,17 +67,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
-   cd ~/ai-lab-kit/python/
-   sudo python3 1.7_Servo.py 
 
-After running the script, the servo connected to PWM 0 smoothly sweeps from −90° to 90° in 10-degree steps, pausing briefly at each position. It then moves back from 90° to −90° in the same way. This back-and-forth motion repeats continuously.
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.7_Servo.py
+
+Apres avoir execute le script, le servo connecte a PWM 0 balaie en douceur de -90° a 90° par pas de 10 degres, en marquant une breve pause a chaque position. Il revient ensuite de 90° a -90° de la meme maniere. Ce mouvement de va-et-vient se repete en continu.
 
 ----------------------------------------------
 
 **Code**
 
-The following Python code demonstrates how to control the servo motor by moving it between various angles:
+Le code Python suivant montre comment controler le servomoteur en le deplacant a differents angles :
 
 
 .. raw:: html
@@ -111,21 +111,21 @@ The following Python code demonstrates how to control the servo motor by moving 
       sleep(0.1)
 
 
-This Python script controls a servo motor connected to PWM 0. When executed:
+Ce script Python controle un servomoteur connecte a PWM 0. Lors de l'execution :
 
-1. The servo moves from -90 degrees to 90 degrees in 10-degree increments.
-2. It pauses for 0.1 seconds between each movement.
-3. It then reverses the direction and moves from 90 degrees to -90 degrees in 10-degree increments.
-4. The process repeats indefinitely.
+1. Le servo se deplace de -90 degres a 90 degres par increments de 10 degres.
+2. Il marque une pause de 0,1 seconde entre chaque mouvement.
+3. Il inverse ensuite la direction et se deplace de 90 degres a -90 degres par increments de 10 degres.
+4. Le processus se repete indefiniment.
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Library Import**
+1. **Importation de la bibliotheque**
 
-   The ``fusion_hat`` library simplifies GPIO interactions, while the ``time`` library provides delay functions.
+   La bibliotheque ``fusion_hat`` simplifie les interactions GPIO, tandis que la bibliotheque ``time`` fournit des fonctions de temporisation.
 
    .. code-block:: python
 
@@ -133,17 +133,17 @@ This Python script controls a servo motor connected to PWM 0. When executed:
       from time import sleep               # Import sleep for timing delays
 
 
-2. **Servo Initialization**
+2. **Initialisation du servo**
 
-   The ``Servo`` object is initialized with PWM 0.
+   L'objet ``Servo`` est initialise avec PWM 0.
 
    .. code-block:: python
 
       servo = Servo(0)
 
-3. **Servo Movement**
+3. **Mouvement du servo**
 
-   The servo is moved to different angles in a loop. The ``angle`` method sets the servo's position, and ``sleep`` pauses the loop for a specified duration.
+   Le servo est deplace a differents angles dans une boucle. La methode ``angle`` definit la position du servo, et ``sleep`` suspend la boucle pendant une duree specifiee.
 
    .. code-block:: python
 
@@ -161,27 +161,27 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-1. **Servo Does Not Move**  
+1. **Le servo ne bouge pas**
 
-   - **Cause**: Incorrect GPIO pin connection or power supply issues.  
-   - **Solution**: Ensure the servo is connected to PWM 0 and verify the power supply.
+   - **Cause** : Connexion de broche GPIO incorrecte ou problemes d'alimentation.
+   - **Solution** : Assurez-vous que le servo est connecte a PWM 0 et verifiez l'alimentation.
 
-2. **Servo Movement is Erratic or Unresponsive**  
+2. **Le mouvement du servo est erratique ou ne repond pas**
 
-   - **Cause**: Insufficient power supply to the servo.  
-   - **Solution**: Use an external power source for the servo if the Fusion HAT+ does not provide enough power.
+   - **Cause** : Alimentation insuffisante du servo.
+   - **Solution** : Utilisez une source d'alimentation externe pour le servo si le Fusion HAT+ ne fournit pas assez de puissance.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Idees d'extension**
 
 
-1. **User-Controlled Servo**  
+1. **Servo controle par l'utilisateur**
 
-   Allow users to control the servo position interactively through keyboard input:
+   Permettez aux utilisateurs de controler la position du servo de maniere interactive via le clavier :
 
    .. code-block:: python
 
@@ -190,9 +190,9 @@ This Python script controls a servo motor connected to PWM 0. When executed:
          servo.angle(position)
 
 
-2. **Servo Position Tracking**  
+2. **Suivi de position du servo**
 
-   Record the servo position over time and plot the trajectory:
+   Enregistrez la position du servo au fil du temps et tracez la trajectoire :
 
    .. code-block:: python
 
@@ -209,4 +209,4 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 
 **Conclusion**
 
-This project demonstrates how to control a servo motor. Understanding servo control opens the door to building robots, mechanical arms, and other motion-based projects.
+Ce projet montre comment controler un servomoteur. La comprehension du controle des servos ouvre la porte a la construction de robots, de bras mecaniques et d'autres projets bases sur le mouvement.

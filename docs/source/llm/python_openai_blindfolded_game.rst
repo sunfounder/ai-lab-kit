@@ -1,21 +1,21 @@
 .. include:: /index.rst
    :start-after: start_hello_message
    :end-before: end_hello_message
-   
+
 .. _py_blindfolded_watermelon_game:
 
-(Example) Blindfolded Watermelon Smashing Game
+(Exemple) Jeu de ecrasement de pastque yeux bandes
 ====================================================
 
 **Introduction**
 
-This project creates an interactive **Blindfolded Watermelon Smashing Game** where players navigate a 20×20 meter grid using a joystick while relying on an AI assistant for directional guidance. The system integrates:
+Ce projet cree un jeu interactif **d'ecrasement de pastque les yeux bandes** ou les joueurs naviguent sur une grille de 20×20 metres a l'aide d'un joystick tout en se fiant a un assistant IA pour les directives directionnelles. Le systeme integre :
 
-1. **Joystick controls** for player movement on X/Y axes
-2. **AI-powered guidance** using OpenAI's GPT-4
-3. **Text-to-speech feedback** using Pico2Wave
-4. **Random target generation** for watermelon placement
-5. **Interactive button** for smashing actions
+1. **Commandes joystick** pour le deplacement du joueur sur les axes X/Y
+2. **Guidage par IA** utilisant OpenAI GPT-4
+3. **Retour vocal par synthese vocale** utilisant Pico2Wave
+4. **Generation aleatoire de cibles** pour le placement des pastques
+5. **Bouton interactif** pour les actions d'ecrasement
 
 .. raw:: html
 
@@ -24,26 +24,26 @@ This project creates an interactive **Blindfolded Watermelon Smashing Game** whe
           Your browser does not support the video tag.
       </video>
 
-The player starts at the center (0,0) and must find a randomly placed watermelon using only audio directions from the AI assistant, creating an engaging sensory-deprived gaming experience.
+Le joueur commence au centre (0,0) et doit trouver une pastque placee aleatoirement en utilisant uniquement les directives audio de l'assistant IA, creant ainsi une experience de jeu sensorielle engageante.
 
-You can combine various input devices with LLM modules to create interactive AI games. See:
+Vous pouvez combiner divers peripheriques d'entree avec des modules LLM pour creer des jeux IA interactifs. Voir :
 
-* :ref:`py_online_llm` 
+* :ref:`py_online_llm`
 * :ref:`tts_espeak_pico2wave`
 * :ref:`py_joystick`
 
 ----------------------------------------------
 
-**What You'll Need**
+**Ce dont vous aurez besoin**
 
-The following components are required for this project:
+Les composants suivants sont necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
     *   - :ref:`cpn_joystick`
         - \-
     *   - :ref:`cpn_button`
@@ -57,9 +57,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Connect the components to the Fusion HAT+ as follows:
+Connectez les composants au Fusion HAT+ comme suit :
 
 .. image:: img/fzz/watermelon_game_bb.png
    :width: 80%
@@ -75,9 +75,9 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**Executer l'exemple**
 
-#. Run the code
+#. Executez le code
 
    .. raw:: html
 
@@ -88,260 +88,260 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_blindfolded_game.py
 
-#. Play the game
+#. Jouez au jeu
 
-   After the script starts, the game will randomly place a watermelon on the 20×20 meter field.
-   Use the joystick to move step by step, and listen to the AI assistant for direction guidance.
+   Apres le demarrage du script, le jeu placera aleatoirement une pastque sur le terrain de 20×20 metres.
+   Utilisez le joystick pour vous deplacer pas a pas, et ecoutez l'assistant IA pour les directives directionnelles.
 
-   When you think you have reached the watermelon position, press the button to smash.
-   If your coordinates match the watermelon exactly, you win the game.
+   Lorsque vous pensez avoir atteint la position de la pastque, appuyez sur le bouton pour ecraser.
+   Si vos coordonnees correspondent exactement a celles de la pastque, vous gagnez la partie.
 
-#. Understand the game mechanics
+#. Comprendre les mecaniques du jeu
 
-   * Coordinate System:
+   * Systeme de coordonnees :
 
-     - The game field is a 20×20 meter grid
-     - Coordinates range from (-10,-10) to (10,10)
-     - Positive X = East, Negative X = West
-     - Positive Y = South, Negative Y = North (inverted Y-axis)
-     - Center point is (0,0)
+     - Le terrain de jeu est une grille de 20×20 metres
+     - Les coordonnees vont de (-10,-10) a (10,10)
+     - X positif = Est, X negatif = Ouest
+     - Y positif = Sud, Y negatif = Nord (axe Y inverse)
+     - Le centre est (0,0)
 
-   * Movement Rules:
+   * Regles de deplacement :
 
-     - Joystick right → X+1 (East)
-     - Joystick left → X-1 (West)
-     - Joystick up → Y-1 (North)
-     - Joystick down → Y+1 (South)
-     - Each movement changes position by 1 meter
+     - Joystick droite → X+1 (Est)
+     - Joystick gauche → X-1 (Ouest)
+     - Joystick haut → Y-1 (Nord)
+     - Joystick bas → Y+1 (Sud)
+     - Chaque mouvement change la position de 1 metre
 
-   * Winning Condition:
+   * Condition de victoire :
 
-     - Player must be at exact watermelon coordinates
-     - Press button to "smash" at current position
-     - Exact match ends game with victory message
+     - Le joueur doit etre aux coordonnees exactes de la pastque
+     - Appuyez sur le bouton pour "ecraser" a la position actuelle
+     - Une correspondance exacte termine le jeu avec un message de victoire
 
-   * AI Assistant Role:
+   * Role de l'assistant IA :
 
-     - Receives both player and watermelon coordinates
-     - Provides cardinal direction guidance (N, NE, E, SE, S, SW, W, NW)
-     - Gives distance approximation in meters
-     - Keeps responses brief for audio playback
+     - Recoit les coordonnees du joueur et de la pastque
+     - Fournit des directives cardinales (N, NE, E, SE, S, SO, O, NO)
+     - Donne une approximation de distance en metres
+     - Garde les reponses breves pour la lecture audio
 
 
 **Code**
 
-Here is the full Python script for the Blindfolded Watermelon Smashing Game:
+Voici le script Python complet pour le Jeu d'ecrasement de pastque les yeux bandes :
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: python
-   
-   
+
+
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
    from fusion_hat.adc import ADC
    from fusion_hat.pin import Pin
    from fusion_hat.tts import Pico2Wave
    import random, time
-   
+
    # Register OpenAI API
    # openai.com
-   
+
    # Export your openai api key with :LLM_API_KEY
    # export LLM_API_KEY=sk-xxxxxxxxxxxxxxxxx
-   
+
    # Setup TTS
    tts = Pico2Wave()
    tts.set_lang('en-US')
-   
+
    # Setup Joystick
    btn_pin = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP, bounce_time=0.05)
    x_axis = ADC('A1')
    y_axis = ADC('A0')
-   
+
    def MAP(x, in_min, in_max, out_min, out_max):
        """
        Map a value from one range to another.
        """
        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-   
+
    def activate():
        global smash_tips
        smash_tips = True
-           
+
    btn_pin.when_activated = activate
-   
+
    # Setup LLM
    INSTRUCTIONS = "This is a blindfolded watermelon-smashing game. A point representing a watermelon is randomly generated within a 20x20 meter area with coordinates ranging from (-10,-10) to (10,10). The player starts from the origin (0,0) and moves using a joystick. Even if the player can't see anything, they press a button to perform a smash action. After smashing, you will receive the watermelon's and player's coordinates. You need to advise the player on the direction of the watermelon, like 'The watermelon is ten meters to your northeast.' If the smash coordinates match, the game ends. Your responses will be converted into speech via TTS, so please keep them brief, ideally within two sentences."
-   
+
    WELCOME = "Hello, I am Blindfolded Watermelon Smashing Game Assistant. Use the joystick to move and press the button to smash. I will guide you to find the watermelon. Good luck!"
 
-   
+
    llm = OpenAI(
        api_key=OPENAI_API_KEY,
        model="gpt-4o",
    )
-   
+
    # Set how many messages to keep
    llm.set_max_messages(20)
    # Set instructions
    llm.set_instructions(INSTRUCTIONS)
    # Set welcome message
    llm.set_welcome(WELCOME)
-   
+
    print(WELCOME)
-   
+
    # Define the map size and the joystick pins
    watermelon_x, watermelon_y = random.randint(-10, 10), random.randint(-10, 10)
    player_x, player_y = 0, 0
    smash_tips = False
-   
+
    while True:
        x_val = MAP(x_axis.read(), 0, 4095, -100, 100)
        y_val = MAP(y_axis.read(), 0, 4095, -100, 100)
-       
+
        if x_val > 80:
            player_x += 1
        elif x_val < -80:
            player_x -= 1
-           
+
        if y_val > 80:
            player_y -= 1
        elif y_val < -80:
            player_y += 1
-           
+
        # Debug positions (commented out in actual game)
        # print('Watermelon position: %d, %d  ' % (watermelon_x, watermelon_y))
        # print('Player position: %d, %d  ' % (player_x, player_y))
-   
+
        time.sleep(0.3)
-   
+
        if smash_tips:
            smash_tips = False
            print("Smash!")
-           
+
            if (player_x, player_y) == (watermelon_x, watermelon_y):
                print("Target hit!")
                tts.say("Target hit!")
                break
            else:
                input_text = f"Watermelon position: ({watermelon_x}, {watermelon_y}), Player position: ({player_x}, {player_y})"
-               
+
                # Response with stream
                response = llm.prompt(input_text, stream=True)
                string = ""
-               
+
                for next_word in response:
                    if next_word:
                        # print(next_word, end="", flush=True)  # Uncomment for streaming display
                        string += next_word
-                       
+
                # print("")  # New line after streaming
                print("AI: " + string)
                tts.say(string)
-               
+
    print("Game over!")
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. Text-to-Speech Setup
+1. Configuration de la synthese vocale
 
-   The game uses Pico2Wave for audio feedback:
-   
+   Le jeu utilise Pico2Wave pour le retour audio :
+
    .. code-block:: python
-   
+
       tts = Pico2Wave()
       tts.set_lang('en-US')
-   
-   This converts the AI's text responses into spoken English instructions.
 
-2. Joystick Input Handling
+   Ceci convertit les reponses textuelles de l'IA en instructions parlées en anglais.
 
-   The joystick uses two ADC channels for X and Y axis reading:
-   
+2. Gestion des entrees du joystick
+
+   Le joystick utilise deux canaux ADC pour la lecture des axes X et Y :
+
    .. code-block:: python
-   
+
       x_axis = ADC('A1')  # Horizontal movement
       y_axis = ADC('A0')  # Vertical movement
-      
+
       def MAP(x, in_min, in_max, out_min, out_max):
           return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-      
+
       # Convert 0-4095 ADC reading to -100 to 100 range
       x_val = MAP(x_axis.read(), 0, 4095, -100, 100)
       y_val = MAP(y_axis.read(), 0, 4095, -100, 100)
 
-3. Button Setup with Interrupt
+3. Configuration du bouton avec interruption
 
-   The button uses an interrupt callback for immediate response:
-   
+   Le bouton utilise un rappel d'interruption pour une reponse immediate :
+
    .. code-block:: python
-   
+
       btn_pin = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP, bounce_time=0.05)
-      
+
       def activate():
           global smash_tips
           smash_tips = True
-              
+
       btn_pin.when_activated = activate
-   
-   When pressed, it sets ``smash_tips`` to ``True``, triggering the smash action in the main loop.
 
-4. OpenAI LLM Configuration
+   Lorsqu'il est presse, il definit ``smash_tips`` a ``True``, declenchant l'action d'ecrasement dans la boucle principale.
 
-   The AI assistant is configured with specific game instructions:
-   
+4. Configuration du LLM OpenAI
+
+   L'assistant IA est configure avec des instructions de jeu specifiques :
+
    .. code-block:: python
-   
+
       INSTRUCTIONS = "This is a blindfolded watermelon-smashing game..."
       WELCOME = "Hello, I am Blindfolded Watermelon Smashing Game Assistant..."
-      
+
       llm = OpenAI(
           api_key=OPENAI_API_KEY,
           model="gpt-4o",
       )
-      
+
       llm.set_max_messages(20)       # Keep conversation history
       llm.set_instructions(INSTRUCTIONS)  # Set game rules
       llm.set_welcome(WELCOME)       # Set initial greeting
 
-5. Game State Management
+5. Gestion de l'etat du jeu
 
-   The game maintains player and target positions:
-   
+   Le jeu maintient les positions du joueur et de la cible :
+
    .. code-block:: python
-   
+
       # Random watermelon placement
       watermelon_x, watermelon_y = random.randint(-10, 10), random.randint(-10, 10)
-      
+
       # Player starts at center
       player_x, player_y = 0, 0
-      
+
       # Movement thresholds (80% joystick deflection)
       if x_val > 80:
           player_x += 1      # Move right
       elif x_val < -80:
           player_x -= 1      # Move left
-          
+
       if y_val > 80:
           player_y -= 1      # Move up (negative Y)
       elif y_val < -80:
           player_y += 1      # Move down (positive Y)
 
-6. Smash Action and AI Response
+6. Action d'ecrasement et reponse IA
 
-   When the button is pressed, the game checks for a hit or requests AI guidance:
-   
+   Lorsque le bouton est presse, le jeu verifie un coup ou demande un guidage IA :
+
    .. code-block:: python
-   
+
       if smash_tips:
           smash_tips = False
           print("Smash!")
-          
+
           if (player_x, player_y) == (watermelon_x, watermelon_y):
               print("Target hit!")
               tts.say("Target hit!")
@@ -349,97 +349,97 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
           else:
               # Send positions to AI for guidance
               input_text = f"Watermelon position: ({watermelon_x}, {watermelon_y}), Player position: ({player_x}, {player_y})"
-              
+
               # Get streaming response from AI
               response = llm.prompt(input_text, stream=True)
               string = ""
-              
+
               for next_word in response:
                   if next_word:
                       string += next_word
-                      
+
               print("AI: " + string)
               tts.say(string)  # Speak the guidance
 
-7. Streaming Response Processing
+7. Traitement de la reponse en continu
 
-   The AI response is processed word-by-word for potential real-time display:
-   
+   La reponse de l'IA est traitee mot par mot pour un affichage potentiel en temps reel :
+
    .. code-block:: python
-   
+
       response = llm.prompt(input_text, stream=True)
       string = ""
-      
+
       for next_word in response:
           if next_word:
               # Uncomment to display words as they arrive
               # print(next_word, end="", flush=True)
               string += next_word
 
-8. Movement Logic with Dead Zone
+8. Logique de deplacement avec zone morte
 
-   The joystick has an 80-unit dead zone to prevent accidental movements:
-   
+   Le joystick a une zone morte de 80 unites pour empecher les mouvements accidentels :
+
    .. code-block:: python
-   
+
       # Only move when joystick is pushed >80% in any direction
       # This prevents drifting from center position
       if x_val > 80:    # Right
       elif x_val < -80: # Left
-      
+
       if y_val > 80:    # Up
       elif y_val < -80: # Down
 
-9. Game Loop Structure
+9. Structure de la boucle de jeu
 
-   The main game loop continuously:
-   
-   1. Reads joystick position
-   2. Updates player coordinates if joystick is pushed
-   3. Checks for smash button press
-   4. Processes AI responses when needed
-   5. Provides audio feedback via TTS
+   La boucle principale du jeu en continu :
 
-----------------------------------------------
-
-**Troubleshooting**
-
-- No response from joystick
-
-  - Verify ADC connections: A0 for Y-axis, A1 for X-axis
-  - Check power: VCC to 3.3V, GND to ground
-  - Test ADC reading: ``print(x_axis.read())`` should show 0-4095
-  - Ensure joystick is centered (should read ~2048)
-
-
-- No audio from TTS
-
-  - Check audio output: ``sudo raspi-config`` → **System Options** → **Audio**
-  - Test speaker: ``speaker-test -t sine -f 440``
-  - Ensure Pico2Wave is installed: ``pico2wave --help``
-  - Check volume: ``alsamixer``
-  - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
-
-- OpenAI API errors
-
-  - Verify API key in ``secret.py``
-  - Check internet connection: ``ping 8.8.8.8``
-  - Ensure billing is enabled on OpenAI account
-  - Verify model "gpt-4o" is available to your account
-
-- Player moves too fast/slow
-
-  - Adjust movement threshold (currently 80): higher = more joystick deflection needed
-  - Modify movement increment (currently 1): change to 0.5 for finer control
-  - Adjust sleep time (currently 0.3s): longer = slower movement response
-
-
-- AI responses too long
-
-  - Emphasize brevity in INSTRUCTIONS
-  - Add "Respond in 10 words or less" to instructions
-  - Implement response length checking in code
+   1. Lit la position du joystick
+   2. Met a jour les coordonnees du joueur si le joystick est pousse
+   3. Verifie la pression du bouton d'ecrasement
+   4. Traite les reponses IA lorsque necessaire
+   5. Fournit un retour audio via TTS
 
 ----------------------------------------------
 
-This blindfolded watermelon game demonstrates how physical controls, AI guidance, and audio feedback can create an engaging sensory-based gaming experience that challenges spatial awareness and listening skills!
+**Depannage**
+
+- Pas de reponse du joystick
+
+  - Verifiez les connexions ADC : A0 pour l'axe Y, A1 pour l'axe X
+  - Verifiez l'alimentation : VCC vers 3,3 V, GND vers la masse
+  - Testez la lecture ADC : ``print(x_axis.read())`` devrait afficher 0-4095
+  - Assurez-vous que le joystick est centre (devrait lire ~2048)
+
+
+- Pas d'audio du TTS
+
+  - Verifiez la sortie audio : ``sudo raspi-config`` → **System Options** → **Audio**
+  - Testez le haut-parleur : ``speaker-test -t sine -f 440``
+  - Assurez-vous que Pico2Wave est installe : ``pico2wave --help``
+  - Verifiez le volume : ``alsamixer``
+  - Reexecutez le script de configuration audio : ``sudo /opt/setup_fusion_hat_audio.sh``
+
+- Erreurs API OpenAI
+
+  - Verifiez la cle API dans ``secret.py``
+  - Verifiez la connexion Internet : ``ping 8.8.8.8``
+  - Assurez-vous que la facturation est activee sur le compte OpenAI
+  - Verifiez que le modele "gpt-4o" est disponible pour votre compte
+
+- Le joueur se deplace trop vite/lentement
+
+  - Ajustez le seuil de mouvement (actuellement 80) : plus eleve = plus de deplacement du joystick necessaire
+  - Modifiez l'increment de mouvement (actuellement 1) : passez a 0,5 pour un controle plus fin
+  - Ajustez le temps de pause (actuellement 0,3 s) : plus long = reponse de mouvement plus lente
+
+
+- Reponses IA trop longues
+
+  - Insistez sur la brievete dans INSTRUCTIONS
+  - Ajoutez "Respond in 10 words or less" aux instructions
+  - Implementez une verification de la longueur des reponses dans le code
+
+----------------------------------------------
+
+Ce jeu de pastque les yeux bandes demontre comment les controles physiques, le guidage IA et le retour audio peuvent creer une experience de jeu sensorielle engageante qui defie la conscience spatiale et les competences d'ecoute !

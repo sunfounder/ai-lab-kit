@@ -4,13 +4,13 @@
 
 .. _get_start:
 
-Getting Started (Important)
+Pour commencer (Important)
 ===============================
 
-This is the very first chapter of this course.  
-You will download and flash the AI Fusion Lab Kit image, set up your Raspberry Pi, charge the device, and power it on.
+Ceci est le tout premier chapitre de ce cours.
+Vous allez telecharger et graver l'image du AI Fusion Lab Kit, configurer votre Raspberry Pi, charger l'appareil et le mettre sous tension.
 
-By the end of this chapter, your Fusion HAT+ will be fully prepared and ready for the upcoming lessons.
+A la fin de ce chapitre, votre Fusion HAT+ sera entierement prepare et pret pour les lecons a venir.
 
 .. toctree::
     :maxdepth: 2
@@ -22,6 +22,6 @@ By the end of this chapter, your Fusion HAT+ will be fully prepared and ready fo
     fh_set_up_pi
 
 .. note::
-   If you prefer to use the native Raspberry Pi OS for configuration, please install 
-   ``Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`` and refer to 
-   :ref:`install_all_modules` to complete all necessary configurations.
+   Si vous preferez utiliser le systeme Raspberry Pi OS natif pour la configuration, veuillez installer
+   ``Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`` et vous referer a
+   :ref:`install_all_modules` pour effectuer toutes les configurations necessaires.

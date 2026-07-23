@@ -5,46 +5,46 @@
 .. _py_oled:
 
 
-1.10 OLED Display
-===========================================
+1.10 Ecran OLED
+====================================
 
 
 **Introduction**
 
-In this project, we will learn how to interface with an SSD1306-based OLED display using I2C communication on a Raspberry Pi. OLED (Organic Light-Emitting Diode) displays are known for their high contrast, wide viewing angles, and low power consumption. This project demonstrates how to initialize the display, draw basic shapes, and render text.
+Dans ce projet, nous allons apprendre a interfacer un ecran OLED base sur SSD1306 en utilisant la communication I2C sur un Raspberry Pi. Les ecrans OLED (diode electroluminescente organique) sont connus pour leur contraste eleve, leurs grands angles de vision et leur faible consommation d'energie. Ce projet montre comment initialiser l'ecran, dessiner des formes de base et afficher du texte.
 
 ----------------------------------------------
 
-**What You'll Need**
+**Ce dont vous aurez besoin**
 
-To complete this project, you will need the following components:
+Pour realiser ce projet, vous aurez besoin des composants suivants :
 
 .. list-table::
    :widths: 30 20
    :header-rows: 1
 
-   *  - COMPONENT
-      - PURCHASE LINK
+   *  - COMPOSANT
+      - LIEN D'ACHAT
 
    *  - :ref:`cpn_oled`
-      - \- 
+      - \-
    *  - :ref:`cpn_wires`
       - |link_wires_buy|
    *  - :ref:`cpn_fusion_hat`
-      - \- 
-   *  - Raspberry Pi
       - \-
+   *  - Raspberry Pi
+      \-
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Follow these steps to build the circuit:
+Suivez ces etapes pour construire le circuit :
 
-1. Connect the VCC pin of OLED display to 3.3V on Fusion HAT+
-2. Connect the GND pin of OLED display to GND on Fusion HAT+
-3. Connect the SCL pin of OLED display to SCL (GPIO 3) on Fusion HAT+
-4. Connect the SDA pin of OLED display to SDA (GPIO 2) on Fusion HAT+
+1. Connectez la broche VCC de l'ecran OLED au 3,3V du Fusion HAT+
+2. Connectez la broche GND de l'ecran OLED au GND du Fusion HAT+
+3. Connectez la broche SCL de l'ecran OLED a SCL (GPIO 3) du Fusion HAT+
+4. Connectez la broche SDA de l'ecran OLED a SDA (GPIO 2) du Fusion HAT+
 
 .. image:: img/fzz/1.10_oled_bb.png
    :width: 70%
@@ -52,42 +52,42 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Etapes d'installation**
 
-#. Install the SSD1306 driver library:
-   
-   This library enables communication with SSD1306 OLED displays using Python.
+#. Installez la bibliotheque de pilotes SSD1306 :
+
+   Cette bibliotheque permet la communication avec les ecrans OLED SSD1306 en utilisant Python.
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-   
+
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
-   
 
-#. All example programs are included in the ``ai-lab-kit`` directory. Run the OLED example as follows:
+
+#. Tous les exemples de programmes sont inclus dans le repertoire ``ai-lab-kit``. Executez l'exemple OLED comme suit :
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-   
+
       cd ~/ai-lab-kit/python/
       sudo python3 1.10_OLED_Display.py
 
 
-#. When the example runs, the OLED screen will display a framed box with the text **“Hello World!”** centered inside it.  
+#. Lorsque l'exemple s'execute, l'ecran OLED affiche une boite encadree avec le texte **"Hello World!"** centre a l'interieur.
 
-   This confirms that the display is successfully communicating over I2C and can render text and graphics.
+   Cela confirme que l'ecran communique avec succes via I2C et peut afficher du texte et des graphiques.
 
 ----------------------------------------------
 
 **Code**
 
-The following Python code initializes an OLED display and draws "Hello World!" text:
+Le code Python suivant initialise un ecran OLED et dessine le texte "Hello World!" :
 
 .. raw:: html
 
@@ -154,22 +154,22 @@ The following Python code initializes an OLED display and draws "Hello World!" t
    oled.image(image)
    oled.show()
 
-This Python script creates a "Hello World!" display on an SSD1306 OLED screen. When executed:
+Ce script Python cree un affichage "Hello World!" sur un ecran OLED SSD1306. Lors de l'execution :
 
-1. The script initializes I2C communication with the OLED display
-2. Creates a black-and-white image buffer for drawing
-3. Draws a white background with a black bordered rectangle
-4. Calculates text positioning to center "Hello World!" on the display
-5. Renders the final image to the OLED display
-6. The display shows the text until powered off or updated
+1. Le script initialise la communication I2C avec l'ecran OLED.
+2. Cree un tampon d'image noir et blanc pour le dessin.
+3. Dessine un fond blanc avec un rectangle noir a bordure.
+4. Calcule le positionnement du texte pour centrer "Hello World!" sur l'ecran.
+5. Affiche l'image finale sur l'ecran OLED.
+6. L'ecran affiche le texte jusqu'a ce qu'il soit mis hors tension ou mis a jour.
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Library Import**
+1. **Importation de la bibliotheque**
 
-   The code imports necessary libraries for display control and image manipulation.
+   Le code importe les bibliotheques necessaires pour le controle de l'ecran et la manipulation d'images.
 
    .. code-block:: python
 
@@ -178,9 +178,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       from PIL import Image, ImageDraw, ImageFont
       import adafruit_ssd1306
 
-2. **Display Initialization**
+2. **Initialisation de l'ecran**
 
-   The OLED display is initialized with specified dimensions and I2C address.
+   L'ecran OLED est initialise avec les dimensions et l'adresse I2C specifiees.
 
    .. code-block:: python
 
@@ -189,27 +189,27 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       i2c = board.I2C()
       oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
 
-3. **Display Clearing**
+3. **Effacement de l'ecran**
 
-   The display is cleared by filling it with zeros (black) and updating.
+   L'ecran est efface en le remplissant de zeros (noir) et en le mettant a jour.
 
    .. code-block:: python
 
       oled.fill(0)
       oled.show()
 
-4. **Image Buffer Creation**
+4. **Creation du tampon d'image**
 
-   A 1-bit color image buffer is created for drawing operations.
+   Un tampon d'image couleur 1 bit est cree pour les operations de dessin.
 
    .. code-block:: python
 
       image = Image.new("1", (oled.width, oled.height))
       draw = ImageDraw.Draw(image)
 
-5. **Drawing Operations**
+5. **Operations de dessin**
 
-   Rectangles and text are drawn onto the image buffer.
+   Des rectangles et du texte sont dessines sur le tampon d'image.
 
    .. code-block:: python
 
@@ -218,9 +218,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       # Inner bordered rectangle
       draw.rectangle((BORDER, BORDER, oled.width - BORDER - 1, oled.height - BORDER - 1), outline=0, fill=0)
 
-6. **Text Rendering**
+6. **Rendu du texte**
 
-   Text is centered on the display using font metrics.
+   Le texte est centre sur l'ecran en utilisant les metriques de la police.
 
    .. code-block:: python
 
@@ -228,9 +228,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       (font_width, font_height) = getfontsize(font, text)
       draw.text((oled.width // 2 - font_width // 2, oled.height // 2 - font_height // 2), text, font=font, fill=255)
 
-7. **Display Update**
+7. **Mise a jour de l'ecran**
 
-   The final image is sent to the OLED display.
+   L'image finale est envoyee a l'ecran OLED.
 
    .. code-block:: python
 
@@ -239,68 +239,68 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-1. **Display Not Showing Anything**
+1. **L'ecran n'affiche rien**
 
-   - **Cause**: Incorrect I2C address, wiring issues, or I2C not enabled.
-   - **Solution**: Verify I2C address (try 0x3C or 0x3D), check all connections, and enable I2C in Raspberry Pi configuration (``sudo raspi-config``).
+   - **Cause** : Adresse I2C incorrecte, problemes de cablage ou I2C non active.
+   - **Solution** : Verifiez l'adresse I2C (essayez 0x3C ou 0x3D), verifiez toutes les connexions et activez I2C dans la configuration du Raspberry Pi (``sudo raspi-config``).
 
-2. **I2C Communication Errors**
+2. **Erreurs de communication I2C**
 
-   - **Cause**: I2C bus issues or device not detected.
-   - **Solution**: Check if device is detected with ``i2cdetect -y 1`` command. Ensure no other devices are conflicting on the I2C bus.
+   - **Cause** : Problemes de bus I2C ou peripherique non detecte.
+   - **Solution** : Verifiez si le peripherique est detecte avec la commande ``i2cdetect -y 1``. Assurez-vous qu'aucun autre peripherique n'est en conflit sur le bus I2C.
 
-3. **Text or Graphics Not Displaying Correctly**
+3. **Le texte ou les graphiques ne s'affichent pas correctement**
 
-   - **Cause**: Incorrect color values or coordinate issues.
-   - **Solution**: Remember that 0=black and 255=white in 1-bit color mode. Verify coordinates are within display boundaries (0-127 for width, 0-63 for height).
+   - **Cause** : Valeurs de couleur incorrectes ou problemes de coordonnees.
+   - **Solution** : Rappelez-vous que 0 = noir et 255 = blanc en mode couleur 1 bit. Verifiez que les coordonnees sont dans les limites de l'ecran (0-127 pour la largeur, 0-63 pour la hauteur).
 
-4. **Library Import Errors**
+4. **Erreurs d'importation de la bibliotheque**
 
-   - **Cause**: Missing dependencies or incorrect installation.
-   - **Solution**: Ensure all required libraries are installed in the correct environment and try running with ``sudo`` if permission issues occur.
+   - **Cause** : Dependances manquantes ou installation incorrecte.
+   - **Solution** : Assurez-vous que toutes les bibliotheques requises sont installees dans le bon environnement et essayez de les executer avec ``sudo`` si des problemes de permissions surviennent.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idees d'extension**
 
-1. **System Information Display**
+1. **Affichage d'informations systeme**
 
-   Create a real-time system monitor showing CPU usage, memory, and temperature:
+   Creez un moniteur systeme en temps reel affichant l'utilisation du CPU, de la memoire et la temperature :
 
    .. code-block:: python
 
       import psutil
       import time
-      
+
       while True:
           # Clear and redraw
           draw.rectangle((0, 0, oled.width, oled.height), fill=0)
-          
+
           # Get system info
           cpu_percent = psutil.cpu_percent()
           memory = psutil.virtual_memory()
           temp = psutil.sensors_temperatures()['cpu_thermal'][0].current
-          
+
           # Display info
           draw.text((0, 0), f"CPU: {cpu_percent}%", font=font, fill=255)
           draw.text((0, 16), f"RAM: {memory.percent}%", font=font, fill=255)
           draw.text((0, 32), f"Temp: {temp}C", font=font, fill=255)
-          
+
           oled.image(image)
           oled.show()
           time.sleep(2)
 
-2. **Scrolling Text**
+2. **Texte defilant**
 
-   Create scrolling text effects for longer messages:
+   Creez des effets de texte defilant pour des messages plus longs :
 
    .. code-block:: python
 
       text = "This is a scrolling text message!"
       text_width = getfontsize(font, text)[0]
-      
+
       for x in range(oled.width, -text_width, -1):
           draw.rectangle((0, 0, oled.width, oled.height), fill=0)
           draw.text((x, oled.height//2), text, font=font, fill=255)
@@ -308,9 +308,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
           oled.show()
           time.sleep(0.05)
 
-3. **Animated Graphics**
+3. **Graphismes animes**
 
-   Create simple animations using basic shapes:
+   Creez des animations simples en utilisant des formes de base :
 
    .. code-block:: python
 
@@ -321,24 +321,24 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
           oled.show()
           time.sleep(0.1)
 
-4. **Multiple Pages**
+4. **Pages multiples**
 
-   Create a multi-page display with button control:
+   Creez un affichage multi-pages avec controle par bouton :
 
    .. code-block:: python
 
       pages = ["Page 1: Info", "Page 2: Stats", "Page 3: Graph"]
       current_page = 0
-      
+
       # Use buttons to change pages
       def next_page():
           global current_page
           current_page = (current_page + 1) % len(pages)
           update_display()
 
-5. **Custom Fonts**
+5. **Polices personnalisees**
 
-   Use different fonts for better visual appeal:
+   Utilisez differentes polices pour un meilleur aspect visuel :
 
    .. code-block:: python
 
@@ -348,9 +348,9 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
       except:
           custom_font = ImageFont.load_default()
 
-6. **Graphs and Charts**
+6. **Graphiques et diagrammes**
 
-   Display simple bar graphs or charts:
+   Affichez de simples diagrammes a barres ou graphiques :
 
    .. code-block:: python
 
@@ -364,4 +364,4 @@ This Python script creates a "Hello World!" display on an SSD1306 OLED screen. W
 
 **Conclusion**
 
-This project demonstrates how to interface with SSD1306 OLED displays using I2C communication on a Raspberry Pi. OLED displays provide crisp, high-contrast visual output suitable for various applications including system monitoring, user interfaces, and information displays. By combining text, shapes, and graphics, you can create informative and visually appealing displays for your projects. The skills learned here can be extended to create complex user interfaces, data visualizations, and real-time monitoring systems.
+Ce projet montre comment interfacer des ecrans OLED SSD1306 en utilisant la communication I2C sur un Raspberry Pi. Les ecrans OLED offrent une sortie visuelle nette et a contraste eleve, adaptee a diverses applications, notamment la surveillance systeme, les interfaces utilisateur et les affichages d'informations. En combinant texte, formes et graphiques, vous pouvez creer des affichages informatifs et visuellement attrayants pour vos projets. Les competences acquises ici peuvent etre etendues pour creer des interfaces utilisateur complexes, des visualisations de donnees et des systemes de surveillance en temps reel.

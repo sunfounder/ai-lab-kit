@@ -4,25 +4,25 @@
 
 .. _py_ac_buzzer:
 
-1.3 Active Buzzer
-=========================================
+1.3 Buzzer Actif
+====================================
 
 **Introduction**
 
-In this project, we will learn how to drive an active buzzer to produce a beeping sound using a NPN transistor. Active buzzers are simple components used in many electronic projects to produce sound signals.
+Dans ce projet, nous allons apprendre a piloter un buzzer actif pour produire un son de bip en utilisant un transistor NPN. Les buzzers actifs sont des composants simples utilises dans de nombreux projets electroniques pour produire des signaux sonores.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-To complete this project, you will need the following components:
+Pour realiser ce projet, vous aurez besoin des composants suivants :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
 
 
     *   - :ref:`cpn_wires`
@@ -34,17 +34,17 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema de circuit**
 
-The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor by limiting the base current. When GPIO17 outputs a high level (3.3V), the transistor conducts, allowing current to flow through the buzzer, causing it to beep. When GPIO17 outputs a low level, the transistor is cut off, and the buzzer remains silent.
+Le circuit utilise un buzzer actif, un transistor NPN et une resistance de 1kΩ. La resistance protege le transistor en limitant le courant de base. Lorsque GPIO17 emet un niveau haut (3,3 V), le transistor conduit, permettant au courant de traverser le buzzer, ce qui le fait biper. Lorsque GPIO17 emet un niveau bas, le transistor est bloque et le buzzer reste silencieux.
 
 .. image:: img/fzz/1.2.1_sch.png
    :width: 80%
@@ -53,15 +53,15 @@ The circuit uses an active buzzer, a NPN transistor, and a 1kΩ resistor. The re
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Follow these steps to build the circuit:
+Suivez ces etapes pour construire le circuit :
 
-1. Place the NPN transistor, buzzer, and resistor on the breadboard.
-2. Connect the base of the transistor to GPIO17 through the resistor.
-3. Connect the emitter of the transistor to the power supply (+).
-4. Connect the collector of the transistor to one terminal of the buzzer.
-5. Connect the other terminal of the buzzer to the ground (-).
+1. Placez le transistor NPN, le buzzer et la resistance sur la plaque d'essai.
+2. Connectez la base du transistor a GPIO17 via la resistance.
+3. Connectez l'emetteur du transistor a l'alimentation (+).
+4. Connectez le collecteur du transistor a une borne du buzzer.
+5. Connectez l'autre borne du buzzer a la masse (-).
 
 .. image:: img/fzz/1.2.1_bb.png
    :width: 80%
@@ -69,11 +69,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Executer l'exemple**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l'exemple :
 
 
 .. raw:: html
@@ -81,22 +81,22 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 1.3_ActiveBuzzer.py 
+   sudo python3 1.3_ActiveBuzzer.py
 
-This Python script controls a buzzer connected to GPIO pin 17 on a Raspberry Pi. When executed:
+Ce script Python controle un buzzer connecte a la broche GPIO 17 d'un Raspberry Pi. Lors de l'execution :
 
-1. The buzzer alternates between turning on and off every 0.1 seconds, producing a beeping sound.
-2. The program prints "Buzzer On" and "Buzzer Off" to the console in sync with the buzzer's operation.
-3. The buzzing continues indefinitely until the user interrupts the script by pressing ``Ctrl+C``.
+1. Le buzzer alterne entre allume et eteint toutes les 0,1 secondes, produisant un son de bip.
+2. Le programme affiche "Buzzer On" et "Buzzer Off" sur la console en synchronisation avec le fonctionnement du buzzer.
+3. Le bip continue indefiniment jusqu'a ce que l'utilisateur interrompe le script en appuyant sur ``Ctrl+C``.
 
 
 ----------------------------------------------
 
 **Code**
 
-The following Python code drives the active buzzer to beep on and off in a loop:
+Le code Python suivant pilote le buzzer actif pour biper en boucle :
 
 
 .. raw:: html
@@ -129,15 +129,15 @@ The following Python code drives the active buzzer to beep on and off in a loop:
       # Handle KeyboardInterrupt (Ctrl+C) for clean script termination
       pass
 
-After running the script, the buzzer connected to the Raspberry Pi will repeatedly beep by turning on and off every 0.1 seconds. At the same time, the console will display “Buzzer On” and “Buzzer Off” messages that match the buzzer’s sound. The buzzer will keep beeping until you stop the program by pressing Ctrl + C.
+Apres avoir execute le script, le buzzer connecte au Raspberry Pi emet un bip repetitif en s'allumant et s'eteignant toutes les 0,1 secondes. En meme temps, la console affiche les messages "Buzzer On" et "Buzzer Off" qui correspondent au son du buzzer. Le buzzer continue de biper jusqu'a ce que vous arretez le programme en appuyant sur Ctrl + C.
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Library Import**
+1. **Importation de la bibliotheque**
 
-   The ``fusion_hat`` library provides an easy-to-use interface for controlling GPIO pins, and ``time`` is used for delays.
+   La bibliotheque ``fusion_hat`` fournit une interface facile a utiliser pour controler les broches GPIO, et ``time`` est utilise pour les pauses.
 
    .. code-block:: python
 
@@ -145,17 +145,17 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
       from fusion_hat.pin import Pin
       from time import sleep
 
-2. **Buzzer Initialization**
+2. **Initialisation du buzzer**
 
-   The ``Buzzer`` object is initialized and associated with Pin 17.
+   L'objet ``Buzzer`` est initialise et associe a la broche 17.
 
    .. code-block:: python
 
       buzzer = Buzzer(Pin(17))
 
-3. **Control Loop**
+3. **Boucle de controle**
 
-   The program uses an infinite loop (``while True``) to toggle the buzzer on and off every 0.1 seconds, creating a beeping sound. The ``print`` statements provide console feedback.
+   Le programme utilise une boucle infinie (``while True``) pour activer et desactiver le buzzer toutes les 0,1 secondes, creant un son de bip. Les instructions ``print`` fournissent un retour sur la console.
 
    .. code-block:: python
 
@@ -167,9 +167,9 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
          buzzer.off()
          sleep(0.1)
 
-4. **Keyboard Interrupt Handling**
+4. **Gestion des interruptions clavier**
 
-   The ``try-except`` block ensures that the program can be terminated cleanly using Ctrl+C without raising errors.
+   Le bloc ``try-except`` garantit que le programme peut etre termine proprement avec Ctrl+C sans generer d'erreurs.
 
    .. code-block:: python
 
@@ -180,35 +180,35 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-1. **No Sound from the Buzzer**  
+1. **Aucun son du buzzer**
 
-   - **Cause**: Incorrect GPIO pin connection or buzzer wiring.  
-   - **Solution**: Ensure the buzzer is properly connected to GPIO pin 17 and the ground (GND). 
+   - **Cause** : Connexion de broche GPIO incorrecte ou cablage du buzzer.
+   - **Solution** : Assurez-vous que le buzzer est correctement connecte a la broche GPIO 17 et a la masse (GND).
 
-2. **Buzzer Always On or Off**  
+2. **Buzzer toujours allume ou eteint**
 
-   - **Cause**: Faulty buzzer or GPIO setup issue.  
-   - **Solution**: Verify the buzzer's functionality by testing it with direct voltage. 
+   - **Cause** : Buzzer defectueux ou probleme de configuration GPIO.
+   - **Solution** : Verifiez le fonctionnement du buzzer en le testant avec une tension directe.
 
-3. **Script Doesn't Respond to KeyboardInterrupt**  
+3. **Le script ne repond pas a KeyboardInterrupt**
 
-   - **Cause**: The ``except`` block may not properly handle interruption.  
-   - **Solution**: Ensure the ``try...except KeyboardInterrupt`` block is properly implemented, and that no other processes are blocking the main loop.
+   - **Cause** : Le bloc ``except`` peut ne pas gerer correctement l'interruption.
+   - **Solution** : Assurez-vous que le bloc ``try...except KeyboardInterrupt`` est correctement implemente et qu'aucun autre processus ne bloque la boucle principale.
 
-4. **Buzzing is Too Fast or Annoying**  
+4. **Le bip est trop rapide ou genant**
 
-   - **Cause**: The ``sleep(0.1)`` interval may be too short.  
-   - **Solution**: Increase the ``sleep()`` duration for longer intervals between buzzes.
+   - **Cause** : L'intervalle ``sleep(0.1)`` peut etre trop court.
+   - **Solution** : Augmentez la duree de ``sleep()`` pour des intervalles plus longs entre les bips.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idees d'extension**
 
-1. **Custom Beep Patterns**  
-   Create distinct beep patterns for different events or notifications:
+1. **Motifs de bip personnalises**
+   Creez des motifs de bip distincts pour differents evenements ou notifications :
 
    .. code-block:: python
 
@@ -222,8 +222,8 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
          buzzer.off()
 
 
-2. **User Input for Buzzer Control**  
-   Allow the user to start, stop, or change the buzzer's pattern dynamically:
+2. **Controle du buzzer par l'utilisateur**
+   Permettez a l'utilisateur de demarrer, arreter ou modifier le motif du buzzer dynamiquement :
 
    .. code-block:: python
 
@@ -242,4 +242,4 @@ After running the script, the buzzer connected to the Raspberry Pi will repeated
 
 **Conclusion**
 
-This project demonstrates how to drive an active buzzer using a NPN transistor and the Raspberry Pi GPIO pins. The simplicity of the code and hardware setup makes it a great starting point for sound-based electronic projects.
+Ce projet montre comment piloter un buzzer actif en utilisant un transistor NPN et les broches GPIO du Raspberry Pi. La simplicite du code et du montage materiel en fait un excellent point de depart pour des projets electroniques bases sur le son.

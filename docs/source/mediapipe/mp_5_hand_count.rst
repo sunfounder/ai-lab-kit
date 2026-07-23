@@ -4,111 +4,111 @@
 
 .. _mp_hand_count:
 
-5. Hand Gesture Counting
-==============================================
+5. Comptage de Gestes de la Main
+==================================================
 
 ------------------------------------------------------------
-1. Overview
+1. Aperçu
 ------------------------------------------------------------
 
-In the previous section, we implemented real-time hand
-detection and landmark visualization.
+Dans la section précédente, nous avons implémenté la détection de la main en temps réel
+et la visualisation des points de repère.
 
-This section extends that functionality by using
-finger landmark positions to count the number of
-raised fingers (0–5).
+Cette section étend cette fonctionnalité en utilisant
+les positions des points de repère des doigts pour compter le nombre de
+doigts levés (0 à 5).
 
-By analyzing the relative positions of finger tips
-and their corresponding joints, we can determine
-whether each finger is extended.
+En analysant les positions relatives du bout des doigts
+et de leurs articulations correspondantes, nous pouvons déterminer
+si chaque doigt est étendu.
 
 .. image:: img/mp_hand_count.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Comment ça Fonctionne
 ------------------------------------------------------------
 
-The program follows these steps:
+Le programme suit ces étapes :
 
-1. Initialize the MediaPipe Hands model.
-2. Capture video frames from the Raspberry Pi camera.
-3. Detect 21 hand landmarks in real time.
-4. Compare fingertip coordinates with their proximal joints.
-5. Determine whether each finger is extended.
-6. Count the number of raised fingers.
-7. Display the result on the video frame.
+1. Initialiser le modèle MediaPipe Hands.
+2. Capturer des images vidéo de la caméra Raspberry Pi.
+3. Détecter 21 points de repère de la main en temps réel.
+4. Comparer les coordonnées du bout des doigts avec leurs articulations proximales.
+5. Déterminer si chaque doigt est étendu.
+6. Compter le nombre de doigts levés.
+7. Afficher le résultat sur l'image vidéo.
 
-This method is:
+Cette méthode est :
 
-- Lightweight and efficient
-- Suitable for Raspberry Pi
-- A foundation for gesture control and interactive systems
+- Légère et efficace
+- Adaptée au Raspberry Pi
+- Une base pour le contrôle gestuel et les systèmes interactifs
 
 ------------------------
-3. Run the Code
+3. Exécuter le Code
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Avant de commencer, assurez-vous :
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Que le support motorisé est assemblé
+   * Que vous pouvez accéder au bureau du Raspberry Pi
+   * Que le package de code est installé
+   * Que Fusion HAT+ est installé et configuré
+   * Qu'OpenCV est installé
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Pour les instructions détaillées, voir :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Ouvrez le terminal et entrez la commande suivante :
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Après avoir exécuté le programme, une fenêtre intitulée « Show Video » s'ouvre et affiche le flux en direct de la caméra.
 
    .. raw:: html
 
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_5.mp4" type="video/mp4">
-             Your browser does not support the video tag.
+             Votre navigateur ne supporte pas la balise vidéo.
          </video>
 
-   When a hand appears in front of the camera:
+   Lorsqu'une main apparaît devant la caméra :
 
-   - MediaPipe detects the hand in real time.
-   - 21 landmark points and connection lines are drawn on the hand.
-   - The program analyzes the positions of the fingertips and joints.
-   - The number of raised fingers (0–5) is calculated.
+   - MediaPipe détecte la main en temps réel.
+   - 21 points de repère et lignes de connexion sont dessinés sur la main.
+   - Le programme analyse les positions du bout des doigts et des articulations.
+   - Le nombre de doigts levés (0 à 5) est calculé.
 
-   The detected finger count is displayed in the top-left corner
-   of the screen as:
+   Le nombre de doigts détecté est affiché dans le coin supérieur gauche
+   de l'écran comme suit :
 
       Fingers: X
 
-   As you extend or fold your fingers, the number updates
-   instantly in real time.
+   Au fur et à mesure que vous étendez ou pliez vos doigts, le nombre se met
+   à jour instantanément en temps réel.
 
-   If no hand is detected, only the normal camera feed
-   is displayed without a finger count.
+   Si aucune main n'est détectée, seul le flux normal de la caméra
+   est affiché sans comptage de doigts.
 
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   Appuyez sur ``q`` pour quitter le programme.
+   La caméra s'arrête et la fenêtre OpenCV se ferme automatiquement.
 
 
 
 -----------------------------
-4. Complete Code
+4. Code Complet
 -----------------------------
 
 .. code-block:: python
 
    from picamera2 import Picamera2, Preview
-   import cv2 
+   import cv2
    import mediapipe.python.solutions.hands as mp_hands
    import mediapipe.python.solutions.drawing_utils as drawing
    import mediapipe.python.solutions.drawing_styles as drawing_styles
@@ -190,35 +190,35 @@ This method is:
    picam2.stop()
    cv2.destroyAllWindows()
 
-In each loop iteration, it determines whether each of the 5 fingers is extended and counts the number of extended fingers. For example:
+Dans chaque itération de la boucle, il détermine si chacun des 5 doigts est étendu et compte le nombre de doigts étendus. Par exemple :
 
-- ✊ All fingers closed → Count 0
-- ☝️ Index finger extended → Count 1
-- ✌️ Index + Middle fingers → Count 2
-- 🖐️ All five fingers open → Count 5
+- ✊ Tous les doigts fermés → Compte 0
+- ☝️ Index étendu → Compte 1
+- ✌️ Index + Majeur → Compte 2
+- 🖐️ Les cinq doigts ouverts → Compte 5
 
 --------------------------------------------------------------
-5. Detection Logic and Extensions
+5. Logique de Détection et Extensions
 --------------------------------------------------------------
 
-MediaPipe Hands returns 21 landmarks.
-We use fingertip and joint positions to determine whether
-each finger is extended.
+MediaPipe Hands retourne 21 points de repère.
+Nous utilisons les positions du bout des doigts et des articulations pour déterminer
+si chaque doigt est étendu.
 
 .. code-block:: python
 
    finger_tips = [4, 8, 12, 16, 20]
    finger_dips = [2, 6, 10, 14, 18]
 
-- ``finger_tips`` → Fingertip indices  
-  (Thumb=4, Index=8, Middle=12, Ring=16, Pinky=20)
+- ``finger_tips`` → Indices du bout des doigts
+  (Pouce=4, Index=8, Majeur=12, Annulaire=16, Auriculaire=20)
 
-- ``finger_dips`` → Corresponding proximal joints  
-  (Thumb=2, Index=6, Middle=10, Ring=14, Pinky=18)
+- ``finger_dips`` → Articulations proximales correspondantes
+  (Pouce=2, Index=6, Majeur=10, Annulaire=14, Auriculaire=18)
 
 ------------------------------------------------------------
 
-Finger counting logic:
+Logique de comptage des doigts :
 
 .. code-block:: python
 
@@ -237,56 +237,56 @@ Finger counting logic:
    cv2.putText(frame, f"Fingers: {finger_count}", (10, 30),
                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-Logic explanation:
+Explication de la logique :
 
-- **Thumb** → Compare ``tip.x`` and ``dip.x`` (for right hand).
-- **Other fingers** → Compare ``tip.y`` and ``dip.y``.
-- If the fingertip is above (or outward from) the joint,
-  the finger is considered extended.
-- Each satisfied condition increases the count by ``+1``.
-
-------------------------------------------------------------
-
-Extension tips:
-
-- To support both left and right hands,
-  use ``hands_detected.multi_handedness`` to determine hand type,
-  and reverse the thumb x-axis comparison accordingly.
-
-- This logic can be extended to implement:
-
-  - OK gesture recognition
-  - Thumbs-up detection
-  - Rock–paper–scissors interaction
-  - Custom gesture-based controls
+- **Pouce** → Comparer ``tip.x`` et ``dip.x`` (pour la main droite).
+- **Autres doigts** → Comparer ``tip.y`` et ``dip.y``.
+- Si le bout du doigt est au-dessus (ou vers l'extérieur) de l'articulation,
+  le doigt est considéré comme étendu.
+- Chaque condition satisfaite augmente le compteur de ``+1``.
 
 ------------------------------------------------------------
-6. Troubleshooting
+
+Conseils d'extension :
+
+- Pour supporter les deux mains gauche et droite,
+  utilisez ``hands_detected.multi_handedness`` pour déterminer le type de main,
+  et inversez la comparaison de l'axe x du pouce en conséquence.
+
+- Cette logique peut être étendue pour implémenter :
+
+  - La reconnaissance du geste OK
+  - La détection du pouce levé
+  - L'interaction pierre–papier–ciseaux
+  - Des contrôles gestuels personnalisés
+
+------------------------------------------------------------
+6. Dépannage
 ------------------------------------------------------------
 
-- Thumb detection inaccurate
+- Détection du pouce inexacte
 
-  Thumb detection may be inaccurate because the logic differs for left and right hands. The horizontal comparison used for the thumb depends on hand orientation.
+  La détection du pouce peut être inexacte car la logique diffère pour les mains gauche et droite. La comparaison horizontale utilisée pour le pouce dépend de l'orientation de la main.
 
-  Use ``multi_handedness`` to determine whether the detected hand is left or right, and adjust the thumb detection logic accordingly.
+  Utilisez ``multi_handedness`` pour déterminer si la main détectée est gauche ou droite, et ajustez la logique de détection du pouce en conséquence.
 
-- Unstable detection
+- Détection instable
 
-  If finger counting appears unstable, lighting may be insufficient or the background may be cluttered.
+  Si le comptage des doigts semble instable, l'éclairage peut être insuffisant ou l'arrière-plan peut être encombré.
 
-  Improve the lighting conditions and use a plain background to increase detection stability.
+  Améliorez les conditions d'éclairage et utilisez un arrière-plan simple pour augmenter la stabilité de la détection.
 
-- High latency
+- Latence élevée
 
-  If the response feels slow, the resolution may be too high or the CPU may be overloaded.
+  Si la réponse semble lente, la résolution peut être trop élevée ou le CPU peut être surchargé.
 
-  Reduce the resolution (for example, 320×240) and close unnecessary background processes. You can also simplify the finger counting logic if needed.
+  Réduisez la résolution (par exemple, 320x240) et fermez les processus d'arrière-plan inutiles. Vous pouvez également simplifier la logique de comptage des doigts si nécessaire.
 
 
 -----------------------------
-7. Summary
+7. Résumé
 -----------------------------
 
-- Using MediaPipe Hands, we can quickly implement **real-time gesture recognition**.
-- This section implemented **number gesture counting** based on fingertip positions, laying the foundation for custom gesture recognition.
-- By adapting for left/right hands and expanding judgment rules, more complex interactive scenarios can be achieved.
+- En utilisant MediaPipe Hands, nous pouvons rapidement implémenter la **reconnaissance de gestes en temps réel**.
+- Cette section a implémenté le **comptage de gestes numériques** basé sur les positions du bout des doigts, posant les bases pour la reconnaissance de gestes personnalisés.
+- En s'adaptant aux mains gauche/droite et en élargissant les règles de jugement, des scénarios interactifs plus complexes peuvent être réalisés.

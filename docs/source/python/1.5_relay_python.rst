@@ -4,25 +4,25 @@
 
 .. _py_relay:
 
-1.5 Relay Control
+1.5 Controle de Relais
 ===========================
 
 **Introduction**
 
-In this project, we will learn how to control a relay module using a Raspberry Pi. Relays are electrically operated switches that allow low-power circuits to control high-power devices safely. This project demonstrates how to toggle a relay on and off at regular intervals.
+Dans ce projet, nous allons apprendre a controler un module relais en utilisant un Raspberry Pi. Les relais sont des interrupteurs a commande electrique qui permettent a des circuits de faible puissance de controler en toute securite des dispositifs de haute puissance. Ce projet montre comment activer et desactiver un relais a intervalles reguliers.
 
 ----------------------------------------------
 
-**What You'll Need**
+**Ce dont vous aurez besoin**
 
-To complete this project, you will need the following components:
+Pour realiser ce projet, vous aurez besoin des composants suivants :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
     *   - :ref:`cpn_wires`
@@ -38,23 +38,23 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_diode`
         - |link_diode_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema de circuit**
 
-The GPIO signal passes through a 1 kΩ resistor to the transistor base, allowing the transistor to switch the relay coil on and off. When GPIO17 outputs HIGH, the transistor turns on, current flows through the relay coil, the relay activates, and the LED (through the 220 Ω resistor) lights up. When GPIO17 outputs LOW, the transistor turns off, the relay coil is de-energized, the relay releases, and the LED turns off. A flyback diode is placed across the relay coil to protect the circuit from voltage spikes.
+Le signal GPIO passe par une resistance de 1 kΩ jusqu'a la base du transistor, permettant au transistor de commuter la bobine du relais. Lorsque GPIO17 emet un niveau HAUT, le transistor s'allume, le courant traverse la bobine du relais, le relais s'active et la LED (via la resistance de 220 Ω) s'allume. Lorsque GPIO17 emet un niveau BAS, le transistor s'eteint, la bobine du relais est desactivee, le relais se libere et la LED s'eteint. Une diode de roue libre est placee aux bornes de la bobine du relais pour proteger le circuit des pics de tension.
 
 .. image:: img/fzz/1.3.3_relay_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Follow these steps to build the circuit:
+Suivez ces etapes pour construire le circuit :
 
 
 .. image:: img/fzz/1.3.3_relay_bb.png
@@ -63,27 +63,27 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Executer l'exemple**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l'exemple :
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
-   cd ~/ai-lab-kit/python/
-   sudo python3 1.5_Relay.py 
 
-After running the script, the relay connected to GPIO 17 repeatedly switches on and off every second. When the relay is turned on, the console displays “Relay open…”, and when it is turned off, “…Relay close” is shown. This cycle continues until you press Ctrl + C, at which point the program stops and the relay is safely turned off.
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.5_Relay.py
+
+Apres avoir execute le script, le relais connecte a GPIO 17 s'allume et s'eteint repetitivement chaque seconde. Lorsque le relais est active, la console affiche "Relay open...", et lorsqu'il est desactive, "...Relay close" est affiche. Ce cycle continue jusqu'a ce que vous appuyiez sur Ctrl + C, moment auquel le programme s'arrete et le relais est mis hors tension en toute securite.
 
 ----------------------------------------------
 
 **Code**
 
-The following Python code controls a relay module, toggling it on and off:
+Le code Python suivant controle un module relais, l'activant et le desactivant :
 
 .. raw:: html
 
@@ -102,7 +102,7 @@ The following Python code controls a relay module, toggling it on and off:
         # Loop to continuously toggle the relay's state every second
         while True:
             print('Relay open...')  # Inform that the relay is being activated
-            relay.high()  # Turn on the relay 
+            relay.high()  # Turn on the relay
             sleep(1)   # Maintain the relay in the on state for 1 second
 
             print('...Relay close')  # Inform that the relay is being deactivated
@@ -115,53 +115,53 @@ The following Python code controls a relay module, toggling it on and off:
         pass
 
 
-This Python script controls a relay module connected to GPIO pin 17. When executed:
+Ce script Python controle un module relais connecte a la broche GPIO 17. Lors de l'execution :
 
-1. The script enters an infinite loop that toggles the relay state every second
-2. When the relay is activated (HIGH), "Relay open..." is printed to the console
-3. When the relay is deactivated (LOW), "...Relay close" is printed to the console
-4. The program can be interrupted gracefully using ``Ctrl+C``, which ensures the relay is turned off before exiting
+1. Le script entre dans une boucle infinie qui alterne l'etat du relais chaque seconde.
+2. Lorsque le relais est active (HIGH), "Relay open..." est affiche sur la console.
+3. Lorsque le relais est desactive (LOW), "...Relay close" est affiche sur la console.
+4. Le programme peut etre interrompu proprement avec ``Ctrl+C``, ce qui garantit que le relais est eteint avant de quitter.
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Library Import**
+1. **Importation de la bibliotheque**
 
-   The ``Pin`` class from the ``fusion_hat`` library is used to control GPIO pins, and ``time.sleep`` introduces delays between state changes.
+   La classe ``Pin`` de la bibliotheque ``fusion_hat`` est utilisee pour controler les broches GPIO, et ``time.sleep`` introduit des pauses entre les changements d'etat.
 
    .. code-block:: python
 
         from fusion_hat.pin import Pin, Mode
         from time import sleep  # Import the sleep function for delay
 
-2. **Relay Initialization**
+2. **Initialisation du relais**
 
-   The relay is initialized on GPIO pin 17 and set to output mode.
+   Le relais est initialise sur la broche GPIO 17 et configure en mode sortie.
 
    .. code-block:: python
 
       # Initialize the relay connected to GPIO pin 17
       relay = Pin(17,mode=Mode.OUT)
 
-3. **Main Control Loop**
+3. **Boucle de controle principale**
 
-   The ``while True`` loop continuously toggles the relay state with 1-second intervals.
+   La boucle ``while True`` alterne en continu l'etat du relais avec des intervalles d'1 seconde.
 
    .. code-block:: python
 
       while True:
           print('Relay open...')  # Inform that the relay is being activated
-          relay.high()  # Turn on the relay 
+          relay.high()  # Turn on the relay
           sleep(1)   # Maintain the relay in the on state for 1 second
 
           print('...Relay close')  # Inform that the relay is being deactivated
           relay.low()  # Turn off the relay
           sleep(1)   # Maintain the relay in the off state for 1 second
 
-4. **Keyboard Interrupt Handling**
+4. **Gestion des interruptions clavier**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C), and turns off the relay before exiting.
+   Le bloc ``try-except`` garantit que le programme s'arrete proprement lorsqu'il est interrompu (par exemple, Ctrl+C), et eteint le relais avant de quitter.
 
    .. code-block:: python
 
@@ -172,35 +172,35 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Depannage**
 
-1. **Relay Not Responding**
+1. **Le relais ne repond pas**
 
-   - **Cause**: Incorrect wiring or wrong GPIO pin configuration.
-   - **Solution**: Verify all connections match the wiring diagram and confirm GPIO 17 is correctly specified.
+   - **Cause** : Cablage incorrect ou configuration de broche GPIO erronee.
+   - **Solution** : Verifiez que toutes les connexions correspondent au schema de cablage et confirmez que GPIO 17 est correctement specifie.
 
-2. **Relay Stays On or Off**
+2. **Le relais reste allume ou eteint**
 
-   - **Cause**: Logic level mismatch or power supply issues.
-   - **Solution**: Ensure the relay module is compatible with 3.3V logic levels and check that the power supply is adequate.
+   - **Cause** : Inadequation du niveau logique ou problemes d'alimentation.
+   - **Solution** : Assurez-vous que le module relais est compatible avec les niveaux logiques 3,3 V et verifiez que l'alimentation est adequate.
 
-3. **Program Doesn't Exit Cleanly**
+3. **Le programme ne se termine pas proprement**
 
-   - **Cause**: Keyboard interrupt not properly handled.
-   - **Solution**: Make sure to use ``Ctrl+C`` to terminate the program and check that the exception handling code is present.
+   - **Cause** : L'interruption clavier n'est pas correctement prise en charge.
+   - **Solution** : Assurez-vous d'utiliser ``Ctrl+C`` pour terminer le programme et verifiez que le code de gestion d'exception est present.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idees d'extension**
 
-1. **Scheduled Control**
+1. **Controle programmé**
 
-   Modify the code to control the relay based on a schedule, turning it on and off at specific times:
+   Modifiez le code pour controler le relais selon un horaire, l'allumant et l'eteignant a des heures specifiques :
 
    .. code-block:: python
 
       import datetime
-      
+
       # Turn relay on during specific hours
       current_time = datetime.datetime.now().time()
       if datetime.time(9, 0) <= current_time <= datetime.time(17, 0):
@@ -208,9 +208,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
       else:
           relay.low()
 
-2. **Sensor-Activated Control**
+2. **Controle par capteur**
 
-   Connect a sensor (like a temperature or motion sensor) and control the relay based on sensor readings:
+   Connectez un capteur (comme un capteur de temperature ou de mouvement) et controler le relais en fonction des lectures du capteur :
 
    .. code-block:: python
 
@@ -220,9 +220,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
       else:
           relay.low()   # Turn off cooling device
 
-3. **Multiple Relay Control**
+3. **Controle de relais multiples**
 
-   Expand the project to control multiple relays simultaneously:
+   Etendez le projet pour controler plusieurs relais simultanement :
 
    .. code-block:: python
 
@@ -232,7 +232,7 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
           'fan': Pin(18, Pin.OUT),
           'pump': Pin(19, Pin.OUT)
       }
-      
+
       # Control individual relays
       relays['light'].high()
       relays['fan'].low()
@@ -241,4 +241,4 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
 
 **Conclusion**
 
-This project demonstrates how to control a relay module using a Raspberry Pi. Relays are fundamental components in home automation, industrial control systems, and IoT applications. By mastering relay control, you can interface low-voltage circuits with high-power devices safely and effectively.
+Ce projet montre comment controler un module relais en utilisant un Raspberry Pi. Les relais sont des composants fondamentaux dans l'automatisation residentielle, les systemes de controle industriel et les applications IoT. En maitrisant le controle des relais, vous pouvez interfacer des circuits basse tension avec des dispositifs de haute puissance en toute securite et efficacite.

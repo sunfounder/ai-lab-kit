@@ -4,44 +4,44 @@
 
 .. _py_pir:
 
-2.7 PIR Sensor
-=================
+2.7 Capteur PIR
+===================
 
 **Introduction**
 
-The Passive Infrared (PIR) sensor is a motion detection device that senses infrared radiation emitted by humans and animals. In this project, we will use the PIR sensor to detect motion.
+Le capteur infrarouge passif (PIR) est un dispositif de detection de mouvement qui detecte le rayonnement infrarouge emis par les humains et les animaux. Dans ce projet, nous utiliserons le capteur PIR pour detecter le mouvement.
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Ce dont vous aurez besoin**
 
-Below are the components required for this project:
+Voici les composants necessaires pour ce projet :
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPOSANT
+        - LIEN D'ACHAT
 
     *   - :ref:`cpn_pir`
         - |link_pir_buy|
     *   - :ref:`cpn_wires`
-        - |link_wires_buy|        
+        - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        \-
 
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schema de circuit**
 
-Below is the schematic diagram for this project:
+Voici le schema de principe pour ce projet :
 
 .. image:: img/fzz/2.2.6_sch.png
 
@@ -49,19 +49,19 @@ Below is the schematic diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema de cablage**
 
-Build the circuit as shown in the diagram below:
+Construisez le circuit comme montre dans le diagramme ci-dessous :
 
 .. image:: img/fzz/2.2.6_bb.png
    :width: 80%
    :align: center
 
-Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per the schematic.
+Assurez-vous que la LED RVB et le capteur PIR sont connectes aux bonnes broches GPIO conformement au schema.
 
 .. note::
 
-   Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
+   Ajustez les deux potentiometres du module PIR pour une sensibilite et une distance de detection optimales. Tournez les deux dans le sens antihoraire a leur reglage maximum pour de meilleurs resultats.
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 200
@@ -69,11 +69,11 @@ Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per 
 
 ----------------------------------------------
 
-**Running the Example**
+**Executer l'exemple**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tous les exemples de code utilises dans ce tutoriel sont disponibles dans le repertoire ``ai-lab-kit``.
+Suivez ces etapes pour executer l'exemple :
 
 
 .. raw:: html
@@ -81,17 +81,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.7_PIR.py
 
-This Python script monitors a PIR (Passive Infrared) motion sensor based on motion detection. When executed:
+Ce script Python surveille un capteur de mouvement PIR (infrarouge passif) base sur la detection de mouvement. Lors de l'execution :
 
-1. **When Motion is Detected**: Prints "Detected Barrier!" to the console.
+1. **Lorsque le mouvement est detecte** : Affiche "Detected Barrier!" sur la console.
 
-2. **When No Motion is Detected**: Prints "No Barrier" to the console.
+2. **Lorsqu'aucun mouvement n'est detecte** : Affiche "No Barrier" sur la console.
 
-3. The program runs indefinitely, waiting for motion events. It can be terminated by pressing Ctrl+C.
+3. Le programme s'execute indefiniment, attendant les evenements de mouvement. Il peut etre termine en appuyant sur Ctrl+C.
 
 
 ----------------------------------------------
@@ -99,7 +99,7 @@ This Python script monitors a PIR (Passive Infrared) motion sensor based on moti
 
 **Code**
 
-Below is the Python code for this project:
+Voici le code Python pour ce projet :
 
 
 .. raw:: html
@@ -123,7 +123,7 @@ Below is the Python code for this project:
 
    try:
       pir.when_activated = detect  # Set up an interrupt to detect changes in the pir sensor state
-      pir.when_deactivated = detect  
+      pir.when_deactivated = detect
 
       # Run an event loop that waits for button events and keeps the script running
       print("CTRL + C to exit")
@@ -136,28 +136,28 @@ Below is the Python code for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendre le code**
 
-1. **Imports:**
+1. **Importations :**
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from signal import pause  # Import pause function from signal module
 
-   The script uses the ``fusion_hat`` library to control the PIR sensor, and the ``signal`` module to handle program termination.
+   Le script utilise la bibliotheque ``fusion_hat`` pour controler le capteur PIR et le module ``signal`` pour gerer la terminaison du programme.
 
 
-2. **Initialization:**
+2. **Initialisation :**
 
    .. code-block:: python
 
       pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-   In this line, a PIR sensor is initialized on pin 17 with an internal pull-down resistor enabled.
+   Dans cette ligne, un capteur PIR est initialise sur la broche 17 avec une resistance pull-down interne activee.
 
 
-3. **Main Loop:**
+3. **Boucle principale :**
 
    .. code-block:: python
 
@@ -169,7 +169,7 @@ Below is the Python code for this project:
 
       try:
          pir.when_activated = detect  # Set up an interrupt to detect changes in the pir sensor state
-         pir.when_deactivated = detect  
+         pir.when_deactivated = detect
 
          # Run an event loop that waits for button events and keeps the script running
          print("CTRL + C to exit")
@@ -180,30 +180,30 @@ Below is the Python code for this project:
          pass
 
 
-   * Continuously checks for motion detected by the PIR sensor.
-   * If motion is detected, the message "Detected Barrier!" is printed.
-   * If no motion is detected, the message "No Barrier" is printed.
+   * Verifie en continu le mouvement detecte par le capteur PIR.
+   * Si un mouvement est detecte, le message "Detected Barrier!" est affiche.
+   * Si aucun mouvement n'est detecte, le message "No Barrier" est affiche.
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Depannage**
 
 
-1. **Motion Not Detected**:
+1. **Mouvement non detecte** :
 
-   - **Cause**: PIR sensor is not wired or configured properly.
-   - **Solution**:
+   - **Cause** : Le capteur PIR n'est pas correctemente cabler ou configure.
+   - **Solution** :
 
-     - Ensure the PIR sensor is connected to GPIO pin 17, power, and ground.
-     - Adjust the sensor’s sensitivity and delay potentiometers if available.
+     - Assurez-vous que le capteur PIR est connecte a la broche GPIO 17, a l'alimentation et a la masse.
+     - Ajustez les potentiometres de sensibilite et de delai du capteur s'ils sont disponibles.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idees d'extension**
 
-1. **Auditory Feedback**: Add a buzzer that sounds when motion is detected:
+1. **Retour sonore** : Ajoutez un buzzer qui emet un son lorsque le mouvement est detecte :
 
    .. code-block:: python
 
@@ -214,7 +214,7 @@ Below is the Python code for this project:
       else:
          buzzer.off()
 
-2. **Data Logging**: Log motion detection events with timestamps to a file for analysis:
+2. **Journalisation des donnees** : Enregistrez les evenements de detection de mouvement avec des horodatages dans un fichier pour analyse :
 
    .. code-block:: python
 
@@ -227,4 +227,4 @@ Below is the Python code for this project:
 
 **Conclusion**
 
-This project demonstrates how to use a PIR sensor. By understanding the basics of motion sensing  control, you can expand this project into more advanced applications such as security systems, automated lighting, or interactive devices. The PIR sensor’s versatility and simplicity make it an excellent component for countless DIY and professional projects.
+Ce projet montre comment utiliser un capteur PIR. En comprenant les bases de la detection de mouvement, vous pouvez etendre ce projet a des applications plus avancees telles que les systemes de securite, l'eclairage automatise ou les dispositifs interactifs. La polyvalence et la simplicite du capteur PIR en font un composant excellent pour d'innombrables projets DIY et professionnels.
