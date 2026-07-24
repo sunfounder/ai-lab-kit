@@ -4,13 +4,13 @@
 
 .. _play_with_llm:
 
-Play with AI (Multi-LLMs)
+Gioca con l'AI (Multi-LLM)
 ------------------------------------------------------------
 
-Go beyond movement and vision by adding **speech** and **AI**.  
-Here you will explore text-to-speech (TTS), speech-to-text (STT), and large language models (LLMs) to make your Fusion HAT+ talk, listen, and even chat with you like a smart robot.
+Vai oltre il movimento e la visione aggiungendo **parola** e **AI**.
+Qui esplorerai la sintesi vocale (TTS), il riconoscimento vocale (STT) e i grandi modelli linguistici (LLM) per far parlare, ascoltare e persino chattare il tuo Fusion HAT+ come un robot intelligente.
 
-.. toctree:: 
+.. toctree::
     :maxdepth: 1
 
     python_tts_espeak_pico2wave
@@ -21,17 +21,17 @@ Here you will explore text-to-speech (TTS), speech-to-text (STT), and large lang
     python_local_chatbot
     python_ai_assistant
 
-Here are some example project that you can try, there all are using the OpenAI API, and you can use the other llm APIs as well.
+Ecco alcuni progetti di esempio che puoi provare; tutti utilizzano l'API OpenAI, ma puoi usare anche altre API LLM.
 
-.. toctree:: 
+.. toctree::
     :maxdepth: 1
 
-    python_openai_health.rst 
-    python_openai_fan.rst 
-    python_openai_blindfolded_game.rst 
+    python_openai_health.rst
+    python_openai_fan.rst
+    python_openai_blindfolded_game.rst
     python_openai_morse_decoder.rst
-    python_openai_lamp.rst 
-    python_openai_book.rst 
-    python_openai_pet.rst 
+    python_openai_lamp.rst
+    python_openai_book.rst
+    python_openai_pet.rst
     python_openai_weather.rst
     python_openai_homewok.rst

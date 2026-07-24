@@ -5,47 +5,47 @@
 
 .. _mp_pose_segmentation:
 
-9. Green Screen
+9. Schermo Verde
 ====================================
 
 ------------------------------------------------------------
-1. Overview
+1. Panoramica
 ------------------------------------------------------------
 
-This chapter uses the **person segmentation** capability of
-MediaPipe Pose to implement a simple **green screen effect**.
+Questo capitolo utilizza la capacita di **segmentazione della persona** di
+MediaPipe Pose per implementare un semplice **effetto schermo verde**.
 
-By separating the person from the background,
-we can replace the original background with a solid green color.
-This enables:
+Separando la persona dallo sfondo,
+possiamo sostituire lo sfondo originale con un colore verde uniforme.
+Questo consente:
 
-- Virtual background applications
-- Chroma key compositing (OBS / NLE)
-- Live streaming effects
-- AR-style scene replacement
+- Applicazioni con sfondo virtuale
+- Compositing chroma key (OBS / NLE)
+- Effetti per live streaming
+- Sostituzione della scena in stile AR
 
 .. image:: img/mp_pose_green.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Come Funziona
 ------------------------------------------------------------
 
-The green screen effect is implemented using the following steps:
+L'effetto schermo verde e implementato usando i seguenti passaggi:
 
-1. Initialize the Pose model with ``enable_segmentation=True``.
-2. For each frame, obtain ``results.segmentation_mask``.
-3. The mask is a single-channel probability map (range 0–1).
-4. Apply a threshold (e.g., 0.5) to separate foreground and background.
-5. Replace background pixels with solid green.
-6. Optionally apply blur or morphological filtering to smooth edges.
+1. Inizializza il modello Pose con ``enable_segmentation=True``.
+2. Per ogni fotogramma, ottieni ``results.segmentation_mask``.
+3. La maschera e una mappa di probabilita a canale singolo (intervallo 0–1).
+4. Applica una soglia (es., 0.5) per separare primo piano e sfondo.
+5. Sostituisci i pixel dello sfondo con verde uniforme.
+6. Opzionalmente applica sfocatura o filtraggio morfologico per ammorbidire i bordi.
 
-This method is lightweight and runs in real time on Raspberry Pi,
-while providing a practical example of human segmentation.
+Questo metodo e leggero e funziona in tempo reale su Raspberry Pi,
+fornendo al contempo un esempio pratico di segmentazione umana.
 
 ------------------------
-3. Run the Code
+3. Eseguire il Codice
 ------------------------
 
 .. important::
@@ -61,19 +61,19 @@ while providing a practical example of human segmentation.
 
    For detailed instructions, see :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation.py
 
-   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+   Se desideri utilizzare MediaPipe Pose con un video registrato, puoi eseguire il seguente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation_video.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Dopo aver eseguito il programma, si apre una finestra intitolata "Show Video" che mostra il flusso video in diretta.
 
    .. raw:: html
 
@@ -82,26 +82,26 @@ while providing a practical example of human segmentation.
              Your browser does not support the video tag.
          </video>
 
-   A trackbar named ``Mask`` appears in the same window. It controls the segmentation threshold (0–100), with the default value set to 50 (0.5).
+   Una barra di scorrimento chiamata ``Mask`` appare nella stessa finestra. Controlla la soglia di segmentazione (0–100), con il valore predefinito impostato a 50 (0.5).
 
-   When a person appears in front of the camera:
+   Quando una persona appare davanti alla fotocamera:
 
-   - MediaPipe Pose generates a ``segmentation_mask`` for each frame.
-   - Pixels with mask values above the threshold are treated as the foreground (person).
-   - All other pixels are replaced with a solid green background (green screen effect).
+   - MediaPipe Pose genera una ``segmentation_mask`` per ogni fotogramma.
+   - I pixel con valori della maschera superiori alla soglia vengono trattati come primo piano (persona).
+   - Tutti gli altri pixel vengono sostituiti con uno sfondo verde uniforme (effetto schermo verde).
 
-   As you move the ``Mask`` trackbar:
+   Mentre muovi la barra di scorrimento ``Mask``:
 
-   - Increasing the threshold keeps only the most confident foreground area (less background leak, but may cut off some body parts).
-   - Decreasing the threshold includes more pixels as foreground (more complete silhouette, but may include background noise).
+   - Aumentare la soglia mantiene solo l'area di primo piano piu sicura (meno perdita di sfondo, ma potrebbe tagliare alcune parti del corpo).
+   - Diminuire la soglia include piu pixel come primo piano (sagoma piu completa, ma potrebbe includere rumore dello sfondo).
 
-   If no segmentation mask is available, the program simply shows the normal camera feed without background replacement.
+   Se non e disponibile alcuna maschera di segmentazione, il programma mostra semplicemente il normale flusso video senza sostituzione dello sfondo.
 
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   Premi ``q`` per uscire dal programma.
+   La fotocamera si ferma e la finestra OpenCV si chiude automaticamente.
 
 -----------------------------
-4. Complete Code
+4. Codice Completo
 -----------------------------
 
 .. code-block:: python
@@ -135,13 +135,13 @@ while providing a practical example of human segmentation.
    print("Streaming... press 'q' to quit")
 
 
-   # --- Utility: empty callback for trackbars ---
+   # --- Utility: callback vuoto per le barre di scorrimento ---
    def _noop(x):
       pass
 
    # Create Window
    cv2.namedWindow('Show Video')
-   # Create a trackbar for threshold, default value is 50
+   # Crea una barra di scorrimento per la soglia, valore predefinito 50
    cv2.createTrackbar('Mask', 'Show Video', 50, 100, _noop)
 
 
@@ -186,29 +186,29 @@ while providing a practical example of human segmentation.
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the person (foreground) is preserved, and the background is replaced with solid green.
-It can be directly used for subsequent keying with **Chroma Key** in OBS, Premiere, DaVinci Resolve, etc.
+Dopo aver eseguito lo script, la persona (primo piano) viene preservata e lo sfondo viene sostituito con verde uniforme.
+Puo essere utilizzato direttamente per il successivo keying con **Chroma Key** in OBS, Premiere, DaVinci Resolve, ecc.
 
 -------------------------------------
-5. Key Points Explanation
+5. Spiegazione dei Punti Chiave
 -------------------------------------
 
-``segmentation_mask`` is a **single-channel float image** (range 0~1) with the same size as the input frame:
+``segmentation_mask`` e una **immagine float a canale singolo** (intervallo 0~1) con la stessa dimensione del fotogramma di input:
 
-- Value **close to 1**: High probability of being **foreground (person)**;
-- Value **close to 0**: High probability of being **background**.
+- Valore **vicino a 1**: Alta probabilita di essere **primo piano (persona)**;
+- Valore **vicino a 0**: Alta probabilita di essere **sfondo**.
 
-The usual approach is to set a threshold **T** (e.g., 0.5) and create a condition mask:
+L'approccio usuale e impostare una soglia **T** (es., 0.5) e creare una maschera di condizione:
 
 .. code-block:: python
 
    condition = (mask > T)[..., None]
 
-Here we set up a trackbar to adjust the threshold in real-time:
+Qui impostiamo una barra di scorrimento per regolare la soglia in tempo reale:
 
 .. code-block:: python
 
-   # Create a trackbar for threshold, default value is 50
+   # Crea una barra di scorrimento per la soglia, valore predefinito 50
    cv2.createTrackbar('Mask', 'Show Video', 50, 100, _noop)
 
    while True:
@@ -220,7 +220,7 @@ Here we set up a trackbar to adjust the threshold in real-time:
       # Create a condition mask
       condition = (mask > threshold/100.0)[..., None]  # [H, W, 1]
 
-Then we can use ``np.where(condition, frame, background)`` to replace the background; here we replace it with green:
+Poi possiamo usare ``np.where(condition, frame, background)`` per sostituire lo sfondo; qui lo sostituiamo con il verde:
 
 .. code-block:: python
 
@@ -231,11 +231,11 @@ Then we can use ``np.where(condition, frame, background)`` to replace the backgr
    frame = np.where(condition, frame, bg)
 
 ----------------------------------------------------
-6. Effect and Edge Optimization
+6. Ottimizzazione dell'Effetto e dei Bordi
 ----------------------------------------------------
 
-Direct binarization can cause jagged edges or small holes around hair and clothing edges.
-**Light post-processing** can improve edges:
+La binarizzazione diretta puo causare bordi frastagliati o piccoli fori intorno ai capelli e ai bordi dei vestiti.
+**Una leggera post-elaborazione** puo migliorare i bordi:
 
 .. code-block:: python
 
@@ -253,14 +253,14 @@ Direct binarization can cause jagged edges or small holes around hair and clothi
 
 .. tip::
 
-   - **Recommended T value range 0.3~0.7**: Can be appropriately lowered in dark environments/conservative models; can be raised with more noise.
-   - Don't make the blur kernel too large, otherwise the person's boundary will "leak green".
+   - **Intervallo T consigliato 0.3~0.7**: Puo essere opportunamente abbassato in ambienti bui/modelli conservativi; puo essere aumentato con piu rumore.
+   - Non rendere il kernel di sfocatura troppo grande, altrimenti il confine della persona "perdera verde".
 
 ----------------------------------------------------
-7. Using Custom Background (Image/Video)
+7. Utilizzo di Sfondi Personalizzati (Immagine/Video)
 ----------------------------------------------------
 
-Replace solid green with a custom background image:
+Sostituisci il verde uniforme con un'immagine di sfondo personalizzata:
 
 .. code-block:: python
 
@@ -268,62 +268,62 @@ Replace solid green with a custom background image:
    bg_img = cv2.resize(bg_img, (frame.shape[1], frame.shape[0]))
    frame = np.where(condition, frame, bg_img)
 
-Or use another video as the background (read the next frame ``bg_frame``, resize to the same dimensions, then replace).
+Oppure usa un altro video come sfondo (leggi il fotogramma successivo ``bg_frame``, ridimensionalo alle stesse dimensioni, poi sostituisci).
 
 ----------------------------------------------------
-8. Performance and Quality Balance
+8. Bilanciamento tra Prestazioni e Qualita
 ----------------------------------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Item
-     - Impact
-     - Suggestion
-   * - Resolution
-     - Higher resolution gives finer edges but slower speed
-     - Start with 640×480; increase if clearer image needed
+   * - Elemento
+     - Impatto
+     - Suggerimento
+   * - Risoluzione
+     - Risoluzione piu alta da bordi piu fini ma velocita ridotta
+     - Inizia con 640×480; aumenta se serve un'immagine piu chiara
    * - model_complexity
-     - Higher is more precise but slower
-     - Recommended 1~2 on Raspberry Pi
-   * - Post-processing strength
-     - Too much blur/morphology can "swallow edges/leak green"
-     - Small kernel + few iterations, observe edge effect
+     - Piu alto e piu preciso ma piu lento
+     - Raccomandato 1~2 su Raspberry Pi
+   * - Forza della post-elaborazione
+     - Troppa sfocatura/morfologia puo "inghiottire i bordi/perdere verde"
+     - Kernel piccolo + poche iterazioni, osserva l'effetto sui bordi
 
 ------------------------------------------------------------
-9. Troubleshooting
+9. Risoluzione dei Problemi
 ------------------------------------------------------------
 
-- Jagged edges or visible seams around the person
+- Bordi frastagliati o cuciture visibili intorno alla persona
 
-  This usually happens because the mask is applied with a hard threshold, which creates sharp boundaries. 
-  
-  Try adjusting the threshold using the ``Mask`` trackbar. For smoother edges, apply a small blur to the segmentation mask or use a simple morphological closing operation before compositing.
+  Questo di solito accade perche la maschera viene applicata con una soglia rigida, che crea confini netti.
 
-- Missing parts of the person
+  Prova a regolare la soglia usando la barra di scorrimento ``Mask``. Per bordi piu morbidi, applica una piccola sfocatura alla maschera di segmentazione o usa una semplice operazione di chiusura morfologica prima del compositing.
 
-  If parts of the body are cut out, the lighting may be too weak, or the clothing color may blend into the background. 
-  
-  Improve lighting, adjust the threshold, and try using a simpler background with higher contrast against the subject.
+- Parti mancanti della persona
 
-- Low frame rate
+  Se parti del corpo vengono tagliate, l'illuminazione potrebbe essere troppo debole o il colore dei vestiti potrebbe confondersi con lo sfondo.
 
-  If the video feels slow, the resolution may be too high or the model may be too complex. 
-  
-  Reduce the camera resolution (for example, 640×480 or 320×240) and keep ``model_complexity`` at 1 for better performance.
+  Migliora l'illuminazione, regola la soglia e prova a usare uno sfondo piu semplice con maggiore contrasto rispetto al soggetto.
 
-- Green spills onto the subject
+- Basso frame rate
 
-  If the green background appears on the subject, the segmentation boundary may be inaccurate, or the subject color may cause visual confusion. 
-  
-  Try switching to a different replacement color (blue or gray), or replace the background with an image instead of a solid color for a more natural result.
+  Se il video e lento, la risoluzione potrebbe essere troppo alta o il modello troppo complesso.
+
+  Riduci la risoluzione della fotocamera (per esempio, 640×480 o 320×240) e mantieni ``model_complexity`` a 1 per migliori prestazioni.
+
+- Il verde si riversa sul soggetto
+
+  Se lo sfondo verde appare sul soggetto, il confine di segmentazione potrebbe essere impreciso o il colore del soggetto potrebbe causare confusione visiva.
+
+  Prova a passare a un colore di sostituzione diverso (blu o grigio), o sostituisci lo sfondo con un'immagine invece di un colore uniforme per un risultato piu naturale.
 
 
 -----------------------------
-10. Summary
+10. Riepilogo
 -----------------------------
 
-- Using ``segmentation_mask``, we can quickly achieve "person cutout + background replacement";
-- Obtain more natural edges through thresholds and lightweight post-processing;
-- Suitable for virtual backgrounds, live streaming keying, remote teaching, etc.;
-- Next steps could combine **pose skeleton** and **segmentation** for more interactive effects (e.g., only replace background, don't replace foreground overlay skeleton).
+- Usando ``segmentation_mask``, possiamo ottenere rapidamente "ritaglio della persona + sostituzione dello sfondo";
+- Ottieni bordi piu naturali attraverso soglie e post-elaborazione leggera;
+- Adatto per sfondi virtuali, keying per live streaming, insegnamento a distanza, ecc.;
+- I prossimi passi potrebbero combinare **scheletro della posa** e **segmentazione** per effetti piu interattivi (es., sostituire solo lo sfondo, non sostituire la sovrapposizione dello scheletro in primo piano).

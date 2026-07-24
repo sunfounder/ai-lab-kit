@@ -4,69 +4,69 @@
 
 
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: Se si utilizza l'immagine preinstallata "Raspberry Pi OS with AI Fusion Lab Kit", questa sezione puo essere saltata. Tale immagine include gia tutte le installazioni software, le configurazioni ambientali e i deployment del codice di esempio descritti in questo capitolo.
 
 
 .. _mediapipe_install:
 
-0. Setup MediaPipe
+0. Setup di MediaPipe
 ====================================================================
 
-About the OS Version
--------------------------------
+Informazioni sulla Versione del Sistema Operativo
+-------------------------------------------------
 
 .. warning::
 
-   **Recommended OS**: Raspberry Pi OS Bookworm (Debian 12, 64-bit)
+   **Sistema Operativo Raccomandato**: Raspberry Pi OS Bookworm (Debian 12, 64-bit)
 
-   Raspberry Pi OS Trixie (Debian 13) is not recommended because:
+   Raspberry Pi OS Trixie (Debian 13) non e raccomandato perche:
 
-   * MediaPipe does not yet support Python 3.13.
-   * Picamera2 only works with the system Python.
+   * MediaPipe non supporta ancora Python 3.13.
+   * Picamera2 funziona solo con il Python di sistema.
 
-This tutorial will be updated once Trixie becomes supported.
+Questo tutorial verra aggiornato quando Trixie sara supportato.
 
-If you would like to request official MediaPipe support for Python 3.13, you can submit feedback here:
+Se desideri richiedere il supporto ufficiale di MediaPipe per Python 3.13, puoi inviare un feedback qui:
 
 * GitHub Issue: https://github.com/google-ai-edge/mediapipe/issues/5708
 * Support Page: https://ai.google.dev/edge/mediapipe/support
 
 
 
-Before You Start
+Prima di Iniziare
 ----------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Prima di iniziare, assicurati di:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Aver assemblato il pan-tilt
+   * Poter accedere al desktop del Raspberry Pi
+   * Aver installato il pacchetto del codice
+   * Aver installato e configurato Fusion HAT+
+   * Aver installato OpenCV
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Per istruzioni dettagliate, consulta :ref:`opencv_install`.
 
-These preparations ensure MediaPipe can run with full graphical and camera functionality on your Raspberry Pi.
+Queste preparazioni garantiscono che MediaPipe possa funzionare con tutte le funzionalita grafiche e della fotocamera sul tuo Raspberry Pi.
 
 
-Installation Steps
+Passaggi di Installazione
 ----------------------------------
 
-#. Install MediaPipe
+#. Installare MediaPipe
 
-   Install MediaPipe using pip. On Raspberry Pi OS Bookworm (Debian 12, 64-bit),
-   pip will download the correct wheel automatically.
+   Installa MediaPipe usando pip. Su Raspberry Pi OS Bookworm (Debian 12, 64-bit),
+   pip scarichera automaticamente la wheel corretta.
 
    .. code-block:: bash
 
       sudo pip install mediapipe --break-system-packages
 
-#. Verify the installation
+#. Verificare l'installazione
 
-   Run the following command to confirm that MediaPipe is installed correctly.
+   Esegui il seguente comando per confermare che MediaPipe sia installato correttamente.
 
    .. code-block:: bash
 
@@ -75,54 +75,54 @@ Installation Steps
       print("MediaPipe version:", mp.__version__)
       EOF
 
-   Expected output:
+   Output previsto:
 
    .. code-block:: text
 
       MediaPipe version: 0.10.18
 
 
-Common Issues & Solutions
+Problemi Comuni e Soluzioni
 -------------------------
 
-#. MediaPipe installation fails
+#. L'installazione di MediaPipe fallisce
 
-   This usually happens when using an unsupported OS version.
+   Questo accade solitamente quando si utilizza una versione del sistema operativo non supportata.
 
-   Solution:
+   Soluzione:
 
-   * MediaPipe currently works only on Raspberry Pi OS Bookworm (Debian 12, 64-bit).
-   * Raspberry Pi OS Trixie (Debian 13, Python 3.13) is not supported.
+   * MediaPipe attualmente funziona solo su Raspberry Pi OS Bookworm (Debian 12, 64-bit).
+   * Raspberry Pi OS Trixie (Debian 13, Python 3.13) non e supportato.
 
-#. Camera cannot be opened in MediaPipe or OpenCV
+#. La fotocamera non puo essere aperta in MediaPipe o OpenCV
 
-   This usually happens when the Raspberry Pi camera interface is not enabled.
+   Questo accade solitamente quando l'interfaccia della fotocamera del Raspberry Pi non e abilitata.
 
-   Solution:
+   Soluzione:
 
-   * Enable the camera in ``raspi-config``:
+   * Abilita la fotocamera in ``raspi-config``:
      Interface Options → Camera → Enable
 
-#. OpenCV import errors
+#. Errori di importazione di OpenCV
 
-   Some pip-installed versions of OpenCV may be incompatible with Raspberry Pi OS libraries.
+   Alcune versioni di OpenCV installate con pip potrebbero essere incompatibili con le librerie di Raspberry Pi OS.
 
-   Solution:
+   Soluzione:
 
    .. code-block:: bash
 
       sudo apt install python3-opencv
 
-#. MediaPipe cannot be imported after installation
+#. MediaPipe non puo essere importato dopo l'installazione
 
-   This may happen if pip, setuptools, or wheel are outdated.
+   Questo puo accadere se pip, setuptools o wheel sono obsoleti.
 
-   Solution:
+   Soluzione:
 
    .. code-block:: bash
 
       sudo pip install --upgrade pip setuptools wheel
 
 
-Your MediaPipe is now ready.  
-You can proceed to the next section to run real-time face detection using the Raspberry Pi camera.
+Il tuo MediaPipe e ora pronto.
+Puoi procedere alla sezione successiva per eseguire il rilevamento facciale in tempo reale utilizzando la fotocamera del Raspberry Pi.

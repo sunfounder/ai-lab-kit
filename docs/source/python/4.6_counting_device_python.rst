@@ -4,27 +4,27 @@
 
 .. _py_fun_count:
 
-4.6 Counting Device
-=======================
+4.6 Dispositivo di Conteggio
+=============================
 
-**Introduction**
+**Introduzione**
 
-In this project, you will build a people-counting system using a PIR motion sensor and a 4-digit 7-segment display. The system increments the count displayed whenever the PIR sensor detects motion. This project is ideal for monitoring foot traffic in a hallway or entrance, and it provides hands-on experience with GPIO programming and display control.
+In questo progetto, costruirai un sistema di conteggio persone usando un sensore di movimento PIR e un display a 7 segmenti a 4 cifre. Il sistema incrementa il conteggio visualizzato ogni volta che il sensore PIR rileva movimento. Questo progetto è ideale per monitorare il traffico pedonale in un corridoio o ingresso e fornisce esperienza pratica con la programmazione GPIO e il controllo del display.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-The following components are required for this project:
+I seguenti componenti sono richiesti per questo progetto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,18 +39,18 @@ The following components are required for this project:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-Below is the circuit diagram for the project:
+Qui sotto c'è lo schema elettrico per il progetto:
 
 
 .. image:: img/fzz/4.1.4_sch.png
@@ -60,9 +60,9 @@ Below is the circuit diagram for the project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Follow the wiring diagram to connect the components correctly:
+Segui lo schema di cablaggio per collegare correttamente i componenti:
 
 
 .. image:: img/fzz/4.1.4_bb.png
@@ -72,7 +72,7 @@ Follow the wiring diagram to connect the components correctly:
 
 .. note::
 
-   Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
+   Regola i due potenziometri sul modulo PIR per una sensibilità e distanza di rilevamento ottimali. Ruota entrambi in senso antiorario al massimo per ottenere i migliori risultati.
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 300
@@ -80,11 +80,11 @@ Follow the wiring diagram to connect the components correctly:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 
 .. raw:: html
@@ -92,32 +92,32 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 4.6_CountingDevice.py 
+   sudo python3 4.6_CountingDevice.py
 
-This Python script integrates a PIR motion sensor and a 7-segment display driven by a 74HC595 shift register. The script performs the following:
+Questo script Python integra un sensore di movimento PIR e un display a 7 segmenti pilotato da un registro a scorrimento 74HC595. Lo script esegue le seguenti operazioni:
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO 26 detects motion. Each motion detection increments a counter.
+1. **Rilevamento Movimento**: Un sensore di movimento PIR collegato a GPIO 26 rileva il movimento. Ogni rilevamento movimento incrementa un contatore.
 
-2. **Number Display**: 
+2. **Visualizzazione Numerica**:
 
-   - The current counter value is displayed on a 4-digit 7-segment display.
-   - The display updates dynamically as motion is detected, incrementing the value.
+   - Il valore corrente del contatore viene visualizzato su un display a 7 segmenti a 4 cifre.
+   - Il display si aggiorna dinamicamente man mano che viene rilevato movimento, incrementando il valore.
 
-3. **Continuous Monitoring**: The script continuously monitors for motion and updates the display in real-time.
+3. **Monitoraggio Continuo**: Lo script monitora continuamente il movimento e aggiorna il display in tempo reale.
 
-4. **Graceful Exit**: On ``Ctrl+C``, all pins are turned off, ensuring a clean shutdown of the script.
+4. **Uscita Controllata**: Con ``Ctrl+C``, tutti i pin vengono spenti, garantendo un arresto pulito dello script.
 
 
 
 ----------------------------------------------
 
 
-**Code**
+**Codice**
 
 
-Below is the Python script used in this project:
+Qui sotto c'è lo script Python usato in questo progetto:
 
 
 
@@ -141,7 +141,7 @@ Below is the Python script used in this project:
    # Define GPIO pins used to select one of the 4 digits on the 7-segment display
    placePin = [Pin(pin, mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
-   # Segment code table for digits 0–9 (common-cathode 7-segment display)
+   # Segment code table for digits 0-9 (common-cathode 7-segment display)
    number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
    # Counter to display the number of detections
@@ -166,7 +166,7 @@ Below is the Python script used in this project:
       RCLK.low()
 
    def pickDigit(digit):
-      """Enable one specific digit (0–3) on the multiplexed display."""
+      """Enable one specific digit (0-3) on the multiplexed display."""
       for pin in placePin:
          pin.low()                      # Disable all digits
       placePin[digit].high()             # Activate the selected digit
@@ -223,59 +223,59 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Motion Detection:**
+1. **Rilevamento Movimento:**
 
-   The PIR sensor detects motion and sends a signal to increment the counter.
+   Il sensore PIR rileva il movimento e invia un segnale per incrementare il contatore.
 
-2. **Display Update:**
+2. **Aggiornamento del Display:**
 
-   The ``hc595_shift`` and ``pickDigit`` functions work together to control the 7-segment display and update the counter in real time.
+   Le funzioni ``hc595_shift`` e ``pickDigit`` lavorano insieme per controllare il display a 7 segmenti e aggiornare il contatore in tempo reale.
 
-3. **Main Loop:**
+3. **Ciclo Principale:**
 
-   The ``loop`` function continuously checks the PIR sensor and updates the display when motion is detected.
+   La funzione ``loop`` controlla continuamente il sensore PIR e aggiorna il display quando viene rilevato movimento.
 
-4. **Interrupt Handling:**
+4. **Gestione dell'Interruzione:**
 
-   The script ensures all GPIO pins are safely turned off when interrupted, preventing unexpected behavior.
+   Lo script assicura che tutti i pin GPIO siano spenti in sicurezza quando interrotto, prevenendo comportamenti imprevisti.
 
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **Display Not Working**:
+1. **Display Non Funzionante**:
 
-   - **Cause**: Incorrect wiring of the 7-segment display or shift register.
-   - **Solution**:
+   - **Causa**: Cablaggio errato del display a 7 segmenti o del registro a scorrimento.
+   - **Soluzione**:
 
-     - Verify connections between the GPIO pins and the SDI, SRCLK, and RCLK pins of the shift register.
-     - Ensure all ``placePin`` connections match the corresponding digit pins.
+     - Verifica le connessioni tra i pin GPIO e i pin SDI, SRCLK e RCLK del registro a scorrimento.
+     - Assicurati che tutte le connessioni ``placePin`` corrispondano ai pin delle cifre corrispondenti.
 
-2. **Motion Sensor Not Triggering**:
+2. **Sensore di Movimento Non Attivato**:
 
-   - **Cause**: PIR sensor wiring or environmental interference.
-   - **Solution**:
+   - **Causa**: Cablaggio del sensore PIR o interferenza ambientale.
+   - **Soluzione**:
 
-     - Check the PIR sensor connections to GPIO 26, power, and ground.
-     - Adjust the sensitivity and delay potentiometers on the PIR sensor if available.
+     - Controlla le connessioni del sensore PIR a GPIO 26, alimentazione e massa.
+     - Regola i potenziometri di sensibilità e ritardo sul sensore PIR, se disponibili.
 
-3. **Counter Does Not Increment**:
+3. **Il Contatore Non Incrementa**:
 
-   - **Cause**: Motion sensor state changes not detected.
-   - **Solution**:
+   - **Causa**: I cambiamenti di stato del sensore di movimento non vengono rilevati.
+   - **Soluzione**:
 
-     - Ensure the ``pir.value()`` value updates correctly.
-     - Add debugging prints to confirm state transitions in the ``loop()`` function.
+     - Assicurati che il valore ``pir.value()`` si aggiorni correttamente.
+     - Aggiungi stampe di debug per confermare le transizioni di stato nella funzione ``loop()``.
 
-4. **Flickering Display**:
+4. **Display Sfarfallante**:
 
-   - **Cause**: Insufficient delay or improper timing in the display update.
-   - **Solution**: Add a small delay in the ``display()`` function to stabilize the display:
+   - **Causa**: Ritardo insufficiente o temporizzazione impropria nell'aggiornamento del display.
+   - **Soluzione**: Aggiungi un piccolo ritardo nella funzione ``display()`` per stabilizzare il display:
 
        .. code-block:: python
 
@@ -284,9 +284,9 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Bidirectional Counter**: Add another PIR sensor to detect motion in opposite directions and decrement the counter:
+1. **Contatore Bidirezionale**: Aggiungi un altro sensore PIR per rilevare il movimento in direzioni opposte e decrementare il contatore:
 
    .. code-block:: python
 
@@ -294,7 +294,7 @@ Below is the Python script used in this project:
       if pir2.value()==1:
          counter -= 1
 
-2. **Threshold-Based Alerts**: Trigger an alert (e.g., LED or buzzer) when the counter exceeds a predefined value:
+2. **Avvisi Basati su Soglia**: Attiva un avviso (ad es., LED o buzzer) quando il contatore supera un valore predefinito:
 
    .. code-block:: python
 
@@ -305,14 +305,14 @@ Below is the Python script used in this project:
       else:
             buzzer.off()
 
-3. **Data Logging**: Log the counter value and timestamps to a file for analysis:
+3. **Registrazione Dati**: Registra il valore del contatore e i timestamp in un file per l'analisi:
 
    .. code-block:: python
 
       with open("motion_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, Counter: {counter}\n")
 
-4. **Timer-Based Reset**: Reset the counter after a specific period of inactivity:
+4. **Reset Basato su Timer**: Reimposta il contatore dopo un periodo specifico di inattività:
 
    .. code-block:: python
 
@@ -320,13 +320,12 @@ Below is the Python script used in this project:
       if time.time() - last_motion_time > 300:  # 5 minutes
             counter = 0
 
-5. **Event-Based Triggers**: Trigger specific actions (e.g., controlling appliances) when the counter reaches specific values.
+5. **Attivazioni Basate su Eventi**: Attiva azioni specifiche (ad es., controllo di elettrodomestici) quando il contatore raggiunge valori specifici.
 
 
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusione**
 
-This project introduces the basics of motion detection and display control using a PIR sensor and 7-segment display. It provides a practical foundation for more advanced IoT and data visualization projects.
-
+Questo progetto introduce le basi del rilevamento movimento e del controllo display usando un sensore PIR e un display a 7 segmenti. Fornisce una base pratica per progetti IoT e di visualizzazione dati più avanzati.

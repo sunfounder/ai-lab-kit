@@ -1,57 +1,57 @@
 # SunFounder AI Fusion Lab Kit
-This repository is for AI Fusion Lab Kit. you can buy it on [our website](https://www.sunfounder.com/), or search sunfounder in Amazon.
+Questo repository riguarda AI Fusion Lab Kit. Puoi acquistarlo sul [nostro sito web](https://www.sunfounder.com/), o cercare sunfounder su Amazon.
 
-Quick Links:
+Collegamenti rapidi:
 
- * [About this kit](#about_this_kit)
- * [Update](#update)
- * [Trouble Shootings](#trouble)
- * [About SunFounder](#about_sunfounder)
- * [License](#license)
- * [Contact us](#contact_us)
+ * [Informazioni sul kit](#about_this_kit)
+ * [Aggiornamenti](#update)
+ * [Risoluzione dei problemi](#trouble)
+ * [Informazioni su SunFounder](#about_sunfounder)
+ * [Licenza](#license)
+ * [Contattaci](#contact_us)
 
 <a id="about_this_kit"></a>
-## About this kit:
+## Informazioni sul kit:
 
-This kit contains a variety of components, including displays, sounds, drivers, controllers and sensors, which allows you to gain a comprehensive understanding of electronic devices.
+Questo kit contiene una varietà di componenti, inclusi display, altoparlanti, driver, controllori e sensori, che ti permettono di acquisire una comprensione completa dei dispositivi elettronici.
 
-To help you get started quickly, each language has targeted and interesting projects, so you can pick one that meets your needs.
+Per aiutarti a iniziare rapidamente, ogni lingua ha progetti mirati e interessanti, così puoi scegliere quello che soddisfa le tue esigenze.
 
 
 <a id="update"></a>
-## Update:
+## Aggiornamenti:
 2025-03-14:
-    release v1.0.0
+    rilascio v1.0.0
 
 <a id="trouble"></a>
-## Trouble Shootings:
+## Risoluzione dei problemi:
 
 <a id="about_sunfounder"></a>
-## About SunFounder
-SunFounder is a company focused on STEAM education with products like open source robots, development boards, STEAM kit, modules, tools and other smart devices distributed globally. In SunFounder, we strive to help elementary and middle school students as well as hobbyists, through STEAM education, strengthen their hands-on practices and problem-solving abilities. In this way, we hope to disseminate knowledge and provide skill training in a full-of-joy way, thus fostering your interest in programming and making, and exposing you to a fascinating world of science and engineering. To embrace the future of artificial intelligence, it is urgent and meaningful to learn abundant STEAM knowledge.
+## Informazioni su SunFounder
+SunFounder è un'azienda focalizzata sull'educazione STEAM con prodotti come robot open source, schede di sviluppo, kit STEAM, moduli, strumenti e altri dispositivi intelligenti distribuiti a livello globale. In SunFounder, ci impegniamo ad aiutare gli studenti delle scuole primarie e secondarie, così come gli hobbisti, attraverso l'educazione STEAM, a rafforzare le loro capacità pratiche e di risoluzione dei problemi. In questo modo, speriamo di diffondere conoscenza e fornire formazione sulle competenze in modo divertente, alimentando così il tuo interesse per la programmazione e il making, e introducendoti in un affascinante mondo della scienza e dell'ingegneria. Per abbracciare il futuro dell'intelligenza artificiale, è urgente e significativo apprendere abbondanti conoscenze STEAM.
 
 <a id="license"></a>
-## License
-This is the code for AI Fusion Lab Kit.
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+## Licenza
+Questo è il codice per AI Fusion Lab Kit.
+Questo programma è software libero; puoi ridistribuirlo e/o modificarlo sotto i termini della GNU General Public License come pubblicata dalla Free Software Foundation; sia la versione 2 della Licenza, o (a tua scelta) qualsiasi versione successiva.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied wa rranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Questo programma è distribuito nella speranza che sia utile, ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di COMMERCIABILITA' o IDONEITA' PER UN PARTICOLARE SCOPO. Vedere la GNU General Public License per maggiori dettagli.
 
-You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+Dovresti aver ricevuto una copia della GNU General Public License insieme a questo programma; in caso contrario, scrivi alla Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-ai-lab-kit comes with ABSOLUTELY NO WARRANTY; for details run ./show w. This is free software, and you are welcome to redistribute it under certain conditions; run ./show c for details.
+ai-lab-kit viene fornito SENZA ALCUNA GARANZIA; per i dettagli esegui ./show w. Questo è software libero, e sei invitato a ridistribuirlo a determinate condizioni; esegui ./show c per i dettagli.
 
-SunFounder, Inc., hereby disclaims all copyright interest in the program 'ai-lab-kit' (which makes passes at compilers).
+SunFounder, Inc., con la presente rinuncia a ogni diritto d'autore sul programma 'ai-lab-kit'.
 
-Mike Huang, 21 August 2015
+Mike Huang, 21 Agosto 2015
 
-Mike Huang, Chief Executive Officer
+Mike Huang, Amministratore Delegato
 
 Email: service@sunfounder.com
 
 <a id="contact_us"></a>
-## Contact us:
-website:
+## Contattaci:
+Sito web:
     www.sunfounder.com
 
 E-mail:

@@ -2,65 +2,65 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-2. Play Video
-=======================================
+2. Riprodurre un Video
+======================
 
-In this chapter, you’ll learn how to read and play video streams in OpenCV, and how to control playback speed by calculating the frame processing time.
+In questo capitolo, imparerai come leggere e riprodurre flussi video in OpenCV e come controllare la velocita’ di riproduzione calcolando il tempo di elaborazione dei frame.
 
 
 
-1. Project Overview
--------------------
+1. Panoramica del Progetto
+--------------------------
 
-In this section, we will achieve the following goals:
+In questa sezione, raggiungeremo i seguenti obiettivi:
 
-- Use ``cv2.VideoCapture`` to open a video file
-- Read and display video frame by frame
-- Automatically restart the video after it ends
-- Control the playback frame rate using processing time calculations
-- Press the ``q`` key to exit playback
+- Usare ``cv2.VideoCapture`` per aprire un file video
+- Leggere e visualizzare il video frame per frame
+- Riavviare automaticamente il video dopo la sua conclusione
+- Controllare il frame rate di riproduzione usando calcoli del tempo di elaborazione
+- Premere il tasto ``q`` per uscire dalla riproduzione
 
 .. image:: img/opencv_video.png
-   :alt: Video playback interface illustration
+   :alt: Illustrazione dell'interfaccia di riproduzione video
    :align: center
 
 
-2. Run the Code
-------------------------
+2. Eseguire il Codice
+---------------------
 
 .. important::
 
-   Before you start, make sure:
+   Prima di iniziare, assicurati:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Il pan-tilt sia assemblato
+   * Di poter accedere al desktop di Raspberry Pi
+   * Il pacchetto di codice sia installato
+   * Fusion HAT+ sia installato e configurato
+   * OpenCV sia installato
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Per istruzioni dettagliate, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_2_video.py
 
-#. After running the script, OpenCV opens a window titled **Video** and displays the video frames in real time.  
+#. Dopo aver eseguito lo script, OpenCV apre una finestra intitolata **Video** e visualizza i frame video in tempo reale.
 
-   If the video reaches the end, it will restart automatically from the beginning.
-   
-   To stop the program, you can:
-   
-   * Press **q** on the keyboard to quit playback  
-   * Close the window by clicking the close button  
+   Se il video raggiunge la fine, si riavvia automaticamente dall'inizio.
 
-   Once the window is closed, all OpenCV resources are released and the program exits.
+   Per fermare il programma, puoi:
+
+   * Premere **q** sulla tastiera per uscire dalla riproduzione
+   * Chiudere la finestra facendo clic sul pulsante di chiusura
+
+   Una volta chiusa la finestra, tutte le risorse di OpenCV vengono rilasciate e il programma termina.
 
 
-3. Complete Code
-------------------------------
+3. Codice Completo
+------------------
 
 .. code-block:: python
 
@@ -103,26 +103,26 @@ In this section, we will achieve the following goals:
   cv2.destroyAllWindows()
 
 
-4. Code Explanation
------------------------
+4. Spiegazione del Codice
+-------------------------
 
-#. Open the video file:
+#. Aprire il file video:
 
    .. code-block:: python
 
       cap = cv2.VideoCapture("sample2.mp4")
 
-   This opens the video file and creates a ``VideoCapture`` object for reading frames.
+   Questo apre il file video e crea un oggetto ``VideoCapture`` per la lettura dei frame.
 
-#. Read one frame from the video:
+#. Leggere un frame dal video:
 
    .. code-block:: python
 
       ret, frame = cap.read()
 
-   - ``ret`` is ``True`` if a frame is read successfully.
-   - ``ret`` becomes ``False`` when the video ends or reading fails.
-   - ``frame`` is the image data (a NumPy array).
+   - ``ret`` e' ``True`` se un frame viene letto correttamente.
+   - ``ret`` diventa ``False`` quando il video termina o la lettura fallisce.
+   - ``frame`` sono i dati dell'immagine (un array NumPy).
 
 #. Loop the video when it ends:
 
@@ -132,7 +132,7 @@ In this section, we will achieve the following goals:
           cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
           continue
 
-   When the video ends, this resets the playback position to the first frame so the video can restart.
+   Quando il video termina, questo reimposta la posizione di riproduzione al primo frame in modo che il video possa riavviarsi.
 
 #. Resize the frame:
 
@@ -140,63 +140,63 @@ In this section, we will achieve the following goals:
 
       frame = cv2.resize(frame, (640, 480))
 
-   This resizes each frame to 640×480 for smoother display and lower CPU usage on Raspberry Pi.
+   Questo ridimensiona ogni frame a 640×480 per una visualizzazione piu' fluida e un minore utilizzo della CPU su Raspberry Pi.
 
-#. Display the frame:
+#. Visualizzare il frame:
 
    .. code-block:: python
 
       cv2.imshow("Video", frame)
 
-   This displays the current frame in a window named ``Video``.
+   Questo visualizza il frame corrente in una finestra chiamata ``Video``.
 
-#. Control playback speed and read keyboard input:
+#. Controllare la velocita' di riproduzione e leggere l'input da tastiera:
 
    .. code-block:: python
 
       key = cv2.waitKey(30) & 0xFF
 
-   This waits about 30 ms between frames (around 30 FPS) and processes GUI events.
+   Questo attende circa 30 ms tra i frame (circa 30 FPS) e processa gli eventi GUI.
 
-#. Exit by pressing ``q``:
+#. Uscire premendo ``q``:
 
    .. code-block:: python
 
       if key == ord("q"):
           break
 
-   Press ``q`` to stop the program.
+   Premi ``q`` per fermare il programma.
 
-#. Exit when the window is closed:
+#. Uscire quando la finestra viene chiusa:
 
    .. code-block:: python
 
       if cv2.getWindowProperty("Video", cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   This checks whether the window is still visible.  
-   If the user closes the window, the program exits safely.
+   Questo controlla se la finestra e' ancora visibile.
+   Se l'utente chiude la finestra, il programma termina in modo sicuro.
 
-#. Release the video capture object:
+#. Rilasciare l'oggetto di acquisizione video:
 
    .. code-block:: python
 
       cap.release()
 
-   This releases the video file resource.
+   Questo rilascia la risorsa del file video.
 
-#. Close all OpenCV windows:
+#. Chiudere tutte le finestre di OpenCV:
 
    .. code-block:: python
 
       cv2.destroyAllWindows()
 
-   This closes all OpenCV windows and releases GUI resources.
+   Questo chiude tutte le finestre di OpenCV e rilascia le risorse GUI.
 
 
-5. Further Practice
--------------------
+5. Ulteriori Esercizi
+---------------------
 
-- Try changing the window size to see how it affects image clarity.  
-- Replace the video file with different ones to test compatibility.  
-- Print the processing time per frame to better understand the relationship between FPS and playback delay.
+- Prova a cambiare la dimensione della finestra per vedere come influisce sulla nitidezza dell'immagine.
+- Sostituisci il file video con uno diverso per testare la compatibilita'.
+- Stampa il tempo di elaborazione per frame per comprendere meglio la relazione tra FPS e ritardo di riproduzione.

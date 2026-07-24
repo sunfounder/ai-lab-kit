@@ -18,50 +18,50 @@
 ..    :end-before: end_setup_pi_headless
 
 ----------------------------------
-If You Have No Screen (Headless)
+Se Non Hai un Monitor (Headless)
 ----------------------------------
 
-Without a monitor, you can configure and log in to your Raspberry Pi remotely.  
-This is the most convenient method for most users.
+Senza un monitor, puoi configurare e accedere al tuo Raspberry Pi da remoto.
+Questo e’ il metodo piu’ conveniente per la maggior parte degli utenti.
 
-**Required Components**
+**Componenti Necessari**
 
 * Raspberry Pi
-* Official Power Supply
-* MicroSD Card
-* A computer on the same network
+* Alimentatore Ufficiale
+* Scheda MicroSD
+* Un computer sulla stessa rete
 
-**Tips**
+**Suggerimenti**
 
-* Ensure that your Raspberry Pi and your computer are on the same local network.
-* For best stability, use Ethernet if available.
+* Assicurati che il tuo Raspberry Pi e il tuo computer siano sulla stessa rete locale.
+* Per la massima stabilita’, utilizza Ethernet se disponibile.
 
 
-**Connect via SSH**
+**Connettiti via SSH**
 
-#. Open a terminal on your computer (Windows: **PowerShell**; macOS/Linux: **Terminal**) and connect to your Raspberry Pi: 
+#. Apri un terminale sul tuo computer (Windows: **PowerShell**; macOS/Linux: **Terminale**) e connettiti al tuo Raspberry Pi:
 
    .. code-block:: bash
 
       ssh pi@ai-fusion.local
 
-   .. note:: In the AI ​​Fusion Lab Kit operating system, the default username is ``pi`` and the password is ``123456``. The default hostname is ``ai-fusion``.
+   .. note:: Nel sistema operativo AI Fusion Lab Kit, il nome utente predefinito e’ ``pi`` e la password e’ ``123456``. Il nome host predefinito e’ ``ai-fusion``.
 
 
-2. Alternatively, locate your Pi’s IP address from your router’s DHCP list and connect with:
+2. In alternativa, trova l’indirizzo IP del tuo Pi dall’elenco DHCP del router e connettiti con:
 
    .. code-block:: bash
 
-      ssh pi@<IP address>
-      # Example:
+      ssh pi@<indirizzo IP>
+      # Esempio:
       ssh pi@192.168.1.42
 
-3. On first login, type ``yes`` to confirm the SSH certificate.
+3. Al primo accesso, digita ``yes`` per confermare il certificato SSH.
 
-4. Enter the password you configured in Raspberry Pi Imager.  
-   (Nothing appears while typing—this is normal.)
+4. Inserisci la password che hai configurato in Raspberry Pi Imager.
+   (Non appare nulla durante la digitazione — e’ normale.)
 
-5. After login, you now have full command-line access.
+5. Dopo l’accesso, hai ora accesso completo alla riga di comando.
 
    .. .. image:: /_shared/pi_start/img/ssh_login.png
    ..    :align: center

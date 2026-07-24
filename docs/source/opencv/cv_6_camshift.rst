@@ -2,13 +2,13 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-6. CAMShift Object Tracking
-==============================
+6. Tracciamento Oggetti con CAMShift
+=====================================
 
-In the previous chapter, we learned the MeanShift algorithm, which can continuously track a target in a video based on its color histogram.  
-In this section, we introduce **CAMShift (Continuously Adaptive Mean Shift)**,  
-which extends MeanShift by **automatically adapting the window size and orientation**, making it more practical for real-world applications.  
-Additionally, in this example we’ll track a target **based on brightness rather than color**, which is also very common in practice.
+Nel capitolo precedente, abbiamo imparato l’algoritmo MeanShift, che puo’ tracciare continuamente un bersaglio in un video basandosi sul suo istogramma colore.
+In questa sezione, introduciamo **CAMShift (Continuously Adaptive Mean Shift)**,
+che estende MeanShift **adattando automaticamente la dimensione e l’orientamento della finestra**, rendendolo piu’ pratico per applicazioni reali.
+Inoltre, in questo esempio tracceremo un bersaglio **basandoci sulla luminosita’ piuttosto che sul colore**, anch’esso molto comune nella pratica.
 
 .. raw:: html
 
@@ -17,59 +17,59 @@ Additionally, in this example we’ll track a target **based on brightness rathe
           Your browser does not support the video tag.
       </video>
    
-1. Algorithm Features
----------------------
+1. Caratteristiche dell'Algoritmo
+---------------------------------
 
-**MeanShift** can only track target position and uses a fixed-size window.  
-**CAMShift** tracks position **and** automatically adjusts window size and angle.
+**MeanShift** puo' solo tracciare la posizione del bersaglio e utilizza una finestra di dimensione fissa.
+**CAMShift** traccia la posizione **e** regola automaticamente dimensione e angolo della finestra.
 
-For example, when the target approaches the camera, the tracking box grows; when the target moves away, it shrinks; when the target rotates, the box rotates accordingly.
+Ad esempio, quando il bersaglio si avvicina alla fotocamera, il riquadro di tracciamento cresce; quando si allontana, si riduce; quando ruota, il riquadro ruota di conseguenza.
 
 .. image:: img/opencv_camshift.png
-   :alt: CAMShift tracking illustration
+   :alt: Illustrazione del tracciamento CAMShift
    :align: center
 
 
-2. Run the Code
-------------------------
+2. Eseguire il Codice
+---------------------
 
 .. important::
 
-   Before you start, make sure:
+   Prima di iniziare, assicurati:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Il pan-tilt sia assemblato
+   * Di poter accedere al desktop di Raspberry Pi
+   * Il pacchetto di codice sia installato
+   * Fusion HAT+ sia installato e configurato
+   * OpenCV sia installato
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Per istruzioni dettagliate, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_6_camshift.py
 
-#. When you run the program, an OpenCV window named **CAMShift Tracker** will appear and start playing the video file *sample3.mp4*.  
+#. Quando esegui il programma, apparir'a una finestra OpenCV chiamata **CAMShift Tracker** che inizier'a a riprodurre il file video *sample3.mp4*.
 
-   The program tracks the black cat using the CAMShift (Continuously Adaptive Mean Shift) algorithm.
+   Il programma traccia il gatto nero utilizzando l'algoritmo CAMShift (Continuously Adaptive Mean Shift).
 
-   A green rotated bounding box will be drawn around the tracked object.  
-   As the cat moves or changes its size and orientation, the tracking window will automatically adapt its position, size, and angle.
+   Un rettangolo ruotato verde verr'a disegnato attorno all'oggetto tracciato.
+   Mentre il gatto si muove o cambia dimensione e orientamento, la finestra di tracciamento adatter'a automaticamente posizione, dimensione e angolo.
 
-   You can exit the program in two ways:
+   Puoi uscire dal programma in due modi:
 
-   * Press the **q** key on the keyboard  
-   * Close the window by clicking the close button (X)  
+   * Premere il tasto **q** sulla tastiera
+   * Chiudere la finestra facendo clic sul pulsante di chiusura (X)
 
-   After exiting, the video playback stops and all OpenCV windows are closed.
+   Dopo l'uscita, la riproduzione video si ferma e tutte le finestre OpenCV vengono chiuse.
 
-3. Complete Code
----------------------
+3. Codice Completo
+------------------
 
-Open ``cv_6_camshift.py`` to view the full code.
+Apri ``cv_6_camshift.py`` per visualizzare il codice completo.
 
 .. code-block:: python
 
@@ -153,10 +153,10 @@ Open ``cv_6_camshift.py`` to view the full code.
    cap.release()
    cv2.destroyAllWindows()
 
-4. Code Explanation
----------------------------
+4. Spiegazione del Codice
+-------------------------
 
-#. Open the video file and read the first frame:
+#. Aprire il file video e leggere il primo frame:
 
    .. code-block:: python
 
@@ -165,54 +165,54 @@ Open ``cv_6_camshift.py`` to view the full code.
       if not ret:
           raise RuntimeError("Cannot read the video file.")
 
-   CAMShift needs an initial frame to learn what to track.
+   CAMShift necessita di un frame iniziale per imparare cosa tracciare.
 
-#. Set the initial tracking window (ROI):
+#. Impostare la finestra di tracciamento iniziale (ROI):
 
    .. code-block:: python
 
       x, y, w, h = 100, 200, 40, 40
       track_window = (x, y, w, h)
 
-   This rectangle should cover the target object in the first frame.  
-   CAMShift will update this window automatically during tracking.
+   Questo rettangolo dovrebbe coprire l'oggetto bersaglio nel primo frame.
+   CAMShift aggiorner'a automaticamente questa finestra durante il tracciamento.
 
-#. Convert the first frame to HSV and extract the ROI:
+#. Convertire il primo frame in HSV ed estrarre la ROI:
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
       hsv_roi = hsv[y:y+h, x:x+w]
 
-   HSV is convenient for tracking because you can choose specific channels (like V for brightness).
+   HSV e' comodo per il tracciamento perche' puoi scegliere canali specifici (come V per la luminosita').
 
-#. Build a mask for a dark object (low V values):
+#. Costruire una maschera per un oggetto scuro (valori V bassi):
 
    .. code-block:: python
 
       roi_mask = cv2.inRange(hsv_roi, np.array((0, 0, 0)), np.array((180, 255, 80)))
 
-   This keeps only “dark” pixels in the ROI.  
-   For black/dark objects, brightness (V) is usually the most useful feature.
+   Questo mantiene solo i pixel “scuri” nella ROI.
+   Per oggetti neri/scuri, la luminosita' (V) e' solitamente la caratteristica piu' utile.
 
-#. Compute and normalize a histogram of the V channel:
+#. Calcolare e normalizzare un istogramma del canale V:
 
    .. code-block:: python
 
       roi_hist = cv2.calcHist([hsv_roi], [2], roi_mask, [256], [0, 256])
       cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
 
-   - Channel ``2`` means the **V (Value/brightness)** channel in HSV.
-   - The histogram describes how “dark/bright” the target ROI is.
-   - Normalization makes tracking more stable.
+   - Il canale ``2`` corrisponde al canale **V (Value/luminosita')** in HSV.
+   - L'istogramma descrive quanto “scuro/luminoso” e' la ROI del bersaglio.
+   - La normalizzazione rende il tracciamento piu' stabile.
 
-#. Set the termination criteria for CAMShift:
+#. Impostare i criteri di terminazione per CAMShift:
 
    .. code-block:: python
 
       term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
 
-   CAMShift stops updating when it reaches 10 iterations or the movement is smaller than 1 pixel.
+   CAMShift smette di aggiornarsi quando raggiunge 10 iterazioni o il movimento e' inferiore a 1 pixel.
 
 #. Set playback speed using FPS:
 
@@ -223,38 +223,38 @@ Open ``cv_6_camshift.py`` to view the full code.
           fps = 30.0
       delay_ms = int(1000 / fps)
 
-   This sets a delay so the video plays close to its original FPS.
+   Questo imposta un ritardo in modo che il video venga riprodotto vicino ai suoi FPS originali.
 
-#. Create a probability map using back projection (V channel):
+#. Creare una mappa di probabilita' usando la back projection (canale V):
 
    .. code-block:: python
 
       back_proj = cv2.calcBackProject([hsv], [2], roi_hist, [0, 256], 1)
 
-   Back projection highlights pixels in the frame whose V values match the ROI histogram.  
-   Brighter values in ``back_proj`` mean “more likely to be the target”.
+   La back projection evidenzia i pixel nel frame i cui valori V corrispondono all'istogramma ROI.
+   Valori piu' luminosi in ``back_proj`` significano “piu' probabilmente il bersaglio”.
 
-#. Track using CAMShift and update the window:
+#. Tracciare usando CAMShift e aggiornare la finestra:
 
    .. code-block:: python
 
       rot_rect, track_window = cv2.CamShift(back_proj, track_window, term_crit)
 
-   CAMShift is based on MeanShift, but it can also adapt the **size and rotation** of the tracking window.
+   CAMShift e' basato su MeanShift, ma puo' anche adattare la **dimensione e la rotazione** della finestra di tracciamento.
 
-   - ``track_window`` is updated each frame.
-   - ``rot_rect`` contains a rotated rectangle (center, size, angle).
+   - ``track_window`` viene aggiornato ogni frame.
+   - ``rot_rect`` contiene un rettangolo ruotato (centro, dimensione, angolo).
 
-#. Draw the rotated tracking box:
+#. Disegnare il riquadro di tracciamento ruotato:
 
    .. code-block:: python
 
       pts = cv2.boxPoints(rot_rect).astype(np.int32)
       cv2.polylines(frame, [pts], True, (0, 255, 0), 2)
 
-   This converts the rotated rectangle into four corner points and draws it on the frame.
+   Questo converte il rettangolo ruotato in quattro punti d'angolo e lo disegna sul frame.
 
-#. Exit conditions (keyboard + window close):
+#. Condizioni di uscita (tastiera + chiusura finestra):
 
    .. code-block:: python
 
@@ -265,77 +265,77 @@ Open ``cv_6_camshift.py`` to view the full code.
       if cv2.getWindowProperty(WINDOW_NAME, cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   Press ``q`` to quit, or close the window to stop safely.
+   Premi ``q`` per uscire o chiudi la finestra per fermarti in modo sicuro.
 
-#. Release resources:
+#. Rilasciare le risorse:
 
    .. code-block:: python
 
       cap.release()
       cv2.destroyAllWindows()
 
-   Always release the video file and close windows at the end.
+   Rilascia sempre il file video e chiudi le finestre alla fine.
 
 
-5. CAMShift vs. MeanShift
---------------------------------------
+5. CAMShift vs MeanShift
+------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: 20 40 40
 
-   * - Feature
+   * - Caratteristica
      - MeanShift
      - CAMShift
-   * - Window size
-     - Fixed
-     - Adaptive
-   * - Angle
-     - Not supported
-     - Supports rotation
-   * - Tracking accuracy
-     - Moderate
-     - Higher, more adaptive
-   * - Applications
-     - Static targets
-     - Complex motion, rotating targets
+   * - Dimensione finestra
+     - Fissa
+     - Adattiva
+   * - Angolo
+     - Non supportato
+     - Supporta la rotazione
+   * - Precisione tracciamento
+     - Moderata
+     - Piu' alta, piu' adattiva
+   * - Applicazioni
+     - Bersagli statici
+     - Movimento complesso, bersagli rotanti
 
-CAMShift is an upgrade over MeanShift,  
-better handling target deformation, rotation, and distance changes—well-suited for real-world scenarios.
+CAMShift e' un miglioramento rispetto a MeanShift,
+gestisce meglio la deformazione, la rotazione e i cambiamenti di distanza del bersaglio, risultando ideale per scenari reali.
 
-6. Extensions and Practice
--------------------------------------------
+6. Estensioni ed Esercizi
+-------------------------
 
-- Adjust the ``inRange`` thresholds to track green or blue targets  
-- Combine with live camera input to build a real-time color-based tracking system
+- Regola le soglie ``inRange`` per tracciare bersagli verdi o blu
+- Combina con l'input della fotocamera in tempo reale per costruire un sistema di tracciamento basato sul colore
 
 
-7. Advanced: Interactive ROI Selection and Auto-Adjusting HSV Thresholds
--------------------------------------------------------------------------
+7. Avanzato: Selezione Interattiva ROI e Regolazione Automatica delle Soglie HSV
+---------------------------------------------------------------------------------
 
-As in the previous section, this project can also use mouse interaction to select the ROI and automatically adjust HSV thresholds.
+Come nella sezione precedente, questo progetto puo' anche utilizzare l'interazione con il mouse per selezionare la ROI e regolare automaticamente le soglie HSV.
 
-Run ``cv_6_camshift_auto.py`` for the modified code.
+Esegui ``cv_6_camshift_auto.py`` per il codice modificato.
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/opencv_python
    python3 cv_6_camshift_auto.py
 
-When you run the program, the first frame of the video will be displayed, and you will be asked to select a Region of Interest (ROI) with the mouse.
+Quando esegui il programma, il primo frame del video verr'a visualizzato e ti verr'a chiesto di selezionare una Regione di Interesse (ROI) con il mouse.
 
-Drag the mouse to draw a rectangle around the target object, then press **Enter** or **Space** to confirm the selection.  
-Press **Esc** to cancel the selection.
+Trascina il mouse per disegnare un rettangolo attorno all'oggetto bersaglio, poi premi **Enter** o **Space** per confermare la selezione.
+Premi **Esc** per annullare la selezione.
 
-After selecting the ROI, a window named **CAMShift Tracker** will appear.  
-The selected object will be tracked with a green rotated rectangle, and the tracking window will automatically adapt its position, size, and orientation as the object moves.
+Dopo aver selezionato la ROI, apparir'a una finestra chiamata **CAMShift Tracker**.
+L'oggetto selezionato verr'a tracciato con un rettangolo ruotato verde, e la finestra di tracciamento adatter'a automaticamente posizione, dimensione e orientamento man mano che l'oggetto si muove.
 
-To stop the program:
+Per fermare il programma:
 
-* Press the **q** key on the keyboard  
-* Or close the display window using the close button (X)  
+* Premi il tasto **q** sulla tastiera
+* Oppure chiudi la finestra usando il pulsante di chiusura (X)
 
-After exiting, the video playback stops and all OpenCV windows are closed.
+Dopo l'uscita, la riproduzione video si ferma e tutte le finestre OpenCV vengono chiuse.
 
 
 .. code-block:: python

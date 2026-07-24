@@ -4,27 +4,27 @@
 
 .. _py_fun_alarm:
 
-4.3 Reversing Alarm
+4.3 Allarme di Retromarcia
 ==============================
 
-**Introduction**
+**Introduzione**
 
-Parking a car safely into a garage often requires careful navigation, especially in tight spaces. In this project, you’ll create a reversing alarm system using an ultrasonic sensor, and a buzzer. This system mimics the functionality of a real-world parking sensor, providing auditory feedback about the distance to obstacles.
+Parcheggiare un'auto in sicurezza in un garage richiede spesso una navigazione attenta, specialmente in spazi stretti. In questo progetto, creerai un sistema di allarme di retromarcia usando un sensore ultrasonico e un buzzer. Questo sistema imita la funzionalità di un sensore di parcheggio reale, fornendo feedback acustico sulla distanza dagli ostacoli.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-Below are the components required for this project:
+Qui sotto sono elencati i componenti richiesti per questo progetto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,17 +39,17 @@ Below are the components required for this project:
     *   - :ref:`cpn_ultrasonic_sensor`
         - |link_ultrasonic_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-The system uses an ultrasonic sensor to measure the distance to obstacles. The buzzer emits warning tones of varying frequency depending on the distance.
+Il sistema usa un sensore ultrasonico per misurare la distanza dagli ostacoli. Il buzzer emette toni di avvertimento di frequenza variabile in base alla distanza.
 
 .. image:: img/fzz/4.1.6_sch.png
    :width: 100%
@@ -59,9 +59,9 @@ The system uses an ultrasonic sensor to measure the distance to obstacles. The b
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Follow this wiring diagram to set up your system:
+Segui questo schema di cablaggio per configurare il sistema:
 
 
 .. image:: img/fzz/4.1.6_bb.png
@@ -72,11 +72,11 @@ Follow this wiring diagram to set up your system:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 
 .. raw:: html
@@ -84,28 +84,28 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.3_ReversingAlarm.py
 
-This Python script integrates an ultrasonic distance sensor and a buzzer to create a real-time distance monitoring system. When executed:
+Questo script Python integra un sensore di distanza ultrasonico e un buzzer per creare un sistema di monitoraggio della distanza in tempo reale. Quando eseguito:
 
 
-1. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
+1. **Misurazione della Distanza**: Il sensore ultrasonico misura la distanza dall'oggetto più vicino di fronte a sé e converte il valore in centimetri.
 
 
-2. **Buzzer Alerts**: Based on the measured distance:
+2. **Avvisi del Buzzer**: In base alla distanza misurata:
 
-     - **More than 50 cm**: No buzzer sound.
-     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
-     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
+     - **Più di 50 cm**: Nessun suono del buzzer.
+     - **Tra 20 cm e 50 cm**: Il buzzer emette due beep con un breve intervallo.
+     - **20 cm o meno**: Il buzzer emette beep rapidi per indicare la prossimità.
 
 ----------------------------------------------
 
 
-**Code**
+**Codice**
 
-Here is the Python code for the project:
+Ecco il codice Python per il progetto:
 
 
 .. raw:: html
@@ -176,9 +176,9 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Distance Measurement:** The ultrasonic sensor calculates the distance.
+1. **Misurazione della Distanza:** Il sensore ultrasonico calcola la distanza.
 
    .. code-block:: python
 
@@ -191,11 +191,11 @@ Here is the Python code for the project:
             print(f"Distance: {dis:.2f} cm")
             return dis
 
-2. **Auditory Alerts:** The buzzer's frequency changes based on the proximity of obstacles:
+2. **Avvisi Acustici:** La frequenza del buzzer cambia in base alla prossimità degli ostacoli:
 
-   * **>50 cm:** No sound.
-   * **20-50 cm:** Beeps twice with medium intervals.
-   * **≤20 cm:** Rapid beeping for urgent warning.
+   * **>50 cm:** Nessun suono.
+   * **20-50 cm:** Emette due beep con intervalli medi.
+   * **≤20 cm:** Beep rapidi per avviso urgente.
 
    .. code-block:: python
 
@@ -219,24 +219,24 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **Distance Not Measured**:
+1. **Distanza Non Misurata**:
 
-   - **Cause**: Incorrect wiring or sensor malfunction.
-   - **Solution**:
+   - **Causa**: Cablaggio errato o malfunzionamento del sensore.
+   - **Soluzione**:
 
-     - Ensure the ultrasonic sensor's ``echo`` and ``trigger`` pins are connected to GPIO 22 and GPIO 27, respectively.
-     - Test the sensor independently to confirm functionality.
+     - Assicurati che i pin ``echo`` e ``trigger`` del sensore ultrasonico siano collegati rispettivamente a GPIO 22 e GPIO 27.
+     - Testa il sensore indipendentemente per confermarne la funzionalità.
 
-2. **Buzzer Does Not Sound**:
+2. **Il Buzzer Non Suona**:
 
-   - **Cause**: Buzzer not connected or faulty.
-   - **Solution**:
+   - **Causa**: Buzzer non collegato o difettoso.
+   - **Soluzione**:
 
-     - Verify the buzzer is connected to GPIO 17 and ground.
-     - Test the buzzer by turning it on manually:
-       
+     - Verifica che il buzzer sia collegato a GPIO 17 e a massa.
+     - Testa il buzzer accendendolo manualmente:
+
        .. code-block:: python
 
            buzzer.on()
@@ -245,22 +245,22 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Adjustable Alert Thresholds**: Allow users to set custom distance thresholds for the buzzer alerts.
+1. **Soglie di Avviso Regolabili**: Permetti agli utenti di impostare soglie di distanza personalizzate per gli avvisi del buzzer.
 
-2. **Data Logging**: Log distance measurements to a file for later analysis:
+2. **Registrazione Dati**: Registra le misurazioni della distanza in un file per analisi successive:
 
    .. code-block:: python
 
       with open("distance_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, {dis:.2f} cm\n")
 
-3. **Visual Alerts**: Use LEDs of different colors to indicate proximity levels (e.g., green for safe, yellow for caution, red for danger).
+3. **Avvisi Visivi**: Usa LED di diversi colori per indicare i livelli di prossimità (ad es., verde per sicuro, giallo per cautela, rosso per pericolo).
 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusione**
 
-This project demonstrates a practical application of ultrasonic sensors, combining auditory feedback for an intuitive reversing alarm system. Such systems are valuable in vehicles and robotics, offering insights into proximity detection and IoT integrations. Extend its functionality to suit your innovative ideas!
+Questo progetto dimostra un'applicazione pratica dei sensori ultrasonici, combinando feedback acustico per un sistema intuitivo di allarme di retromarcia. Tali sistemi sono preziosi in veicoli e robotica, offrendo approfondimenti sul rilevamento di prossimità e integrazioni IoT. Estendi le sue funzionalità per adattarlo alle tue idee innovative!

@@ -4,25 +4,25 @@
 
 .. _py_micro_switch:
 
-2.2 Micro Switch
+2.2 Microinterruttore
 =====================
 
-**Introduction**
+**Introduzione**
 
-In this project, we will explore how to use a Micro Switch to control two LEDs. A Micro Switch is a highly sensitive component that requires minimal compression to activate. It is often used in safety systems to prevent machinery or doors from operating under unsafe conditions.
+In questo progetto, esploreremo come usare un microinterruttore per controllare due LED. Un microinterruttore è un componente altamente sensibile che richiede una compressione minima per attivarsi. Viene spesso utilizzato nei sistemi di sicurezza per impedire il funzionamento di macchinari o porte in condizioni non sicure.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-To complete this project, you will need the following components:
+Per completare questo progetto, avrai bisogno dei seguenti componenti:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -37,15 +37,16 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_capacitor`
         - |link_capacitor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
+
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 and GPIO27. When the Micro Switch is pressed, the red LED lights up; when released, the yellow LED turns on.
+Il microinterruttore è collegato a GPIO17, e due LED sono collegati a GPIO22 e GPIO27. Quando il microinterruttore viene premuto, il LED rosso si accende; quando viene rilasciato, il LED giallo si accende.
 
 
 .. image:: img/fzz/2.1.2_sch.png
@@ -55,13 +56,13 @@ The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 an
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Follow these steps to build the circuit:
+Segui questi passaggi per costruire il circuito:
 
-1. Connect one terminal of the Micro Switch to GPIO17 and the other to the ground (GND).
-2. Connect the anodes of the two LEDs to GPIO22 (yellow) and GPIO27 (red) through current-limiting resistors.
-3. Connect the cathodes of both LEDs to GND.
+1. Collega un terminale del microinterruttore a GPIO17 e l'altro a massa (GND).
+2. Collega gli anodi dei due LED a GPIO22 (giallo) e GPIO27 (rosso) tramite resistori limitatori di corrente.
+3. Collega i catodi di entrambi i LED a GND.
 
 
 .. image:: img/fzz/2.1.2_bb.png
@@ -71,11 +72,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 
 .. raw:: html
@@ -83,31 +84,31 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.2_MicroSwitch.py
 
-This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
+Questo script Python controlla due LED in base allo stato di un microinterruttore collegato a un Raspberry Pi. Quando eseguito:
 
-1. **Micro Switch Pressed**:
+1. **Microinterruttore Premuto**:
 
-   - LED1 (connected to GPIO pin 22) turns on.
-   - LED2 (connected to GPIO pin 27) turns off.
+   - LED1 (collegato al pin GPIO 22) si accende.
+   - LED2 (collegato al pin GPIO 27) si spegne.
 
-2. **Micro Switch Released**:
+2. **Microinterruttore Rilasciato**:
 
-   - LED1 turns off.
-   - LED2 turns on.
+   - LED1 si spegne.
+   - LED2 si accende.
 
-3. The program continuously checks the micro switch's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. Il programma controlla continuamente lo stato del microinterruttore ogni 0,5 secondi e regola i LED di conseguenza.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Lo script viene eseguito indefinitamente fino a quando non viene interrotto premendo ``Ctrl+C``.
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-The following Python code toggles between two LEDs based on the state of the Micro Switch:
+Il seguente codice Python alterna tra due LED in base allo stato del microinterruttore:
 
 
 .. raw:: html
@@ -147,20 +148,20 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Library Import**
+1. **Importazione della Libreria**
 
-   The ``fusion_hat`` library provides simple GPIO control, and the ``time`` library enables delays.
+   La libreria ``fusion_hat`` fornisce un semplice controllo GPIO, e la libreria ``time`` permette i ritardi.
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
-      from time import sleep  # Import sleep function for delays  
+      from time import sleep  # Import sleep function for delays
 
-2. **Component Initialization**
+2. **Inizializzazione dei Componenti**
 
-   The Micro Switch is connected to GPIO17 with pull-up disabled, while the LEDs are connected to GPIO22 and GPIO27.
+   Il microinterruttore è collegato a GPIO17 con pull-down, mentre i LED sono collegati a GPIO22 e GPIO27.
 
    .. code-block:: python
 
@@ -171,9 +172,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **Switch State Handling**
+3. **Gestione dello Stato dell'Interruttore**
 
-   The program checks the state of the Micro Switch in a loop. When pressed, LED1 turns on and LED2 off. When released, LED1 turns off and LED2 on.
+   Il programma controlla lo stato del microinterruttore in un ciclo. Quando premuto, LED1 si accende e LED2 si spegne. Quando rilasciato, LED1 si spegne e LED2 si accende.
 
    .. code-block:: python
 
@@ -186,9 +187,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
             led2.on()
          sleep(0.5)
 
-4. **Interrupt Handling**
+4. **Gestione dell'Interruzione**
 
-   The ``try-except`` block ensures the script exits cleanly when interrupted using Ctrl+C.
+   Il blocco ``try-except`` assicura che lo script esca pulitamente quando interrotto usando Ctrl+C.
 
    .. code-block:: python
 
@@ -199,23 +200,22 @@ The following Python code toggles between two LEDs based on the state of the Mic
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **LEDs Do Not Respond**  
+1. **I LED Non Rispondono**
 
-   - **Cause**: Incorrect GPIO wiring or pin configuration.  
-   - **Solution**: Ensure LED1 is connected to GPIO pin 22, LED2 to GPIO pin 27, and both LEDs have appropriate resistors. Verify the micro switch connection to GPIO pin 17.
+   - **Causa**: Cablaggio GPIO errato o configurazione dei pin.
+   - **Soluzione**: Assicurati che LED1 sia collegato al pin GPIO 22, LED2 al pin GPIO 27, ed entrambi i LED abbiano resistori appropriati. Verifica la connessione del microinterruttore al pin GPIO 17.
 
-2. **Micro Switch Not Detected**  
+2. **Microinterruttore Non Rilevato**
 
-   - **Cause**: The micro switch might not be configured properly or needs a pull-up/pull-down resistor.  
-   - **Solution**: Confirm that ``pull = Pin.PULL_UP`` matches your switch configuration. If the switch requires a pull-up, enable it in the initialization.
+   - **Causa**: Il microinterruttore potrebbe non essere configurato correttamente o necessita di un resistore pull-up/pull-down.
+   - **Soluzione**: Conferma che ``pull = Pin.PULL_UP`` corrisponda alla configurazione del tuo interruttore. Se l'interruttore richiede un pull-up, abilitalo nell'inizializzazione.
 
-3. **LEDs Flicker or Behave Erratically**  
+3. **I LED Sfarfallano o si Comportano in Modo Irregolare**
 
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce by introducing a short delay after detecting a press:
-
+   - **Causa**: Problemi di debounce del pulsante.
+   - **Soluzione**: Aggiungi debounce software introducendo un breve ritardo dopo aver rilevato una pressione:
 
    .. code-block:: python
 
@@ -226,11 +226,11 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Adjustable Delay**  
+1. **Ritardo Regolabile**
 
-   Allow the user to change the delay dynamically to fine-tune LED responsiveness:
+   Permetti all'utente di cambiare il ritardo dinamicamente per ottimizzare la reattività dei LED:
 
    .. code-block:: python
 
@@ -240,9 +240,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 
 
-2. **Audio Feedback**  
+2. **Feedback Audio**
 
-   Add a buzzer to provide an audible signal when the switch is pressed or released:
+   Aggiungi un buzzer per fornire un segnale acustico quando l'interruttore viene premuto o rilasciato:
 
    .. code-block:: python
 
@@ -257,6 +257,6 @@ The following Python code toggles between two LEDs based on the state of the Mic
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusione**
 
-This project demonstrates how to use a Micro Switch to control LEDs with the Fusion HAT+. Micro Switches are versatile components widely used in safety systems, user interfaces, and industrial controls. Experimenting with them can open up opportunities for creating more advanced projects.
+Questo progetto dimostra come usare un microinterruttore per controllare LED con Fusion HAT+. I microinterruttori sono componenti versatili ampiamente utilizzati in sistemi di sicurezza, interfacce utente e controlli industriali. Sperimentare con essi può aprire opportunità per creare progetti più avanzati.

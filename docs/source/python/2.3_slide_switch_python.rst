@@ -4,25 +4,25 @@
 
 .. _py_slide:
 
-2.3 Slide Switch
+2.3 Interruttore a Scorrimento
 ==============================================
 
-**Introduction**
+**Introduzione**
 
-In this project, we will learn how to use a slide switch to control two LEDs. Slide switches are commonly used as power switches in electronic circuits. Here, we demonstrate its functionality using a breadboard setup. While slide switches are often soldered onto PCBs for stability, we will use it in a flexible breadboard configuration to better understand its operation.
+In questo progetto, impareremo come usare un interruttore a scorrimento per controllare due LED. Gli interruttori a scorrimento sono comunemente usati come interruttori di alimentazione nei circuiti elettronici. Qui ne dimostriamo la funzionalità usando una configurazione su breadboard. Sebbene gli interruttori a scorrimento siano spesso saldati su PCB per stabilità, li useremo in una configurazione flessibile su breadboard per comprenderne meglio il funzionamento.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-To complete this project, gather the following components:
+Per completare questo progetto, procurati i seguenti componenti:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -37,16 +37,16 @@ To complete this project, gather the following components:
     *   - :ref:`cpn_capacitor`
         - |link_capacitor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected to GPIO22 and GPIO27. The switch toggles between the two LEDs, alternately lighting them up.
+Il pin centrale dell'interruttore a scorrimento è collegato a GPIO17, mentre due LED sono collegati a GPIO22 e GPIO27. L'interruttore alterna tra i due LED, accendendoli alternativamente.
 
 .. image:: img/fzz/2.1.4_sch.png
    :width: 80%
@@ -57,15 +57,15 @@ The Slide Switch middle pin is connected to GPIO17, while two LEDs are connected
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Follow these steps to build the circuit:
+Segui questi passaggi per costruire il circuito:
 
-1. Connect the middle pin of the Slide Switch to GPIO17.
-2. Connect one side pin of the Slide Switch to GND and the other to VCC.
-3. Connect LED1’s anode to GPIO22 via a current-limiting resistor.
-4. Connect LED2’s anode to GPIO27 via a current-limiting resistor.
-5. Connect the cathodes of both LEDs to GND.
+1. Collega il pin centrale dell'interruttore a scorrimento a GPIO17.
+2. Collega un pin laterale dell'interruttore a scorrimento a GND e l'altro a VCC.
+3. Collega l'anodo di LED1 a GPIO22 tramite un resistore limitatore di corrente.
+4. Collega l'anodo di LED2 a GPIO27 tramite un resistore limitatore di corrente.
+5. Collega i catodi di entrambi i LED a GND.
 
 .. image:: img/fzz/2.1.4_bb.png
    :width: 80%
@@ -74,11 +74,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 
 .. raw:: html
@@ -86,31 +86,31 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 2.3_SlideSwitch.py 
+   sudo python3 2.3_SlideSwitch.py
 
-This Python script demonstrates the use of a slide switch to control two LEDs on the Fusion HAT+. When executed:
+Questo script Python dimostra l'uso di un interruttore a scorrimento per controllare due LED su Fusion HAT+. Quando eseguito:
 
-1. **Slide Switch Activated**:
+1. **Interruttore a Scorrimento Attivato**:
 
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+   - Spegne LED1 (collegato al pin GPIO 22).
+   - Accende LED2 (collegato al pin GPIO 27).
 
-2. **Slide Switch Not Activated**:
+2. **Interruttore a Scorrimento Non Attivato**:
 
-   - Turns on LED1.
-   - Turns off LED2.
+   - Accende LED1.
+   - Spegne LED2.
 
-3. The program continuously checks the state of the slide switch every 0.5 seconds and adjusts the LEDs accordingly.
+3. Il programma controlla continuamente lo stato dell'interruttore a scorrimento ogni 0,5 secondi e regola i LED di conseguenza.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. Lo script viene eseguito indefinitamente fino a quando non viene interrotto premendo ``Ctrl+C``.
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-Here’s the Python code to control the LEDs based on the state of the Slide Switch:
+Ecco il codice Python per controllare i LED in base allo stato dell'interruttore a scorrimento:
 
 
 .. raw:: html
@@ -153,20 +153,20 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Library Imports**
+1. **Importazione delle Librerie**
 
-   Import necessary libraries for GPIO control and adding delays.
+   Importa le librerie necessarie per il controllo GPIO e l'aggiunta di ritardi.
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from time import sleep  # Import sleep for delay
 
-2. **Component Initialization**
+2. **Inizializzazione dei Componenti**
 
-   Configure the Slide Switch as a Button and initialize two LEDs connected to GPIO pins 22 and 27.
+   Configura l'interruttore a scorrimento come pulsante e inizializza due LED collegati ai pin GPIO 22 e 27.
 
    .. code-block:: python
 
@@ -178,9 +178,9 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **State Monitoring and LED Control**
+3. **Monitoraggio dello Stato e Controllo dei LED**
 
-   In the main loop, the program monitors the state of the Slide Switch. When the switch is toggled, it alternates between turning on LED1 and LED2.
+   Nel ciclo principale, il programma monitora lo stato dell'interruttore a scorrimento. Quando l'interruttore viene azionato, alterna tra l'accensione di LED1 e LED2.
 
    .. code-block:: python
 
@@ -195,9 +195,9 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
          sleep(0.5)  # Pause for 0.5 seconds before rechecking the sensor state
 
-4. **Graceful Exit**
+4. **Uscita Controllata**
 
-   The script terminates gracefully when interrupted using Ctrl+C.
+   Lo script termina in modo controllato quando interrotto usando Ctrl+C.
 
    .. code-block:: python
 
@@ -207,19 +207,19 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
 
-1. **Slide Switch Does Not Respond**  
+1. **L'Interruttore a Scorrimento Non Risponde**
 
-   - **Cause**: The slide switch is not connected properly, or the pull-up resistor configuration is incorrect.  
-   - **Solution**: Confirm that the slide switch is connected to GPIO pin 17 and ground. Ensure ``PULL_DOWN`` matches the switch configuration.
+   - **Causa**: L'interruttore a scorrimento non è collegato correttamente, o la configurazione del resistore pull-up è errata.
+   - **Soluzione**: Conferma che l'interruttore a scorrimento sia collegato al pin GPIO 17 e a massa. Assicurati che ``PULL_DOWN`` corrisponda alla configurazione dell'interruttore.
 
 
-2. **LEDs Flicker or Behave Erratically**  
+2. **I LED Sfarfallano o si Comportano in Modo Irregolare**
 
-   - **Cause**: Debounce issues with the slide switch.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **Causa**: Problemi di debounce con l'interruttore a scorrimento.
+   - **Soluzione**: Aggiungi debounce software per stabilizzare il segnale di ingresso:
 
    .. code-block:: python
 
@@ -228,17 +228,17 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
 
-1. **Two-Way Switch Control**  
+1. **Controllo a Due Vie**
 
-   Combine two slide switches to control LEDs in a more complex setup, such as a simple light control panel.
+   Combina due interruttori a scorrimento per controllare i LED in una configurazione più complessa, come un semplice pannello di controllo luci.
 
 
-2. **Audio Feedback**  
+2. **Feedback Audio**
 
-   Add a buzzer that sounds when the slide switch is activated:
+   Aggiungi un buzzer che suona quando l'interruttore a scorrimento viene attivato:
 
    .. code-block:: python
 
@@ -253,6 +253,6 @@ Here’s the Python code to control the LEDs based on the state of the Slide Swi
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusione**
 
-This project demonstrates how to use a Slide Switch with the Fusion HAT+ to control LEDs. Slide Switches are versatile and durable components, often employed in user interfaces and control systems. Experimenting with them opens up possibilities for creating advanced and interactive projects.
+Questo progetto dimostra come usare un interruttore a scorrimento con Fusion HAT+ per controllare LED. Gli interruttori a scorrimento sono componenti versatili e durevoli, spesso impiegati in interfacce utente e sistemi di controllo. Sperimentare con essi apre possibilità per creare progetti avanzati e interattivi.

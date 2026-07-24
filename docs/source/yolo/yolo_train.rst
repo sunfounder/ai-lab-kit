@@ -2,46 +2,46 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-3. Train Your Custom YOLO Model
-=====================================
+3. Addestrare il Tuo Modello YOLO Personalizzato
+======================================================
 
-Training your own YOLO model essentially involves letting the deep learning algorithm learn how to identify specific objects from the image data you provide. This process can be analogized to teaching a child to recognize something new: you show them numerous example images from different angles and environments, telling them "this is the target object." After sufficient examples, they can accurately identify that object in new images.
+Addestrare il proprio modello YOLO implica essenzialmente far apprendere all'algoritmo di deep learning come identificare oggetti specifici dai dati delle immagini che fornisci. Questo processo può essere paragonato all'insegnare a un bambino a riconoscere qualcosa di nuovo: gli mostri numerose immagini di esempio da diverse angolazioni e ambienti, dicendogli "questo è l'oggetto bersaglio." Dopo sufficienti esempi, può identificare accuratamente quell'oggetto in nuove immagini.
 
-For YOLO, the training process works like this:
+Per YOLO, il processo di addestramento funziona così:
 
-1. **Data Preparation**: Collect images containing the target objects and annotate the position and category of each object
-2. **Model Learning**: The algorithm automatically learns the feature patterns of objects by analyzing this annotated data
-3. **Weight Generation**: After training completes, generate a model file (.pt file) containing the learned knowledge
-4. **Inference Application**: Deploy this model to the Raspberry Pi for detection on new images
+1. **Preparazione dei Dati**: Raccogliere immagini contenenti gli oggetti bersaglio e annotare la posizione e la categoria di ciascun oggetto
+2. **Apprendimento del Modello**: L'algoritmo apprende automaticamente i pattern caratteristici degli oggetti analizzando questi dati annotati
+3. **Generazione dei Pesi**: Dopo il completamento dell'addestramento, genera un file modello (file .pt) contenente la conoscenza appresa
+4. **Applicazione di Inferenza**: Distribuire questo modello sul Raspberry Pi per il rilevamento su nuove immagini
 
-Thanks to transfer learning, we don't need to train from scratch. The Ultralytics platform provides pre-trained base models (such as YOLOv8n) that have been trained on millions of images. We only need to "fine-tune" these models with a small number of our own images to create effective custom models.
+Grazie al transfer learning, non è necessario addestrare da zero. La piattaforma Ultralytics fornisce modelli di base pre-addestrati (come YOLOv8n) che sono stati addestrati su milioni di immagini. Dobbiamo solo "fare fine-tuning" di questi modelli con un piccolo numero di immagini proprie per creare modelli personalizzati efficaci.
 
 
 
 ----------------------------------------------------------
 
-Capturing Photos
+Acquisire Foto
 ------------------------------
 
-Since our YOLO project is based on the Raspberry Pi, we'll use the Raspberry Pi camera to capture photos. For better results, we also used mobile phones to capture some photos to increase data diversity.
+Poiché il nostro progetto YOLO è basato su Raspberry Pi, utilizzeremo la fotocamera del Raspberry Pi per acquisire foto. Per risultati migliori, abbiamo anche utilizzato telefoni cellulari per acquisire alcune foto e aumentare la diversità dei dati.
 
-**Photo Capture Tips**
+**Suggerimenti per l'Acquisizione Foto**
 
-* **Clarity**: Capture objects as clearly as possible, avoiding blurriness
-* **Diversity**: Capture photos from different angles (front, side, overhead, etc.) and under different lighting conditions (bright light, low light, backlight, etc.)
-* **Background Variation**: Try to capture images against different backgrounds to help the model learn the essential features of objects rather than backgrounds
-* **Avoid Overlap**: You can capture multiple objects simultaneously, but avoid significant overlap between objects
-* **Quantity Recommendation**: Aim for at least 50-100 photos per category; more images yield better results
+* **Chiarezza**: Acquisire gli oggetti nel modo più chiaro possibile, evitando sfocature
+* **Diversità**: Acquisire foto da diverse angolazioni (frontale, laterale, dall'alto, ecc.) e in diverse condizioni di illuminazione (luce intensa, scarsa illuminazione, controluce, ecc.)
+* **Variazione dello Sfondo**: Provare ad acquisire immagini su sfondi diversi per aiutare il modello ad apprendere le caratteristiche essenziali degli oggetti piuttosto che degli sfondi
+* **Evitare Sovrapposizioni**: Puoi acquisire più oggetti simultaneamente, ma evita sovrapposizioni significative tra gli oggetti
+* **Quantità Raccomandata**: Puntare ad almeno 50-100 foto per categoria; più immagini producono risultati migliori
 
-**What Object Should You Use?**
+**Quale Oggetto Dovresti Usare?**
 
-You can choose any object you're interested in to train, such as: a doll, a cup, a chair, or even your pet. This tutorial uses a snowman toy as an example; simply replace it with your own target object.
+Puoi scegliere qualsiasi oggetto ti interessi per addestrare, come: una bambola, una tazza, una sedia, o persino il tuo animale domestico. Questo tutorial utilizza un pupazzo di neve giocattolo come esempio; sostituiscilo semplicemente con il tuo oggetto bersaglio.
 
 .. image:: img/ultralytics_a1_capture_photo.png
 
-**Capturing Photos with the Raspberry Pi Camera**
+**Acquisire Foto con la Fotocamera del Raspberry Pi**
 
-Here's the code for capturing photos using the Raspberry Pi camera:
+Ecco il codice per acquisire foto utilizzando la fotocamera del Raspberry Pi:
 
 .. code-block:: bash
 
@@ -124,105 +124,105 @@ Here's the code for capturing photos using the Raspberry Pi camera:
       picam2.stop()
       print("Camera stopped")
 
-**Transferring Images to Your Computer**
+**Trasferire le Immagini al Tuo Computer**
 
-After capturing, use :ref:`filezilla` to download the images from the Raspberry Pi to your computer:
+Dopo l'acquisizione, usa :ref:`filezilla` per scaricare le immagini dal Raspberry Pi al tuo computer:
 
-1. Check the IP address on your Raspberry Pi: ``hostname -I``
-2. Connect to the Raspberry Pi in FileZilla (username: pi, password: your password)
-3. Navigate to the ``~/ai-lab-kit/yolo/captured_images/`` directory
-4. Download all images to your computer
+1. Controllare l'indirizzo IP sul tuo Raspberry Pi: ``hostname -I``
+2. Connettersi al Raspberry Pi in FileZilla (username: pi, password: la tua password)
+3. Navigare alla directory ``~/ai-lab-kit/yolo/captured_images/``
+4. Scaricare tutte le immagini sul tuo computer
 
 
 ----------------------------------------------------------
 
 
-Training the Model
+Addestrare il Modello
 -------------------------------------------------
 
-We'll use the online `Ultralytics Platform <https://platform.ultralytics.com/>`_. This platform provides convenient model training services without the need to configure complex training environments.
+Utilizzeremo la piattaforma online `Ultralytics Platform <https://platform.ultralytics.com/>`_. Questa piattaforma fornisce servizi di addestramento modelli convenienti senza la necessità di configurare ambienti di addestramento complessi.
 
-**Registration and Login**
+**Registrazione e Login**
 
-1. Click **Get started** in the upper right corner to access the registration page and complete the sign-up process.
+1. Fare clic su **Get started** nell'angolo in alto a destra per accedere alla pagina di registrazione e completare la procedura di iscrizione.
 
 .. image:: img/ultralytics_1_signup.png
 
-**Creating a Dataset**
+**Creare un Dataset**
 
-2. After registration, you'll be taken to the homepage. Click **New Dataset** to create a new dataset.
+2. Dopo la registrazione, verrai portato alla homepage. Fare clic su **New Dataset** per creare un nuovo dataset.
 
 .. image:: img/ultralytics_3_new_dataset.png
 
-3. A window will pop up. Here you can upload the photos you just captured with your Raspberry Pi and enter a **Dataset name**. Then click **Create & upload**.
+3. Apparirà una finestra. Qui puoi caricare le foto appena acquisite con il tuo Raspberry Pi e inserire un **Nome per il dataset**. Quindi fare clic su **Create & upload**.
 
 .. image:: img/ultralytics_4_create_dataset.png
 
-4. You'll now enter the dataset interface, where you can see all uploaded images.
+4. Ora entrerai nell'interfaccia del dataset, dove puoi vedere tutte le immagini caricate.
 
 .. image:: img/ultralytics_5_dataset.png
 
-**Annotating Images**
+**Annotare le Immagini**
 
-5. Open each photo to annotate. Use the **+Add Class** button on the right to add categories. Add the appropriate category name based on the object you want to identify (for example: if training to recognize a cup, add "cup"; if training to recognize a pet, add "pet").
+5. Aprire ogni foto per annotarla. Usare il pulsante **+Add Class** a destra per aggiungere categorie. Aggiungere il nome della categoria appropriato in base all'oggetto che si desidera identificare (ad esempio: se ti stai addestrando a riconoscere una tazza, aggiungi "cup"; se ti stai addestrando a riconoscere un animale domestico, aggiungi "pet").
 
-   **Annotation Tips**:
-   - Use the mouse to draw bounding boxes around objects, keeping them as close to object edges as possible
-   - Ensure each object is correctly annotated
-   - If an image contains no target objects, no annotation is needed
+   **Suggerimenti per l'Annotazione**:
+   - Usare il mouse per disegnare bounding box attorno agli oggetti, mantenendoli il più vicino possibile ai bordi degli oggetti
+   - Assicurarsi che ogni oggetto sia annotato correttamente
+   - Se un'immagine non contiene oggetti bersaglio, non è necessaria alcuna annotazione
 
 .. image:: img/ultralytics_6_train2.png
 
-6. Repeat the above steps until all photos are annotated. Check that annotations on each image are accurate.
+6. Ripetere i passaggi precedenti fino a quando tutte le foto sono annotate. Controllare che le annotazioni su ogni immagine siano accurate.
 
 .. image:: img/ultralytics_7_train3.png
 
-**Creating a Training Model**
+**Creare un Modello di Addestramento**
 
-7. Click **Models**, then click **New Model**.
+7. Fare clic su **Models**, quindi su **New Model**.
 
 .. image:: img/ultralytics_8_new_model.png
 
-8. In the pop-up window, select **YOLOv8n** or **YOLO11n** as the **Base Model**. These are nano versions suitable for Raspberry Pi, offering small size and fast speed.
+8. Nella finestra pop-up, selezionare **YOLOv8n** o **YOLO11n** come **Modello Base**. Queste sono versioni nano adatte per Raspberry Pi, offrendo dimensioni ridotte e alta velocità.
 
 .. image:: img/ultralytics_9_new_model1.png
 
-9. Configure training parameters:
+9. Configurare i parametri di addestramento:
 
-   - **Image size**: Select **320** (this is the image size that the Raspberry Pi can efficiently process)
-   - **Epochs**: Keep the default (typically 50-100 epochs)
-   - **GPU Type**: No specific requirement, but different GPU types affect training speed and cost
-   
-   **Note**: New Ultralytics accounts come with $5 in free credits; training a small model typically costs only a few cents, use as needed.
+   - **Image size**: Selezionare **320** (questa è la dimensione dell'immagine che il Raspberry Pi può elaborare efficientemente)
+   - **Epochs**: Mantenere il valore predefinito (tipicamente 50-100 epoche)
+   - **GPU Type**: Nessun requisito specifico, ma diversi tipi di GPU influenzano la velocità e il costo di addestramento
+
+   **Nota**: I nuovi account Ultralytics ricevono $5 in crediti gratuiti; addestrare un modello piccolo costa tipicamente solo pochi centesimi, usa secondo necessità.
 
 .. image:: img/ultralytics_9_new_model2.png
 
-10. Click **Start Training**. Wait for a period (usually 10-30 minutes, depending on data volume and GPU), and the model will complete training.
+10. Fare clic su **Start Training**. Attendere un periodo (di solito 10-30 minuti, a seconda del volume di dati e della GPU), e il modello completerà l'addestramento.
 
-    During training, you can see real-time metrics:
-    
-    - **box_loss**: Bounding box loss; smaller values are better
-    - **cls_loss**: Classification loss; smaller values are better
-    - **mAP**: Mean Average Precision; higher values are better (0-1 range)
+    Durante l'addestramento, puoi vedere metriche in tempo reale:
 
-**Downloading and Deploying**
+    - **box_loss**: Perdita della bounding box; valori più piccoli sono migliori
+    - **cls_loss**: Perdita di classificazione; valori più piccoli sono migliori
+    - **mAP**: Precisione Media Media (Mean Average Precision); valori più alti sono migliori (intervallo 0-1)
 
-11. After training completes, click **Download PyTorch Model** to download the trained model (it will be a .pt file).
+**Scaricare e Distribuire**
+
+11. Dopo il completamento dell'addestramento, fare clic su **Download PyTorch Model** per scaricare il modello addestrato (sarà un file .pt).
 
 .. image:: img/ultralytics_10_download_model.png
 
-12. After downloading, use FileZilla to transfer it to your Raspberry Pi (recommended to place it in the ``~/ai-lab-kit/yolo/`` directory).
+12. Dopo il download, utilizzare FileZilla per trasferirlo sul tuo Raspberry Pi (si consiglia di posizionarlo nella directory ``~/ai-lab-kit/yolo/``).
 
-**Running the Custom Model**
+**Eseguire il Modello Personalizzato**
 
-After placing the model on your Raspberry Pi, you need to modify the model path in the example code. Here's a complete running example 
+Dopo aver posizionato il modello sul tuo Raspberry Pi, devi modificare il percorso del modello nel codice di esempio. Ecco un esempio di esecuzione completo
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/yolo
    nano yolo_custom.py
 
-replace the model filename with your own downloaded file:
+sostituisci il nome del file del modello con il tuo file scaricato:
 
 .. code-block:: python
    :emphasize-lines: 6
@@ -265,53 +265,53 @@ replace the model filename with your own downloaded file:
       picam2.stop()
       print("exit")
 
-**Verifying Results**
+**Verificare i Risultati**
 
-13. Run the example code to observe how the YOLO model performs on your Raspberry Pi:
+13. Eseguire il codice di esempio per osservare le prestazioni del modello YOLO sul tuo Raspberry Pi:
 
     .. code-block:: bash
-    
+
        python3 yolo_custom.py
 
-    If everything works correctly, you should see your trained target object framed by a bounding box in the camera feed, with the category name and confidence score displayed.
+    Se tutto funziona correttamente, dovresti vedere il tuo oggetto bersaglio addestrato inquadrato da un bounding box nel flusso della fotocamera, con il nome della categoria e il punteggio di confidenza visualizzati.
 
 .. image:: img/ultralytics_a2_yolo_find.png
 
 
-Congratulations! You have successfully trained your own YOLO model and deployed it on the Raspberry Pi.
+Congratulazioni! Hai addestrato con successo il tuo modello YOLO personalizzato e lo hai distribuito sul Raspberry Pi.
 
 ----------------------------------------------------------
 
-Training Tips and Recommendations
--------------------------------------------------
+Suggerimenti e Raccomandazioni per l'Addestramento
+--------------------------------------------------
 
-**Improving Model Performance**
+**Migliorare le Prestazioni del Modello**
 
-* **Increase Data Volume**: Aim for at least 50-100 images per category
-* **Data Augmentation**: Proactively vary angles, distances, and lighting during capture
-* **Negative Samples**: Include some images without target objects to help reduce false positives
-* **Balanced Dataset**: If identifying multiple categories, ensure similar image counts for each category
+* **Aumentare il Volume di Dati**: Puntare ad almeno 50-100 immagini per categoria
+* **Data Augmentation**: Variare proattivamente angolazioni, distanze e illuminazione durante l'acquisizione
+* **Campioni Negativi**: Includere alcune immagini senza oggetti bersaglio per aiutare a ridurre i falsi positivi
+* **Dataset Bilanciato**: Se si identificano più categorie, assicurarsi che ciascuna categoria abbia un numero simile di immagini
 
 
 
-Common Questions
+Domande Comuni
 -------------------------
 
 
-**Q: What if model detection results are unsatisfactory?**
+**D: Cosa fare se i risultati del rilevamento del modello sono insoddisfacenti?**
 
-- Check annotation accuracy
-- Increase the number of training images
-- Try larger models (like YOLOv8s) or more training epochs
-- Capture more images from different scenarios
+- Controllare la precisione delle annotazioni
+- Aumentare il numero di immagini di addestramento
+- Provare modelli più grandi (come YOLOv8s) o più epoche di addestramento
+- Acquisire più immagini da scenari diversi
 
-**Q: How long does training take?**
+**D: Quanto tempo richiede l'addestramento?**
 
-- With approximately 50 images and YOLOv8n, training typically takes 10-20 minutes
-- The platform automatically adjusts based on the selected GPU
+- Con circa 50 immagini e YOLOv8n, l'addestramento richiede tipicamente 10-20 minuti
+- La piattaforma si regola automaticamente in base alla GPU selezionata
 
-**Q: Can I train locally?**
+**D: Posso addestrare localmente?**
 
-Yes, but you'll need to configure the Python environment and GPU drivers. For beginners, the Ultralytics platform is recommended for quickly validating ideas.
+Sì, ma dovrai configurare l'ambiente Python e i driver GPU. Per i principianti, si consiglia la piattaforma Ultralytics per validare rapidamente le idee.
 
 

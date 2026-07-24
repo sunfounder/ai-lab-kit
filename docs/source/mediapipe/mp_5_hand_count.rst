@@ -4,50 +4,50 @@
 
 .. _mp_hand_count:
 
-5. Hand Gesture Counting
+5. Conteggio dei Gesti della Mano
 ==============================================
 
 ------------------------------------------------------------
-1. Overview
+1. Panoramica
 ------------------------------------------------------------
 
-In the previous section, we implemented real-time hand
-detection and landmark visualization.
+Nella sezione precedente, abbiamo implementato il rilevamento
+delle mani in tempo reale e la visualizzazione dei landmark.
 
-This section extends that functionality by using
-finger landmark positions to count the number of
-raised fingers (0–5).
+Questa sezione estende tale funzionalita utilizzando
+le posizioni dei landmark delle dita per contare il numero
+di dita alzate (0–5).
 
-By analyzing the relative positions of finger tips
-and their corresponding joints, we can determine
-whether each finger is extended.
+Analizzando le posizioni relative delle punte delle dita
+e delle loro corrispondenti articolazioni, possiamo determinare
+se ogni dito e esteso.
 
 .. image:: img/mp_hand_count.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Come Funziona
 ------------------------------------------------------------
 
-The program follows these steps:
+Il programma segue questi passaggi:
 
-1. Initialize the MediaPipe Hands model.
-2. Capture video frames from the Raspberry Pi camera.
-3. Detect 21 hand landmarks in real time.
-4. Compare fingertip coordinates with their proximal joints.
-5. Determine whether each finger is extended.
-6. Count the number of raised fingers.
-7. Display the result on the video frame.
+1. Inizializza il modello MediaPipe Hands.
+2. Acquisisce i fotogrammi video dalla fotocamera del Raspberry Pi.
+3. Rileva 21 landmark della mano in tempo reale.
+4. Confronta le coordinate della punta delle dita con le loro articolazioni prossimali.
+5. Determina se ogni dito e esteso.
+6. Conta il numero di dita alzate.
+7. Visualizza il risultato sul fotogramma video.
 
-This method is:
+Questo metodo e:
 
-- Lightweight and efficient
-- Suitable for Raspberry Pi
-- A foundation for gesture control and interactive systems
+- Leggero ed efficiente
+- Adatto per Raspberry Pi
+- Una base per il controllo gestuale e i sistemi interattivi
 
 ------------------------
-3. Run the Code
+3. Eseguire il Codice
 ------------------------
 
 .. important::
@@ -63,13 +63,13 @@ This method is:
 
    For detailed instructions, see :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Dopo aver eseguito il programma, si apre una finestra intitolata "Show Video" che mostra il flusso video in diretta.
 
    .. raw:: html
 
@@ -78,31 +78,31 @@ This method is:
              Your browser does not support the video tag.
          </video>
 
-   When a hand appears in front of the camera:
+   Quando una mano appare davanti alla fotocamera:
 
-   - MediaPipe detects the hand in real time.
-   - 21 landmark points and connection lines are drawn on the hand.
-   - The program analyzes the positions of the fingertips and joints.
-   - The number of raised fingers (0–5) is calculated.
+   - MediaPipe rileva la mano in tempo reale.
+   - 21 punti landmark e linee di connessione vengono disegnati sulla mano.
+   - Il programma analizza le posizioni della punta delle dita e delle articolazioni.
+   - Viene calcolato il numero di dita alzate (0–5).
 
-   The detected finger count is displayed in the top-left corner
-   of the screen as:
+   Il conteggio delle dita rilevato viene visualizzato nell'angolo superiore sinistro
+   dello schermo come:
 
       Fingers: X
 
-   As you extend or fold your fingers, the number updates
-   instantly in real time.
+   Mentre estendi o pieghi le dita, il numero si aggiorna
+   istantaneamente in tempo reale.
 
-   If no hand is detected, only the normal camera feed
-   is displayed without a finger count.
+   Se non viene rilevata alcuna mano, viene mostrato solo il normale flusso video
+   senza conteggio delle dita.
 
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   Premi ``q`` per uscire dal programma.
+   La fotocamera si ferma e la finestra OpenCV si chiude automaticamente.
 
 
 
 -----------------------------
-4. Complete Code
+4. Codice Completo
 -----------------------------
 
 .. code-block:: python
@@ -190,35 +190,35 @@ This method is:
    picam2.stop()
    cv2.destroyAllWindows()
 
-In each loop iteration, it determines whether each of the 5 fingers is extended and counts the number of extended fingers. For example:
+In ogni iterazione del ciclo, determina se ciascuno dei 5 dita e esteso e conta il numero di dita estese. Per esempio:
 
-- ✊ All fingers closed → Count 0
-- ☝️ Index finger extended → Count 1
-- ✌️ Index + Middle fingers → Count 2
-- 🖐️ All five fingers open → Count 5
+- ✊ Tutte le dita chiuse → Conteggio 0
+- ☝️ Indice esteso → Conteggio 1
+- ✌️ Indice + Medio estesi → Conteggio 2
+- 🖐️ Tutte e cinque le dita aperte → Conteggio 5
 
 --------------------------------------------------------------
-5. Detection Logic and Extensions
+5. Logica di Rilevamento ed Estensioni
 --------------------------------------------------------------
 
-MediaPipe Hands returns 21 landmarks.
-We use fingertip and joint positions to determine whether
-each finger is extended.
+MediaPipe Hands restituisce 21 landmark.
+Usiamo le posizioni della punta delle dita e delle articolazioni per determinare
+se ogni dito e esteso.
 
 .. code-block:: python
 
    finger_tips = [4, 8, 12, 16, 20]
    finger_dips = [2, 6, 10, 14, 18]
 
-- ``finger_tips`` → Fingertip indices  
-  (Thumb=4, Index=8, Middle=12, Ring=16, Pinky=20)
+- ``finger_tips`` → Indici della punta delle dita
+  (Pollice=4, Indice=8, Medio=12, Anulare=16, Mignolo=20)
 
-- ``finger_dips`` → Corresponding proximal joints  
-  (Thumb=2, Index=6, Middle=10, Ring=14, Pinky=18)
+- ``finger_dips`` → Articolazioni prossimali corrispondenti
+  (Pollice=2, Indice=6, Medio=10, Anulare=14, Mignolo=18)
 
 ------------------------------------------------------------
 
-Finger counting logic:
+Logica di conteggio delle dita:
 
 .. code-block:: python
 
@@ -237,56 +237,56 @@ Finger counting logic:
    cv2.putText(frame, f"Fingers: {finger_count}", (10, 30),
                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-Logic explanation:
+Spiegazione della logica:
 
-- **Thumb** → Compare ``tip.x`` and ``dip.x`` (for right hand).
-- **Other fingers** → Compare ``tip.y`` and ``dip.y``.
-- If the fingertip is above (or outward from) the joint,
-  the finger is considered extended.
-- Each satisfied condition increases the count by ``+1``.
-
-------------------------------------------------------------
-
-Extension tips:
-
-- To support both left and right hands,
-  use ``hands_detected.multi_handedness`` to determine hand type,
-  and reverse the thumb x-axis comparison accordingly.
-
-- This logic can be extended to implement:
-
-  - OK gesture recognition
-  - Thumbs-up detection
-  - Rock–paper–scissors interaction
-  - Custom gesture-based controls
+- **Pollice** → Confronta ``tip.x`` e ``dip.x`` (per la mano destra).
+- **Altre dita** → Confronta ``tip.y`` e ``dip.y``.
+- Se la punta del dito e sopra (o verso l'esterno rispetto) l'articolazione,
+  il dito e considerato esteso.
+- Ogni condizione soddisfatta aumenta il conteggio di ``+1``.
 
 ------------------------------------------------------------
-6. Troubleshooting
+
+Suggerimenti per l'estensione:
+
+- Per supportare sia la mano sinistra che quella destra,
+  usa ``hands_detected.multi_handedness`` per determinare il tipo di mano,
+  e inverti il confronto sull'asse x del pollice di conseguenza.
+
+- Questa logica puo essere estesa per implementare:
+
+  - Riconoscimento del gesto OK
+  - Rilevamento del pollice in su
+  - Interazione sasso-carta-forbice
+  - Controlli personalizzati basati sui gesti
+
+------------------------------------------------------------
+6. Risoluzione dei Problemi
 ------------------------------------------------------------
 
-- Thumb detection inaccurate
+- Rilevamento del pollice impreciso
 
-  Thumb detection may be inaccurate because the logic differs for left and right hands. The horizontal comparison used for the thumb depends on hand orientation.
+  Il rilevamento del pollice potrebbe essere impreciso perche la logica differisce per la mano sinistra e destra. Il confronto orizzontale utilizzato per il pollice dipende dall'orientamento della mano.
 
-  Use ``multi_handedness`` to determine whether the detected hand is left or right, and adjust the thumb detection logic accordingly.
+  Usa ``multi_handedness`` per determinare se la mano rilevata e sinistra o destra, e regola la logica di rilevamento del pollice di conseguenza.
 
-- Unstable detection
+- Rilevamento instabile
 
-  If finger counting appears unstable, lighting may be insufficient or the background may be cluttered.
+  Se il conteggio delle dita appare instabile, l'illuminazione potrebbe essere insufficiente o lo sfondo potrebbe essere disordinato.
 
-  Improve the lighting conditions and use a plain background to increase detection stability.
+  Migliora le condizioni di illuminazione e usa uno sfondo semplice per aumentare la stabilita del rilevamento.
 
-- High latency
+- Latenza elevata
 
-  If the response feels slow, the resolution may be too high or the CPU may be overloaded.
+  Se la risposta e lenta, la risoluzione potrebbe essere troppo alta o la CPU potrebbe essere sovraccarica.
 
-  Reduce the resolution (for example, 320×240) and close unnecessary background processes. You can also simplify the finger counting logic if needed.
+  Riduci la risoluzione (per esempio, 320×240) e chiudi i processi di background non necessari. Puoi anche semplificare la logica di conteggio delle dita se necessario.
 
 
 -----------------------------
-7. Summary
+7. Riepilogo
 -----------------------------
 
-- Using MediaPipe Hands, we can quickly implement **real-time gesture recognition**.
-- This section implemented **number gesture counting** based on fingertip positions, laying the foundation for custom gesture recognition.
-- By adapting for left/right hands and expanding judgment rules, more complex interactive scenarios can be achieved.
+- Utilizzando MediaPipe Hands, possiamo implementare rapidamente il **riconoscimento dei gesti in tempo reale**.
+- Questa sezione ha implementato il **conteggio dei gesti numerici** basato sulle posizioni della punta delle dita, gettando le basi per il riconoscimento personalizzato dei gesti.
+- Adattandosi per le mani sinistra/destra ed espandendo le regole di giudizio, si possono ottenere scenari interattivi piu complessi.

@@ -4,99 +4,99 @@
 
 .. _py_video:
 
-3.2 Video Module
+3.2 Modulo Video
 =====================
 
-**Introduction**
+**Introduzione**
 
-Beyond taking photos, the Raspberry Pi Camera Module also allows you to record high-quality videos. This project demonstrates how to set up the camera module to record videos with configurable resolution, frame rate, and bitrate, saving them directly to your Raspberry Pi.
+Oltre a scattare foto, il modulo telecamera del Raspberry Pi permette anche di registrare video di alta qualità. Questo progetto dimostra come configurare il modulo telecamera per registrare video con risoluzione, framerate e bitrate configurabili, salvandoli direttamente sul tuo Raspberry Pi.
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-Below are the components required for this project:
+Qui sotto sono elencati i componenti richiesti per questo progetto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    * - COMPONENT INTRODUCTION
-      - PURCHASE LINK
+    * - COMPONENTE
+      - LINK ACQUISTO
     * - :ref:`cpn_camera_module`
       - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 ----------------------------------------------
 
-**Experimental Procedures**
+**Procedure Sperimentali**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. Per usare il modulo telecamera comodamente, si consiglia :ref:`assemble_fusion_hat_pan_tilt`.
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     L'assemblaggio del pan-tilt potrebbe oscurare alcuni pin, quindi si consiglia di assemblarlo solo quando si usa la telecamera, o di posizionarlo all'esterno dopo l'assemblaggio.
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. Accedi al Desktop del Raspberry Pi:
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: Usa **VNC** per un'esperienza desktop completa.
+   * |link_rpi_connect|: Usa **Raspberry Pi Connect** per accedere al tuo Pi in modo sicuro da qualsiasi browser.
 
-#. Open a Terminal and navigate to the project folder:
+#. Apri un Terminale e naviga alla cartella del progetto:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-   
+
       cd ~/ai-lab-kit/python
 
-#. Run the video recording script:
+#. Esegui lo script di registrazione video:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       sudo python3 3.2_Video.py
 
-#. After the script starts, press the **Fusion HAT+ USR button** to control recording.
+#. Dopo l'avvio dello script, premi il **pulsante USR di Fusion HAT+** per controllare la registrazione.
 
    .. image:: img/3.1_user_button.png
       :width: 50%
 
-   * First press → **Start recording** with a live preview.
-   * Second press → **Stop recording**.
-   * Videos are saved in your ``~/Videos`` directory with names like:
+   * Prima pressione → **Avvia registrazione** con anteprima dal vivo.
+   * Seconda pressione → **Ferma registrazione**.
+   * I video vengono salvati nella tua directory ``~/Videos`` con nomi come:
      ``video_20250101_153045.mp4``.
-   * Press ``Ctrl+C`` in the terminal to exit the program.
+   * Premi ``Ctrl+C`` nel terminale per uscire dal programma.
 
    .. image:: img/3.2_record_video.png
       :width: 70%
 
 
 .. note::
-   QT preview requires a desktop environment.
-   If the preview cannot be started (for example, over SSH),
-   the camera can still capture and save photos normally.
+   L'anteprima QT richiede un ambiente desktop.
+   Se l'anteprima non può essere avviata (ad esempio, tramite SSH),
+   la telecamera può comunque catturare e salvare le foto normalmente.
 
 
 ----------------------------------------------
 
 
-**Code**
+**Codice**
 
-Below is the Python code used for this project:
+Qui sotto c'è il codice Python usato per questo progetto:
 
 .. raw:: html
 
@@ -179,7 +179,7 @@ Below is the Python code used for this project:
                camera.stop_recording()
          except Exception:
                pass
-         
+
       # Stop preview only if it was started
       if preview_started:
          try:
@@ -198,12 +198,12 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Imports and Purpose**
+1. **Importazioni e Scopo**
 
    .. code-block:: python
 
@@ -215,17 +215,17 @@ Below is the Python code used for this project:
       from picamera2.outputs import FfmpegOutput
       from fusion_hat.user_button import UserButton
 
-   These modules are used for:
+   Questi moduli vengono usati per:
 
-   - ``os``: reading environment variables (e.g., ``DISPLAY``, ``SUDO_USER``) and building file paths.
-   - ``time``: generating timestamped filenames and keeping the program running in a loop.
-   - ``pwd``: finding the real user's home directory when the script is run with ``sudo``.
-   - ``Picamera2`` / ``Preview``: controlling the camera pipeline and preview modes.
-   - ``H264Encoder``: encoding video frames into H.264 format.
-   - ``FfmpegOutput``: saving the encoded stream into an ``.mp4`` file using FFmpeg.
-   - ``UserButton``: reading the Fusion HAT+ USR button and binding a click callback.
+   - ``os``: leggere le variabili d'ambiente (ad es., ``DISPLAY``, ``SUDO_USER``) e costruire percorsi file.
+   - ``time``: generare nomi file con timestamp e mantenere il programma in esecuzione in un ciclo.
+   - ``pwd``: trovare la directory home dell'utente reale quando lo script viene eseguito con ``sudo``.
+   - ``Picamera2`` / ``Preview``: controllare la pipeline della telecamera e le modalità di anteprima.
+   - ``H264Encoder``: codificare i fotogrammi video in formato H.264.
+   - ``FfmpegOutput``: salvare lo stream codificato in un file ``.mp4`` usando FFmpeg.
+   - ``UserButton``: leggere il pulsante USR di Fusion HAT+ e collegare un callback di click.
 
-2. **Selecting the Correct Save Directory (Works with sudo)**
+2. **Selezione della Directory di Salvataggio Corretta (Funziona con sudo)**
 
    .. code-block:: python
 
@@ -234,14 +234,14 @@ Below is the Python code used for this project:
       videos_dir = os.path.join(home, "Videos")
       os.makedirs(videos_dir, exist_ok=True)
 
-   This ensures videos are saved in the *real user's* ``~/Videos`` folder:
+   Questo assicura che i video siano salvati nella cartella ``~/Videos`` dell'*utente reale*:
 
-   - When run with ``sudo``, ``SUDO_USER`` points to the original user.
-   - ``pwd.getpwnam(...).pw_dir`` returns that user's home directory.
-   - If not using ``sudo``, it falls back to the current user’s home (``~``).
-   - ``~/Videos`` is created if it doesn't exist.
+   - Quando eseguito con ``sudo``, ``SUDO_USER`` punta all'utente originale.
+   - ``pwd.getpwnam(...).pw_dir`` restituisce la directory home di quell'utente.
+   - Se non si usa ``sudo``, viene usata la home dell'utente corrente (``~``).
+   - ``~/Videos`` viene creata se non esiste.
 
-3. **Camera and Video Encoder Initialization**
+3. **Inizializzazione della Telecamera e del Codificatore Video**
 
    .. code-block:: python
 
@@ -249,12 +249,12 @@ Below is the Python code used for this project:
       camera.configure(camera.create_video_configuration(main={"size": (800, 600)}, controls={"FrameRate": 30}))
       encoder = H264Encoder(bitrate=10_000_000)
 
-   - ``create_video_configuration(...)`` sets up the camera pipeline for recording video.
-   - ``size=(800, 600)`` chooses the recording resolution.
-   - ``FrameRate=30`` records at 30 FPS.
-   - ``H264Encoder`` compresses the stream to H.264 at ~10 Mbps.
+   - ``create_video_configuration(...)`` configura la pipeline della telecamera per la registrazione video.
+   - ``size=(800, 600)`` sceglie la risoluzione di registrazione.
+   - ``FrameRate=30`` registra a 30 FPS.
+   - ``H264Encoder`` comprime lo stream in H.264 a ~10 Mbps.
 
-4. **Recording State Variables**
+4. **Variabili di Stato della Registrazione**
 
    .. code-block:: python
 
@@ -262,12 +262,11 @@ Below is the Python code used for this project:
       output = None
       preview_started = False
 
-   - ``is_recording`` tracks whether recording is currently active.
-   - ``output`` stores the ``FfmpegOutput`` object to keep it alive while recording.
-   - ``preview_started`` records whether a preview window was successfully started,
-     so we only stop preview if it actually exists.
+   - ``is_recording`` tiene traccia se la registrazione è attualmente attiva.
+   - ``output`` memorizza l'oggetto ``FfmpegOutput`` per mantenerlo in vita durante la registrazione.
+   - ``preview_started`` registra se una finestra di anteprima è stata avviata con successo, in modo da fermare l'anteprima solo se esiste effettivamente.
 
-5. **Starting a Recording**
+5. **Avvio di una Registrazione**
 
    .. code-block:: python
 
@@ -281,13 +280,13 @@ Below is the Python code used for this project:
          is_recording = True
          print(f"\nStart recording: {path}")
 
-   When recording starts:
+   Quando la registrazione inizia:
 
-   - A timestamped filename is generated (e.g., ``video_20260203_154500.mp4``).
-   - A new ``FfmpegOutput`` is created for that file.
-   - ``camera.start_recording(...)`` begins encoding and writing the video stream.
+   - Viene generato un nome file con timestamp (ad es., ``video_20260203_154500.mp4``).
+   - Viene creato un nuovo ``FfmpegOutput`` per quel file.
+   - ``camera.start_recording(...)`` inizia la codifica e la scrittura dello stream video.
 
-6. **Stopping a Recording**
+6. **Fermata di una Registrazione**
 
    .. code-block:: python
 
@@ -299,12 +298,12 @@ Below is the Python code used for this project:
          output = None
          print("\nStop recording.")
 
-   When recording stops:
+   Quando la registrazione si ferma:
 
-   - ``camera.stop_recording()`` finalizes the output file correctly.
-   - The output reference is cleared so the object can be released.
+   - ``camera.stop_recording()`` finalizza correttamente il file di output.
+   - Il riferimento all'output viene cancellato in modo che l'oggetto possa essere rilasciato.
 
-7. **USR Button Toggle Control**
+7. **Controllo di Attivazione/Disattivazione tramite Pulsante USR**
 
    .. code-block:: python
 
@@ -316,12 +315,12 @@ Below is the Python code used for this project:
 
       UserButton().set_on_click(toggle)
 
-   Each press of the Fusion HAT+ USR button toggles recording:
+   Ogni pressione del pulsante USR di Fusion HAT+ attiva/disattiva la registrazione:
 
-   - First press → start recording.
-   - Second press → stop recording.
+   - Prima pressione → avvia registrazione.
+   - Seconda pressione → ferma registrazione.
 
-8. **Preview Logic (Works With or Without a Screen)**
+8. **Logica dell'Anteprima (Funziona Con o Senza Schermo)**
 
    .. code-block:: python
 
@@ -332,11 +331,10 @@ Below is the Python code used for this project:
           except Exception:
               preview_started = False
 
-   - If a desktop GUI is available (``DISPLAY`` is set), the script attempts a QT preview.
-   - If no screen/GUI is available (such as SSH without X11), it skips preview safely
-     and recording still works normally.
+   - Se è disponibile un desktop GUI (``DISPLAY`` è impostato), lo script tenta un'anteprima QT.
+   - Se non è disponibile alcuno schermo/GUI (come SSH senza X11), salta l'anteprima in sicurezza e la registrazione funziona comunque normalmente.
 
-9. **Main Loop and Clean Exit (Ctrl+C)**
+9. **Ciclo Principale e Uscita Pulita (Ctrl+C)**
 
    .. code-block:: python
 
@@ -354,56 +352,56 @@ Below is the Python code used for this project:
           camera.stop()
           camera.close()
 
-   - ``camera.start()`` starts the camera pipeline.
-   - The loop keeps the script running so it can respond to button presses.
-   - When Ctrl+C is pressed, the ``finally`` block runs:
-     - Stops recording if it is active (prevents corrupted video files).
-     - Stops preview only if it was started (prevents preview-related errors).
-     - Stops and closes the camera to release hardware resources cleanly.
+   - ``camera.start()`` avvia la pipeline della telecamera.
+   - Il ciclo mantiene lo script in esecuzione in modo che possa rispondere alle pressioni del pulsante.
+   - Quando viene premuto Ctrl+C, il blocco ``finally`` viene eseguito:
+     - Ferma la registrazione se è attiva (previene file video corrotti).
+     - Ferma l'anteprima solo se è stata avviata (previene errori relativi all'anteprima).
+     - Ferma e chiude la telecamera per rilasciare le risorse hardware in modo pulito.
 
 
 -----------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
 
-1. **No Preview Window**
+1. **Nessuna Finestra di Anteprima**
 
-   - **Cause:** Running without a desktop environment or missing Picamera2 GUI support.
-   - **Fix:** Use Raspberry Pi Desktop/VNC and install Picamera2:
+   - **Causa:** Esecuzione senza ambiente desktop o supporto GUI Picamera2 mancante.
+   - **Soluzione:** Usa Raspberry Pi Desktop/VNC e installa Picamera2:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
         sudo apt install -y python3-picamera2
 
-2. **USR Button Not Working**
+2. **Il Pulsante USR Non Funziona**
 
-   - **Cause:** Fusion HAT+ not connected or insufficient permissions.
-   - **Fix:** Reseat the HAT, run the script with ``sudo``, and print debug logs in ``toggle_recording()`` if needed.
+   - **Causa:** Fusion HAT+ non collegato o permessi insufficienti.
+   - **Soluzione:** Reinserisci HAT, esegui lo script con ``sudo`` e stampa log di debug in ``toggle_recording()`` se necessario.
 
-3. **Video Not Saved**
+3. **Video Non Salvato**
 
-   - **Cause:** Incorrect home directory when using ``sudo`` or missing ``~/Videos`` folder.
-   - **Fix:** Check ``REAL_USER`` and ``VIDEOS_DIR`` values. Ensure ``~/Videos`` exists and is writable.
+   - **Causa:** Directory home errata quando si usa ``sudo`` o cartella ``~/Videos`` mancante.
+   - **Soluzione:** Controlla i valori ``REAL_USER`` e ``VIDEOS_DIR``. Assicurati che ``~/Videos`` esista e sia scrivibile.
 
-4. **Recording Starts/Stops Unexpectedly**
+4. **La Registrazione Inizia/Ferma Inaspettatamente**
 
-   - **Cause:** Camera in use by another process or system under heavy load.
-   - **Fix:** Close other camera apps, reboot the Pi, and ensure ``ffmpeg`` is installed.
+   - **Causa:** Telecamera in uso da un altro processo o sistema sotto carico elevato.
+   - **Soluzione:** Chiudi altre app della telecamera, riavvia il Pi e assicurati che ``ffmpeg`` sia installato.
 
-5. **File Not Finalized**
+5. **File Non Finalizzato**
 
-   - **Cause:** Script terminated abruptly before stopping recording.
-   - **Fix:** Always exit with ``Ctrl+C`` so the script can stop recording properly.
+   - **Causa:** Script terminato bruscamente prima di fermare la registrazione.
+   - **Soluzione:** Esci sempre con ``Ctrl+C`` in modo che lo script possa fermare correttamente la registrazione.
 
 ------
 
-**Conclusion**
+**Conclusione**
 
-This script lets you start and stop video recording using the Fusion HAT+ USR button while viewing a live preview. Videos are saved automatically to ``~/Videos`` with timestamped filenames.
+Questo script ti permette di avviare e fermare la registrazione video usando il pulsante USR di Fusion HAT+ mentre visualizzi un'anteprima dal vivo. I video vengono salvati automaticamente in ``~/Videos`` con nomi file con timestamp.
 
-It provides a simple foundation for button-controlled video capture and can be extended for DIY cameras, classroom demos, or sensor-triggered recording projects.
+Fornisce una base semplice per l'acquisizione video controllata da pulsante e può essere esteso per telecamere fai-da-te, dimostrazioni in classe o progetti di registrazione attivati da sensori.

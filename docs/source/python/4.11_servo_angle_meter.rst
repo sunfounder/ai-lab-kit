@@ -5,29 +5,29 @@
 
 .. _py_servo_angle_meter:
 
-4.11 Servo Angle Meter
-==============================
+4.11 Misuratore Angolo Servomotore
+==================================
 
-**Introduction**
+**Introduzione**
 
-In this lesson, you will build a **Servo Angle Meter** — a visual servo angle indicator that uses a potentiometer to control a servo motor, while displaying the current angle on an OLED screen.  
-The potentiometer provides an analog voltage through the Fusion HAT+’s ADC interface.  
-The servo receives commands based on this reading, and a 128×64 I2C OLED screen shows the numeric servo angle and a graphical bar that moves smoothly across the display.
+In questa lezione, costruirai un **Misuratore Angolo Servomotore** -- un indicatore visivo dell'angolo del servo che usa un potenziometro per controllare un servomotore, visualizzando l'angolo corrente su uno schermo OLED.
+Il potenziometro fornisce una tensione analogica attraverso l'interfaccia ADC di Fusion HAT+.
+Il servo riceve comandi basati su questa lettura e uno schermo OLED 128x64 I2C mostra l'angolo numerico del servo e una barra grafica che si muove dolcemente attraverso il display.
 
-As you rotate the potentiometer, the servo sweeps between approximately -90° and +90°, and the OLED updates in real time.
+Ruotando il potenziometro, il servo si muove tra circa -90 e +90, e l'OLED si aggiorna in tempo reale.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-The following components are required for this project:
+I seguenti componenti sono richiesti per questo progetto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_potentiometer`
@@ -39,11 +39,11 @@ The following components are required for this project:
     *   - :ref:`cpn_fusion_hat`
         - \-
     *   - Raspberry Pi
-        - \-
+        -
 
 .. ----------------------------------------------
 
-.. **Circuit Diagram**
+.. **Schema Elettrico**
 
 .. .. image:: img/fzz/4.11_servo_oled_sch.png
 ..    :width: 80%
@@ -51,9 +51,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Refer to the wiring diagram for assembling the components:
+Fai riferimento allo schema di cablaggio per assemblare i componenti:
 
 .. image:: img/fzz/4.11_servo_angle_meter_bb.png
    :width: 100%
@@ -61,9 +61,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Passaggi di Configurazione**
 
-#. Install the required libraries:
+#. Installa le librerie richieste:
 
    .. raw:: html
 
@@ -73,7 +73,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. All example code used in this tutorial is available in the ``ai-lab-kit`` directory:
+#. Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``:
 
    .. raw:: html
 
@@ -84,20 +84,20 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.11_ServoAngleMeter.py
 
-#. When the script runs:
+#. Quando lo script viene eseguito:
 
-   * Rotating the potentiometer moves the servo between -90° and +90°.  
-   * The OLED shows the numeric angle and a moving bar pointer.  
-   * Ctrl+C exits, resets servo to 0°, and clears the display.
+   * Ruotando il potenziometro si muove il servo tra -90 e +90.
+   * L'OLED mostra l'angolo numerico e un indicatore a barra mobile.
+   * Ctrl+C esce, resetta il servo a 0 e cancella il display.
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-Here is the Python script for the Servo Angle Meter:
+Ecco lo script Python per il Misuratore Angolo Servomotore:
 
 .. raw:: html
-   
+
    <run></run>
 
 .. code-block:: python
@@ -193,181 +193,87 @@ Here is the Python script for the Servo Angle Meter:
        oled.show()
        print("\nExited.")
 
+
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Imports**
+1. **Importazioni**
 
-   - ``ADC`` reads analog values from the potentiometer  
-   - ``Servo`` controls servo rotation  
-   - ``PIL`` handles all OLED graphics  
-   - ``adafruit_ssd1306`` drives the I2C OLED display  
-   - ``board`` provides hardware I/O  
-   - ``time`` controls loop speed  
+   - ``ADC`` legge i valori analogici dal potenziometro
+   - ``Servo`` controlla la rotazione del servomotore
+   - ``PIL`` gestisce tutta la grafica OLED
+   - ``adafruit_ssd1306`` pilota il display OLED I2C
+   - ``board`` fornisce I/O hardware
+   - ``time`` controlla la velocit del ciclo
 
-2. **OLED Setup**
+2. **Configurazione OLED**
 
-   A 128×64 SSD1306 OLED is initialized and cleared.  
-   An off-screen framebuffer holds the graphics for each frame before being pushed to the display.
+   Un OLED SSD1306 128x64 viene inizializzato e cancellato.
+   Un framebuffer fuori schermo contiene la grafica per ogni fotogramma prima di essere inviato al display.
 
-   .. code-block:: python
+3. **Servomotore e Potenziometro**
 
-      # ==== OLED setup ====
-      WIDTH, HEIGHT = 128, 64
-      i2c = board.I2C()
-      oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=0x3C)
-      oled.fill(0)
-      oled.show()
+   - Servomotore collegato alla porta ``P0``
+   - Potenziometro collegato all'ingresso analogico ``A0``
+   - Intervallo ADC: ``0..4095``
 
-      # Framebuffer for drawing
-      image = Image.new("1", (WIDTH, HEIGHT))
-      draw = ImageDraw.Draw(image)
-      font = ImageFont.load_default()
+4. **Mappatura dei Valori**
 
+   ``linear_map()`` converte la lettura del potenziometro in un angolo del servo nell'intervallo ``-90..90``.
 
-3. **Servo & Potentiometer**
+5. **Disegno dell'Interfaccia Utente**
 
-   - Servo connected to port ``P0``  
-   - Potentiometer connected to analog input ``A0``  
-   - ADC range: ``0..4095``  
+   La funzione ``draw_bar()``:
+   * Cancella il display
+   * Disegna il titolo
+   * Mostra l'angolo numerico
+   * Disegna una barra orizzontale e segni di graduazione
+   * Disegna un puntatore e un segmento riempito che indica la direzione dell'angolo
 
-   .. code-block:: python
+6. **Ciclo Principale**
 
-      # ==== Servo & potentiometer ====
-      servo = Servo('P0')   # servo on port P0
-      pot   = ADC('A0')     # potentiometer on A0 (0..4095)
+   Lo script ripetutamente:
+   * Legge l'ADC
+   * Calcola l'angolo del servo
+   * Aggiorna il servo
+   * Disegna l'interfaccia utente aggiornata
+   * Aggiorna l'OLED
 
-
-4. **Mapping Values**
-
-   ``linear_map()`` converts the potentiometer reading into a servo angle in the range ``-90..90``.
-
-   .. code-block:: python
-
-      def linear_map(x, in_min, in_max, out_min, out_max):
-         """Map x from one range to another."""
-         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-
-
-5. **Drawing the UI**
-
-   The ``draw_bar()`` function:
-
-   * Clears the display  
-   * Draws the title  
-   * Shows numeric angle  
-   * Draws a horizontal bar and tick marks  
-   * Draws a pointer and filled segment indicating the angle direction  
-
-   .. code-block:: python
-
-      def draw_bar(angle_deg):
-         """
-         Draw a centered horizontal bar with a moving pointer.
-         -90° maps to the far left, +90° to the far right.
-         0° is at the bar center.
-         """
-         # Clear screen
-         draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
-
-         # Title
-         title = "Servo Angle"
-         tw, th = text_size(font, title)
-         draw.text(((WIDTH - tw) // 2, 4), title, font=font, fill=255)
-
-         # Numeric angle
-         txt = f"{angle_deg:>4} deg"
-         nw, nh = text_size(font, txt)
-         draw.text(((WIDTH - nw) // 2, 20), txt, font=font, fill=255)
-
-         # Static bar background
-         draw.rectangle(
-            (BAR_MARGINX, BAR_TOP, BAR_MARGINX + BAR_WIDTH - 1, BAR_TOP + BAR_HEIGHT),
-            outline=255, fill=0
-         )
-
-         # Ticks: left (-90), center (0), right (+90)
-         for x in (BAR_MARGINX, BAR_CENTERX, BAR_MARGINX + BAR_WIDTH - 1):
-            draw.line((x, BAR_TOP - 3, x, BAR_TOP + BAR_HEIGHT + 3), fill=255)
-
-         # Map angle (-90..90) to bar position
-         pos = int(linear_map(angle_deg, -90, 90, BAR_MARGINX, BAR_MARGINX + BAR_WIDTH - 1))
-
-         # Pointer: a solid vertical line
-         draw.line((pos, BAR_TOP - 2, pos, BAR_TOP + BAR_HEIGHT + 2), fill=255)
-
-         # Optional: filled segment from center to pointer (visualize direction)
-         if pos >= BAR_CENTERX:
-            draw.rectangle((BAR_CENTERX, BAR_TOP + 1, pos, BAR_TOP + BAR_HEIGHT - 1), outline=0, fill=255)
-         else:
-            draw.rectangle((pos, BAR_TOP + 1, BAR_CENTERX, BAR_TOP + BAR_HEIGHT - 1), outline=0, fill=255)
- 
-
-6. **Main Loop**
-
-   The script repeatedly:
-
-   * Reads the ADC  
-   * Computes servo angle  
-   * Updates servo  
-   * Draws updated UI  
-   * Refreshes OLED  
-
-   .. code-block:: python
-
-      while True:
-         # Read potentiometer (0..4095) and map to angle (-90..90)
-         raw = pot.read()
-         angle = int(linear_map(raw, 0, 4095, -90, 90))
-
-         # Drive servo
-         servo.angle(angle)
-
-         # Draw UI and push to OLED
-         draw_bar(angle)
-         oled.image(image)
-         oled.show()
-
-         # Optional: print for debugging
-         # print(f"pot={raw:4d} -> angle={angle:4d} deg")
-
-         time.sleep(0.05)  # ~20 FPS
-
-7. **Graceful Exit**
+7. **Uscita Controllata**
 
    Ctrl+C:
+   - Il servo torna a 0
+   - L'OLED viene cancellato
 
-   - Servo returns to 0°  
-   - OLED is cleared  
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-- **OLED shows nothing**
+- **L'OLED non mostra nulla**
 
-  - Check I2C wiring  
-  - Verify device address is ``0x3C``  
-  - Ensure required libraries are installed  
+  - Controlla il cablaggio I2C
+  - Verifica che l'indirizzo del dispositivo sia ``0x3C``
+  - Assicurati che le librerie richieste siano installate
 
-- **Servo does not respond**
+- **Il servomotore non risponde**
 
-  - Check servo power  
-  - Confirm servo is connected to ``P0``  
-  - Ensure servo signal wire is correct  
+  - Controlla l'alimentazione del servo
+  - Conferma che il servo sia collegato a ``P0``
+  - Assicurati che il filo del segnale del servo sia corretto
 
-- **Movement range incorrect**
+- **Intervallo di movimento errato**
 
-  Adjust:
+  Regola:
 
   .. code-block:: python
 
      angle = int(linear_map(raw, 0, 4095, -90, 90))
 
-- **OLED flickers**
+- **L'OLED sfarfalla**
 
-  Increase delay:
+  Aumenta il ritardo:
 
   .. code-block:: python
 
@@ -375,27 +281,26 @@ Here is the Python script for the Servo Angle Meter:
 
 ----------------------------------------------
 
-**Try It Yourself**
+**Prova Tu Stesso**
 
-1. **Add servo angle limits**  
+1. **Aggiungi limiti all'angolo del servo**
 
-   Prevent mechanical overdrive.
+   Previeni il sovraccarico meccanico.
 
-2. **Add calibration**  
+2. **Aggiungi calibrazione**
 
-   Detect min/max potentiometer values dynamically.
+   Rileva dinamicamente i valori minimo/massimo del potenziometro.
 
-3. **Smooth motion**  
+3. **Movimento fluido**
 
-   Apply easing or low-pass filtering.
+   Applica facilitazione o filtraggio passa-basso.
 
-4. **More display info**  
+4. **Pi informazioni sul display**
 
-   Show raw ADC value alongside angle.
+   Mostra il valore ADC grezzo insieme all'angolo.
 
-5. **Warnings**  
+5. **Avvisi**
 
-   Blink pointer near limits (±75°).
+   Fai lampeggiare il puntatore vicino ai limiti ( 75).
 
-These additions turn the Servo Angle Meter into a highly capable input-visualization tool.
-
+Questi miglioramenti trasformano il Misuratore Angolo Servomotore in uno strumento di input-visualizzazione altamente capace.

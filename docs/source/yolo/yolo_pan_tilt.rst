@@ -2,51 +2,51 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-4. Track Objects with Pan-Tilt
-==============================================================
+4. Tracciare Oggetti con il Pan-Tilt
+===============================================================
 
 
-In previous tutorials, we learned how to use YOLO for object detection on Raspberry Pi. However, detection is just the first step—if you want the camera to truly "follow" the target, you need to combine detection with mechanical control.
+Nei tutorial precedenti, abbiamo imparato come utilizzare YOLO per il rilevamento oggetti su Raspberry Pi. Tuttavia, il rilevamento è solo il primo passo—se vuoi che la fotocamera "segua" realmente il bersaglio, devi combinare il rilevamento con il controllo meccanico.
 
-This tutorial will guide you through building a **YOLO Object Tracking System** that achieves the following:
+Questo tutorial ti guiderà nella costruzione di un **Sistema di Tracciamento Oggetti YOLO** che realizza quanto segue:
 
-* Real-time detection of specific objects using YOLO
-* Automatic calculation of the target's position deviation in the frame
-* Servo-controlled camera pan-tilt to keep the target centered in the frame
-* Support for saving current frames with SPACE key for dataset collection
+* Rilevamento in tempo reale di oggetti specifici utilizzando YOLO
+* Calcolo automatico della deviazione della posizione del bersaglio nel fotogramma
+* Pan-tilt della fotocamera controllato da servo per mantenere il bersaglio centrato nel fotogramma
+* Supporto per salvare i fotogrammi correnti con il tasto SPACE per la raccolta di dataset
 
-Here we track the target from our custom model trained in the previous tutorial—mine is a snowman. You can also choose other models (such as yolov8n) to track other targets (like people, cars, etc.).
+Qui tracciamo il bersaglio dal nostro modello personalizzato addestrato nel tutorial precedente—il mio è un pupazzo di neve. Puoi anche scegliere altri modelli (come yolov8n) per tracciare altri bersagli (come persone, auto, ecc.).
 
 .. image:: img/yolo_track.png
 
-Figure: YOLO object tracking system in action. When the target moves, the camera pan-tilt automatically follows, keeping the target near the yellow crosshair in the center of the frame. The green bounding box marks the detected target.
+Figura: Sistema di tracciamento oggetti YOLO in azione. Quando il bersaglio si muove, il pan-tilt della fotocamera segue automaticamente, mantenendo il bersaglio vicino al mirino giallo al centro del fotogramma. Il riquadro verde delimita il bersaglio rilevato.
 
-**Application Scenarios**:
+**Scenari Applicativi**:
 
-* Smart surveillance: Automatically track suspicious targets
-* Pet companion: Let the camera follow your pet's movements
-* Video conferencing: Automatically keep speakers centered in the frame
-* Data collection: Automatically capture multi-angle images of targets
+* Sorveglianza intelligente: Tracciare automaticamente bersagli sospetti
+* Compagno per animali: Far seguire alla fotocamera i movimenti del tuo animale domestico
+* Videoconferenze: Mantenere automaticamente gli oratori centrati nel fotogramma
+* Raccolta dati: Acquisire automaticamente immagini multi-angolazione dei bersagli
 
-Hardware Setup
+Configurazione Hardware
 ---------------------------------------
 
-To use this project, you need to assemble the pan-tilt following the instructions in :ref:`assemble_fusion_hat_pan_tilt`.
+Per utilizzare questo progetto, devi assemblare il pan-tilt seguendo le istruzioni in :ref:`assemble_fusion_hat_pan_tilt`.
 
 .. image:: ../quick_start/img/gimbal_assemble.png
 
 
-Running the Code
+Esecuzione del Codice
 ----------------------------------------
 
-1. **Modify configuration parameters**
+1. **Modificare i parametri di configurazione**
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/yolo
       nano yolo_tracking.py
 
-   Change the ``TARGET`` variable at the beginning of the code to the object you want to track:
+   Cambiare la variabile ``TARGET`` all'inizio del codice con l'oggetto che si desidera tracciare:
 
    .. code-block:: python
 
@@ -54,25 +54,25 @@ Running the Code
       # or
       TARGET = "snowman"    # Track a snowman
 
-2. **Prepare the model file**
+2. **Preparare il file del modello**
 
-   * Use a pre-trained model: ``model = YOLO("yolov8n.pt")``
-   * Use a custom model: ``model = YOLO("snowman.pt")``
+   * Usare un modello pre-addestrato: ``model = YOLO("yolov8n.pt")``
+   * Usare un modello personalizzato: ``model = YOLO("snowman.pt")``
 
-3. **Save and run the code**
+3. **Salvare ed eseguire il codice**
 
    .. code-block:: bash
 
       python3 yolo_tracking.py
 
-4. **Operation instructions**
+4. **Istruzioni operative**
 
-   * After starting the program, the camera begins working automatically
-   * When a target is detected, the servos automatically rotate to keep the target centered in the frame
-   * Press ``SPACE`` to save the current frame (for collecting training data)
-   * Press ``ESC`` to exit the program
+   * Dopo aver avviato il programma, la fotocamera inizia a funzionare automaticamente
+   * Quando viene rilevato un bersaglio, i servo ruotano automaticamente per mantenere il bersaglio centrato nel fotogramma
+   * Premere ``SPACE`` per salvare il fotogramma corrente (per la raccolta di dati di training)
+   * Premere ``ESC`` per uscire dal programma
 
-Code
+Codice
 -----------------
 
 .. code-block:: python
@@ -279,12 +279,12 @@ Code
       print("Tracking stopped. Servos centered.")
 
 
-Code Explanation
+Spiegazione del Codice
 ------------------------------
 
-Here is the complete YOLO object tracking code. We'll analyze its working principle section by section.
+Ecco il codice completo di tracciamento oggetti YOLO. Analizzeremo il suo principio di funzionamento sezione per sezione.
 
-**1. Import Libraries and Configuration Parameters**
+**1. Importare le Librerie e i Parametri di Configurazione**
 
 .. code-block:: python
 
@@ -313,32 +313,32 @@ Here is the complete YOLO object tracking code. We'll analyze its working princi
    # Create save directory
    os.makedirs(SAVE_DIR, exist_ok=True)
 
-Configuration parameters:
+Parametri di configurazione:
 
 .. list-table::
    :header-rows: 1
    :widths: 20 40 40
 
-   * - Parameter
-     - Description
-     - Recommended Value
+   * - Parametro
+     - Descrizione
+     - Valore Consigliato
    * - ``TARGET``
-     - Name of the object to track
+     - Nome dell'oggetto da tracciare
      - "person", "snowman", "cup"
    * - ``W, H``
-     - Camera resolution
-     - 640x480 (balanced performance)
+     - Risoluzione della fotocamera
+     - 640x480 (prestazioni equilibrate)
    * - ``DEADZONE``
-     - Deadzone range (pixels)
-     - 50-100, prevents frequent jitter
+     - Intervallo di zona morta (pixel)
+     - 50-100, previene vibrazioni frequenti
    * - ``CONFIDENCE``
-     - Detection confidence threshold
+     - Soglia di confidenza del rilevamento
      - 0.3-0.5
    * - ``SAVE_DIR``
-     - Image save directory
+     - Directory di salvataggio immagini
      - captured_images
 
-**2. Initialize Servos**
+**2. Inizializzare i Servo**
 
 .. code-block:: python
 
@@ -350,12 +350,12 @@ Configuration parameters:
    tilt.angle(0)     # Center position
    time.sleep(1)
 
-Servo angle ranges:
+Intervalli angolari dei servo:
 
-* Pan servo (horizontal): -90° to 90°, 0° is center
-* Tilt servo (vertical): -45° to 45°, 0° is center
+* Servo pan (orizzontale): da -90° a 90°, 0° è il centro
+* Servo tilt (verticale): da -45° a 45°, 0° è il centro
 
-**3. Load YOLO Model**
+**3. Caricare il Modello YOLO**
 
 .. code-block:: python
 
@@ -365,12 +365,12 @@ Servo angle ranges:
    model = YOLO("your_model.pt")
    print("Model loaded successfully")
 
-Model selection recommendations:
+Raccomandazioni per la selezione del modello:
 
-* Use your own trained model: ``"snowman.pt"``, ``"my_pet.pt"``
-* Use pre-trained model: ``"yolov8n.pt"`` (can detect 80 common objects)
+* Usare il proprio modello addestrato: ``"snowman.pt"``, ``"my_pet.pt"``
+* Usare un modello pre-addestrato: ``"yolov8n.pt"`` (può rilevare 80 oggetti comuni)
 
-**4. Object Detection and Tracking Logic**
+**4. Logica di Rilevamento e Tracciamento Oggetti**
 
 .. code-block:: python
 
@@ -423,13 +423,13 @@ Model selection recommendations:
       
       return None, None, None
 
-Tracking logic explanation:
+Spiegazione della logica di tracciamento:
 
-* **Deadzone mechanism**: When the target is within the deadzone near the center of the frame, the servos don't move, preventing frequent jitter
-* **Direction determination**: If the target is left of center, rotate right; if right of center, rotate left
-* **Target identification**: Find the object to track by matching class names
+* **Meccanismo di zona morta**: Quando il bersaglio si trova all'interno della zona morta vicino al centro del fotogramma, i servo non si muovono, prevenendo vibrazioni frequenti
+* **Determinazione della direzione**: Se il bersaglio è a sinistra del centro, ruota a destra; se è a destra del centro, ruota a sinistra
+* **Identificazione del bersaglio**: Trova l'oggetto da tracciare confrontando i nomi delle classi
 
-**5. Main Loop**
+**5. Ciclo Principale**
 
 .. code-block:: python
 
@@ -518,12 +518,12 @@ Tracking logic explanation:
       picam2.stop()
       print("Tracking stopped. Servos centered.")
 
-Performance Optimization
+Ottimizzazione delle Prestazioni
 -----------------------------------------
 
-When running the tracking system on Raspberry Pi, the following optimizations can help:
+Quando si esegue il sistema di tracciamento su Raspberry Pi, le seguenti ottimizzazioni possono aiutare:
 
-1. **Reduce detection frequency**: Detect every 2-3 frames, reuse detection results for other frames
+1. **Ridurre la frequenza di rilevamento**: Rilevare ogni 2-3 fotogrammi, riutilizzare i risultati del rilevamento per gli altri fotogrammi
 
 .. code-block:: python
 
@@ -534,35 +534,35 @@ When running the tracking system on Raspberry Pi, the following optimizations ca
            results = model.predict(frame, imgsz=320)
        frame_count += 1
 
-2. **Narrow detection region**: Only detect in areas where the target is likely to appear
+2. **Restringere la regione di rilevamento**: Rilevare solo nelle aree in cui è probabile che appaia il bersaglio
 
-3. **Use smaller models**: ``yolov8n.pt`` is the best choice
+3. **Usare modelli più piccoli**: ``yolov8n.pt`` è la scelta migliore
 
-4. **Adjust deadzone range**: Increasing ``DEADZONE`` reduces frequent servo movement
+4. **Regolare l'intervallo di zona morta**: Aumentare ``DEADZONE`` riduce il movimento frequente dei servo
 
-Common Questions
+Domande Comuni
 ---------------------------------
 
-**Q: What if the servos don't move?**
+**D: Cosa fare se i servo non si muovono?**
 
-* Check if the servos are properly connected
-* Verify that the fusion_hat library is correctly installed
+* Controllare che i servo siano collegati correttamente
+* Verificare che la libreria fusion_hat sia installata correttamente
 
-**Q: What if tracking response is too slow?**
+**D: Cosa fare se la risposta del tracciamento è troppo lenta?**
 
-* Lower camera resolution (e.g., 320x240)
-* Reduce detection resolution ``imgsz``
-* Increase deadzone range to reduce servo movement
+* Ridurre la risoluzione della fotocamera (ad esempio, 320x240)
+* Ridurre la risoluzione di rilevamento ``imgsz``
+* Aumentare l'intervallo di zona morta per ridurre il movimento dei servo
 
-**Q: What if target detection is unstable?**
+**D: Cosa fare se il rilevamento del bersaglio è instabile?**
 
-* Adjust the ``CONFIDENCE`` threshold (lower values detect more but increase false positives)
-* Ensure adequate lighting
-* Use a custom-trained model for better specificity
+* Regolare la soglia ``CONFIDENCE`` (valori più bassi rilevano di più ma aumentano i falsi positivi)
+* Garantire un'illuminazione adeguata
+* Usare un modello addestrato personalizzato per una maggiore specificità
 
-**Q: How to adjust servo sensitivity?**
+**D: Come regolare la sensibilità dei servo?**
 
-Modify the step value in the ``simple_track`` function:
+Modificare il valore del passo nella funzione ``simple_track``:
 
 .. code-block:: python
 
@@ -570,14 +570,14 @@ Modify the step value in the ``simple_track`` function:
    pan_move = 2  # Originally 1
    tilt_move = 2
 
-**Q: Can I track multiple targets?**
+**D: Posso tracciare più bersagli?**
 
-Modify the ``find_target_detection`` function to return the nearest or highest confidence target, or implement multi-target switching functionality.
+Modificare la funzione ``find_target_detection`` per restituire il bersaglio più vicino o con la confidenza più alta, o implementare funzionalità di commutazione multi-bersaglio.
 
-Extended Features
+Funzionalità Estese
 -----------------------------------
 
-**1. Add PID Control** (smoother tracking)
+**1. Aggiungere Controllo PID** (tracciamento più fluido)
 
 .. code-block:: python
 
@@ -586,7 +586,7 @@ Extended Features
    pan_output = pan_error * 0.05  # Proportional control
    pan_pos += int(pan_output)
 
-**2. Automatically Record Tracking Trajectory**
+**2. Registrare Automaticamente la Traiettoria di Tracciamento**
 
 .. code-block:: python
 
@@ -594,7 +594,7 @@ Extended Features
    trajectory = []
    trajectory.append((obj_x, obj_y))
 
-**3. Send Notifications When Target is Detected**
+**3. Inviare Notifiche Quando il Bersaglio viene Rilevato**
 
 .. code-block:: python
 
@@ -602,18 +602,18 @@ Extended Features
        # Send email or push notification
        pass
 
-**4. Face Recognition Integration**
+**4. Integrazione con Riconoscimento Facciale**
 
-Combine with face recognition libraries to track only specific individuals.
+Combinare con librerie di riconoscimento facciale per tracciare solo individui specifici.
 
-Summary
+Riepilogo
 ---------------------
 
-Through this tutorial, you have learned:
+Attraverso questo tutorial, hai imparato:
 
-* How to combine YOLO object detection with servo control
-* How to implement a vision-based automatic tracking system
-* How to use deadzone mechanisms to avoid jitter
-* How to collect training data during tracking
+* Come combinare il rilevamento oggetti YOLO con il controllo dei servo
+* Come implementare un sistema di tracciamento automatico basato sulla visione
+* Come utilizzare meccanismi di zona morta per evitare vibrazioni
+* Come raccogliere dati di training durante il tracciamento
 
-This system can be widely applied in scenarios such as smart surveillance, automated photography, and robotic vision. As YOLO models continue to evolve, you can build even more intelligent tracking systems—such as automatically adjusting zoom based on target size, or predicting target movement based on motion trajectories.
+Questo sistema può essere ampiamente applicato in scenari come sorveglianza intelligente, fotografia automatizzata e visione robotica. Con l'evoluzione continua dei modelli YOLO, puoi costruire sistemi di tracciamento ancora più intelligenti—come regolare automaticamente lo zoom in base alla dimensione del bersaglio, o prevedere il movimento del bersaglio basandosi sulle traiettorie di movimento.

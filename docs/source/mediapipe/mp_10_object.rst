@@ -5,21 +5,21 @@
 .. _mp_object:
 
 
-10. Object Detection
+10. Rilevamento Oggetti
 =================================
 
 ------------------------------------------------------------
-1. Overview
+1. Panoramica
 ------------------------------------------------------------
 
-In addition to specialized models for face, hands, and pose,
-MediaPipe also provides a general-purpose **Object Detector**
-based on TensorFlow Lite.
+Oltre ai modelli specializzati per viso, mani e posa,
+MediaPipe fornisce anche un **Object Detector** generico
+basato su TensorFlow Lite.
 
-This chapter demonstrates how to use the
-``efficientdet_lite0.tflite`` model on Raspberry Pi
-to perform real-time object detection and visualize results
-on the camera feed.
+Questo capitolo dimostra come utilizzare il modello
+``efficientdet_lite0.tflite`` su Raspberry Pi
+per eseguire il rilevamento oggetti in tempo reale e visualizzare i risultati
+sul flusso video della fotocamera.
 
 .. image:: img/mp_object.png
    :width: 500
@@ -27,56 +27,56 @@ on the camera feed.
 
 This module can be used for:
 
-- Real-time object recognition demos
-- Smart home / robotics perception
-- Simple safety monitoring
-- Embedded vision projects
+- Demo di riconoscimento oggetti in tempo reale
+- Percezione per casa intelligente/robotica
+- Monitoraggio di sicurezza semplice
+- Progetti di visione embedded
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Come Funziona
 ------------------------------------------------------------
 
-The program performs the following steps:
+Il programma esegue i seguenti passaggi:
 
-1. Initialize the MediaPipe Tasks **ObjectDetector**
-   and load the ``efficientdet_lite0.tflite`` model.
-2. Capture frames from the Picamera2 video stream.
-3. Convert each frame to a MediaPipe ``mp.Image`` object.
-4. Call ``detect_for_video`` to run real-time object detection.
-5. Draw bounding boxes and labels using OpenCV.
-6. Limit the number of displayed detections to keep the output clear
-   and maintain stable performance on Raspberry Pi.
+1. Inizializza l'**ObjectDetector** di MediaPipe Tasks
+   e carica il modello ``efficientdet_lite0.tflite``.
+2. Acquisisce i fotogrammi dal flusso video di Picamera2.
+3. Converte ogni fotogramma in un oggetto MediaPipe ``mp.Image``.
+4. Chiama ``detect_for_video`` per eseguire il rilevamento oggetti in tempo reale.
+5. Disegna riquadri e etichette usando OpenCV.
+6. Limita il numero di rilevamenti visualizzati per mantenere l'output chiaro
+   e mantenere prestazioni stabili su Raspberry Pi.
 
 -----------------------------
-3. Model Preparation
+3. Preparazione del Modello
 -----------------------------
 
-This example uses the **EfficientDet Lite0** model
-in TensorFlow Lite (TFLite) format.
+Questo esempio utilizza il modello **EfficientDet Lite0**
+in formato TensorFlow Lite (TFLite).
 
-EfficientDet Lite0 is lightweight and optimized for
-embedded devices such as Raspberry Pi.
-It provides a good balance between speed and accuracy.
+EfficientDet Lite0 e leggero e ottimizzato per
+dispositivi embedded come Raspberry Pi.
+Fornisce un buon equilibrio tra velocita e precisione.
 
-The file ``efficientdet_lite0.tflite`` is included in the project directory
-and can be used directly.
+Il file ``efficientdet_lite0.tflite`` e incluso nella directory del progetto
+e puo essere utilizzato direttamente.
 
-* `Official model download page <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
+* `Pagina di download ufficiale del modello <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
 
-If higher accuracy is required and hardware performance allows,
-you may switch to:
+Se e richiesta una precisione maggiore e le prestazioni hardware lo consentono,
+puoi passare a:
 
 - EfficientDet Lite1
 - EfficientDet Lite2
 
-You can also replace the model with your own self-trained
-TFLite object detection model, as long as it follows
-MediaPipe Tasks Object Detector format requirements.
+Puoi anche sostituire il modello con un tuo modello di rilevamento oggetti
+TFLite auto-addestrato, purche segua
+i requisiti di formato di MediaPipe Tasks Object Detector.
 
 
 ------------------------
-4. Run the Code
+4. Eseguire il Codice
 ------------------------
 
 .. important::
@@ -92,14 +92,14 @@ MediaPipe Tasks Object Detector format requirements.
 
    For detailed instructions, see :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_object.py
 
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Dopo aver eseguito il programma, si apre una finestra intitolata "Show Video" che mostra il flusso video in diretta.
 
    .. raw:: html
    
@@ -108,22 +108,22 @@ MediaPipe Tasks Object Detector format requirements.
              Your browser does not support the video tag.
          </video>
 
-   For each video frame, the Object Detector model (``efficientdet_lite0.tflite``) runs in real time and searches for recognizable objects in the scene.
-   
-   When objects are detected:
-   
-   - A rectangular bounding box is drawn around each object.
-   - A label and confidence score are shown above the box in the format ``name: score`` (for example, ``person: 0.87``).
-   - Only detections above ``SCORE_THRESHOLD`` (default 0.5) are displayed.
-   - To keep the display clear and maintain performance, the program draws up to ``MAX_DRAW`` detections (default 20) per frame.
-   
-   As the camera view changes, the bounding boxes and labels update continuously in real time.
-   
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   Per ogni fotogramma video, il modello Object Detector (``efficientdet_lite0.tflite``) viene eseguito in tempo reale e cerca oggetti riconoscibili nella scena.
+
+   Quando vengono rilevati oggetti:
+
+   - Un riquadro di delimitazione rettangolare viene disegnato intorno a ogni oggetto.
+   - Un'etichetta e un punteggio di confidenza vengono mostrati sopra il riquadro nel formato ``nome: punteggio`` (per esempio, ``person: 0.87``).
+   - Vengono visualizzati solo i rilevamenti sopra ``SCORE_THRESHOLD`` (default 0.5).
+   - Per mantenere lo schermo pulito e le prestazioni, il programma disegna fino a ``MAX_DRAW`` rilevamenti (default 20) per fotogramma.
+
+   Mentre la visuale della fotocamera cambia, i riquadri e le etichette si aggiornano continuamente in tempo reale.
+
+   Premi ``q`` per uscire dal programma.
+   La fotocamera si ferma e la finestra OpenCV si chiude automaticamente.
 
 -----------------------------
-5. Complete Code
+5. Codice Completo
 -----------------------------
 
 .. code-block:: python
@@ -227,17 +227,17 @@ MediaPipe Tasks Object Detector format requirements.
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the camera feed will display:
+Dopo aver eseguito lo script, il flusso video mostrera:
 
-- Bounding boxes around detected objects
-- Classification labels and confidence scores
-- Real-time detection (can achieve about 10~20 FPS on Raspberry Pi)
+- Riquadri di delimitazione intorno agli oggetti rilevati
+- Etichette di classificazione e punteggi di confidenza
+- Rilevamento in tempo reale (puo raggiungere circa 10~20 FPS su Raspberry Pi)
 
 -----------------------------
-6. Code Explanation
+6. Spiegazione del Codice
 -----------------------------
 
-**Configuration**
+**Configurazione**
 
 .. code-block:: python
 
@@ -246,10 +246,10 @@ After running the script, the camera feed will display:
    SCORE_THRESHOLD = 0.5
    MAX_DRAW = 20
 
-- ``SCORE_THRESHOLD`` controls the minimum confidence to display detections (applied inside the Tasks runtime).
-- ``MAX_DRAW`` is a UI convenience to limit how many boxes we render per frame.
+- ``SCORE_THRESHOLD`` controlla la confidenza minima per visualizzare i rilevamenti (applicato all'interno del runtime Tasks).
+- ``MAX_DRAW`` e una comodita dell'interfaccia per limitare quanti riquadri vengono renderizzati per fotogramma.
 
-**Imports**
+**Importazioni**
 
 .. code-block:: python
 
@@ -260,10 +260,10 @@ After running the script, the camera feed will display:
    from mediapipe.tasks import python
    from mediapipe.tasks.python import vision
 
-- ``mediapipe.tasks.python.vision`` hosts the **ObjectDetector** Tasks API.
-- We still use classic OpenCV for windowing and drawing.
+- ``mediapipe.tasks.python.vision`` ospita l'API Tasks **ObjectDetector**.
+- Usiamo ancora la classica OpenCV per finestre e disegno.
 
-**Visualization Helper**
+**Helper di Visualizzazione**
 
 .. code-block:: python
 
@@ -307,10 +307,10 @@ After running the script, the camera feed will display:
 
        return img
 
-- Keeps the main loop clean.
-- Avoids relying on non-existent "visualize" utilities; it works directly with Tasks outputs.
+- Mantiene il ciclo principale pulito.
+- Evita di fare affidamento su utility "visualize" inesistenti; funziona direttamente con gli output di Tasks.
 
-**Create the ObjectDetector**
+**Creare l'ObjectDetector**
 
 .. code-block:: python
 
@@ -326,10 +326,10 @@ After running the script, the camera feed will display:
    )
    detector = vision.ObjectDetector.create_from_options(options)
 
-- ``RunningMode.VIDEO`` is optimized for streams and **requires timestamps**.
-- The Tasks runtime internally handles image resizing/normalization for you.
+- ``RunningMode.VIDEO`` e ottimizzato per flussi e **richiede timestamp**.
+- Il runtime Tasks gestisce internamente il ridimensionamento/normalizzazione dell'immagine per te.
 
-**Camera Setup (Streaming Source)**
+**Configurazione della Fotocamera (Sorgente in Streaming)**
 
 .. code-block:: python
 
@@ -340,10 +340,10 @@ After running the script, the camera feed will display:
    picam2.configure(config)
    picam2.start()
 
-- 640×480 is a good trade-off between FPS and accuracy on Raspberry Pi.
-- Picamera2 returns BGRA (``XRGB8888``); we'll convert to BGR/RGB.
+- 640×480 e un buon compromesso tra FPS e precisione su Raspberry Pi.
+- Picamera2 restituisce BGRA (``XRGB8888``); convertiamo in BGR/RGB.
 
-**Per-Frame Detection**
+**Rilevamento per Fotogramma**
 
 .. code-block:: python
 
@@ -356,10 +356,10 @@ After running the script, the camera feed will display:
    ts_ms = int(time.time() * 1000)  # monotonically increasing timestamp
    detection_result = detector.detect_for_video(mp_image, ts_ms)
 
-- MediaPipe expects **RGB** buffers.
-- The timestamp must **increase every frame**; using ``time.time()*1000`` is sufficient for this demo.
+- MediaPipe si aspetta buffer **RGB**.
+- Il timestamp deve **aumentare ogni fotogramma**; usare ``time.time()*1000`` e sufficiente per questa demo.
 
-**Render and Display**
+**Renderizzazione e Visualizzazione**
 
 .. code-block:: python
 
@@ -368,10 +368,10 @@ After running the script, the camera feed will display:
    if cv2.waitKey(1) & 0xFF == ord('q'):
        break
 
-- The helper returns a BGR image ready for OpenCV display.
-- Press ``q`` to exit the loop.
+- L'helper restituisce un'immagine BGR pronta per la visualizzazione con OpenCV.
+- Premi ``q`` per uscire dal ciclo.
 
-**Cleanup**
+**Pulizia**
 
 .. code-block:: python
 
@@ -382,61 +382,61 @@ After running the script, the camera feed will display:
    picam2.stop()
    cv2.destroyAllWindows()
 
-Always release the camera and destroy windows to avoid locking the device.
+Rilascia sempre la fotocamera e distruggi le finestre per evitare di bloccare il dispositivo.
 
 ------------------------------------------------------
-7. Performance and Applications
+7. Prestazioni e Applicazioni
 ------------------------------------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Optimization Direction
-     - Effect
-     - Suggestion
-   * - Resolution
-     - Higher resolution gives clearer image but slower speed
-     - 640x480 is sufficient
-   * - Model Selection
+   * - Direzione di Ottimizzazione
+     - Effetto
+     - Suggerimento
+   * - Risoluzione
+     - Risoluzione piu alta da immagine piu chiara ma velocita ridotta
+     - 640x480 e sufficiente
+   * - Selezione del Modello
      - Lite0 ~ Lite2
-     - Lite0 is faster, Lite2 is more accurate
-   * - Multi-object Drawing
-     - Too many objects cause latency
-     - Use ``MAX_DRAW`` to limit
+     - Lite0 e piu veloce, Lite2 e piu preciso
+   * - Disegno Multi-oggetto
+     - Troppi oggetti causano latenza
+     - Usa ``MAX_DRAW`` per limitare
 
 ------------------------------------------------------
-8. Troubleshooting
+8. Risoluzione dei Problemi
 ------------------------------------------------------
 
-- No detection results
+- Nessun risultato di rilevamento
 
-  If nothing is detected, the confidence threshold may be too high.
+  Se non viene rilevato nulla, la soglia di confidenza potrebbe essere troppo alta.
 
-  Try lowering ``SCORE_THRESHOLD`` (for example, from 0.5 to 0.3) and test again.
+  Prova ad abbassare ``SCORE_THRESHOLD`` (per esempio, da 0.5 a 0.3) e testa di nuovo.
 
-- Low frame rate
+- Basso frame rate
 
-  If the video feels slow, the model or resolution may be too heavy for the Raspberry Pi.
+  Se il video e lento, il modello o la risoluzione potrebbero essere troppo pesanti per il Raspberry Pi.
 
-  Use a lighter model (``efficientdet_lite0.tflite``) and reduce the resolution (for example, 640×480 or 320×240). Closing other background processes can also improve performance.
+  Usa un modello piu leggero (``efficientdet_lite0.tflite``) e riduci la risoluzione (per esempio, 640×480 o 320×240). Chiudere altri processi in background puo anche migliorare le prestazioni.
 
-- Detection box offset
+- Offset del riquadro di rilevamento
 
-  If bounding boxes look shifted or go out of frame, it is usually caused by coordinate conversion issues.
+  Se i riquadri appaiono spostati o escono dal fotogramma, di solito e causato da problemi di conversione delle coordinate.
 
-  Make sure bounding box coordinates are clamped to the image boundaries. This example already clamps ``x1, y1, x2, y2`` to prevent out-of-range drawing.
+  Assicurati che le coordinate del riquadro siano limitate ai bordi dell'immagine. Questo esempio gia limita ``x1, y1, x2, y2`` per prevenire disegni fuori range.
 
-- Detection looks chaotic
+- Rilevamento caotico
 
-  If too many objects are detected and the screen becomes cluttered, it may be hard to read the results.
+  Se vengono rilevati troppi oggetti e lo schermo diventa affollato, potrebbe essere difficile leggere i risultati.
 
-  Limit the number of drawn detections using ``MAX_DRAW`` (for example, 10–20) to keep the visualization clear and stable.
+  Limita il numero di rilevamenti disegnati usando ``MAX_DRAW`` (per esempio, 10–20) per mantenere la visualizzazione chiara e stabile.
 
 -----------------------------
-9. Summary
+9. Riepilogo
 -----------------------------
 
-- This chapter implemented general-purpose object detection based on MediaPipe Tasks;
-- Used the EfficientDet Lite0 model, balancing accuracy and performance;
-- Mastered the method for visualizing detection results;
-- Can be extended to custom models (e.g., fruit, vehicle, hazardous item detection scenarios).
+- Questo capitolo ha implementato il rilevamento oggetti generico basato su MediaPipe Tasks;
+- Ha utilizzato il modello EfficientDet Lite0, bilanciando precisione e prestazioni;
+- Ha approfondito il metodo per visualizzare i risultati del rilevamento;
+- Puo essere esteso a modelli personalizzati (es., scenari di rilevamento di frutta, veicoli, oggetti pericolosi).

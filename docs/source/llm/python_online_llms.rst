@@ -4,86 +4,86 @@
 
 .. _py_online_llm:
 
-5. Connecting to Online LLMs
+5. Connessione a LLM Online
 ================================
 
-In this lesson, we'll learn how to connect your Fusion HAT+ (or Raspberry Pi) to different **online Large Language Models (LLMs)**.  
-Each provider requires an API key and offers different models you can choose from.  
+In questa lezione, impareremo come connettere il tuo Fusion HAT+ (o Raspberry Pi) a diversi **modelli linguistici di grandi dimensioni (LLM) online**.
+Ogni fornitore richiede una chiave API e offre diversi modelli tra cui puoi scegliere.
 
-We'll cover how to:
+Vedremo come:
 
-* Create and save your API keys safely.
-* Pick a model that fits your needs.
-* Run our example code to chat with the models.
+* Creare e salvare le tue chiavi API in modo sicuro.
+* Scegliere un modello che si adatti alle tue esigenze.
+* Eseguire il nostro codice di esempio per chattare con i modelli.
 
-Let's go step by step for each provider.
+Procediamo passo dopo passo per ogni fornitore.
 
 ----
 
 OpenAI
 ----------
 
-OpenAI provides powerful models like **GPT-4o** and **GPT-4.1** that can be used for both text and vision tasks.  
+OpenAI fornisce modelli potenti come **GPT-4o** e **GPT-4.1** che possono essere utilizzati sia per attività testuali che visive.
 
-Here's how to set it up:
+Ecco come configurarlo:
 
 .. start_setup_openai
 
-**Get and Save your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Go to |link_openai_platform| and log in. On the **API keys** page, click **Create new secret key**.
+#. Vai su |link_openai_platform| e accedi. Nella pagina **API keys**, clicca su **Create new secret key**.
 
    .. image:: img/llm_openai_create.png
 
-#. Fill in the details (Owner, Name, Project, and permissions if needed), then click **Create secret key**.
+#. Compila i dettagli (Owner, Name, Project e permessi se necessario), poi clicca su **Create secret key**.
 
    .. image:: img/llm_openai_create_confirm.png
 
-#. Once the key is created, copy it right away — you won't be able to see it again. If you lose it, you'll need to generate a new one.
+#. Una volta creata la chiave, copiala immediatamente -- non potrai piu' vederla. Se la perdi, dovrai generar una nuova.
 
    .. image:: img/llm_openai_copy.png
 
-#. In your project folder (for example: ``/``), create a file called ``secret.py``:
+#. Nella cartella del tuo progetto (ad esempio: ``/``), crea un file chiamato ``secret.py``:
 
    .. code-block:: bash
-   
+
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Paste your key into the file like this:
+#. Incolla la tua chiave nel file in questo modo:
 
    .. code-block:: python
-   
+
        # secret.py
        # Store secrets here. Never commit this file to Git.
        OPENAI_API_KEY = "sk-xxx"
 
-**Enable billing and check models**
+**Abilita la fatturazione e controlla i modelli**
 
-#. Before using the key, go to the **Billing** page in your OpenAI account, add your payment details, and top up a small amount of credits.  
+#. Prima di usare la chiave, vai alla pagina **Billing** nel tuo account OpenAI, aggiungi i dettagli di pagamento e ricarica una piccola quantita' di crediti.
 
    .. image:: img/llm_openai_billing.png
 
-#. Then go to the **Limits** page to check which models are available for your account and copy the exact model ID to use in your code.  
+#. Poi vai alla pagina **Limits** per verificare quali modelli sono disponibili per il tuo account e copia l'ID esatto del modello da usare nel tuo codice.
 
    .. image:: img/llm_openai_models.png
 
 
 .. end_setup_openai
 
-**Test with example code**
+**Test con codice di esempio**
 
-#. Open our sample code:
+#. Apri il nostro codice di esempio:
 
    .. code-block:: bash
-   
+
        cd ~/ai-lab-kit/llm
        sudo nano llm_test.py
 
-#. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``gpt-4o``):
+#. Sostituisci il contenuto con il codice seguente e aggiorna ``model="xxx"`` con il modello desiderato (ad esempio, ``gpt-4o``):
 
    .. code-block:: python
-   
+
       from fusion_hat.llm import OpenAI
       from secret import OPENAI_API_KEY
 
@@ -94,50 +94,50 @@ Here's how to set it up:
          api_key=OPENAI_API_KEY,
          model="gpt-4o",
       )
-  
-   Save and exit (``Ctrl+X``, then ``Y``, then ``Enter``).  
 
-#. Finally, run the test:
+   Salva ed esci (``Ctrl+X``, poi ``Y``, poi ``Enter``).
+
+#. Infine, esegui il test:
 
    .. code-block:: bash
-   
+
        sudo python3 llm_test.py
-   
-Now you can chat with Fusion HAT+ directly from the terminal.
+
+Ora puoi chattare con Fusion HAT+ direttamente dal terminale.
 
 ----
 
 Gemini
 ------------------
 
-Gemini is Google's family of AI models. It's fast and great for general-purpose tasks.  
+Gemini e’ la famiglia di modelli AI di Google. E’ veloce e ottimo per attività di uso generale.
 
-**Get and Save your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Log in to |link_google_ai|, then go to the API Keys page.
+#. Accedi a |link_google_ai|, poi vai alla pagina API Keys.
 
    .. image:: img/llm_gemini_get.png
 
-#. Click the **Create API key** button in the top-right corner.
+#. Clicca sul pulsante **Create API key** nell’angolo in alto a destra.
 
    .. image:: img/llm_gemini_create.png
 
-#. You can create a key for an existing project or a new one.
+#. Puoi creare una chiave per un progetto esistente o uno nuovo.
 
    .. image:: img/llm_gemini_choose.png
 
-#. Copy the generated API key.
+#. Copia la chiave API generata.
 
    .. image:: img/llm_gemini_copy.png
 
-#. In your project folder:
+#. Nella cartella del tuo progetto:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Paste the key:
+#. Incolla la chiave:
 
    .. code-block:: python
 
@@ -145,22 +145,22 @@ Gemini is Google's family of AI models. It's fast and great for general-purpose 
         # Store secrets here. Never commit this file to Git.
        GEMINI_API_KEY = "AIxxx"
 
-**Check available models**
+**Controlla i modelli disponibili**
 
-Go to the official |link_gemini_model| page, here you’ll see the list of models, their exact API IDs, and which use case each one is optimized for.
+Vai alla pagina ufficiale |link_gemini_model|, qui vedrai l’elenco dei modelli, i loro ID API esatti e per quale caso d’uso ciascuno e’ ottimizzato.
 
    .. image:: img/llm_gemini_model.png
 
-**Test with example code**
+**Test con codice di esempio**
 
-#. Open the test file:
+#. Apri il file di test:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano llm_test.py
 
-#. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``gemini-2.5-flash``):
+#. Sostituisci il contenuto con il codice seguente e aggiorna ``model="xxx"`` con il modello desiderato (ad esempio, ``gemini-2.5-flash``):
 
    .. code-block:: python
 
@@ -175,169 +175,169 @@ Go to the official |link_gemini_model| page, here you’ll see the list of model
          model="gemini-2.5-flash",
       )
 
-#. Save and run:
+#. Salva ed esegui:
 
    .. code-block:: bash
 
        sudo python3 llm_test.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+Ora puoi chattare con Fusion HAT+ direttamente dal terminale.
 
 ----
 
 Qwen
 ------------------
 
-Qwen is a family of large language and multimodal models provided by Alibaba Cloud.  
-These models support text generation, reasoning, and multimodal understanding (such as image analysis).
+Qwen e' una famiglia di modelli linguistici e multimodali di grandi dimensioni fornita da Alibaba Cloud.
+Questi modelli supportano la generazione di testo, il ragionamento e la comprensione multimodale (come l'analisi delle immagini).
 
-**Get an API Key**
+**Ottieni una chiave API**
 
-To call Qwen models, you need an **API Key**.  
-Most international users should use the **DashScope International (Model Studio)** console.  
-Mainland China users can instead use the **Bailian (百炼)** console.
+Per chiamare i modelli Qwen, hai bisogno di una **chiave API**.
+La maggior parte degli utenti internazionali dovrebbe usare la console **DashScope International (Model Studio)**.
+Gli utenti della Cina continentale possono invece usare la console **Bailian (百炼)**.
 
-* **For International Users**
+* **Per utenti internazionali**
 
-  #. Go to the official |link_qwen_inter| page on **Alibaba Cloud**.  
-  #. Sign in or create an **Alibaba Cloud** account.  
-  #. Navigate to **Model Studio** (choose Singapore or Beijing region).  
-    
-      * If an “Activate Now” prompt appears at the top of the page, click it to activate Model Studio and receive the free quota (Singapore only).  
-      * Activation is free — you will only be charged after your free quota is used.  
-      * If no activation prompt appears, the service is already active. 
-  
-  #. Go to the **Key Management** page. On the **API Key** tab, click **Create API Key**.  
-  #. After creation, copy your API Key and keep it safe.  
-  
+  #. Vai alla pagina ufficiale |link_qwen_inter| su **Alibaba Cloud**.
+  #. Accedi o crea un account **Alibaba Cloud**.
+  #. Naviga a **Model Studio** (scegli la regione Singapore o Pechino).
+
+      * Se appare un prompt “Activate Now” nella parte superiore della pagina, cliccarlo per attivare Model Studio e ricevere la quota gratuita (solo Singapore).
+      * L'attivazione e' gratuita -- ti verra' addebitato solo dopo aver utilizzato la quota gratuita.
+      * Se non appare alcun prompt di attivazione, il servizio e' gia' attivo.
+
+  #. Vai alla pagina **Key Management**. Nella scheda **API Key**, clicca su **Create API Key**.
+  #. Dopo la creazione, copia la tua chiave API e conservala al sicuro.
+
     .. image:: img/llm_qwen_api_key.png
         :width: 800
-  
-  .. note::
-     Users in Hong Kong, Macau, and Taiwan should also choose the **International (Model Studio)** option.
-  
-* **For Mainland China Users**
 
-  If you are in Mainland China, you can use the **Alibaba Cloud Bailian (百炼)** console instead:
-  
-  #. Log in to |link_aliyun| (Bailian console) and complete account verification.  
-  #. Select **Create API Key**. If prompted that model services are not activated, click **Activate**, agree to the terms, and claim your free quota. After activation, the **Create API Key** button will be enabled.  
-  
+  .. note::
+     Gli utenti di Hong Kong, Macao e Taiwan dovrebbero anche scegliere l'opzione **International (Model Studio)**.
+
+* **Per utenti della Cina continentale**
+
+  Se sei nella Cina continentale, puoi invece usare la console **Alibaba Cloud Bailian (百炼)**:
+
+  #. Accedi a |link_aliyun| (console Bailian) e completa la verifica dell'account.
+  #. Seleziona **Create API Key**. Se viene richiesto che i servizi del modello non sono attivati, clicca su **Activate**, accetta i termini e richiedi la tua quota gratuita. Dopo l'attivazione, il pulsante **Create API Key** sara' abilitato.
+
      .. image:: img/llm_qwen_aliyun_create.png
-  
-  #. Click **Create API Key** again, check your account, and then click **Confirm**.  
-  
+
+  #. Clicca di nuovo su **Create API Key**, controlla il tuo account, poi clicca su **Confirm**.
+
      .. image:: img/llm_qwen_aliyun_confirm.png
-  
-  #. Once created, copy your API Key.  
-  
+
+  #. Una volta creata, copia la tua chiave API.
+
      .. image:: img/llm_qwen_aliyun_copy.png
 
-**Save your API Key**
+**Salva la tua chiave API**
 
-#. In your project folder:
+#. Nella cartella del tuo progetto:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Paste your key like this:
+#. Incolla la tua chiave in questo modo:
 
    .. code-block:: python
 
         # secret.py
         # Store secrets here. Never commit this file to Git.
-        
-        QWEN_API_KEY = "sk-xxx"
 
-**Test with example code**
+        QWEN_API_KEY = “sk-xxx”
 
-#. Open the test file:
+**Test con codice di esempio**
+
+#. Apri il file di test:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano llm_test.py
 
-#. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``qwen-plus``):
+#. Sostituisci il contenuto con il codice seguente e aggiorna ``model=”xxx”`` con il modello desiderato (ad esempio, ``qwen-plus``):
 
    .. code-block:: python
-   
+
       from fusion_hat.llm import Qwen
       from secret import QWEN_API_KEY
 
-      INSTRUCTIONS = "You are a helpful assistant."
-      WELCOME = "Hello, I am a helpful assistant. How can I help you?"
+      INSTRUCTIONS = “You are a helpful assistant.”
+      WELCOME = “Hello, I am a helpful assistant. How can I help you?”
 
       llm = Qwen(
          api_key=QWEN_API_KEY,
-         model="qwen-plus",
+         model=”qwen-plus”,
       )
 
-#. Run with:
+#. Esegui con:
 
    .. code-block:: bash
-   
+
        sudo python3 llm_test.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+Ora puoi chattare con Fusion HAT+ direttamente dal terminale.
 
 Grok (xAI)
 ------------------
-Grok is xAI’s conversational AI, created by Elon Musk’s team. You can connect to it through the xAI API.
+Grok e’ l’AI conversazionale di xAI, creata dal team di Elon Musk. Puoi connetterti tramite l’API xAI.
 
-**Get and Save your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Sign up for an account here: |link_grok_ai|. Add some credits to your account first — otherwise the API won’t work.
+#. Registrati per un account qui: |link_grok_ai|. Aggiungi prima alcuni crediti al tuo account -- altrimenti l’API non funzionera’.
 
-#. Go to the API Keys page, click **Create API key**.  
+#. Vai alla pagina API Keys, clicca su **Create API key**.
 
    .. image:: img/llm_grok_create.png
 
-#. Enter a name for the key, then click **Create API key**. 
+#. Inserisci un nome per la chiave, poi clicca su **Create API key**.
 
    .. image:: img/llm_grok_name.png
 
-#. Copy the generated key and keep it safe. 
+#. Copia la chiave generata e conservala al sicuro.
 
    .. image:: img/llm_grok_copy.png
 
-#. In your project folder:
+#. Nella cartella del tuo progetto:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Paste your key like this:
+#. Incolla la tua chiave in questo modo:
 
    .. code-block:: python
 
         # secret.py
         # Store secrets here. Never commit this file to Git.
-        
+
         GROK_API_KEY = "xai-xxx"
 
-**Check available models**
+**Controlla i modelli disponibili**
 
-Go to the Models page in the xAI console. Here you can see all the models available to your team, along with their exact API IDs — use these IDs in your code.
+Vai alla pagina Models nella console xAI. Qui puoi vedere tutti i modelli disponibili per il tuo team, insieme ai loro ID API esatti -- usa questi ID nel tuo codice.
 
    .. image:: img/llm_grok_model.png
 
-**Test with example code**
+**Test con codice di esempio**
 
-#. Open the test file:
+#. Apri il file di test:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano llm_test.py
 
-#. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``grok-4-latest``):
+#. Sostituisci il contenuto con il codice seguente e aggiorna ``model="xxx"`` con il modello desiderato (ad esempio, ``grok-4-latest``):
 
    .. code-block:: python
-   
+
       from fusion_hat.llm import Grok
       from secret import GROK_API_KEY
 
@@ -349,73 +349,73 @@ Go to the Models page in the xAI console. Here you can see all the models availa
          model="grok-4-latest",
       )
 
-#. Run with:
+#. Esegui con:
 
    .. code-block:: bash
-   
+
        sudo python3 llm_test.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+Ora puoi chattare con Fusion HAT+ direttamente dal terminale.
 
 ----
 
 DeepSeek
 ------------------
 
-DeepSeek is a Chinese LLM provider that offers affordable and capable models.  
+DeepSeek e' un fornitore LLM cinese che offre modelli convenienti e capaci.
 
-**Get and Save your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Log in to |link_deepseek|. 
+#. Accedi a |link_deepseek|.
 
-#. In the top-right menu, select **API Keys → Create API Key**. 
+#. Nel menu in alto a destra, seleziona **API Keys -> Create API Key**.
 
    .. image:: img/llm_deepseek_create.png
 
-#. Enter a name, click **Create**, then copy the key.
+#. Inserisci un nome, clicca su **Create**, poi copia la chiave.
 
    .. image:: img/llm_deepseek_copy.png
 
-#. In your project folder:
+#. Nella cartella del tuo progetto:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Add your key:
+#. Aggiungi la tua chiave:
 
    .. code-block:: python
 
        # secret.py
        DEEPSEEK_API_KEY = "sk-xxx"
 
-**Enable billing**
+**Abilita la fatturazione**
 
-You'll need to recharge your account first. Start with a small amount (like ¥10 RMB). 
+Dovrai prima ricaricare il tuo account. Inizia con un piccolo importo (come ¥10 RMB).
 
    .. image:: img/llm_deepseek_chognzhi.png
 
-**Available models**
+**Modelli disponibili**
 
-At the time of writing (2025-09-12), DeepSeek offers:  
+Al momento della scrittura (2025-09-12), DeepSeek offre:
 
-* ``deepseek-chat``  
-* ``deepseek-reasoner``  
+* ``deepseek-chat``
+* ``deepseek-reasoner``
 
-**Test with example code**
+**Test con codice di esempio**
 
-#. Open the test file:
+#. Apri il file di test:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano llm_test.py
 
-#. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``deepseek-chat``):
+#. Sostituisci il contenuto con il codice seguente e aggiorna ``model="xxx"`` con il modello desiderato (ad esempio, ``deepseek-chat``):
 
    .. code-block:: python
-   
+
       from fusion_hat.llm import Deepseek
       from secret import DEEPSEEK_API_KEY
 
@@ -428,85 +428,85 @@ At the time of writing (2025-09-12), DeepSeek offers:
          max_messages=20,
       )
 
-#. Run:
+#. Esegui:
 
    .. code-block:: bash
-   
+
        sudo python3 llm_test.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+Ora puoi chattare con Fusion HAT+ direttamente dal terminale.
 
 ----
 
 Doubao
 ------------------
-Doubao is ByteDance's AI model platform (Volcengine Ark).  
+Doubao e' la piattaforma di modelli AI di ByteDance (Volcengine Ark).
 
-**Get and Save your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Log in to |link_doubao|.
+#. Accedi a |link_doubao|.
 
-#. In the left menu, scroll down to **API Key Management → Create API Key**. 
+#. Nel menu a sinistra, scorri fino a **API Key Management -> Create API Key**.
 
    .. image:: img/llm_doubao_create.png
 
-#. Choose a name and click **Create**.  
+#. Scegli un nome e clicca su **Create**.
 
    .. image:: img/llm_doubao_name.png
 
-#. Click the **Show API Key** icon and copy it. 
+#. Clicca sull'icona **Show API Key** e copiala.
 
    .. image:: img/llm_doubao_copy.png
 
-#. In your project folder:
+#. Nella cartella del tuo progetto:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Add your key:
+#. Aggiungi la tua chiave:
 
    .. code-block:: python
 
        # secret.py
        DOUBAO_API_KEY = "xxx"
 
-**Choose a model**
+**Scegli un modello**
 
-#. Go to the model marketplace and pick a model.  
+#. Vai al marketplace dei modelli e scegli un modello.
 
    .. image:: img/llm_doubao_model_select.png
 
-#. For example, choose **Doubao-seed-1.6**, then click **API 接入**. 
+#. Ad esempio, scegli **Doubao-seed-1.6**, poi clicca su **API 接入**.
 
    .. image:: img/llm_doubao_model.png
 
-#. Select your API Key and click **Use API**. 
+#. Seleziona la tua chiave API e clicca su **Use API**.
 
    .. image:: img/llm_doubao_use_api.png
 
-#. Click **Enable Model**. 
+#. Clicca su **Enable Model**.
 
    .. image:: img/llm_doubao_kaitong.png
 
-#. Hover over the model ID to copy it. 
+#. Passa il mouse sopra l'ID del modello per copiarlo.
 
    .. image:: img/llm_doubao_copy_id.png
 
-**Test with example code**
+**Test con codice di esempio**
 
-#. Open the test file:
+#. Apri il file di test:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano llm_test.py
 
-#. Replace the content with the code below, and update ``model="xxx"`` to the model you want (for example, ``doubao-seed-1-6-250615``):
+#. Sostituisci il contenuto con il codice seguente e aggiorna ``model="xxx"`` con il modello desiderato (ad esempio, ``doubao-seed-1-6-250615``):
 
    .. code-block:: python
-   
+
       from fusion_hat.llm import Doubao
       from secret import DOUBAO_API_KEY
 
@@ -518,42 +518,42 @@ Doubao is ByteDance's AI model platform (Volcengine Ark).
          model="doubao-seed-1-6-250615",
       )
 
-#. Run with:
+#. Esegui con:
 
    .. code-block:: bash
-   
+
        sudo python3 llm_test.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+Ora puoi chattare con Fusion HAT+ direttamente dal terminale.
 
-General
+Generale
 --------------
 
-This project supports connecting to multiple LLM platforms through a unified interface.  
-We have built-in compatibility with:
+Questo progetto supporta la connessione a piattaforme LLM multiple attraverso un’interfaccia unificata.
+Abbiamo compatibilita’ integrata con:
 
-* **OpenAI** (ChatGPT / GPT-4o, GPT-4, GPT-3.5)  
-* **Gemini** (Google AI Studio / Vertex AI)  
-* **Grok** (xAI)  
-* **DeepSeek**  
-* **Qwen (通义千问)**  
-* **Doubao (豆包)**  
+* **OpenAI** (ChatGPT / GPT-4o, GPT-4, GPT-3.5)
+* **Gemini** (Google AI Studio / Vertex AI)
+* **Grok** (xAI)
+* **DeepSeek**
+* **Qwen (通义千问)**
+* **Doubao (豆包)**
 
-In addition, you can connect to **any other LLM service that is compatible with the OpenAI API format**.  
-For those platforms, you will need to manually obtain your **API Key** and the correct **base_url**.
+Inoltre, puoi connetterti a **qualsiasi altro servizio LLM compatibile con il formato API OpenAI**.
+Per queste piattaforme, dovrai ottenere manualmente la tua **chiave API** e il corretto **base_url**.
 
-**Get and Save Your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Obtain an **API Key** from the platform you want to use. (See each platform’s official console for details.)  
+#. Ottieni una **chiave API** dalla piattaforma che desideri utilizzare. (Vedi la console ufficiale di ciascuna piattaforma per i dettagli.)
 
-#. In your project folder, create a new file:
+#. Nella cartella del tuo progetto, crea un nuovo file:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       nano secret.py
 
-#. Add your key into ``secret.py``:
+#. Aggiungi la tua chiave in ``secret.py``:
 
    .. code-block:: python
 
@@ -562,24 +562,24 @@ For those platforms, you will need to manually obtain your **API Key** and the c
 
 .. warning::
 
-   Keep your API Key private. Do not upload ``secret.py`` to public repositories.
+   Mantieni la tua chiave API privata. Non caricare ``secret.py`` su repository pubblici.
 
-**Test With Example Code**
+**Test con codice di esempio**
 
-#. Open the test file:
+#. Apri il file di test:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       sudo nano llm_others.py
 
-#. Replace the content of a Python file with the following example, and fill in the correct ``base_url`` and ``model`` for your platform:
+#. Sostituisci il contenuto di un file Python con il seguente esempio e inserisci il corretto ``base_url`` e ``model`` per la tua piattaforma:
 
    .. note::
 
-      About ``base_url``:  
-      We support the **OpenAI API format**, as well as any API that is **compatible** with it.  
-      Each provider has its own ``base_url``. Please check their documentation.  
+      Informazioni su ``base_url``:
+      Supportiamo il **formato API OpenAI**, cosi’ come qualsiasi API **compatibile** con esso.
+      Ogni fornitore ha il proprio ``base_url``. Controlla la loro documentazione.
 
    .. code-block:: python
 
@@ -595,7 +595,7 @@ For those platforms, you will need to manually obtain your **API Key** and the c
          model="",
       )
 
-#. Run the program:
+#. Esegui il programma:
 
    .. code-block:: bash
 

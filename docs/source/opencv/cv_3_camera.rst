@@ -2,15 +2,15 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-3. Real-Time Camera Capture
-================================================================
+3. Acquisizione Fotocamera in Tempo Reale
+==========================================
 
-In the previous chapters, we learned how to read and play local video files.  
-In this chapter, we will take it a step further by using the **Raspberry Pi camera** for real-time video capture and applying **color space conversion** with OpenCV.
+Nei capitoli precedenti, abbiamo imparato come leggere e riprodurre file video locali.
+In questo capitolo, faremo un passo avanti utilizzando la **fotocamera Raspberry Pi** per l'acquisizione video in tempo reale e applicheremo la **conversione dello spazio colore** con OpenCV.
 
 
-1. Project Objectives
---------------------------------------
+1. Obiettivi del Progetto
+-------------------------
 
 .. raw:: html
 
@@ -19,53 +19,53 @@ In this chapter, we will take it a step further by using the **Raspberry Pi came
           Your browser does not support the video tag.
       </video>
 
-- Use **Picamera2** to capture real-time camera frames  
-- Convert the camera output from BGRA format to BGR format  
-- Use OpenCV for real-time preview  
-- Understand the characteristics and use cases of different color spaces
+- Usare **Picamera2** per acquisire frame dalla fotocamera in tempo reale
+- Convertire l'output della fotocamera dal formato BGRA al formato BGR
+- Usare OpenCV per l'anteprima in tempo reale
+- Comprendere le caratteristiche e i casi d'uso dei diversi spazi colore
 
 .. image:: img/opencv_camera.png
-   :alt: Real-time camera preview illustration
+   :alt: Illustrazione dell'anteprima della fotocamera in tempo reale
    :align: center
 
-2. Run the Code
-------------------------
+2. Eseguire il Codice
+---------------------
 
 .. important::
 
-   Before you start, make sure:
+   Prima di iniziare, assicurati:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Il pan-tilt sia assemblato
+   * Di poter accedere al desktop di Raspberry Pi
+   * Il pacchetto di codice sia installato
+   * Fusion HAT+ sia installato e configurato
+   * OpenCV sia installato
 
-   For detailed instructions, see :ref:`opencv_install`.
-   
-#. Open the terminal and enter the following command:
+   Per istruzioni dettagliate, consulta :ref:`opencv_install`.
+
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_3_camera.py
 
-#. When you run the program, two OpenCV windows will appear:
+#. Quando esegui il programma, appariranno due finestre OpenCV:
 
-   * **BGR Frame** – shows the live color camera image  
-   * **GRAY Frame** – shows the grayscale version of the same image  
-   
-   You can exit the program in two ways:
-   
-   * Press the **q** key on the keyboard  
-   * Close any of the windows by clicking the close button (X)  
-   
-   After exiting, the camera stops streaming and all OpenCV windows are closed.
+   * **BGR Frame** – mostra l'immagine a colori in diretta dalla fotocamera
+   * **GRAY Frame** – mostra la versione in scala di grigi della stessa immagine
 
-3. Example Code
--------------------------------
+   Puoi uscire dal programma in due modi:
 
-Below is the complete Python example for this chapter (``cv_3_camera.py``):
+   * Premere il tasto **q** sulla tastiera
+   * Chiudere una qualsiasi finestra facendo clic sul pulsante di chiusura (X)
+
+   Dopo l'uscita, la fotocamera smette di trasmettere e tutte le finestre OpenCV vengono chiuse.
+
+3. Codice di Esempio
+--------------------
+
+Di seguito e' l'esempio Python completo per questo capitolo (``cv_3_camera.py``):
 
 .. code-block:: python
 
@@ -130,10 +130,10 @@ Below is the complete Python example for this chapter (``cv_3_camera.py``):
    # Close all OpenCV windows
    cv2.destroyAllWindows()
 
-4. Code Explanation
--------------------
+4. Spiegazione del Codice
+-------------------------
 
-#. Import required libraries:
+#. Importare le librerie necessarie:
 
    .. code-block:: python
 
@@ -141,9 +141,9 @@ Below is the complete Python example for this chapter (``cv_3_camera.py``):
       import cv2
       import time
 
-   Picamera2 captures frames from the Raspberry Pi camera, and OpenCV is used for image conversion and display.
+   Picamera2 cattura i frame dalla fotocamera Raspberry Pi, mentre OpenCV viene utilizzato per la conversione e la visualizzazione delle immagini.
 
-#. Create a Picamera2 object and configure the camera:
+#. Creare un oggetto Picamera2 e configurare la fotocamera:
 
    .. code-block:: python
 
@@ -156,26 +156,26 @@ Below is the complete Python example for this chapter (``cv_3_camera.py``):
       picam2.configure(config)
       picam2.start()
 
-   This starts the camera at 640×480.  
-   ``XRGB8888`` is a 4-channel format, so each captured frame is BGRA-like.
+   Questo avvia la fotocamera a 640×480.
+   ``XRGB8888`` e' un formato a 4 canali, quindi ogni frame catturato e' di tipo BGRA.
 
-#. Capture a frame as a NumPy array:
+#. Acquisire un frame come array NumPy:
 
    .. code-block:: python
 
       frame_bgra = picam2.capture_array()
 
-   Each loop reads one frame from the camera.
+   Ogni ciclo legge un frame dalla fotocamera.
 
-#. Convert the frame for display:
+#. Convertire il frame per la visualizzazione:
 
    .. code-block:: python
 
       frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
       frame_gray = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2GRAY)
 
-   - ``frame_bgr`` is used for normal color display.
-   - ``frame_gray`` is a grayscale version of the same frame.
+   - ``frame_bgr`` viene utilizzato per la visualizzazione a colori normale.
+   - ``frame_gray`` e' una versione in scala di grigi dello stesso frame.
 
 #. Display the frames in two windows:
 
@@ -184,7 +184,7 @@ Below is the complete Python example for this chapter (``cv_3_camera.py``):
       cv2.imshow(WINDOW_BGR, frame_bgr)
       cv2.imshow(WINDOW_GRAY, frame_gray)
 
-   This opens two OpenCV windows: one shows the color frame, and the other shows the grayscale frame.
+   Questo apre due finestre OpenCV: una mostra il frame a colori, l'altra mostra il frame in scala di grigi.
 
 #. Exit conditions (press ``q`` or close a window):
 
@@ -198,86 +198,86 @@ Below is the complete Python example for this chapter (``cv_3_camera.py``):
           cv2.getWindowProperty(WINDOW_GRAY, cv2.WND_PROP_VISIBLE) < 1):
           break
 
-   - Press ``q`` to quit.
-   - Closing either window will also stop the program safely.
+   - Premi ``q`` per uscire.
+   - Chiudere una qualsiasi finestra fermera' il programma in modo sicuro.
 
-#. Limit FPS to reduce CPU usage:
+#. Limitare gli FPS per ridurre l'uso della CPU:
 
    .. code-block:: python
 
       time.sleep(1 / 30)
 
-   This adds a small delay so the loop runs at about 30 FPS, which can reduce CPU load on Raspberry Pi.
+   Questo aggiunge un piccolo ritardo in modo che il ciclo venga eseguito a circa 30 FPS, riducendo il carico della CPU su Raspberry Pi.
 
-#. Stop the camera and close OpenCV windows:
+#. Fermare la fotocamera e chiudere le finestre OpenCV:
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   This releases the camera and closes all OpenCV windows before the program exits.
+   Questo rilascia la fotocamera e chiude tutte le finestre OpenCV prima che il programma termini.
 
-5. The Importance of Color Space Conversion
--------------------------------------------------------------------
+5. L'Importanza della Conversione dello Spazio Colore
+=====================================================
 
-The raw image format output from the camera may not always match the format OpenCV requires for processing.  
-In this example, Picamera2 outputs images in **XRGB8888 (BGRA)** format, while OpenCV primarily uses **BGR** format.
+Il formato immagine grezzo in uscita dalla fotocamera potrebbe non corrispondere sempre al formato richiesto da OpenCV per l'elaborazione.
+In questo esempio, Picamera2 produce immagini in formato **XRGB8888 (BGRA)**, mentre OpenCV utilizza principalmente il formato **BGR**.
 
-Therefore, we need to convert the image as follows:
+Pertanto, dobbiamo convertire l'immagine come segue:
 
 .. code-block:: python
 
    frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-This ensures that the image is arranged in the standard BGR channel order used by OpenCV, making it display and process correctly.
+Questo garantisce che l'immagine sia organizzata nell'ordine standard dei canali BGR utilizzato da OpenCV, consentendone la corretta visualizzazione ed elaborazione.
 
-We can then convert the BGR image to grayscale for further processing:
+Possiamo quindi convertire l'immagine BGR in scala di grigi per ulteriori elaborazioni:
 
 .. code-block:: python
 
    frame_gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
 
-This allows us to transform camera-captured images into a format suitable for OpenCV image processing workflows.
+Questo ci permette di trasformare le immagini catturate dalla fotocamera in un formato adatto ai flussi di lavoro di elaborazione immagini di OpenCV.
 
-**Common Color Spaces and Use Cases**
+**Spazi Colore Comuni e Casi d'Uso**
 
 .. list-table::
    :header-rows: 1
    :widths: 15 25 60
 
-   * - Color Space
-     - Characteristics
-     - Typical Use Cases
+   * - Spazio Colore
+     - Caratteristiche
+     - Casi d'Uso Tipici
    * - **BGR**
-     - OpenCV default format
-     - Image display, basic processing, edge detection
+     - Formato predefinito di OpenCV
+     - Visualizzazione immagini, elaborazione di base, rilevamento bordi
    * - **RGB**
-     - Intuitive for human perception
-     - Visualization, deep learning image input
+     - Intuitivo per la percezione umana
+     - Visualizzazione, input immagini per deep learning
    * - **GRAY**
-     - Single-channel grayscale image
-     - Object detection, edge detection, performance optimization
+     - Immagine in scala di grigi a canale singolo
+     - Rilevamento oggetti, rilevamento bordi, ottimizzazione prestazioni
    * - **HSV**
-     - Separates color and brightness
-     - Color detection, object tracking, segmentation
+     - Separa colore e luminosita'
+     - Rilevamento colore, tracciamento oggetti, segmentazione
    * - **YCrCb**
-     - Separates luminance and chrominance
-     - Face detection, video compression, illumination robustness
+     - Separa luminanza e crominanza
+     - Rilevamento volti, compressione video, robustezza all'illuminazione
 
-For example, **HSV** is often better for **color detection and object tracking**,  
-while **YCrCb** is more robust in **face recognition** or **scenes with varying lighting**.
+Ad esempio, **HSV** e' spesso migliore per il **rilevamento colore e il tracciamento oggetti**,
+mentre **YCrCb** e' piu' robusto nel **riconoscimento facciale** o in **scene con illuminazione variabile**.
 
-6. Extensions and Practice
--------------------------------------------
+6. Estensioni ed Esercizi
+=========================
 
-- Try converting from BGR to GRAY or HSV and observe the results.
+- Prova a convertire da BGR a GRAY o HSV e osserva i risultati.
 
-   For example, use:
+   Ad esempio, usa:
 
    - ``cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)``
    - ``cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2HSV)``
-   - and others
+   - e altri
 
-- Test different resolutions (e.g., 1280×720) and observe the effect on latency and frame rate.  
-- Combine this code with the previous video playback example to implement switching between a camera stream and a video source.
+- Prova diverse risoluzioni (es. 1280×720) e osserva l'effetto sulla latenza e sul frame rate.
+- Combina questo codice con l'esempio precedente di riproduzione video per implementare il passaggio tra un flusso della fotocamera e una sorgente video.

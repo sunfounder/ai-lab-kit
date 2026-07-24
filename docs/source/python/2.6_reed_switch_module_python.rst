@@ -4,25 +4,25 @@
 
 .. _py_reed:
 
-2.6 Reed Switch
+2.6 Interruttore Reed
 ===========================
 
-**Introduction**
+**Introduzione**
 
-In this project, we will learn how to use a reed switch as a magnetic field sensor to control LEDs. A reed switch is an electrical switch operated by an applied magnetic field, commonly used in security systems, door/window sensors, and position detection. This project demonstrates how to detect the state of a reed switch and provide visual feedback using two LEDs.
+In questo progetto, impareremo come usare un interruttore reed come sensore di campo magnetico per controllare LED. Un interruttore reed è un interruttore elettrico azionato da un campo magnetico applicato, comunemente usato in sistemi di sicurezza, sensori di porta/finestra e rilevamento di posizione. Questo progetto dimostra come rilevare lo stato di un interruttore reed e fornire feedback visivo usando due LED.
 
 ----------------------------------------------
 
-**What You'll Need**
+**Cosa ti Servirà**
 
-To complete this project, you will need the following components:
+Per completare questo progetto, avrai bisogno dei seguenti componenti:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -33,30 +33,31 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_resistor`
         - |link_resistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
+
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-The circuit uses a reed switch connected to a GPIO input pin with a pull-down resistor. Two LEDs are connected to separate GPIO output pins, each with a current-limiting resistor. When a magnet approaches the reed switch, it closes the circuit, triggering the LED indicators to change states.
+Il circuito usa un interruttore reed collegato a un pin di ingresso GPIO con un resistore pull-down. Due LED sono collegati a pin di uscita GPIO separati, ciascuno con un resistore limitatore di corrente. Quando un magnete si avvicina all'interruttore reed, chiude il circuito, attivando il cambiamento di stato degli indicatori LED.
 
 .. image:: img/fzz/2.2.4_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Follow these steps to build the circuit:
+Segui questi passaggi per costruire il circuito:
 
-1. Connect the GND & VCC pin of the reed switch to GND & 3.3V
-2. Connect the D0 Pin of the reed switch to GPIO 17
-3. Connect LED1 cathode to GPIO 22 through a 220Ω resistor
-4. Connect LED1 anode to GND
-5. Connect LED2 cathode to GPIO 27 through a 220Ω resistor
-6. Connect LED2 anode to GND
+1. Collega il pin GND e VCC dell'interruttore reed a GND e 3,3V
+2. Collega il pin D0 dell'interruttore reed a GPIO 17
+3. Collega il catodo di LED1 a GPIO 22 tramite un resistore da 220Ω
+4. Collega l'anodo di LED1 a GND
+5. Collega il catodo di LED2 a GPIO 27 tramite un resistore da 220Ω
+6. Collega l'anodo di LED2 a GND
 
 .. image:: img/fzz/2.2.4_bb.png
    :width: 80%
@@ -64,33 +65,33 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 2.6_ReedSwitch.py 
+   sudo python3 2.6_ReedSwitch.py
 
-This Python script creates a magnetic field detection system using a reed switch and two status LEDs. When executed:
+Questo script Python crea un sistema di rilevamento del campo magnetico usando un interruttore reed e due LED di stato. Quando eseguito:
 
-1. The script continuously monitors the state of the reed switch
-2. When a magnet is detected (reed switch closed), LED1 turns off and LED2 turns on
-3. When no magnet is detected (reed switch open), LED1 turns on and LED2 turns off
-4. This creates a clear visual indication of the magnetic field presence
-5. The program can be interrupted gracefully using ``Ctrl+C``
+1. Lo script monitora continuamente lo stato dell'interruttore reed
+2. Quando viene rilevato un magnete (interruttore reed chiuso), LED1 si spegne e LED2 si accende
+3. Quando non viene rilevato alcun magnete (interruttore reed aperto), LED1 si accende e LED2 si spegne
+4. Questo crea una chiara indicazione visiva della presenza del campo magnetico
+5. Il programma può essere interrotto in modo controllato usando ``Ctrl+C``
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-The following Python code monitors a reed switch and controls two LEDs based on its state:
+Il seguente codice Python monitora un interruttore reed e controlla due LED in base al suo stato:
 
 .. raw:: html
 
@@ -127,29 +128,29 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Library Import**
+1. **Importazione della Libreria**
 
-   The ``Pin`` class from the ``fusion_hat`` library is used to control GPIO pins, and ``time.sleep`` is imported for potential delay operations.
+   La classe ``Pin`` della libreria ``fusion_hat`` viene usata per controllare i pin GPIO, e ``time.sleep`` viene importato per potenziali operazioni di ritardo.
 
    .. code-block:: python
 
         from fusion_hat.pin import Pin, Mode, Pull
         from time import sleep  # Import sleep for delay
 
-2. **Reed Switch Initialization**
+2. **Inizializzazione dell'Interruttore Reed**
 
-   The reed switch is initialized on GPIO pin 17 as an input with a pull-down resistor to ensure a stable LOW state when the switch is open.
+   L'interruttore reed viene inizializzato sul pin GPIO 17 come ingresso con un resistore pull-down per garantire uno stato LOW stabile quando l'interruttore è aperto.
 
    .. code-block:: python
 
         # Initialize reed switch (Button) on GPIO pin 17
         reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-3. **LED Initialization**
+3. **Inizializzazione dei LED**
 
-   Two LEDs are initialized on GPIO pins 22 and 27 as outputs to provide visual feedback.
+   Due LED vengono inizializzati sui pin GPIO 22 e 27 come uscite per fornire feedback visivo.
 
    .. code-block:: python
 
@@ -158,9 +159,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
         # Initialize LED2 connected to GPIO pin 27
         led2 = Pin(27,mode=Mode.OUT)
 
-4. **Main Monitoring Loop**
+4. **Ciclo Principale di Monitoraggio**
 
-   The ``while True`` loop continuously checks the reed switch state and controls the LEDs accordingly, creating a clear status indication system.
+   Il ciclo ``while True`` controlla continuamente lo stato dell'interruttore reed e controlla i LED di conseguenza, creando un sistema di indicazione dello stato chiaro.
 
    .. code-block:: python
 
@@ -172,9 +173,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
               led1.on()   # Turn on LED1
               led2.off()  # Turn off LED2
 
-5. **Keyboard Interrupt Handling**
+5. **Gestione dell'Interruzione da Tastiera**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted.
+   Il blocco ``try-except`` assicura che il programma si fermi in modo controllato quando viene interrotto.
 
    .. code-block:: python
 
@@ -184,37 +185,37 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **Reed Switch Not Detecting Magnet**
+1. **L'Interruttore Reed Non Rileva il Magnete**
 
-   - **Cause**: Magnet polarity issues, insufficient magnetic strength, or wiring problems.
-   - **Solution**: Try flipping the magnet, use a stronger magnet, or verify all connections.
+   - **Causa**: Problemi di polarità del magnete, forza magnetica insufficiente o problemi di cablaggio.
+   - **Soluzione**: Prova a capovolgere il magnete, usa un magnete più forte o verifica tutte le connessioni.
 
-2. **LEDs Not Lighting**
+2. **I LED Non si Accendono**
 
-   - **Cause**: Incorrect GPIO pin assignments, LED polarity reversed, or insufficient current.
-   - **Solution**: Check pin assignments, ensure LEDs are connected with correct polarity (anode to GPIO), and verify resistor values.
+   - **Causa**: Assegnazioni errate dei pin GPIO, polarità del LED invertita o corrente insufficiente.
+   - **Soluzione**: Controlla le assegnazioni dei pin, assicurati che i LED siano collegati con la polarità corretta (anodo a GPIO) e verifica i valori dei resistori.
 
-3. **Unstable Readings**
+3. **Letture Instabili**
 
-   - **Cause**: Electrical noise or floating input when reed switch is open.
-   - **Solution**: The built-in pull-down resistor should stabilize the input, but ensure proper grounding and check for nearby sources of electromagnetic interference.
+   - **Causa**: Rumore elettrico o ingresso flottante quando l'interruttore reed è aperto.
+   - **Soluzione**: Il resistore pull-down integrato dovrebbe stabilizzare l'ingresso, ma assicura una messa a terra corretta e controlla la presenza di fonti vicine di interferenza elettromagnetica.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Security System**
+1. **Sistema di Sicurezza**
 
-   Create a simple door/window security alarm that triggers when a magnet moves away from the reed switch:
+   Crea un semplice allarme di sicurezza per porta/finestra che si attiva quando un magnete si allontana dall'interruttore reed:
 
    .. code-block:: python
 
       # Add a buzzer for audible alarm
       from fusion_hat import Buzzer, PWM
       buzzer = Buzzer(PWM('P0'))
-      
+
       while True:
           if reed.value() == 1:  # Door opened (magnet moved away)
               buzzer.play('C6', 0.5)  # Sound alarm
@@ -223,15 +224,15 @@ The following Python code monitors a reed switch and controls two LEDs based on 
               led2.on()  # Green safe LED
           sleep(0.1)
 
-2. **Position Counter**
+2. **Contatore di Posizione**
 
-   Count how many times a magnet passes by the reed switch, useful for rotational speed measurement:
+   Conta quante volte un magnete passa davanti all'interruttore reed, utile per la misurazione della velocità di rotazione:
 
    .. code-block:: python
 
       counter = 0
       last_state = 0
-      
+
       while True:
           current_state = reed.value()
           if last_state == 0 and current_state == 1:  # Detect rising edge
@@ -240,21 +241,21 @@ The following Python code monitors a reed switch and controls two LEDs based on 
           last_state = current_state
           sleep(0.01)  # Short delay for debouncing
 
-3. **Two-Sensor Detection**
+3. **Rilevamento a Due Sensori**
 
-   Use two reed switches to detect direction of movement:
+   Usa due interruttori reed per rilevare la direzione del movimento:
 
    .. code-block:: python
 
       reed1 = Pin(17, Pin.IN, pull=Pin.PULL_DOWN)
       reed2 = Pin(18, Pin.IN, pull=Pin.PULL_DOWN)
-      
+
       # Determine direction based on which sensor triggers first
 
 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusione**
 
-This project demonstrates how to use a reed switch as a magnetic field sensor to control LED indicators. Reed switches are reliable, simple components widely used in security systems, position sensing, and proximity detection applications. By combining magnetic sensing with visual feedback, you can create intuitive monitoring systems for various applications.
+Questo progetto dimostra come usare un interruttore reed come sensore di campo magnetico per controllare indicatori LED. Gli interruttori reed sono componenti affidabili e semplici ampiamente utilizzati in sistemi di sicurezza, rilevamento di posizione e applicazioni di rilevamento di prossimità. Combinando il rilevamento magnetico con il feedback visivo, puoi creare sistemi di monitoraggio intuitivi per varie applicazioni.

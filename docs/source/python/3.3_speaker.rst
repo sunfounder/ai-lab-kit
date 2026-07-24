@@ -4,41 +4,42 @@
 
 .. _py_speaker:
 
-3.3 Fusion HAT+ Speaker
+3.3 Altoparlante Fusion HAT+
 ==============================
 
-**Introduction**
+**Introduzione**
 
-The Fusion HAT+ includes a built-in speaker, making it ideal for voice prompts, alarms, and other AI/IoT audio applications.  
-This lesson shows you how to enable, test, and use the speaker with text-to-speech.
+Fusion HAT+ include un altoparlante integrato, che lo rende ideale per prompt vocali, allarmi e altre applicazioni audio AI/IoT.
+Questa lezione mostra come abilitare, testare e usare l'altoparlante con la sintesi vocale.
 
 .. note::
-   This guide assumes Raspberry Pi OS is installed and the Fusion HAT+ drivers are properly set up.
+   Questa guida presuppone che Raspberry Pi OS sia installato e che i driver Fusion HAT+ siano configurati correttamente.
 
 .. image:: img/fusionhat_speaker.png
    :align: center
    :width: 50%
 
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    * - COMPONENT
-      - PURCHASE LINK
+    * - COMPONENTE
+      - LINK ACQUISTO
     * - :ref:`cpn_fusion_hat`
       - \-
     * - Raspberry Pi
-      - \-
+      -
+
 
 ------------------------------------------------------------
 
 
-**Check if the Speaker Is Recognized**
+**Verifica se l'Altoparlante è Riconosciuto**
 
-Check whether the Fusion HAT+ audio device is detected by the system:
+Controlla se il dispositivo audio Fusion HAT+ viene rilevato dal sistema:
 
 .. raw:: html
 
@@ -48,21 +49,21 @@ Check whether the Fusion HAT+ audio device is detected by the system:
 
    aplay -l
 
-You should see an audio device similar to:
+Dovresti vedere un dispositivo audio simile a:
 
 .. code-block:: text
 
    card 3: voicehat [Fusion HAT+ Audio], device 0: ...
 
-If a device named ``voicehat`` (or similar) appears under **any card number**,  
-the Fusion HAT+ audio hardware is successfully recognized.
+Se un dispositivo chiamato ``voicehat`` (o simile) appare sotto **qualsiasi numero di scheda**,
+l'hardware audio Fusion HAT+ è riconosciuto con successo.
 
 ------------------------------------------------------------
 
 
-**Run the Example Program**
+**Esegui il Programma di Esempio**
 
-The most reliable way to test the speaker is to run the text-to-speech example.
+Il modo più affidabile per testare l'altoparlante è eseguire l'esempio di sintesi vocale.
 
 .. raw:: html
 
@@ -73,13 +74,13 @@ The most reliable way to test the speaker is to run the text-to-speech example.
    cd ~/ai-lab-kit/llm
    sudo python3 tts_espeak.py
 
-You should hear: “Hello! I’m Espeak TTS.”
+Dovresti sentire: "Hello! I'm Espeak TTS."
 
-Try adjusting the TTS parameters in the script to hear different voice effects.
+Prova a regolare i parametri TTS nello script per sentire diversi effetti vocali.
 
 ------------------------------------------------------------
 
-**Example Code**
+**Codice di Esempio**
 
 .. code-block:: python
 
@@ -91,69 +92,69 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
    tts.set_gap(1)
    tts.set_pitch(80)
 
-   tts.say("Hello! I’m Espeak TTS.")
+   tts.say("Hello! I'm Espeak TTS.")
 
-**Code Explanation**
+**Spiegazione del Codice**
 
-* ``set_amp(0–200)`` — volume  
-* ``set_speed(80–260)`` — speaking speed  
-* ``set_gap(0–200)`` — pause between words  
-* ``set_pitch(0–99)`` — pitch of the voice  
-* ``say()`` — convert text to speech and play it
+* ``set_amp(0-200)`` — volume
+* ``set_speed(80-260)`` — velocità di eloquio
+* ``set_gap(0-200)`` — pausa tra le parole
+* ``set_pitch(0-99)`` — altezza della voce
+* ``say()`` — converte il testo in voce e lo riproduce
 
 .. tip::
 
-   Increase speed + pitch to make the voice cheerful;  
-   lower both for a deeper, more serious tone.
+   Aumenta velocità e altezza per rendere la voce allegra;
+   abbassa entrambe per un tono più profondo e serio.
 
 
 ------------------------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-* **No sound output**
+* **Nessun suono in uscita**
 
-  - Make sure the Fusion HAT+ audio device is detected:
+  - Assicurati che il dispositivo audio Fusion HAT+ sia rilevato:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
        aplay -l
 
-    You should see an audio device named ``voicehat`` (or similar).
-    If the device is not listed, power off the Raspberry Pi, reseat the
-    Fusion HAT+, and reboot.
+    Dovresti vedere un dispositivo audio chiamato ``voicehat`` (o simile).
+    Se il dispositivo non è elencato, spegni il Raspberry Pi, reinserisci
+    Fusion HAT+ e riavvia.
 
-  - If the device is still not detected, reinstall the audio driver:
+  - Se il dispositivo non viene ancora rilevato, reinstalla il driver audio:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
        sudo /opt/setup_fusion_hat_audio.sh
 
-* **Text-to-speech sounds too fast or robotic**
+* **La sintesi vocale è troppo veloce o robotica**
 
-  - Adjust the speech parameters in the code:
+  - Regola i parametri di eloquio nel codice:
 
     .. code-block:: python
 
        tts.set_speed(120)
        tts.set_pitch(60)
 
-* **Permission denied error**
+* **Errore di permesso negato**
 
-  - Run the script with superuser privileges:
+  - Esegui lo script con privilegi di superutente:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
        sudo python3 tts_espeak.py
@@ -162,11 +163,11 @@ Try adjusting the TTS parameters in the script to hear different voice effects.
 
 ------------------------------------------------------------
 
-**Summary**
+**Riepilogo**
 
-In this lesson, you learned how to:
+In questa lezione, hai imparato come:
 
-- Verify that the Fusion HAT+ speaker is recognized   
-- Use Espeak TTS to generate speech on the Raspberry Pi
+- Verificare che l'altoparlante Fusion HAT+ sia riconosciuto
+- Usare Espeak TTS per generare voce sul Raspberry Pi
 
-The Fusion HAT+ speaker provides a simple and powerful way to add audio to your Raspberry Pi projects.
+L'altoparlante Fusion HAT+ fornisce un modo semplice e potente per aggiungere audio ai tuoi progetti Raspberry Pi.

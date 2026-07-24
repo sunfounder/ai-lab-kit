@@ -2,42 +2,42 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-2. Detect Anything with YOLOE
-===================================
+2. Rilevare Qualsiasi Cosa con YOLOE
+===========================================
 
 
-YOLOE (You Only Look Once with Embeddings) is the latest member of the YOLO family, introducing language-vision joint learning capabilities to traditional YOLO. Simply put, YOLOE can not only detect objects it was trained on, but also detect arbitrary new objects through text descriptions or prompts without retraining.
+YOLOE (You Only Look Once with Embeddings) è l'ultimo membro della famiglia YOLO, introducendo capacità di apprendimento congiunto linguaggio-visione al tradizionale YOLO. In parole semplici, YOLOE non solo può rilevare oggetti su cui è stato addestrato, ma può anche rilevare nuovi oggetti arbitrari attraverso descrizioni testuali o prompt senza riaddestramento.
 
-Key features of YOLOE:
+Caratteristiche principali di YOLOE:
 
-* **Open-vocabulary detection**: Detect arbitrary objects through text descriptions, not limited to predefined categories
-* **Prompt-Free mode**: Automatically detect salient objects in images without any prompts
-* **Efficient deployment**: Inherits YOLO's efficient architecture, runs smoothly on Raspberry Pi
-* **Multi-task support**: Supports various tasks including object detection and instance segmentation
+* **Rilevamento a vocabolario aperto**: Rilevare oggetti arbitrari attraverso descrizioni testuali, non limitato a categorie predefinite
+* **Modalità Prompt-Free**: Rilevare automaticamente oggetti salienti nelle immagini senza alcun prompt
+* **Distribuzione efficiente**: Eredita l'architettura efficiente di YOLO, funziona senza problemi su Raspberry Pi
+* **Supporto multi-attività**: Supporta varie attività tra cui rilevamento oggetti e segmentazione di istanze
 
-This makes YOLOE particularly suitable for rapid prototyping and applications requiring flexible detection of various objects.
+Questo rende YOLOE particolarmente adatto per prototipazione rapida e applicazioni che richiedono il rilevamento flessibile di vari oggetti.
 
-Installing Dependencies
+Installare le Dipendenze
 ---------------------------------------------------
 
-First, install the CLIP library required by YOLOE:
+Per prima cosa, installare la libreria CLIP richiesta da YOLOE:
 
 .. code-block:: bash
 
    pip3 install git+https://github.com/ultralytics/CLIP.git --break-system-packages
 
-Prompt-Free Mode
+Modalità Prompt-Free
 -----------------------------
 
-Prompt-Free mode is the most intuitive way to use YOLOE. In this mode, the model automatically detects all salient objects in the image without any text prompts. This behaves similarly to traditional YOLO but with better open-vocabulary capabilities.
+La modalità Prompt-Free è il modo più intuitivo per utilizzare YOLOE. In questa modalità, il modello rileva automaticamente tutti gli oggetti salienti nell'immagine senza alcun prompt testuale. Si comporta in modo simile allo YOLO tradizionale ma con migliori capacità di vocabolario aperto.
 
 .. image:: img/yolo_prompt_free1.png
 
-Figure: I pointed the camera at my cluttered desk, and YOLOE's Prompt-Free mode automatically identified and segmented all salient objects in view—monitor, keyboard, water cup, notebook, mouse... Each object is annotated with a different colored segmentation mask, without requiring any text prompts. Everything is clearly presented at a glance.
+Figura: Ho puntato la fotocamera verso la mia scrivania disordinata, e la modalità Prompt-Free di YOLOE ha automaticamente identificato e segmentato tutti gli oggetti salienti in vista—monitor, tastiera, bicchiere d'acqua, taccuino, mouse... Ogni oggetto è annotato con una maschera di segmentazione di colore diverso, senza richiedere alcun prompt testuale. Tutto è presentato chiaramente a colpo d'occhio.
 
-**How it works**: The model automatically identifies foreground objects in the image through visual feature analysis and performs segmentation. This approach is suitable for quickly browsing image content or when you're unsure what objects need to be detected.
+**Come funziona**: Il modello identifica automaticamente gli oggetti in primo piano nell'immagine attraverso l'analisi delle caratteristiche visive e esegue la segmentazione. Questo approccio è adatto per sfogliare rapidamente il contenuto dell'immagine o quando non sei sicuro di quali oggetti devono essere rilevati.
 
-The following code demonstrates how to run YOLOE in Prompt-Free mode on a Raspberry Pi:
+Il seguente codice dimostra come eseguire YOLOE in modalità Prompt-Free su un Raspberry Pi:
 
 .. code-block:: bash
 
@@ -74,25 +74,25 @@ The following code demonstrates how to run YOLOE in Prompt-Free mode on a Raspbe
    cv2.destroyAllWindows()
    picam2.stop()
 
-**Features of Prompt-Free Mode**:
+**Caratteristiche della Modalità Prompt-Free**:
 
-* **No configuration needed**: Run directly to detect salient objects in images
-* **Automatic segmentation**: Outputs both detection boxes and segmentation masks
-* **No class labels**: Only shows detected object locations without category names
-* **Use cases**: Quick browsing, general object detection, discovering unknown objects
+* **Nessuna configurazione necessaria**: Eseguire direttamente per rilevare oggetti salienti nelle immagini
+* **Segmentazione automatica**: Produce sia bounding box che maschere di segmentazione
+* **Nessuna etichetta di classe**: Mostra solo le posizioni degli oggetti rilevati senza nomi di categoria
+* **Casi d'uso**: Navigazione rapida, rilevamento oggetti generale, scoperta di oggetti sconosciuti
 
-Text Prompt Mode
+Modalità Prompt Testuale
 ----------------------------------
 
-Text prompt mode is where YOLOE's power truly shines. Through natural language descriptions, you can tell the model what objects to detect, and the model will identify and locate these objects in real-time.
+La modalità prompt testuale è dove la potenza di YOLOE brilla veramente. Attraverso descrizioni in linguaggio naturale, puoi dire al modello quali oggetti rilevare, e il modello identificherà e localizzerà questi oggetti in tempo reale.
 
 .. image:: img/yolo_prompt_word.png
 
-Figure: I held up a piece of paper that was half yellow and half white in front of the camera, and used a text prompt to tell the model to look for "yellow paper". YOLOE accurately understood this description, segmenting only the yellow half of the paper and marking it with a bounding box, while completely ignoring the white portion. This demonstrates YOLOE's ability to perform fine-grained object recognition through natural language.
+Figura: Ho tenuto un pezzo di carta metà giallo e metà bianco davanti alla fotocamera, e ho usato un prompt testuale per dire al modello di cercare "yellow paper". YOLOE ha compreso accuratamente questa descrizione, segmentando solo la metà gialla della carta e segnandola con un bounding box, ignorando completamente la porzione bianca. Questo dimostra la capacità di YOLOE di eseguire un riconoscimento oggetti fine-grained attraverso il linguaggio naturale.
 
-**How it works**: The model encodes text prompts into feature vectors, then matches them against image features to identify regions that best correspond to the text descriptions. This approach allows you to dynamically specify detection targets without retraining the model.
+**Come funziona**: Il modello codifica i prompt testuali in vettori di caratteristiche, poi li confronta con le caratteristiche dell'immagine per identificare le regioni che corrispondono meglio alle descrizioni testuali. Questo approccio ti permette di specificare dinamicamente i bersagli di rilevamento senza riaddestrare il modello.
 
-The following code demonstrates how to use text prompts to detect specific objects:
+Il seguente codice dimostra come utilizzare i prompt testuali per rilevare oggetti specifici:
 
 .. code-block:: bash
 
@@ -134,20 +134,20 @@ The following code demonstrates how to use text prompts to detect specific objec
    cv2.destroyAllWindows()
    picam2.stop()
 
-**Features of Text Prompt Mode**:
+**Caratteristiche della Modalità Prompt Testuale**:
 
-* **Dynamic detection**: Modify detection targets at any time without retraining
-* **Natural language**: Use everyday language to describe objects, like "blue car", "wooden chair"
-* **Multi-target detection**: Specify multiple detection targets at once
-* **Fine-grained control**: Describe attributes like color, material, shape, etc.
-* **Confidence threshold**: Control detection sensitivity through the ``conf`` parameter
+* **Rilevamento dinamico**: Modificare i bersagli di rilevamento in qualsiasi momento senza riaddestramento
+* **Linguaggio naturale**: Usare il linguaggio quotidiano per descrivere oggetti, come "blue car", "wooden chair"
+* **Rilevamento multi-bersaglio**: Specificare più bersagli di rilevamento contemporaneamente
+* **Controllo fine-grained**: Descrivere attributi come colore, materiale, forma, ecc.
+* **Soglia di confidenza**: Controllare la sensibilità del rilevamento attraverso il parametro ``conf``
 
-Advanced Usage
+Utilizzo Avanzato
 -------------------------------------
 
-**Dynamically Switching Detection Targets**
+**Cambiare Dinamicamente i Bersagli di Rilevamento**
 
-You can modify text prompts at runtime without restarting the program:
+Puoi modificare i prompt testuali durante l'esecuzione senza riavviare il programma:
 
 .. code-block:: python
 
@@ -179,9 +179,9 @@ You can modify text prompts at runtime without restarting the program:
       if key == ord('q'):
          break
 
-**Using More Complex Text Descriptions**
+**Usare Descrizioni Testuali più Complesse**
 
-YOLOE supports complex natural language descriptions for more precise object localization:
+YOLOE supporta descrizioni complesse in linguaggio naturale per una localizzazione più precisa degli oggetti:
 
 .. code-block:: python
 
@@ -194,9 +194,9 @@ YOLOE supports complex natural language descriptions for more precise object loc
    ]
    model.set_classes(names, model.get_text_pe(names))
 
-**Adjusting Detection Parameters**
+**Regolare i Parametri di Rilevamento**
 
-Performance optimization for Raspberry Pi:
+Ottimizzazione delle prestazioni per Raspberry Pi:
 
 .. code-block:: python
 
@@ -209,49 +209,49 @@ Performance optimization for Raspberry Pi:
        verbose=False     # Disable verbose output
    )
 
-Performance Optimization Tips
--------------------------------------------------
+Suggerimenti per l'Ottimizzazione delle Prestazioni
+---------------------------------------------------
 
-When running YOLOE on Raspberry Pi, the following optimizations can help achieve better performance:
+Quando si esegue YOLOE su Raspberry Pi, le seguenti ottimizzazioni possono aiutare a ottenere migliori prestazioni:
 
-1. **Choose the right model**:
+1. **Scegliere il modello giusto**:
 
-   - ``yoloe-26n-seg.pt``: Nano version, fastest speed
-   - ``yoloe-11s-seg-pf.pt``: S version, higher accuracy but slower
+   - ``yoloe-26n-seg.pt``: Versione nano, massima velocità
+   - ``yoloe-11s-seg-pf.pt``: Versione S, maggiore precisione ma più lenta
 
-2. **Reduce input resolution**:
+2. **Ridurre la risoluzione di input**:
 
-   - ``imgsz=224``: Fastest speed
-   - ``imgsz=320``: Balanced choice (recommended)
-   - ``imgsz=416``: Higher accuracy
+   - ``imgsz=224``: Massima velocità
+   - ``imgsz=320``: Scelta equilibrata (consigliata)
+   - ``imgsz=416``: Maggiore precisione
 
-3. **Adjust confidence threshold**:
+3. **Regolare la soglia di confidenza**:
 
-   - Increasing the ``conf`` parameter (e.g., to 0.5) reduces detection count and improves speed
+   - Aumentare il parametro ``conf`` (ad esempio, a 0.5) riduce il numero di rilevamenti e migliora la velocità
 
-4. **Reduce detection categories**:
+4. **Ridurre le categorie di rilevamento**:
 
-   - In text prompt mode, limiting the length of the ``names`` list can improve inference speed
+   - Nella modalità prompt testuale, limitare la lunghezza della lista ``names`` può migliorare la velocità di inferenza
 
 FAQ
 -------------------------
 
-**Q: What's the difference between YOLOE and traditional YOLO?**
+**D: Qual è la differenza tra YOLOE e YOLO tradizionale?**
 
-A: Traditional YOLO can only detect fixed categories defined during training, while YOLOE can detect arbitrary objects through text prompts without retraining.
+R: Lo YOLO tradizionale può rilevare solo categorie fisse definite durante l'addestramento, mentre YOLOE può rilevare oggetti arbitrari attraverso prompt testuali senza riaddestramento.
 
-**Q: Does Prompt-Free mode detect all objects?**
+**D: La modalità Prompt-Free rileva tutti gli oggetti?**
 
-A: Prompt-Free mode detects visually salient objects in the image but doesn't provide category labels, making it suitable for quickly browsing scenes.
+R: La modalità Prompt-Free rileva gli oggetti visivamente salienti nell'immagine ma non fornisce etichette di categoria, rendendola adatta per sfogliare rapidamente le scene.
 
-**Q: Does text prompt support Chinese?**
+**D: Il prompt testuale supporta il cinese?**
 
-A: English prompts are recommended for best results, as the model is primarily trained on English data.
+R: Si consigliano prompt in inglese per risultati migliori, poiché il modello è principalmente addestrato su dati inglesi.
 
-**Q: What's the speed of running YOLOE on Raspberry Pi?**
+**D: Qual è la velocità di esecuzione di YOLOE su Raspberry Pi?**
 
-A: On Raspberry Pi 5, using the nano model with 320 resolution, you can achieve 3-5 FPS real-time performance.
+R: Su Raspberry Pi 5, utilizzando il modello nano con risoluzione 320, si possono ottenere prestazioni in tempo reale di 3-5 FPS.
 
-**Q: Can I use multiple text prompts simultaneously?**
+**D: Posso usare più prompt testuali simultaneamente?**
 
-A: Yes, simply add multiple descriptions to the ``names`` list, and the model will detect all of these objects simultaneously.
+R: Sì, è sufficiente aggiungere più descrizioni alla lista ``names``, e il modello rileverà tutti questi oggetti simultaneamente.

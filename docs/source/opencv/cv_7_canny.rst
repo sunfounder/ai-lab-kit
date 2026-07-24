@@ -2,11 +2,11 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-7. Canny Edge Detection
-=========================================
+7. Rilevamento Bordi con Canny
+==============================
 
-In this chapter, we will capture real-time video using Raspberry Pi + Picamera2 and perform edge detection with OpenCV’s **Canny algorithm**.  
-Edge detection is a fundamental part of computer vision, and the Canny algorithm is widely regarded as one of the most stable and noise-robust methods.
+In questo capitolo, acquisiremo video in tempo reale usando Raspberry Pi + Picamera2 e eseguiremo il rilevamento dei bordi con l’**algoritmo Canny** di OpenCV.
+Il rilevamento dei bordi e’ una parte fondamentale della computer vision, e l’algoritmo Canny e’ ampiamente considerato uno dei metodi piu’ stabili e robusti al rumore.
 
 .. raw:: html
 
@@ -15,42 +15,42 @@ Edge detection is a fundamental part of computer vision, and the Canny algorithm
           Your browser does not support the video tag.
       </video>
 
-1. What Does the Canny Algorithm Do?
---------------------------------------------------
+1. Cosa Fa l'Algoritmo Canny?
+-----------------------------
 
-In images, **edges** usually correspond to locations with strong intensity (grayscale) changes, such as:
+Nelle immagini, i **bordi** corrispondono solitamente a posizioni con forti cambiamenti di intensita’ (scala di grigi), come:
 
-- Object outlines
-- Boundaries between bright and dark regions
-- Structural edge lines
+- Contorni degli oggetti
+- Confini tra regioni chiare e scure
+- Linee di bordo strutturali
 
-The purpose of Canny edge detection is to:
+Lo scopo del rilevamento bordi Canny e’:
 
-- **Accurately extract edge information** while reducing unnecessary interference;
-- Provide a reliable foundation for subsequent **contour detection**, **object segmentation**, and **geometric recognition** (e.g., circles, rectangles);
-- In robot vision, it’s often used for **path detection** and **obstacle recognition**.
+- **Estrarre accuratamente le informazioni sui bordi** riducendo al contempo le interferenze non necessarie;
+- Fornire una base affidabile per il successivo **rilevamento dei contorni**, **segmentazione degli oggetti** e **riconoscimento geometrico** (es. cerchi, rettangoli);
+- Nella visione robotica, e’ spesso utilizzato per **rilevamento del percorso** e **riconoscimento degli ostacoli**.
 
 .. image:: img/opencv_canny.png
-   :alt: Illustration of Canny edge detection
+   :alt: Illustrazione del rilevamento bordi Canny
    :align: center
 
 
-2. Run the Code
-------------------------
+2. Eseguire il Codice
+---------------------
 
 .. important::
 
-   Before you start, make sure:
+   Prima di iniziare, assicurati:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Il pan-tilt sia assemblato
+   * Di poter accedere al desktop di Raspberry Pi
+   * Il pacchetto di codice sia installato
+   * Fusion HAT+ sia installato e configurato
+   * OpenCV sia installato
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Per istruzioni dettagliate, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
@@ -58,19 +58,19 @@ The purpose of Canny edge detection is to:
       python3 cv_7_canny.py
 
    .. tip::
-   
-      We also provide ``cv_7_canny_video.py`` to process video files, and ``cv_7_canny_conbine.py`` to combine real-time capture with video (combined view).
 
-#. When you run the program, two OpenCV windows will appear:
+      Forniamo anche ``cv_7_canny_video.py`` per elaborare file video e ``cv_7_canny_conbine.py`` per combinare l'acquisizione in tempo reale con il video (vista combinata).
 
-   * **Camera** – displays the live camera image  
-   * **Canny Edges** – displays the detected edges in real time  
-   
-   You can adjust the edge detection thresholds using the trackbars.  
-   Press **q** or close any window to exit the program.
+#. Quando esegui il programma, appariranno due finestre OpenCV:
 
-3. Complete Code
----------------------------------
+   * **Camera** – mostra l'immagine in diretta dalla fotocamera
+   * **Canny Edges** – mostra i bordi rilevati in tempo reale
+
+   Puoi regolare le soglie di rilevamento dei bordi usando i trackbar.
+   Premi **q** o chiudi una qualsiasi finestra per uscire dal programma.
+
+3. Codice Completo
+------------------
 
 .. code-block:: python
 
@@ -169,19 +169,19 @@ The purpose of Canny edge detection is to:
    picam2.stop()             # Stop the camera
    cv2.destroyAllWindows()   # Close all OpenCV windows
 
-4. Code Explanation
----------------------------------
-#. Define a callback function for trackbars:
+4. Spiegazione del Codice
+-------------------------
+#. Definire una funzione di callback per i trackbar:
 
    .. code-block:: python
 
       def _noop(x):
           pass
 
-   OpenCV trackbars require a callback function.  
-   We do not need to do anything inside it, so an empty function is enough.
+   I trackbar di OpenCV richiedono una funzione di callback.
+   Non e' necessario fare nulla al suo interno, quindi una funzione vuota e' sufficiente.
 
-#. Initialize Picamera2 and set the preview format:
+#. Inizializzare Picamera2 e impostare il formato di anteprima:
 
    .. code-block:: python
 
@@ -193,10 +193,10 @@ The purpose of Canny edge detection is to:
       )
       picam2.start()
 
-   This starts the Raspberry Pi camera at 640×480.  
-   ``XRGB8888`` is a 4-channel format, so frames are BGRA-like.
+   Questo avvia la fotocamera Raspberry Pi a 640×480.
+   ``XRGB8888`` e' un formato a 4 canali, quindi i frame sono di tipo BGRA.
 
-#. Create two OpenCV windows:
+#. Creare due finestre OpenCV:
 
    .. code-block:: python
 
@@ -206,19 +206,19 @@ The purpose of Canny edge detection is to:
       cv2.namedWindow(WIN_CAM)
       cv2.namedWindow(WIN_EDGE)
 
-   One window shows the original camera image, and the other shows the Canny edge result.
+   Una finestra mostra l'immagine originale della fotocamera, l'altra mostra il risultato dei bordi Canny.
 
-#. Create trackbars to adjust Canny thresholds in real time:
+#. Creare trackbar per regolare le soglie Canny in tempo reale:
 
    .. code-block:: python
 
       cv2.createTrackbar("low_th",  WIN_EDGE, 50, 255, _noop)
       cv2.createTrackbar("high_th", WIN_EDGE, 150, 255, _noop)
 
-   - ``low_th``: lower threshold for Canny.
-   - ``high_th``: higher threshold for Canny.
-   
-   You can drag these sliders to change the edge detection sensitivity.
+   - ``low_th``: soglia inferiore per Canny.
+   - ``high_th``: soglia superiore per Canny.
+
+   Puoi trascinare questi cursori per cambiare la sensibilita' del rilevamento bordi.
 
 #. Capture a frame and convert it for OpenCV processing:
 
@@ -227,19 +227,19 @@ The purpose of Canny edge detection is to:
       frame_bgra = picam2.capture_array()
       frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   The camera output is 4-channel, so we convert it to standard 3-channel BGR.
+   L'output della fotocamera e' a 4 canali, quindi lo convertiamo in BGR standard a 3 canali.
 
-#. Convert to grayscale and blur the image:
+#. Convertire in scala di grigi e sfocare l'immagine:
 
    .. code-block:: python
 
       gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
       blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
-   - Canny works on grayscale images.
-   - Gaussian blur reduces noise, which helps avoid detecting too many false edges.
+   - Canny funziona su immagini in scala di grigi.
+   - La sfocatura Gaussiana riduce il rumore, aiutando a evitare il rilevamento di troppi falsi bordi.
 
-#. Read trackbar values and keep them valid:
+#. Leggere i valori dei trackbar e mantenerli validi:
 
    .. code-block:: python
 
@@ -250,28 +250,28 @@ The purpose of Canny edge detection is to:
           high_th = low_th + 1
           cv2.setTrackbarPos("high_th", WIN_EDGE, high_th)
 
-   Canny expects ``high_th`` to be larger than ``low_th``.  
-   This block automatically fixes the values if the user drags them too close.
+   Canny si aspetta che ``high_th`` sia maggiore di ``low_th``.
+   Questo blocco corregge automaticamente i valori se l'utente li trascina troppo vicini.
 
-#. Run Canny edge detection:
+#. Eseguire il rilevamento bordi Canny:
 
    .. code-block:: python
 
       edges = cv2.Canny(blurred, low_th, high_th)
 
-   Canny highlights strong edges in the image.  
-   Lower thresholds usually detect more edges, but also more noise.
+   Canny evidenzia i bordi forti nell'immagine.
+   Soglie piu' basse di solito rilevano piu' bordi, ma anche piu' rumore.
 
-#. Display both windows:
+#. Visualizzare entrambe le finestre:
 
    .. code-block:: python
 
       cv2.imshow(WIN_CAM, frame_bgr)
       cv2.imshow(WIN_EDGE, edges)
 
-   The left window shows the live camera feed, and the other shows the detected edges.
+   La finestra di sinistra mostra il feed in diretta della fotocamera, l'altra mostra i bordi rilevati.
 
-#. Exit conditions (press ``q`` or close the window):
+#. Condizioni di uscita (premere ``q`` o chiudere la finestra):
 
    .. code-block:: python
 
@@ -283,77 +283,77 @@ The purpose of Canny edge detection is to:
           cv2.getWindowProperty(WIN_EDGE, cv2.WND_PROP_VISIBLE) < 1):
           break
 
-   This allows beginners to stop the program in two ways: keyboard or closing the window.
+   Questo permette ai principianti di fermare il programma in due modi: tramite tastiera o chiudendo la finestra.
 
-#. Cleanup:
+#. Pulizia:
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   Always stop the camera and close all OpenCV windows to release resources.
+   Ferma sempre la fotocamera e chiudi tutte le finestre OpenCV per rilasciare le risorse.
 
-5. Why is Canny Useful?
+5. Perche' Canny e' Utile?
 --------------------------
 
-Canny output is well-suited for subsequent vision tasks:
+L’output di Canny e’ adatto per compiti di visione successivi:
 
 .. list-table::
    :header-rows: 1
    :widths: 30 70
 
-   * - Application
-     - Description
-   * - Contour detection
-     - Use ``cv2.findContours`` on Canny output to obtain object shapes
-   * - Object segmentation
-     - Use edges as a basis to separate target from background
-   * - Shape recognition
-     - Combine with Hough transforms to detect circles, lines, etc.
-   * - Robot navigation
-     - Detect ground, roads, obstacle outlines to assist planning
-   * - OCR / Target localization
-     - Text regions, QR codes, markers often have clear edge features
+   * - Applicazione
+     - Descrizione
+   * - Rilevamento contorni
+     - Usa ``cv2.findContours`` sull’output Canny per ottenere le forme degli oggetti
+   * - Segmentazione oggetti
+     - Usa i bordi come base per separare il bersaglio dallo sfondo
+   * - Riconoscimento forme
+     - Combina con le trasformate di Hough per rilevare cerchi, linee, ecc.
+   * - Navigazione robotica
+     - Rileva terreno, strade, contorni ostacoli per assistere la pianificazione
+   * - OCR / Localizzazione bersagli
+     - Regioni di testo, QR code, marcatori hanno spesso chiare caratteristiche di bordo
 
-Canny isn’t just “cool-looking”—it’s the **entry point** to a broader CV pipeline.
+Canny non e’ solo “bello da vedere” — e’ il **punto di ingresso** per un pipeline CV piu’ ampio.
 
 
-6. Threshold Selection Tips
----------------------------
+6. Suggerimenti per la Selezione delle Soglie
+----------------------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: 70 30 30 70
-   
+
    * - Scenario
      - low_th
      - high_th
-     - Notes
-   * - Stable indoor lighting
+     - Note
+   * - Illuminazione interna stabile
      - 50
      - 150
-     - General case, stable results
-   * - Strong lighting & high contrast
+     - Caso generale, risultati stabili
+   * - Illuminazione forte e alto contrasto
      - 100
      - 200
-     - Increase thresholds to reduce false edges
-   * - Low light, noisy
+     - Aumentare le soglie per ridurre i falsi bordi
+   * - Poca luce, rumoroso
      - 30
      - 100
-     - Lower thresholds to keep more details
-   * - Very blurry edges
+     - Soglie piu' basse per mantenere piu' dettagli
+   * - Bordi molto sfocati
      - 20
      - 80
-     - Lower thresholds further to make edges more sensitive
+     - Soglie ancora piu' basse per rendere i bordi piu' sensibili
 
-Use the trackbars to quickly tune an appropriate range, then hardcode it into your program.
+Usa i trackbar per regolare rapidamente un intervallo appropriato, poi inseriscilo direttamente nel tuo programma.
 
 
-7. Extended Exercises
----------------------
+7. Esercizi Avanzati
+--------------------
 
-- Use ``cv2.findContours`` on the Canny output to draw object boundaries.  
-- Change the Gaussian kernel size and observe how edge accuracy changes.  
-- Try different thresholds in low/high light to understand double-threshold effects.  
-- Use the edge map for shape detection with ``cv2.HoughLines`` (lines) or ``cv2.HoughCircles`` (circles).
+- Usa ``cv2.findContours`` sull'output Canny per disegnare i confini degli oggetti.
+- Cambia la dimensione del kernel Gaussiano e osserva come cambia la precisione dei bordi.
+- Prova diverse soglie in condizioni di luce bassa/alta per comprendere gli effetti della doppia soglia.
+- Usa la mappa dei bordi per il rilevamento di forme con ``cv2.HoughLines`` (linee) o ``cv2.HoughCircles`` (cerchi).

@@ -4,25 +4,25 @@
 
 .. _py_buton:
 
-2.1 Button
+2.1 Pulsante
 ==============
 
-**Introduction**
+**Introduzione**
 
-In this project, we will learn how to use a button to control an LED. Buttons are fundamental input devices used in various electronic projects to interact with circuits and systems.
+In questo progetto, impareremo come usare un pulsante per controllare un LED. I pulsanti sono dispositivi di input fondamentali usati in vari progetti elettronici per interagire con circuiti e sistemi.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-To complete this project, you will need the following components:
+Per completare questo progetto, avrai bisogno dei seguenti componenti:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,18 +35,17 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_button`
         - |link_button_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-We will use a normally open button as an input for the Raspberry Pi. When the button is pressed, GPIO17 will receive a high-level signal (3.3V). The Raspberry Pi will detect this signal and turn the LED on. The circuit connections are shown in the diagrams below:
-
+Utilizzeremo un pulsante normalmente aperto come input per il Raspberry Pi. Quando il pulsante viene premuto, GPIO17 riceverà un segnale di livello alto (3,3V). Il Raspberry Pi rileverà questo segnale e accenderà il LED. Le connessioni del circuito sono mostrate nei diagrammi qui sotto:
 
 .. image:: img/fzz/2.1.1_sch.png
    :width: 80%
@@ -55,13 +54,13 @@ We will use a normally open button as an input for the Raspberry Pi. When the bu
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Follow these steps to build the circuit:
+Segui questi passaggi per costruire il circuito:
 
-1. Connect the anode (long pin) of the LED to a GPIO pin (GPIO22) through a current-limiting resistor.
-2. Connect the cathode (short pin) of the LED to the ground (GND).
-3. Connect one terminal of the button to GPIO17 and the other terminal to the ground (GND).
+1. Collega l'anodo (pin lungo) del LED a un pin GPIO (GPIO22) tramite un resistore limitatore di corrente.
+2. Collega il catodo (pin corto) del LED a massa (GND).
+3. Collega un terminale del pulsante a GPIO17 e l'altro terminale a massa (GND).
 
 
 .. image:: img/fzz/2.1.1_bb.png
@@ -70,11 +69,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 
 .. raw:: html
@@ -82,21 +81,21 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.1_Button.py
 
-This Python script demonstrates an interactive setup where a button controls an LED. When executed:
+Questo script Python dimostra una configurazione interattiva in cui un pulsante controlla un LED. Quando eseguito:
 
-1. Pressing the button (connected to GPIO pin 17) turns the LED (connected to GPIO pin 22) on.
-2. Releasing the button turns the LED off.
-3. The program runs indefinitely, listening for button press and release events to control the LED.
+1. Premere il pulsante (collegato al pin GPIO 17) accende il LED (collegato al pin GPIO 22).
+2. Rilasciare il pulsante spegne il LED.
+3. Il programma viene eseguito indefinitamente, ascoltando gli eventi di pressione e rilascio del pulsante per controllare il LED.
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-The following Python code toggles the LED based on button presses and releases:
+Il seguente codice Python attiva il LED in base alle pressioni e ai rilasci del pulsante:
 
 
 .. raw:: html
@@ -128,11 +127,11 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Library Import**
+1. **Importazione della Libreria**
 
-   The ``fusion_hat`` library provides a simple interface for GPIO control, and the ``signal`` module is used to keep the program running.
+   La libreria ``fusion_hat`` fornisce un'interfaccia semplice per il controllo GPIO, e il modulo ``signal`` viene usato per mantenere il programma in esecuzione.
 
    .. code-block:: python
 
@@ -141,9 +140,9 @@ The following Python code toggles the LED based on button presses and releases:
       from signal import pause  # Import pause function from signal module
 
 
-2. **Component Initialization**
+2. **Inizializzazione dei Componenti**
 
-   The LED is connected to GPIO pin 22, and the Button is connected to GPIO pin 17.
+   Il LED è collegato al pin GPIO 22 e il pulsante è collegato al pin GPIO 17.
 
    .. code-block:: python
 
@@ -152,18 +151,18 @@ The following Python code toggles the LED based on button presses and releases:
       # Initialize a Button object on GPIO pin 17
       button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-3. **Event Handling**
+3. **Gestione degli Eventi**
 
-   The ``when_activated`` and ``when_deactivated`` events are linked to the LED's ``high()`` and ``low()`` methods, respectively. This ensures that the LED turns on when the button is pressed and off when the button is released.
+   Gli eventi ``when_activated`` e ``when_deactivated`` sono collegati rispettivamente ai metodi ``high()`` e ``low()`` del LED. Questo assicura che il LED si accenda quando il pulsante viene premuto e si spenga quando il pulsante viene rilasciato.
 
    .. code-block:: python
 
        button.when_activated = led.high
        button.when_deactivated = led.low
 
-4. **Event Loop**
+4. **Ciclo di Eventi**
 
-   The ``pause()`` function keeps the program running and listens for button press and release events.
+   La funzione ``pause()`` mantiene il programma in esecuzione e ascolta gli eventi di pressione e rilascio del pulsante.
 
    .. code-block:: python
 
@@ -171,35 +170,35 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **LED Does Not Light Up**  
+1. **Il LED Non Si Accende**
 
-   - **Cause**: Incorrect GPIO pin connection or LED wiring.  
-   - **Solution**: Verify that the LED's positive leg is connected to GPIO pin 22 and its negative leg to a resistor leading to ground.
+   - **Causa**: Collegamento errato del pin GPIO o cablaggio del LED.
+   - **Soluzione**: Verifica che la gamba positiva del LED sia collegata al pin GPIO 22 e la sua gamba negativa a un resistore collegato a massa.
 
-2. **Button Press Has No Effect**  
+2. **La Pressione del Pulsante Non Ha Effetto**
 
-   - **Cause**: Incorrect button wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the button is connected correctly to GPIO pin 17 and ground. .
+   - **Causa**: Cablaggio errato del pulsante o configurazione errata del pin GPIO.
+   - **Soluzione**: Assicurati che il pulsante sia collegato correttamente al pin GPIO 17 e a massa.
 
-3. **LED Stays On or Off Regardless of Button State**  
+3. **Il LED Rimane Accesso o Spento Indipendentemente dallo Stato del Pulsante**
 
-   - **Cause**: The button may not trigger events correctly.  
-   - **Solution**: Check the button’s functionality by directly testing its connectivity with a multimeter or simple circuit.
+   - **Causa**: Il pulsante potrebbe non attivare correttamente gli eventi.
+   - **Soluzione**: Controlla la funzionalità del pulsante testandone direttamente la connettività con un multimetro o un circuito semplice.
 
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Toggle LED State**  
+1. **Attivazione/Disattivazione del LED**
 
-   Modify the script to toggle the LED's state with each button press instead of turning it on/off directly:
+   Modifica lo script per attivare/disattivare lo stato del LED ad ogni pressione del pulsante invece di accenderlo/spegnerlo direttamente:
 
    .. code-block:: python
-    
+
       def toggle():
          if led.value() == 1:
             led.off()
@@ -208,9 +207,9 @@ The following Python code toggles the LED based on button presses and releases:
 
       button.when_activated = toggle
 
-2. **Multiple LEDs**  
+2. **LED Multipli**
 
-   Control multiple LEDs with a single button, cycling through different patterns:
+   Controlla più LED con un singolo pulsante, ciclando attraverso diversi schemi:
 
    .. code-block:: python
 
@@ -225,9 +224,9 @@ The following Python code toggles the LED based on button presses and releases:
 
       button.when_activated = cycle_leds
 
-3. **Button Press Duration**  
+3. **Durata della Pressione del Pulsante**
 
-   Add functionality to perform different actions based on how long the button is held:
+   Aggiungi funzionalità per eseguire azioni diverse in base a quanto tempo il pulsante viene tenuto premuto:
 
    .. code-block:: python
 
@@ -250,9 +249,9 @@ The following Python code toggles the LED based on button presses and releases:
       button.when_activated = start_timer
       button.when_deactivated = check_duration
 
-4. **Debouncing**  
+4. **Debouncing**
 
-   Implement software debouncing for more accurate button press detection:
+   Implementa il debouncing software per un rilevamento più accurato della pressione del pulsante:
 
    .. code-block:: python
 
@@ -280,6 +279,6 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusione**
 
-This project demonstrates how to use a button to control an LED with a Fusion HAT+. Buttons are versatile components and can be integrated into various applications, from basic circuits to complex interactive systems.
+Questo progetto dimostra come usare un pulsante per controllare un LED con Fusion HAT+. I pulsanti sono componenti versatili e possono essere integrati in varie applicazioni, dai circuiti base ai sistemi interattivi complessi.

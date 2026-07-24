@@ -5,19 +5,19 @@
 .. _mp_pose:
 
 
-7. Human Pose Estimation
+7. Stima della Posizione Umana
 ================================
 
 ------------------------------------------------------------
-1. Overview
+1. Panoramica
 ------------------------------------------------------------
 
-Following the implementation of hand and gesture recognition,
-this chapter introduces **MediaPipe Pose** —
-a lightweight yet powerful real-time human pose estimation module.
+Dopo l'implementazione del riconoscimento di mani e gesti,
+questo capitolo introduce **MediaPipe Pose** —
+un modulo leggero ma potente per la stima della posizione umana in tempo reale.
 
-Using MediaPipe Pose, we can detect **33 body landmarks**
-in real time and draw the full-body skeleton on the video feed.
+Usando MediaPipe Pose, possiamo rilevare **33 landmark del corpo**
+in tempo reale e disegnare lo scheletro completo sul flusso video.
 
 .. image:: img/mp_pose.png
    :width: 400
@@ -25,31 +25,31 @@ in real time and draw the full-body skeleton on the video feed.
 
 This module can be used for:
 
-- Action recognition
-- Posture correction
-- Fitness monitoring
-- Motion analysis
+- Riconoscimento delle azioni
+- Correzione della postura
+- Monitoraggio del fitness
+- Analisi del movimento
 
 ------------------------------------------------------------
-2. How It Works
+2. Come Funziona
 ------------------------------------------------------------
 
-The program performs the following steps:
+Il programma esegue i seguenti passaggi:
 
-1. Initialize the MediaPipe Pose model
-   (configure model complexity and optional segmentation).
-2. Capture video frames using ``Picamera2``.
-3. Convert frames to RGB format (required by MediaPipe).
-4. Run the Pose model to obtain 33 body keypoints.
-5. Draw keypoints and skeleton connections using OpenCV.
-6. Display the annotated video stream in real time.
+1. Inizializza il modello MediaPipe Pose
+   (configura la complessita del modello e la segmentazione opzionale).
+2. Acquisisce i fotogrammi video usando ``Picamera2``.
+3. Converte i fotogrammi in formato RGB (richiesto da MediaPipe).
+4. Esegue il modello Pose per ottenere 33 punti chiave del corpo.
+5. Disegna i punti chiave e le connessioni dello scheletro usando OpenCV.
+6. Visualizza il flusso video annotato in tempo reale.
 
-This chapter lays the foundation for more advanced
-human–computer interaction and body motion analysis tasks.
+Questo capitolo getta le basi per attivita piu avanzate di
+interazione uomo-macchina e analisi del movimento del corpo.
 
 
 ------------------------
-3. Run the Code
+3. Eseguire il Codice
 ------------------------
 
 .. important::
@@ -65,19 +65,19 @@ human–computer interaction and body motion analysis tasks.
 
    For detailed instructions, see :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose.py
 
-   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+   Se desideri utilizzare MediaPipe Pose con un video registrato, puoi eseguire il seguente comando:
 
    .. code-block:: bash
-   
+
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_video.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Dopo aver eseguito il programma, si apre una finestra intitolata "Show Video" che mostra il flusso video in diretta.
 
    .. raw:: html
    
@@ -86,31 +86,31 @@ human–computer interaction and body motion analysis tasks.
              Your browser does not support the video tag.
          </video>
          
-   When a person appears in front of the camera:
-   
-   - MediaPipe Pose detects 33 body landmarks in real time.
-   - A full-body skeleton is drawn on the video frame.
-   - Key joints such as shoulders, elbows, wrists, hips, knees, and ankles are connected with lines.
-   
-   As the person moves:
-   
-   - The skeletal keypoints follow the body motion smoothly.
-   - The skeleton updates continuously in real time.
-   
-   If background segmentation is enabled (``enable_segmentation=True``),
-   the model internally computes a segmentation mask, although in this example
-   only the skeleton is displayed.
-   
-   If no person is detected, the program simply shows the normal camera feed without annotations.
-   
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   Quando una persona appare davanti alla fotocamera:
+
+   - MediaPipe Pose rileva 33 landmark del corpo in tempo reale.
+   - Viene disegnato uno scheletro completo sul fotogramma video.
+   - Le articolazioni chiave come spalle, gomiti, polsi, fianchi, ginocchia e caviglie sono collegate con linee.
+
+   Mentre la persona si muove:
+
+   - I punti chiave dello scheletro seguono il movimento del corpo in modo fluido.
+   - Lo scheletro si aggiorna continuamente in tempo reale.
+
+   Se la segmentazione dello sfondo e abilitata (``enable_segmentation=True``),
+   il modello calcola internamente una maschera di segmentazione, anche se in questo esempio
+   viene visualizzato solo lo scheletro.
+
+   Se nessuna persona viene rilevata, il programma mostra semplicemente il normale flusso video senza annotazioni.
+
+   Premi ``q`` per uscire dal programma.
+   La fotocamera si ferma e la finestra OpenCV si chiude automaticamente.
 
 -----------------------------
-4. Complete Code
+4. Codice Completo
 -----------------------------
 
-Here is a basic human pose detection program:
+Ecco un programma di base per il rilevamento della posizione umana:
 
 .. code-block:: python
 
@@ -168,17 +168,17 @@ Here is a basic human pose detection program:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, the camera feed will display a real-time human skeleton, including:
+Dopo aver eseguito il programma, il flusso video mostrera uno scheletro umano in tempo reale, includendo:
 
-- 33 keypoints
-- Skeleton connection lines
-- Skeleton follows movement when the person moves
+- 33 punti chiave
+- Linee di connessione dello scheletro
+- Lo scheletro segue il movimento quando la persona si muove
 
 -----------------------------
-5. Code Explanation
+5. Spiegazione del Codice
 -----------------------------
 
-**1. Import Libraries**
+**1. Importare le Librerie**
 
 .. code-block:: python
 
@@ -189,40 +189,40 @@ After running the program, the camera feed will display a real-time human skelet
   import mediapipe.python.solutions.drawing_styles as drawing_styles
 
 * **Picamera2**
-  Controls the Raspberry Pi camera, based on libcamera.
+  Controlla la fotocamera del Raspberry Pi, basata su libcamera.
 
 * **cv2 (OpenCV)**
-  Used for image color space conversion (BGR↔RGB), display windows, drawing graphics.
+  Utilizzato per la conversione dello spazio colore (BGR↔RGB), finestre di visualizzazione, disegno di grafica.
 
 * **mediapipe.python.solutions.pose**
-  MediaPipe's **Pose model**, which can detect **33 full-body keypoints** (head, shoulders, elbows, knees, etc.), and can return segmentation masks (human vs. background).
+  Il **modello Pose** di MediaPipe, che puo rilevare **33 punti chiave del corpo completo** (testa, spalle, gomiti, ginocchia, ecc.), e puo restituire maschere di segmentazione (umano vs. sfondo).
 
 * **drawing_utils / drawing_styles**
-  MediaPipe's built-in drawing tools and style definitions, used for drawing keypoints and skeleton lines.
+  Strumenti di disegno integrati di MediaPipe e definizioni di stile, utilizzati per disegnare punti chiave e linee dello scheletro.
 
-**2. Initialize Pose Model**
+**2. Inizializzare il Modello Pose**
 
 .. code-block:: python
 
   pose = mp_pose.Pose(
-      static_image_mode=False,  # Continuous video mode
+      static_image_mode=False,  # Modalita video continua
       model_complexity=1,
       enable_segmentation=True,
   )
 
-* ``static_image_mode=False``: Indicates the input is a continuous video stream, not a single image. Tracks after initial detection for faster speed. Usually set to False.
+* ``static_image_mode=False``: Indica che l'input e un flusso video continuo, non una singola immagine. Tiene traccia dopo il rilevamento iniziale per maggiore velocita. Di solito impostato su False.
 
-* ``model_complexity=1``: Model complexity, 0=light, 1=medium, 2=high accuracy (slower). Set to 1 or 2 if Raspberry Pi performance allows.
+* ``model_complexity=1``: Complessita del modello, 0=leggero, 1=medio, 2=alta precisione (piu lento). Imposta a 1 o 2 se le prestazioni del Raspberry Pi lo consentono.
 
-* ``enable_segmentation=True``: Outputs human segmentation mask, can distinguish foreground person from background. When True, enables effects like background replacement, chroma keying. This usage will be explained in subsequent documentation: :ref:`mp_pose_segmentation`
+* ``enable_segmentation=True``: Restituisce la maschera di segmentazione umana, puo distinguere la persona in primo piano dallo sfondo. Quando True, abilita effetti come la sostituzione dello sfondo, il chroma key. Questo utilizzo sara spiegato nella documentazione successiva: :ref:`mp_pose_segmentation`
 
-MediaPipe Pose returns a result structure including:
+MediaPipe Pose restituisce una struttura di risultati che include:
 
-* ``pose_landmarks``: 33 keypoints;
-* ``pose_world_landmarks``: 3D world coordinates;
-* ``segmentation_mask``: Human segmentation map.
+* ``pose_landmarks``: 33 punti chiave;
+* ``pose_world_landmarks``: Coordinate 3D del mondo;
+* ``segmentation_mask``: Mappa di segmentazione umana.
 
-**3. Open Camera**
+**3. Aprire la Fotocamera**
 
 .. code-block:: python
 
@@ -235,48 +235,48 @@ MediaPipe Pose returns a result structure including:
    #picam2.start_preview(Preview.QTGL)
    picam2.start()
 
-* Create camera object ``Picamera2()``
-* Set resolution **640x480**, pixel format ``"XRGB8888"`` (4-channel BGRA).
-  This format has the best compatibility with OpenCV, eliminating decoding steps.
-* Start the camera.
+* Crea l'oggetto fotocamera ``Picamera2()``
+* Imposta la risoluzione **640x480**, formato pixel ``"XRGB8888"`` (BGRA a 4 canali).
+  Questo formato ha la migliore compatibilita con OpenCV, eliminando i passaggi di decodifica.
+* Avvia la fotocamera.
 
-Optional:
-``picam2.start_preview(Preview.QTGL)`` can display the video stream window directly on the GPU; commented out here, using OpenCV's ``imshow()`` instead.
+Opzionale:
+``picam2.start_preview(Preview.QTGL)`` puo visualizzare la finestra del flusso video direttamente sulla GPU; commentato qui, si usa invece ``imshow()`` di OpenCV.
 
-**4. Main Loop: Process Each Frame**
+**4. Ciclo Principale: Elaborare Ogni Fotogramma**
 
 .. code-block:: python
 
    while True:
-      frame_bgra = picam2.capture_array()               # Capture a frame from the camera (BGRA format)
+      frame_bgra = picam2.capture_array()               # Acquisisce un fotogramma dalla fotocamera (formato BGRA)
       frame_bgr  = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-1. Capture the current frame. Picamera2 returns images in **BGRA** (Blue Green Red + Alpha) format by default.
-2. Convert to **BGR** for subsequent OpenCV processing.
+1. Acquisisce il fotogramma corrente. Picamera2 restituisce immagini in formato **BGRA** (Blue Green Red + Alpha) per impostazione predefinita.
+2. Converte in **BGR** per la successiva elaborazione OpenCV.
 
 .. code-block:: python
 
-   # Convert to RGB for MediaPipe
+   # Converti in RGB per MediaPipe
    frame = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
    results = pose.process(frame)
 
-MediaPipe models **must use RGB**.
+I modelli MediaPipe **devono usare RGB**.
 
-* Call ``pose.process()`` for keypoint detection.
-* ``results`` is a complex object that may contain:
+* Chiama ``pose.process()`` per il rilevamento dei punti chiave.
+* ``results`` e un oggetto complesso che puo contenere:
 
-  * ``results.pose_landmarks``: Keypoints (33 points)
-  * ``results.pose_world_landmarks``: 3D coordinates
-  * ``results.segmentation_mask``: Segmentation mask
+  * ``results.pose_landmarks``: Punti chiave (33 punti)
+  * ``results.pose_world_landmarks``: Coordinate 3D
+  * ``results.segmentation_mask``: Maschera di segmentazione
 
 .. code-block:: python
 
-   # Convert back to BGR for OpenCV display
+   # Converti nuovamente in BGR per la visualizzazione con OpenCV
    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-Convert back because OpenCV's ``imshow()`` requires BGR order.
+Converte nuovamente perche ``imshow()`` di OpenCV richiede l'ordine BGR.
 
-**5. Draw Pose Keypoints**
+**5. Disegnare i Punti Chiave della Pose**
 
 .. code-block:: python
 
@@ -288,25 +288,25 @@ Convert back because OpenCV's ``imshow()`` requires BGR order.
          landmark_drawing_spec=drawing_styles.get_default_pose_landmarks_style(),
       )
 
-If a human body is detected:
+Se viene rilevato un corpo umano:
 
-* ``results.pose_landmarks``: Contains ``(x, y, z, visibility)`` for each keypoint.
+* ``results.pose_landmarks``: Contiene ``(x, y, z, visibility)`` per ogni punto chiave.
 
-  * ``x, y``: Normalized coordinates (0~1)
-  * ``z``: Relative depth
-  * ``visibility``: Keypoint confidence (0~1)
+  * ``x, y``: Coordinate normalizzate (0~1)
+  * ``z``: Profondita relativa
+  * ``visibility``: Confidenza del punto chiave (0~1)
 
-* ``draw_landmarks`` parameter explanation:
+* Spiegazione dei parametri ``draw_landmarks``:
 
-   * ``frame``: Image to draw on (BGR format)
-   * ``results.pose_landmarks``: Human keypoints for the current frame
-   * ``mp_pose.POSE_CONNECTIONS``: Connection rules (which points to connect with lines)
-   * ``landmark_drawing_spec``: Point drawing style
-   * ``connection_drawing_spec``: Line drawing style (can be omitted, uses system default style)
+   * ``frame``: Immagine su cui disegnare (formato BGR)
+   * ``results.pose_landmarks``: Punti chiave umani per il fotogramma corrente
+   * ``mp_pose.POSE_CONNECTIONS``: Regole di connessione (quali punti collegare con linee)
+   * ``landmark_drawing_spec``: Stile di disegno dei punti
+   * ``connection_drawing_spec``: Stile di disegno delle linee (puo essere omesso, usa lo stile predefinito del sistema)
 
-Effect: Draws the skeleton (connections for head, arms, legs) and keypoints (joint positions) on the image.
+Effetto: Disegna lo scheletro (connessioni per testa, braccia, gambe) e i punti chiave (posizioni delle articolazioni) sull'immagine.
 
-**6. Display Frame & Exit Logic**
+**6. Visualizzare il Fotogramma e Logica di Uscita**
 
 .. code-block:: python
 
@@ -315,10 +315,10 @@ Effect: Draws the skeleton (connections for head, arms, legs) and keypoints (joi
    if cv2.waitKey(1) & 0xff == ord('q'):
       break
 
-Display each frame in the ``"Show Video"`` window.
-Exit the loop when the 'q' key is pressed.
+Visualizza ogni fotogramma nella finestra ``"Show Video"``.
+Esce dal ciclo quando viene premuto il tasto 'q'.
 
-**7. Release Resources**
+**7. Rilasciare le Risorse**
 
 .. code-block:: python
 
@@ -326,118 +326,118 @@ Exit the loop when the 'q' key is pressed.
    picam2.stop()
    cv2.destroyAllWindows()
 
-Stop preview, release camera, close all OpenCV windows.
+Ferma l'anteprima, rilascia la fotocamera, chiude tutte le finestre OpenCV.
 
 -----------------------------
-6. Pose Model Introduction
+6. Introduzione al Modello Pose
 -----------------------------
 
-The MediaPipe Pose module returns **33 keypoints**, covering areas like the head, torso, arms, and legs:
+Il modulo MediaPipe Pose restituisce **33 punti chiave**, coprendo aree come testa, torso, braccia e gambe:
 
 .. list-table::
    :header-rows: 1
 
-   * - Body Part
-     - Index
-   * - Nose
+   * - Parte del Corpo
+     - Indice
+   * - Naso
      - 0
-   * - Left/Right Shoulder
+   * - Spalla Sinistra/Destra
      - 11 / 12
-   * - Left/Right Elbow
+   * - Gomito Sinistro/Destro
      - 13 / 14
-   * - Left/Right Wrist
+   * - Polso Sinistro/Destro
      - 15 / 16
-   * - Left/Right Hip
+   * - Anca Sinistra/Destra
      - 23 / 24
-   * - Left/Right Knee
+   * - Ginocchio Sinistro/Destro
      - 25 / 26
-   * - Left/Right Ankle
+   * - Caviglia Sinistra/Destra
      - 27 / 28
-   * - Left/Right Foot Index
+   * - Indice del Piede Sinistro/Destro
      - 31 / 32
 
-These points can be used for **posture judgment**, **action counting** (e.g., squats, push-ups, yoga pose detection), etc.
+Questi punti possono essere utilizzati per **giudizio della postura**, **conteggio delle azioni** (es., squat, flessioni, rilevamento di pose yoga), ecc.
 
 -----------------------------
-7. Performance and Tuning
+7. Prestazioni e Regolazione
 -----------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Item
-     - Impact
-     - Optimization Suggestion
-   * - Resolution
-     - Higher resolution increases accuracy but also latency
-     - Use 640x480 to balance performance and speed
+   * - Elemento
+     - Impatto
+     - Suggerimento di Ottimizzazione
+   * - Risoluzione
+     - Risoluzione piu alta aumenta la precisione ma anche la latenza
+     - Usa 640x480 per bilanciare prestazioni e velocita
    * - model_complexity
-     - Improves recognition accuracy but slows computation
-     - Recommended 1~2 for Raspberry Pi
-   * - segmentation
-     - Increases GPU/CPU load
-     - Recommended to disable if background replacement is not needed
+     - Migliora la precisione del riconoscimento ma rallenta il calcolo
+     - Raccomandato 1~2 per Raspberry Pi
+   * - Segmentazione
+     - Aumenta il carico GPU/CPU
+     - Raccomandato disabilitare se la sostituzione dello sfondo non e necessaria
 
 ------------------------------------------------------------
-8. Troubleshooting
+8. Risoluzione dei Problemi
 ------------------------------------------------------------
 
-- No human detected
+- Nessun umano rilevato
 
-  If the program runs but no person is detected, make sure the entire body is inside the camera frame. Avoid strong backlight and improve lighting conditions. Keep a distance of about 1–2 meters from the camera for best results.
+  Se il programma viene eseguito ma nessuna persona viene rilevata, assicurati che l'intero corpo sia all'interno del fotogramma della fotocamera. Evita la retroilluminazione intensa e migliora le condizioni di illuminazione. Mantieni una distanza di circa 1–2 metri dalla fotocamera per risultati ottimali.
 
-- Video is slow or lagging
+- Video lento o in ritardo
 
-  If the frame rate is low, try reducing the resolution to 640×480 or lower. Set ``model_complexity = 1`` for better performance. Disable segmentation if it is not required, and close other background programs to free system resources.
+  Se il frame rate e basso, prova a ridurre la risoluzione a 640×480 o inferiore. Imposta ``model_complexity = 1`` per migliori prestazioni. Disabilita la segmentazione se non e necessaria e chiudi altri programmi in background per liberare risorse di sistema.
 
-- Segmentation fault occurs
+- Errore di segmentazione (segmentation fault)
 
-  Most segmentation faults are caused by a mismatch between the system architecture and the installed MediaPipe wheel.
+  La maggior parte degli errori di segmentazione sono causati da una mancata corrispondenza tra l'architettura del sistema e la wheel di MediaPipe installata.
 
-  Check your system architecture:
+  Controlla l'architettura del tuo sistema:
 
   .. code-block:: bash
 
      uname -m
 
-  The output should be ``aarch64``.
+  L'output dovrebbe essere ``aarch64``.
 
-  If you see ``armv7l`` or ``armhf``, you are using 32-bit Raspberry Pi OS, which is not compatible with the official MediaPipe wheel.
+  Se vedi ``armv7l`` o ``armhf``, stai usando Raspberry Pi OS a 32 bit, che non e compatibile con la wheel ufficiale di MediaPipe.
 
-  You can also verify in Python:
+  Puoi anche verificare in Python:
 
   .. code-block:: python
 
      import platform
      print(platform.machine())
 
-  The result must also be ``aarch64``.
+  Il risultato deve essere anche ``aarch64``.
 
-- Using aarch64 but still getting segmentation fault
+- Uso aarch64 ma ho ancora un segmentation fault
 
-  This may happen if some TensorFlow Lite XNNPACK kernels are not fully compatible with your MediaPipe build.
+  Questo puo accadere se alcuni kernel TensorFlow Lite XNNPACK non sono completamente compatibili con la tua build di MediaPipe.
 
-  Possible solutions:
+  Soluzioni possibili:
 
-  - Use ``model_complexity = 1`` (recommended in this tutorial).
-  - Make sure MediaPipe is installed in the correct virtual environment.
-  - Install a Raspberry Pi–optimized wheel such as ``mediapipe-bin`` (PINTO0309 version).
+  - Usa ``model_complexity = 1`` (raccomandato in questo tutorial).
+  - Assicurati che MediaPipe sia installato nell'ambiente virtuale corretto.
+  - Installa una wheel ottimizzata per Raspberry Pi come ``mediapipe-bin`` (versione PINTO0309).
 
-- ``model_complexity = 2`` crashes but ``1`` works
+- ``model_complexity = 2`` si blocca ma ``1`` funziona
 
-  Complexity 2 loads a larger model that may trigger advanced CPU optimizations. On Raspberry Pi, some optimized TensorFlow Lite kernels may not be fully supported. Complexity 1 avoids those kernels and is generally more stable and faster on Raspberry Pi.
+  La complessita 2 carica un modello piu grande che potrebbe attivare ottimizzazioni CPU avanzate. Su Raspberry Pi, alcuni kernel TensorFlow Lite ottimizzati potrebbero non essere completamente supportati. La complessita 1 evita quei kernel ed e generalmente piu stabile e veloce su Raspberry Pi.
 
 
 
 -----------------------------
-9. Summary
+9. Riepilogo
 -----------------------------
 
-- This chapter implemented **real-time human skeleton detection** based on MediaPipe Pose;
-- Pose provides 33 keypoints, usable in fields like fitness, posture analysis, action recognition;
-- By adjusting resolution and model complexity, smooth operation can be achieved on Raspberry Pi;
-- Based on these keypoints, we can subsequently develop:
+- Questo capitolo ha implementato il **rilevamento dello scheletro umano in tempo reale** basato su MediaPipe Pose;
+- Pose fornisce 33 punti chiave, utilizzabili in campi come fitness, analisi della postura, riconoscimento delle azioni;
+- Regolando risoluzione e complessita del modello, si puo ottenere un funzionamento fluido su Raspberry Pi;
+- Basandoci su questi punti chiave, possiamo successivamente sviluppare:
 
-  - Action recognition (e.g., "raising hand", "squatting")
-  - Posture assessment (e.g., "Is sitting posture correct?")
-  - Human interactive control.
+  - Riconoscimento delle azioni (es., "alzare la mano", "accovacciarsi")
+  - Valutazione della postura (es., "La postura da seduti e corretta?")
+  - Controllo interattivo umano.

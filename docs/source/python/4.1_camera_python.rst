@@ -4,27 +4,27 @@
 
 .. _py_fun_camera:
 
-4.1 Camera
+4.1 Fotocamera
 ===================
 
-**Introduction**
+**Introduzione**
 
-This project demonstrates how to create a simple camera system with a shutter button using the Raspberry Pi Zero. When you press the button, the camera captures a photo, and an LED flashes to indicate the action. This is a great way to get hands-on experience with GPIO control and the Raspberry Pi Camera Module.
+Questo progetto dimostra come creare un semplice sistema fotografico con un pulsante di scatto usando un Raspberry Pi Zero. Quando premi il pulsante, la fotocamera acquisisce una foto e un LED lampeggia per indicare l'azione. Questo è un ottimo modo per fare esperienza pratica con il controllo GPIO e il modulo fotocamera del Raspberry Pi.
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-The following components are required for this project:
+I seguenti componenti sono richiesti per questo progetto:
 
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,18 +39,18 @@ The following components are required for this project:
     *   - :ref:`cpn_camera_module`
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-Below is the GPIO pin mapping for this project:
+Qui sotto c'è la mappatura dei pin GPIO per questo progetto:
 
 .. image:: img/fzz/4.1.1_sch.png
    :width: 80%
@@ -59,78 +59,78 @@ Below is the GPIO pin mapping for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. Per usare il modulo fotocamera comodamente, si consiglia :ref:`assemble_fusion_hat_pan_tilt`.
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     L'assemblaggio del pan-tilt potrebbe oscurare alcuni pin, quindi si consiglia di assemblarlo solo quando si usa la fotocamera, o di posizionarlo all'esterno dopo l'assemblaggio.
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Follow this wiring diagram to set up the circuit:
+#. Segui questo schema di cablaggio per configurare il circuito:
 
    .. image:: img/fzz/4.1.1_bb.png
       :width: 80%
       :align: center
-   
+
+
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
-#. Access the Raspberry Pi Desktop:
+#. Accedi al Desktop del Raspberry Pi:
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: Usa **VNC** per un'esperienza desktop completa.
+   * |link_rpi_connect|: Usa **Raspberry Pi Connect** per accedere al tuo Pi in modo sicuro da qualsiasi browser.
 
-#. Open a Terminal and go to the code folder:
+#. Apri un Terminale e vai alla cartella del codice:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
-#. Run the script to start the camera:
+#. Esegui lo script per avviare la fotocamera:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
          sudo python3 4.1_Camera.py
 
-#. After running the program, the camera starts working.
+#. Dopo aver eseguito il programma, la fotocamera inizia a funzionare.
 
-   - Press the button to take a photo:
-     
-     - The LED lights up.
-     - One photo is captured and saved to the ``Pictures`` folder
-       (for example, ``photo_001.jpg``, ``photo_002.jpg``).
-   
-   - Release the button:
-     
-     - The LED turns off.
-   
-   - The program keeps running until you press **Ctrl + C**, then exits cleanly
-     without error messages.
-   
+   - Premi il pulsante per scattare una foto:
+
+     - Il LED si accende.
+     - Una foto viene acquisita e salvata nella cartella ``Pictures``
+       (ad esempio, ``photo_001.jpg``, ``photo_002.jpg``).
+
+   - Rilascia il pulsante:
+
+     - Il LED si spegne.
+
+   - Il programma continua a funzionare fino a quando non premi **Ctrl + C**, poi esce in modo pulito
+     senza messaggi di errore.
+
    .. note::
-      QT preview requires a desktop environment.
-      If the preview cannot be started (for example, over SSH),
-      the camera can still capture and save photos normally.
+      L'anteprima QT richiede un ambiente desktop.
+      Se l'anteprima non può essere avviata (ad esempio, tramite SSH),
+      la fotocamera può comunque catturare e salvare le foto normalmente.
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-Here is the Python code used for this project:
-
+Ecco il codice Python usato per questo progetto:
 
 
 .. raw:: html
@@ -244,12 +244,13 @@ Here is the Python code used for this project:
       main()
 
 
+
 ------------------------------------------
 
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Imports and Purpose**
+1. **Importazioni e Scopo**
 
    .. code-block:: python
 
@@ -259,15 +260,15 @@ Here is the Python code used for this project:
       from picamera2 import Picamera2, Preview
       from fusion_hat.pin import Pin, Mode, Pull
 
-   These modules are responsible for:
+   Questi moduli sono responsabili di:
 
-   - ``os``: handling environment variables and file paths.
-   - ``time``: providing delays and keeping the main loop running.
-   - ``threading``: ensuring photo capture is thread-safe.
-   - ``Picamera2`` and ``Preview``: controlling the Raspberry Pi camera and preview modes.
-   - ``Pin``, ``Mode``, and ``Pull``: controlling the LED and reading the push button via Fusion HAT.
+   - ``os``: gestire le variabili d'ambiente e i percorsi file.
+   - ``time``: fornire ritardi e mantenere il ciclo principale in esecuzione.
+   - ``threading``: garantire che l'acquisizione foto sia thread-safe.
+   - ``Picamera2`` e ``Preview``: controllare la fotocamera del Raspberry Pi e le modalità di anteprima.
+   - ``Pin``, ``Mode`` e ``Pull``: controllare il LED e leggere il pulsante tramite Fusion HAT.
 
-2. **Resolving the Save Directory (Works with sudo)**
+2. **Risoluzione della Directory di Salvataggio (Funziona con sudo)**
 
    .. code-block:: python
 
@@ -276,58 +277,54 @@ Here is the Python code used for this project:
       PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
       os.makedirs(PICTURES_DIR, exist_ok=True)
 
-   This section ensures photos are always saved to the real user’s
-   ``~/Pictures`` directory:
+   Questa sezione assicura che le foto siano sempre salvate nella directory ``~/Pictures`` dell'utente reale:
 
-   - When the script is run with ``sudo``, ``SUDO_USER`` points to the original user.
-   - When not using ``sudo``, the current login user is used.
-   - The ``Pictures`` folder is created automatically if it does not exist.
+   - Quando lo script viene eseguito con ``sudo``, ``SUDO_USER`` punta all'utente originale.
+   - Quando non si usa ``sudo``, viene usato l'utente di login corrente.
+   - La cartella ``Pictures`` viene creata automaticamente se non esiste.
 
-3. **Camera Initialization and Configuration**
+3. **Inizializzazione e Configurazione della Fotocamera**
 
    .. code-block:: python
 
       camera = Picamera2()
       camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
 
-   The camera is initialized and configured for preview and photo capture:
+   La fotocamera viene inizializzata e configurata per anteprima e acquisizione foto:
 
-   - A preview resolution of ``800 × 600`` is used.
-   - This configuration works both with and without a visible preview window.
+   - Viene usata una risoluzione di anteprima di ``800 × 600``.
+   - Questa configurazione funziona sia con che senza una finestra di anteprima visibile.
 
-4. **Photo Index and Thread Safety**
+4. **Indice Foto e Sicurezza dei Thread**
 
    .. code-block:: python
 
       photo_index = 1
       photo_lock = threading.Lock()
 
-   - ``photo_index`` stores the current photo number.
-   - ``photo_lock`` prevents multiple button presses from triggering
-     overlapping photo captures.
+   - ``photo_index`` memorizza il numero corrente della foto.
+   - ``photo_lock`` impedisce a pressioni multiple del pulsante di attivare acquisizioni foto sovrapposte.
 
-5. **Preview State Tracking**
+5. **Tracciamento dello Stato dell'Anteprima**
 
    .. code-block:: python
 
       preview_started = False
 
-   This flag records whether a preview window was successfully started,
-   so the program only tries to stop the preview when it actually exists.
+   Questo flag registra se una finestra di anteprima è stata avviata con successo, in modo che il programma tenti di fermare l'anteprima solo quando esiste effettivamente.
 
-6. **LED and Button Setup**
+6. **Configurazione del LED e del Pulsante**
 
    .. code-block:: python
 
       led = Pin(17, mode=Mode.OUT)
       button = Pin(4, mode=Mode.IN, pull=Pull.DOWN)
 
-   - The LED is connected to GPIO 17 and configured as an output.
-   - The button is connected to GPIO 4 and configured as an input with
-     an internal pull-down resistor.
-   - A HIGH signal indicates the button is pressed.
+   - Il LED è collegato a GPIO 17 e configurato come uscita.
+   - Il pulsante è collegato a GPIO 4 e configurato come ingresso con un resistore pull-down interno.
+   - Un segnale HIGH indica che il pulsante è premuto.
 
-7. **Photo Capture Function**
+7. **Funzione di Acquisizione Foto**
 
    .. code-block:: python
 
@@ -341,13 +338,13 @@ Here is the Python code used for this project:
             print("Saved.")
             photo_index += 1
 
-   This function:
+   Questa funzione:
 
-   - Builds a filename such as ``photo_001.jpg``.
-   - Captures an image using the camera.
-   - Increments the photo index so the next photo uses a new name.
+   - Costruisce un nome file come ``photo_001.jpg``.
+   - Acquisisce un'immagine usando la fotocamera.
+   - Incrementa l'indice foto in modo che la foto successiva usi un nuovo nome.
 
-8. **Conditional Preview for Local and Remote Use**
+8. **Anteprima Condizionale per Uso Locale e Remoto**
 
    .. code-block:: python
 
@@ -362,11 +359,11 @@ Here is the Python code used for this project:
       else:
          print("No DISPLAY detected (running headless without preview).")
 
-   - If a graphical desktop is available, a QT preview window is shown.
-   - If running remotely over SSH without a display, the preview is skipped.
-   - Photo capture works normally in both cases.
+   - Se è disponibile un desktop grafico, viene mostrata una finestra di anteprima QT.
+   - Se si esegue in remoto tramite SSH senza display, l'anteprima viene saltata.
+   - L'acquisizione foto funziona normalmente in entrambi i casi.
 
-9. **Main Loop and Button Logic**
+9. **Ciclo Principale e Logica del Pulsante**
 
    .. code-block:: python
 
@@ -382,14 +379,14 @@ Here is the Python code used for this project:
 
                time.sleep(0.01)
 
-   Inside the main loop:
+   All'interno del ciclo principale:
 
-   - Pressing the button turns on the LED.
-   - A photo is captured immediately.
-   - The program waits until the button is released to avoid repeated shots.
-   - The LED turns off after the button is released.
+   - Premere il pulsante accende il LED.
+   - Una foto viene acquisita immediatamente.
+   - Il programma attende fino al rilascio del pulsante per evitare scatti ripetuti.
+   - Il LED si spegne dopo il rilascio del pulsante.
 
-10. **Clean Exit and Resource Cleanup**
+10. **Uscita Pulita e Pulizia delle Risorse**
 
     .. code-block:: python
 
@@ -404,50 +401,49 @@ Here is the Python code used for this project:
 
          ...
 
-    When ``Ctrl+C`` is pressed:
+    Quando viene premuto ``Ctrl+C``:
 
-    - The LED is turned off.
-    - The camera pipeline is stopped.
-    - The preview is stopped only if it was started.
-    - Camera resources are released cleanly.
+    - Il LED viene spento.
+    - La pipeline della fotocamera viene fermata.
+    - L'anteprima viene fermata solo se è stata avviata.
+    - Le risorse della fotocamera vengono rilasciate in modo pulito.
 
-    This ensures the program exits without errors, whether running locally
-    with a screen or remotely in headless mode.
+    Questo assicura che il programma esca senza errori, sia eseguito localmente con uno schermo che in remoto in modalità headless.
 
-
-----------------------------------------------
-
-**Troubleshooting**
-
-1. **Photo Not Captured**:
-
-   - **Cause**: The button is not wired correctly or the camera is not initialized.
-   - **Solution**:
-
-     - Ensure the button is connected to GPIO pin 4 and ground.
-     - Verify that the camera is properly connected and enabled via ``raspi-config``.
-
-2. **LED Does Not Blink**:
-
-   - **Cause**: Incorrect LED wiring or GPIO configuration.
-   - **Solution**:
-
-     - Ensure the LED is connected to GPIO pin 17 with an appropriate resistor.
-     - Test the LED separately to confirm it functions correctly.
-
-3. **Script Crashes with Camera Error**:
-
-   - **Cause**: The camera module is not detected or in use by another process.
-   - **Solution**:
-
-     - Ensure the camera is properly connected and restart the Raspberry Pi.
-     - Check for conflicting processes using ``sudo lsof /dev/video*``.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Risoluzione dei Problemi**
 
-1. **Multiple Photos**: Allow multiple photos to be captured in a session, each with a unique filename:
+1. **Foto Non Acquisita**:
+
+   - **Causa**: Il pulsante non è cablato correttamente o la fotocamera non è inizializzata.
+   - **Soluzione**:
+
+     - Assicurati che il pulsante sia collegato al pin GPIO 4 e a massa.
+     - Verifica che la fotocamera sia collegata e abilitata tramite ``raspi-config``.
+
+2. **Il LED Non Lampeggia**:
+
+   - **Causa**: Cablaggio LED errato o configurazione GPIO.
+   - **Soluzione**:
+
+     - Assicurati che il LED sia collegato al pin GPIO 17 con un resistore appropriato.
+     - Testa il LED separatamente per confermare che funzioni correttamente.
+
+3. **Lo Script si Arresta con Errore della Fotocamera**:
+
+   - **Causa**: Il modulo fotocamera non viene rilevato o è in uso da un altro processo.
+   - **Soluzione**:
+
+     - Assicurati che la fotocamera sia collegata correttamente e riavvia il Raspberry Pi.
+     - Controlla i processi in conflitto usando ``sudo lsof /dev/video*``.
+
+----------------------------------------------
+
+**Idee Estendibili**
+
+1. **Foto Multiple**: Permetti di acquisire più foto in una sessione, ciascuna con un nome file univoco:
 
      .. code-block:: python
 
@@ -455,7 +451,7 @@ Here is the Python code used for this project:
          camera.capture_file(f'{user_home}/photo_{counter}.jpg')
          counter += 1
 
-2. **Video Recording**: Extend the functionality to record videos when the button is pressed:
+2. **Registrazione Video**: Estendi la funzionalità per registrare video quando il pulsante viene premuto:
 
      .. code-block:: python
 
@@ -463,14 +459,14 @@ Here is the Python code used for this project:
          time.sleep(10)
          camera.stop_recording()
 
-3. **LED Status Indicator**: Use the LED to indicate the camera's readiness or status:
+3. **Indicatore LED di Stato**: Usa il LED per indicare la prontezza o lo stato della fotocamera:
 
-     - Solid light: Ready.
-     - Blinking: Capturing a photo.
+     - Luce fissa: Pronto.
+     - Lampeggiante: Acquisizione foto in corso.
 
-4. **Photo Gallery Management**: Organize captured photos into folders based on date or event.
+4. **Gestione Galleria Foto**: Organizza le foto acquisite in cartelle basate su data o evento.
 
-5. **Timelapse Photography**: Capture photos at regular intervals to create a timelapse:
+5. **Fotografia Time-lapse**: Acquisisci foto a intervalli regolari per creare un time-lapse:
 
      .. code-block:: python
 
@@ -480,6 +476,6 @@ Here is the Python code used for this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusione**
 
-This project introduces a basic camera setup with a button-triggered shutter mechanism. It combines GPIO control with the Picamera2 library to demonstrate how to create interactive projects. Experiment further to expand its functionality and create more engaging applications.
+Questo progetto introduce una configurazione fotografica base con un meccanismo di scatto attivato da pulsante. Combina il controllo GPIO con la libreria Picamera2 per dimostrare come creare progetti interattivi. Sperimenta ulteriormente per espandere le sue funzionalità e creare applicazioni più coinvolgenti.

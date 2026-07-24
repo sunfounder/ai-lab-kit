@@ -4,35 +4,35 @@
 
 .. _ai_voice_assistant_car:
 
-7. AI Voice Assistant
+7. Assistente Vocale AI
 ===========================
 
-This lesson turns your Fusion HAT+ into a **voice-first AI assistant**.  
-With the provided code, the robot will: **wait for a wake word**, **transcribe your speech** with Vosk, send it to an **OpenAI LLM**, and **speak back** using Piper TTS.
+Questa lezione trasforma il tuo Fusion HAT+ in un **assistente AI vocale**.
+Con il codice fornito, il robot: **attende una parola di attivazione**, **trascrive il tuo parlato** con Vosk, lo invia a un **LLM OpenAI** e **risponde vocalmente** utilizzando Piper TTS.
 
 .. raw:: html
 
-      <video width="500" loop muted controls>
-          <source src="../_static/video/Ai_Voice_Assistant.mp4" type="video/mp4">
+      <video width=”500” loop muted controls>
+          <source src=”../_static/video/Ai_Voice_Assistant.mp4” type=”video/mp4”>
           Your browser does not support the video tag.
       </video>
 
 ----
 
-Before You Start
+Prima di Iniziare
 ----------------
 
-Make sure you have:
+Assicurati di avere:
 
-* :ref:`test_piper` — Piper voice works (e.g., you can play “Hello”).  
-* :ref:`test_vosk` — Vosk STT works for your language (e.g., ``en-us``).  
-* :ref:`py_online_llm` — Your **OpenAI API key** saved in ``secret.py`` as ``OPENAI_API_KEY``.  
-* A working **microphone** and **speaker** on Fusion HAT+.  
-* A stable network connection (LLM is online).
+* :ref:`test_piper` — La voce Piper funziona (ad esempio, puoi riprodurre “Hello”).
+* :ref:`test_vosk` — Vosk STT funziona per la tua lingua (ad esempio, ``en-us``).
+* :ref:`py_online_llm` — La tua **chiave API OpenAI** salvata in ``secret.py`` come ``OPENAI_API_KEY``.
+* Un **microfono** e un **altoparlante** funzionanti su Fusion HAT+.
+* Una connessione di rete stabile (l’LLM è online).
 
 ----
 
-Run the Example
+Esegui l’Esempio
 ---------------
 
 .. code-block:: bash
@@ -40,24 +40,24 @@ Run the Example
    cd ~/ai-lab-kit/llm/
    sudo python3 voice_assistant.py
 
-**Configuration used by the code:**
+**Configurazione utilizzata dal codice:**
 
-* LLM: **OpenAI** (``gpt-4o-mini``)  
-* TTS: **Piper** (``en_US-ryan-low``)  
-* STT: **Vosk** (``en-us``)  
-* Wake word: ``"hey buddy"``  
-* Keyboard input: **enabled** (optional manual input)  
-* Image mode: **enabled** (``WITH_IMAGE=True``) — requires a multimodal-capable LLM if you decide to use images later
+* LLM: **OpenAI** (``gpt-4o-mini``)
+* TTS: **Piper** (``en_US-ryan-low``)
+* STT: **Vosk** (``en-us``)
+* Parola di attivazione: ``”hey buddy”``
+* Input da tastiera: **abilitato** (input manuale opzionale)
+* Modalità immagine: **abilitata** (``WITH_IMAGE=True``) — richiede un LLM multimodale se decidi di usare immagini in seguito
 
-**What happens:**
+**Cosa succede:**
 
-1. The assistant shows a welcome message with the wake phrase.  
-2. It listens for **“hey buddy”**.  
-3. After wake, your speech is transcribed (Vosk → text).  
-4. The text is sent to **OpenAI (gpt-4o-mini)** for a response.  
-5. The answer is spoken with **Piper** (``en_US-ryan-low``).
+1. L’assistente mostra un messaggio di benvenuto con la frase di attivazione.
+2. Ascolta la parola **”hey buddy”**.
+3. Dopo l’attivazione, il tuo parlato viene trascritto (Vosk → testo).
+4. Il testo viene inviato a **OpenAI (gpt-4o-mini)** per una risposta.
+5. La risposta viene pronunciata con **Piper** (``en_US-ryan-low``).
 
-**Example interaction**
+**Esempio di interazione**
 
 .. code-block:: text
 
@@ -67,7 +67,7 @@ Run the Example
    You: What’s the capital of Italy?
    Robot: The capital of Italy is Rome.
 
-Code
+Codice
 -----------------
 
 .. code-block:: python
@@ -78,36 +78,36 @@ Code
 
   llm = LLM(
       api_key=API_KEY,
-      model="gpt-4o-mini",
+      model=”gpt-4o-mini”,
   )
 
   # Robot name
-  NAME = "Buddy"
+  NAME = “Buddy”
 
   # Enable image, need to set up a multimodal language model
   WITH_IMAGE = True
 
   # Set models and languages
-  LLM_MODEL = "gpt-4o-mini"
-  TTS_MODEL = "en_US-ryan-low"
-  STT_LANGUAGE = "en-us"
+  LLM_MODEL = “gpt-4o-mini”
+  TTS_MODEL = “en_US-ryan-low”
+  STT_LANGUAGE = “en-us”
 
   # Enable keyboard input
   KEYBOARD_ENABLE = True
 
   # Enable wake word
   WAKE_ENABLE = True
-  WAKE_WORD = [f"hey {NAME.lower()}"]
+  WAKE_WORD = [f”hey {NAME.lower()}”]
   # Set wake word answer, set empty to disable
-  ANSWER_ON_WAKE = "Hi there"
+  ANSWER_ON_WAKE = “Hi there”
 
   # Welcome message
-  WELCOME = f"Hi, I'm {NAME}. Wake me up with: " + ", ".join(WAKE_WORD)
+  WELCOME = f”Hi, I’m {NAME}. Wake me up with: “ + “, “.join(WAKE_WORD)
 
   # Set instructions
-  INSTRUCTIONS = f"""
+  INSTRUCTIONS = f”””
   You are a helpful assistant, named {NAME}.
-  """
+  “””
 
   va = VoiceAssistant(
       llm,
@@ -123,27 +123,27 @@ Code
       instructions=INSTRUCTIONS,
   )
 
-  if __name__ == "__main__":
+  if __name__ == “__main__”:
       va.run()
 
-**Code explanation:**
+**Spiegazione del codice:**
 
-* ``OpenAI(..., model="gpt-4o-mini")`` — Uses **OpenAI** as the only LLM in this lesson.  
-* ``NAME`` / ``WAKE_WORD`` — Personalize the assistant (“Buddy”, “hey buddy”).  
-* ``WITH_IMAGE=True`` — Enables image mode in the assistant (no image I/O logic included here).  
-* ``TTS_MODEL="en_US-ryan-low"`` — Piper voice used for replies.  
-* ``STT_LANGUAGE="en-us"`` — Vosk language for recognition.  
-* ``KEYBOARD_ENABLE=True`` — Allows optional manual text input during debugging.  
-* ``WELCOME`` / ``INSTRUCTIONS`` — Startup message and assistant persona/system prompt.  
-* ``va.run()`` — Starts the loop: **wake → listen → LLM → speak**.
+* ``OpenAI(..., model=”gpt-4o-mini”)`` — Utilizza **OpenAI** come unico LLM in questa lezione.
+* ``NAME`` / ``WAKE_WORD`` — Personalizza l’assistente (“Buddy”, “hey buddy”).
+* ``WITH_IMAGE=True`` — Abilita la modalità immagine nell’assistente (nessuna logica I/O immagine inclusa qui).
+* ``TTS_MODEL=”en_US-ryan-low”`` — Voce Piper utilizzata per le risposte.
+* ``STT_LANGUAGE=”en-us”`` — Lingua Vosk per il riconoscimento.
+* ``KEYBOARD_ENABLE=True`` — Permette l’input manuale opzionale durante il debug.
+* ``WELCOME`` / ``INSTRUCTIONS`` — Messaggio di avvio e prompt di sistema per l’assistente.
+* ``va.run()`` — Avvia il ciclo: **attivazione → ascolto → LLM → risposta vocale**.
 
 
-Switching to Other LLMs or TTS
+Passare ad Altri LLM o TTS
 ------------------------------
 
-You can easily switch to other LLMs, TTS, or STT languages with just a few edits:
+Puoi passare facilmente ad altri LLM, TTS o lingue STT con poche modifiche:
 
-* Supported LLMs:
+* LLM supportati:
 
   * OpenAI
   * Doubao
@@ -152,57 +152,57 @@ You can easily switch to other LLMs, TTS, or STT languages with just a few edits
   * Qwen
   * Grok
 
-* :ref:`test_piper` — Check the supported languages of **Piper TTS**.  
-* :ref:`test_vosk` — Check the supported languages of **Vosk STT**.  
+* :ref:`test_piper` — Controlla le lingue supportate da **Piper TTS**.
+* :ref:`test_vosk` — Controlla le lingue supportate da **Vosk STT**.
 
-To switch, simply modify the initialization part in the code:
+Per cambiare, modifica semplicemente la parte di inizializzazione nel codice:
 
 .. code-block:: python
 
    from fusion_hat.llm import Gemini as LLM
-   llm = LLM(api_key="YOUR_KEY", model="gemini-pro")
+   llm = LLM(api_key=”YOUR_KEY”, model=”gemini-pro”)
 
    # Set models and languages
-   TTS_MODEL = "en_US-ryan-low"
-   STT_LANGUAGE = "en-us"
+   TTS_MODEL = “en_US-ryan-low”
+   STT_LANGUAGE = “en-us”
 
 
 
 ----
 
-Troubleshooting
+Risoluzione dei Problemi
 -----------------------------
 
-* **Robot doesn’t respond to wake word**
+* **Il robot non risponde alla parola di attivazione**
 
-  - Check if the microphone works.  
-  - Make sure ``WAKE_ENABLE = True``.  
-  - Adjust the wake word to match your pronunciation.  
-  - Reduce background noise and speak clearly.
+  - Verifica che il microfono funzioni.
+  - Assicurati che ``WAKE_ENABLE = True``.
+  - Regola la parola di attivazione in base alla tua pronuncia.
+  - Riduci il rumore di fondo e parla chiaramente.
 
-* **No sound from the speaker**
+* **Nessun suono dall’altoparlante**
 
-  - Check the TTS model name (e.g., ``en_US-ryan-low``).  
-  - Test Piper or Espeak manually.  
-  - Verify speaker connection and volume.
+  - Controlla il nome del modello TTS (ad esempio, ``en_US-ryan-low``).
+  - Prova Piper o Espeak manualmente.
+  - Verifica la connessione dell’altoparlante e il volume.
 
-* **API key error or timeout**
+* **Errore della chiave API o timeout**
 
-  - Check your key in ``secret.py``.  
-  - Make sure your network connection is stable.  
-  - Confirm the LLM model is supported (e.g., ``gpt-4o-mini``).
+  - Controlla la tua chiave in ``secret.py``.
+  - Assicurati che la connessione di rete sia stabile.
+  - Conferma che il modello LLM sia supportato (ad esempio, ``gpt-4o-mini``).
 
-* **Wake word works but no response**
+* **La parola di attivazione funziona ma nessuna risposta**
 
-  - Check if the STT language matches your accent.  
-  - Make sure the model downloaded correctly.  
-  - Try printing debug logs to confirm STT is running.
+  - Verifica che la lingua STT corrisponda al tuo accento.
+  - Assicurati che il modello sia stato scaricato correttamente.
+  - Prova a stampare i log di debug per confermare che STT sia in esecuzione.
 
-* **TTS works but no LLM reply**
+* **TTS funziona ma nessuna risposta LLM**
 
-  - Check if the API key is valid.  
-  - Verify model name and LLM settings.  
-  - Ensure internet connectivity. 
+  - Verifica che la chiave API sia valida.
+  - Controlla il nome del modello e le impostazioni LLM.
+  - Assicurati di avere connettività Internet. 
 
 
 

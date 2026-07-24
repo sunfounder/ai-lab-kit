@@ -2,7 +2,7 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-Appendix
+Appendice
 ===============
 
 .. toctree::

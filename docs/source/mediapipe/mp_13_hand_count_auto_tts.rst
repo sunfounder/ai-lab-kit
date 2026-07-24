@@ -4,60 +4,60 @@
 
 .. _mp_hand_count_auto_tts:
 
-13. Touchless Auto TTS — Hands-Free Voice Broadcast
-======================================================
+13. TTS Automatico Senza Contatto — Diffusione Vocale a Mani Libere
+==================================================================
 
 -----------------------------------------------------------------
-1. Overview
+1. Panoramica
 -----------------------------------------------------------------
 
-In :ref:`mp_hand_count_tts` (Section 12), we built a hand gesture
-counting program where the user presses the ``t`` key to trigger
-a TTS voice broadcast.
+In :ref:`mp_hand_count_tts` (Sezione 12), abbiamo costruito un programma
+di conteggio dei gesti della mano in cui l'utente preme il tasto ``t`` per attivare
+una diffusione vocale TTS.
 
-In this section, we take the next step: **remove the keyboard entirely.**
-The system now *automatically* detects when you hold a hand gesture
-steady and speaks the finger count — no keys, no buttons,
-completely touchless.
+In questa sezione, facciamo il passo successivo: **rimuovere completamente la tastiera.**
+Il sistema ora rileva *automaticamente* quando tieni fermo un gesto della mano
+e pronuncia il conteggio delle dita — niente tasti, niente pulsanti,
+completamente senza contatto.
 
 .. image:: img/mp_hand_count.png
    :align: center
 
-This lesson introduces a **state-machine pattern** for touchless
-interaction — a technique you can apply to accessibility projects,
-hands-free installations, and any scenario where keyboard input
-is not practical.
+Questa lezione introduce un **modello a macchina a stati** per l'interazione
+senza contatto — una tecnica che puoi applicare a progetti di accessibilita,
+installazioni a mani libere e qualsiasi scenario in cui l'input da tastiera
+non e pratico.
 
-By the end of this lesson, you will know how to:
+Alla fine di questa lezione, saprai come:
 
-- Design a state machine for hand-presence tracking
-- Detect gesture *stability* over multiple frames
-- Use a hold-duration gate to avoid false triggers
-- Auto-detect when a hand enters or leaves the frame
-- Provide multi-stage visual feedback (idle → detected → stable → speaking)
-- Display a progress bar for hold-duration countdown
+- Progettare una macchina a stati per il tracciamento della presenza della mano
+- Rilevare la *stabilita* del gesto su piu fotogrammi
+- Usare un cancello di durata di mantenimento per evitare falsi trigger
+- Rilevare automaticamente quando una mano entra o esce dal fotogramma
+- Fornire feedback visivo a piu stadi (inattivo → rilevato → stabile → in parlato)
+- Visualizzare una barra di progresso per il conto alla rovescia della durata di mantenimento
 
 
 -----------------------------------------------------------------
-2. How It Works
+2. Come Funziona
 -----------------------------------------------------------------
 
-The program replaces the keyboard trigger with an **automatic
-stability-based trigger**. Here is the pipeline:
+Il programma sostituisce il trigger da tastiera con un **trigger automatico
+basato sulla stabilita**. Ecco il pipeline:
 
-1. Initialize **MediaPipe Hands** for real-time hand detection.
-2. Initialize the **Fusion HAT+ TTS engine** (Espeak).
-3. Capture video frames and detect fingers (same as before).
-4. Feed the finger count into a **stability detector** — a sliding
-   window that checks whether the count has remained the same
-   across multiple consecutive frames.
-5. Once the count is confirmed stable, start a **hold-duration timer**.
-6. If the user holds the same gesture for 2.5 seconds, TTS fires
-   automatically.
-7. If the hand leaves the frame, the system speaks "hand left the frame"
-   after a short delay.
-8. A **progress bar** and **multi-color border** show the current
-   state at a glance.
+1. Inizializza **MediaPipe Hands** per il rilevamento delle mani in tempo reale.
+2. Inizializza il **motore TTS Fusion HAT+** (Espeak).
+3. Acquisisce i fotogrammi video e rileva le dita (come prima).
+4. Inserisce il conteggio delle dita in un **rilevatore di stabilita** — una finestra
+   scorrevole che controlla se il conteggio e rimasto lo stesso
+   attraverso piu fotogrammi consecutivi.
+5. Una volta che il conteggio e confermato stabile, avvia un **timer di durata di mantenimento**.
+6. Se l'utente mantiene lo stesso gesto per 2.5 secondi, il TTS si attiva
+   automaticamente.
+7. Se la mano lascia il fotogramma, il sistema dice "hand left the frame"
+   dopo un breve ritardo.
+8. Una **barra di progresso** e un **bordo multicolore** mostrano lo stato
+   corrente a colpo d'occhio.
 
 The key design idea is:
 
@@ -71,20 +71,20 @@ the user cannot reach a keyboard.
 
 
 -----------------------------------------------------------------
-3. Key Design Concepts
+3. Concetti di Progettazione Chiave
 -----------------------------------------------------------------
 
-Adding auto-triggered TTS requires more sophisticated state
-management than the key-press version. Let's walk through each
-new concept.
+Aggiungere il TSS ad attivazione automatica richiede una gestione dello stato
+piu sofisticata rispetto alla versione con pressione del tasto. Esaminiamo ogni
+nuovo concetto.
 
 --------------------------------------------------
-3.1 State Machine for Hand Tracking
+3.1 Macchina a Stati per il Tracciamento della Mano
 --------------------------------------------------
 
-The program tracks hand presence as a **state**, not just a
-per-frame value. A ``HandTrackingState`` class encapsulates
-all the state variables:
+Il programma traccia la presenza della mano come uno **stato**, non solo un
+valore per fotogramma. Una classe ``HandTrackingState`` incapsula
+tutte le variabili di stato:
 
 .. code-block:: python
 
@@ -103,23 +103,23 @@ all the state variables:
 
     state = HandTrackingState()
 
-By grouping all tracking variables into one object, the code
-stays organized even as the logic grows more complex.
+Raggruppando tutte le variabili di tracciamento in un unico oggetto, il codice
+rimane organizzato anche quando la logica diventa piu complessa.
 
-The state machine transitions through these phases:
+La macchina a stati transita attraverso queste fasi:
 
-- **No hand** — gray border, idle status
-- **Hand detected, not yet stable** — cyan border, "keep hand still" prompt
-- **Stable, holding** — green border fills in, progress bar animates
-- **Speaking** — bright green flash, "SPEAKING..." label
+- **Nessuna mano** — bordo grigio, stato inattivo
+- **Mano rilevata, non ancora stabile** — bordo ciano, prompt "tieni la mano ferma"
+- **Stabile, in mantenimento** — bordo verde si riempie, barra di progresso animata
+- **In parlato** — flash verde brillante, etichetta "SPEAKING..."
 
 --------------------------------------------------
-3.2 Stability Detection
+3.2 Rilevamento della Stabilita
 --------------------------------------------------
 
-A single-frame finger count is unreliable — the number can
-flicker due to camera noise or slight hand movement. To avoid
-false triggers, we use a **sliding window** of recent counts:
+Un conteggio delle dita su un singolo fotogramma e inaffidabile — il numero puo
+fluttuare a causa del rumore della fotocamera o di un leggero movimento della mano. Per evitare
+falsi trigger, usiamo una **finestra scorrevole** dei conteggi recenti:
 
 .. code-block:: python
 
@@ -145,17 +145,17 @@ false triggers, we use a **sliding window** of recent counts:
         state.current_fingers = new_count
         return False
 
-The gesture is considered **stable** only when the last 5 frames
-all report the same finger count. This filters out momentary
-flickers and ensures the system only speaks when the user is
-intentionally holding a gesture.
+Il gesto e considerato **stabile** solo quando gli ultimi 5 fotogrammi
+riportano tutti lo stesso conteggio delle dita. Questo filtra le fluttuazioni
+momentanee e garantisce che il sistema parli solo quando l'utente sta
+intenzionalmente mantenendo un gesto.
 
 --------------------------------------------------
-3.3 Auto-Trigger with Hold Duration
+3.3 Auto-Trigger con Durata di Mantenimento
 --------------------------------------------------
 
-Stability alone is not enough — the user must *hold* the gesture
-long enough to demonstrate intent:
+La stabilita da sola non basta — l'utente deve *mantenere* il gesto
+abbastanza a lungo per dimostrare l'intenzione:
 
 .. code-block:: python
 
@@ -185,18 +185,18 @@ long enough to demonstrate intent:
 
         return True
 
-Three gates protect against false triggers:
+Tre cancelli proteggono dai falsi trigger:
 
-1. **Minimum interval** — at least 4 seconds between any two TTS events.
-2. **Hold duration** — the gesture must be held steady for 2.5 seconds.
-3. **Repeat guard** — the same count won't be spoken again for 8 seconds.
+1. **Intervallo minimo** — almeno 4 secondi tra due eventi TTS qualsiasi.
+2. **Durata di mantenimento** — il gesto deve essere tenuto fermo per 2.5 secondi.
+3. **Protezione ripetizioni** — lo stesso conteggio non verra pronunciato di nuovo per 8 secondi.
 
 --------------------------------------------------
-3.4 Hand Exit Detection
+3.4 Rilevamento dell'Uscita della Mano
 --------------------------------------------------
 
-When the user removes their hand from the camera, the system
-notices and speaks a notification:
+Quando l'utente rimuove la mano dalla fotocamera, il sistema
+se ne accorge e pronuncia una notifica:
 
 .. code-block:: python
 
@@ -212,15 +212,15 @@ notices and speaks a notification:
         if now - state.last_tts_time >= MIN_TTS_INTERVAL:
             tts.say("hand left the frame")
 
-The exit message only fires if enough time has passed since
-the last TTS event — preventing it from interrupting a
-finger-count announcement.
+Il messaggio di uscita viene attivato solo se e passato abbastanza tempo
+dall'ultimo evento TTS — impedendo che interrompa un
+annuncio del conteggio delle dita.
 
 --------------------------------------------------
-3.5 Building the Message
+3.5 Costruzione del Messaggio
 --------------------------------------------------
 
-Message construction is identical to the key-press version:
+La costruzione del messaggio e identica alla versione con pressione del tasto:
 
 .. code-block:: python
 
@@ -239,11 +239,11 @@ Message construction is identical to the key-press version:
    reliable results when both hands are in frame.
 
 --------------------------------------------------
-3.6 Multi-Stage Visual Feedback
+3.6 Feedback Visivo a Piu Stadi
 --------------------------------------------------
 
-Instead of a single green flash, this version provides a
-**continuous color-coded border** that reflects the current state:
+Invece di un singolo flash verde, questa versione fornisce un
+**bordo continuo con codice colore** che riflette lo stato corrente:
 
 .. code-block:: python
 
@@ -256,12 +256,12 @@ The border color transitions smoothly from cyan to green as the
 hold duration progresses, giving the user real-time feedback on
 how close they are to triggering TTS.
 
-**Progress bar**: A small bar in the top-right corner fills from
-left to right as the hold duration counts up. When it reaches 100%,
-TTS fires. This gives the user a clear visual countdown.
+**Barra di progresso**: Una piccola barra nell'angolo in alto a destra si riempie
+da sinistra a destra mentre la durata di mantenimento conta. Quando raggiunge il 100%,
+il TTS si attiva. Questo da all'utente un chiaro conto alla rovescia visivo.
 
-**Status text**: A status line below the finger count shows the
-current phase:
+**Testo di stato**: Una riga di stato sotto il conteggio delle dita mostra la
+fase corrente:
 
 - ``"Status: No hand detected"``
 - ``"Status: Detecting... keep hand still"``
@@ -270,7 +270,7 @@ current phase:
 
 
 -----------------------------------------------------------------
-4. Run the Code
+4. Eseguire il Codice
 -----------------------------------------------------------------
 
 .. important::
@@ -284,24 +284,24 @@ current phase:
 
    For detailed instructions, see :ref:`mediapipe_install` and :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Apri il terminale e inserisci il seguente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count_tts_without_tap.py
 
-#. After running the program:
+#. Dopo aver eseguito il programma:
 
-   - A window titled "MediaPipe Hand Detection + AUTO TTS (Touchless Mode)" opens,
-     showing the live camera feed.
-   - Hold your hand up to the camera — the finger count appears
-     in the top-left corner.
-   - *Keep your hand still* — watch the border change from gray
-     to cyan to green, and the progress bar fill up.
-   - After 2.5 seconds of holding the same gesture, the system
-     automatically speaks the finger count.
-   - Remove your hand from the camera — after a moment, the system
-     says "hand left the frame."
+   - Si apre una finestra intitolata "MediaPipe Hand Detection + AUTO TTS (Touchless Mode)",
+     che mostra il flusso video in diretta.
+   - Tieni la mano davanti alla fotocamera — il conteggio delle dita appare
+     nell'angolo superiore sinistro.
+   - *Tieni la mano ferma* — osserva il bordo cambiare da grigio
+     a ciano a verde, e la barra di progresso riempirsi.
+   - Dopo 2.5 secondi di mantenimento dello stesso gesto, il sistema
+     pronuncia automaticamente il conteggio delle dita.
+   - Rimuovi la mano dalla fotocamera — dopo un momento, il sistema
+     dice "hand left the frame."
 
    .. hint::
 
@@ -314,7 +314,7 @@ current phase:
 
 
 --------------------------------------------------
-5. Complete Code
+5. Codice Completo
 --------------------------------------------------
 
 .. code-block:: python
@@ -651,15 +651,15 @@ current phase:
 
 
 --------------------------------------------------
-6. Code Explanation
+6. Spiegazione del Codice
 --------------------------------------------------
 
-Let's walk through the code section by section, focusing on
-what's new compared to the key-press version from
+Esaminiamo il codice sezione per sezione, concentrandoci su
+cosa e nuovo rispetto alla versione con pressione del tasto di
 :ref:`mp_hand_count_tts`.
 
 --------------------------------------------------
-6.1 Imports and New Dependencies
+6.1 Importazioni e Nuove Dipendenze
 --------------------------------------------------
 
 .. code-block:: python
@@ -667,17 +667,17 @@ what's new compared to the key-press version from
    from collections import deque
    import time
 
-The key addition is ``deque`` — a double-ended queue from
-Python's ``collections`` module. It provides a fixed-size
-sliding window for stability detection: when you ``append``
-to a ``deque(maxlen=N)``, old items are automatically
-dropped, keeping only the most recent N values.
+L'aggiunta chiave e ``deque`` — una coda a doppia estremita del
+modulo ``collections`` di Python. Fornisce una finestra scorrevole
+di dimensione fissa per il rilevamento della stabilita: quando fai ``append``
+a un ``deque(maxlen=N)``, gli elementi vecchi vengono automaticamente
+eliminati, mantenendo solo gli N valori piu recenti.
 
-This is perfect for tracking the last 5–10 finger counts
-without manual list management.
+Questo e perfetto per tracciare gli ultimi 5-10 conteggi delle dita
+senza gestione manuale delle liste.
 
 --------------------------------------------------
-6.2 Constants and Configuration
+6.2 Costanti e Configurazione
 --------------------------------------------------
 
 .. code-block:: python
@@ -694,20 +694,20 @@ without manual list management.
    COLOR_STABLE   = (0, 255, 0)       # green
    COLOR_SPEAKING = (0, 255, 0)       # bright green
 
-All timing and behavior parameters are declared as named constants
-at the top of the file. This makes the program easy to tune —
-want a longer hold time? Change ``HOLD_DURATION_REQUIRED``.
-Want less frequent announcements? Increase ``MIN_TTS_INTERVAL``.
+Tutti i parametri di temporizzazione e comportamento sono dichiarati come costanti
+nominate all'inizio del file. Questo rende il programma facile da regolare —
+vuoi un tempo di mantenimento piu lungo? Cambia ``HOLD_DURATION_REQUIRED``.
+Vuoi annunci meno frequenti? Aumenta ``MIN_TTS_INTERVAL``.
 
-The four border colors define a visual language:
+I quattro colori del bordo definiscono un linguaggio visivo:
 
-- **Gray** — idle, no hand in frame
-- **Cyan** — hand detected, but not yet stable
-- **Green** — gesture is stable and holding
-- **Bright green** — currently speaking
+- **Grigio** — inattivo, nessuna mano nel fotogramma
+- **Ciano** — mano rilevata, ma non ancora stabile
+- **Verde** — gesto stabile e in mantenimento
+- **Verde brillante** — attualmente in parlato
 
 --------------------------------------------------
-6.3 HandTrackingState Class
+6.3 Classe HandTrackingState
 --------------------------------------------------
 
 .. code-block:: python
@@ -727,26 +727,26 @@ The four border colors define a visual language:
 
    state = HandTrackingState()
 
-This class bundles all tracking variables into a single object.
-Each variable serves a specific role:
+Questa classe raggruppa tutte le variabili di tracciamento in un unico oggetto.
+Ogni variabile ha un ruolo specifico:
 
-- ``finger_history`` — sliding window of recent finger counts
-  (used by the stability detector)
-- ``current_fingers`` — the finger count for the current frame
-- ``stable_fingers`` — the last confirmed stable count that was spoken
-- ``stable_start_time`` — when the current stable period began
-- ``is_stable`` — whether the gesture is currently confirmed stable
-- ``hand_present`` — whether a hand is currently in frame
-- ``hand_absent_start_time`` — when the hand last left the frame
-- ``last_tts_time`` — timestamp of the last TTS event
-- ``last_tts_message`` — the last spoken message (to avoid repeats)
-- ``last_no_hand_tts_time`` — timestamp of last "no hand" announcement
+- ``finger_history`` — finestra scorrevole dei conteggi recenti delle dita
+  (usata dal rilevatore di stabilita)
+- ``current_fingers`` — il conteggio delle dita per il fotogramma corrente
+- ``stable_fingers`` — l'ultimo conteggio stabile confermato che e stato pronunciato
+- ``stable_start_time`` — quando e iniziato l'attuale periodo stabile
+- ``is_stable`` — se il gesto e attualmente confermato stabile
+- ``hand_present`` — se una mano e attualmente nel fotogramma
+- ``hand_absent_start_time`` — quando la mano ha lasciato il fotogramma l'ultima volta
+- ``last_tts_time`` — timestamp dell'ultimo evento TTS
+- ``last_tts_message`` — l'ultimo messaggio pronunciato (per evitare ripetizioni)
+- ``last_no_hand_tts_time`` — timestamp dell'ultimo annuncio "nessuna mano"
 
-A single ``state`` instance is created globally, so all helper
-functions can read and modify it without passing parameters.
+Una singola istanza ``state`` viene creata globalmente, quindi tutte le funzioni
+helper possono leggerla e modificarla senza passare parametri.
 
 --------------------------------------------------
-6.4 Stability Detection Function
+6.4 Funzione di Rilevamento della Stabilita
 --------------------------------------------------
 
 .. code-block:: python
@@ -768,23 +768,23 @@ functions can read and modify it without passing parameters.
        state.current_fingers = new_count
        return False
 
-This function is the heart of the touchless system. Here's how it works:
+Questa funzione e il cuore del sistema senza contatto. Ecco come funziona:
 
-1. **Append** the new finger count to the sliding window.
-2. **Check** if we have enough frames (at least 5).
-3. **Compare** the last 5 frames — if they all match the current
-   count, the gesture is stable.
-4. **Record** the time when stability began (``stable_start_time``)
-   — this is used by the hold-duration timer.
-5. **Return** ``True`` on the frame where stability is first
-   confirmed, ``False`` otherwise.
+1. **Aggiunge** il nuovo conteggio delle dita alla finestra scorrevole.
+2. **Controlla** se abbiamo abbastanza fotogrammi (almeno 5).
+3. **Confronta** gli ultimi 5 fotogrammi — se corrispondono tutti al conteggio
+   corrente, il gesto e stabile.
+4. **Registra** il momento in cui e iniziata la stabilita (``stable_start_time``)
+   — questo viene usato dal timer di durata di mantenimento.
+5. **Restituisce** ``True`` sul fotogramma in cui la stabilita viene confermata
+   per la prima volta, ``False`` altrimenti.
 
-The ``all(c == new_count for c in recent_counts)`` expression is
-elegant: it checks that *every* value in the window matches the
-current count. If even one frame differs, stability is broken.
+L'espressione ``all(c == new_count for c in recent_counts)`` e
+elegante: controlla che *ogni* valore nella finestra corrisponda al
+conteggio corrente. Se anche un solo fotogramma differisce, la stabilita e interrotta.
 
 --------------------------------------------------
-6.5 Auto TTS Trigger Logic
+6.5 Logica di Attivazione Automatica del TTS
 --------------------------------------------------
 
 .. code-block:: python
@@ -804,8 +804,8 @@ current count. If even one frame differs, stability is broken.
                return False
        return True
 
-This function acts as a **gate** — all conditions must be met
-before TTS can fire:
+Questa funzione funge da **cancello** — tutte le condizioni devono essere soddisfatte
+prima che il TTS possa attivarsi:
 
 1. **Minimum interval**: at least 4 seconds since the last TTS.
 2. **Hand present and stable**: the gesture must be confirmed stable.
@@ -822,7 +822,7 @@ before TTS can fire:
    user's *patience* replaces the button press.
 
 --------------------------------------------------
-6.6 Hand Exit Detection
+6.6 Rilevamento dell'Uscita della Mano
 --------------------------------------------------
 
 .. code-block:: python
@@ -846,18 +846,18 @@ before TTS can fire:
            if now - state.last_tts_time >= MIN_TTS_INTERVAL:
                trigger_hand_exit_tts()
 
-When the hand enters or leaves the frame, the state is reset:
+Quando la mano entra o esce dal fotogramma, lo stato viene resettato:
 
-- Stability is cleared (``is_stable = False``)
-- The finger history is wiped (``history.clear()``)
-- If the hand just left, and enough time has passed since the
-  last TTS, the system says "hand left the frame"
+- La stabilita viene cancellata (``is_stable = False``)
+- La cronologia delle dita viene cancellata (``history.clear()``)
+- Se la mano e appena uscita, ed e passato abbastanza tempo
+  dall'ultimo TTS, il sistema dice "hand left the frame"
 
-Resetting stability on entry and exit prevents stale state
-from carrying over between hand appearances.
+Resettare la stabilita all'entrata e all'uscita impedisce che lo stato
+obsoleto venga trasportato tra le apparizioni della mano.
 
 --------------------------------------------------
-6.7 Multi-Color Border and Progress Bar
+6.7 Bordo Multicolore e Barra di Progresso
 --------------------------------------------------
 
 .. code-block:: python
@@ -884,14 +884,14 @@ from carrying over between hand appearances.
 
        return COLOR_DETECTED
 
-The border color is not just decorative — it's a real-time
-status indicator:
+Il colore del bordo non e solo decorativo — e un indicatore
+di stato in tempo reale:
 
-- **No hand** → gray border
-- **Hand detected, not stable** → cyan border
-- **Stable, still holding** → smooth gradient from cyan to green
-  as the hold duration progresses
-- **Hold complete / speaking** → bright green border
+- **Nessuna mano** → bordo grigio
+- **Mano rilevata, non stabile** → bordo ciano
+- **Stabile, in mantenimento** → gradiente fluido da ciano a verde
+  mentre la durata di mantenimento progredisce
+- **Mantenimento completato / in parlato** → bordo verde brillante
 
 The **progress bar** works alongside the border:
 
@@ -920,7 +920,7 @@ are to triggering speech.
 
 
 -----------------------------------------------------------------
-7. Extension Ideas
+7. Idee di Estensione
 -----------------------------------------------------------------
 
 The touchless auto-TTS pattern opens up many possibilities:
@@ -948,7 +948,7 @@ The touchless auto-TTS pattern opens up many possibilities:
 
 
 -----------------------------------------------------------------
-8. Troubleshooting
+8. Risoluzione dei Problemi
 -----------------------------------------------------------------
 
 - **TTS fires too frequently or on unstable gestures**
@@ -991,30 +991,30 @@ The touchless auto-TTS pattern opens up many possibilities:
 
 
 -----------------------------------------------------------------
-9. Summary
+9. Riepilogo
 -----------------------------------------------------------------
 
-- This lesson demonstrated how to **remove the keyboard trigger**
-  and build a fully touchless auto-TTS system.
-- The project uses a **state machine** (``HandTrackingState`` class)
-  to track hand presence, gesture stability, and TTS timing.
-- **Key design patterns** covered:
+- Questa lezione ha dimostrato come **rimuovere il trigger da tastiera**
+  e costruire un sistema TTS completamente automatico senza contatto.
+- Il progetto utilizza una **macchina a stati** (classe ``HandTrackingState``)
+  per tracciare la presenza della mano, la stabilita del gesto e la temporizzazione del TTS.
+- **Modelli di progettazione chiave** trattati:
 
-  - **Stability detection** — sliding window of finger counts
-    to confirm the user is holding a gesture steady
-  - **Hold-duration gate** — requiring 2.5 seconds of stability
-    before triggering TTS, replacing the key press with *intent*
-  - **Auto exit detection** — speaking "hand left the frame"
-    when the hand disappears
-  - **Multi-stage visual feedback** — color-coded border
-    (gray → cyan → green) plus a progress bar for real-time
-    status
-  - **State reset on hand entry/exit** — clearing history and
-    stability to prevent stale data from carrying over
+  - **Rilevamento della stabilita** — finestra scorrevole dei conteggi delle dita
+    per confermare che l'utente sta tenendo fermo un gesto
+  - **Cancello di durata di mantenimento** — richiedere 2.5 secondi di stabilita
+    prima di attivare il TTS, sostituendo la pressione del tasto con l'*intenzione*
+  - **Rilevamento automatico dell'uscita** — pronuncia "hand left the frame"
+    quando la mano scompare
+  - **Feedback visivo a piu stadi** — bordo con codice colore
+    (grigio → ciano → verde) piu una barra di progresso per lo stato
+    in tempo reale
+  - **Reset dello stato all'entrata/uscita della mano** — cancellare la cronologia e
+    la stabilita per evitare che dati obsoleti vengano trasportati
 
-- These patterns are **project-agnostic** — you can apply the
-  state-machine + stability-detection approach to any computer
-  vision project that needs touchless interaction.
-- Combining auto-TTS with gesture recognition opens the door
-  to assistive technology, hands-free control systems, and
-  interactive installations.
+- Questi modelli sono **indipendenti dal progetto** — puoi applicare
+  l'approccio macchina a stati + rilevamento di stabilita a qualsiasi progetto
+  di visione artificiale che necessiti di interazione senza contatto.
+- Combinare il TTS automatico con il riconoscimento dei gesti apre la porta
+  a tecnologie assistive, sistemi di controllo a mani libere e
+  installazioni interattive.

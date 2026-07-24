@@ -1,4 +1,3 @@
-
 .. include:: /index.rst
    :start-after: start_hello_message
    :end-before: end_hello_message
@@ -6,42 +5,43 @@
 
 .. _py_rotary_encoder:
 
-2.12 Rotary Encoder
+2.12 Encoder Rotativo
 =======================
 
-**Introduction**
+**Introduzione**
 
-A rotary encoder is an input device that converts rotational motion into digital signals. It’s commonly used for navigating menus, adjusting values, or scrolling through items. In this project, you’ll connect a rotary encoder (with an integrated push-button) to a Raspberry Pi via the Fusion HAT+, read rotation steps, and reset the counter with the encoder’s switch.
+Un encoder rotativo è un dispositivo di input che converte il movimento rotatorio in segnali digitali. È comunemente usato per navigare nei menu, regolare valori o scorrere elementi. In questo progetto, collegherai un encoder rotativo (con pulsante integrato) a un Raspberry Pi tramite Fusion HAT+, leggerai i passi di rotazione e reimposterai il contatore con l'interruttore dell'encoder.
 
-This experiment illustrates how to interface a rotary encoder using event callbacks for smooth, low-latency input handling.
+Questo esperimento illustra come interfacciare un encoder rotativo usando callback di eventi per una gestione fluida e a bassa latenza degli input.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-Here are the components required for this project:
+Ecco i componenti richiesti per questo progetto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_rotary_encoder`
-        - |link_rotary_encoder_buy| 
+        - |link_rotary_encoder_buy|
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
         - \-
     *   - Raspberry Pi
-        - \-
+        -
+
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-Below are the schematic diagrams for the project:
+Qui sotto ci sono gli schemi elettrici per il progetto:
 
 .. image:: img/fzz/2.1.6_rotary_sch.png
    :width: 80%
@@ -49,30 +49,30 @@ Below are the schematic diagrams for the project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Connect the components as shown in the wiring diagram below:
+Collega i componenti come mostrato nello schema di cablaggio qui sotto:
 
 .. image:: img/fzz/2.1.6_rotary_bb.png
    :width: 80%
    :align: center
 
-**Pin Mapping Used in the Example**
+**Mappatura Pin Usata nell'Esempio**
 
 - **CLK** → **GPIO 17**
 - **DT** → **GPIO 4**
-- **SW (button)** → **GPIO 27** (with internal pull-up)
-- **+** → **3.3V**
+- **SW (pulsante)** → **GPIO 27** (con pull-up interno)
+- **+** → **3,3V**
 - **GND** → **GND**
 
-Ensure that all connections are secure. If your encoder has separate **C (COM)** and **NO/NC** for the switch, connect **C** to GND and **NO** to the SW pin (internal pull-up enabled in software).
+Assicurati che tutte le connessioni siano sicure. Se il tuo encoder ha pin **C (COM)** e **NO/NC** separati per l'interruttore, collega **C** a GND e **NO** al pin SW (pull-up interno abilitato nel software).
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory.
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 .. raw:: html
 
@@ -83,13 +83,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.12_RotaryEncoder.py
 
-After running the script, rotating the rotary encoder will increase or decrease a counter, and the current counter value is printed to the console in real time. Pressing the encoder’s button resets the counter to zero and displays a reset message. The program keeps running and responding to user input until you press Ctrl + C to exit.
+Dopo aver eseguito lo script, ruotando l'encoder rotativo si aumenterà o diminuirà un contatore e il valore corrente del contatore viene stampato sulla console in tempo reale. Premendo il pulsante dell'encoder si reimposta il contatore a zero e viene visualizzato un messaggio di reset. Il programma continua a funzionare e a rispondere all'input dell'utente fino a quando non premi Ctrl + C per uscire.
 
 ----------------------------------------------
 
-**Code**
+**Codice**
 
-Below is the Python code used for this project:
+Qui sotto c'è il codice Python usato per questo progetto:
 
 .. raw:: html
 
@@ -151,20 +151,20 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Imports**
+1. **Importazioni**
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       import time
 
-   - ``Pin`` is used to configure and read GPIO pins for the rotary encoder.
-   - ``Mode`` and ``Pull`` define the pin direction and internal pull-up resistors.
-   - ``time`` is used to control polling intervals and button debounce timing.
+   - ``Pin`` viene usato per configurare e leggere i pin GPIO per l'encoder rotativo.
+   - ``Mode`` e ``Pull`` definiscono la direzione del pin e i resistori pull-up interni.
+   - ``time`` viene usato per controllare gli intervalli di polling e il tempo di debounce del pulsante.
 
-2. **GPIO Pin Setup**
+2. **Configurazione dei Pin GPIO**
 
    .. code-block:: python
 
@@ -176,12 +176,12 @@ Below is the Python code used for this project:
       dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
       sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)
 
-   - ``CLK`` and ``DT`` are the two quadrature signal pins of the rotary encoder.
-   - ``SW`` is the built-in push button of the encoder.
-   - Internal pull-up resistors keep the signal stable when the encoder is idle.
-   - The button is active LOW and reads ``0`` when pressed.
+   - ``CLK`` e ``DT`` sono i due pin del segnale in quadratura dell'encoder rotativo.
+   - ``SW`` è il pulsante integrato dell'encoder.
+   - I resistori pull-up interni mantengono il segnale stabile quando l'encoder è inattivo.
+   - Il pulsante è attivo LOW e legge ``0`` quando premuto.
 
-3. **State Variables**
+3. **Variabili di Stato**
 
    .. code-block:: python
 
@@ -189,11 +189,11 @@ Below is the Python code used for this project:
       last_clk = clk.value()
       last_detent = None
 
-   - ``raw`` counts low-level quadrature transitions from the encoder.
-   - ``last_clk`` stores the previous CLK state to detect signal changes.
-   - ``last_detent`` keeps track of the last displayed counter value to avoid repeated output.
+   - ``raw`` conta le transizioni di quadratura di basso livello dell'encoder.
+   - ``last_clk`` memorizza lo stato CLK precedente per rilevare i cambiamenti di segnale.
+   - ``last_detent`` tiene traccia dell'ultimo valore del contatore visualizzato per evitare output ripetuti.
 
-4. **Rotation Detection**
+4. **Rilevamento della Rotazione**
 
    .. code-block:: python
 
@@ -201,81 +201,81 @@ Below is the Python code used for this project:
       if c != last_clk:
           raw += 1 if dt.value() != c else -1
 
-   - The script continuously polls the CLK pin.
-   - A change in CLK indicates encoder movement.
-   - The rotation direction is determined by comparing DT with CLK.
+   - Lo script esegue il polling continuo del pin CLK.
+   - Un cambiamento in CLK indica un movimento dell'encoder.
+   - La direzione di rotazione viene determinata confrontando DT con CLK.
 
-5. **Detent (Click) Calculation**
+5. **Calcolo dello Scatto (Click)**
 
    .. code-block:: python
 
       detent = raw // 2
 
-   - Most rotary encoders generate two signal transitions per physical click.
-   - Dividing by 2 converts raw transitions into clean detent counts.
+   - La maggior parte degli encoder rotativi genera due transizioni di segnale per clic fisico.
+   - Dividere per 2 converte le transizioni grezze in conteggi di scatto puliti.
 
-6. **Clean Console Output**
+6. **Output Pulito sulla Console**
 
    .. code-block:: python
 
       if detent != last_detent:
-          print(f"\\rCounter: {detent}   ", end="", flush=True)
+          print(f"\rCounter: {detent}   ", end="", flush=True)
 
-   - Output is updated only when the counter value changes.
-   - ``\\r`` moves the cursor back to the beginning of the line for in-place updates.
-   - ``flush=True`` ensures immediate display on the terminal.
+   - L'output viene aggiornato solo quando il valore del contatore cambia.
+   - ``\r`` sposta il cursore all'inizio della riga per aggiornamenti in-place.
+   - ``flush=True`` assicura la visualizzazione immediata sul terminale.
 
-7. **Button Reset Handling**
+7. **Gestione del Reset tramite Pulsante**
 
    .. code-block:: python
 
       if sw.value() == 0:
           raw = 0
           detent = 0
-          print("\\rCounter: 0   ", end="", flush=True)
+          print("\rCounter: 0   ", end="", flush=True)
           time.sleep(0.25)
 
-   - Pressing the button resets the counter to zero.
-   - A short delay is used for button debounce to prevent multiple triggers.
+   - Premere il pulsante reimposta il contatore a zero.
+   - Un breve ritardo viene usato per il debounce del pulsante per evitare attivazioni multiple.
 
-8. **Polling Interval and Program Exit**
+8. **Intervallo di Polling e Uscita dal Programma**
 
    .. code-block:: python
 
       time.sleep(0.001)
 
-   - A 1 ms polling delay balances responsiveness and CPU usage.
-   - Pressing ``Ctrl + C`` exits the program gracefully.
+   - Un ritardo di polling di 1 ms bilancia reattività e utilizzo della CPU.
+   - Premere ``Ctrl + C`` esce dal programma in modo controllato.
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **No Output on Rotation**
+1. **Nessun Output in Rotazione**
 
-   - **Cause**: Miswired CLK/DT or poor ground connection.
-   - **Solution**: Verify **CLK→GPIO17**, **DT→GPIO4**, **GND common**. Ensure 3.3V supply is correct (do **not** use 5V encoders directly on GPIO).
+   - **Causa**: CLK/DT cablati male o connessione di massa scarsa.
+   - **Soluzione**: Verifica **CLK→GPIO17**, **DT→GPIO4**, **GND comune**. Assicurati che l'alimentazione a 3,3V sia corretta (non **usare** encoder a 5V direttamente sui GPIO).
 
-2. **Counter Jumps Erratically (Bounces/Noise)**
+2. **Il Contatore Salta in Modo Irregolare (Rimbalzi/Rumore)**
 
-   - **Cause**: Mechanical bounce or long wires picking up noise.
-   - **Solution**: Keep wires short and twisted as a pair if possible; add small capacitors (e.g., 0.01–0.1 µF) from CLK/DT to GND if needed; enable any available debounce options in your library version.
+   - **Causa**: Rimbalzo meccanico o cavi lunghi che raccolgono rumore.
+   - **Soluzione**: Mantieni i cavi corti e attorcigliati come coppia se possibile; aggiungi piccoli condensatori (ad es., 0,01-0,1 µF) da CLK/DT a GND se necessario.
 
-3. **Button Not Detected**
+3. **Pulsante Non Rilevato**
 
-   - **Cause**: Switch contacts wired to 3.3V instead of GND or pull-up misconfiguration.
-   - **Solution**: Ensure **SW** connects to **GND** when pressed; confirm ``pull=Pin.PULL_UP`` is set.
+   - **Causa**: Contatti dell'interruttore collegati a 3,3V invece che a GND o configurazione pull-up errata.
+   - **Soluzione**: Assicurati che **SW** sia collegato a **GND** quando premuto; conferma che ``pull=Pin.PULL_UP`` sia impostato.
 
-4. **Direction Reversed**
+4. **Direzione Invertita**
 
-   - **Cause**: CLK and DT swapped relative to your desired direction.
-   - **Solution**: Swap the **CLK** and **DT** wires or invert at the application layer (e.g., subtract steps).
+   - **Causa**: CLK e DT scambiati rispetto alla direzione desiderata.
+   - **Soluzione**: Scambia i fili **CLK** e **DT** o inverti a livello applicativo (ad es., sottrai i passi).
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Adjust a Variable (e.g., Volume/Brightness) Smoothly**
+1. **Regola una Variabile (ad es., Volume/Luminosità) in Modo Fluido**
 
    .. code-block:: python
 
@@ -285,7 +285,7 @@ Below is the Python code used for this project:
           value = max(0, min(100, 50 + encoder.steps()))
           print(f'Value = {value}')
 
-2. **Use the Button to Toggle a Mode**
+2. **Usa il Pulsante per Attivare/Disattivare una Modalità**
 
    .. code-block:: python
 
@@ -297,7 +297,7 @@ Below is the Python code used for this project:
           encoder.reset()
           print(f'Mode switched to: {mode[idx]}')
 
-3. **LED/Buzzer Feedback**
+3. **Feedback LED/Buzzer**
 
    .. code-block:: python
 
@@ -309,12 +309,12 @@ Below is the Python code used for this project:
           # brief flash without blocking callbacks is recommended
           led.off()
 
-4. **Long-Press to Perform a Special Action**
+4. **Pressione Lunga per Eseguire un'Azione Speciale**
 
-   - Track press duration using timestamps in ``sw.when_activated`` and (if available) ``sw.when_deactivated`` to trigger different actions for short/long presses.
+   - Traccia la durata della pressione usando timestamp in ``sw.when_activated`` e (se disponibile) ``sw.when_deactivated`` per attivare azioni diverse per pressioni brevi/lunghe.
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusione**
 
-This experiment shows how to read a rotary encoder and its integrated button using event-driven callbacks on the Fusion HAT+. With this pattern, you can build responsive interfaces such as menu navigators, dial-controlled settings, and jog wheels for real-time control in your Raspberry Pi projects.
+Questo esperimento mostra come leggere un encoder rotativo e il suo pulsante integrato usando callback guidati da eventi su Fusion HAT+. Con questo schema, puoi costruire interfacce reattive come navigatori di menu, impostazioni controllate da manopola e ruote di scorrimento per il controllo in tempo reale nei tuoi progetti Raspberry Pi.

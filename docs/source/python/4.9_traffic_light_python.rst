@@ -4,27 +4,27 @@
 
 .. _py_fun_traffic_light:
 
-4.9 Traffic Light Simulation
+4.9 Simulazione Semaforo
 ==============================
 
-**Introduction**
+**Introduzione**
 
-This project demonstrates the use of LEDs and a 4-digit 7-segment display to simulate a real-world traffic light system. The LEDs represent the red, yellow, and green lights, while the 7-segment display counts down the time remaining for each light. It provides an engaging way to learn about GPIO control, timing, and 7-segment displays in an educational or prototype setting.
+Questo progetto dimostra l'uso di LED e un display a 7 segmenti a 4 cifre per simulare un sistema semaforico reale. I LED rappresentano le luci rossa, gialla e verde, mentre il display a 7 segmenti conta alla rovescia il tempo rimanente per ogni luce. Fornisce un modo coinvolgente per imparare il controllo GPIO, la temporizzazione e i display a 7 segmenti in un contesto educativo o prototipale.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Cosa ti Servirà**
 
-The following components are required for this project:
+I seguenti componenti sono richiesti per questo progetto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - LINK ACQUISTO
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,17 +39,17 @@ The following components are required for this project:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        -
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Schema Elettrico**
 
-Below is the schematic diagram for the traffic light simulation project:
+Qui sotto c'è lo schema elettrico per il progetto di simulazione semaforica:
 
 .. image:: img/fzz/4.1.9_sch.png
    :width: 90%
@@ -60,9 +60,9 @@ Below is the schematic diagram for the traffic light simulation project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Schema di Cablaggio**
 
-Refer to the wiring diagram for assembling the components:
+Fai riferimento allo schema di cablaggio per assemblare i componenti:
 
 
 .. image:: img/fzz/4.1.9_bb.png
@@ -72,11 +72,11 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Running the Example**
+**Esecuzione dell'Esempio**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Tutto il codice di esempio usato in questo tutorial è disponibile nella directory ``ai-lab-kit``.
+Segui questi passaggi per eseguire l'esempio:
 
 
 .. raw:: html
@@ -84,17 +84,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.9_TrafficLight.py
 
-   
+
 ----------------------------------------------
 
-**Code**
+**Codice**
 
 
-Here is the Python script for the traffic light simulation:
+Ecco lo script Python per la simulazione semaforica:
 
 
 .. raw:: html
@@ -222,76 +222,76 @@ Here is the Python script for the traffic light simulation:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprendere il Codice**
 
-1. **Initialization:**
+1. **Inizializzazione:**
 
-   * Sets up GPIO pins for the shift register, 7-segment display, and traffic light LEDs.
-   * Defines constants for light durations and initializes state variables.
+   * Configura i pin GPIO per il registro a scorrimento, il display a 7 segmenti e i LED del semaforo.
+   * Definisce le costanti per le durate delle luci e inizializza le variabili di stato.
 
-2. **7-Segment Display Functions:**
+2. **Funzioni del Display a 7 Segmenti:**
 
-   * ``clearDisplay``: Clears all segments on the display.
-   * ``hc595_shift``: Sends data to the shift register to control display segments.
-   * ``pickDigit``: Activates a specific digit for multiplexing.
+   * ``clearDisplay``: Cancella tutti i segmenti sul display.
+   * ``hc595_shift``: Invia dati al registro a scorrimento per controllare i segmenti del display.
+   * ``pickDigit``: Attiva una cifra specifica per il multiplexing.
 
-3. **Timer Function:**
+3. **Funzione Timer:**
 
-   * Handles the countdown and transitions between light states.
+   * Gestisce il conto alla rovescia e le transizioni tra gli stati delle luci.
 
-4. **Traffic Light Control:**
+4. **Controllo del Semaforo:**
 
-   * Updates the LEDs based on the current state.
+   * Aggiorna i LED in base allo stato corrente.
 
-5. **Main Loop:**
+5. **Ciclo Principale:**
 
-   * Continuously updates the display and LEDs.
+   * Aggiorna continuamente il display e i LED.
 
-6. **Cleanup:**
+6. **Pulizia:**
 
-   * Ensures all resources are properly released on termination.
+   * Assicura che tutte le risorse siano rilasciate correttamente alla terminazione.
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Risoluzione dei Problemi**
 
-1. **Traffic Lights Not Working**:
+1. **Semafori Non Funzionanti**:
 
-   - **Cause**: Incorrect wiring or faulty LEDs.
-   - **Solution**:
+   - **Causa**: Cablaggio errato o LED difettosi.
+   - **Soluzione**:
 
-     - Verify that the LEDs are correctly connected to GPIO pins 5 (Red), 6 (Green), and 13 (Yellow).
-     - Test each LED individually using a simple GPIO control script.
+     - Verifica che i LED siano correttamente collegati ai pin GPIO 5 (Rosso), 6 (Verde) e 13 (Giallo).
+     - Testa ogni LED individualmente usando uno script di controllo GPIO semplice.
 
-2. **7-Segment Display Does Not Show Countdown**:
+2. **Il Display a 7 Segmenti Non Mostra il Conto Alla Rovescia**:
 
-   - **Cause**: Incorrect wiring or shift register configuration.
-   - **Solution**:
+   - **Causa**: Cablaggio errato o configurazione del registro a scorrimento.
+   - **Soluzione**:
 
-     - Ensure the shift register's ``SDI``, ``RCLK``, and ``SRCLK`` pins are properly connected to GPIO 17, 4, and 27, respectively.
-     - Verify the digit selection pins match the ``placePin`` configuration.
+     - Assicurati che i pin ``SDI``, ``RCLK`` e ``SRCLK`` del registro a scorrimento siano correttamente collegati rispettivamente a GPIO 17, 4 e 27.
+     - Verifica che i pin di selezione delle cifre corrispondano alla configurazione ``placePin``.
 
-3. **Countdown Timer Freezes**:
+3. **Il Timer del Conto Alla Rovescia si Blocca**:
 
-   - **Cause**: Timer thread not restarting correctly.
-   - **Solution**: Ensure the ``timer()`` function calls ``timer1.start()`` to restart the timer thread.
+   - **Causa**: Il thread del timer non si riavvia correttamente.
+   - **Soluzione**: Assicurati che la funzione ``timer()`` chiami ``timer1.start()`` per riavviare il thread del timer.
 
-4. **Incorrect Light Durations**:
+4. **Durata Luci Errata**:
 
-   - **Cause**: Incorrect duration values or state transitions.
-   - **Solution**:
+   - **Causa**: Valori di durata errati o transizioni di stato.
+   - **Soluzione**:
 
-     - Verify the ``redLight``, ``greenLight``, and ``yellowLight`` durations.
-     - Check the ``timer()`` function logic to ensure correct state transitions.
+     - Verifica le durate ``redLight``, ``greenLight`` e ``yellowLight``.
+     - Controlla la logica della funzione ``timer()`` per assicurare transizioni di stato corrette.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Idee Estendibili**
 
-1. **Pedestrian Crossing**: Add a pedestrian crossing button that temporarily interrupts the traffic cycle to allow pedestrians to cross safely.
+1. **Attraversamento Pedonale**: Aggiungi un pulsante per attraversamento pedonale che interrompe temporaneamente il ciclo semaforico per permettere ai pedoni di attraversare in sicurezza.
 
    .. code-block:: python
 
@@ -304,9 +304,9 @@ Here is the Python script for the traffic light simulation:
                counter = 5  # Shorten green light duration
       pedestrian_button.when_activated = handle_pedestrian
 
-2. **Adaptive Timing**: Adjust the durations of the traffic lights dynamically based on real-time traffic density.
+2. **Temporizzazione Adattiva**: Regola le durate delle luci del semaforo dinamicamente in base alla densità del traffico in tempo reale.
 
-3. **Event Logging**: Log traffic light state changes with timestamps to a file for analysis:
+3. **Registrazione Eventi**: Registra i cambiamenti di stato del semaforo con timestamp in un file per l'analisi:
 
    .. code-block:: python
 
@@ -315,6 +315,6 @@ Here is the Python script for the traffic light simulation:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusione**
 
-This project simulates a traffic light system, providing hands-on experience with GPIO control, shift registers, and 7-segment displays. It’s a fun and educational way to explore electronics and programming while replicating a real-world application. Try enhancing the system to make it even more interactive!
+Questo progetto simula un sistema semaforico, fornendo esperienza pratica con il controllo GPIO, i registri a scorrimento e i display a 7 segmenti. E' un modo divertente ed educativo per esplorare l'elettronica e la programmazione replicando un'applicazione del mondo reale. Prova a migliorare il sistema per renderlo ancora più interattivo!

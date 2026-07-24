@@ -4,39 +4,39 @@
 
 .. _tts_piper_openai:
 
-2. TTS with Piper and OpenAI
+2. TTS con Piper e OpenAI
 ========================================================
 
-In the previous lesson, we explored **Espeak** and **Pico2Wave**, two simple offline TTS engines on Raspberry Pi.  
-Now, let’s take a big step forward and try two **more advanced TTS options** that offer **higher voice quality** and more flexibility:
+Nella lezione precedente, abbiamo esplorato **Espeak** e **Pico2Wave**, due semplici motori TTS offline su Raspberry Pi.
+Ora, facciamo un grande passo avanti e proviamo due **opzioni TTS piu' avanzate** che offrono **maggiore qualita' vocale** e piu' flessibilita':
 
-* **Piper** — a fast, neural network–based TTS engine that runs **completely offline** on Raspberry Pi.  
-* **OpenAI TTS** — an online service that provides **very natural and human-like voices**, perfect for expressive speech.
+* **Piper** -- un motore TTS veloce basato su reti neurali che funziona **completamente offline** su Raspberry Pi.
+* **OpenAI TTS** -- un servizio online che fornisce **voci molto naturali e simili a quelle umane**, perfetto per un parlato espressivo.
 
-These engines will make your Fusion HAT+ sound more realistic and lifelike.
+Questi motori faranno sembrare il tuo Fusion HAT+ piu' realistico e vivido.
 
 ----
 
 .. _test_piper:
 
-1. Testing Piper
+1. Test di Piper
 ------------------
 
-Piper is an **offline neural TTS engine**, meaning you don’t need an internet connection once the model is installed.  
-It supports multiple **languages** and **voices**, making it a powerful option for embedded speech.
+Piper e' un **motore TTS neurale offline**, il che significa che non hai bisogno di una connessione Internet una volta installato il modello.
+Supporta molteplici **lingue** e **voci**, rendendolo un'opzione potente per il parlato embedded.
 
-**Run the program**
+**Esegui il programma**
 
   .. code-block:: bash
-  
+
       cd ~/ai-lab-kit/llm
       sudo python3 tts_piper.py
 
-* The first time you run it, the selected **voice model** will be downloaded automatically.  
-* You should then hear the Fusion HAT+ say: ``Hello! I'm Piper TTS.``  
-* You can switch voices or languages by calling ``set_model()`` with a different model name.
+* La prima volta che lo esegui, il **modello vocale** selezionato verra' scaricato automaticamente.
+* Dovresti quindi sentire il Fusion HAT+ dire: ``Hello! I'm Piper TTS.``
+* Puoi cambiare voci o lingue chiamando ``set_model()`` con un nome di modello diverso.
 
-**Code**
+**Codice**
 
 .. code-block:: python
 
@@ -56,42 +56,42 @@ It supports multiple **languages** and **voices**, making it a powerful option f
   # Say something
   tts.say("Hello! I'm Piper TTS.")
 
-**Code explanation:**
+**Spiegazione del codice:**
 
-* ``available_countrys()`` — Lists all supported languages.  
-* ``available_models()`` — Lists available models for a specific language.  
-* ``set_model()`` — Sets the voice model. If the model isn’t installed, it will download automatically.  
-* ``say()`` — Converts text to speech and plays it immediately.
+* ``available_countrys()`` -- Elenca tutte le lingue supportate.
+* ``available_models()`` -- Elenca i modelli disponibili per una lingua specifica.
+* ``set_model()`` -- Imposta il modello vocale. Se il modello non e' installato, verra' scaricato automaticamente.
+* ``say()`` -- Converte il testo in parlato e lo riproduce immediatamente.
 
-💡 **Tip:** Try different models to compare speed, clarity, and accents. Some models are lighter (faster), while others have higher fidelity.
+Suggerimento: Prova diversi modelli per confrontare velocita', chiarezza e accenti. Alcuni modelli sono piu' leggeri (piu' veloci), mentre altri hanno una fedelta' maggiore.
 
 ----
 
-2. Testing OpenAI TTS
+2. Test di OpenAI TTS
 -------------------------------
 
-**Get and save your API Key**
+**Ottieni e salva la tua chiave API**
 
-#. Go to |link_openai_platform| and log in. On the **API keys** page, click **Create new secret key**.
+#. Vai su |link_openai_platform| e accedi. Nella pagina **API keys**, clicca su **Create new secret key**.
 
    .. image:: img/llm_openai_create.png
 
-#. Fill in the details (Owner, Name, Project, and permissions if needed), then click **Create secret key**.
+#. Compila i dettagli (Owner, Name, Project e permessi se necessario), poi clicca su **Create secret key**.
 
    .. image:: img/llm_openai_create_confirm.png
 
-#. Once the key is created, copy it right away — you won't be able to see it again. If you lose it, you must generate a new one.
+#. Una volta creata la chiave, copiala immediatamente -- non potrai piu' vederla. Se la perdi, dovrai generar una nuova.
 
    .. image:: img/llm_openai_copy.png
 
-#. In your project folder (for example: ``/``), create a file called ``secret.py``:
+#. Nella cartella del tuo progetto (ad esempio: ``/``), crea un file chiamato ``secret.py``:
 
    .. code-block:: bash
 
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Paste your key into the file like this:
+#. Incolla la tua chiave nel file in questo modo:
 
    .. code-block:: python
 
@@ -99,19 +99,19 @@ It supports multiple **languages** and **voices**, making it a powerful option f
        # Store secrets here. Never commit this file to Git.
        OPENAI_API_KEY = "sk-xxx"
 
-**Run the program**
+**Esegui il programma**
 
 .. code-block:: bash
-  
+
   cd ~/ai-lab-kit/llm
   sudo python3 tts_openai.py
 
-* The program will connect to OpenAI’s TTS service, and the Fusion HAT+ will speak using **natural, expressive voice output**.  
-* You can change **voice styles** and add **instructions** to control tone and expression (e.g., sad, dramatic, playful).  
-* This makes OpenAI TTS ideal for interactive robots, storytelling, or educational assistants.
+* Il programma si connettera' al servizio TTS di OpenAI e Fusion HAT+ parlera' usando un **output vocale naturale ed espressivo**.
+* Puoi cambiare **stili vocali** e aggiungere **istruzioni** per controllare tono ed espressione (ad esempio, triste, drammatico, giocoso).
+* Questo rende OpenAI TTS ideale per robot interattivi, narrazione di storie o assistenti educativi.
 
 
-**Code**
+**Codice**
 
 .. code-block:: python
 
@@ -141,125 +141,125 @@ It supports multiple **languages** and **voices**, making it a powerful option f
   tts.say(msg, instructions=instructions)
 
 
-**Code explanation:**
+**Spiegazione del codice:**
 
-* ``OpenAI_TTS()`` — Initializes the OpenAI TTS engine using your API key.  
-* ``set_model()`` — Selects the TTS model (e.g., ``gpt-4o-mini-tts``).  
-* ``set_voice()`` — Chooses a specific voice (e.g., ``alloy``).  
-* ``say(text)`` — Converts the text to speech and plays it.  
-* ``say(text, instructions=...)`` — Adds **expressive tone instructions**, allowing you to control the style of speech dynamically.
+* ``OpenAI_TTS()`` -- Inizializza il motore TTS di OpenAI usando la tua chiave API.
+* ``set_model()`` -- Seleziona il modello TTS (ad esempio, ``gpt-4o-mini-tts``).
+* ``set_voice()`` -- Sceglie una voce specifica (ad esempio, ``alloy``).
+* ``say(text)`` -- Converte il testo in parlato e lo riproduce.
+* ``say(text, instructions=...)`` -- Aggiunge **istruzioni espressive sul tono**, permettendoti di controllare dinamicamente lo stile del parlato.
 
-**Example:** 
+**Esempio:**
 
-- “say it sadly” → soft, emotional tone  
-- “say it dramatically” → bold and expressive delivery  
-- “say it excitedly” → enthusiastic tone
+- "say it sadly" -> tono morbido ed emotivo
+- "say it dramatically" -> consegna audace ed espressiva
+- "say it excitedly" -> tono entusiasta
 
 ----
 
-Troubleshooting
--------------------
+Risoluzione dei Problemi
+-------------------------
 
-* **No module named 'secret'**
+* **Nessun modulo di nome 'secret'**
 
-  This means ``secret.py`` is not in the same folder as your Python file.
-  Move ``secret.py`` into the same directory where you run the script, e.g.:
+  Questo significa che ``secret.py`` non si trova nella stessa cartella del tuo file Python.
+  Sposta ``secret.py`` nella stessa directory in cui esegui lo script, ad esempio:
 
   .. code-block:: bash
 
      ls ~/
-     # Make sure you see both: secret.py and your .py file
+     # Assicurati di vedere entrambi: secret.py e il tuo file .py
 
-* **OpenAI: Invalid API key / 401**
+* **OpenAI: Chiave API non valida / 401**
 
-  * Check that you pasted the full key (starts with ``sk-``) and there are no extra spaces/newlines.
-  * Ensure your code imports it correctly:
+  * Controlla di aver incollato la chiave completa (inizia con ``sk-``) e che non ci siano spazi/ritorni a capo extra.
+  * Assicurati che il tuo codice la importi correttamente:
 
     .. code-block:: python
 
        from secret import OPENAI_API_KEY
 
-  * Confirm network access on your Pi (try ``ping api.openai.com``).  
+  * Conferma l'accesso alla rete sul tuo Pi (prova ``ping api.openai.com``).
 
-* **OpenAI: Quota exceeded / billing error**
+* **OpenAI: Quota superata / errore di fatturazione**
 
-  * You may need to add billing or increase quota in the OpenAI dashboard.
-  * Try again after resolving the account/billing issue.
+  * Potresti dover aggiungere fatturazione o aumentare la quota nel pannello di controllo OpenAI.
+  * Riprova dopo aver risolto il problema dell'account/fatturazione.
 
-* **Piper: tts.say() runs but no sound**
+* **Piper: tts.say() viene eseguito ma nessun suono**
 
-  * Make sure a voice model is actually present:
+  * Assicurati che un modello vocale sia effettivamente presente:
 
     .. code-block:: bash
 
        ls ~/.local/share/piper/voices
 
-  * Confirm your model name matches exactly in code:
+  * Conferma che il nome del modello corrisponda esattamente nel codice:
 
     .. code-block:: python
 
        tts.set_model("en_US-amy-low")
 
-  * Check the audio output device/volume on your Pi (``alsamixer``), and that speakers are connected and powered.
+  * Controlla il dispositivo/volume di uscita audio sul tuo Pi (``alsamixer``) e che gli altoparlanti siano collegati e accesi.
 
-* **ALSA / sound device errors (e.g., “Audio device busy” or “No such file or directory”)**
+* **Errori ALSA / dispositivo audio (ad esempio, "Audio device busy" o "No such file or directory")**
 
-  * Close other programs using audio.
-  * Reboot the Pi if the device stays busy.
-  * For HDMI vs. headphone jack output, select the correct device in Raspberry Pi OS audio settings.
+  * Chiudi altri programmi che usano l'audio.
+  * Riavvia il Pi se il dispositivo rimane occupato.
+  * Per l'uscita HDMI vs. jack per cuffie, seleziona il dispositivo corretto nelle impostazioni audio di Raspberry Pi OS.
 
-* **Permission denied when running Python**
+* **Permesso negato durante l'esecuzione di Python**
 
-  * Try with ``sudo`` if your environment requires it:
+  * Prova con ``sudo`` se il tuo ambiente lo richiede:
 
     .. code-block:: bash
 
        sudo python3 tts_piper.py
 
-Comparison of TTS Engines
+Confronto dei Motori TTS
 -------------------------
 
-.. list-table:: Feature comparison: Espeak vs Pico2Wave vs Piper vs OpenAI TTS
+.. list-table:: Confronto delle caratteristiche: Espeak vs Pico2Wave vs Piper vs OpenAI TTS
    :header-rows: 1
    :widths: 18 18 20 22 22
 
-   * - Item
+   * - Elemento
      - Espeak
      - Pico2Wave
      - Piper
      - OpenAI TTS
-   * - Runs on
-     - Built-in on Raspberry Pi (offline)
-     - Built-in on Raspberry Pi (offline)
-     - Raspberry Pi / PC (offline, needs model)
-     - Cloud (online, needs API key)
-   * - Voice quality
-     - Robotic
-     - More natural than Espeak
-     - Natural (neural TTS)
-     - Very natural / human-like
-   * - Controls
-     - Speed, pitch, volume
-     - Limited controls
-     - Choose different voices/models
-     - Choose model and voices
-   * - Languages
-     - Many (quality varies)
-     - Limited set
-     - Many voices/languages available
-     - Best in English (others vary by availability)
-   * - Latency / speed
-     - Very fast
-     - Fast
-     - Real-time on Pi 4/5 with “low” models
-     - Network-dependent (usually low latency)
-   * - Setup
-     - Minimal
-     - Minimal
-     - Download ``.onnx`` + ``.onnx.json`` models
-     - Create API key, install client
-   * - Best for
-     - Quick tests, basic prompts
-     - Slightly better offline voice
-     - Local projects with better quality
-     - Highest quality, rich voice options
+   * - Esecuzione su
+     - Integrato su Raspberry Pi (offline)
+     - Integrato su Raspberry Pi (offline)
+     - Raspberry Pi / PC (offline, necessita modello)
+     - Cloud (online, necessita chiave API)
+   * - Qualita' voce
+     - Robotica
+     - Piu' naturale di Espeak
+     - Naturale (TTS neurale)
+     - Molto naturale / simile a umana
+   * - Controlli
+     - Velocita', tonalita', volume
+     - Controlli limitati
+     - Scegli diverse voci/modelli
+     - Scegli modello e voci
+   * - Lingue
+     - Molte (qualita' varia)
+     - Set limitato
+     - Molte voci/lingue disponibili
+     - Migliore in inglese (altre variano per disponibilita')
+   * - Latenza/velocita'
+     - Molto veloce
+     - Veloce
+     - Tempo reale su Pi 4/5 con modelli "low"
+     - Dipendente dalla rete (di solito bassa latenza)
+   * - Configurazione
+     - Minima
+     - Minima
+     - Scarica modelli ``.onnx`` + ``.onnx.json``
+     - Crea chiave API, installa client
+   * - Ideale per
+     - Test rapidi, prompt di base
+     - Voce offline leggermente migliore
+     - Progetti locali con qualita' migliore
+     - Massima qualita', ricche opzioni vocali
