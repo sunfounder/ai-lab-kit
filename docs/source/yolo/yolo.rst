@@ -4,21 +4,21 @@
 
 .. _play_with_yolo:
 
-Play with YOLO (Object Detection & Training)
+Jugar con YOLO (Deteccion de Objetos y Entrenamiento)
 ======================================================
 
-In the previous chapters, you used ready-made AI models (MediaPipe).
-In this chapter, you will train your own AI model from scratch using YOLO.
+En los capitulos anteriores, usaste modelos de IA prefabricados (MediaPipe).
+En este capitulo, entrenaras tu propio modelo de IA desde cero usando YOLO.
 
-Play with YOLO (Object Detection & Training)
+Jugar con YOLO (Deteccion de Objetos y Entrenamiento)
 
 
 
 .. toctree::
    :maxdepth: 1
 
-   yolo_setup.rst 
-   yolo_new.rst 
+   yolo_setup.rst
+   yolo_new.rst
    yolo_yoloe.rst
-   yolo_train.rst 
-   yolo_pan_tilt.rst 
+   yolo_train.rst
+   yolo_pan_tilt.rst

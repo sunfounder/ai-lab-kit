@@ -4,27 +4,27 @@
 
 .. _py_fun_camera2:
 
-4.2 Automatic Capture Camera
+4.2 Cámara de Captura Automática
 ===================================
 
-**Introduction**
+**Introducción**
 
-Imagine you’re away, and a curious little squirrel visits your windowsill. With this project, you can create an automatic capture camera to snap pictures of these delightful moments. Using a motion sensor, the camera detects movement and captures photos at regular intervals.
+Imagina que estás fuera de casa y una pequeña ardilla curiosa visita tu ventana. Con este proyecto, puedes crear una cámara de captura automática para fotografiar estos momentos encantadores. Usando un sensor de movimiento, la cámara detecta movimiento y captura fotos a intervalos regulares.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Se requieren los siguientes componentes para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -37,18 +37,18 @@ The following components are required for this project:
     *   - :ref:`cpn_camera_module`
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Below is the circuit diagram for this project:
+A continuación se muestra el diagrama de circuito para este proyecto:
 
 .. image:: img/fzz/4.1.2_sch.png
    :width: 80%
@@ -58,24 +58,24 @@ Below is the circuit diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. Para usar el módulo de cámara convenientemente, se recomienda :ref:`assemble_fusion_hat_pan_tilt`.
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     Ensamblar el pan-tilt puede obstruir algunos pines, por lo que se recomienda ensamblarlo solo cuando se use la cámara, o colocarlo en la parte exterior después del ensamblaje.
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Follow this wiring diagram to set up the circuit:
+#. Sigue este diagrama de conexiones para montar el circuito:
 
    .. image:: img/fzz/4.1.2_bb.png
       :width: 80%
       :align: center
 
-#. For best performance, adjust the two potentiometers on the PIR module: one controls sensitivity, and the other adjusts detection distance. Turn both counterclockwise to the end.
+#. Para obtener el mejor rendimiento, ajusta los dos potenciómetros del módulo PIR: uno controla la sensibilidad y el otro ajusta la distancia de detección. Gira ambos completamente en sentido antihorario.
 
    .. image:: ../python/img/PIR_TTE.png
       :width: 400
@@ -84,45 +84,45 @@ Below is the circuit diagram for this project:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
-#. Access the Raspberry Pi Desktop:
+#. Accede al escritorio de Raspberry Pi:
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: Usa **VNC** para una experiencia de escritorio completa.
+   * |link_rpi_connect|: Usa **Raspberry Pi Connect** para acceder a tu Pi de forma segura desde cualquier navegador.
 
-#. Open a Terminal and go to the code folder:
+#. Abre una Terminal y ve a la carpeta de código:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
-#. Run the script to start the camera:
+#. Ejecuta el script para iniciar la cámara:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
-      sudo python3 4.2_AutomaticCaptureCamera.py 
+      sudo python3 4.2_AutomaticCaptureCamera.py
 
-#. After running the script:
+#. Después de ejecutar el script:
 
-   * The camera starts and continuously monitors the PIR motion sensor connected to GPIO 17. 
-   * When the PIR sensor detects motion and its output goes HIGH, the camera captures one photo and saves it to the Pictures folder with an incremental filename.
-   * After each capture, the program waits briefly to avoid repeated photos. 
-   * The system keeps monitoring for motion and runs until you press Ctrl + C to exit.
+   * La cámara se inicia y monitorea continuamente el sensor de movimiento PIR conectado al GPIO 17.
+   * Cuando el sensor PIR detecta movimiento y su salida pasa a HIGH, la cámara captura una foto y la guarda en la carpeta Pictures con un nombre de archivo incremental.
+   * Después de cada captura, el programa espera brevemente para evitar fotos repetidas.
+   * El sistema sigue monitoreando el movimiento y se ejecuta hasta que presiones Ctrl + C para salir.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the Python code used for this project:
+Aquí está el código Python utilizado para este proyecto:
 
 .. raw:: html
 
@@ -223,9 +223,9 @@ Here is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports:**
+1. **Importaciones:**
 
    .. code-block:: python
 
@@ -235,9 +235,9 @@ Here is the Python code used for this project:
       from picamera2 import Picamera2, Preview
       from fusion_hat.pin import Pin, Mode, Pull
 
-   The script imports libraries for file handling (``os``), timing control (``time``), thread safety (``threading``), camera operation (``Picamera2``), and GPIO control (``Pin``).
+   El script importa librerías para el manejo de archivos (``os``), control de tiempo (``time``), seguridad de hilos (``threading``), operación de la cámara (``Picamera2``) y control de GPIO (``Pin``).
 
-2. **Path Setup:**
+2. **Configuración de Ruta:**
 
    .. code-block:: python
 
@@ -246,35 +246,35 @@ Here is the Python code used for this project:
       PICTURES_DIR = os.path.join(USER_HOME, "Pictures")
       os.makedirs(PICTURES_DIR, exist_ok=True)
 
-   This section determines the correct user home directory and ensures the ``Pictures`` folder exists for saving photos.
+   Esta sección determina el directorio de inicio del usuario correcto y asegura que la carpeta ``Pictures`` exista para guardar las fotos.
 
-3. **Camera Initialization:**
+3. **Inicialización de la Cámara:**
 
    .. code-block:: python
 
       camera = Picamera2()
       camera.configure(camera.create_preview_configuration(main={"size": (800, 600)}))
 
-   The camera is initialized and configured with a preview resolution of 800 × 600.
+   La cámara se inicializa y configura con una resolución de vista previa de 800 × 600.
 
-4. **Photo Counter and Thread Lock:**
+4. **Contador de Fotos y Bloqueo de Hilo:**
 
    .. code-block:: python
 
       photo_index = 1
       photo_lock = threading.Lock()
 
-   A photo counter is used to create sequential filenames, and a lock ensures safe access when capturing photos.
+   Se utiliza un contador de fotos para crear nombres de archivo secuenciales, y un bloqueo asegura el acceso seguro al capturar fotos.
 
-5. **PIR Sensor Initialization:**
+5. **Inicialización del Sensor PIR:**
 
    .. code-block:: python
 
       pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-   The PIR motion sensor is connected to GPIO 17 and set as an input with a pull-down resistor.
+   El sensor de movimiento PIR está conectado al GPIO 17 y configurado como entrada con una resistencia de pull-down.
 
-6. **Photo Capture Function:**
+6. **Función de Captura de Fotos:**
 
    .. code-block:: python
 
@@ -288,9 +288,9 @@ Here is the Python code used for this project:
             print("Saved.")
             photo_index += 1
 
-   This function captures a single photo and saves it to the ``Pictures`` directory whenever motion is detected.
+   Esta función captura una sola foto y la guarda en el directorio ``Pictures`` cada vez que se detecta movimiento.
 
-7. **Preview Handling and Camera Start:**
+7. **Manejo de la Vista Previa e Inicio de la Cámara:**
 
    .. code-block:: python
 
@@ -305,9 +305,9 @@ Here is the Python code used for this project:
          print("No DISPLAY detected (running headless without preview).")
 
 
-   A camera preview is started only when a graphical display is available; otherwise, the script runs in headless mode.
+   La vista previa de la cámara se inicia solo cuando hay una pantalla gráfica disponible; de lo contrario, el script se ejecuta en modo headless.
 
-8. **Main Loop (Motion Detection):**
+8. **Bucle Principal (Detección de Movimiento):**
 
    .. code-block:: python
 
@@ -316,9 +316,9 @@ Here is the Python code used for this project:
             take_photo()
             time.sleep(2)
 
-   The program continuously monitors the PIR sensor. When motion is detected (HIGH), one photo is taken, followed by a short delay to prevent repeated captures.
+   El programa monitorea continuamente el sensor PIR. Cuando se detecta movimiento (HIGH), se toma una foto, seguida de una breve pausa para evitar capturas repetidas.
 
-9. **Program Exit and Cleanup:**
+9. **Salida del Programa y Limpieza:**
 
    .. code-block:: python
 
@@ -326,49 +326,49 @@ Here is the Python code used for this project:
          camera.stop()
          camera.close()
 
-   When the user presses ``Ctrl + C``, the program exits gracefully and safely stops and closes the camera.
+   Cuando el usuario presiona ``Ctrl + C``, el programa termina de forma ordenada y detiene y cierra la cámara de manera segura.
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **Photos Are Not Captured**:
+1. **No Se Capturan Fotos**:
 
-   - **Cause**: PIR motion sensor is not working or incorrectly wired.
-   - **Solution**:
+   - **Causa**: El sensor de movimiento PIR no funciona o está mal cableado.
+   - **Solución**:
 
-     - Verify the PIR sensor is connected to GPIO pin 17, power, and ground.
-     - Adjust the PIR sensor's sensitivity and delay potentiometers if available.
+     - Verifica que el sensor PIR esté conectado al pin GPIO 17, alimentación y tierra.
+     - Ajusta los potenciómetros de sensibilidad y retardo del sensor PIR si están disponibles.
 
-2. **PIR Sensor Always Detects Motion**:
+2. **El Sensor PIR Siempre Detecta Movimiento**:
 
-   - **Cause**: Faulty PIR sensor or excessive environmental interference.
-   - **Solution**:
+   - **Causa**: Sensor PIR defectuoso o interferencia ambiental excesiva.
+   - **Solución**:
 
-     - Test the sensor with a multimeter to ensure it detects motion correctly.
-     - Place the sensor in a stable, controlled environment to avoid false positives.
+     - Prueba el sensor con un multímetro para asegurarte de que detecta movimiento correctamente.
+     - Coloca el sensor en un entorno estable y controlado para evitar falsos positivos.
 
-3. **Script Crashes with Camera Error**:
+3. **El Script Falló con Error de Cámara**:
 
-   - **Cause**: Camera is not properly initialized or in use by another process.
-   - **Solution**:
+   - **Causa**: La cámara no está correctamente inicializada o está en uso por otro proceso.
+   - **Solución**:
 
-     - Ensure the camera is connected and enabled via ``raspi-config``.
-     - Restart the Raspberry Pi to release any conflicting processes.
+     - Asegúrate de que la cámara esté conectada y habilitada mediante ``raspi-config``.
+     - Reinicia la Raspberry Pi para liberar cualquier proceso conflictivo.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Timestamped Filenames**: Save photos with timestamps in their filenames for better organization:
+1. **Nombres de Archivo con Marca de Tiempo**: Guarda las fotos con marcas de tiempo en sus nombres para una mejor organización:
 
    .. code-block:: python
 
       timestamp = time.strftime("%Y%m%d-%H%M%S")
       camera.capture_file(f'{user_home}/capture_{timestamp}.jpg')
 
-2. **LED Indicator**: Add an LED that lights up when the PIR sensor detects motion:
+2. **Indicador LED**: Agrega un LED que se encienda cuando el sensor PIR detecte movimiento:
 
    .. code-block:: python
 
@@ -379,12 +379,12 @@ Here is the Python code used for this project:
       else:
          led.off()
 
-3. **Photo Gallery Management**: Automatically organize captured photos into folders based on date or event.
+3. **Gestión de Galería de Fotos**: Organiza automáticamente las fotos capturadas en carpetas según la fecha o el evento.
 
 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to build an automated camera system using a PIR motion sensor and a Raspberry Pi Camera Module. It’s a great way to capture unexpected moments and explore the possibilities of IoT and computer vision. Try expanding its functionality to include additional features like video recording or cloud uploads for real-time monitoring.
+Este proyecto demuestra cómo construir un sistema de cámara automatizado usando un sensor de movimiento PIR y un Módulo de Cámara Raspberry Pi. Es una excelente manera de capturar momentos inesperados y explorar las posibilidades de IoT y la visión por computadora. Intenta expandir su funcionalidad para incluir características adicionales como grabación de video o cargas a la nube para monitoreo en tiempo real.

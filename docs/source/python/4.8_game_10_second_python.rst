@@ -4,27 +4,27 @@
 
 .. _py_fun_10s:
 
-4.8 GAME - 10 Second Challenge
-=================================
+4.8 JUEGO - Desafío de 10 Segundos
+======================================
 
-**Introduction**
+**Introducción**
 
-Test your focus and timing with the "10 Second Challenge" game! In this project, you'll create a magic wand by attaching a tilt switch to a stick. Shake the wand to start a timer on a 4-digit segment display. Shake it again to stop the timer. The goal is to stop the timer as close to **10.00 seconds** as possible. Compete with friends to see who is the ultimate time wizard!
+Pon a prueba tu concentración y sincronización con el juego "Desafío de 10 Segundos"! En este proyecto, crearás una varita mágica colocando un interruptor de inclinación en un palo. Agita la varita para iniciar un temporizador en un display de segmentos de 4 dígitos. Agítala de nuevo para detener el temporizador. El objetivo es detener el temporizador lo más cerca posible de **10.00 segundos**. Compite con amigos para ver quién es el mejor mago del tiempo!
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Below is the list of components required for this project:
+A continuación se muestra la lista de componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,16 +39,16 @@ Below is the list of components required for this project:
     *   - :ref:`cpn_tilt_switch`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Below is the schematic diagram for the "10 Second Challenge":
+A continuación se muestra el diagrama esquemático para el "Desafío de 10 Segundos":
 
 .. image:: img/fzz/4.1.15_sch.png
    :width: 100%
@@ -59,9 +59,9 @@ Below is the schematic diagram for the "10 Second Challenge":
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow the wiring instructions shown below to set up the circuit:
+Sigue las instrucciones de cableado que se muestran a continuación para montar el circuito:
 
 
 .. image:: img/fzz/4.1.15_bb.png
@@ -71,11 +71,11 @@ Follow the wiring instructions shown below to set up the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -83,23 +83,23 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.8_GAME_10Second.py
 
-When the script runs:
+Cuando el script se ejecuta:
 
-* Shake the wand to start the timer on the 4-digit segment display.
-* Shake the wand again to stop the timer.
-* If the timer reads 10.00 seconds, you win the round!
-* Shake the wand one more time to reset the game and start a new round.
+* Agita la varita para iniciar el temporizador en el display de segmentos de 4 dígitos.
+* Agita la varita de nuevo para detener el temporizador.
+* Si el temporizador marca 10.00 segundos, ganaste la ronda!
+* Agita la varita una vez más para reiniciar el juego y comenzar una nueva ronda.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
 
-Here is the Python code for the project:
+Aquí está el código Python para el proyecto:
 
 
 .. raw:: html
@@ -232,79 +232,79 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Button Input:**  
-   The tilt switch is connected to GPIO pin 22, which detects when the wand is shaken.
+1. **Entrada del Botón:**
+   El interruptor de inclinación está conectado al pin GPIO 22, que detecta cuando se agita la varita.
 
-2. **74HC595 Shift Register:**  
-   The shift register controls which digits are illuminated on the 7-segment display.
+2. **Registro de Desplazamiento 74HC595:**
+   El registro de desplazamiento controla qué dígitos se iluminan en el display de 7 segmentos.
 
-3. **Timer Logic:**  
-   A threading timer increments the counter every 0.01 seconds, ensuring precise timing.
+3. **Lógica del Temporizador:**
+   Un temporizador de hilos incrementa el contador cada 0.01 segundos, asegurando una sincronización precisa.
 
-4. **State Management:**  
-   The game switches between states (start, stop) based on button input, resetting the counter as needed.
+4. **Gestión de Estados:**
+   El juego alterna entre estados (inicio, parada) según la entrada del botón, reiniciando el contador según sea necesario.
 
-5. **Display Update:**  
-   The 7-segment display shows the timer value, formatted to two decimal places.
+5. **Actualización del Display:**
+   El display de 7 segmentos muestra el valor del temporizador, formateado a dos decimales.
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **7-Segment Display Not Showing Numbers**:
+1. **El Display de 7 Segmentos No Muestra Números**:
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+   - **Causa**: Cableado incorrecto o configuración de pines GPIO.
+   - **Solución**:
 
-     - Verify connections to the 74HC595 shift register and 7-segment display.
-     - Ensure the ``number`` segment codes match the display's configuration.
+     - Verifica las conexiones al registro de desplazamiento 74HC595 y al display de 7 segmentos.
+     - Asegúrate de que los códigos de segmento ``number`` coincidan con la configuración del display.
 
-2. **Switch Tilts Not Detected**:
+2. **No Se Detectan las Inclinaciones del Interruptor**:
 
-   - **Cause**: Tilt switch wiring or debounce issues.
-   - **Solution**:
+   - **Causa**: Cableado del interruptor de inclinación o problemas de rebote.
+   - **Solución**:
 
-     - Confirm the tilt switch is connected to GPIO 22.
-     - Add a short debounce delay in the ``loop()`` function:
+     - Confirma que el interruptor de inclinación esté conectado a GPIO 22.
+     - Agrega un breve retardo anti-rebote en la función ``loop()``:
 
        .. code-block:: python
 
            time.sleep(0.05)
 
-3. **Counter Not Incrementing**:
+3. **El Contador No Incrementa**:
 
-   - **Cause**: Timer function not starting correctly.
-   - **Solution**:
+   - **Causa**: La función del temporizador no se inicia correctamente.
+   - **Solución**:
 
-     - Check the ``timer()`` function and ensure ``timer1.start()`` is called.
-     - Debug by printing the ``counter`` value inside ``timer()``.
+     - Verifica la función ``timer()`` y asegúrate de que se llame a ``timer1.start()``.
+     - Depura imprimiendo el valor de ``counter`` dentro de ``timer()``.
 
-4. **Display Shows Incorrect Digits**:
+4. **El Display Muestra Dígitos Incorrectos**:
 
-   - **Cause**: Segment codes in the ``number`` list do not match the hardware.
-   - **Solution**: Test individual digits with static segment codes to verify the mapping.
-
-
-----------------------------------------------
-
-**Extendable Ideas**
-
-1. **Adjustable Timer Speed**: Add a mechanism to change the timer's increment rate (e.g., using a second button to switch between 0.01, 0.1, and 1-second increments).
-
-2. **Countdown Mode**: Implement a countdown mode where the counter starts at a predefined value and decrements to 0.
-
-3. **Pause and Resume**: Add a separate button to pause and resume the counter without resetting.
-
-4. **Audio Feedback**: Use a buzzer to emit beeps when the counter reaches certain milestones (e.g., multiples of 10).
-
+   - **Causa**: Los códigos de segmento en la lista ``number`` no coinciden con el hardware.
+   - **Solución**: Prueba dígitos individuales con códigos de segmento estáticos para verificar la asignación.
 
 
 ----------------------------------------------
 
+**Ideas para Extender**
 
-**Conclusion**
+1. **Velocidad del Temporizador Ajustable**: Agrega un mecanismo para cambiar la tasa de incremento del temporizador (por ejemplo, usando un segundo botón para alternar entre incrementos de 0.01, 0.1 y 1 segundo).
 
-The "10 Second Challenge" demonstrates how simple components like a tilt switch and a 7-segment display can create an engaging interactive game. This project highlights the use of GPIO control, timers, and state management in Python, making it a fun and educational experience. Challenge yourself and your friends to achieve perfect timing!
+2. **Modo Cuenta Regresiva**: Implementa un modo de cuenta regresiva donde el contador comienza en un valor predefinido y disminuye hasta 0.
+
+3. **Pausa y Reanudación**: Agrega un botón separado para pausar y reanudar el contador sin reiniciarlo.
+
+4. **Retroalimentación de Audio**: Usa un zumbador para emitir pitidos cuando el contador alcance ciertos hitos (por ejemplo, múltiplos de 10).
+
+
+
+----------------------------------------------
+
+
+**Conclusión**
+
+El "Desafío de 10 Segundos" demuestra cómo componentes simples como un interruptor de inclinación y un display de 7 segmentos pueden crear un juego interactivo atractivo. Este proyecto destaca el uso de control GPIO, temporizadores y gestión de estados en Python, lo que lo convierte en una experiencia divertida y educativa. Desafíate a ti mismo y a tus amigos a lograr una sincronización perfecta!

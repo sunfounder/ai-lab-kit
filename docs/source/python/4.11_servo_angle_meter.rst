@@ -5,22 +5,22 @@
 
 .. _py_servo_angle_meter:
 
-4.11 Servo Angle Meter
-==============================
+4.11 Medidor de Ángulo de Servomotor
+=====================================
 
-**Introduction**
+**Introducción**
 
-In this lesson, you will build a **Servo Angle Meter** — a visual servo angle indicator that uses a potentiometer to control a servo motor, while displaying the current angle on an OLED screen.  
-The potentiometer provides an analog voltage through the Fusion HAT+’s ADC interface.  
-The servo receives commands based on this reading, and a 128×64 I2C OLED screen shows the numeric servo angle and a graphical bar that moves smoothly across the display.
+En esta lección, construirás un **Medidor de Ángulo de Servomotor** — un indicador visual de ángulo de servomotor que utiliza un potenciómetro para controlar un servomotor, mientras muestra el ángulo actual en una pantalla OLED.
+El potenciómetro proporciona un voltaje analógico a través de la interfaz ADC del Fusion HAT+.
+El servo recibe comandos basados en esta lectura, y una pantalla OLED I2C de 128×64 muestra el ángulo numérico del servo y una barra gráfica que se mueve suavemente a través del display.
 
-As you rotate the potentiometer, the servo sweeps between approximately -90° and +90°, and the OLED updates in real time.
+A medida que giras el potenciómetro, el servo se mueve entre aproximadamente -90° y +90°, y el OLED se actualiza en tiempo real.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
@@ -51,9 +51,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Refer to the wiring diagram for assembling the components:
+Consulte el diagrama de conexiones para ensamblar los componentes:
 
 .. image:: img/fzz/4.11_servo_angle_meter_bb.png
    :width: 100%
@@ -61,9 +61,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Pasos de Configuración**
 
-#. Install the required libraries:
+#. Instala las librerías requeridas:
 
    .. raw:: html
 
@@ -73,7 +73,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. All example code used in this tutorial is available in the ``ai-lab-kit`` directory:
+#. Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``:
 
    .. raw:: html
 
@@ -84,20 +84,20 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.11_ServoAngleMeter.py
 
-#. When the script runs:
+#. Cuando el script se ejecuta:
 
-   * Rotating the potentiometer moves the servo between -90° and +90°.  
-   * The OLED shows the numeric angle and a moving bar pointer.  
-   * Ctrl+C exits, resets servo to 0°, and clears the display.
+   * Girar el potenciómetro mueve el servo entre -90° y +90°.
+   * El OLED muestra el ángulo numérico y un puntero de barra móvil.
+   * Ctrl+C sale, restablece el servo a 0° y limpia la pantalla.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the Python script for the Servo Angle Meter:
+Aquí está el script de Python para el Medidor de Ángulo de Servomotor:
 
 .. raw:: html
-   
+
    <run></run>
 
 .. code-block:: python
@@ -195,21 +195,21 @@ Here is the Python script for the Servo Angle Meter:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports**
+1. **Importaciones**
 
-   - ``ADC`` reads analog values from the potentiometer  
-   - ``Servo`` controls servo rotation  
-   - ``PIL`` handles all OLED graphics  
-   - ``adafruit_ssd1306`` drives the I2C OLED display  
-   - ``board`` provides hardware I/O  
-   - ``time`` controls loop speed  
+   - ``ADC`` lee valores analógicos del potenciómetro
+   - ``Servo`` controla la rotación del servo
+   - ``PIL`` maneja todos los gráficos del OLED
+   - ``adafruit_ssd1306`` controla la pantalla OLED I2C
+   - ``board`` proporciona E/S de hardware
+   - ``time`` controla la velocidad del bucle
 
-2. **OLED Setup**
+2. **Configuración del OLED**
 
-   A 128×64 SSD1306 OLED is initialized and cleared.  
-   An off-screen framebuffer holds the graphics for each frame before being pushed to the display.
+   Se inicializa y limpia un OLED SSD1306 de 128×64.
+   Un framebuffer fuera de pantalla contiene los gráficos de cada cuadro antes de enviarlos a la pantalla.
 
    .. code-block:: python
 
@@ -226,11 +226,11 @@ Here is the Python script for the Servo Angle Meter:
       font = ImageFont.load_default()
 
 
-3. **Servo & Potentiometer**
+3. **Servo y Potenciómetro**
 
-   - Servo connected to port ``P0``  
-   - Potentiometer connected to analog input ``A0``  
-   - ADC range: ``0..4095``  
+   - Servo conectado al puerto ``P0``
+   - Potenciómetro conectado a la entrada analógica ``A0``
+   - Rango del ADC: ``0..4095``
 
    .. code-block:: python
 
@@ -239,9 +239,9 @@ Here is the Python script for the Servo Angle Meter:
       pot   = ADC('A0')     # potentiometer on A0 (0..4095)
 
 
-4. **Mapping Values**
+4. **Mapeo de Valores**
 
-   ``linear_map()`` converts the potentiometer reading into a servo angle in the range ``-90..90``.
+   ``linear_map()`` convierte la lectura del potenciómetro en un ángulo de servo en el rango ``-90..90``.
 
    .. code-block:: python
 
@@ -250,15 +250,15 @@ Here is the Python script for the Servo Angle Meter:
          return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
-5. **Drawing the UI**
+5. **Dibujo de la Interfaz de Usuario**
 
-   The ``draw_bar()`` function:
+   La función ``draw_bar()``:
 
-   * Clears the display  
-   * Draws the title  
-   * Shows numeric angle  
-   * Draws a horizontal bar and tick marks  
-   * Draws a pointer and filled segment indicating the angle direction  
+   * Limpia la pantalla
+   * Dibuja el título
+   * Muestra el ángulo numérico
+   * Dibuja una barra horizontal y marcas de graduación
+   * Dibuja un puntero y un segmento relleno que indica la dirección del ángulo
 
    .. code-block:: python
 
@@ -302,17 +302,17 @@ Here is the Python script for the Servo Angle Meter:
             draw.rectangle((BAR_CENTERX, BAR_TOP + 1, pos, BAR_TOP + BAR_HEIGHT - 1), outline=0, fill=255)
          else:
             draw.rectangle((pos, BAR_TOP + 1, BAR_CENTERX, BAR_TOP + BAR_HEIGHT - 1), outline=0, fill=255)
- 
 
-6. **Main Loop**
 
-   The script repeatedly:
+6. **Bucle Principal**
 
-   * Reads the ADC  
-   * Computes servo angle  
-   * Updates servo  
-   * Draws updated UI  
-   * Refreshes OLED  
+   El script repetidamente:
+
+   * Lee el ADC
+   * Calcula el ángulo del servo
+   * Actualiza el servo
+   * Dibuja la interfaz actualizada
+   * Refresca el OLED
 
    .. code-block:: python
 
@@ -334,40 +334,40 @@ Here is the Python script for the Servo Angle Meter:
 
          time.sleep(0.05)  # ~20 FPS
 
-7. **Graceful Exit**
+7. **Salida Graciosa**
 
    Ctrl+C:
 
-   - Servo returns to 0°  
-   - OLED is cleared  
+   - El servo vuelve a 0°
+   - El OLED se limpia
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-- **OLED shows nothing**
+- **El OLED no muestra nada**
 
-  - Check I2C wiring  
-  - Verify device address is ``0x3C``  
-  - Ensure required libraries are installed  
+  - Verifica el cableado I2C
+  - Confirma que la dirección del dispositivo sea ``0x3C``
+  - Asegúrate de que las librerías requeridas estén instaladas
 
-- **Servo does not respond**
+- **El servo no responde**
 
-  - Check servo power  
-  - Confirm servo is connected to ``P0``  
-  - Ensure servo signal wire is correct  
+  - Verifica la alimentación del servo
+  - Confirma que el servo esté conectado a ``P0``
+  - Asegúrate de que el cable de señal del servo sea correcto
 
-- **Movement range incorrect**
+- **El rango de movimiento es incorrecto**
 
-  Adjust:
+  Ajusta:
 
   .. code-block:: python
 
      angle = int(linear_map(raw, 0, 4095, -90, 90))
 
-- **OLED flickers**
+- **El OLED parpadea**
 
-  Increase delay:
+  Aumenta el retardo:
 
   .. code-block:: python
 
@@ -375,27 +375,26 @@ Here is the Python script for the Servo Angle Meter:
 
 ----------------------------------------------
 
-**Try It Yourself**
+**Pruébalo Tú Mismo**
 
-1. **Add servo angle limits**  
+1. **Agregar límites de ángulo del servo**
 
-   Prevent mechanical overdrive.
+   Previene el sobreesfuerzo mecánico.
 
-2. **Add calibration**  
+2. **Agregar calibración**
 
-   Detect min/max potentiometer values dynamically.
+   Detecta los valores mínimos/máximos del potenciómetro dinámicamente.
 
-3. **Smooth motion**  
+3. **Movimiento suave**
 
-   Apply easing or low-pass filtering.
+   Aplica suavizado o filtrado de paso bajo.
 
-4. **More display info**  
+4. **Más información en pantalla**
 
-   Show raw ADC value alongside angle.
+   Muestra el valor ADC bruto junto al ángulo.
 
-5. **Warnings**  
+5. **Advertencias**
 
-   Blink pointer near limits (±75°).
+   Haz parpadear el puntero cerca de los límites (±75°).
 
-These additions turn the Servo Angle Meter into a highly capable input-visualization tool.
-
+Estas adiciones convierten el Medidor de Ángulo de Servomotor en una herramienta de visualización de entrada altamente capaz.

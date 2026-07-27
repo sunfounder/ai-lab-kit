@@ -4,27 +4,27 @@
 
 .. _py_fun_alarm:
 
-4.3 Reversing Alarm
+4.3 Alarma de Reversa
 ==============================
 
-**Introduction**
+**Introducción**
 
-Parking a car safely into a garage often requires careful navigation, especially in tight spaces. In this project, you’ll create a reversing alarm system using an ultrasonic sensor, and a buzzer. This system mimics the functionality of a real-world parking sensor, providing auditory feedback about the distance to obstacles.
+Estacionar un automóvil de manera segura en un garaje a menudo requiere una navegación cuidadosa, especialmente en espacios reducidos. En este proyecto, crearás un sistema de alarma de reversa utilizando un sensor ultrasónico y un zumbador. Este sistema imita la funcionalidad de un sensor de estacionamiento real, proporcionando retroalimentación auditiva sobre la distancia a los obstáculos.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Below are the components required for this project:
+A continuación se presentan los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,17 +39,17 @@ Below are the components required for this project:
     *   - :ref:`cpn_ultrasonic_sensor`
         - |link_ultrasonic_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The system uses an ultrasonic sensor to measure the distance to obstacles. The buzzer emits warning tones of varying frequency depending on the distance.
+El sistema utiliza un sensor ultrasónico para medir la distancia a los obstáculos. El zumbador emite tonos de advertencia de frecuencia variable según la distancia.
 
 .. image:: img/fzz/4.1.6_sch.png
    :width: 100%
@@ -59,9 +59,9 @@ The system uses an ultrasonic sensor to measure the distance to obstacles. The b
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow this wiring diagram to set up your system:
+Sigue este diagrama de conexiones para montar tu sistema:
 
 
 .. image:: img/fzz/4.1.6_bb.png
@@ -72,11 +72,11 @@ Follow this wiring diagram to set up your system:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -84,28 +84,28 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.3_ReversingAlarm.py
 
-This Python script integrates an ultrasonic distance sensor and a buzzer to create a real-time distance monitoring system. When executed:
+Este script de Python integra un sensor de distancia ultrasónico y un zumbador para crear un sistema de monitoreo de distancia en tiempo real. Cuando se ejecuta:
 
 
-1. **Distance Measurement**: The ultrasonic sensor measures the distance to the nearest object in front of it and converts the value to centimeters.
+1. **Medición de Distancia**: El sensor ultrasónico mide la distancia al objeto más cercano frente a él y convierte el valor a centímetros.
 
 
-2. **Buzzer Alerts**: Based on the measured distance:
+2. **Alertas del Zumbador**: Según la distancia medida:
 
-     - **More than 50 cm**: No buzzer sound.
-     - **Between 20 cm and 50 cm**: The buzzer beeps twice with a short interval.
-     - **20 cm or less**: The buzzer emits rapid beeps to indicate proximity.
+     - **Más de 50 cm**: Sin sonido del zumbador.
+     - **Entre 20 cm y 50 cm**: El zumbador emite dos pitidos con un intervalo corto.
+     - **20 cm o menos**: El zumbador emite pitidos rápidos para indicar proximidad.
 
 ----------------------------------------------
 
 
-**Code**
+**Código**
 
-Here is the Python code for the project:
+Aquí está el código Python para el proyecto:
 
 
 .. raw:: html
@@ -176,9 +176,9 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Distance Measurement:** The ultrasonic sensor calculates the distance.
+1. **Medición de Distancia:** El sensor ultrasónico calcula la distancia.
 
    .. code-block:: python
 
@@ -191,11 +191,11 @@ Here is the Python code for the project:
             print(f"Distance: {dis:.2f} cm")
             return dis
 
-2. **Auditory Alerts:** The buzzer's frequency changes based on the proximity of obstacles:
+2. **Alertas Auditivas:** La frecuencia del zumbador cambia según la proximidad de los obstáculos:
 
-   * **>50 cm:** No sound.
-   * **20-50 cm:** Beeps twice with medium intervals.
-   * **≤20 cm:** Rapid beeping for urgent warning.
+   * **>50 cm:** Sin sonido.
+   * **20-50 cm:** Pita dos veces con intervalos medios.
+   * **≤20 cm:** Pitidos rápidos para una advertencia urgente.
 
    .. code-block:: python
 
@@ -219,24 +219,24 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **Distance Not Measured**:
+1. **No Se Mide la Distancia**:
 
-   - **Cause**: Incorrect wiring or sensor malfunction.
-   - **Solution**:
+   - **Causa**: Cableado incorrecto o mal funcionamiento del sensor.
+   - **Solución**:
 
-     - Ensure the ultrasonic sensor's ``echo`` and ``trigger`` pins are connected to GPIO 22 and GPIO 27, respectively.
-     - Test the sensor independently to confirm functionality.
+     - Asegúrate de que los pines ``echo`` y ``trigger`` del sensor ultrasónico estén conectados a GPIO 22 y GPIO 27, respectivamente.
+     - Prueba el sensor de forma independiente para confirmar su funcionalidad.
 
-2. **Buzzer Does Not Sound**:
+2. **El Zumbador No Suena**:
 
-   - **Cause**: Buzzer not connected or faulty.
-   - **Solution**:
+   - **Causa**: Zumbador no conectado o defectuoso.
+   - **Solución**:
 
-     - Verify the buzzer is connected to GPIO 17 and ground.
-     - Test the buzzer by turning it on manually:
-       
+     - Verifica que el zumbador esté conectado a GPIO 17 y a tierra.
+     - Prueba el zumbador encendiéndolo manualmente:
+
        .. code-block:: python
 
            buzzer.on()
@@ -245,22 +245,22 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Adjustable Alert Thresholds**: Allow users to set custom distance thresholds for the buzzer alerts.
+1. **Umbrales de Alerta Ajustables**: Permite a los usuarios establecer umbrales de distancia personalizados para las alertas del zumbador.
 
-2. **Data Logging**: Log distance measurements to a file for later analysis:
+2. **Registro de Datos**: Guarda las mediciones de distancia en un archivo para su posterior análisis:
 
    .. code-block:: python
 
       with open("distance_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, {dis:.2f} cm\n")
 
-3. **Visual Alerts**: Use LEDs of different colors to indicate proximity levels (e.g., green for safe, yellow for caution, red for danger).
+3. **Alertas Visuales**: Usa LEDs de diferentes colores para indicar niveles de proximidad (por ejemplo, verde para seguro, amarillo para precaución, rojo para peligro).
 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates a practical application of ultrasonic sensors, combining auditory feedback for an intuitive reversing alarm system. Such systems are valuable in vehicles and robotics, offering insights into proximity detection and IoT integrations. Extend its functionality to suit your innovative ideas!
+Este proyecto demuestra una aplicación práctica de los sensores ultrasónicos, combinando retroalimentación auditiva para un sistema intuitivo de alarma de reversa. Dichos sistemas son valiosos en vehículos y robótica, ofreciendo conocimientos sobre detección de proximidad e integraciones con IoT. Extiende su funcionalidad para adaptarlo a tus ideas innovadoras.

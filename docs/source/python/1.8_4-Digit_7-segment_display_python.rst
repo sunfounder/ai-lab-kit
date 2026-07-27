@@ -4,25 +4,25 @@
 
 .. _py_4_segment:
 
-1.8 4-Digit 7-Segment Display
-====================================
+1.8 Display de 7 Segmentos de 4 Dígitos
+==============================================
 
-**Introduction**
+**Introducción**
 
-In this project, we will learn how to control a 4-digit 7-segment display to create a counter. The counter will increment by 1 every second, and the display will update accordingly. This project highlights the use of GPIO pins and a 74HC595 shift register to manage multiple digits efficiently.
+En este proyecto, aprenderemos cómo controlar un display de 7 segmentos de 4 dígitos para crear un contador. El contador se incrementará en 1 cada segundo y el display se actualizará en consecuencia. Este proyecto destaca el uso de pines GPIO y un registro de desplazamiento 74HC595 para gestionar múltiples dígitos de manera eficiente.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-To complete this project, you will need the following components:
+Para completar este proyecto, necesitarás los siguientes componentes:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,16 +35,16 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - Raspberry Pi
+        \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The circuit diagram shows how to connect the 74HC595 shift register to the 4-digit 7-segment display and the Raspberry Pi GPIO pins. The shift register reduces the number of GPIO pins required, allowing efficient control of the display.
+El diagrama de circuito muestra cómo conectar el registro de desplazamiento 74HC595 al display de 7 segmentos de 4 dígitos y a los pines GPIO de la Raspberry Pi. El registro de desplazamiento reduce la cantidad de pines GPIO necesarios, permitiendo un control eficiente del display.
 
 .. image:: img/fzz/1.1.5_sch.png
    :width: 100%
@@ -53,14 +53,14 @@ The circuit diagram shows how to connect the 74HC595 shift register to the 4-dig
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow these steps to assemble the circuit:
+Sigue estos pasos para montar el circuito:
 
-1. Place the 4-digit 7-segment display and the 74HC595 shift register on the breadboard.
-2. Connect the output pins of the 74HC595 to the segments of the display.
-3. Use Digital pins on the Fusion HAT+ for the data input (SER also called SDI), shift register clock (SRCLK), and latch register clock (RCLK).
-4. Add resistors to limit current for the display segments.
+1. Coloca el display de 7 segmentos de 4 dígitos y el registro de desplazamiento 74HC595 en la placa de prototipado.
+2. Conecta los pines de salida del 74HC595 a los segmentos del display.
+3. Utiliza pines digitales en la Fusion HAT+ para la entrada de datos (SER también llamado SDI), el reloj del registro de desplazamiento (SRCLK) y el reloj del registro de latch (RCLK).
+4. Agrega resistencias para limitar la corriente de los segmentos del display.
 
 .. image:: img/fzz/1.1.5_bb.png
    :width: 80%
@@ -70,11 +70,11 @@ Follow these steps to assemble the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todos los ejemplos de código utilizados en este tutorial están disponibles en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -82,17 +82,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 1.8_4-Digit.py
 
-After running the script, the 4-digit 7-segment display shows a counter that increases by one every second. The current counter value is also printed to the console. This continues until you stop the program by pressing Ctrl + C.
+Después de ejecutar el script, el display de 7 segmentos de 4 dígitos muestra un contador que aumenta en uno cada segundo. El valor actual del contador también se imprime en la consola. Esto continúa hasta que detengas el programa presionando Ctrl + C.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-The Python code below initializes the display, updates the counter, and manages the display refresh loop:
+El código Python a continuación inicializa el display, actualiza el contador y gestiona el bucle de actualización del display:
 
 
 .. raw:: html
@@ -183,7 +183,7 @@ The Python code below initializes the display, updates the counter, and manages 
       setup()  # Initialize the setup
       while True:
          loop()  # Start the main loop
-         
+
    except KeyboardInterrupt:
       # Handle script interruption (e.g., Ctrl+C)
       destroy()  # Cleanup resources on exit
@@ -191,22 +191,22 @@ The Python code below initializes the display, updates the counter, and manages 
 
 
 
-This Python script controls a 4-digit 7-segment display using a Raspberry Pi and a 74HC595 shift register. When executed:
+Este script Python controla un display de 7 segmentos de 4 dígitos usando una Raspberry Pi y un registro de desplazamiento 74HC595. Cuando se ejecuta:
 
-1. The display shows an incrementing counter, with digits updating every second.
-2. The counter value is printed to the console for debugging purposes.
+1. El display muestra un contador que se incrementa, con los dígitos actualizándose cada segundo.
+2. El valor del contador se imprime en la consola para fines de depuración.
 
-The program runs indefinitely, incrementing the displayed counter until the user interrupts the script by pressing ``Ctrl+C``.
+El programa se ejecuta indefinidamente, incrementando el contador mostrado hasta que el usuario interrumpe el script presionando ``Ctrl+C``.
 
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Initialize GPIO Pins**
+1. **Inicializar Pines GPIO**
 
-   Assign GPIO pins for the shift register and digit selection.
+   Asigna los pines GPIO para el registro de desplazamiento y la selección de dígitos.
 
    .. code-block:: python
 
@@ -218,17 +218,17 @@ The program runs indefinitely, incrementing the displayed counter until the user
       # Define GPIO pins for digit selection on the 7-segment display
       placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
-2. **Segment Codes**
+2. **Códigos de Segmento**
 
-   The ``number`` array defines the binary representation for digits 0-9.
+   El arreglo ``number`` define la representación binaria para los dígitos 0-9.
 
    .. code-block:: python
 
       number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
-3. **Display Refresh**
+3. **Actualización del Display**
 
-   The ``loop`` function continuously updates the display by selecting each digit and sending the appropriate data.
+   La función ``loop`` actualiza continuamente el display seleccionando cada dígito y enviando los datos apropiados.
 
    .. code-block:: python
 
@@ -242,9 +242,9 @@ The program runs indefinitely, incrementing the displayed counter until the user
                hc595_shift(number[digit])
                time.sleep(0.001)
 
-4. **Counter Update**
+4. **Actualización del Contador**
 
-   The ``timer`` function increments the counter every second.
+   La función ``timer`` incrementa el contador cada segundo.
 
    .. code-block:: python
 
@@ -255,9 +255,9 @@ The program runs indefinitely, incrementing the displayed counter until the user
          counter += 1
          print("%d" % counter)
 
-5. **Cleanup**
+5. **Limpieza**
 
-   The ``destroy`` function stops the timer and releases GPIO resources on program exit.
+   La función ``destroy`` detiene el temporizador y libera los recursos GPIO al salir del programa.
 
    .. code-block:: python
 
@@ -271,56 +271,56 @@ The program runs indefinitely, incrementing the displayed counter until the user
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **Display Shows Nothing**  
+1. **El Display No Muestra Nada**
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Double-check the connections to the 74HC595 shift register and ensure the GPIO pins (17, 4, 27) match the defined variables (``SDI``, ``RCLK``, ``SRCLK``).
+   - **Causa**: Cableado incorrecto o configuración de pines GPIO.
+   - **Solución**: Verifica las conexiones al registro de desplazamiento 74HC595 y asegúrate de que los pines GPIO (17, 4, 27) coincidan con las variables definidas (``SDI``, ``RCLK``, ``SRCLK``).
 
-2. **Digits Do Not Update Correctly**  
+2. **Los Dígitos No se Actualizan Correctamente**
 
-   - **Cause**: Timing issues or incorrect multiplexing.  
-   - **Solution**: Ensure that the ``time.sleep(0.001)`` in the ``loop()`` function is sufficient for stable display updates.
+   - **Causa**: Problemas de temporización o multiplexación incorrecta.
+   - **Solución**: Asegúrate de que ``time.sleep(0.001)`` en la función ``loop()`` sea suficiente para actualizaciones estables del display.
 
-3. **Counter Resets Unexpectedly**  
+3. **El Contador se Reinicia Inesperadamente**
 
-   - **Cause**: The ``timer1`` threading timer may not be running properly.  
-   - **Solution**: Confirm that the ``setup()`` function is executed before the main ``loop()`` and that the timer is started correctly.
+   - **Causa**: El temporizador ``timer1`` de threading puede no estar funcionando correctamente.
+   - **Solución**: Confirma que la función ``setup()`` se ejecute antes del bucle principal ``loop()`` y que el temporizador se inicie correctamente.
 
-4. **KeyboardInterrupt Not Working**  
+4. **KeyboardInterrupt No Funciona**
 
-   - **Cause**: The ``destroy()`` function may not execute properly on interruption.  
-   - **Solution**: Ensure all GPIO devices are properly closed in ``destroy()`` and that it is called in the ``except KeyboardInterrupt`` block.
+   - **Causa**: La función ``destroy()`` puede no ejecutarse correctamente al interrumpir.
+   - **Solución**: Asegúrate de que todos los dispositivos GPIO se cierren correctamente en ``destroy()`` y que se llame en el bloque ``except KeyboardInterrupt``.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Custom Counter Behavior**  
+1. **Comportamiento Personalizado del Contador**
 
-   Modify the counter to count down, reset at a specific value, or display specific patterns.
+   Modifica el contador para que cuente hacia atrás, se reinicie en un valor específico o muestre patrones específicos.
 
-2. **Multi-Mode Display**  
+2. **Modo de Display Múltiple**
 
-   Add different display modes, such as:
-   
-   - Static message display.
-   - Alternating between the counter and a predefined message.
+   Agrega diferentes modos de visualización, como:
 
-3. **Variable Counter Speed**  
+   - Visualización de mensajes estáticos.
+   - Alternancia entre el contador y un mensaje predefinido.
 
-   Allow the user to change the counter increment speed dynamically:
+3. **Velocidad Variable del Contador**
+
+   Permite al usuario cambiar la velocidad de incremento del contador dinámicamente:
 
    .. code-block:: python
 
       speed = float(input("Enter counter speed in seconds: "))
       timer1 = threading.Timer(speed, timer)
 
-4. **Real-Time Clock**  
+4. **Reloj en Tiempo Real**
 
-   Replace the counter with a real-time clock to display the current time:
+   Reemplaza el contador con un reloj en tiempo real para mostrar la hora actual:
 
    .. code-block:: python
 
@@ -332,6 +332,6 @@ The program runs indefinitely, incrementing the displayed counter until the user
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to control a 4-digit 7-segment display using a 74HC595 shift register and GPIO programming. The skills learned here can be applied to more complex displays and interactive systems.
+Este proyecto demuestra cómo controlar un display de 7 segmentos de 4 dígitos utilizando un registro de desplazamiento 74HC595 y programación GPIO. Las habilidades aprendidas aquí pueden aplicarse a displays más complejos y sistemas interactivos.

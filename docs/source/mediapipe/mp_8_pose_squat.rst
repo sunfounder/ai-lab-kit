@@ -4,76 +4,76 @@
 
 .. _mp_pose_squat:
 
-8. Squat Counter
+8. Contador de Sentadillas
 ==========================================
 
 ------------------------------------------------------------
-1. Overview
+1. Descripción General
 ------------------------------------------------------------
 
-In the previous chapter, we implemented basic human pose estimation.
-This chapter builds on that foundation to implement a simple
-**Squat Counter** using MediaPipe Pose.
+En el capítulo anterior, implementamos la estimación básica de la pose humana.
+Este capítulo se basa en esa base para implementar un simple
+**Contador de Sentadillas** usando MediaPipe Pose.
 
-This is a practical example of combining:
+Este es un ejemplo práctico que combina:
 
-- Pose detection
-- Action recognition
-- Real-time counting
+- Detección de pose
+- Reconocimiento de acciones
+- Conteo en tiempo real
 
-It can be used in smart fitness systems,
-home workout assistants, or motion analysis applications.
+Se puede usar en sistemas inteligentes de fitness,
+asistentes de entrenamiento en casa o aplicaciones de análisis de movimiento.
 
 .. image:: img/mp_pose_s2.png
-   :alt: Squat Count Example
+   :alt: Ejemplo de conteo de sentadillas
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Cómo Funciona
 ------------------------------------------------------------
 
-The squat counter is implemented using the following logic:
+El contador de sentadillas se implementa usando la siguiente lógica:
 
-1. Use MediaPipe Pose to detect 33 body keypoints.
-2. Select key joints (Shoulder, Hip, Ankle).
-3. Use the normalized y-coordinates to estimate hip height.
-4. Define upper and lower thresholds (e.g., 0.55 and 0.45).
-5. Use a simple state machine to detect the transition:
-   "standing → squatting → standing".
-6. Increase the counter when a full squat cycle is completed.
-7. Display the squat count and current hip value on the screen.
+1. Usar MediaPipe Pose para detectar 33 puntos clave corporales.
+2. Seleccionar articulaciones clave (Hombro, Cadera, Tobillo).
+3. Usar las coordenadas y normalizadas para estimar la altura de la cadera.
+4. Definir umbrales superior e inferior (por ejemplo, 0.55 y 0.45).
+5. Usar una máquina de estados simple para detectar la transición:
+   "de pie → en cuclillas → de pie".
+6. Aumentar el contador cuando se completa un ciclo completo de sentadilla.
+7. Mostrar el conteo de sentadillas y el valor actual de cadera en la pantalla.
 
 .. note::
 
-   - This example does not use joint angle calculation.
-   - It relies on normalized coordinates to reduce computation.
-   - The method is lightweight and suitable for Raspberry Pi.
+   - Este ejemplo no utiliza el cálculo del ángulo de la articulación.
+   - Se basa en coordenadas normalizadas para reducir el cálculo.
+   - El método es ligero y adecuado para Raspberry Pi.
 
 ------------------------
-3. Run the Code
+3. Ejecutar el Código
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_squat.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Después de ejecutar el programa, se abre una ventana titulada "Show Video" y muestra la transmisión de la cámara en vivo.
 
    .. raw:: html
 
@@ -82,36 +82,36 @@ The squat counter is implemented using the following logic:
              Your browser does not support the video tag.
          </video>
 
-   When a person stands in front of the camera:
+   Cuando una persona está de pie frente a la cámara:
 
-   - MediaPipe Pose detects 33 body landmarks in real time.
-   - A full-body skeleton is drawn on the screen.
-   - The system continuously calculates the relative hip position (HipRel).
+   - MediaPipe Pose detecta 33 puntos de referencia corporales en tiempo real.
+   - Se dibuja un esqueleto corporal completo en la pantalla.
+   - El sistema calcula continuamente la posición relativa de la cadera (HipRel).
 
-   As you perform squats:
+   A medida que realizas sentadillas:
 
-   - When you move down and your hip passes the lower threshold (DOWN_TH),
-     the system marks that you are in the "bottom" position.
-   - When you stand back up and the hip passes the upper threshold (UP_TH),
-     the squat counter increases by 1.
+   - Cuando te agachas y tu cadera supera el umbral inferior (DOWN_TH),
+     el sistema marca que estás en la posición "abajo".
+   - Cuando te levantas y la cadera supera el umbral superior (UP_TH),
+     el contador de sentadillas aumenta en 1.
 
-   The screen displays:
+   La pantalla muestra:
 
-   - ``Squats: N`` — the total number of completed squats.
-   - ``HipRel: value`` — the current normalized hip position used for detection.
+   - ``Squats: N`` — el número total de sentadillas completadas.
+   - ``HipRel: value`` — la posición normalizada actual de la cadera utilizada para la detección.
 
-   The counter only increases after a full movement cycle
-   (stand → squat → stand), preventing duplicate counting.
+   El contador solo aumenta después de un ciclo de movimiento completo
+   (de pie → sentadilla → de pie), evitando el conteo duplicado.
 
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   Presiona ``q`` para salir del programa.
+   La cámara se detiene y la ventana de OpenCV se cierra automáticamente.
 
 
 -----------------------------
-4. Complete Code
+4. Código Completo
 -----------------------------
 
-Here is the complete squat counter implementation:
+Aquí está la implementación completa del contador de sentadillas:
 
 .. code-block:: python
 
@@ -212,54 +212,54 @@ Here is the complete squat counter implementation:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After executing the script, the system will:
+Después de ejecutar el script, el sistema:
 
-- Detect the human skeleton;
-- Calculate the relative hip position;
-- Count +1 when a complete cycle from "squat down" to "stand up" is finished;
-- Display **Squats: N** and the current HipRel value on the screen in real-time.
+- Detectará el esqueleto humano;
+- Calculará la posición relativa de la cadera;
+- Contará +1 cuando se complete un ciclo completo desde "agacharse" hasta "levantarse";
+- Mostrará **Squats: N** y el valor actual de HipRel en la pantalla en tiempo real.
 
 -----------------------------------------------
-5. Coordinate and State Design
+5. Coordenadas y Diseño de Estados
 -----------------------------------------------
 
-We use the following 6 keypoints (3 on each side):
+Usamos los siguientes 6 puntos clave (3 a cada lado):
 
 .. list-table::
    :header-rows: 1
 
-   * - Keypoint
-     - Index
-     - Description
-   * - Shoulder
-     - 11 (Left) / 12 (Right)
-     - Upper reference
-   * - Hip
-     - 23 (Left) / 24 (Right)
-     - Core for calculating squat position
-   * - Ankle
-     - 27 (Left) / 28 (Right)
-     - Lower reference
+   * - Punto Clave
+     - Índice
+     - Descripción
+   * - Hombro
+     - 11 (Izquierdo) / 12 (Derecho)
+     - Referencia superior
+   * - Cadera
+     - 23 (Izquierda) / 24 (Derecha)
+     - Centro para calcular la posición de sentadilla
+   * - Tobillo
+     - 27 (Izquierdo) / 28 (Derecho)
+     - Referencia inferior
 
 .. image:: img/mp_pose_s1.png
-   :alt: MediaPipe Pose Keypoints
+   :alt: Puntos clave de MediaPipe Pose
    :align: center
 
-**Hip Relative** value calculation formula:
+**Valor de cadera relativa (Hip Relative)** fórmula de cálculo:
 
 .. math::
 
    hip\_rel = \frac{hip_y - shoulder_y}{ankle_y - shoulder_y}
 
-- Larger hip_rel means closer to the ground (i.e., squatting down).
-- Smaller hip_rel means standing upright.
+- Un hip_rel más grande significa más cerca del suelo (es decir, agachándose).
+- Un hip_rel más pequeño significa estar de pie erguido.
 
-We define two thresholds:
+Definimos dos umbrales:
 
-- **DOWN_TH = 0.55**: Considered entering the bottom of the squat
-- **UP_TH = 0.45**: Considered returning to standing
+- **DOWN_TH = 0.55**: Se considera que se está entrando en la posición baja de la sentadilla
+- **UP_TH = 0.45**: Se considera que se ha vuelto a la posición de pie
 
-Use a simple state machine for reliable counting:
+Usa una máquina de estados simple para un conteo fiable:
 
 .. code-block:: python
 
@@ -270,63 +270,63 @@ Use a simple state machine for reliable counting:
        in_bottom = False
 
 ----------------------------------------------------
-6. Parameter Tuning and Optimization
+6. Ajuste de Parámetros y Optimización
 ----------------------------------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Parameter
-     - Description
-     - Adjustment Suggestion
+   * - Parámetro
+     - Descripción
+     - Sugerencia de ajuste
    * - DOWN_TH
-     - Squat action threshold
-     - Higher value requires deeper squat to count
+     - Umbral de acción de sentadilla
+     - Valor más alto requiere una sentadilla más profunda para contar
    * - UP_TH
-     - Stand up action threshold
-     - Lower value requires standing more upright
+     - Umbral de acción de levantarse
+     - Valor más bajo requiere estar más erguido
    * - model_complexity
-     - Pose model complexity
-     - Use 1 for faster speed
-   * - Resolution
-     - Affects frame rate and accuracy
-     - Recommended 640×480
+     - Complejidad del modelo Pose
+     - Usa 1 para mayor velocidad
+   * - Resolución
+     - Afecta la tasa de fotogramas y la precisión
+     - Recomendado 640×480
 
 .. tip::
-   For people of different heights, adaptive thresholds or personalized calibration can be used for more accurate counting.
+   Para personas de diferentes alturas, se pueden usar umbrales adaptativos o calibración personalizada para un conteo más preciso.
 
 ---------------------------------------------------------
-5. Troubleshooting
+7. Solución de Problemas
 ---------------------------------------------------------
 
-- Inaccurate counting
+- Conteo inexacto
 
-  If the squat count is not accurate, the threshold values may not match your body position or camera angle. 
-  
-  Try printing ``hip_rel`` in real time and adjust ``DOWN_TH`` and ``UP_TH`` accordingly.
-  Also make sure your squat form is consistent and clearly visible.
+  Si el conteo de sentadillas no es preciso, los valores de umbral pueden no coincidir con la posición de tu cuerpo o el ángulo de la cámara.
 
-- Person not detected
+  Intenta imprimir ``hip_rel`` en tiempo real y ajusta ``DOWN_TH`` y ``UP_TH`` en consecuencia.
+  También asegúrate de que tu forma de sentadilla sea consistente y claramente visible.
 
-  If the body is not detected, improve lighting conditions and avoid complex backgrounds. 
-  
-  Make sure you are standing fully inside the frame and facing the camera directly.
+- Persona no detectada
 
-- High latency
+  Si el cuerpo no se detecta, mejora las condiciones de iluminación y evita fondos complejos.
 
-  If the video response is slow, reduce ``model_complexity`` to 1 and lower the camera resolution (for example, 640×480 or 320×240).
-  
-  Close unnecessary background programs to improve performance.
+  Asegúrate de estar completamente dentro del fotograma y mirando directamente a la cámara.
+
+- Alta latencia
+
+  Si la respuesta del video es lenta, reduce ``model_complexity`` a 1 y baja la resolución de la cámara (por ejemplo, 640×480 o 320×240).
+
+  Cierra programas de fondo innecesarios para mejorar el rendimiento.
 
 -----------------------------
-6.  Summary
+8. Resumen
 -----------------------------
 
-- Implemented a **real-time squat counter** using Pose keypoints + state machine;
-- No complex angle calculations required, high operational efficiency;
-- Suitable for Raspberry Pi or other edge device applications;
-- Future extensions possible:
+- Implementado un **contador de sentadillas en tiempo real** usando puntos clave de Pose + máquina de estados;
+- Sin necesidad de cálculos de ángulos complejos, alta eficiencia operativa;
+- Adecuado para Raspberry Pi u otras aplicaciones de dispositivos periféricos;
+- Posibles extensiones futuras:
 
-  - Push-up/Sit-up detection
-  - Data recording and visualization
-  - Automatic rhythm guidance and training feedback
+  - Detección de flexiones/abdominales
+  - Registro y visualización de datos
+  - Guía de ritmo automática y retroalimentación de entrenamiento

@@ -4,26 +4,26 @@
 
 .. _py_fun_morse_code_generator:
 
-4.4 Morse Code Generator
-===========================
+4.4 Generador de Código Morse
+===============================
 
-**Introduction**
+**Introducción**
 
-In this project, we will create a Morse code generator using a Raspberry Pi. You can input a series of characters via the terminal, and the system will output the corresponding Morse code signals using a buzzer and an LED. This project not only demonstrates basic GPIO control but also introduces Morse code, a fascinating communication method used historically for telegraphy.
+En este proyecto, crearemos un generador de código Morse usando una Raspberry Pi. Puedes ingresar una serie de caracteres a través del terminal, y el sistema emitirá las señales de código Morse correspondientes usando un zumbador y un LED. Este proyecto no solo demuestra el control básico de GPIO, sino que también introduce el código Morse, un fascinante método de comunicación utilizado históricamente para la telegrafía.
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required:
+Se requieren los siguientes componentes:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -38,17 +38,17 @@ The following components are required:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The schematic diagram is shown below:
+El diagrama esquemático se muestra a continuación:
 
 .. image:: img/fzz/4.1.13_sch.png
    :width: 100%
@@ -57,9 +57,9 @@ The schematic diagram is shown below:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Build the circuit following the diagram below. Ensure correct polarity for the buzzer (the terminal with the "+" sign is the positive pole):
+Construye el circuito siguiendo el diagrama a continuación. Asegura la polaridad correcta del zumbador (el terminal con el signo "+" es el polo positivo):
 
 
 .. image:: img/fzz/4.1.13_bb.png
@@ -70,11 +70,11 @@ Build the circuit following the diagram below. Ensure correct polarity for the b
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -82,20 +82,20 @@ Follow these steps to run the example:
     <run></run>
 
 .. code-block:: shell
-   
+
     cd ~/ai-lab-kit/python/
     sudo python3 4.4_MorseCodeGenerator.py
 
-* After running the script, you can type a message in the terminal and the system will output it as Morse code using a buzzer and an LED. 
-* Each dot is indicated by a short beep/flash, and each dash by a longer beep/flash. 
-* Letters are separated by a brief pause, and spaces in the message create a longer pause between words. 
-* The program keeps waiting for new input messages and will stop safely when you press ``Ctrl + C``, turning off both the buzzer and the LED.
+* Después de ejecutar el script, puedes escribir un mensaje en el terminal y el sistema lo emitirá como código Morse usando un zumbador y un LED.
+* Cada punto se indica con un pitido/parpadeo corto, y cada raya con un pitido/parpadeo más largo.
+* Las letras se separan con una breve pausa, y los espacios en el mensaje crean una pausa más larga entre palabras.
+* El programa sigue esperando nuevos mensajes de entrada y se detendrá de forma segura cuando presiones ``Ctrl + C``, apagando tanto el zumbador como el LED.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Below is the Python code for this project:
+A continuación se muestra el código Python para este proyecto:
 
 
 .. raw:: html
@@ -194,96 +194,96 @@ Below is the Python code for this project:
 
 
 
-This Python script converts a user-provided message into Morse code and signals it using a buzzer and LED. Here's how it works:
+Este script de Python convierte un mensaje proporcionado por el usuario en código Morse y lo señala usando un zumbador y un LED. Así es como funciona:
 
-1. **Morse Code Conversion**: The script translates the input text (letters, numbers, and some special characters) into Morse code using a predefined dictionary ``MORSECODE``.
+1. **Conversión a Código Morse**: El script traduce el texto de entrada (letras, números y algunos caracteres especiales) a código Morse usando un diccionario predefinido ``MORSECODE``.
 
-2. **Audio-Visual Morse Code Output**:
+2. **Salida Audiovisual de Código Morse**:
 
-   - For each dot (``0``), the buzzer and LED are activated for a short duration (half of the pause time).
-   - For each dash (``1``), the buzzer and LED are activated for a longer duration (equal to the pause time).
+   - Para cada punto (``0``), el zumbador y el LED se activan durante un período corto (la mitad del tiempo de pausa).
+   - Para cada raya (``1``), el zumbador y el LED se activan durante un período más largo (igual al tiempo de pausa).
 
-3. **User Interaction**:
+3. **Interacción con el Usuario**:
 
-   - Users input a message, and the system converts and emits the corresponding Morse code.
-   - The program continuously asks for new messages until interrupted.
+   - Los usuarios ingresan un mensaje, y el sistema lo convierte y emite el código Morse correspondiente.
+   - El programa solicita continuamente nuevos mensajes hasta que se interrumpe.
 
-4. **Graceful Exit**: On ``Ctrl+C``, the script stops, turns off the buzzer and LED, and exits cleanly.
-
-----------------------------------------------
-
-**Understanding the Code**
-
-1. **Components Setup:**  
-
-   The buzzer and LED are initialized on GPIO pins 22 and 17, respectively.
-
-2. **Morse Code Dictionary:**  
-
-   Morse code is represented using '0' for dots (short signals) and '1' for dashes (long signals). For example, 'A' is represented as "01".
-
-3. **Signal Functions:**  
-
-   * The ``on()`` and ``off()`` functions activate or deactivate the buzzer and LED.  
-   * The ``beep()`` function combines these to create a signal with a specified duration.  
-
-4. **Morse Code Conversion:**  
-
-   The ``morsecode()`` function processes each letter of the input message. It emits a series of signals for each character using the Morse code dictionary.
-
-5. **Main Loop:**  
-
-   The program continuously prompts for user input and converts the input to Morse code signals. The loop can be terminated safely with ``Ctrl+C``.
-
+4. **Salida Ordenada**: Al presionar ``Ctrl+C``, el script se detiene, apaga el zumbador y el LED, y sale limpiamente.
 
 ----------------------------------------------
 
+**Comprender el Código**
 
-**Troubleshooting**
+1. **Configuración de Componentes:**
 
-1. **Buzzer or LED Does Not Work**:
+   El zumbador y el LED se inicializan en los pines GPIO 22 y 17, respectivamente.
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+2. **Diccionario de Código Morse:**
 
-     - Verify the buzzer is connected to GPIO 22 and the LED to GPIO 17.
-     - Test the buzzer and LED independently using simple GPIO control scripts.
+   El código Morse se representa usando '0' para puntos (señales cortas) y '1' para rayas (señales largas). Por ejemplo, 'A' se representa como "01".
 
-2. **Morse Code Output Is Inaccurate**:
+3. **Funciones de Señal:**
 
-   - **Cause**: Input characters not in the ``MORSECODE`` dictionary.
-   - **Solution**:
+   * Las funciones ``on()`` y ``off()`` activan o desactivan el zumbador y el LED.
+   * La función ``beep()`` las combina para crear una señal con una duración específica.
 
-     - Ensure the input contains only supported characters (A-Z, 0-9, and select symbols).
-     - Extend the ``MORSECODE`` dictionary to include additional characters.
+4. **Conversión de Código Morse:**
 
-3. **Fast or Overlapping Signals**:
+   La función ``morsecode()`` procesa cada letra del mensaje de entrada. Emite una serie de señales para cada carácter usando el diccionario de código Morse.
 
-   - **Cause**: Inadequate timing for pauses or signal durations.
-   - **Solution**: Adjust the ``pause`` variable in the ``morsecode()`` function for clearer signaling:
+5. **Bucle Principal:**
+
+   El programa solicita continuamente la entrada del usuario y convierte la entrada en señales de código Morse. El bucle se puede terminar de forma segura con ``Ctrl+C``.
+
+
+----------------------------------------------
+
+
+**Solución de Problemas**
+
+1. **El Zumbador o el LED No Funcionan**:
+
+   - **Causa**: Cableado incorrecto o configuración de pines GPIO.
+   - **Solución**:
+
+     - Verifica que el zumbador esté conectado a GPIO 22 y el LED a GPIO 17.
+     - Prueba el zumbador y el LED de forma independiente usando scripts simples de control GPIO.
+
+2. **La Salida de Código Morse es Incorrecta**:
+
+   - **Causa**: Caracteres de entrada que no están en el diccionario ``MORSECODE``.
+   - **Solución**:
+
+     - Asegúrate de que la entrada contenga solo caracteres compatibles (A-Z, 0-9 y símbolos seleccionados).
+     - Extiende el diccionario ``MORSECODE`` para incluir caracteres adicionales.
+
+3. **Señales Rápidas o Superpuestas**:
+
+   - **Causa**: Tiempo inadecuado para las pausas o duraciones de las señales.
+   - **Solución**: Ajusta la variable ``pause`` en la función ``morsecode()`` para una señalización más clara:
 
        .. code-block:: python
 
-           pause = 0.5  # Increase pause duration for slower output
+           pause = 0.5  # Aumenta la duración de la pausa para una salida más lenta
 
-4. **Input Not Detected**:
+4. **Entrada No Detectada**:
 
-   - **Cause**: Input issues in the runtime environment (e.g., no console).
-   - **Solution**: Ensure the script is run in a terminal or environment that supports ``input()``.
+   - **Causa**: Problemas de entrada en el entorno de ejecución (por ejemplo, sin consola).
+   - **Solución**: Asegúrate de que el script se ejecute en un terminal o entorno que admita ``input()``.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Adjustable Speed**: Allow users to set the Morse code signaling speed by inputting a custom pause value.
+1. **Velocidad Ajustable**: Permite a los usuarios establecer la velocidad de señalización del código Morse ingresando un valor de pausa personalizado.
 
      .. code-block:: python
 
-         pause = float(input("Enter pause duration (seconds): "))
+         pause = float(input("Ingresa la duración de la pausa (segundos): "))
 
-2. **Multi-Device Output**: Add another LED or buzzer to display the Morse code simultaneously on different devices.
+2. **Salida Multi-dispositivo**: Agrega otro LED o zumbador para mostrar el código Morse simultáneamente en diferentes dispositivos.
 
-3. **Morse Code Logging**: Log the Morse code sequence to a file for each message:
+3. **Registro de Código Morse**: Guarda la secuencia de código Morse en un archivo para cada mensaje:
 
      .. code-block:: python
 
@@ -292,6 +292,6 @@ This Python script converts a user-provided message into Morse code and signals 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project is a fun way to explore Morse code and its application using Raspberry Pi. By leveraging simple components like a buzzer and LED, you can create a system that bridges historical communication methods with modern electronics. Experiment with the code to enhance your understanding and make it your own!
+Este proyecto es una forma divertida de explorar el código Morse y su aplicación usando Raspberry Pi. Al aprovechar componentes simples como un zumbador y un LED, puedes crear un sistema que une métodos históricos de comunicación con la electrónica moderna. Experimenta con el código para mejorar tu comprensión y hacerlo tuyo.

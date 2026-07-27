@@ -2,60 +2,58 @@
 
 .. note::
 
-    Hello, welcome to the SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts Community on Facebook! Dive deeper into Raspberry Pi, Arduino, and ESP32 with fellow enthusiasts.
+    Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook. Profundiza en Raspberry Pi, Arduino y ESP32 junto a otros entusiastas.
 
-    **Why Join?**
+    **Por que unirte?**
 
-    - **Expert Support**: Solve post-sale issues and technical challenges with help from our community and team.
-    - **Learn & Share**: Exchange tips and tutorials to enhance your skills.
-    - **Exclusive Previews**: Get early access to new product announcements and sneak peeks.
-    - **Special Discounts**: Enjoy exclusive discounts on our newest products.
-    - **Festive Promotions and Giveaways**: Take part in giveaways and holiday promotions.
+    - **Soporte experto**: Resuelve problemas postventa y desafios tecnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprende y comparte**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistazos exclusivos**: Obten acceso anticipado a anuncios de nuevos productos y avances.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos mas recientes.
+    - **Promociones festivas y sorteos**: Participa en sorteos y promociones de temporada.
 
-    👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en |link_sf_facebook| y unite hoy.
 
 .. end_hello_message
 
 SunFounder AI Fusion Lab Kit
 =======================================================
 
-**Welcome to the AI Fusion Lab Kit Documentation**
+**Bienvenido a la documentacion del AI Fusion Lab Kit**
 
-The AI Fusion Lab Kit is an all-in-one learning and development platform designed for beginners, makers, and educators to explore Python programming, artificial intelligence, computer vision, and interactive hardware projects.
+El AI Fusion Lab Kit es una plataforma integral de aprendizaje y desarrollo disenada para principiantes, creadores y educadores interesados en explorar la programacion en Python, la inteligencia artificial, la vision por computadora y proyectos interactivos de hardware.
 
-It combines:
+Combina:
 
-* A modular hardware kit
-* A ready-to-use software environment
-* Step-by-step learning modules
-* AI and vision tools such as LLMs, OpenCV, and MediaPipe
+* Un kit de hardware modular
+* Un entorno de software listo para usar
+* Modulos de aprendizaje paso a paso
+* Herramientas de IA y vision como LLMs, OpenCV y MediaPipe
 
-With this kit, you can build projects that blend coding, electronics, and modern AI technology — all in a hands-on, beginner-friendly way.
+Con este kit, puedes construir proyectos que integran programacion, electronica y tecnologia moderna de IA, todo de una manera practica y apta para principiantes.
 
-**How to Navigate This Documentation**
+**Como navegar esta documentacion**
 
-This guide will help you understand what the kit can do, how the documentation is structured, and where to begin based on your experience level. Whether you're a beginner, an educator, or an experienced maker, you’ll find a clear path that fits your goals.
+Esta guia te ayudara a comprender que puede hacer el kit, como esta estructurada la documentacion y por donde empezar segun tu nivel de experiencia. Ya seas principiante, educador o creador experimentado, encontraras una ruta clara que se ajusta a tus objetivos.
 
+**¿No sabes por donde empezar?**
 
-**Not Sure Where to Start?**
-
-* **Brand-new to the kit?** → Always start with :ref:`get_start`
-* **Learning in Youtube** →  :ref:`youtube_list`
-* **New to coding?** → :ref:`play_with_python`
-* **Interested in AI?** → :ref:`play_with_llm`
-* **Working with cameras?** → :ref:`play_with_opencv` or :ref:`play_with_mediapipe` or :ref:`play_with_yolo`
-* **Need technical details?** → :ref:`cpn_list`
-* **Encountering problems?** → :ref:`faq`
-
+* **¿Eres nuevo en el kit?** → Comienza siempre con :ref:`get_start`
+* **Aprendiendo en YouTube** → :ref:`youtube_list`
+* **¿Nuevo en la programacion?** → :ref:`play_with_python`
+* **¿Interesado en IA?** → :ref:`play_with_llm`
+* **¿Trabajando con camaras?** → :ref:`play_with_opencv` o :ref:`play_with_mediapipe` o :ref:`play_with_yolo`
+* **¿Necesitas detalles tecnicos?** → :ref:`cpn_list`
+* **¿Tienes problemas?** → :ref:`faq`
 
 .. warning::
-   
-   The MediaPipe project does not support Debian 13 (Trixie) at this time.
-   Please use Raspberry Pi OS (Bookworm, Debian 12) to ensure full compatibility.
+
+   El proyecto MediaPipe no es compatible con Debian 13 (Trixie) en este momento.
+   Utiliza Raspberry Pi OS (Bookworm, Debian 12) para garantizar la maxima compatibilidad.
 
 
 
-**Content**
+**Contenido**
 
 .. toctree::
     :maxdepth: 1
@@ -73,11 +71,11 @@ This guide will help you understand what the kit can do, how the documentation i
     faq
 
 
-**Contact Us**
+**Contacto**
 
-If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
+Si tienes alguna pregunta, comunicate con nosotros a **service@sunfounder.com** — estamos aqui para ayudarte.
 
-    
-**Copyright Notice**
 
-All contents including but not limited to texts, images, and code in this manual are owned by the SunFounder Company. You should only use it for personal study,investigation, enjoyment, or other non-commercial or nonprofit purposes, under therelated regulations and copyrights laws, without infringing the legal rights of the author and relevant right holders. For any individual or organization that uses these for commercial profit without permission, the Company reserves the right to take legal action.
+**Aviso de derechos de autor**
+
+Todos los contenidos, incluidos, entre otros, textos, imagenes y codigo de este manual son propiedad de SunFounder Company. Debes usarlos solo para estudio personal, investigacion, esparcimiento u otros fines no comerciales o sin animo de lucro, conforme a las normativas y leyes de derechos de autor aplicables, sin infringir los derechos legales del autor y los titulares de derechos correspondientes. Para cualquier persona u organizacion que utilice estos contenidos con fines de lucro comercial sin permiso, la Compania se reserva el derecho de emprender acciones legales.

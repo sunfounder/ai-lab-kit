@@ -4,52 +4,52 @@
 
 .. _py_10-axis:
 
-2.15 10-Axis IMU Sensor Module
-===============================
+2.15 Módulo de Sensor IMU de 10 Ejes
+======================================
 
-**Introduction**
+**Introducción**
 
-The 10-Axis IMU (Inertial Measurement Unit) module combines multiple sensors to provide comprehensive motion and environmental data. It integrates a barometric pressure sensor (SPL06_001) for altitude measurement, a 6-axis motion sensor (SH3001) for acceleration and rotation, and a 3-axis magnetometer (QMC6310) for compass heading. This sophisticated module is ideal for robotics, navigation systems, and motion-tracking applications.
+El módulo IMU (Unidad de Medición Inercial) de 10 Ejes combina múltiples sensores para proporcionar datos completos de movimiento y entorno. Integra un sensor de presión barométrica (SPL06_001) para medición de altitud, un sensor de movimiento de 6 ejes (SH3001) para aceleración y rotación, y un magnetómetro de 3 ejes (QMC6310) para rumbo de brújula. Este módulo sofisticado es ideal para robótica, sistemas de navegación y aplicaciones de seguimiento de movimiento.
 
 ----------------------------------------------
 
-**What You'll Need**
+**Qué Necesitarás**
 
-Here are the components required for this project:
+Estos son los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_10_axis_imu`
-        - \-
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 .. ----------------------------------------------
 
-.. **Circuit Diagram**
+.. **Diagrama de Circuito**
 
-.. The 10-Axis IMU module connects via I2C interface:
+.. El módulo IMU de 10 Ejes se conecta a través de la interfaz I2C:
 
 .. .. image:: img/fzz/2.14_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Connect the IMU module to Raspberry Pi as shown below:
+Conecta el módulo IMU a la Raspberry Pi como se muestra a continuación:
 
 .. image:: img/fzz/2.15_10axis_bb.png
    :width: 80%
    :align: center
 
-Ensure proper I2C connections:
+Asegura las conexiones I2C adecuadas:
 
 - VCC → 3.3V
 - GND → GND
@@ -60,10 +60,10 @@ Ensure proper I2C connections:
 
 
 
-**Install the library**
+**Instalar la biblioteca**
 
-Install the 10-Axis library:
-   
+Instala la biblioteca del módulo de 10 Ejes:
+
 
 .. raw:: html
 
@@ -71,14 +71,14 @@ Install the 10-Axis library:
 
 .. code-block:: shell
 
-   sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+   sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages
 
 -------------------------------------------------------
 
-**Calibrate the IMU**
+**Calibrar la IMU**
 
 
-Run the calibration script to calibrate the IMU:
+Ejecuta el script de calibración para calibrar la IMU:
 
 
 .. raw:: html
@@ -89,47 +89,47 @@ Run the calibration script to calibrate the IMU:
 
    sudo python3 -m sunfounder_imu.calibrate
 
-Then follow the instructions in the script to calibrate the IMU.
+Luego sigue las instrucciones en el script para calibrar la IMU.
 
 --------------------------------------------------------
 
 
-**Run the example**
+**Ejecutar el ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.15_10axis_imu.py
 
-This Python script reads comprehensive motion and environmental data from the 10-Axis IMU module. When executed:
+Este script de Python lee datos completos de movimiento y entorno del módulo IMU de 10 Ejes. Al ejecutarse:
 
-1. The script initializes communication with all three integrated sensors via I2C.
-2. Each sensor is detected and its I2C address is displayed for verification.
-3. The main loop continuously reads and displays data including:
+1. El script inicializa la comunicación con los tres sensores integrados a través de I2C.
+2. Cada sensor se detecta y su dirección I2C se muestra para verificación.
+3. El bucle principal lee y muestra continuamente datos que incluyen:
 
-   - Altitude (from barometric pressure)
-   - Compass heading (azimuth)
-   - 3-axis acceleration
-   - 3-axis angular velocity (gyroscope)
-   - 3-axis magnetic field strength
-   - Temperature and atmospheric pressure
+   - Altitud (de la presión barométrica)
+   - Rumbo de brújula (acimut)
+   - Aceleración de 3 ejes
+   - Velocidad angular de 3 ejes (giróscopo)
+   - Intensidad del campo magnético de 3 ejes
+   - Temperatura y presión atmosférica
 
-4. Data updates every 0.5 seconds, providing real-time motion tracking.
-5. The program runs until interrupted with ``Ctrl+C``, then exits gracefully.
+4. Los datos se actualizan cada 0.5 segundos, proporcionando seguimiento de movimiento en tiempo real.
+5. El programa se ejecuta hasta que se interrumpe con ``Ctrl+C``, luego sale de forma segura.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Below is the Python code for reading data from the 10-Axis IMU module:
+A continuación se muestra el código Python para leer datos del módulo IMU de 10 Ejes:
 
 .. raw:: html
 
@@ -162,11 +162,11 @@ Below is the Python code for reading data from the 10-Axis IMU module:
            name = class_type.__name__
            print(f"Found sensor {name} at address 0x{address:02X}")
        sleep(3)
-       
+
        try:
            while True:
                data = imu.read()
-               
+
                print(f"Altitude={data['altitude']:7.2f} m")
                print(f"Azimuth={data['azimuth']:7.2f} °")
                print(f"Acceleration:")
@@ -194,20 +194,21 @@ Below is the Python code for reading data from the 10-Axis IMU module:
        main()
 
 
+
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports and Setup:**
+1. **Importaciones y Configuración:**
 
    .. code-block:: python
 
       from time import sleep
       from sunfounder_imu import IMU
 
-   The script imports the necessary modules: ``sleep`` for timing delays and ``IMU`` class from the Sunfounder library to communicate with the sensor module.
+   El script importa los módulos necesarios: ``sleep`` para retardos de tiempo y la clase ``IMU`` de la biblioteca Sunfounder para comunicarse con el módulo sensor.
 
-2. **Sensor Initialization:**
+2. **Inicialización del Sensor:**
 
    .. code-block:: python
 
@@ -217,9 +218,9 @@ Below is the Python code for reading data from the 10-Axis IMU module:
           print("No sensor found.")
           return
 
-   Creates an IMU object and scans for connected sensors on the I2C bus. If no sensors are found, the program exits.
+   Crea un objeto IMU y escanea en busca de sensores conectados en el bus I2C. Si no se encuentran sensores, el programa sale.
 
-3. **Sensor Detection:**
+3. **Detección de Sensores:**
 
    .. code-block:: python
 
@@ -227,9 +228,9 @@ Below is the Python code for reading data from the 10-Axis IMU module:
           name = class_type.__name__
           print(f"Found sensor {name} at address 0x{address:02X}")
 
-   Displays information about each detected sensor, including its type and I2C address for debugging purposes.
+   Muestra información sobre cada sensor detectado, incluyendo su tipo y dirección I2C para fines de depuración.
 
-4. **Main Data Reading Loop:**
+4. **Bucle Principal de Lectura de Datos:**
 
    .. code-block:: python
 
@@ -238,69 +239,69 @@ Below is the Python code for reading data from the 10-Axis IMU module:
           # Display all sensor readings with formatted output
           sleep(0.5)
 
-   - Calls ``imu.read()`` to get all sensor data in a single dictionary
-   - Formats and displays each parameter with consistent decimal precision
-   - Includes a 0.5-second delay to balance update rate and readability
+   - Llama a ``imu.read()`` para obtener todos los datos del sensor en un solo diccionario
+   - Formatea y muestra cada parámetro con precisión decimal consistente
+   - Incluye un retardo de 0.5 segundos para equilibrar la tasa de actualización y la legibilidad
 
-5. **Graceful Exit:**
+5. **Salida Segura:**
 
    .. code-block:: python
 
       except KeyboardInterrupt:
           print("\nExiting program...")
 
-   Catches the KeyboardInterrupt exception to allow clean program termination when ``Ctrl+C`` is pressed.
+   Captura la excepción KeyboardInterrupt para permitir una terminación limpia del programa cuando se presiona ``Ctrl+C``.
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **No Sensors Found**:
+1. **No se encuentran sensores**:
 
-   - **Cause**: Incorrect wiring or I2C communication issues.
-   - **Solution**:
+   - **Causa**: Cableado incorrecto o problemas de comunicación I2C.
+   - **Solución**:
 
-      - Verify all connections: VCC, GND, SDA, SCL
-      - Check if I2C is enabled on Raspberry Pi: ``sudo raspi-config`` → Interface Options → I2C
-      - Run ``i2cdetect -y 1`` to see if the sensors appear at their addresses
+      - Verifica todas las conexiones: VCC, GND, SDA, SCL
+      - Comprueba si I2C está habilitado en Raspberry Pi: ``sudo raspi-config`` → Interface Options → I2C
+      - Ejecuta ``i2cdetect -y 1`` para ver si los sensores aparecen en sus direcciones
 
-2. **Inconsistent or Erratic Readings**:
+2. **Lecturas inconsistentes o erráticas**:
 
-   - **Cause**: Electrical interference or sensor calibration issues.
-   - **Solution**:
+   - **Causa**: Interferencia eléctrica o problemas de calibración del sensor.
+   - **Solución**:
 
-      - Keep the module away from strong magnetic fields or motors
-      - Ensure stable power supply with proper decoupling capacitors
-      - Place the module on a stable surface during measurement
+      - Mantén el módulo alejado de campos magnéticos fuertes o motores
+      - Asegura una fuente de alimentación estable con condensadores de desacoplo adecuados
+      - Coloca el módulo sobre una superficie estable durante la medición
 
-3. **Altitude Readings Incorrect**:
+3. **Lecturas de altitud incorrectas**:
 
-   - **Cause**: Uncalibrated barometric pressure reference.
-   - **Solution**: The altitude is calculated relative to sea level pressure. For accurate readings, calibrate with known altitude or update sea level pressure reference.
+   - **Causa**: Referencia de presión barométrica sin calibrar.
+   - **Solución**: La altitud se calcula en relación con la presión a nivel del mar. Para lecturas precisas, calibra con una altitud conocida o actualiza la referencia de presión a nivel del mar.
 
-4. **Compass Heading Inaccurate**:
+4. **Rumbo de brújula inexacto**:
 
-   - **Cause**: Local magnetic interference or improper calibration.
-   - **Solution**:
+   - **Causa**: Interferencia magnética local o calibración incorrecta.
+   - **Solución**:
 
-      - Perform magnetometer calibration by rotating the module in a figure-8 pattern
-      - Keep away from metal objects, computers, and other magnetic sources
+      - Realiza la calibración del magnetómetro rotando el módulo en un patrón de figura 8
+      - Mantén alejado de objetos metálicos, computadoras y otras fuentes magnéticas
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Motion Detection Alert**: Trigger an alert when acceleration exceeds a threshold:
+1. **Alerta de detección de movimiento**: Activa una alerta cuando la aceleración supere un umbral:
 
    .. code-block:: python
 
-      acceleration_magnitude = (data['acceleration'].x**2 + 
-                                data['acceleration'].y**2 + 
+      acceleration_magnitude = (data['acceleration'].x**2 +
+                                data['acceleration'].y**2 +
                                 data['acceleration'].z**2)**0.5
       if acceleration_magnitude > 2.0:  # 2G threshold
           print("Motion detected!")
 
-2. **Orientation Detection**: Determine device orientation using combined sensor data:
+2. **Detección de orientación**: Determina la orientación del dispositivo usando datos combinados del sensor:
 
    .. code-block:: python
 
@@ -310,17 +311,17 @@ Below is the Python code for reading data from the 10-Axis IMU module:
       elif data['acceleration'].y > 8.0:
           print("Device is upright")
 
-3. **Data Logging**: Record sensor data to a file for analysis:
+3. **Registro de datos**: Guarda los datos del sensor en un archivo para su análisis:
 
    .. code-block:: python
 
       import csv
       with open('imu_data.csv', 'a') as f:
           writer = csv.writer(f)
-          writer.writerow([data['temperature'], data['pressure'], 
+          writer.writerow([data['temperature'], data['pressure'],
                           data['altitude'], data['azimuth']])
 
-4. **Tilt-Compensated Compass**: Improve heading accuracy using accelerometer data:
+4. **Brújula compensada por inclinación**: Mejora la precisión del rumbo usando datos del acelerómetro:
 
    .. code-block:: python
 
@@ -331,6 +332,6 @@ Below is the Python code for reading data from the 10-Axis IMU module:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to use a 10-Axis IMU module to obtain comprehensive motion and environmental data with a Raspberry Pi. By integrating pressure, acceleration, rotation, and magnetic field sensors, this module provides a complete inertial measurement solution suitable for advanced applications like drone stabilization, robotics navigation, and motion tracking systems. The foundation established here enables further exploration into sensor fusion algorithms and complex motion analysis.
+Este proyecto demuestra cómo usar un módulo IMU de 10 Ejes para obtener datos completos de movimiento y entorno con una Raspberry Pi. Al integrar sensores de presión, aceleración, rotación y campo magnético, este módulo proporciona una solución de medición inercial completa adecuada para aplicaciones avanzadas como estabilización de drones, navegación robótica y sistemas de seguimiento de movimiento. La base establecida aquí permite una mayor exploración de algoritmos de fusión de sensores y análisis de movimiento complejo.

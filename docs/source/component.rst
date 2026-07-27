@@ -4,18 +4,18 @@
 
 .. _cpn_list:
 
-Components
+Componentes
 ================================================
 
-.. After opening the package, please check whether the quantity of components is compliance with product description and whether all components are in good condition.
+.. Al abrir el paquete, verifica si la cantidad de componentes coincide con la descripcion del producto y si todos los componentes estan en buen estado.
 
 .. .. image:: img/list.png
 ..     :width: 800
 
-Below is the introduction to each component, which contains the operating principle of the component and the corresponding projects.
+A continuacion se presenta la introduccion a cada componente, que incluye el principio de funcionamiento del componente y los proyectos correspondientes.
 
 
-**Basic**
+**Basicos**
 
 .. toctree::
     :maxdepth: 1
@@ -36,7 +36,7 @@ Below is the introduction to each component, which contains the operating princi
 
     ../_shared/component/cpn_74hc595
 
-**Display**
+**Pantalla**
 
 .. toctree::
     :maxdepth: 1
@@ -48,14 +48,14 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_ws2812_module
 
 
-**Sound**
+**Sonido**
 
 .. toctree::
     :maxdepth: 1
 
     ../_shared/component/cpn_buzzer
 
-**Driver**
+**Controlador**
 
 .. toctree::
     :maxdepth: 1
@@ -63,9 +63,9 @@ Below is the introduction to each component, which contains the operating princi
     ../_shared/component/cpn_motor_xh254
     ../_shared/component/cpn_servo_sf006pro
     ../_shared/component/cpn_relay_6pin
-    
 
-**Controller**
+
+**Control**
 
 .. toctree::
     :maxdepth: 1

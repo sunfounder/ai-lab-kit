@@ -5,40 +5,40 @@
 .. _py_led:
 
 
-1.1 Blinking LED
-==================
+1.1 LED Parpadeante
+======================
 
-**Introduction**
+**Introducción**
 
-Welcome to your first project! In this tutorial, we will learn how to make an LED blink using Python programming and the GPIO pins. This project is an excellent introduction to hardware and software integration, demonstrating how simple code can interact with real-world components.
+Bienvenido a tu primer proyecto. En este tutorial, aprenderemos a hacer parpadear un LED utilizando programación Python y los pines GPIO. Este proyecto es una excelente introducción a la integración de hardware y software, demostrando cómo un código simple puede interactuar con componentes del mundo real.
 
-Before we start, let’s briefly explain the basics:
+Antes de comenzar, expliquemos brevemente los conceptos básicos:
 
-* **What is an LED?**  
+* **¿Qué es un LED?**
 
-  An LED (Light Emitting Diode) is a small electronic component that lights up when an electrical current flows through it. LEDs are widely used in electronics because they are efficient and long-lasting.
-  
-* **What is a GPIO Pin?**  
+  Un LED (diodo emisor de luz) es un pequeño componente electrónico que se ilumina cuando una corriente eléctrica fluye a través de él. Los LED se utilizan ampliamente en electrónica porque son eficientes y duraderos.
 
-  GPIO stands for **General Purpose Input/Output**. These pins allow the Raspberry Pi to communicate with external devices, such as LEDs, sensors, or buttons. Each pin can be programmed to send signals (output) or read signals (input).
+* **¿Qué es un pin GPIO?**
 
-In this tutorial, we’ll connect an LED to a GPIO pin and write a Python program to make it blink. Let’s get started!
+  GPIO significa **General Purpose Input/Output** (Entrada/Salida de Propósito General). Estos pines permiten que la Raspberry Pi se comunique con dispositivos externos, como LED, sensores o botones. Cada pin puede programarse para enviar señales (salida) o leer señales (entrada).
+
+En este tutorial, conectaremos un LED a un pin GPIO y escribiremos un programa en Python para hacerlo parpadear. ¡Comencemos!
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Here’s the list of components and their purposes:
+Aquí está la lista de componentes y sus propósitos:
 
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
-        
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
+
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
     *   - :ref:`cpn_wires`
@@ -55,9 +55,9 @@ Here’s the list of components and their purposes:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The resistor limits the current flowing through the LED, preventing it from burning out. Without a resistor, the LED may draw too much current, which can damage both the LED and the Raspberry Pi.
+La resistencia limita la corriente que fluye a través del LED, evitando que se queme. Sin una resistencia, el LED puede consumir demasiada corriente, lo que puede dañar tanto el LED como la Raspberry Pi.
 
 .. image:: img/fzz/1.1.1_sch.png
    :width: 80%
@@ -67,9 +67,9 @@ The resistor limits the current flowing through the LED, preventing it from burn
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow the wiring diagram below to connect your components:
+Sigue el diagrama de conexiones a continuación para conectar tus componentes:
 
 .. image:: img/fzz/1.1.1_bb.png
    :width: 80%
@@ -77,57 +77,57 @@ Follow the wiring diagram below to connect your components:
 
 ----------------------------------------------
 
-**Run the Code**
+**Ejecutar el Código**
 
-Let’s write the Python code to control the LED. You’ll create a script that turns the LED on and off at regular intervals.
+Escribamos el código Python para controlar el LED. Crearás un script que enciende y apaga el LED a intervalos regulares.
 
-1. **Navigate to the Code Directory:**  
+1. **Navegar al Directorio de Código:**
 
-   Open your terminal and type:
+   Abre tu terminal y escribe:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
-2. **Run the Program:**  
+2. **Ejecutar el Programa:**
 
-   Use the following command to execute the script:
+   Usa el siguiente comando para ejecutar el script:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       sudo python3 1.1_LED.py
 
-   You should see the LED blinking on and off at regular intervals.
+   Deberías ver el LED parpadeando encendiéndose y apagándose a intervalos regulares.
 
-3. **Edit the Code (Optional):**  
+3. **Editar el Código (Opcional):**
 
-   To modify the program, open the code file in a text editor:
+   Para modificar el programa, abre el archivo de código en un editor de texto:
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
        nano 1.1_LED.py
 
-   Make your changes, then press ``Ctrl+X`` to exit. Save your modifications by typing ``Y`` when prompted. Run the script again to see your changes.
+   Haz tus cambios, luego presiona ``Ctrl+X`` para salir. Guarda tus modificaciones escribiendo ``Y`` cuando se te solicite. Ejecuta el script nuevamente para ver tus cambios.
 
 
 ----------------------------------------------
 
 
-**Code**
+**Código**
 
-Here’s the complete Python script for this project:
+Aquí está el script Python completo para este proyecto:
 
 
 .. raw:: html
@@ -165,70 +165,70 @@ Here’s the complete Python script for this project:
       pass
 
 
-This Python script controls an LED connected to GPIO pin 17 of a Raspberry Pi. When executed, the LED alternates between turning on and off in half-second intervals. Simultaneously, the console prints "LED is ON" and "LED is OFF" to indicate the LED's current state. The program runs indefinitely until interrupted by a user pressing ``Ctrl+C``.
+Este script Python controla un LED conectado al pin GPIO 17 de una Raspberry Pi. Cuando se ejecuta, el LED alterna entre encenderse y apagarse en intervalos de medio segundo. Simultáneamente, la consola imprime "LED is ON" y "LED is OFF" para indicar el estado actual del LED. El programa se ejecuta indefinidamente hasta que el usuario lo interrumpe presionando ``Ctrl+C``.
 
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports:**  
+1. **Importaciones:**
 
-   The ``fusion_hat`` library simplifies controlling GPIO devices. The ``Pin`` class allows you to control an LED with basic methods like ``on()`` and ``off()``. The ``sleep`` function introduces delays between commands.
+   La librería ``fusion_hat`` simplifica el control de dispositivos GPIO. La clase ``Pin`` te permite controlar un LED con métodos básicos como ``on()`` y ``off()``. La función ``sleep`` introduce retrasos entre comandos.
 
-   .. note:: For the usage of fusion-hat, please refer to the |link_api_fusion_hat|.
-
-
-2. **Initialization:**  
-
-   The line ``led = Pin(17,mode=Mode.OUT)`` tells the Raspberry Pi that an LED is connected to GPIO pin 17.
-
-3. **Main Loop:**  
-
-   Inside the ``while True`` loop: The LED turns on (``led.on()``) and off (``led.off()``) with a 0.5-second pause (``sleep(0.5)``) in between.
-
-4. **Graceful Exit:**  
-
-   The ``try...except`` block ensures the program stops cleanly when interrupted (e.g., by pressing ``Ctrl+C``).
+   .. note:: Para el uso de fusion-hat, consulta |link_api_fusion_hat|.
 
 
+2. **Inicialización:**
 
-----------------------------------------------
+   La línea ``led = Pin(17,mode=Mode.OUT)`` le indica a la Raspberry Pi que hay un LED conectado al pin GPIO 17.
 
+3. **Bucle Principal:**
 
-**Troubleshooting**
+   Dentro del bucle ``while True``: El LED se enciende (``led.on()``) y se apaga (``led.off()``) con una pausa de 0.5 segundos (``sleep(0.5)``) entre cada acción.
 
-1. **LED Does Not Light Up**  
+4. **Salida Controlada:**
 
-   - **Cause**: Incorrect GPIO pin or faulty wiring.  
-   - **Solution**: Double-check the LED's connection to GPIO pin 17 and ensure the resistor is correctly placed to prevent damage to the LED.
+   El bloque ``try...except`` asegura que el programa se detenga de forma limpia cuando sea interrumpido (por ejemplo, presionando ``Ctrl+C``).
 
-
-2. **KeyboardInterrupt Not Working**  
-
-   - **Cause**: The program does not exit gracefully.  
-   - **Solution**: Ensure the script is running in a terminal where ``Ctrl+C`` is captured, not as a background process.
-
-3. **Incorrect GPIO Setup**  
-
-   - **Cause**: ``fusion_hat`` library is not installed.  
-   - **Solution**: See :ref:`install_fusion_hat`.
-
-4. **LED Flickers or Behaves Erratically**  
-
-   - **Cause**: Unstable power supply or poor connections.  
-   - **Solution**: Ensure a stable power source and secure wiring.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
 
-1. **Variable Blink Speed**: Add user input to control the LED's blinking speed dynamically:  
+**Solución de Problemas**
+
+1. **El LED No se Enciende**
+
+   - **Causa**: Pin GPIO incorrecto o cableado defectuoso.
+   - **Solución**: Verifica la conexión del LED al pin GPIO 17 y asegúrate de que la resistencia esté colocada correctamente para evitar daños al LED.
+
+
+2. **KeyboardInterrupt No Funciona**
+
+   - **Causa**: El programa no sale de forma controlada.
+   - **Solución**: Asegúrate de que el script se ejecute en una terminal donde se capture ``Ctrl+C``, no como un proceso en segundo plano.
+
+3. **Configuración GPIO Incorrecta**
+
+   - **Causa**: La librería ``fusion_hat`` no está instalada.
+   - **Solución**: Consulta :ref:`install_fusion_hat`.
+
+4. **El LED Parpadea o se Comporta de Forma Errática**
+
+   - **Causa**: Fuente de alimentación inestable o conexiones deficientes.
+   - **Solución**: Asegura una fuente de alimentación estable y un cableado seguro.
+
+
+----------------------------------------------
+
+**Ideas para Extender**
+
+1. **Velocidad de Parpadeo Variable**: Agrega entrada del usuario para controlar la velocidad de parpadeo del LED dinámicamente:
 
    .. code-block:: python
-        
+
         interval = float(input("Enter blink interval in seconds: "))
 
         while True:
@@ -238,12 +238,12 @@ This Python script controls an LED connected to GPIO pin 17 of a Raspberry Pi. W
             sleep(interval)
 
 
-2. **Multi-LED Control**: Connect multiple LEDs to different GPIO pins and control them in patterns (e.g., sequential lighting or simultaneous blinking).
+2. **Control de Múltiples LED**: Conecta varios LED a diferentes pines GPIO y contrólalos en patrones (por ejemplo, iluminación secuencial o parpadeo simultáneo).
 
 
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusión**
 
-Congratulations! You’ve completed your first Raspberry Pi project. By controlling an LED, you’ve learned how to use GPIO pins and write Python scripts to interact with hardware. This foundational knowledge will serve as a stepping stone for more complex projects. Keep experimenting and exploring!
+¡Felicidades! Has completado tu primer proyecto con Raspberry Pi. Al controlar un LED, has aprendido a usar los pines GPIO y a escribir scripts Python para interactuar con hardware. Este conocimiento fundamental te servirá como base para proyectos más complejos. ¡Sigue experimentando y explorando!

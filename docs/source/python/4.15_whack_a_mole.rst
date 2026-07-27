@@ -5,27 +5,27 @@
 
 .. _py_whack_a_mole:
 
-4.15 Whack-a-Mole Game
-======================
+4.15 Juego del Topo (Whack-a-Mole)
+===================================
 
-**Introduction**
+**Introducción**
 
-In this lesson, you will build a **Whack-a-Mole game** using the Fusion HAT+.  
-Four PWM-driven LEDs act as “moles,” fading smoothly in a 1-second cycle.  
-Your goal is to hit the correct button when its corresponding LED lights up. A buzzer gives audio feedback:
+En esta lección, construirás un **Juego del Topo (Whack-a-Mole)** usando el Fusion HAT+.
+Cuatro LEDs controlados por PWM actúan como "topos", desvaneciéndose suavemente en un ciclo de 1 segundo.
+Tu objetivo es presionar el botón correcto cuando su LED correspondiente se enciende. Un zumbador proporciona retroalimentación de audio:
 
-- **Correct hole → short high-pitch beep**
-- **Wrong hole → GAME OVER (low beep)**
+- **Agujero correcto → pitido corto agudo**
+- **Agujero incorrecto → GAME OVER (pitido grave)**
 
-An SSD1306 OLED display shows your **current score** during the game and a **final score** on game over.
+Una pantalla OLED SSD1306 muestra tu **puntuación actual** durante el juego y la **puntuación final** al terminar.
 
-This project combines PWM brightness shaping, button edge detection, timing loops, and a simple game state machine.
+Este proyecto combina modelado de brillo PWM, detección de flancos de botones, bucles de temporización y una máquina de estados de juego simple.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
@@ -50,9 +50,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Refer to the wiring diagram for assembling the components:
+Consulte el diagrama de conexiones para ensamblar los componentes:
 
 .. image:: img/fzz/4.15_whack_a_mole_bb.png
    :width: 80%
@@ -60,9 +60,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Pasos de Configuración**
 
-#. Install the required libraries:
+#. Instala las librerías requeridas:
 
    .. raw:: html
 
@@ -72,7 +72,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the game from the ``ai-lab-kit`` directory:
+#. Ejecuta el juego desde el directorio ``ai-lab-kit``:
 
    .. raw:: html
 
@@ -83,22 +83,22 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.15_WhackAMole.py
 
-#. When the script runs:
+#. Cuando el script se ejecuta:
 
-   * One LED fades up/down (triangle wave).  
-   * Press **only the lit LED’s button** within the 1-second window:  
+   * Un LED se enciende y apaga gradualmente (onda triangular).
+   * Presiona **solo el botón del LED encendido** dentro de la ventana de 1 segundo:
 
-     - Correct → score increases, next mole appears  
-     - Incorrect → buzzer plays error tone → **GAME OVER**  
-   * OLED shows only the current score (in-game)  
-   * OLED shows “GAME OVER” + final score upon losing  
-   * Press Ctrl+C to exit
+     - Correcto → la puntuación aumenta, aparece el siguiente topo
+     - Incorrecto → el zumbador reproduce un tono de error → **GAME OVER**
+   * El OLED muestra solo la puntuación actual (durante el juego)
+   * El OLED muestra "GAME OVER" + puntuación final al perder
+   * Presiona Ctrl+C para salir
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the full Python script for the Whack-a-Mole game:
+Aquí está el script completo de Python para el juego Whack-a-Mole:
 
 .. raw:: html
 
@@ -322,15 +322,15 @@ Here is the full Python script for the Whack-a-Mole game:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **LED Fade Animation**
+1. **Animación de Desvanecimiento LED**
 
-   Each LED performs a 1-second triangle-wave fade:
+   Cada LED realiza un desvanecimiento de onda triangular de 1 segundo:
 
-   - Brightness rises from 0 → 100%  
-   - Then falls from 100% → 0  
-   - Gamma correction (``u ** gamma``) improves visual linearity  
+   - El brillo aumenta de 0 → 100%
+   - Luego disminuye de 100% → 0
+   - La corrección gamma (``u ** gamma``) mejora la linealidad visual
 
    .. code-block:: python
 
@@ -341,13 +341,13 @@ Here is the full Python script for the Whack-a-Mole game:
                                     gamma: float = 1.8) -> (bool, Optional[List[int]]):
          ...
 
-2. **Button Edge Detection**
+2. **Detección de Flanco de Botón**
 
-   ``read_buttons()`` reads all four buttons.  
-   A **rising edge** (``previous=0, current=1``) means “button just pressed.”
+   ``read_buttons()`` lee los cuatro botones.
+   Un **flanco ascendente** (``previous=0, current=1``) significa "botón recién presionado".
 
-   - If pressed button matches lit LED → **correct hit**  
-   - Else → **wrong hit → GAME OVER**
+   - Si el botón presionado coincide con el LED encendido → **acierto correcto**
+   - De lo contrario → **error → GAME OVER**
 
    .. code-block:: python
 
@@ -357,10 +357,10 @@ Here is the full Python script for the Whack-a-Mole game:
 
 
 
-3. **Buzzer Feedback**
+3. **Retroalimentación del Zumbador**
 
-   - ``A5`` short chirp = success  
-   - ``E4`` longer tone = miss / game over  
+   - ``A5`` chirrido corto = éxito
+   - ``E4`` tono más largo = error / game over
 
    .. code-block:: python
 
@@ -379,11 +379,11 @@ Here is the full Python script for the Whack-a-Mole game:
 
 
 
-4. **Game Loop**
+4. **Bucle del Juego**
 
-   - Randomly picks one of four LEDs (never the same twice in a row)  
-   - Runs a fade cycle, checking button presses  
-   - Updates score or ends the game  
+   - Elige aleatoriamente uno de cuatro LEDs (nunca el mismo dos veces seguidas)
+   - Ejecuta un ciclo de desvanecimiento, verificando las pulsaciones de botones
+   - Actualiza la puntuación o termina el juego
 
    .. code-block:: python
 
@@ -398,10 +398,10 @@ Here is the full Python script for the Whack-a-Mole game:
          ...
 
 
-5. **OLED Display**
+5. **Pantalla OLED**
 
-   - Shows only the score during play  
-   - Shows GAME OVER + final score when game ends  
+   - Muestra solo la puntuación durante el juego
+   - Muestra GAME OVER + puntuación final cuando el juego termina
 
    .. code-block:: python
 
@@ -420,51 +420,51 @@ Here is the full Python script for the Whack-a-Mole game:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-- **Buttons do not register presses**
+- **Los botones no registran las pulsaciones**
 
-  - Ensure buttons are wired correctly using BCM pin numbering  
-  - Confirm ``PULL_DOWN`` is applied so pressed state = 1  
-  - Check for correct ground wiring  
+  - Asegúrate de que los botones estén cableados correctamente usando la numeración de pines BCM
+  - Confirma que se aplique ``PULL_DOWN`` para que el estado presionado = 1
+  - Verifica el cableado de tierra correcto
 
-- **LEDs flicker instead of fading smoothly**
+- **Los LEDs parpadean en lugar de desvanecerse suavemente**
 
-  - Reduce ``step`` time for smoother updates (e.g., 0.005)  
-  - Ensure PWM ports support proper duty cycle updates  
+  - Reduce el tiempo de ``step`` para actualizaciones más suaves (por ejemplo, 0.005)
+  - Asegúrate de que los puertos PWM admitan actualizaciones de ciclo de trabajo adecuadas
 
-- **Game ends immediately without pressing anything**
+- **El juego termina inmediatamente sin presionar nada**
 
-  - A floating button pin may read as 1  
-  - Ensure pull-down resistors are correctly configured  
+  - Un pin de botón flotante puede leerse como 1
+  - Asegúrate de que las resistencias pull-down estén configuradas correctamente
 
-- **Score does not increase**
+- **La puntuación no aumenta**
 
-  - Verify the LED index matches the button index  
-  - Ensure LED ports and button pins are in correct order  
+  - Verifica que el índice del LED coincida con el índice del botón
+  - Asegúrate de que los puertos LED y los pines de los botones estén en el orden correcto
 
 ----------------------------------------------
 
-**Try It Yourself**
+**Pruébalo Tú Mismo**
 
-1. **Variable Speed Mode**  
+1. **Modo de Velocidad Variable**
 
-   Gradually shorten the fade duration to make the game more challenging.
+   Acorta gradualmente la duración del desvanecimiento para hacer el juego más desafiante.
 
-2. **Multi-LED Mode**  
+2. **Modo Multi-LED**
 
-   Light up two LEDs at once—player must hit either one.
+   Enciende dos LEDs a la vez: el jugador debe golpear cualquiera de ellos.
 
-3. **Lives System**  
+3. **Sistema de Vidas**
 
-   Allow 3 mistakes before game over.
+   Permite 3 errores antes del game over.
 
-4. **High-Score Storage**  
+4. **Almacenamiento de Puntuación Máxima**
 
-   Save the highest score to a file and display it at startup.
+   Guarda la puntuación más alta en un archivo y muéstrala al inicio.
 
-5. **Animated Title Screen**  
+5. **Pantalla de Título Animada**
 
-   Add a splash screen before the game starts.
+   Agrega una pantalla de presentación antes de que comience el juego.
 
-These ideas can turn Whack-a-Mole into a full arcade experience!
+Estas ideas pueden convertir Whack-a-Mole en una experiencia arcade completa.

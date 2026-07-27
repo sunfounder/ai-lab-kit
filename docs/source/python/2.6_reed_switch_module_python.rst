@@ -4,25 +4,25 @@
 
 .. _py_reed:
 
-2.6 Reed Switch
-===========================
+2.6 Interruptor de Lengüeta (Reed)
+==================================
 
-**Introduction**
+**Introducción**
 
-In this project, we will learn how to use a reed switch as a magnetic field sensor to control LEDs. A reed switch is an electrical switch operated by an applied magnetic field, commonly used in security systems, door/window sensors, and position detection. This project demonstrates how to detect the state of a reed switch and provide visual feedback using two LEDs.
+En este proyecto, aprenderemos cómo usar un interruptor de lengüeta (reed) como sensor de campo magnético para controlar LEDs. Un interruptor de lengüeta es un interruptor eléctrico operado por un campo magnético aplicado, comúnmente utilizado en sistemas de seguridad, sensores de puerta/ventana y detección de posición. Este proyecto demuestra cómo detectar el estado de un interruptor de lengüeta y proporcionar retroalimentación visual usando dos LEDs.
 
 ----------------------------------------------
 
-**What You'll Need**
+**Qué Necesitarás**
 
-To complete this project, you will need the following components:
+Para completar este proyecto, necesitarás los siguientes componentes:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -33,30 +33,30 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_resistor`
         - |link_resistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The circuit uses a reed switch connected to a GPIO input pin with a pull-down resistor. Two LEDs are connected to separate GPIO output pins, each with a current-limiting resistor. When a magnet approaches the reed switch, it closes the circuit, triggering the LED indicators to change states.
+El circuito utiliza un interruptor de lengüeta conectado a un pin de entrada GPIO con una resistencia pull-down. Dos LEDs están conectados a pines GPIO de salida separados, cada uno con una resistencia limitadora de corriente. Cuando un imán se acerca al interruptor de lengüeta, cierra el circuito, haciendo que los indicadores LED cambien de estado.
 
 .. image:: img/fzz/2.2.4_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow these steps to build the circuit:
+Sigue estos pasos para construir el circuito:
 
-1. Connect the GND & VCC pin of the reed switch to GND & 3.3V
-2. Connect the D0 Pin of the reed switch to GPIO 17
-3. Connect LED1 cathode to GPIO 22 through a 220Ω resistor
-4. Connect LED1 anode to GND
-5. Connect LED2 cathode to GPIO 27 through a 220Ω resistor
-6. Connect LED2 anode to GND
+1. Conecta el pin GND y VCC del interruptor de lengüeta a GND y 3.3V
+2. Conecta el pin D0 del interruptor de lengüeta a GPIO 17
+3. Conecta el cátodo de LED1 a GPIO 22 mediante una resistencia de 220Ω
+4. Conecta el ánodo de LED1 a GND
+5. Conecta el cátodo de LED2 a GPIO 27 mediante una resistencia de 220Ω
+6. Conecta el ánodo de LED2 a GND
 
 .. image:: img/fzz/2.2.4_bb.png
    :width: 80%
@@ -64,33 +64,33 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo usado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 2.6_ReedSwitch.py 
+   sudo python3 2.6_ReedSwitch.py
 
-This Python script creates a magnetic field detection system using a reed switch and two status LEDs. When executed:
+Este script de Python crea un sistema de detección de campo magnético utilizando un interruptor de lengüeta y dos LEDs de estado. Cuando se ejecuta:
 
-1. The script continuously monitors the state of the reed switch
-2. When a magnet is detected (reed switch closed), LED1 turns off and LED2 turns on
-3. When no magnet is detected (reed switch open), LED1 turns on and LED2 turns off
-4. This creates a clear visual indication of the magnetic field presence
-5. The program can be interrupted gracefully using ``Ctrl+C``
+1. El script monitorea continuamente el estado del interruptor de lengüeta.
+2. Cuando se detecta un imán (interruptor de lengüeta cerrado), LED1 se apaga y LED2 se enciende.
+3. Cuando no se detecta un imán (interruptor de lengüeta abierto), LED1 se enciende y LED2 se apaga.
+4. Esto crea una indicación visual clara de la presencia del campo magnético.
+5. El programa se puede interrumpir de forma segura usando ``Ctrl+C``.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-The following Python code monitors a reed switch and controls two LEDs based on its state:
+El siguiente código de Python monitorea un interruptor de lengüeta y controla dos LEDs según su estado:
 
 .. raw:: html
 
@@ -127,29 +127,29 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Library Import**
+1. **Importación de Librerías**
 
-   The ``Pin`` class from the ``fusion_hat`` library is used to control GPIO pins, and ``time.sleep`` is imported for potential delay operations.
+   La clase ``Pin`` de la librería ``fusion_hat`` se utiliza para controlar los pines GPIO, y se importa ``time.sleep`` para posibles operaciones de retardo.
 
    .. code-block:: python
 
         from fusion_hat.pin import Pin, Mode, Pull
         from time import sleep  # Import sleep for delay
 
-2. **Reed Switch Initialization**
+2. **Inicialización del Interruptor de Lengüeta**
 
-   The reed switch is initialized on GPIO pin 17 as an input with a pull-down resistor to ensure a stable LOW state when the switch is open.
+   El interruptor de lengüeta se inicializa en el pin GPIO 17 como una entrada con una resistencia pull-down para asegurar un estado LOW estable cuando el interruptor está abierto.
 
    .. code-block:: python
 
         # Initialize reed switch (Button) on GPIO pin 17
         reed = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-3. **LED Initialization**
+3. **Inicialización de LEDs**
 
-   Two LEDs are initialized on GPIO pins 22 and 27 as outputs to provide visual feedback.
+   Se inicializan dos LEDs en los pines GPIO 22 y 27 como salidas para proporcionar retroalimentación visual.
 
    .. code-block:: python
 
@@ -158,9 +158,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
         # Initialize LED2 connected to GPIO pin 27
         led2 = Pin(27,mode=Mode.OUT)
 
-4. **Main Monitoring Loop**
+4. **Bucle Principal de Monitoreo**
 
-   The ``while True`` loop continuously checks the reed switch state and controls the LEDs accordingly, creating a clear status indication system.
+   El bucle ``while True`` verifica continuamente el estado del interruptor de lengüeta y controla los LEDs en consecuencia, creando un sistema de indicación de estado claro.
 
    .. code-block:: python
 
@@ -172,9 +172,9 @@ The following Python code monitors a reed switch and controls two LEDs based on 
               led1.on()   # Turn on LED1
               led2.off()  # Turn off LED2
 
-5. **Keyboard Interrupt Handling**
+5. **Manejo de Interrupción de Teclado**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted.
+   El bloque ``try-except`` asegura que el programa se detenga correctamente cuando se interrumpe.
 
    .. code-block:: python
 
@@ -184,37 +184,37 @@ The following Python code monitors a reed switch and controls two LEDs based on 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **Reed Switch Not Detecting Magnet**
+1. **El Interruptor de Lengüeta No Detecta el Imán**
 
-   - **Cause**: Magnet polarity issues, insufficient magnetic strength, or wiring problems.
-   - **Solution**: Try flipping the magnet, use a stronger magnet, or verify all connections.
+   - **Causa**: Problemas de polaridad del imán, fuerza magnética insuficiente o problemas de cableado.
+   - **Solución**: Intenta invertir el imán, usa un imán más fuerte o verifica todas las conexiones.
 
-2. **LEDs Not Lighting**
+2. **Los LEDs No Encienden**
 
-   - **Cause**: Incorrect GPIO pin assignments, LED polarity reversed, or insufficient current.
-   - **Solution**: Check pin assignments, ensure LEDs are connected with correct polarity (anode to GPIO), and verify resistor values.
+   - **Causa**: Asignaciones incorrectas de pines GPIO, polaridad del LED invertida o corriente insuficiente.
+   - **Solución**: Verifica las asignaciones de pines, asegúrate de que los LEDs estén conectados con la polaridad correcta (ánodo a GPIO) y verifica los valores de las resistencias.
 
-3. **Unstable Readings**
+3. **Lecturas Inestables**
 
-   - **Cause**: Electrical noise or floating input when reed switch is open.
-   - **Solution**: The built-in pull-down resistor should stabilize the input, but ensure proper grounding and check for nearby sources of electromagnetic interference.
+   - **Causa**: Ruido eléctrico o entrada flotante cuando el interruptor de lengüeta está abierto.
+   - **Solución**: La resistencia pull-down incorporada debería estabilizar la entrada, pero asegúrate de tener una conexión a tierra adecuada y verifica si hay fuentes cercanas de interferencia electromagnética.
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Security System**
+1. **Sistema de Seguridad**
 
-   Create a simple door/window security alarm that triggers when a magnet moves away from the reed switch:
+   Crea una alarma simple de seguridad para puerta/ventana que se active cuando un imán se aleje del interruptor de lengüeta:
 
    .. code-block:: python
 
       # Add a buzzer for audible alarm
       from fusion_hat import Buzzer, PWM
       buzzer = Buzzer(PWM('P0'))
-      
+
       while True:
           if reed.value() == 1:  # Door opened (magnet moved away)
               buzzer.play('C6', 0.5)  # Sound alarm
@@ -223,15 +223,15 @@ The following Python code monitors a reed switch and controls two LEDs based on 
               led2.on()  # Green safe LED
           sleep(0.1)
 
-2. **Position Counter**
+2. **Contador de Posición**
 
-   Count how many times a magnet passes by the reed switch, useful for rotational speed measurement:
+   Cuenta cuántas veces un imán pasa por el interruptor de lengüeta, útil para la medición de velocidad rotacional:
 
    .. code-block:: python
 
       counter = 0
       last_state = 0
-      
+
       while True:
           current_state = reed.value()
           if last_state == 0 and current_state == 1:  # Detect rising edge
@@ -240,21 +240,21 @@ The following Python code monitors a reed switch and controls two LEDs based on 
           last_state = current_state
           sleep(0.01)  # Short delay for debouncing
 
-3. **Two-Sensor Detection**
+3. **Detección de Dos Sensores**
 
-   Use two reed switches to detect direction of movement:
+   Usa dos interruptores de lengüeta para detectar la dirección del movimiento:
 
    .. code-block:: python
 
       reed1 = Pin(17, Pin.IN, pull=Pin.PULL_DOWN)
       reed2 = Pin(18, Pin.IN, pull=Pin.PULL_DOWN)
-      
+
       # Determine direction based on which sensor triggers first
 
 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to use a reed switch as a magnetic field sensor to control LED indicators. Reed switches are reliable, simple components widely used in security systems, position sensing, and proximity detection applications. By combining magnetic sensing with visual feedback, you can create intuitive monitoring systems for various applications.
+Este proyecto demuestra cómo usar un interruptor de lengüeta (reed) como sensor de campo magnético para controlar indicadores LED. Los interruptores de lengüeta son componentes fiables y simples, ampliamente utilizados en sistemas de seguridad, detección de posición y aplicaciones de detección de proximidad. Al combinar la detección magnética con retroalimentación visual, puedes crear sistemas de monitoreo intuitivos para diversas aplicaciones.

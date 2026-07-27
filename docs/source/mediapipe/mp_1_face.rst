@@ -4,68 +4,68 @@
 
 .. _mp_face:
 
-1. Face Detection
+1. Detección de Rostros
 ===========================
 
-This section introduces how to use the **MediaPipe Face Mesh** module on a **Raspberry Pi** for real-time face detection and facial landmark mesh drawing.
+Esta sección presenta cómo usar el módulo **MediaPipe Face Mesh** en una **Raspberry Pi** para la detección de rostros en tiempo real y el dibujo de mallas de puntos de referencia faciales.
 
 .. image:: img/mp_face_mesh_demo.png
    :width: 500
    :align: center
 
-MediaPipe is a cross-platform machine learning pipeline framework developed by Google, supporting real-time processing of video streams and images. The Face Mesh module is a model provided by MediaPipe for real-time face detection and landmark tracking, which can be used to build various facial recognition and interaction applications.
+MediaPipe es un framework de pipelines de aprendizaje automático multiplataforma desarrollado por Google, que admite el procesamiento en tiempo real de flujos de video e imágenes. El módulo Face Mesh es un modelo proporcionado por MediaPipe para la detección de rostros y el seguimiento de puntos de referencia en tiempo real, que se puede utilizar para construir varias aplicaciones de reconocimiento facial e interacción.
 
-Compared to OpenCV's Haar detection, MediaPipe uses a deep learning model for detection, offering:
+En comparación con la detección Haar de OpenCV, MediaPipe utiliza un modelo de aprendizaje profundo para la detección, ofreciendo:
 
--  Higher accuracy
--  Better robustness to lighting and angles
--  Supports facial landmark tracking (468 points)
--  Seamless integration with OpenCV, allowing direct drawing of detection results on video streams.
+- Mayor precisión
+- Mejor robustez frente a la iluminación y los ángulos
+- Soporta el seguimiento de puntos de referencia faciales (468 puntos)
+- Integración perfecta con OpenCV, permitiendo dibujar los resultados de detección directamente en los flujos de video.
 
 ------------------------
-1. Run the Code
+1. Ejecutar el Código
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
-   
+
       sudo python3 ~/ai-lab-kit/mediapipe/mp_face.py
 
-#. After running the script, OpenCV opens a window titled “Show Video” and displays the live video stream captured from the Raspberry Pi camera.
+#. Después de ejecutar el script, OpenCV abre una ventana titulada "Show Video" y muestra el flujo de video en vivo capturado desde la cámara Raspberry Pi.
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/media_1.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
 
-   * If a face appears in front of the camera, the program detects it and draws a detailed facial landmark mesh on the face in real time. The mesh tracks facial movements smoothly as the person moves, blinks, or changes expressions.
-   * If no face is detected, the window continues displaying the normal camera feed without any landmarks.
-   
-   The video stream keeps running continuously until the user quits the program.
-   To exit the program, press q on the keyboard.
-   The camera will stop and all OpenCV resources will be released automatically.
+   * Si aparece un rostro frente a la cámara, el programa lo detecta y dibuja una malla detallada de puntos de referencia faciales en el rostro en tiempo real. La malla sigue los movimientos faciales suavemente a medida que la persona se mueve, parpadea o cambia de expresión.
+   * Si no se detecta ningún rostro, la ventana continúa mostrando la transmisión normal de la cámara sin puntos de referencia.
+
+   El flujo de video se ejecuta continuamente hasta que el usuario cierra el programa.
+   Para salir del programa, presiona q en el teclado.
+   La cámara se detendrá y todos los recursos de OpenCV se liberarán automáticamente.
 
 ------------------------
-2. Code Example
+2. Código de Ejemplo
 ------------------------
 
-The complete code is shown below:
+El código completo se muestra a continuación:
 
 .. code-block:: python
 
@@ -125,13 +125,13 @@ The complete code is shown below:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, you will see the live camera feed, and a facial mesh will be automatically drawn when a face is detected.
+Después de ejecutar el programa, verás la transmisión de la cámara en vivo, y se dibujará automáticamente una malla facial cuando se detecte un rostro.
 
 -----------------------------
-3. Key Steps Explanation
+3. Explicación de Pasos Clave
 -----------------------------
 
-#. Import libraries
+#. Importar bibliotecas
 
    .. code-block:: python
 
@@ -141,13 +141,13 @@ After running the program, you will see the live camera feed, and a facial mesh 
       import mediapipe.python.solutions.drawing_utils as drawing
       import mediapipe.python.solutions.drawing_styles as drawing_styles
 
-   These libraries are used to:
+   Estas bibliotecas se utilizan para:
 
-   - Control the Raspberry Pi camera
-   - Process and display images
-   - Detect facial landmarks
+   - Controlar la cámara Raspberry Pi
+   - Procesar y mostrar imágenes
+   - Detectar puntos de referencia faciales
 
-#. Initialize FaceMesh
+#. Inicializar FaceMesh
 
    .. code-block:: python
 
@@ -158,10 +158,10 @@ After running the program, you will see the live camera feed, and a facial mesh 
           min_detection_confidence=0.5
       )
 
-   This creates the face detection model.
-   It tracks one face continuously in video mode.
+   Esto crea el modelo de detección facial.
+   Rastrea un rostro continuamente en modo video.
 
-#. Start the camera
+#. Iniciar la cámara
 
    .. code-block:: python
 
@@ -172,9 +172,9 @@ After running the program, you will see the live camera feed, and a facial mesh 
       picam2.configure(config)
       picam2.start()
 
-   The camera starts streaming at 640×480 resolution.
+   La cámara comienza a transmitir a una resolución de 640x480.
 
-#. Capture frames in a loop
+#. Capturar fotogramas en un bucle
 
    .. code-block:: python
 
@@ -182,19 +182,19 @@ After running the program, you will see the live camera feed, and a facial mesh 
           frame_bgra = picam2.capture_array()
           frame_bgr  = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   Each loop captures one frame and converts the format for OpenCV.
+   Cada bucle captura un fotograma y convierte el formato para OpenCV.
 
-#. Detect face landmarks
+#. Detectar puntos de referencia faciales
 
    .. code-block:: python
 
       frame = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
       results = face.process(frame)
 
-   The frame is converted to RGB.
-   MediaPipe analyzes the image and detects facial landmarks.
+   El fotograma se convierte a RGB.
+   MediaPipe analiza la imagen y detecta los puntos de referencia faciales.
 
-#. Draw the face mesh
+#. Dibujar la malla facial
 
    .. code-block:: python
 
@@ -205,9 +205,9 @@ After running the program, you will see the live camera feed, and a facial mesh 
               connections=mp_face_mesh.FACEMESH_TESSELATION
           )
 
-   If a face is detected, a mesh is drawn on it.
+   Si se detecta un rostro, se dibuja una malla sobre él.
 
-#. Display the result and exit
+#. Mostrar el resultado y salir
 
    .. code-block:: python
 
@@ -215,50 +215,50 @@ After running the program, you will see the live camera feed, and a facial mesh 
       if cv2.waitKey(1) & 0xff == ord('q'):
           break
 
-   Press ``q`` to stop the program.
-   The camera will close automatically.
+   Presiona ``q`` para detener el programa.
+   La cámara se cerrará automáticamente.
 
 ---------------------------------------------
-4. Common Issues and Troubleshooting
+4. Problemas Comunes y Solución de Problemas
 ---------------------------------------------
 
-* Camera cannot open
+* La cámara no se puede abrir
 
-  * Make sure the CSI camera cable is inserted correctly
-  * Enable the camera interface:
+  * Asegúrate de que el cable de la cámara CSI esté insertado correctamente
+  * Habilita la interfaz de la cámara:
 
     ``sudo raspi-config`` → Interface Options → Camera
 
-  * Restart the Raspberry Pi after enabling
+  * Reinicia la Raspberry Pi después de habilitarla
 
-* Program starts slowly
+* El programa se inicia lentamente
 
-  The first run loads the MediaPipe model, which may take a few seconds.
-  This is normal. Subsequent runs will be faster.
+  La primera ejecución carga el modelo MediaPipe, lo que puede tardar unos segundos.
+  Esto es normal. Las ejecuciones posteriores serán más rápidas.
 
-* Unstable detection / Lagging
+* Detección inestable / Retraso
 
-  * Reduce camera resolution (e.g., 320×240)
-  * Disable ``refine_landmarks`` to reduce CPU usage
-  * Close other running programs
+  * Reduce la resolución de la cámara (por ejemplo, 320x240)
+  * Desactiva ``refine_landmarks`` para reducir el uso de CPU
+  * Cierra otros programas en ejecución
 
 * No module named ``mediapipe``
 
-  Install MediaPipe:
+  Instala MediaPipe:
 
   .. code-block:: bash
 
      pip install mediapipe
 
-  Make sure you are using a 64-bit Raspberry Pi OS system.
+  Asegúrate de estar usando un sistema Raspberry Pi OS de 64 bits.
 
 -----------------------------
-5. Summary
+5. Resumen
 -----------------------------
 
-- MediaPipe FaceMesh uses a deep learning model to achieve high-precision face detection on Raspberry Pi
-- Integrates very closely with OpenCV
-- Suitable for scenarios like expression recognition, avatar tracking, AR applications
-- More robust and easier to extend compared to traditional Haar features
+- MediaPipe FaceMesh utiliza un modelo de aprendizaje profundo para lograr una detección facial de alta precisión en Raspberry Pi
+- Se integra muy estrechamente con OpenCV
+- Adecuado para escenarios como reconocimiento de expresiones, seguimiento de avatares, aplicaciones de RA
+- Más robusto y fácil de extender en comparación con las características Haar tradicionales
 
-The next section will further introduce **how to use Face Mesh landmarks** for simple facial feature analysis and interaction.
+La siguiente sección presentará **cómo usar los puntos de referencia de Face Mesh** para el análisis de características faciales simples y la interacción.

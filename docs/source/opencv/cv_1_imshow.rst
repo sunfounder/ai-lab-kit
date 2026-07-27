@@ -2,67 +2,67 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-1. Show Image
+1. Mostrar Imagen
 ==============================================
 
-In this chapter, we’ll explore a simple example to help you quickly experience the basic usage of OpenCV: **reading and displaying an image**.
+En este capítulo, exploraremos un ejemplo sencillo para ayudarte a experimentar rápidamente el uso básico de OpenCV: **leer y mostrar una imagen**.
 
-In the example project folder, we have already prepared a sample photo named ``my_photo.jpg``.  
-You can also use the :ref:`py_photograph` example to take a photo and save it to the current folder.
+En la carpeta del proyecto de ejemplo, ya hemos preparado una foto de muestra llamada ``my_photo.jpg``.
+También puedes usar el ejemplo :ref:`py_photograph` para tomar una foto y guardarla en la carpeta actual.
 
 
-1. Project Overview
--------------------
+1. Resumen del Proyecto
+-----------------------
 
-In this section, we will accomplish the following tasks:
+En esta sección, realizaremos las siguientes tareas:
 
-- Use ``cv2.imread`` to read a local image
-- Use ``cv2.imshow`` to display the image
-- Use ``cv2.waitKey`` to control window behavior
-- Use ``cv2.destroyAllWindows`` to close the window
+- Usar ``cv2.imread`` para leer una imagen local
+- Usar ``cv2.imshow`` para mostrar la imagen
+- Usar ``cv2.waitKey`` para controlar el comportamiento de la ventana
+- Usar ``cv2.destroyAllWindows`` para cerrar la ventana
 
-After successfully running this code, an image window will pop up on your screen.
+Después de ejecutar este código correctamente, aparecerá una ventana con la imagen en tu pantalla.
 
 .. image:: img/opencv_imshow.png
-   :alt: Preview of the result
+   :alt: Vista previa del resultado
    :align: center
 
 
-2. Run the Code
+2. Ejecutar el Código
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
 
 
-#. Open the terminal and enter the following command:
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
-   
+
       cd ~/ai-lab-kit/opencv_python
       python3 cv_1_imgshow.py
 
-#. After running the script, OpenCV opens a window titled ``Picture`` and displays the image loaded from ``my_photo.jpg``.  
+#. Después de ejecutar el script, OpenCV abre una ventana titulada ``Picture`` y muestra la imagen cargada desde ``my_photo.jpg``.
 
-   The window will remain open until the user quits the program.
-   
-   To exit the program, you can:
-   
-   * Press **q** on the keyboard  
-   * Close the window by clicking the close button  
-   
-   Once the window is closed, all OpenCV resources are released and the program exits.
+   La ventana permanecerá abierta hasta que el usuario cierre el programa.
 
-3. Complete Code
+   Para salir del programa, puedes:
+
+   * Presionar **q** en el teclado
+   * Cerrar la ventana haciendo clic en el botón de cerrar
+
+   Una vez que la ventana se cierra, todos los recursos de OpenCV se liberan y el programa finaliza.
+
+3. Código Completo
 -------------------
 
 .. code-block:: python
@@ -99,33 +99,33 @@ After successfully running this code, an image window will pop up on your screen
    # Destroy all OpenCV windows and release memory
    cv2.destroyAllWindows()
 
-4. Code Explanation
+4. Explicación del Código
 ----------------------
 
-- ``cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)``  
+- ``cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)``
 
-  Reads the image named ``my_photo.jpg`` and loads it in color mode.
+  Lee la imagen llamada ``my_photo.jpg`` y la carga en modo color.
 
-- ``cv2.imshow("Picture", img)``  
+- ``cv2.imshow("Picture", img)``
 
-  Creates a window titled “Picture” and displays the image.
+  Crea una ventana titulada "Picture" y muestra la imagen.
 
-- ``cv2.waitKey(0)``  
+- ``cv2.waitKey(0)``
 
-  When the parameter is ``0``, the program will wait indefinitely until you close the window or press any key.
+  Cuando el parámetro es ``0``, el programa esperará indefinidamente hasta que cierres la ventana o presiones cualquier tecla.
 
 - ``cv2.getWindowProperty()``
 
-  Gets a property value of the specified window (for example, whether the window is still visible).
+  Obtiene un valor de propiedad de la ventana especificada (por ejemplo, si la ventana sigue siendo visible).
 
 
-- ``cv2.destroyAllWindows()``  
+- ``cv2.destroyAllWindows()``
 
-  Closes all OpenCV windows and releases resources.
+  Cierra todas las ventanas de OpenCV y libera recursos.
 
-5. Further Practice
+5. Práctica Adicional
 -----------------------
 
-- Try changing the window title in ``imshow`` to “My First OpenCV Window”.  
-- Replace the image with a different one and observe the result.  
-- Modify the ``waitKey`` parameter to `3000` so the program automatically closes the window after 3 seconds.
+- Intenta cambiar el título de la ventana en ``imshow`` a "My First OpenCV Window".
+- Reemplaza la imagen con una diferente y observa el resultado.
+- Modifica el parámetro de ``waitKey`` a `3000` para que el programa cierre la ventana automáticamente después de 3 segundos.

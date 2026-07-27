@@ -4,18 +4,18 @@
 
 .. _py_smart_weather_station:
 
-(Example) Smart Weather Station
+(Ejemplo) Estación Meteorológica Inteligente
 =============================================
 
-**Introduction**
+**Introducción**
 
-This project creates a comprehensive **Smart Weather Station** that combines local environmental sensors with global weather data and AI analysis. The system integrates:
+Este proyecto crea una completa **Estación Meteorológica Inteligente** que combina sensores ambientales locales con datos meteorológicos globales y análisis de IA. El sistema integra:
 
-1. **Local sensor data** from DHT11 (temperature/humidity) and LDR (light sensor)
-2. **Global weather forecasts** from OpenWeather API
-3. **AI-powered voice analysis** using OpenAI's GPT and TTS capabilities
-4. **Visual display** on a 128x64 OLED screen
-5. **Interactive button** for on-demand AI weather insights
+1. **Datos de sensores locales** del DHT11 (temperatura/humedad) y LDR (sensor de luz)
+2. **Pronósticos meteorológicos globales** de la API OpenWeather
+3. **Análisis de voz con IA** usando las capacidades GPT y TTS de OpenAI
+4. **Pantalla visual** en una OLED de 128x64
+5. **Botón interactivo** para información meteorológica con IA bajo demanda
 
 .. raw:: html
 
@@ -24,27 +24,27 @@ This project creates a comprehensive **Smart Weather Station** that combines loc
           Your browser does not support the video tag.
       </video>
 
-The weather station automatically compares local conditions with forecast data and provides intelligent recommendations through voice output, creating a complete environmental monitoring solution.
+La estación meteorológica compara automáticamente las condiciones locales con los datos del pronóstico y proporciona recomendaciones inteligentes a través de salida de voz, creando una solución completa de monitoreo ambiental.
 
-You can use the other LLM modules and TTS modules to build your own smart devices. 
-See:
+Puedes usar otros módulos LLM y módulos TTS para construir tus propios dispositivos inteligentes.
+Consulta:
 
-* :ref:`py_online_llm` 
-* :ref:`tts_espeak_pico2wave` 
+* :ref:`py_online_llm`
+* :ref:`tts_espeak_pico2wave`
 * :ref:`tts_piper_openai`
 
 ----------------------------------------------
 
-**What You'll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
     *   - :ref:`cpn_humiture_sensor`
         - |link_humiture_buy|
     *   - :ref:`cpn_photoresistor`
@@ -64,9 +64,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexión**
 
-Connect the components to the Fusion HAT+ as follows:
+Conecta los componentes al Fusion HAT+ de la siguiente manera:
 
 .. image:: img/fzz/llm_weather_bb.png
    :width: 80%
@@ -82,62 +82,62 @@ Connect the components to the Fusion HAT+ as follows:
 ---------------------------------------------
 
 
-**Get OpenWeather API keys**
+**Obtener claves API de OpenWeather**
 
-|link_openweather| is an online service, owned by OpenWeather Ltd, that provides global weather data via API, including current weather data, forecasts, nowcasts and historical weather data for any geographical location.
+|link_openweather| es un servicio online, propiedad de OpenWeather Ltd, que proporciona datos meteorológicos globales a través de API, incluyendo datos meteorológicos actuales, pronósticos, nowcasts y datos meteorológicos históricos para cualquier ubicación geográfica.
 
-#. Visit |link_openweather| to log in/create an account.
+#. Visita |link_openweather| para iniciar sesión o crear una cuenta.
 
     .. image:: img/OWM-1.png
 
 
-#. Click into the API page from the navigation bar.
+#. Haz clic en la página API desde la barra de navegación.
 
     .. image:: img/OWM-2.png
 
 
-#. Find **Current Weather Data** and click Subscribe.
+#. Busca **Current Weather Data** y haz clic en Subscribe.
 
     .. image:: img/OWM-3.png
 
 
-#. Under **Current weather and forecasts collection**, subscribe to the appropriate service. In our project, Free is good enough.
+#. En **Current weather and forecasts collection**, suscríbete al servicio apropiado. En nuestro proyecto, el plan Free es suficiente.
 
    .. image:: img/OWM-4.png
 
 
-#. Copy the Key from the **API keys** page.
+#. Copia la clave de la página **API keys**.
 
    .. image:: img/OWM-5.png
 
-#. Open the ``secret.py`` file with the following command:
+#. Abre el archivo ``secret.py`` con el siguiente comando:
 
    .. raw:: html
 
       <run></run>
-   
+
    .. code-block:: bash
-   
+
        cd ~/ai-lab-kit/llm
        sudo nano secret.py
 
-#. Add the copied API Key:
+#. Añade la clave API copiada:
 
-   
+
    .. code-block:: shell
       :emphasize-lines: 1
 
       OPENWEATHER_API_KEY = "732exxxxxxxxxxxxxxxxxxxxx919b"
 
 
-#. Press ``Ctrl + X``, ``Y``, and then ``Enter`` to save the file and exit.
+#. Presiona ``Ctrl + X``, ``Y``, y luego ``Enter`` para guardar el archivo y salir.
 
 
 ---------------------------------------------
 
-**Run the Example**
+**Ejecutar el Ejemplo**
 
-#. Run the code
+#. Ejecuta el código
 
    .. raw:: html
 
@@ -148,51 +148,51 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_weather.py
 
-#. What you will see after the script starts
+#. Qué verás después de que el script se inicie
 
-   * The OLED turns on and begins showing weather information.
-   * The program prints startup information in the terminal, including the target city and button pin.
-   * The OLED automatically switches pages every 10 seconds (3 pages total):
+   * La OLED se enciende y comienza a mostrar información meteorológica.
+   * El programa imprime información de inicio en la terminal, incluyendo la ciudad objetivo y el pin del botón.
+   * La OLED cambia automáticamente de página cada 10 segundos (3 páginas en total):
 
-     - **Page 1: Local Sensors** (DHT11 + LDR)  
-       Shows local temperature, humidity, and light level (with a small light bar).
+     - **Página 1: Sensores Locales** (DHT11 + LDR)
+       Muestra temperatura local, humedad y nivel de luz (con una pequeña barra de luz).
 
-     - **Page 2: Weather Forecast** (OpenWeather)  
-       Shows the current temperature, weather description, and last update time.
+     - **Página 2: Pronóstico Meteorológico** (OpenWeather)
+       Muestra la temperatura actual, descripción del clima y hora de última actualización.
 
-     - **Page 3: AI Insights**  
-       Shows the differences between local sensor readings and OpenWeather data, and a simple comfort status (e.g., Comfortable / Warm / Cool / Humid / Dry).
+     - **Página 3: Información IA**
+       Muestra las diferencias entre las lecturas de los sensores locales y los datos de OpenWeather, y un estado de confort simple (por ejemplo, Cómodo / Cálido / Fresco / Húmedo / Seco).
 
-#. Trigger AI voice analysis
+#. Activar análisis de voz con IA
 
-   Press the button on **GPIO 27** to let the AI generate a short “weather reporter” style analysis.
+   Presiona el botón en **GPIO 27** para que la IA genere un breve análisis al estilo "reportero del clima".
 
-   * The terminal will print an ``AI Analysis`` section, including:
+   * La terminal imprimirá una sección de ``AI Analysis``, incluyendo:
 
-     - Local readings (temperature / humidity / light)
-     - Remote weather (OpenWeather temperature + description)
-     - A short text summary generated by the AI
+     - Lecturas locales (temperatura / humedad / luz)
+     - Clima remoto (temperatura + descripción de OpenWeather)
+     - Un breve resumen de texto generado por la IA
 
-   * The OLED will temporarily show **SPEAKING...**
-   * The analysis will be spoken through the speaker using OpenAI TTS
+   * La OLED mostrará temporalmente **SPEAKING...**
+   * El análisis se pronunciará a través del altavoz usando OpenAI TTS
 
-#. Data update behavior
+#. Comportamiento de actualización de datos
 
-   * Local sensors update about every **2 seconds**.
-   * OpenWeather data updates about every **5 minutes**.
-   * The light reading is smoothed automatically to reduce flickering.
+   * Los sensores locales se actualizan aproximadamente cada **2 segundos**.
+   * Los datos de OpenWeather se actualizan aproximadamente cada **5 minutos**.
+   * La lectura de luz se suaviza automáticamente para reducir parpadeos.
 
-#. Stop the program
+#. Detener el programa
 
-   * Press ``Ctrl+C`` in the terminal to exit.
-   * The OLED will clear and the program stops safely.
+   * Presiona ``Ctrl+C`` en la terminal para salir.
+   * La OLED se borrará y el programa se detendrá de forma segura.
 
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the full Python script for the Smart Weather Station:
+Aquí está el script completo en Python para la Estación Meteorológica Inteligente:
 
 .. raw:: html
 
@@ -202,7 +202,7 @@ Here is the full Python script for the Smart Weather Station:
 
    #!/usr/bin/env python3
    # -*- coding: utf-8 -*-
-   
+
    """
    Smart Weather Station with AI Assistant
    - Reads local temperature & humidity from DHT11 on GPIO 17
@@ -211,7 +211,7 @@ Here is the full Python script for the Smart Weather Station:
    - Provides AI voice analysis using OpenAI (triggered by button)
    - Displays all information on 128x64 SSD1306 OLED
    """
-   
+
    import time
    import requests
    from datetime import datetime
@@ -225,33 +225,33 @@ Here is the full Python script for the Smart Weather Station:
    from sunfounder_voice_assistant.tts import OpenAI_TTS
    from secret import OPENAI_API_KEY, OPENWEATHER_API_KEY
    from signal import pause
-   
+
    # Configuration
    DHT_PIN = 17          # DHT11 uses GPIO 17
    LDR_CH = 0
    I2C_ADDR = 0x3C
-   
+
    # OpenWeather API Configuration
    CITY_NAME = "Shanghai"
    COUNTRY_CODE = "CN"
    LATITUDE = 31.2304
    LONGITUDE = 121.4737
    UNITS = "metric"
-   
+
    # Update intervals in seconds
    WEATHER_UPDATE_INTERVAL = 300
    SENSOR_UPDATE_INTERVAL = 2
-   
+
    # GPIO Pins
    BUTTON_PIN = 27  # Button uses GPIO 27
-   
+
    # OLED Setup
    WIDTH, HEIGHT = 128, 64
    i2c = board.I2C()
    oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=I2C_ADDR)
    oled.fill(0)
    oled.show()
-   
+
    # Load fonts
    try:
        font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 10)
@@ -262,17 +262,17 @@ Here is the full Python script for the Smart Weather Station:
        font_small = ImageFont.load_default()
        font_medium = ImageFont.load_default()
        font_large = ImageFont.load_default()
-   
+
    image = Image.new("1", (WIDTH, HEIGHT))
    draw = ImageDraw.Draw(image)
-   
+
    # Sensors
    dht = DHT11(pin=DHT_PIN)
    ldr = ADC(LDR_CH)
-   
+
    # Button for triggering AI analysis
    button = Pin(BUTTON_PIN, mode=Mode.IN, pull=Pull.DOWN)
-   
+
    # OpenWeather API Class
    class WeatherAPI:
        def __init__(self, api_key, city, country_code, lat=None, lon=None):
@@ -284,19 +284,19 @@ Here is the full Python script for the Smart Weather Station:
            self.current_weather = None
            self.forecast = None
            self.last_update = 0
-           
+
        def get_weather_url(self):
            if self.lat and self.lon:
                return f"https://api.openweathermap.org/data/2.5/weather?lat={self.lat}&lon={self.lon}&appid={self.api_key}&units={UNITS}"
            else:
                return f"https://api.openweathermap.org/data/2.5/weather?q={self.city},{self.country_code}&appid={self.api_key}&units={UNITS}"
-       
+
        def get_forecast_url(self):
            if self.lat and self.lon:
                return f"https://api.openweathermap.org/data/2.5/forecast?lat={self.lat}&lon={self.lon}&appid={self.api_key}&units={UNITS}"
            else:
                return f"https://api.openweathermap.org/data/2.5/forecast?q={self.city},{self.country_code}&appid={self.api_key}&units={UNITS}"
-       
+
        def update_weather(self):
            try:
                # Current weather
@@ -307,34 +307,34 @@ Here is the full Python script for the Smart Weather Station:
                else:
                    print(f"Weather API error: {response.status_code}")
                    return False
-               
+
                # Forecast
                response = requests.get(self.get_forecast_url(), timeout=10)
                if response.status_code == 200:
                    self.forecast = response.json()
-               
+
                self.last_update = time.time()
                return True
-               
+
            except Exception as e:
                print(f"Weather API error: {e}")
                return False
-       
+
        def get_temperature(self):
            if self.current_weather:
                return self.current_weather['main']['temp']
            return None
-       
+
        def get_humidity(self):
            if self.current_weather:
                return self.current_weather['main']['humidity']
            return None
-       
+
        def get_weather_description(self):
            if self.current_weather:
                return self.current_weather['weather'][0]['description'].title()
            return None
-       
+
        def get_weather_condition(self):
            if self.current_weather:
                weather_id = self.current_weather['weather'][0]['id']
@@ -351,25 +351,25 @@ Here is the full Python script for the Smart Weather Station:
                else:
                    return "OTHER"
            return "N/A"
-       
+
        def get_forecast_summary(self):
            if not self.forecast or 'list' not in self.forecast:
                return "No forecast"
-           
+
            forecasts = self.forecast['list'][:8]
            temps = [f['main']['temp'] for f in forecasts]
            min_temp = min(temps)
            max_temp = max(temps)
-           
+
            conditions = {}
            for f in forecasts:
                condition = f['weather'][0]['main']
                conditions[condition] = conditions.get(condition, 0) + 1
-           
+
            most_common = max(conditions, key=conditions.get)
-           
+
            return f"{min_temp:.0f}-{max_temp:.0f}C {most_common}"
-   
+
    # AI Weather Analyst Class
    class WeatherAI:
        def __init__(self, api_key):
@@ -377,28 +377,28 @@ Here is the full Python script for the Smart Weather Station:
            self.tts = OpenAI_TTS(api_key=api_key)
            self.tts.set_voice(self.tts.Voice.ALLOY)
            self.is_speaking = False
-           
+
        def analyze_weather(self, local_temp, local_hum, local_light, weather_data):
            temp_diff = abs(local_temp - weather_data.get('current_temp', local_temp)) if weather_data.get('current_temp') else 0
-           
+
            if temp_diff > 3:
                accuracy = "significantly different from"
            elif temp_diff > 1:
                accuracy = "slightly different from"
            else:
                accuracy = "very close to"
-           
+
            recommendations = []
            if local_hum > 80:
                recommendations.append("It's quite humid")
            elif local_hum < 30:
                recommendations.append("The air is dry")
-           
+
            if local_light > 80:
                recommendations.append("It's bright here")
            elif local_light < 20:
                recommendations.append("It's quite dark")
-           
+
            weather_desc = weather_data.get('weather_desc', '').lower()
            if 'rain' in weather_desc or 'drizzle' in weather_desc or 'thunderstorm' in weather_desc:
                recommendations.append("Don't forget an umbrella")
@@ -406,17 +406,17 @@ Here is the full Python script for the Smart Weather Station:
                recommendations.append("Great day to go outside")
            elif 'cloud' in weather_desc:
                recommendations.append("Partly cloudy today")
-           
+
            rec_text = ". ".join(recommendations) + "." if recommendations else "Conditions are normal."
-           
+
            analysis = f"Local sensors show {local_temp:.1f}C, which is {accuracy} the forecast. {rec_text}"
            return analysis
-       
+
        def speak_analysis(self, analysis_text):
            if self.is_speaking:
                print("Already speaking, please wait...")
                return False
-           
+
            try:
                self.is_speaking = True
                print(f"Speaking analysis: {analysis_text}")
@@ -427,23 +427,23 @@ Here is the full Python script for the Smart Weather Station:
                print(f"TTS error: {e}")
                self.is_speaking = False
                return False
-   
+
    # Light sensor helper
    _light_window = []
-   
+
    def light_percent(raw, min_val=0, max_val=4095):
        global _light_window
-       
+
        _light_window.append(raw)
        if len(_light_window) > 5:
            _light_window.pop(0)
-       
+
        smooth_raw = int(mean(_light_window))
        pct = (smooth_raw - min_val) / (max_val - min_val) * 100 if max_val > min_val else 50
        pct = max(0, min(100, pct))
-       
+
        return int(pct), smooth_raw
-   
+
    # Display Manager Class
    class DisplayManager:
        def __init__(self):
@@ -451,99 +451,99 @@ Here is the full Python script for the Smart Weather Station:
            self.num_pages = 3
            self.last_page_change = 0
            self.page_cycle_interval = 10
-       
+
        def next_page(self):
            self.current_page = (self.current_page + 1) % self.num_pages
            self.last_page_change = time.time()
-       
+
        def should_change_page(self):
            return time.time() - self.last_page_change > self.page_cycle_interval
-       
+
        def draw_page(self, page_num, local_temp, local_hum, light_pct, weather_api, weather_ai):
            draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
-           
+
            if page_num == 0:
                self._draw_local_sensors(local_temp, local_hum, light_pct)
            elif page_num == 1:
                self._draw_weather_forecast(weather_api)
            elif page_num == 2:
                self._draw_ai_insights(local_temp, local_hum, light_pct, weather_api)
-           
+
            # Page indicator at bottom right
            indicator = f"{page_num+1}/{self.num_pages}"
            indicator_width = len(indicator) * 6
            draw.text((WIDTH - indicator_width - 2, HEIGHT - 10), indicator, font=font_small, fill=255)
-       
+
        def _draw_local_sensors(self, temp, hum, light):
            # Title at top
            draw.text((2, 2), "LOCAL SENSORS", font=font_medium, fill=255)
-           
+
            # Temperature - larger font on first line
            temp_text = f"Temp: {temp:.1f} C"
            draw.text((10, 18), temp_text, font=font_large, fill=255)
-           
+
            # Humidity - second line
            hum_text = f"Humidity: {hum:.1f}%"
            draw.text((10, 38), hum_text, font=font_medium, fill=255)
-           
+
            # Light with bar on same line
            light_text = f"Light: {light}%"
            draw.text((10, 53), light_text, font=font_small, fill=255)
-           
+
            # Light bar positioned next to text, not overlapping
            bar_x = 60  # Position after "Light: XX%"
            bar_y = 55
            bar_width = 50
            bar_height = 4
-           
+
            # Draw background bar
            draw.rectangle((bar_x, bar_y, bar_x + bar_width, bar_y + bar_height), outline=255, fill=0)
-           
+
            # Draw filled portion
            fill_width = int(bar_width * light / 100)
            if fill_width > 0:
                draw.rectangle((bar_x, bar_y, bar_x + fill_width, bar_y + bar_height), outline=0, fill=255)
-       
+
        def _draw_weather_forecast(self, weather_api):
            draw.text((2, 2), "WEATHER", font=font_medium, fill=255)
-           
+
            if not weather_api.current_weather:
                draw.text((10, 25), "No weather data", font=font_medium, fill=255)
                draw.text((10, 45), "Check connection", font=font_small, fill=255)
                return
-           
+
            current_temp = weather_api.get_temperature()
            weather_desc = weather_api.get_weather_description()
            weather_cond = weather_api.get_weather_condition()
-           
+
            # Temperature - large font
            if current_temp is not None:
                draw.text((10, 18), f"{current_temp:.0f} C", font=font_large, fill=255)
-           
+
            # Weather description
            if weather_desc:
                desc_text = weather_desc[:15]
                draw.text((10, 38), desc_text, font=font_medium, fill=255)
-           
+
            # Weather condition
            if weather_cond:
                draw.text((10, 53), weather_cond, font=font_small, fill=255)
-           
+
            # Update time at top right
            if weather_api.last_update > 0:
                update_time = datetime.fromtimestamp(weather_api.last_update).strftime("%H:%M")
                update_text = f"Up: {update_time}"
                update_width = len(update_text) * 6
                draw.text((WIDTH - update_width - 2, 2), update_text, font=font_small, fill=255)
-       
+
        def _draw_ai_insights(self, local_temp, local_hum, light_pct, weather_api):
            draw.text((2, 2), "AI INSIGHTS", font=font_medium, fill=255)
-           
+
            api_temp = weather_api.get_temperature() if weather_api.current_weather else None
            api_hum = weather_api.get_humidity() if weather_api.current_weather else None
-           
+
            line_y = 18
-           
+
            # Temperature difference
            if api_temp is not None:
                temp_diff = local_temp - api_temp
@@ -551,7 +551,7 @@ Here is the full Python script for the Smart Weather Station:
                diff_text = f"Temp: {temp_symbol}{temp_diff:.1f}C"
                draw.text((10, line_y), diff_text, font=font_medium, fill=255)
                line_y += 15
-           
+
            # Humidity difference
            if api_hum is not None:
                hum_diff = local_hum - api_hum
@@ -559,11 +559,11 @@ Here is the full Python script for the Smart Weather Station:
                diff_text = f"Hum: {hum_symbol}{hum_diff:.1f}%"
                draw.text((10, line_y), diff_text, font=font_medium, fill=255)
                line_y += 15
-           
+
            # Comfort level
            comfort = "Normal"
            comfort_color = 255
-           
+
            if 20 <= local_temp <= 25 and 40 <= local_hum <= 60:
                comfort = "Comfortable"
                comfort_color = 255
@@ -579,42 +579,42 @@ Here is the full Python script for the Smart Weather Station:
            elif local_hum < 30:
                comfort = "Dry"
                comfort_color = 255
-           
+
            draw.text((10, line_y), f"Feel: {comfort}", font=font_small, fill=comfort_color)
-           
+
            # Button hint at bottom left
            draw.text((2, HEIGHT - 10), "Press BTN for AI", font=font_small, fill=255)
-   
+
    # Main Application Class
    class SmartWeatherStation:
        def __init__(self):
            print("Initializing Smart Weather Station...")
-           
+
            self.weather_api = WeatherAPI(OPENWEATHER_API_KEY, CITY_NAME, COUNTRY_CODE, LATITUDE, LONGITUDE)
            self.weather_ai = WeatherAI(OPENAI_API_KEY)
            self.display = DisplayManager()
-           
+
            self.local_temp = 0.0
            self.local_hum = 0.0
            self.light_pct = 0
            self.raw_adc = 0
-           
+
            self.last_weather_update = 0
            self.last_sensor_update = 0
-           
+
            # Setup button callback
            button.when_activated = self._button_pressed
-           
+
            # Initial readings
            self._update_sensors()
            self.weather_api.update_weather()
-           
+
            print("Smart Weather Station ready!")
            print(f"City: {CITY_NAME}")
            print(f"Temperature unit: {UNITS}")
            print(f"Button on GPIO {BUTTON_PIN} for AI analysis")
            print("="*50)
-       
+
        def _update_sensors(self):
            try:
                result = dht.read()
@@ -622,17 +622,17 @@ Here is the full Python script for the Smart Weather Station:
                    hum, temp = result
                    self.local_hum = float(hum)
                    self.local_temp = float(temp)
-               
+
                raw = ldr.read()
                self.light_pct, self.raw_adc = light_percent(raw)
-               
+
                self.last_sensor_update = time.time()
                return True
-               
+
            except Exception as e:
                print(f"Sensor error: {e}")
                return False
-       
+
        def _update_weather(self):
            if time.time() - self.last_weather_update > WEATHER_UPDATE_INTERVAL:
                print("Updating weather data...")
@@ -640,30 +640,30 @@ Here is the full Python script for the Smart Weather Station:
                    self.last_weather_update = time.time()
                    return True
            return False
-       
+
        def _button_pressed(self):
            """Called when button is pressed"""
            print("\n" + "="*50)
            print("Button pressed! Triggering AI analysis...")
            print("="*50)
-           
+
            # Update sensors first to get latest data
            self._update_sensors()
-           
+
            # Get weather data
            api_temp = self.weather_api.get_temperature()
-           
+
            if api_temp is None:
                print("No weather data available. Please wait for update.")
                return
-           
+
            # Prepare weather data for analysis
            weather_data = {
                'current_temp': api_temp,
                'weather_desc': self.weather_api.get_weather_description(),
                'forecast_summary': self.weather_api.get_forecast_summary()
            }
-           
+
            # Generate analysis
            analysis = self.weather_ai.analyze_weather(
                self.local_temp,
@@ -671,32 +671,32 @@ Here is the full Python script for the Smart Weather Station:
                self.light_pct,
                weather_data
            )
-           
+
            print(f"\nAI Analysis:")
            print(f"Local: {self.local_temp:.1f}C, {self.local_hum:.1f}%, Light: {self.light_pct}%")
            print(f"Remote: {api_temp}C, {self.weather_api.get_weather_description()}")
            print(f"Analysis: {analysis}")
-           
+
            # Show "Speaking..." on display
            self._show_speaking_message()
-           
+
            # Speak the analysis
            success = self.weather_ai.speak_analysis(analysis)
-           
+
            if success:
                print("Analysis completed successfully!")
            else:
                print("Analysis failed or interrupted.")
-           
+
            print("="*50)
-       
+
        def _show_speaking_message(self):
            """Display a temporary "Speaking..." message"""
            draw.rectangle((0, 0, WIDTH, HEIGHT), outline=0, fill=0)
            draw.text((WIDTH//2 - 40, HEIGHT//2 - 10), "SPEAKING...", font=font_medium, fill=255)
            oled.image(image)
            oled.show()
-       
+
        def run(self):
            print("\n" + "="*50)
            print("SMART WEATHER STATION")
@@ -709,22 +709,22 @@ Here is the full Python script for the Smart Weather Station:
            print(f"Press button on GPIO {BUTTON_PIN} for AI voice analysis")
            print("Press Ctrl+C to exit")
            print("="*50 + "\n")
-           
+
            try:
                while True:
                    current_time = time.time()
-                   
+
                    # Update sensors periodically
                    if current_time - self.last_sensor_update > SENSOR_UPDATE_INTERVAL:
                        self._update_sensors()
-                   
+
                    # Update weather data periodically
                    self._update_weather()
-                   
+
                    # Auto-cycle display pages
                    if self.display.should_change_page():
                        self.display.next_page()
-                   
+
                    # Draw current page
                    self.display.draw_page(
                        self.display.current_page,
@@ -734,100 +734,100 @@ Here is the full Python script for the Smart Weather Station:
                        self.weather_api,
                        self.weather_ai
                    )
-                   
+
                    # Update OLED display
                    oled.image(image)
                    oled.show()
-                   
+
                    # Small delay to prevent CPU overload
                    time.sleep(0.1)
-                   
+
            except KeyboardInterrupt:
                print("\nShutting down...")
-           
+
            finally:
                # Cleanup
                oled.fill(0)
                oled.show()
                print("Smart Weather Station stopped.")
-   
+
    # Main Entry Point
    if __name__ == "__main__":
        if not OPENAI_API_KEY or OPENAI_API_KEY == "your-openai-api-key-here":
            print("ERROR: Please set your OpenAI API key in secret.py")
            exit(1)
-       
+
        if not OPENWEATHER_API_KEY or OPENWEATHER_API_KEY == "your-openweather-api-key-here":
            print("ERROR: Please set your OpenWeather API key in secret.py")
            print("Get one at: https://openweathermap.org/api")
            exit(1)
-       
+
        station = SmartWeatherStation()
        station.run()
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Entendiendo el Código**
 
-1. Sensor Integration
+1. Integración de Sensores
 
-   The system reads from two local sensors:
-   
+   El sistema lee de dos sensores locales:
+
    .. code-block:: python
-   
+
       # DHT11 for temperature and humidity
       dht = DHT11(pin=DHT_PIN)
       result = dht.read()  # Returns (humidity, temperature)
-      
+
       # LDR (Light Dependent Resistor) through ADC
       ldr = ADC(LDR_CH)
       raw = ldr.read()  # Returns 0-4095 value
 
-2. OpenWeather API Integration
+2. Integración de API OpenWeather
 
-   The WeatherAPI class manages connections to OpenWeather for current conditions and forecasts:
-   
+   La clase WeatherAPI gestiona las conexiones a OpenWeather para condiciones actuales y pronósticos:
+
    .. code-block:: python
-   
+
       class WeatherAPI:
           def update_weather(self):
               # Current weather endpoint
               response = requests.get(self.get_weather_url(), timeout=10)
               self.current_weather = response.json()
-              
+
               # Forecast endpoint
               response = requests.get(self.get_forecast_url(), timeout=10)
               self.forecast = response.json()
 
-3. AI Analysis Engine
+3. Motor de Análisis de IA
 
-   The WeatherAI class generates intelligent weather insights and converts them to speech:
-   
+   La clase WeatherAI genera información meteorológica inteligente y la convierte en voz:
+
    .. code-block:: python
-   
+
       class WeatherAI:
           def analyze_weather(self, local_temp, local_hum, local_light, weather_data):
               # Calculate temperature difference
               temp_diff = abs(local_temp - weather_data.get('current_temp', local_temp))
-              
+
               # Generate recommendations based on conditions
               recommendations = []
               if local_hum > 80:
                   recommendations.append("It's quite humid")
-              
+
               # Combine into analysis text
               analysis = f"Local sensors show {local_temp:.1f}C..."
               return analysis
-          
+
           def speak_analysis(self, analysis_text):
               self.tts.say(analysis_text, instructions="speak clearly...")
 
-4. Multi-Page Display System
+4. Sistema de Pantalla Multipágina
 
-   The DisplayManager handles three information pages that auto-rotate:
-   
+   El DisplayManager maneja tres páginas de información que rotan automáticamente:
+
    .. code-block:: python
-   
+
       class DisplayManager:
           def draw_page(self, page_num, ...):
               if page_num == 0:
@@ -836,110 +836,110 @@ Here is the full Python script for the Smart Weather Station:
                   self._draw_weather_forecast(...)
               elif page_num == 2:
                   self._draw_ai_insights(...)
-          
+
           def _draw_local_sensors(self, temp, hum, light):
               # Draw temperature, humidity, and light level with progress bar
 
-5. Button Event Handling
+5. Manejo de Eventos del Botón
 
-   The button triggers AI voice analysis when pressed:
-   
+   El botón activa el análisis de voz con IA cuando se presiona:
+
    .. code-block:: python
-   
+
       button = Pin(BUTTON_PIN, mode=Mode.IN, pull=Pull.DOWN)
       button.when_activated = self._button_pressed
-      
+
       def _button_pressed(self):
           # Update sensors, generate analysis, and speak
           analysis = self.weather_ai.analyze_weather(...)
           self.weather_ai.speak_analysis(analysis)
 
-6. Data Smoothing for Light Sensor
+6. Suavizado de Datos para el Sensor de Luz
 
-   The light sensor uses moving average smoothing for stable readings:
-   
+   El sensor de luz usa suavizado de media móvil para lecturas estables:
+
    .. code-block:: python
-   
+
       def light_percent(raw, min_val=0, max_val=4095):
           _light_window.append(raw)
           if len(_light_window) > 5:
               _light_window.pop(0)
-          
+
           smooth_raw = int(mean(_light_window))  # Moving average
           pct = (smooth_raw - min_val) / (max_val - min_val) * 100
 
-7. Main Application Loop
+7. Bucle Principal de la Aplicación
 
-   The SmartWeatherStation class coordinates all components with proper timing:
-   
+   La clase SmartWeatherStation coordina todos los componentes con tiempos adecuados:
+
    .. code-block:: python
-   
+
       def run(self):
           while True:
               # Update sensors every 2 seconds
               if time.time() - self.last_sensor_update > SENSOR_UPDATE_INTERVAL:
                   self._update_sensors()
-              
+
               # Update weather every 5 minutes
               self._update_weather()
-              
+
               # Auto-cycle pages every 10 seconds
               if self.display.should_change_page():
                   self.display.next_page()
-              
+
               # Draw current page
               self.display.draw_page(...)
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de problemas**
 
-- "DHT11 read failed" errors
+- Errores "DHT11 read failed"
 
-  - Ensure proper wiring: VCC (3.3V), DATA (GPIO 17), GND
-  - Add a 10kΩ pull-up resistor between DATA and VCC
-  - Keep sensor away from heat sources (Raspberry Pi itself can heat up)
-  - Try adding a small delay between readings: ``time.sleep(2)``
+  - Asegúrate del cableado correcto: VCC (3.3V), DATA (GPIO 17), GND
+  - Añade una resistencia pull-up de 10kΩ entre DATA y VCC
+  - Mantén el sensor alejado de fuentes de calor (la Raspberry Pi puede calentarse)
+  - Intenta añadir un pequeño retardo entre lecturas: ``time.sleep(2)``
 
-- OpenWeather API error
+- Error de API OpenWeather
 
-  - Verify your API key is correct and not expired
-  - Check internet connection: ``ping 8.8.8.8``
-  - Ensure you're using the correct city name and country code
-  - Free tier has rate limits (60 calls/minute, 1,000,000 calls/month)
+  - Verifica que tu clave API sea correcta y no haya expirado
+  - Verifica la conexión a internet: ``ping 8.8.8.8``
+  - Asegúrate de estar usando el nombre de ciudad y código de país correctos
+  - El nivel gratuito tiene límites de velocidad (60 llamadas/minuto, 1,000,000 llamadas/mes)
 
-- OLED display not showing
+- La pantalla OLED no se muestra
 
-  - Check I2C connection: ``sudo i2cdetect -y 1`` (should show 0x3C)
-  - Verify OLED is powered (3.3V or 5V depending on model)
-  - Ensure correct I2C address (0x3C or 0x3D)
+  - Verifica la conexión I2C: ``sudo i2cdetect -y 1`` (debería mostrar 0x3C)
+  - Verifica que la OLED esté alimentada (3.3V o 5V según el modelo)
+  - Asegúrate de la dirección I2C correcta (0x3C o 0x3D)
 
-- No sound from TTS
+- No hay sonido del TTS
 
-  - Check audio output configuration: ``sudo raspi-config`` → **System Options** → **Audio**
-  - Test audio: ``speaker-test -t sine -f 440``
-  - Verify OpenAI TTS API key has sufficient credits
-  - Check internet connectivity for API calls
+  - Verifica la configuración de salida de audio: ``sudo raspi-config`` → **System Options** → **Audio**
+  - Prueba el audio: ``speaker-test -t sine -f 440``
+  - Verifica que la clave API de OpenAI TTS tenga suficientes créditos
+  - Verifica la conectividad a internet para las llamadas a la API
 
-- Button not responding
+- El botón no responde
 
-  - Verify wiring: button between GPIO 27 and GND
-  - Check pull-down resistor is configured in code
-  - Test button with simple script to verify functionality
+  - Verifica el cableado: botón entre GPIO 27 y GND
+  - Verifica que la resistencia pull-down esté configurada en el código
+  - Prueba el botón con un script simple para verificar su funcionalidad
 
-- Inaccurate light readings
+- Lecturas de luz inexactas
 
-  - Calibrate LDR by adjusting min_val and max_val in light_percent()
-  - Cover LDR completely for minimum value reading
-  - Expose to bright light for maximum value reading
-  - Ensure LDR is not in shadow of other components
+  - Calibra el LDR ajustando min_val y max_val en light_percent()
+  - Cubre el LDR completamente para la lectura de valor mínimo
+  - Expón a luz brillante para la lectura de valor máximo
+  - Asegúrate de que el LDR no esté en la sombra de otros componentes
 
-- Weather data outdated
+- Datos meteorológicos desactualizados
 
-  - Increase WEATHER_UPDATE_INTERVAL for more frequent updates
-  - Check if API calls are succeeding (look for error messages)
-  - Verify system time is correct: ``date``
+  - Aumenta WEATHER_UPDATE_INTERVAL para actualizaciones más frecuentes
+  - Verifica si las llamadas a la API están teniendo éxito (busca mensajes de error)
+  - Verifica que la hora del sistema sea correcta: ``date``
 
 ----------------------------------------------
 
-This smart weather station demonstrates how local sensor data, cloud services, and AI can be combined to create a sophisticated environmental monitoring system that provides actionable insights and intelligent recommendations!
+¡Esta estación meteorológica inteligente demuestra cómo los datos de sensores locales, los servicios en la nube y la IA pueden combinarse para crear un sofisticado sistema de monitoreo ambiental que proporciona información útil y recomendaciones inteligentes!

@@ -4,25 +4,25 @@
 
 .. _py_potentiometer:
 
-2.8 Potentiometer
+2.8 Potenciómetro
 ===================
 
-**Introduction**
+**Introducción**
 
-The ADC (Analog-to-Digital Converter) function is essential for converting analog signals to digital ones. In this experiment, we use the Fusion HAT+ to achieve this conversion, utilizing a potentiometer. The potentiometer adjusts the voltage, a physical quantity, which the ADC then digitizes. This experiment also demonstrates how the potentiometer can control the brightness of an LED.
+La función ADC (Convertidor Analógico-Digital) es esencial para convertir señales analógicas en digitales. En este experimento, utilizamos el Fusion HAT+ para lograr esta conversión, empleando un potenciómetro. El potenciómetro ajusta el voltaje, una magnitud física, que el ADC luego digitaliza. Este experimento también demuestra cómo el potenciómetro puede controlar el brillo de un LED.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Here are the components required for this project:
+Aquí están los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,15 +35,15 @@ Here are the components required for this project:
     *   - :ref:`cpn_potentiometer`
         - |link_potentiometer_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Below are the schematic diagrams for the project:
+A continuación se muestran los diagramas esquemáticos del proyecto:
 
 .. image:: img/fzz/2.1.7_sch.png
    :width: 80%
@@ -53,9 +53,9 @@ Below are the schematic diagrams for the project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Build the circuit as shown in the image below:
+Construye el circuito como se muestra en la imagen a continuación:
 
 .. image:: img/fzz/2.1.7_bb.png
    :width: 80%
@@ -66,11 +66,11 @@ Build the circuit as shown in the image below:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo usado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -78,23 +78,23 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.8_Potentiometer.py
 
-This Python script uses an Fusion HAT+ to read analog input and control the brightness of a PWM LED. When executed:
+Este script de Python utiliza un Fusion HAT+ para leer una entrada analógica y controlar el brillo de un LED PWM. Cuando se ejecuta:
 
-1. The Fusion HAT+ continuously reads an analog signal, converting it to a digital value between 0 and 4095.
-2. This value is mapped to a range between 0 and 100, representing the brightness percentage of the LED.
-3. The brightness of the PWM LED is dynamically adjusted based on the mapped value.
-4. The raw ADC value and voltage is printed to the console in real time.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
- 
+1. El Fusion HAT+ lee continuamente una señal analógica, convirtiéndola en un valor digital entre 0 y 4095.
+2. Este valor se mapea a un rango entre 0 y 100, que representa el porcentaje de brillo del LED.
+3. El brillo del LED PWM se ajusta dinámicamente según el valor mapeado.
+4. El valor ADC bruto y el voltaje se imprimen en la consola en tiempo real.
+5. El programa se ejecuta indefinidamente hasta que se interrumpe con ``Ctrl+C``, momento en el cual el LED se apaga.
+
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Below is the code for the experiment:
+A continuación se muestra el código del experimento:
 
 
 .. raw:: html
@@ -137,7 +137,7 @@ Below is the code for the experiment:
          time.sleep(0.2)
 
    # Graceful exit when 'Ctrl+C' is pressed
-   except KeyboardInterrupt: 
+   except KeyboardInterrupt:
       led.pulse_width_percent(0)  # Turn off the LED
 
 
@@ -146,9 +146,9 @@ Below is the code for the experiment:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports:**
+1. **Importaciones:**
 
 
    .. code-block:: python
@@ -157,9 +157,9 @@ Below is the code for the experiment:
       from fusion_hat.pwm import PWM
       import time
 
-   The script uses ``fusion_hat`` for PWM LED control and analog-to-digital conversion, and ``time`` for implementing delays.
+   El script utiliza ``fusion_hat`` para el control del LED PWM y la conversión analógico-digital, y ``time`` para implementar retardos.
 
-2. **Initialization:**
+2. **Inicialización:**
 
 
    .. code-block:: python
@@ -170,19 +170,19 @@ Below is the code for the experiment:
       # Initialize a PWM LED
       led = PWM(0)
 
-   The script initializes a PWM LED on pin ``P0`` and an ADC on pin ``A0``.
+   El script inicializa un LED PWM en el pin ``P0`` y un ADC en el pin ``A0``.
 
-3. **MAP Function:**
+3. **Función MAP:**
 
    .. code-block:: python
 
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts values from one range to another, essential for mapping ADC readings to LED brightness.
+   La función ``MAP`` convierte valores de un rango a otro, esencial para mapear las lecturas del ADC al brillo del LED.
 
 
-4. **Main Loop:**
+4. **Bucle Principal:**
 
 
    .. code-block:: python
@@ -204,39 +204,39 @@ Below is the code for the experiment:
             time.sleep(0.2)
 
       # Graceful exit when 'Ctrl+C' is pressed
-      except KeyboardInterrupt: 
+      except KeyboardInterrupt:
          led.pulse_width_percent(0)  # Turn off the LED
 
-   - Continuously read ADC values.
-   - Map ADC readings (0-4095) to brightness levels (0-100).
-   - Adjust LED brightness and wait for 0.2 seconds before repeating.
+   - Lee valores ADC continuamente.
+   - Mapea las lecturas ADC (0-4095) a niveles de brillo (0-100).
+   - Ajusta el brillo del LED y espera 0.2 segundos antes de repetir.
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **LED Does Not Respond**  
+1. **El LED No Responde**
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the LED is connected to PWM 0 with an appropriate resistor.
+   - **Causa**: Cableado incorrecto o configuración del pin GPIO.
+   - **Solución**: Asegúrate de que el LED esté conectado a PWM 0 con una resistencia adecuada.
 
-2. **ADC Values Always Zero**  
+2. **Los Valores ADC Son Siempre Cero**
 
-   - **Cause**: Incorrect wiring of the sensor.  
-   - **Solution**: Verify the sensor connections. Ensure the input sensor is functioning.
+   - **Causa**: Cableado incorrecto del sensor.
+   - **Solución**: Verifica las conexiones del sensor. Asegúrate de que el sensor de entrada esté funcionando.
 
-3. **Mapping Issues**  
+3. **Problemas de Mapeo**
 
-   - **Cause**: Incorrect ``MAP()`` function parameters.  
-   - **Solution**: Ensure the input range (``in_min``, ``in_max``) matches the output range (0–4095) and the output range (``out_min``, ``out_max``) is suitable for LED brightness control (0–100).
+   - **Causa**: Parámetros incorrectos de la función ``MAP()``.
+   - **Solución**: Asegúrate de que el rango de entrada (``in_min``, ``in_max``) coincida con el rango de salida (0-4095) y que el rango de salida (``out_min``, ``out_max``) sea adecuado para el control de brillo del LED (0-100).
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
 
-1. **Threshold-Based Behavior**: Add logic to turn the LED on or off based on specific ADC value thresholds:
+1. **Comportamiento Basado en Umbrales**: Añade lógica para encender o apagar el LED según umbrales específicos del valor ADC:
 
    .. code-block:: python
 
@@ -247,6 +247,6 @@ Below is the code for the experiment:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This experiment demonstrates how to utilize the Fusion HAT+ and a potentiometer to control the brightness of an LED. By understanding analog-to-digital conversion and PWM control, you can expand this knowledge to build more complex interactive systems.
+Este experimento demuestra cómo utilizar el Fusion HAT+ y un potenciómetro para controlar el brillo de un LED. Al comprender la conversión analógico-digital y el control PWM, puedes expandir este conocimiento para construir sistemas interactivos más complejos.

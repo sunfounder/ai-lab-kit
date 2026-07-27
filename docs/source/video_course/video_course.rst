@@ -4,7 +4,7 @@
 
 .. _youtube_list:
 
-Video Course
+Curso en Video
 ================
 
 
@@ -14,13 +14,13 @@ Video Course
 
 .. |link_video_courses| raw:: html
 
-    <a href="https://www.youtube.com/playlist?list=PLGs0VKk2DiYz9lvgEK4YJSWszqexhLGc1" target="_blank">AI Fusion Lab Kit video courses on YouTube</a>
-    
+    <a href="https://www.youtube.com/playlist?list=PLGs0VKk2DiYz9lvgEK4YJSWszqexhLGc1" target="_blank">Cursos en video de AI Fusion Lab Kit en YouTube</a>
 
-This video tutorial series is produced by |link_paul| and is now available for free at |link_video_courses|.
 
-Designed specifically for absolute beginners, this series will guide you step by step on how to use a Raspberry Pi and the Fusion HAT+ to build a variety of fun and practical projects. You will not only learn how to design and build circuits from scratch, but also how to truly apply artificial intelligence (AI) to your own creations — covering key technologies and frameworks such as Python, Large Language Models (LLMs), OpenCV, MediaPipe, and YOLO.
+Esta serie de tutoriales en video es producida por |link_paul| y ya esta disponible gratuitamente en |link_video_courses|.
 
-Our goal is to help you gain the confidence to independently complete your own projects. This tutorial series is an excellent resource for STEM education — whether you are learning in a public school, private school, homeschool environment, or simply a lifelong learner passionate about exploring the world of electronics and programming.
+Disenada especificamente para principiantes absolutos, esta serie te guiara paso a paso sobre como usar una Raspberry Pi y el Fusion HAT+ para construir una variedad de proyectos divertidos y practicos. No solo aprenderas a disenar y construir circuitos desde cero, sino tambien a aplicar realmente la inteligencia artificial (IA) a tus propias creaciones, cubriendo tecnologias y frameworks clave como Python, modelos de lenguaje grandes (LLMs), OpenCV, MediaPipe y YOLO.
 
-We greatly value your feedback and warmly welcome you to share your experiences and suggestions about the course!
+Nuestro objetivo es ayudarte a ganar la confianza para completar tus propios proyectos de forma independiente. Esta serie de tutoriales es un recurso excelente para la educacion STEM, ya sea que estes aprendiendo en una escuela publica, privada, en un entorno de educacion en el hogar, o simplemente seas un aprendiz permanente apasionado por explorar el mundo de la electronica y la programacion.
+
+Valoramos enormemente tus comentarios y te damos una calida bienvenida a compartir tus experiencias y sugerencias sobre el curso.

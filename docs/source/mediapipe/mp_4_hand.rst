@@ -5,24 +5,24 @@
 .. _mp_hand:
 
 
-4. Hand Detection
+4. Detección de Manos
 ===============================
 
 ------------------------------------------------------------
-1. Overview
+1. Descripción General
 ------------------------------------------------------------
 
-In the previous section, we implemented face detection
-and landmark tracking using MediaPipe.
+En la sección anterior, implementamos la detección facial
+y el seguimiento de puntos de referencia usando MediaPipe.
 
-This section introduces **MediaPipe Hands** —
-a lightweight and stable real-time hand landmark detection module.
+Esta sección presenta **MediaPipe Hands** —
+un módulo de detección de puntos de referencia de manos en tiempo real, ligero y estable.
 
-Using this module, we can:
+Usando este módulo, podemos:
 
-- Detect up to two hands simultaneously
-- Identify 21 landmarks per hand
-- Visualize hand skeleton connections in real time
+- Detectar hasta dos manos simultáneamente
+- Identificar 21 puntos de referencia por mano
+- Visualizar las conexiones del esqueleto de la mano en tiempo real
 
 .. image:: img/mp_hand.png
    :alt: MediaPipe Hands
@@ -30,82 +30,82 @@ Using this module, we can:
 
 
 ------------------------------------------------------------
-2. How It Works
+2. Cómo Funciona
 ------------------------------------------------------------
 
-The program follows these steps:
+El programa sigue estos pasos:
 
-1. Initialize the MediaPipe Hands model.
-2. Capture frames from the Raspberry Pi camera.
-3. Convert the image to RGB format (required by MediaPipe).
-4. Detect hand landmarks using the Hands module.
-5. Draw the 21 landmarks and their connection lines.
-6. Display the annotated video stream in real time.
+1. Inicializar el modelo MediaPipe Hands.
+2. Capturar fotogramas de la cámara Raspberry Pi.
+3. Convertir la imagen al formato RGB (requerido por MediaPipe).
+4. Detectar puntos de referencia de manos usando el módulo Hands.
+5. Dibujar los 21 puntos de referencia y sus líneas de conexión.
+6. Mostrar el flujo de video anotado en tiempo real.
 
-This module serves as the foundation for:
+Este módulo sirve como base para:
 
-- Gesture recognition
-- Finger counting
-- Interactive control systems
-- Touchless human–computer interaction
+- Reconocimiento de gestos
+- Conteo de dedos
+- Sistemas de control interactivo
+- Interacción persona-computadora sin contacto
 
 ------------------------
-3. Run the Code
+3. Ejecutar el Código
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. Después de ejecutar el programa, se abre una ventana titulada "Show Video" y muestra la transmisión de la cámara en vivo.
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_4.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
-   
-   When one or two hands appear in front of the camera:
-   
-   - MediaPipe detects each hand in real time.
-   - 21 landmark points are identified on each hand.
-   - The landmarks are connected with lines to form a hand skeleton.
-   
-   If two hands are visible, both hands are tracked and
-   annotated simultaneously.
-   
-   As the user moves their hands or fingers:
-   
-   - The landmark points follow the motion smoothly.
-   - The hand skeleton updates in real time.
-   
-   If no hand is detected, the program simply shows
-   the normal camera feed without annotations.
-   
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+
+   Cuando aparecen una o dos manos frente a la cámara:
+
+   - MediaPipe detecta cada mano en tiempo real.
+   - Se identifican 21 puntos de referencia en cada mano.
+   - Los puntos de referencia se conectan con líneas para formar un esqueleto de la mano.
+
+   Si dos manos son visibles, ambas manos son rastreadas y
+   anotadas simultáneamente.
+
+   A medida que el usuario mueve las manos o los dedos:
+
+   - Los puntos de referencia siguen el movimiento suavemente.
+   - El esqueleto de la mano se actualiza en tiempo real.
+
+   Si no se detecta ninguna mano, el programa simplemente muestra
+   la transmisión normal de la cámara sin anotaciones.
+
+   Presiona ``q`` para salir del programa.
+   La cámara se detiene y la ventana de OpenCV se cierra automáticamente.
 
 -----------------------------
-4. Complete Code
+4. Código Completo
 -----------------------------
 
-The complete example code is as follows:
+El código de ejemplo completo es el siguiente:
 
 .. code-block:: python
 
@@ -166,82 +166,82 @@ The complete example code is as follows:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the code, you will see in the camera feed:
+Después de ejecutar el código, verás en la transmisión de la cámara:
 
-- If one or two hands are detected, it will show:
+- Si se detectan una o dos manos, se mostrarán:
 
-  - 21 hand landmarks
-  - Blue connection skeleton
-- When the hand moves, the detection will track it in real-time.
+  - 21 puntos de referencia de la mano
+  - Esqueleto de conexión azul
+- Cuando la mano se mueve, la detección la seguirá en tiempo real.
 
 --------------------------------------------------------
-5. MediaPipe Hands Landmarks Description
+5. Descripción de los Puntos de Referencia de MediaPipe Hands
 --------------------------------------------------------
 
-MediaPipe Hands returns **21 landmarks** for each hand, including locations like the wrist, palm, and fingertips.
+MediaPipe Hands devuelve **21 puntos de referencia** para cada mano, incluyendo ubicaciones como la muñeca, la palma y las puntas de los dedos.
 
-Common landmarks include:
+Puntos de referencia comunes:
 
 .. list-table::
    :header-rows: 1
 
-   * - Index
-     - Name
-     - Location
+   * - Índice
+     - Nombre
+     - Ubicación
    * - 0
      - WRIST
-     - Wrist
+     - Muñeca
    * - 4 / 8 / 12 / 16 / 20
      - THUMB_TIP / INDEX_FINGER_TIP / MIDDLE_FINGER_TIP / RING_FINGER_TIP / PINKY_TIP
-     - Tips of respective fingers
+     - Puntas de los dedos respectivos
    * - 5~17
      - Joints
-     - Middle joints of respective fingers
+     - Articulaciones medias de los dedos respectivos
    * - 9
-     - PALM_CENTER (approximate)
-     - Palm area
+     - PALM_CENTER (aproximado)
+     - Área de la palma
 
 .. image:: img/mp_hand_point.png
   :width: 400
-  :alt: MediaPipe Hands Landmarks Illustration
+  :alt: Ilustración de los puntos de referencia de MediaPipe Hands
   :align: center
 
 .. note::
-   These coordinates are **normalized coordinates** and can be converted to actual pixel positions based on the image resolution.
-   They can be used to calculate angles and distances, enabling gesture recognition.
+   Estas coordenadas son **coordenadas normalizadas** y se pueden convertir a posiciones de píxeles reales según la resolución de la imagen.
+   Se pueden usar para calcular ángulos y distancias, permitiendo el reconocimiento de gestos.
 
 ------------------------------------------------------------
-6. Troubleshooting
+6. Solución de Problemas
 ------------------------------------------------------------
 
-- Unstable hand detection
+- Detección de manos inestable
 
-  Hand detection may become unstable if the lighting is too dim, the background is cluttered, or the hand moves too quickly.
-  
-  Try improving the lighting, using a plain background, and moving your hands more slowly and steadily.
+  La detección de manos puede volverse inestable si la iluminación es demasiado tenue, el fondo está desordenado o la mano se mueve demasiado rápido.
 
-- No hand detected
+  Intenta mejorar la iluminación, usar un fondo simple y mover las manos más lenta y constantemente.
 
-  If no hand is detected, the camera angle may be unsuitable, the hand may be too far from the camera, or the resolution may be too low.
-  
-  Adjust the camera position, move closer, and ensure the resolution is at least 640×480.
+- No se detecta ninguna mano
 
-- High latency
+  Si no se detecta ninguna mano, el ángulo de la cámara puede no ser adecuado, la mano puede estar demasiado lejos de la cámara o la resolución puede ser demasiado baja.
 
-  If the video response feels slow, the Raspberry Pi may be under heavy load or the resolution may be set too high.
-  
-  Reduce the resolution (for example, 320×240) and close unnecessary background processes.
+  Ajusta la posición de la cámara, acércate y asegúrate de que la resolución sea al menos 640x480.
+
+- Alta latencia
+
+  Si la respuesta del video se siente lenta, la Raspberry Pi puede estar bajo carga pesada o la resolución puede ser demasiado alta.
+
+  Reduce la resolución (por ejemplo, 320x240) y cierra procesos de fondo innecesarios.
 
 
 -----------------------------
-7.  Summary
+7. Resumen
 -----------------------------
 
-- MediaPipe Hands enables stable **real-time hand detection** on the Raspberry Pi.
-- Provides 21 landmarks per hand, suitable for:
+- MediaPipe Hands permite la **detección de manos en tiempo real** estable en Raspberry Pi.
+- Proporciona 21 puntos de referencia por mano, adecuados para:
 
-  - Gesture recognition
-  - Virtual control
-  - Interactive UI control
-  
-- Subsequently, we will implement **custom gesture recognition** based on these landmarks.
+  - Reconocimiento de gestos
+  - Control virtual
+  - Control de interfaz de usuario interactiva
+
+- Posteriormente, implementaremos el **reconocimiento de gestos personalizado** basado en estos puntos de referencia.

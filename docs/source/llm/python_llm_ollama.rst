@@ -2,64 +2,64 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-4. Text Vision Talk with Ollama
+4. Visión y Texto con Ollama
 ================================
 
-In this lesson, you will learn how to use **Ollama**, a tool for running large language and vision models locally.  
-We will show you how to install Ollama, download a model, and connect Fusion HAT+ to it.  
+En esta lección, aprenderás a usar **Ollama**, una herramienta para ejecutar modelos de lenguaje grande y visión localmente.
+Te mostraremos cómo instalar Ollama, descargar un modelo y conectar Fusion HAT+ a él.
 
-With this setup, Fusion HAT+ can take a camera snapshot and the model will **see and tell** —  
-you can ask any question about the image, and the model will reply in natural language.
+Con esta configuración, Fusion HAT+ puede tomar una foto con la cámara y el modelo **verá y dirá** —
+puedes hacer cualquier pregunta sobre la imagen, y el modelo responderá en lenguaje natural.
 
 .. _download_ollama:
 
-1. Install Ollama (LLM) and Download Model
+1. Instalar Ollama (LLM) y Descargar Modelo
 -------------------------------------------------
 
-You can choose where to install **Ollama**: 
+Puedes elegir dónde instalar **Ollama**:
 
-* On your Raspberry Pi (local run)  
-* Or on another computer (Mac/Windows/Linux) in the **same local network**  
+* En tu Raspberry Pi (ejecución local)
+* O en otro ordenador (Mac/Windows/Linux) en la **misma red local**
 
-**Recommended models vs hardware**
+**Modelos recomendados según el hardware**
 
-You can choose any model available on |link_ollama_hub|.  
-Models come in different sizes (3B, 7B, 13B, 70B...).  
-Smaller models run faster and require less memory, while larger models provide better quality but need powerful hardware.
+Puedes elegir cualquier modelo disponible en |link_ollama_hub|.
+Los modelos vienen en diferentes tamaños (3B, 7B, 13B, 70B...).
+Los modelos más pequeños se ejecutan más rápido y requieren menos memoria, mientras que los modelos más grandes ofrecen mejor calidad pero necesitan hardware potente.
 
-Check the table below to decide which model size fits your device.
+Consulta la tabla a continuación para decidir qué tamaño de modelo se adapta a tu dispositivo.
 
 .. list-table::
    :header-rows: 1
    :widths: 20 20 40
 
-   * - Model size
-     - Min RAM Required
-     - Recommended Hardware
-   * - ~3B parameters
-     - 8GB (16GB better)
-     - Raspberry Pi 5 (16GB) or mid-range PC/Mac
-   * - ~7B parameters
+   * - Tamaño del modelo
+     - RAM Mínima Requerida
+     - Hardware Recomendado
+   * - ~3B parámetros
+     - 8GB (16GB mejor)
+     - Raspberry Pi 5 (16GB) o PC/Mac de gama media
+   * - ~7B parámetros
      - 16GB+
-     - Pi 5 (16GB, just usable) or mid-range PC/Mac
-   * - ~13B parameters
+     - Pi 5 (16GB, apenas usable) o PC/Mac de gama media
+   * - ~13B parámetros
      - 32GB+
-     - Desktop PC / Mac with high RAM
-   * - 30B+ parameters
+     - PC de escritorio / Mac con mucha RAM
+   * - 30B+ parámetros
      - 64GB+
-     - Workstation / Server / GPU recommended
-   * - 70B+ parameters
+     - Estación de trabajo / Servidor / GPU recomendado
+   * - 70B+ parámetros
      - 128GB+
-     - High-end server with multiple GPUs
+     - Servidor de alta gama con múltiples GPUs
 
-**Install on Raspberry Pi**
+**Instalar en Raspberry Pi**
 
-If you want to run Ollama directly on your Raspberry Pi:
+Si quieres ejecutar Ollama directamente en tu Raspberry Pi:
 
-* Use a **64-bit Raspberry Pi OS**  
-* Strongly recommended: **Raspberry Pi 5 (16GB RAM)**  
+* Usa un **Raspberry Pi OS de 64 bits**
+* Muy recomendado: **Raspberry Pi 5 (16GB RAM)**
 
-Run the following commands:
+Ejecuta los siguientes comandos:
 
 .. code-block:: bash
 
@@ -76,75 +76,75 @@ Run the following commands:
    # Tip: set OLLAMA_HOST=0.0.0.0 to allow access from LAN
    OLLAMA_HOST=0.0.0.0 ollama serve
 
-**Install on Mac / Windows / Linux (Desktop App)**
+**Instalar en Mac / Windows / Linux (Aplicación de escritorio)**
 
-1. Download and install Ollama from |link_ollama|  
+1. Descarga e instala Ollama desde |link_ollama|
 
    .. image:: img/llm_ollama_download.png
 
-2. Open the Ollama app, go to the **Model Selector**, and use the search bar to find a model. For example, type ``llama3.2:3b`` (a small and lightweight model to start with).  
+2. Abre la aplicación Ollama, ve al **Model Selector** y usa la barra de búsqueda para encontrar un modelo. Por ejemplo, escribe ``llama3.2:3b`` (un modelo pequeño y ligero para empezar).
 
    .. image:: img/llm_ollama_choose.png
 
-3. After the download is complete, type something simple like “Hi” in the chat window, Ollama will automatically start downloading it when you first use it.
+3. Después de que la descarga se complete, escribe algo simple como "Hi" en la ventana de chat. Ollama comenzará a descargarlo automáticamente cuando lo uses por primera vez.
 
    .. image:: img/llm_olama_llama_download.png
 
-4. Go to **Settings** → enable **Expose Ollama to the network**. This allows your Raspberry Pi to connect to it over LAN.  
+4. Ve a **Settings** → activa **Expose Ollama to the network**. Esto permite que tu Raspberry Pi se conecte a través de la LAN.
 
    .. image:: img/llm_olama_windows_enable.png
 
 .. warning::
 
-   If you see an error like:
+   Si ves un error como:
 
    ``Error: model requires more system memory ...``
 
-   The model is too large for your machine.  
-   Use a **smaller model** or switch to a computer with more RAM.
+   El modelo es demasiado grande para tu máquina.
+   Usa un **modelo más pequeño** o cambia a un ordenador con más RAM.
 
-2. Test Ollama
+2. Probar Ollama
 --------------
 
-Once Ollama is installed and your model is ready, you can quickly test it with a minimal chat loop.
+Una vez que Ollama esté instalado y tu modelo esté listo, puedes probarlo rápidamente con un bucle de chat mínimo.
 
-**Set IP Address**
+**Establecer dirección IP**
 
-#. Open the example script:
+#. Abre el script de ejemplo:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       sudo nano llm_ollama.py
 
-#. Update the parameters as needed:
+#. Actualiza los parámetros según sea necesario:
 
-   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``: Update both ``ip`` and ``model`` to your own setup.  
+   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``: Actualiza tanto ``ip`` como ``model`` según tu configuración.
 
-     * ``ip``: If Ollama runs on the **same Pi**, use ``localhost``. If Ollama runs on another computer in your LAN, enable **Expose to network** in Ollama and set ``ip`` to that computer’s LAN IP.  
-     * ``model``: Must exactly match the model name you downloaded/activated in Ollama.  
+     * ``ip``: Si Ollama se ejecuta en la **misma Pi**, usa ``localhost``. Si Ollama se ejecuta en otro ordenador en tu LAN, activa **Expose to network** en Ollama y establece ``ip`` como la IP LAN de ese ordenador.
+     * ``model``: Debe coincidir exactamente con el nombre del modelo que descargaste/activaste en Ollama.
 
 
-**Run the program**
+**Ejecutar el programa**
 
   .. code-block:: bash
-  
+
       cd ~/ai-lab-kit/llm
       sudo python3 llm_ollama.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+Ahora puedes chatear con Fusion HAT+ directamente desde la terminal.
 
-   * You can choose **any model** available on |link_ollama_hub|, but smaller models (e.g. ``moondream:1.8b``, ``phi3:mini``) are recommended if you only have 8–16GB RAM.  
-   * Make sure the model you specify in the code matches the model you have already pulled in Ollama.  
-   * Type ``exit`` or ``quit`` to stop the program.  
-   * If you cannot connect, ensure that Ollama is running and that both devices are on the same LAN if you are using a remote host.
+   * Puedes elegir **cualquier modelo** disponible en |link_ollama_hub|, pero se recomiendan modelos más pequeños (por ejemplo, ``moondream:1.8b``, ``phi3:mini``) si solo tienes 8–16GB de RAM.
+   * Asegúrate de que el modelo que especificas en el código coincida con el modelo que ya has descargado en Ollama.
+   * Escribe ``exit`` o ``quit`` para detener el programa.
+   * Si no puedes conectarte, asegúrate de que Ollama esté ejecutándose y que ambos dispositivos estén en la misma LAN si estás usando un host remoto.
 
-**Code**
+**Código**
 
 .. code-block:: python
 
    from fusion_hat.llm import Ollama
- 
+
    INSTRUCTIONS = "You are a helpful assistant."
    WELCOME = "Hello, I am a helpful assistant. How can I help you?"
 
@@ -178,44 +178,44 @@ Now you can chat with Fusion HAT+ directly from the terminal.
       print("")
 
 
-3. Vision Talk with Ollama
+3. Visión con Ollama
 --------------------------
 
-In this demo, the Pi camera takes a snapshot **each time you type a question**.  
-The program sends **your typed text + the new photo** to a local vision model via Ollama,  
-and then streams the model’s reply in plain English.  
-This is a minimal “see & tell” baseline you can later extend with color/face/QR checks.
+En esta demo, la cámara de la Pi toma una foto **cada vez que escribes una pregunta**.
+El programa envía **tu texto escrito + la nueva foto** a un modelo de visión local a través de Ollama,
+y luego transmite la respuesta del modelo en texto plano.
+Esta es una base mínima de "ver y contar" que puedes ampliar luego con comprobaciones de color/rostro/QR.
 
-**Before You Start**
+**Antes de comenzar**
 
-#. Open the **Ollama** app (or run the service) and make sure a **vision-capable model** is pulled.
+#. Abre la aplicación **Ollama** (o ejecuta el servicio) y asegúrate de tener un **modelo con capacidad de visión** descargado.
 
-   * If you have enough memory (≥16GB RAM), you may try ``llava:7b``.
-   * If you only have **8GB RAM**, prefer a smaller model such as ``moondream:1.8b`` or ``granite3.2-vision:2b``.
+   * Si tienes suficiente memoria (≥16GB RAM), puedes probar ``llava:7b``.
+   * Si solo tienes **8GB RAM**, prefiere un modelo más pequeño como ``moondream:1.8b`` o ``granite3.2-vision:2b``.
 
    .. image:: img/llm_ollama_image_model.png
 
-**Run the Demo**
+**Ejecutar la Demo**
 
-#. Go to the example folder and run the script:
+#. Ve a la carpeta de ejemplos y ejecuta el script:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm
       python3 llm_ollama_with_image.py
 
-#. What happens when it runs:
+#. Qué sucede cuando se ejecuta:
 
-   * The program prints a welcome line and waits for your input (``>>>``).
-   * **Every time you type anything** (e.g., “hello”, “Is there yellow?”, “Any faces?”, “What is on the desk?”), it:
+   * El programa imprime una línea de bienvenida y espera tu entrada (``>>>``).
+   * **Cada vez que escribes algo** (por ejemplo, "hello", "Is there yellow?", "Any faces?", "What is on the desk?"), ocurre lo siguiente:
 
-     * **captures a photo** from the Pi camera (saved to ``/tmp/llm-img.jpg``),  
-     * **sends your text + the photo** to the vision model via Ollama,  
-     * **streams back** the model’s answer to the terminal.
+     * **captura una foto** desde la cámara de la Pi (guardada en ``/tmp/llm-img.jpg``),
+     * **envía tu texto + la foto** al modelo de visión a través de Ollama,
+     * **transmite de vuelta** la respuesta del modelo a la terminal.
 
-   * Type ``exit`` or ``quit`` to end the program.
+   * Escribe ``exit`` o ``quit`` para finalizar el programa.
 
-**Code**
+**Código**
 
 .. code-block:: python
 
@@ -274,34 +274,33 @@ This is a minimal “see & tell” baseline you can later extend with color/face
       print("")
 
 
-Troubleshooting
+Solución de problemas
 ---------------
 
 
-* **I get an error like: `model requires more system memory ...`.**
+* **Recibo un error como: `model requires more system memory ...`.**
 
-  * This means the model is too large for your device.  
-  * Use a smaller model such as ``moondream:1.8b`` or ``granite3.2-vision:2b``.  
-  * Or switch to a machine with more RAM and expose Ollama to the network.
+  * Esto significa que el modelo es demasiado grande para tu dispositivo.
+  * Usa un modelo más pequeño como ``moondream:1.8b`` o ``granite3.2-vision:2b``.
+  * O cambia a una máquina con más RAM y expón Ollama a la red.
 
-* **The code cannot connect to Ollama (connection refused).** 
+* **El código no puede conectarse a Ollama (connection refused).**
 
-  Check the following:
-  
-  * Make sure Ollama is running (``ollama serve`` or the desktop app is open).  
-  * If using a remote computer, enable **Expose to network** in Ollama settings.  
-  * Double-check that the ``ip="..."`` in your code matches the correct LAN IP.  
-  * Confirm both devices are on the same local network.
+  Verifica lo siguiente:
 
-* **My Pi camera does not capture anything.**
+  * Asegúrate de que Ollama se esté ejecutando (``ollama serve`` o la aplicación de escritorio está abierta).
+  * Si usas un ordenador remoto, activa **Expose to network** en la configuración de Ollama.
+  * Vuelve a verificar que ``ip="..."`` en tu código coincida con la IP LAN correcta.
+  * Confirma que ambos dispositivos estén en la misma red local.
 
-  * Verify that ``Picamera2`` is installed and working with a simple test script.  
-  * Check that the camera cable is properly connected and enabled in ``raspi-config``.  
-  * Ensure your script has permission to write to the target path (``/tmp/llm-img.jpg``).
+* **Mi cámara Pi no captura nada.**
 
-* **The output is too slow.**  
+  * Verifica que ``Picamera2`` esté instalado y funcionando con un script de prueba simple.
+  * Comprueba que el cable de la cámara esté correctamente conectado y habilitado en ``raspi-config``.
+  * Asegúrate de que tu script tenga permiso para escribir en la ruta de destino (``/tmp/llm-img.jpg``).
 
-  * Smaller models reply faster, but with simpler answers.  
-  * You can lower the camera resolution (e.g., 640×480 instead of 1280×720) to speed up image processing.  
-  * Close other programs on your Pi to free up CPU and RAM.
-  
+* **La salida es demasiado lenta.**
+
+  * Los modelos más pequeños responden más rápido, pero con respuestas más simples.
+  * Puedes reducir la resolución de la cámara (por ejemplo, 640×480 en lugar de 1280×720) para acelerar el procesamiento de imágenes.
+  * Cierra otros programas en tu Pi para liberar CPU y RAM.

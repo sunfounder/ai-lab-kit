@@ -4,27 +4,27 @@
 
 .. _py_fun_fan:
 
-4.7 Smart Fan
-=========================
+4.7 Ventilador Inteligente
+============================
 
-**Introduction**
+**Introducción**
 
-In this project, you’ll build a "smart fan" that operates in both manual and automatic modes. By combining motors, buttons, and a thermistor, the fan can have adjustable wind speeds and respond to changes in temperature. This makes it a perfect experiment for learning about motor control, temperature sensing, and GPIO usage.
+En este proyecto, construirás un "ventilador inteligente" que funciona tanto en modo manual como automático. Combinando motores, botones y un termistor, el ventilador puede tener velocidades de viento ajustables y responder a cambios de temperatura. Esto lo convierte en un experimento perfecto para aprender sobre control de motores, detección de temperatura y uso de GPIO.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Here are the components you’ll need for this project:
+Estos son los componentes que necesitarás para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,17 +39,17 @@ Here are the components you’ll need for this project:
     *   - :ref:`cpn_motor`
         - |link_motor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The circuit diagram below illustrates how to connect the thermistor, button, motor driver, and motor:
+El diagrama de circuito a continuación ilustra cómo conectar el termistor, el botón, el controlador del motor y el motor:
 
 .. image:: img/fzz/4.1.7_sch.png
    :width: 100%
@@ -60,9 +60,9 @@ The circuit diagram below illustrates how to connect the thermistor, button, mot
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Refer to the following image for the breadboard layout and wiring connections:
+Consulta la siguiente imagen para ver la disposición en la placa de prototipos y las conexiones de cableado:
 
 
 .. image:: img/fzz/4.1.7_bb.png
@@ -73,11 +73,11 @@ Refer to the following image for the breadboard layout and wiring connections:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -85,15 +85,15 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.7_SmartFan.py
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here’s the Python script for this project:
+Aquí está el script de Python para este proyecto:
 
 
 
@@ -262,33 +262,33 @@ Here’s the Python script for this project:
 
 
 
-This Python script integrates a motor, button, and temperature sensor to create a temperature-controlled fan system with adjustable speed. When executed:
+Este script de Python integra un motor, un botón y un sensor de temperatura para crear un sistema de ventilador controlado por temperatura con velocidad ajustable. Cuando se ejecuta:
 
-1. **Temperature Sensing**: Reads the current temperature in Celsius using the thermistor. Multiple samples are averaged for accuracy, and invalid readings are skipped rather than causing immediate failure.
+1. **Detección de Temperatura**: Lee la temperatura actual en grados Celsius usando el termistor. Se promedian múltiples muestras para mayor precisión, y las lecturas no válidas se omiten en lugar de causar un fallo inmediato.
 
-2. **Manual Speed Adjustment**:
+2. **Ajuste Manual de Velocidad**:
 
-   - A button connected to GPIO 22 allows the user to cycle through five speed levels (0 to 4).
-   - Pressing the button increases the speed level, and the motor runs at the corresponding power (0%, 25%, 50%, 75%, or 100%). Speed level 0 stops the motor.
-   - Button input includes **debounce protection** (0.3 seconds) to prevent false triggers from contact bounce.
+   - Un botón conectado a GPIO 22 permite al usuario recorrer cinco niveles de velocidad (0 a 4).
+   - Presionar el botón aumenta el nivel de velocidad, y el motor funciona a la potencia correspondiente (0%, 25%, 50%, 75% o 100%). El nivel de velocidad 0 detiene el motor.
+   - La entrada del botón incluye **protección anti-rebote** (0.3 segundos) para evitar disparos falsos por rebote de contacto.
 
-3. **Manual Priority Window**: After a button press, automatic speed adjustment is suppressed for **2 seconds** (``MANUAL_HOLD_TIME``). This ensures the user's manual setting is not immediately overridden by an automatic adjustment.
+3. **Ventana de Prioridad Manual**: Después de presionar un botón, el ajuste automático de velocidad se suprime durante **2 segundos** (``MANUAL_HOLD_TIME``). Esto asegura que la configuración manual del usuario no sea anulada inmediatamente por un ajuste automático.
 
-4. **Automatic Speed Control**: After the manual priority window expires (and when the fan is not off), the system adjusts the motor speed automatically based on temperature changes:
+4. **Control Automático de Velocidad**: Después de que expira la ventana de prioridad manual (y cuando el ventilador no está apagado), el sistema ajusta la velocidad del motor automáticamente según los cambios de temperatura:
 
-   - If the temperature increases by **5°C** or more, the speed level increases (up to level 4).
-   - If the temperature decreases by **5°C** or more, the speed level decreases (down to level 0).
+   - Si la temperatura aumenta en **5°C** o más, el nivel de velocidad aumenta (hasta el nivel 4).
+   - Si la temperatura disminuye en **5°C** o más, el nivel de velocidad disminuye (hasta el nivel 0).
 
-5. **Continuous Monitoring**: The system continuously monitors the temperature and button state with a fast 0.05-second loop interval, ensuring responsive adjustments.
+5. **Monitoreo Continuo**: El sistema monitorea continuamente la temperatura y el estado del botón con un intervalo de bucle rápido de 0.05 segundos, asegurando ajustes receptivos.
 
-6. **Graceful Exit**: On ``Ctrl+C``, the motor stops, and the script exits cleanly.
+6. **Salida Ordenada**: Al presionar ``Ctrl+C``, el motor se detiene y el script termina limpiamente.
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Temperature Calculation:**
+1. **Cálculo de Temperatura:**
 
    .. code-block:: python
 
@@ -325,10 +325,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
           return sum(vals) / len(vals)
 
 
-   The ``temperature()`` function takes multiple samples from the thermistor, converts each analog reading into a resistance value, and calculates the temperature in Celsius using the Steinhart-Hart equation. Individual bad readings (voltage too low or resistance zero) are **skipped** via ``continue`` rather than causing the entire measurement to fail. Only if **all** samples are invalid does the function return ``None``. The final result is the arithmetic mean of all valid samples, giving a stable and noise-resistant reading.
+   La función ``temperature()`` toma múltiples muestras del termistor, convierte cada lectura analógica en un valor de resistencia y calcula la temperatura en grados Celsius usando la ecuación de Steinhart-Hart. Las lecturas individuales incorrectas (voltaje demasiado bajo o resistencia cero) se **saltan** mediante ``continue`` en lugar de hacer fallar toda la medición. Solo si **todas** las muestras son inválidas, la función retorna ``None``. El resultado final es la media aritmética de todas las muestras válidas, proporcionando una lectura estable y resistente al ruido.
 
 
-2. **Motor Speed Control:**
+2. **Control de Velocidad del Motor:**
 
    .. code-block:: python
 
@@ -342,10 +342,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
           return lv
 
 
-   The ``motor_run()`` function maps the numeric level (0–4) to a percentage of motor power using a lookup table. Level 0 sends 0% power (off), while levels 1 through 4 correspond to 25%, 50%, 75%, and 100% power respectively. The level is first clamped to the valid range with ``max(0, min(4, lv))``.
+   La función ``motor_run()`` asigna el nivel numérico (0–4) a un porcentaje de potencia del motor usando una tabla de consulta. El nivel 0 envía 0% de potencia (apagado), mientras que los niveles 1 a 4 corresponden a 25%, 50%, 75% y 100% de potencia respectivamente. El nivel se limita primero al rango válido con ``max(0, min(4, lv))``.
 
 
-3. **Button Reading with Debounce:**
+3. **Lectura del Botón con Anti-Rebote:**
 
    .. code-block:: python
 
@@ -381,10 +381,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
       last_button_state = button_state
 
 
-   Instead of using an interrupt callback, the code **polls** the button state in the main loop. A button press is detected by a **rising edge**: the button state transitions from ``0`` to ``1`` (``last_button_state == 0`` → ``button_state == 1``). A **debounce timer** (``DEBOUNCE_TIME = 0.3`` seconds) prevents contact bounce from triggering multiple presses. When a valid press is detected, the level cycles through 0→1→2→3→4→0, the reference temperature (``markTemp``) is updated, and the motor speed is applied immediately.
+   En lugar de usar una devolución de llamada de interrupción, el código **sondea** el estado del botón en el bucle principal. Una pulsación se detecta por un **flanco ascendente**: la transición del estado del botón de ``0`` a ``1`` (``last_button_state == 0`` → ``button_state == 1``). Un **temporizador anti-rebote** (``DEBOUNCE_TIME = 0.3`` segundos) evita que el rebote de contacto genere múltiples pulsaciones. Cuando se detecta una pulsación válida, el nivel avanza cíclicamente 0→1→2→3→4→0, la temperatura de referencia (``markTemp``) se actualiza y la velocidad del motor se aplica inmediatamente.
 
 
-4. **Main Loop and Automatic Adjustment:**
+4. **Bucle Principal y Ajuste Automático:**
 
    .. code-block:: python
 
@@ -431,69 +431,69 @@ This Python script integrates a motor, button, and temperature sensor to create 
               sleep(0.05)
 
 
-   The ``main()`` function runs a fast control loop (0.05-second interval). Key behaviors:
+   La función ``main()`` ejecuta un bucle de control rápido (intervalo de 0.05 segundos). Comportamientos clave:
 
-   - **Initialization**: It repeatedly reads the temperature until a valid ``markTemp`` is obtained, ensuring the system starts with a known reference.
+   - **Inicialización**: Lee la temperatura repetidamente hasta obtener un ``markTemp`` válido, asegurando que el sistema comience con una referencia conocida.
 
-   - **Manual Priority**: After a button press, automatic adjustments are blocked for ``MANUAL_HOLD_TIME`` (2 seconds). This ``auto_allowed`` gate prevents the system from immediately counteracting the user’s manual change.
+   - **Prioridad Manual**: Después de una pulsación de botón, los ajustes automáticos se bloquean durante ``MANUAL_HOLD_TIME`` (2 segundos). Esta compuerta ``auto_allowed`` evita que el sistema contrarreste inmediatamente el cambio manual del usuario.
 
-   - **Automatic Adjustment**: When auto is allowed and the fan is not at level 0, the code checks whether the current temperature has deviated by ``TEMP_THRESHOLD`` (±5°C) from the reference. If so, the level is stepped up or down by one, and the reference is reset to the current temperature — this creates a **latching** behavior that prevents oscillation around the threshold.
+   - **Ajuste Automático**: Cuando el ajuste automático está permitido y el ventilador no está en nivel 0, el código verifica si la temperatura actual se ha desviado en ``TEMP_THRESHOLD`` (±5°C) de la referencia. Si es así, el nivel se incrementa o disminuye en uno, y la referencia se restablece a la temperatura actual — esto crea un comportamiento de **enclavamiento** que evita la oscilación alrededor del umbral.
 
-   - **Periodic Output**: Every ``PRINT_INTERVAL`` (1 second), the current temperature, reference temperature, and level are printed for monitoring.
+   - **Salida Periódica**: Cada ``PRINT_INTERVAL`` (1 segundo), se imprimen la temperatura actual, la temperatura de referencia y el nivel para monitoreo.
 
-
-
-----------------------------------------------
-
-
-**Troubleshooting**
-
-1. **Motor Does Not Run**:
-
-   - **Cause**: Incorrect wiring or insufficient power supply.
-   - **Solution**:
-
-     - Verify the motor is connected to M0.
-     - Ensure the motor's power supply matches its voltage requirements.
-
-2. **Temperature Reading is Incorrect**:
-
-   - **Cause**: Faulty thermistor.
-   - **Solution**:
-
-     - Check the thermistor wiring and ensure it is within the specified range.
-
-3. **Button Press Not Detected**:
-
-   - **Cause**: Incorrect button wiring or GPIO configuration.
-   - **Solution**:
-
-     - Verify the button is connected to GPIO 22 and ground.
-     - Test the button independently to confirm it closes the circuit when pressed.
-
-4. **Speed Level Does Not Change Automatically**:
-
-   - **Cause**: Incorrect temperature difference calculation.
-   - **Solution**: Ensure the ``currentTemp`` and ``markTemp`` values update correctly in the ``main()`` function.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+
+**Solución de Problemas**
+
+1. **El Motor No Funciona**:
+
+   - **Causa**: Cableado incorrecto o alimentación insuficiente.
+   - **Solución**:
+
+     - Verifica que el motor esté conectado a M0.
+     - Asegúrate de que la fuente de alimentación del motor coincida con sus requisitos de voltaje.
+
+2. **La Lectura de Temperatura es Incorrecta**:
+
+   - **Causa**: Termistor defectuoso.
+   - **Solución**:
+
+     - Verifica el cableado del termistor y asegúrate de que esté dentro del rango especificado.
+
+3. **No Se Detecta la Pulsación del Botón**:
+
+   - **Causa**: Cableado incorrecto del botón o configuración de GPIO.
+   - **Solución**:
+
+     - Verifica que el botón esté conectado a GPIO 22 y a tierra.
+     - Prueba el botón de forma independiente para confirmar que cierra el circuito al presionarlo.
+
+4. **El Nivel de Velocidad No Cambia Automáticamente**:
+
+   - **Causa**: Cálculo incorrecto de la diferencia de temperatura.
+   - **Solución**: Asegúrate de que los valores ``currentTemp`` y ``markTemp`` se actualicen correctamente en la función ``main()``.
 
 
-1. **Overheat Alert**: Add a buzzer or LED to alert the user when the temperature exceeds a critical threshold.
+----------------------------------------------
+
+**Ideas para Extender**
+
+
+1. **Alerta de Sobrecalentamiento**: Agrega un zumbador o LED para alertar al usuario cuando la temperatura supere un umbral crítico.
 
      .. code-block:: python
 
          if currentTemp > 50:
              buzzer.on()
 
-2. **Smart Button Functions**: Long-press the button to reset the speed level to 0 or toggle automatic/manual modes.
+2. **Funciones Inteligentes del Botón**: Mantén presionado el botón para restablecer el nivel de velocidad a 0 o alternar entre modos manual y automático.
 
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusión**
 
-The Smart Fan project demonstrates how to combine manual and automatic control in a single system. It’s a practical example of integrating sensors, motors, and user interaction into a functional and efficient design. Try enhancing it with additional features to create your personalized climate control solution!
+El proyecto Ventilador Inteligente demuestra cómo combinar control manual y automático en un solo sistema. Es un ejemplo práctico de integración de sensores, motores e interacción del usuario en un diseño funcional y eficiente. Intenta mejorarlo con características adicionales para crear tu solución de control climático personalizada.

@@ -4,25 +4,25 @@
 
 .. _py_tilt:
 
-2.4 Tilt Switch
-=================
+2.4 Interruptor de Inclinación
+==============================
 
-**Introduction**
+**Introducción**
 
-In this project, we will explore the tilt switch module, a ball tilt-switch containing a small metal ball inside. This switch is designed to detect slight inclinations and can be utilized in various applications like motion detection, angle measurement, and balance monitoring.
+En este proyecto, exploraremos el módulo de interruptor de inclinación, un interruptor de inclinación de bola que contiene una pequeña bola metálica en su interior. Este interruptor está diseñado para detectar ligeras inclinaciones y puede utilizarse en diversas aplicaciones como detección de movimiento, medición de ángulos y monitoreo de equilibrio.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-To complete this project, gather the following components:
+Para completar este proyecto, reúne los siguientes componentes:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,7 +35,7 @@ To complete this project, gather the following components:
     *   - :ref:`cpn_tilt_switch`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -43,9 +43,9 @@ To complete this project, gather the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Refer to the following diagrams for connecting the tilt switch:
+Consulta los siguientes diagramas para conectar el interruptor de inclinación:
 
 .. image:: img/fzz/2.1.5_sch.png
    :width: 100%
@@ -55,14 +55,14 @@ Refer to the following diagrams for connecting the tilt switch:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow these steps to set up the circuit:
+Sigue estos pasos para montar el circuito:
 
-1. Connect the tilt switch to GPIO pin 17 on the Raspberry Pi.
-2. Connect the green LED to GPIO pin 27 with a resistor.
-3. Connect the red LED to GPIO pin 22 with a resistor.
-4. Complete the connections by wiring the cathodes of both LEDs to GND.
+1. Conecta el interruptor de inclinación al pin GPIO 17 de la Raspberry Pi.
+2. Conecta el LED verde al pin GPIO 27 con una resistencia.
+3. Conecta el LED rojo al pin GPIO 22 con una resistencia.
+4. Completa las conexiones conectando los cátodos de ambos LEDs a GND.
 
 .. image:: img/fzz/2.1.5_bb.png
    :width: 80%
@@ -72,11 +72,11 @@ Follow these steps to set up the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo usado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -84,32 +84,32 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.4_Tilt.py
 
-This Python script uses a tilt sensor to control two LEDs and display status messages on the console. When executed:
+Este script de Python utiliza un sensor de inclinación para controlar dos LEDs y mostrar mensajes de estado en la consola. Cuando se ejecuta:
 
-1. If the tilt sensor (connected to GPIO pin 17) detects a tilt:
+1. Si el sensor de inclinación (conectado al pin GPIO 17) detecta una inclinación:
 
-   - Prints a message to the console.
-   - Turns on the red LED (connected to GPIO pin 22).
-   - Turns off the green LED (connected to GPIO pin 27).
+   - Imprime un mensaje en la consola.
+   - Enciende el LED rojo (conectado al pin GPIO 22).
+   - Apaga el LED verde (conectado al pin GPIO 27).
 
-2. If the tilt sensor remains upright (in its normal vertical position):
+2. Si el sensor de inclinación permanece vertical (en su posición normal):
 
-   - Turns off the red LED.
-   - Turns on the green LED.
+   - Apaga el LED rojo.
+   - Enciende el LED verde.
 
-3. The program continuously monitors the tilt sensor's state and adjusts the LEDs accordingly.
+3. El programa monitorea continuamente el estado del sensor de inclinación y ajusta los LEDs en consecuencia.
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. El script se ejecuta indefinidamente hasta que se interrumpe presionando ``Ctrl+C``.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Below is the Python script to control the tilt switch and LEDs:
+A continuación se muestra el script de Python para controlar el interruptor de inclinación y los LEDs:
 
 .. raw:: html
 
@@ -144,8 +144,8 @@ Below is the Python script to control the tilt switch and LEDs:
 
    try:
       # Set up a callback to detect changes in the tilt sensor state
-      TiltPin.when_activated = detect 
-      TiltPin.when_deactivated = detect  
+      TiltPin.when_activated = detect
+      TiltPin.when_deactivated = detect
       pause()
 
    except KeyboardInterrupt:
@@ -154,11 +154,11 @@ Below is the Python script to control the tilt switch and LEDs:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports**
+1. **Importaciones**
 
-   The script imports necessary classes for LED and Button control and initializes them with appropriate GPIO pins.
+   El script importa las clases necesarias para el control de LED y botón, y las inicializa con los pines GPIO apropiados.
 
    .. code-block:: python
 
@@ -166,9 +166,9 @@ Below is the Python script to control the tilt switch and LEDs:
       from signal import pause  # Import pause function from signal module
 
 
-2. **Initialization**
+2. **Inicialización**
 
-   Configure the tilt switch and LEDs connected to GPIO pins 17, 27, and 22.
+   Configura el interruptor de inclinación y los LEDs conectados a los pines GPIO 17, 27 y 22.
 
    .. code-block:: python
 
@@ -176,9 +176,9 @@ Below is the Python script to control the tilt switch and LEDs:
       green_led = Pin(27,mode=Mode.OUT)  # Green LED connected to GPIO pin 27
       red_led = Pin(22,mode=Mode.OUT)   # Red LED connected to GPIO pin 22
 
-3. **Detect Function**
+3. **Función Detect**
 
-   The ``detect`` function checks the state of the tilt switch and updates the LEDs accordingly. If the switch is tilted, the red LED lights up and the green LED turns off.
+   La función ``detect`` verifica el estado del interruptor de inclinación y actualiza los LEDs en consecuencia. Si el interruptor está inclinado, el LED rojo se enciende y el LED verde se apaga.
 
    .. code-block:: python
 
@@ -193,16 +193,16 @@ Below is the Python script to control the tilt switch and LEDs:
             red_led.low()  # Turn off red LED
             green_led.high()  # Turn on green LED
 
-4. **Main Loop**
+4. **Bucle Principal**
 
-   Assign the ``detect`` function to handle ``when_pressed`` and ``when_released`` events of the tilt sensor. The loop continues until interrupted.
+   Asigna la función ``detect`` para manejar los eventos ``when_pressed`` y ``when_released`` del sensor de inclinación. El bucle continúa hasta que se interrumpe.
 
    .. code-block:: python
 
       try:
          # Set up a callback to detect changes in the tilt sensor state
-         TiltPin.when_activated = detect 
-         TiltPin.when_deactivated = detect  
+         TiltPin.when_activated = detect
+         TiltPin.when_deactivated = detect
          pause()
 
       except KeyboardInterrupt:
@@ -212,18 +212,18 @@ Below is the Python script to control the tilt switch and LEDs:
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **Script Does Not Respond to Tilting**  
+1. **El Script No Responde a la Inclinación**
 
-   - **Cause**: Event listeners (``when_activated`` and ``when_deactivated``) not functioning properly.  
-   - **Solution**: Confirm that ``detect()`` is correctly linked to both ``when_activated`` and ``when_deactivated`` events.
+   - **Causa**: Los listeners de eventos (``when_activated`` y ``when_deactivated``) no funcionan correctamente.
+   - **Solución**: Confirma que ``detect()`` esté correctamente vinculada a ambos eventos ``when_activated`` y ``when_deactivated``.
 
 
-2. **LEDs Flicker**  
+2. **Los LEDs Parpadean**
 
-   - **Cause**: Sensor noise or debounce issues.  
-   - **Solution**: Add a short delay to stabilize the signal:
+   - **Causa**: Ruido del sensor o problemas de debounce.
+   - **Solución**: Añade un breve retardo para estabilizar la señal:
 
 
    .. code-block:: python
@@ -232,7 +232,7 @@ Below is the Python script to control the tilt switch and LEDs:
       from time import sleep
       def detect():
             sleep(0.05)  # Debounce delay
-            if TiltPin.value() == 0: 
+            if TiltPin.value() == 0:
                red_led.on()
                green_led.off()
             else:
@@ -242,12 +242,12 @@ Below is the Python script to control the tilt switch and LEDs:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Sound Feedback**  
+1. **Retroalimentación de Sonido**
 
-   Add a buzzer to provide audio feedback when the tilt sensor is activated:
-   
+   Añade un zumbador para proporcionar retroalimentación de audio cuando se active el sensor de inclinación:
+
    .. code-block:: python
 
       from fusion_hat import Buzzer,Pin
@@ -258,9 +258,9 @@ Below is the Python script to control the tilt switch and LEDs:
          buzzer.off()
 
 
-2. **Timed Alerts**  
+2. **Alertas Temporizadas**
 
-   Trigger an alert if the sensor remains tilted for a specified duration:
+   Activa una alerta si el sensor permanece inclinado durante un tiempo específico:
 
    .. code-block:: python
 
@@ -277,6 +277,6 @@ Below is the Python script to control the tilt switch and LEDs:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to use a tilt switch with a Fusion HAT+ to detect inclinations and control LEDs. Tilt switches are a cost-effective solution for simple motion and angle detection, offering practical applications in robotics and home automation.
+Este proyecto demuestra cómo usar un interruptor de inclinación con un Fusion HAT+ para detectar inclinaciones y controlar LEDs. Los interruptores de inclinación son una solución rentable para la detección simple de movimiento y ángulo, ofreciendo aplicaciones prácticas en robótica y automatización del hogar.

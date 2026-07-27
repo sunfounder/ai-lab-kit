@@ -4,25 +4,25 @@
 
 .. _py_rgb:
 
-1.2 RGB LED
-====================
+1.2 LED RGB
+================
 
-**Introduction**
+**Introducción**
 
-In this project, we will explore how to control an RGB LED to display various colors by using a Raspberry Pi and GPIO programming. RGB LEDs are versatile components that can emit a spectrum of colors by mixing red, green, and blue light at different intensities.
+En este proyecto, exploraremos cómo controlar un LED RGB para mostrar varios colores utilizando una Raspberry Pi y programación GPIO. Los LED RGB son componentes versátiles que pueden emitir un espectro de colores mezclando luz roja, verde y azul a diferentes intensidades.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-To complete this project, you will need the following components:
+Para completar este proyecto, necesitarás los siguientes componentes:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,14 +35,14 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_fusion_hat`
         - \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-After connecting the R, G, and B pins of the RGB LED to current-limiting resistors, connect these resistors to PWM0, PWM1, and PWM2, respectively. The longest pin of the LED (GND) is connected to the GND pin of the Raspberry Pi. Different PWM values for the three pins produce various colors.
+Después de conectar los pines R, G y B del LED RGB a resistencias limitadoras de corriente, conecta estas resistencias a PWM0, PWM1 y PWM2, respectivamente. El pin más largo del LED (GND) se conecta al pin GND de la Raspberry Pi. Diferentes valores PWM en los tres pines producen varios colores.
 
 .. image:: img/fzz/1.1.2_sch.png
    :width: 80%
@@ -50,13 +50,13 @@ After connecting the R, G, and B pins of the RGB LED to current-limiting resisto
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow the steps below to build the circuit:
+Sigue los pasos a continuación para construir el circuito:
 
-1. Place the RGB LED on the breadboard.
-2. Connect the red, green, and blue pins of the LED to P0, P1, and P2 through resistors.
-3. Connect the longest pin (GND) of the LED to the GND of the Raspberry Pi.
+1. Coloca el LED RGB en la placa de prototipado.
+2. Conecta los pines rojo, verde y azul del LED a P0, P1 y P2 a través de resistencias.
+3. Conecta el pin más largo (GND) del LED al GND de la Raspberry Pi.
 
 .. image:: img/fzz/1.1.2_bb.png
    :width: 80%
@@ -66,28 +66,28 @@ Follow the steps below to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todos los ejemplos de código utilizados en este tutorial están disponibles en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
-   cd ~/ai-lab-kit/python/
-   sudo python3 1.2_RGBLED.py 
 
-After running the program, the RGB LED lights up red, then green, then purple, each for 1 second, and finally turns off. Pressing ``Ctrl + C`` will also turn the LED off.
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.2_RGBLED.py
+
+Después de ejecutar el programa, el LED RGB se enciende en rojo, luego verde, luego púrpura, cada uno durante 1 segundo, y finalmente se apaga. Presionar ``Ctrl + C`` también apagará el LED.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-The following Python code cycles through various colors on the RGB LED by setting different PWM values for the red, green, and blue components:
+El siguiente código Python recorre varios colores en el LED RGB estableciendo diferentes valores PWM para los componentes rojo, verde y azul:
 
 
 .. raw:: html
@@ -110,125 +110,125 @@ The following Python code cycles through various colors on the RGB LED by settin
       sleep(1)
 
       # Set the RGB LED to green.
-      rgb_led.color("#00FF22") 
+      rgb_led.color("#00FF22")
       sleep(1)
 
       # Set the RGB LED to purple.
-      rgb_led.color(0xFF00FF)  
+      rgb_led.color(0xFF00FF)
       sleep(1)
 
       # Set the RGB LED to black.
-      rgb_led.color(0x000000)  
+      rgb_led.color(0x000000)
 
    except KeyboardInterrupt:
       # Handle a KeyboardInterrupt (Ctrl+C) to exit.
-      rgb_led.color(0x000000)  
+      rgb_led.color(0x000000)
       pass
 
 
-This script demonstrates how to control an RGB LED using the Fusion Hat library. It initializes the RGB LED with specific PWM pins and sets different colors sequentially.
+Este script demuestra cómo controlar un LED RGB usando la librería Fusion Hat. Inicializa el LED RGB con pines PWM específicos y establece diferentes colores secuencialmente.
 
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
 
-Run the script on a compatible device with a connected RGB LED. The LED will cycle through red, green, and purple before turning off.
+Ejecuta el script en un dispositivo compatible con un LED RGB conectado. El LED recorrerá los colores rojo, verde y púrpura antes de apagarse.
 
 
-1. **Importing Dependencies**
-   
+1. **Importación de Dependencias**
+
    .. code:: python
 
       from fusion_hat.modules import RGB_LED
       from fusion_hat.pwm import PWM
       from time import sleep
-   
-   The required modules are imported. ``RGB_LED`` and ``PWM`` from the ``fusion_hat`` library manage the RGB LED, and ``sleep`` is used for timing.
 
-2. **Initializing the RGB LED**
-   
+   Los módulos requeridos se importan. ``RGB_LED`` y ``PWM`` de la librería ``fusion_hat`` gestionan el LED RGB, y ``sleep`` se usa para la temporización.
+
+2. **Inicialización del LED RGB**
+
    .. code:: python
 
       rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
 
-   The RGB LED is initialized with its red, green, and blue components connected to PWM pins ``P0``, ``P1``, and ``P2``, respectively. The LED uses a common cathode configuration.
+   El LED RGB se inicializa con sus componentes rojo, verde y azul conectados a los pines PWM ``P0``, ``P1`` y ``P2``, respectivamente. El LED utiliza una configuración de cátodo común.
 
-3. **Setting Colors Sequentially**
-   
+3. **Establecer Colores Secuencialmente**
+
    .. code:: python
 
       rgb_led.color((255, 0, 0))  # Red
       sleep(1)
-      
+
       rgb_led.color("#00FF22")  # Green
       sleep(1)
-      
+
       rgb_led.color(0xFF00FF)  # Purple
       sleep(1)
-   
-   The script sets the RGB LED to different colors using different formats:
 
-   - ``(255, 0, 0)``: Tuple representing red in RGB.
-   - ``"#00FF22"``: Hexadecimal string representing a greenish color.
-   - ``0xFF00FF``: Hexadecimal integer for purple.
+   El script establece el LED RGB a diferentes colores usando distintos formatos:
 
-4. **Turning Off the LED**
-   
+   - ``(255, 0, 0)``: Tupla que representa el rojo en RGB.
+   - ``"#00FF22"``: Cadena hexadecimal que representa un color verdoso.
+   - ``0xFF00FF``: Entero hexadecimal para el púrpura.
+
+4. **Apagar el LED**
+
    .. code:: python
 
       rgb_led.color(0x000000)
-   
-   The script sets the LED color to black (``0x000000``), effectively turning it off.
 
-5. **Handling Interrupts**
-   
+   El script establece el color del LED a negro (``0x000000``), apagándolo efectivamente.
+
+5. **Manejo de Interrupciones**
+
    .. code:: python
 
       except KeyboardInterrupt:
          rgb_led.color(0x000000)
          pass
-   
-   If the user interrupts the script using ``Ctrl+C``, the exception is caught, and the LED is turned off before exiting.
+
+   Si el usuario interrumpe el script usando ``Ctrl+C``, la excepción se captura y el LED se apaga antes de salir.
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **LED Does Not Light Up**  
+1. **El LED No se Enciende**
 
-   - **Cause**: Incorrect wiring or GPIO pin mismatch.  
-   - **Solution**: Verify that the red, green, and blue pins of the RGB LED are connected to the correct pins and that the LED's common cathode or anode is properly connected.
+   - **Causa**: Cableado incorrecto o pin GPIO incorrecto.
+   - **Solución**: Verifica que los pines rojo, verde y azul del LED RGB estén conectados a los pines correctos y que el cátodo o ánodo común del LED esté correctamente conectado.
 
 
-2. **Flickering or Unstable Colors**  
+2. **Colores Parpadeantes o Inestables**
 
-   - **Cause**: Unstable power supply or improper resistor usage.  
-   - **Solution**: Use appropriate resistors and ensure a stable power source.
+   - **Causa**: Fuente de alimentación inestable o uso incorrecto de resistencias.
+   - **Solución**: Utiliza resistencias adecuadas y asegura una fuente de alimentación estable.
 
-3. **Incorrect GPIO Setup**  
+3. **Configuración GPIO Incorrecta**
 
-   - **Cause**: Fusion_hat library is not installed.  
-   - **Solution**: See :ref:`install_fusion_hat`.
+   - **Causa**: La librería Fusion_hat no está instalada.
+   - **Solución**: Consulta :ref:`install_fusion_hat`.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Custom Color Sequences**  
+1. **Secuencias de Colores Personalizadas**
 
-   Add more colors to the ``COLORS`` list, including dimmer variations, such as ``(125, 50, 200)`` for a softer tone.
+   Agrega más colores a la lista ``COLORS``, incluyendo variaciones más tenues, como ``(125, 50, 200)`` para un tono más suave.
 
 
 
-2. **User-Defined Colors**  
+2. **Colores Definidos por el Usuario**
 
-   Allow the user to input custom RGB values:  
+   Permite al usuario introducir valores RGB personalizados:
 
    .. code-block:: python
 
@@ -239,9 +239,9 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
 
 
 
-3. **Randomized Colors**  
+3. **Colores Aleatorios**
 
-   Generate random colors to create a dynamic and unpredictable light display:  
+   Genera colores aleatorios para crear una exhibición de luces dinámica e impredecible:
 
    .. code-block:: python
 
@@ -254,6 +254,6 @@ Run the script on a compatible device with a connected RGB LED. The LED will cyc
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusión**
 
-By following this guide, you have successfully learned how to control an RGB LED using a Raspberry Pi and Python. This project demonstrates the basics of PWM and color mixing, which can be expanded into more advanced lighting effects or used as a foundation for interactive projects.
+Siguiendo esta guía, has aprendido con éxito cómo controlar un LED RGB usando una Raspberry Pi y Python. Este proyecto demuestra los conceptos básicos de PWM y mezcla de colores, que pueden ampliarse para crear efectos de iluminación más avanzados o usarse como base para proyectos interactivos.

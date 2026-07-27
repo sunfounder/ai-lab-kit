@@ -5,26 +5,26 @@
 
 .. _py_room_monitor:
 
-4.12 Environment Monitor
+4.12 Monitor Ambiental
 ==============================================
 
-**Introduction**
+**Introducción**
 
-In this lesson, you will build an **Environment Monitor Dashboard** that reads temperature, humidity, and ambient light level, and displays all values in real time on a 128×64 OLED screen.
+En esta lección, construirás un **Panel de Monitor Ambiental** que lee temperatura, humedad y nivel de luz ambiente, y muestra todos los valores en tiempo real en una pantalla OLED de 128×64.
 
-This project uses:
+Este proyecto utiliza:
 
-- **DHT11 sensor** to measure temperature and humidity  
-- **LDR (Light Dependent Resistor)** connected to the Fusion HAT+ ADC to measure light level  
-- **SSD1306 OLED** to display environmental data and a dynamic light bar  
+- **Sensor DHT11** para medir temperatura y humedad
+- **LDR (Fotorresistor)** conectado al ADC del Fusion HAT+ para medir el nivel de luz
+- **OLED SSD1306** para mostrar datos ambientales y una barra de luz dinámica
 
-The screen updates continuously and shows a status indicator (``OK`` or ``TIMEOUT``) depending on whether the DHT11 provides a valid reading.
+La pantalla se actualiza continuamente y muestra un indicador de estado (``OK`` o ``TIMEOUT``) dependiendo de si el DHT11 proporciona una lectura válida.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
@@ -55,9 +55,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Refer to the wiring diagram for assembling the components:
+Consulte el diagrama de conexiones para ensamblar los componentes:
 
 .. image:: img/fzz/4.12_room_monitor_bb.png
    :width: 100%
@@ -65,7 +65,7 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Pasos de Configuración**
 
 .. #. Create and activate a virtual environment for this project:
 
@@ -79,7 +79,7 @@ Refer to the wiring diagram for assembling the components:
 ..       python3 -m venv 4.12_room_monitor_env --system-site-packages
 ..       source 4.12_room_monitor_env/bin/activate
 
-#. Install the required libraries:
+#. Instala las librerías requeridas:
 
    .. raw:: html
 
@@ -89,7 +89,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the example code from the ``ai-lab-kit`` directory:
+#. Ejecuta el código de ejemplo desde el directorio ``ai-lab-kit``:
 
    .. raw:: html
 
@@ -100,19 +100,19 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.12_RoomMonitor.py
 
-#. When the script runs:
+#. Cuando el script se ejecuta:
 
-   * The OLED shows temperature, humidity, and light percentage  
-   * A horizontal bar graph displays the current light level  
-   * “OK” or “TIMEOUT” indicates DHT11 read status  
-   * Data updates every 0.5 seconds  
-   * Press **Ctrl+C** to exit and clear the display
+   * El OLED muestra temperatura, humedad y porcentaje de luz
+   * Un gráfico de barras horizontal muestra el nivel de luz actual
+   * "OK" o "TIMEOUT" indica el estado de lectura del DHT11
+   * Los datos se actualizan cada 0.5 segundos
+   * Presiona **Ctrl+C** para salir y limpiar la pantalla
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the Python script for the environment monitor dashboard:
+Aquí está el script de Python para el panel de monitor ambiental:
 
 .. raw:: html
 
@@ -256,23 +256,23 @@ Here is the Python script for the environment monitor dashboard:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Imports**
+1. **Importaciones**
 
-   The script uses several modules:
+   El script utiliza varios módulos:
 
-   - ``DHT11`` for temperature/humidity sensing  
-   - ``ADC`` to read LDR brightness from analog input  
-   - ``PIL`` for OLED drawing  
-   - ``adafruit_ssd1306`` for OLED control  
-   - ``mean()`` for smoothing light readings  
+   - ``DHT11`` para la detección de temperatura/humedad
+   - ``ADC`` para leer el brillo del LDR desde la entrada analógica
+   - ``PIL`` para el dibujo en el OLED
+   - ``adafruit_ssd1306`` para el control del OLED
+   - ``mean()`` para suavizar las lecturas de luz
 
 
-2. **OLED Setup**
+2. **Configuración del OLED**
 
-   A 128×64 SSD1306 OLED is initialized using I2C.  
-   A framebuffer (Pillow image) is used to draw all UI elements before sending them to the display.
+   Se inicializa un OLED SSD1306 de 128×64 usando I2C.
+   Se utiliza un framebuffer (imagen Pillow) para dibujar todos los elementos de la interfaz antes de enviarlos a la pantalla.
 
    .. code-block:: python
 
@@ -288,10 +288,10 @@ Here is the Python script for the environment monitor dashboard:
       draw = ImageDraw.Draw(image)
       font  = ImageFont.load_default()
 
-3. **Sensor Reading**
+3. **Lectura de Sensores**
 
-   - The DHT11 may occasionally fail. When this happens, the script shows ``TIMEOUT`` but retains the last valid values.  
-   - The LDR raw reading (0..4095) is smoothed using a moving average to reduce flicker.
+   - El DHT11 puede fallar ocasionalmente. Cuando esto ocurre, el script muestra ``TIMEOUT`` pero conserva los últimos valores válidos.
+   - La lectura bruta del LDR (0..4095) se suaviza usando un promedio móvil para reducir el parpadeo.
 
    .. code-block:: python
 
@@ -309,10 +309,10 @@ Here is the Python script for the environment monitor dashboard:
       light_pct, raw_smooth = light_percent(raw)
 
 
-4. **Light Mapping**
+4. **Mapeo de Luz**
 
-   ``linear_map()`` converts the raw ADC value into a percentage (0..100%).  
-   ``clamp()`` ensures the final value stays in range.
+   ``linear_map()`` convierte el valor ADC bruto en un porcentaje (0..100%).
+   ``clamp()`` asegura que el valor final se mantenga dentro del rango.
 
    .. code-block:: python
 
@@ -328,16 +328,16 @@ Here is the Python script for the environment monitor dashboard:
          return int(clamp(pct, 0, 100)), smooth_raw
 
 
-5. **Rendering the Dashboard**
+5. **Renderizado del Panel**
 
-   The OLED displays:
+   El OLED muestra:
 
-   - Title  
-   - Temperature (°C)  
-   - Humidity (%)  
-   - Light percentage and raw ADC value  
-   - A horizontal bar graph for light intensity  
-   - Status text indicating sensor health  
+   - Título
+   - Temperatura (°C)
+   - Humedad (%)
+   - Porcentaje de luz y valor ADC bruto
+   - Un gráfico de barras horizontal para la intensidad de luz
+   - Texto de estado que indica la salud del sensor
 
 
    .. code-block:: python
@@ -366,71 +366,70 @@ Here is the Python script for the environment monitor dashboard:
          sw, sh = text_size(font, status_text)
          draw.text((WIDTH - sw - 2, 0), status_text, font=font, fill=255)
 
-6. **Main Loop**
+6. **Bucle Principal**
 
-   Every 0.5 seconds:
+   Cada 0.5 segundos:
 
-   - DHT11 is read  
-   - LDR is read and smoothed  
-   - Screen is updated  
-   - Optional debug logs can be printed  
+   - Se lee el DHT11
+   - Se lee y suaviza el LDR
+   - Se actualiza la pantalla
+   - Se pueden imprimir registros de depuración opcionales
 
-7. **Graceful Shutdown**
+7. **Apagado Gracioso**
 
-   Upon Ctrl+C:
+   Al presionar Ctrl+C:
 
-   - OLED is cleared  
-   - A message is printed  
-
-----------------------------------------------
-
-**Troubleshooting**
-
-- **DHT11 returns TIMEOUT frequently**
-
-  - Increase delay between reads  
-  - Check wiring and signal pin  
-  - Ensure pull-up resistor is used if needed  
-
-- **OLED stays blank**
-
-  - Verify I2C address (``0x3C``)  
-  - Check SDA/SCL wiring  
-  - Ensure libraries are installed correctly  
-
-- **Light percentage seems inverted**
-
-  - Swap ``LDR_RAW_MIN`` and ``LDR_RAW_MAX``  
-  - Check LDR circuit orientation (voltage divider)  
-
-- **Display flicker**
-
-  - Increase light smoothing window  
-  - Reduce refresh rate (use ``time.sleep(1.0)``)
+   - El OLED se limpia
+   - Se imprime un mensaje
 
 ----------------------------------------------
 
-**Try It Yourself**
+**Solución de Problemas**
 
-1. **Add Fahrenheit display (°F)**  
+- **El DHT11 devuelve TIMEOUT con frecuencia**
 
-   Show both °C and °F on the screen.
+  - Aumenta el retardo entre lecturas
+  - Verifica el cableado y el pin de señal
+  - Asegúrate de usar una resistencia pull-up si es necesario
 
-2. **Add max/min history**  
+- **El OLED permanece en blanco**
 
-   Track highest/lowest temperature, humidity, or brightness.
+  - Verifica la dirección I2C (``0x3C``)
+  - Revisa el cableado SDA/SCL
+  - Asegúrate de que las librerías estén instaladas correctamente
 
-3. **Add alert system**  
+- **El porcentaje de luz parece invertido**
 
-   Flash the OLED border when humidity is too low or temperature too high.
+  - Intercambia ``LDR_RAW_MIN`` y ``LDR_RAW_MAX``
+  - Revisa la orientación del circuito LDR (divisor de voltaje)
 
-4. **Add graphing mode**  
+- **Parpadeo en la pantalla**
 
-   Draw scrolling graphs for temperature and humidity trends.
+  - Aumenta la ventana de suavizado de luz
+  - Reduce la tasa de refresco (usa ``time.sleep(1.0)``)
 
-5. **Add animated icons**  
+----------------------------------------------
 
-   Use small bitmaps for sun, rain, thermometer, humidity droplets, etc.
+**Pruébalo Tú Mismo**
 
-These ideas turn the simple environment monitor into a feature-rich environmental dashboard.
+1. **Agregar visualización en Fahrenheit (°F)**
 
+   Muestra tanto °C como °F en la pantalla.
+
+2. **Agregar historial de máximos/mínimos**
+
+   Registra la temperatura, humedad o brillo más altos/bajos.
+
+3. **Agregar sistema de alertas**
+
+   Haz parpadear el borde del OLED cuando la humedad sea demasiado baja o la temperatura demasiado alta.
+
+4. **Agregar modo de gráficos**
+
+   Dibuja gráficos desplazables para las tendencias de temperatura y humedad.
+
+5. **Agregar iconos animados**
+
+   Usa pequeños mapas de bits para sol, lluvia, termómetro, gotas de humedad, etc.
+
+Estas ideas convierten el simple monitor ambiental en un panel de control ambiental con muchas funciones.

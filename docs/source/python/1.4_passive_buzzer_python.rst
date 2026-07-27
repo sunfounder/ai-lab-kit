@@ -4,25 +4,25 @@
 
 .. _py_pa_buzzer:
 
-1.4 Passive Buzzer
-===========================
+1.4 Zumbador Pasivo
+============================
 
-**Introduction**
+**Introducción**
 
-In this project, we will learn how to make a passive buzzer play music by driving it with different frequencies. Passive buzzers, unlike active buzzers, require an external signal to produce sound.
+En este proyecto, aprenderemos cómo hacer que un zumbador pasivo reproduzca música activándolo con diferentes frecuencias. Los zumbadores pasivos, a diferencia de los activos, requieren una señal externa para producir sonido.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-To complete this project, you will need the following components:
+Para completar este proyecto, necesitarás los siguientes componentes:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -35,28 +35,28 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_fusion_hat`
         - \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-The circuit uses a passive buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor from excessive current. By varying the frequency of the GPIO pin connected to the transistor, the buzzer produces different sounds, enabling it to play music.
+El circuito utiliza un zumbador pasivo, un transistor NPN y una resistencia de 1kΩ. La resistencia protege al transistor del exceso de corriente. Variando la frecuencia del pin GPIO conectado al transistor, el zumbador produce diferentes sonidos, lo que le permite reproducir música.
 
 .. image:: img/fzz/1.2.2_sch.png
 
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Follow these steps to build the circuit:
+Sigue estos pasos para construir el circuito:
 
-1. Connect the base of the NPN transistor to PWM0 through the resistor.
-2. Connect the emitter of the transistor to the power supply (+).
-3. Connect the collector of the transistor to one terminal of the passive buzzer.
-4. Connect the other terminal of the buzzer to the ground (-).
+1. Conecta la base del transistor NPN a PWM0 a través de la resistencia.
+2. Conecta el emisor del transistor a la alimentación (+).
+3. Conecta el colector del transistor a un terminal del zumbador pasivo.
+4. Conecta el otro terminal del zumbador a tierra (-).
 
 .. image:: img/fzz/1.2.2_bb.png
    :width: 80%
@@ -64,11 +64,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todos los ejemplos de código utilizados en este tutorial están disponibles en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -76,17 +76,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 1.4_PassiveBuzzer.py
 
-After running the script, the passive buzzer plays a short musical tune through PWM 0. Each note is played in sequence for its set duration, and the current note is printed to the console as it plays. When the tune finishes, the buzzer stops automatically, with silent pauses where the note is None. You can also stop the program at any time by pressing Ctrl + C.
+Después de ejecutar el script, el zumbador pasivo reproduce una breve melodía musical a través de PWM 0. Cada nota se reproduce en secuencia durante su duración establecida, y la nota actual se imprime en la consola mientras se reproduce. Cuando la melodía termina, el zumbador se detiene automáticamente, con pausas silenciosas donde la nota es ``None``. También puedes detener el programa en cualquier momento presionando Ctrl + C.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-The following Python code generates musical notes using a passive buzzer:
+El siguiente código Python genera notas musicales usando un zumbador pasivo:
 
 
 .. raw:: html
@@ -122,32 +122,32 @@ The following Python code generates musical notes using a passive buzzer:
       ('C4', 0.2), ('B4', 0.2), (None, 0.2),
       ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
       ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
-      ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+      ('A4', 0.2), ('G4', 0.2), ('E4', 0.2),
       ('D4', 0.2), ('E4', 0.2)]
 
 
-   try:
-      play(tune)  # Execute the play function to start playing the tune
+      try:
+         play(tune)  # Execute the play function to start playing the tune
 
-   except KeyboardInterrupt:
-      # Handle KeyboardInterrupt for graceful termination
-      pass
+      except KeyboardInterrupt:
+         # Handle KeyboardInterrupt for graceful termination
+         pass
 
-This Python script plays a musical tune using a passive buzzer connected to PWM 0. When executed:
+Este script Python reproduce una melodía musical usando un zumbador pasivo conectado a PWM 0. Cuando se ejecuta:
 
-1. The script iterates through a predefined sequence of musical notes (``tune``), playing each note for a specified duration.
-2. The notes are output to the console as they are played, providing a visual reference.
-3. The tune stops automatically once all notes are played. The buzzer produces no sound during pauses (when the note is ``None``).
-4. The program can be interrupted gracefully using ``Ctrl+C``.
+1. El script itera a través de una secuencia predefinida de notas musicales (``tune``), reproduciendo cada nota durante una duración específica.
+2. Las notas se muestran en la consola a medida que se reproducen, proporcionando una referencia visual.
+3. La melodía se detiene automáticamente una vez que se han reproducido todas las notas. El zumbador no produce sonido durante las pausas (cuando la nota es ``None``).
+4. El programa puede interrumpirse de forma controlada usando ``Ctrl+C``.
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Library Import**
+1. **Importación de Librerías**
 
-   The ``Buzzer`` class from the ``fusion_hat`` library is used to generate tones, and ``time.sleep`` introduces delays for note durations.
+   La clase ``Buzzer`` de la librería ``fusion_hat`` se utiliza para generar tonos, y ``time.sleep`` introduce retrasos para las duraciones de las notas.
 
    .. code-block:: python
 
@@ -155,18 +155,18 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
        from fusion_hat.pwm import PWM
        from time import sleep
 
-2. **Buzzer Initialization**
+2. **Inicialización del Zumbador**
 
-   The ``Buzzer`` is associated with PWM0 for tone generation.
+   El ``Buzzer`` se asocia con PWM0 para la generación de tonos.
 
    .. code-block:: python
 
       # Initialize a TonalBuzzer connected to PWM 0
       tb = Buzzer(PWM('P0'))  # Update this pin number based on your setup
 
-3. **Playing Notes**
+3. **Reproducción de Notas**
 
-   The ``play`` function iterates over a list of tuples representing musical notes and their durations. Each note is played for its specified duration, followed by a brief stop.
+   La función ``play`` itera sobre una lista de tuplas que representan notas musicales y sus duraciones. Cada nota se reproduce durante su duración especificada, seguida de una breve pausa.
 
    .. code-block:: python
 
@@ -176,9 +176,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
             tb.play(note,float(duration))  # Play the note on the buzzer
          tb.off()  # Stop playing after the tune is complete
 
-4. **Tune Definition**
+4. **Definición de la Melodía**
 
-   The ``tune`` variable contains a sequence of notes (e.g., 'C#4') and durations (e.g., 0.2 seconds).
+   La variable ``tune`` contiene una secuencia de notas (por ejemplo, 'C#4') y duraciones (por ejemplo, 0.2 segundos).
 
    .. code-block:: python
 
@@ -191,13 +191,13 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
            ('C4', 0.2), ('B4', 0.2), (None, 0.2),
            ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
            ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
-           ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+           ('A4', 0.2), ('G4', 0.2), ('E4', 0.2),
            ('D4', 0.2), ('E4', 0.2)
        ]
 
-5. **Keyboard Interrupt Handling**
+5. **Manejo de Interrupción por Teclado**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C).
+   El bloque ``try-except`` asegura que el programa se detenga de forma controlada cuando sea interrumpido (por ejemplo, Ctrl+C).
 
    .. code-block:: python
 
@@ -210,26 +210,26 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **No Sound from the Buzzer**  
+1. **El Zumbador No Emite Sonido**
 
-   - **Cause**: Incorrect GPIO pin connection or incompatible buzzer type.  
-   - **Solution**: Ensure the TonalBuzzer is connected to PWM 0.
+   - **Causa**: Conexión incorrecta del pin GPIO o tipo de zumbador incompatible.
+   - **Solución**: Asegúrate de que el zumbador esté conectado a PWM 0.
 
-2. **Intermittent or Stuttering Sound**  
+2. **Sonido Intermitente o Entrecortado**
 
-   - **Cause**: Timing inconsistencies in the ``sleep()`` function.  
-   - **Solution**: Confirm that the durations in the ``tune`` list are appropriately calibrated for smooth transitions.
+   - **Causa**: Inconsistencias de temporización en la función ``sleep()``.
+   - **Solución**: Confirma que las duraciones en la lista ``tune`` estén calibradas apropiadamente para transiciones suaves.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Custom Tunes**  
+1. **Melodías Personalizadas**
 
-   Allow the user to input their own sequence of notes and durations:
+   Permite al usuario introducir su propia secuencia de notas y duraciones:
 
    .. code-block:: python
 
@@ -243,9 +243,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(user_tune)
 
 
-2. **Multiple Tunes**  
+2. **Múltiples Melodías**
 
-   Add predefined tunes and let the user select which one to play:
+   Agrega melodías predefinidas y deja que el usuario seleccione cuál reproducir:
 
    .. code-block:: python
 
@@ -257,17 +257,17 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(tunes[choice])
 
 
-3. **Real-Time Interaction**  
+3. **Interacción en Tiempo Real**
 
-   Use buttons or a keyboard to play notes interactively, turning the buzzer into a simple instrument.
+   Usa botones o un teclado para reproducir notas de forma interactiva, convirtiendo el zumbador en un instrumento simple.
 
-4. **Chained Tunes**  
+4. **Melodías Encadenadas**
 
-   Automatically chain multiple tunes together to create a longer piece.
+   Encadena automáticamente múltiples melodías para crear una pieza más larga.
 
-5. **Dynamic Speed Adjustment**  
+5. **Ajuste Dinámico de Velocidad**
 
-   Allow users to change the playback speed dynamically by modifying the note durations:
+   Permite a los usuarios cambiar la velocidad de reproducción dinámicamente modificando las duraciones de las notas:
 
    .. code-block:: python
 
@@ -277,6 +277,6 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to use a passive buzzer to play musical notes. By combining hardware and software, you can create a variety of sounds and melodies for interactive projects.
+Este proyecto demuestra cómo usar un zumbador pasivo para reproducir notas musicales. Combinando hardware y software, puedes crear una variedad de sonidos y melodías para proyectos interactivos.

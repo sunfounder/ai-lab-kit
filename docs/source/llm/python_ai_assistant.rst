@@ -4,11 +4,11 @@
 
 .. _ai_voice_assistant_car:
 
-7. AI Voice Assistant
+7. Asistente de Voz IA
 ===========================
 
-This lesson turns your Fusion HAT+ into a **voice-first AI assistant**.  
-With the provided code, the robot will: **wait for a wake word**, **transcribe your speech** with Vosk, send it to an **OpenAI LLM**, and **speak back** using Piper TTS.
+Esta lección convierte tu Fusion HAT+ en un **asistente de IA basado en voz**.
+Con el código proporcionado, el robot: **esperará una palabra de activación**, **transcribirá tu voz** con Vosk, la enviará a un **LLM de OpenAI** y **responderá hablando** usando Piper TTS.
 
 .. raw:: html
 
@@ -19,20 +19,20 @@ With the provided code, the robot will: **wait for a wake word**, **transcribe y
 
 ----
 
-Before You Start
+Antes de comenzar
 ----------------
 
-Make sure you have:
+Asegúrate de tener:
 
-* :ref:`test_piper` — Piper voice works (e.g., you can play “Hello”).  
-* :ref:`test_vosk` — Vosk STT works for your language (e.g., ``en-us``).  
-* :ref:`py_online_llm` — Your **OpenAI API key** saved in ``secret.py`` as ``OPENAI_API_KEY``.  
-* A working **microphone** and **speaker** on Fusion HAT+.  
-* A stable network connection (LLM is online).
+* :ref:`test_piper` — La voz de Piper funciona (por ejemplo, puedes reproducir "Hello").
+* :ref:`test_vosk` — Vosk STT funciona para tu idioma (por ejemplo, ``en-us``).
+* :ref:`py_online_llm` — Tu **clave API de OpenAI** guardada en ``secret.py`` como ``OPENAI_API_KEY``.
+* Un **micrófono** y **altavoz** funcionando en Fusion HAT+.
+* Una conexión de red estable (el LLM es online).
 
 ----
 
-Run the Example
+Ejecutar el Ejemplo
 ---------------
 
 .. code-block:: bash
@@ -40,34 +40,34 @@ Run the Example
    cd ~/ai-lab-kit/llm/
    sudo python3 voice_assistant.py
 
-**Configuration used by the code:**
+**Configuración utilizada por el código:**
 
-* LLM: **OpenAI** (``gpt-4o-mini``)  
-* TTS: **Piper** (``en_US-ryan-low``)  
-* STT: **Vosk** (``en-us``)  
-* Wake word: ``"hey buddy"``  
-* Keyboard input: **enabled** (optional manual input)  
-* Image mode: **enabled** (``WITH_IMAGE=True``) — requires a multimodal-capable LLM if you decide to use images later
+* LLM: **OpenAI** (``gpt-4o-mini``)
+* TTS: **Piper** (``en_US-ryan-low``)
+* STT: **Vosk** (``en-us``)
+* Palabra de activación: ``"hey buddy"``
+* Entrada por teclado: **habilitada** (entrada manual opcional)
+* Modo imagen: **habilitado** (``WITH_IMAGE=True``) — requiere un LLM multimodal si decides usar imágenes después
 
-**What happens:**
+**Qué sucede:**
 
-1. The assistant shows a welcome message with the wake phrase.  
-2. It listens for **“hey buddy”**.  
-3. After wake, your speech is transcribed (Vosk → text).  
-4. The text is sent to **OpenAI (gpt-4o-mini)** for a response.  
-5. The answer is spoken with **Piper** (``en_US-ryan-low``).
+1. El asistente muestra un mensaje de bienvenida con la frase de activación.
+2. Escucha **"hey buddy"**.
+3. Después de la activación, tu voz se transcribe (Vosk → texto).
+4. El texto se envía a **OpenAI (gpt-4o-mini)** para obtener una respuesta.
+5. La respuesta se pronuncia con **Piper** (``en_US-ryan-low``).
 
-**Example interaction**
+**Ejemplo de interacción**
 
 .. code-block:: text
 
    You: Hey Buddy
    Robot: Hi there!
 
-   You: What’s the capital of Italy?
+   You: What's the capital of Italy?
    Robot: The capital of Italy is Rome.
 
-Code
+Código
 -----------------
 
 .. code-block:: python
@@ -126,24 +126,24 @@ Code
   if __name__ == "__main__":
       va.run()
 
-**Code explanation:**
+**Explicación del código:**
 
-* ``OpenAI(..., model="gpt-4o-mini")`` — Uses **OpenAI** as the only LLM in this lesson.  
-* ``NAME`` / ``WAKE_WORD`` — Personalize the assistant (“Buddy”, “hey buddy”).  
-* ``WITH_IMAGE=True`` — Enables image mode in the assistant (no image I/O logic included here).  
-* ``TTS_MODEL="en_US-ryan-low"`` — Piper voice used for replies.  
-* ``STT_LANGUAGE="en-us"`` — Vosk language for recognition.  
-* ``KEYBOARD_ENABLE=True`` — Allows optional manual text input during debugging.  
-* ``WELCOME`` / ``INSTRUCTIONS`` — Startup message and assistant persona/system prompt.  
-* ``va.run()`` — Starts the loop: **wake → listen → LLM → speak**.
+* ``OpenAI(..., model="gpt-4o-mini")`` — Usa **OpenAI** como el único LLM en esta lección.
+* ``NAME`` / ``WAKE_WORD`` — Personaliza el asistente ("Buddy", "hey buddy").
+* ``WITH_IMAGE=True`` — Habilita el modo imagen en el asistente (no se incluye lógica de E/S de imágenes aquí).
+* ``TTS_MODEL="en_US-ryan-low"`` — Voz de Piper utilizada para las respuestas.
+* ``STT_LANGUAGE="en-us"`` — Idioma de Vosk para el reconocimiento.
+* ``KEYBOARD_ENABLE=True`` — Permite la entrada de texto manual opcional durante la depuración.
+* ``WELCOME`` / ``INSTRUCTIONS`` — Mensaje de inicio y personalidad del asistente/prompt del sistema.
+* ``va.run()`` — Inicia el bucle: **activación → escuchar → LLM → hablar**.
 
 
-Switching to Other LLMs or TTS
+Cambiar a Otros LLMs o TTS
 ------------------------------
 
-You can easily switch to other LLMs, TTS, or STT languages with just a few edits:
+Puedes cambiar fácilmente a otros LLMs, TTS o idiomas de STT con solo unas pocas modificaciones:
 
-* Supported LLMs:
+* LLMs compatibles:
 
   * OpenAI
   * Doubao
@@ -152,10 +152,10 @@ You can easily switch to other LLMs, TTS, or STT languages with just a few edits
   * Qwen
   * Grok
 
-* :ref:`test_piper` — Check the supported languages of **Piper TTS**.  
-* :ref:`test_vosk` — Check the supported languages of **Vosk STT**.  
+* :ref:`test_piper` — Verifica los idiomas compatibles de **Piper TTS**.
+* :ref:`test_vosk` — Verifica los idiomas compatibles de **Vosk STT**.
 
-To switch, simply modify the initialization part in the code:
+Para cambiar, simplemente modifica la parte de inicialización en el código:
 
 .. code-block:: python
 
@@ -170,39 +170,36 @@ To switch, simply modify the initialization part in the code:
 
 ----
 
-Troubleshooting
+Solución de problemas
 -----------------------------
 
-* **Robot doesn’t respond to wake word**
+* **El robot no responde a la palabra de activación**
 
-  - Check if the microphone works.  
-  - Make sure ``WAKE_ENABLE = True``.  
-  - Adjust the wake word to match your pronunciation.  
-  - Reduce background noise and speak clearly.
+  - Verifica si el micrófono funciona.
+  - Asegúrate de que ``WAKE_ENABLE = True``.
+  - Ajusta la palabra de activación para que coincida con tu pronunciación.
+  - Reduce el ruido de fondo y habla claramente.
 
-* **No sound from the speaker**
+* **No hay sonido del altavoz**
 
-  - Check the TTS model name (e.g., ``en_US-ryan-low``).  
-  - Test Piper or Espeak manually.  
-  - Verify speaker connection and volume.
+  - Verifica el nombre del modelo TTS (por ejemplo, ``en_US-ryan-low``).
+  - Prueba Piper o Espeak manualmente.
+  - Verifica la conexión del altavoz y el volumen.
 
-* **API key error or timeout**
+* **Error de clave API o tiempo de espera**
 
-  - Check your key in ``secret.py``.  
-  - Make sure your network connection is stable.  
-  - Confirm the LLM model is supported (e.g., ``gpt-4o-mini``).
+  - Verifica tu clave en ``secret.py``.
+  - Asegúrate de que tu conexión de red sea estable.
+  - Confirma que el modelo LLM sea compatible (por ejemplo, ``gpt-4o-mini``).
 
-* **Wake word works but no response**
+* **La palabra de activación funciona pero no hay respuesta**
 
-  - Check if the STT language matches your accent.  
-  - Make sure the model downloaded correctly.  
-  - Try printing debug logs to confirm STT is running.
+  - Verifica si el idioma de STT coincide con tu acento.
+  - Asegúrate de que el modelo se haya descargado correctamente.
+  - Intenta imprimir registros de depuración para confirmar que STT se está ejecutando.
 
-* **TTS works but no LLM reply**
+* **TTS funciona pero no hay respuesta del LLM**
 
-  - Check if the API key is valid.  
-  - Verify model name and LLM settings.  
-  - Ensure internet connectivity. 
-
-
-
+  - Verifica si la clave API es válida.
+  - Verifica el nombre del modelo y la configuración del LLM.
+  - Asegúrate de la conectividad a internet.

@@ -5,29 +5,29 @@
 
 .. _py_photoresistor:
 
-2.9 Photoresistor
+2.9 Fotoresistencia
 ===========================
 
-**Introduction**
+**Introducción**
 
-A photoresistor, also known as a light-dependent resistor (LDR), is a component that detects light intensity. Its resistance decreases as the light intensity increases, making it useful in devices like automatic night lamps and ambient light controllers. 
+Un fotoresistor, también conocido como resistor dependiente de la luz (LDR), es un componente que detecta la intensidad de la luz. Su resistencia disminuye a medida que aumenta la intensidad de la luz, lo que lo hace útil en dispositivos como lámparas nocturnas automáticas y controladores de luz ambiental.
 
-This project demonstrates how to use a photoresistor with Fusion HAT+ to adjust an LED's brightness based on ambient light levels. The working principle is similar to a potentiometer, except the input is light instead of manual adjustment.
+Este proyecto demuestra cómo usar un fotoresistor con Fusion HAT+ para ajustar el brillo de un LED según los niveles de luz ambiental. El principio de funcionamiento es similar al de un potenciómetro, excepto que la entrada es luz en lugar de ajuste manual.
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Here are the components required for this project:
+Estos son los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -40,16 +40,16 @@ Here are the components required for this project:
     *   - :ref:`cpn_photoresistor`
         - |link_photoresistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Below are the schematic diagrams illustrating how to connect the components:
+A continuación se muestran los diagramas esquemáticos que ilustran cómo conectar los componentes:
 
 
 .. image:: img/fzz/2.2.1_sch.png
@@ -61,9 +61,9 @@ Below are the schematic diagrams illustrating how to connect the components:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Build the circuit as shown in the diagram below:
+Construye el circuito como se muestra en el diagrama a continuación:
 
 .. image:: img/fzz/2.2.1_bb.png
    :width: 80%
@@ -71,18 +71,18 @@ Build the circuit as shown in the diagram below:
 
 
 
-Ensure that:
+Asegúrate de que:
 
-- The photoresistor is connected to the Fusion HAT+ to convert analog signals into digital values.
-- The LED is connected to a GPIO pin for PWM control.
-- All connections are secure, and power and ground connections are properly set.
+- El fotoresistor esté conectado al Fusion HAT+ para convertir señales analógicas en valores digitales.
+- El LED esté conectado a un pin GPIO para control PWM.
+- Todas las conexiones estén seguras y las conexiones de alimentación y tierra estén correctamente establecidas.
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 .. raw:: html
 
@@ -93,21 +93,21 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.9_Photoresistor.py
 
-This Python script continuously reads the photoresistor's value, maps it to a suitable range for setting the LED brightness, and adjusts the LED's brightness accordingly. The script also includes a graceful exit mechanism to turn off the LED when interrupted by the user. When executed:
+Este script de Python lee continuamente el valor del fotoresistor, lo mapea a un rango adecuado para ajustar el brillo del LED y ajusta el brillo del LED en consecuencia. El script también incluye un mecanismo de salida segura para apagar el LED cuando es interrumpido por el usuario. Al ejecutarse:
 
-1. The Fusion HAT+ continuously reads photoresistor values from its input channel (ranging from 0 to 4095).
-2. The analog value, representing light intensity or another variable input, is printed to the console as ``result =  <value>``.
-3. The script maps the analog value to a PWM signal to adjust the brightness of the LED.
-4. The LED brightness dynamically changes based on the ADC input, with updates every 0.2 seconds.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+1. El Fusion HAT+ lee continuamente los valores del fotoresistor desde su canal de entrada (con un rango de 0 a 4095).
+2. El valor analógico, que representa la intensidad de la luz u otra entrada variable, se imprime en la consola como ``result = <valor>``.
+3. El script mapea el valor analógico a una señal PWM para ajustar el brillo del LED.
+4. El brillo del LED cambia dinámicamente según la entrada del ADC, con actualizaciones cada 0.2 segundos.
+5. El programa se ejecuta indefinidamente hasta que se interrumpe con ``Ctrl+C``, momento en el cual el LED se apaga.
 
 
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Below is the Python code used in this project:
+A continuación se muestra el código Python utilizado en este proyecto:
 
 .. raw:: html
 
@@ -147,7 +147,7 @@ Below is the Python code used in this project:
          time.sleep(0.2)
 
    # Graceful exit when 'Ctrl+C' is pressed
-   except KeyboardInterrupt: 
+   except KeyboardInterrupt:
       led.pulse_width_percent(0)  # Turn off the LED
 
 
@@ -156,7 +156,7 @@ Below is the Python code used in this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
 1. **Imports:**
 
@@ -168,9 +168,9 @@ Below is the Python code used in this project:
       import time
 
 
-   The script imports necessary modules for reading analog values and controlling the LED brightness.
+   El script importa los módulos necesarios para leer valores analógicos y controlar el brillo del LED.
 
-2. **Initialization:**
+2. **Inicialización:**
 
 
    .. code-block:: python
@@ -181,21 +181,21 @@ Below is the Python code used in this project:
       # Set up the potentiometer
       photoresistor = ADC('A0')
 
-   The LED connected to GPIO pin P0 is initialized, and the A0 is set up to read analog values from the photoresistor.
+   El LED conectado al pin GPIO P0 se inicializa, y el pin A0 se configura para leer valores analógicos del fotoresistor.
 
 
-3. **Mapping Function:**
+3. **Función de Mapeo:**
 
    .. code-block:: python
 
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts ADC values (0-4095) to a range suitable for PWM control (0 to 100).
+   La función ``MAP`` convierte los valores del ADC (0-4095) a un rango adecuado para el control PWM (0 a 100).
 
 
 
-4. **Main Loop:**
+4. **Bucle Principal:**
 
    .. code-block:: python
 
@@ -213,12 +213,12 @@ Below is the Python code used in this project:
          # Wait for 1 seconds before reading again
          time.sleep(0.2)
 
-   - Continuously reads light intensity values from the photoresistor.
-   - Adjusts the LED brightness proportionally to the detected light intensity.
-   - Includes a short delay to reduce CPU usage and allow visible changes in LED brightness.
+   - Lee continuamente los valores de intensidad de luz del fotoresistor.
+   - Ajusta el brillo del LED proporcionalmente a la intensidad de luz detectada.
+   - Incluye un breve retardo para reducir el uso de la CPU y permitir cambios visibles en el brillo del LED.
 
 
-5. **Graceful Exit:**
+5. **Salida Segura:**
 
    .. code-block:: python
 
@@ -227,37 +227,37 @@ Below is the Python code used in this project:
       except KeyboardInterrupt:
          led.pulse_width_percent(0)  # Turn off the LED
 
-   The program ensures the LED is turned off when the script is interrupted (e.g., via ``Ctrl+C``).
+   El programa asegura que el LED se apague cuando el script es interrumpido (por ejemplo, mediante ``Ctrl+C``).
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **LED Does Not Light Up**:
+1. **El LED no se enciende**:
 
-   - **Cause**: Incorrect GPIO connection or LED wiring.
-   - **Solution**: Verify the LED is connected to P0 with a resistor to prevent damage.
+   - **Causa**: Conexión incorrecta del GPIO o cableado del LED.
+   - **Solución**: Verifica que el LED esté conectado a P0 con una resistencia para evitar daños.
 
-2. **ADC Values Always Zero or Maximum**:
+2. **Los valores del ADC son siempre cero o máximos**:
 
-   - **Cause**: Incorrect wiring.
-   - **Solution**: Check the ADC pin and ensure it is connected to photoresistor.
+   - **Causa**: Cableado incorrecto.
+   - **Solución**: Revisa el pin del ADC y asegúrate de que esté conectado al fotoresistor.
 
-3. **LED Brightness Not Changing**:
+3. **El brillo del LED no cambia**:
 
-   - **Cause**: ADC values are not correctly mapped to the PWM range.
-   - **Solution**: Ensure the mapping function correctly scales the ADC value to the PWM range (0 to 100).
+   - **Causa**: Los valores del ADC no se están mapeando correctamente al rango PWM.
+   - **Solución**: Asegúrate de que la función de mapeo escale correctamente el valor del ADC al rango PWM (0 a 100).
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Ideas para Extender**
 
 
-1. **Threshold-Based Behavior**: Turn the LED on or off when the analog value crosses a threshold:
-     
+1. **Comportamiento basado en umbrales**: Enciende o apaga el LED cuando el valor analógico cruza un umbral:
+
    .. code-block:: python
 
       if result > 128:
@@ -265,8 +265,8 @@ Below is the Python code used in this project:
       else:
          led.off()
 
-2. **Data Logging**: Log the ADC values and LED brightness to a file for analysis:
-     
+2. **Registro de datos**: Guarda los valores del ADC y el brillo del LED en un archivo para su análisis:
+
      .. code-block:: python
 
          with open("adc_log.txt", "a") as log_file:
@@ -276,6 +276,6 @@ Below is the Python code used in this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This experiment demonstrates how to use a photoresistor and Fusion HAT+ to control an LED's brightness based on ambient light intensity. By understanding the principles of analog-to-digital conversion and PWM control, you can expand this project to develop more complex light-responsive systems, such as automated lighting or smart devices.
+Este experimento demuestra cómo usar un fotoresistor y Fusion HAT+ para controlar el brillo de un LED según la intensidad de la luz ambiental. Al comprender los principios de la conversión analógico-digital y el control PWM, puedes expandir este proyecto para desarrollar sistemas más complejos que respondan a la luz, como iluminación automatizada o dispositivos inteligentes.

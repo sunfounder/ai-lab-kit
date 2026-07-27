@@ -2,11 +2,11 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-8. Face and Eye Detection
+8. Detección de Rostros y Ojos
 =========================================
 
-In this chapter, we will use the Raspberry Pi’s Picamera2 to capture video and apply OpenCV’s Haar feature classifiers for **real-time face and eye detection**.  
-This approach is lightweight and highly practical—great for beginners deploying on a Raspberry Pi.
+En este capítulo, usaremos Picamera2 de Raspberry Pi para capturar video y aplicaremos los clasificadores de características Haar de OpenCV para la **detección de rostros y ojos en tiempo real**.
+Este enfoque es ligero y muy práctico, ideal para principiantes que se inician en Raspberry Pi.
 
 .. raw:: html
 
@@ -15,53 +15,53 @@ This approach is lightweight and highly practical—great for beginners deployin
           Your browser does not support the video tag.
       </video>
 
-1. Haar Features and Detection Principles
+1. Características Haar y Principios de Detección
 -----------------------------------------
 
-1. Essence of Haar Features
+1. Esencia de las Características Haar
 
-Haar features are a classic method for object detection. They encode **patterns of brightness differences** within image regions to determine whether a region likely contains a face, eyes, and so on.
+Las características Haar son un método clásico para la detección de objetos. Codifican **patrones de diferencias de brillo** dentro de regiones de la imagen para determinar si una región probablemente contiene un rostro, ojos, etc.
 
-Typical Haar feature examples:
+Ejemplos típicos de características Haar:
 
-- Eye regions are usually darker than the forehead above  
-- Brightness is symmetric on both sides of the nose bridge  
-- The area below the mouth often shows a clear edge pattern
+- Las regiones de los ojos suelen ser más oscuras que la frente superior
+- El brillo es simétrico en ambos lados del puente nasal
+- El área debajo de la boca a menudo muestra un patrón de borde claro
 
 .. image:: img/opencv_haar_f.png
-   :alt: Illustration of Haar features
+   :alt: Ilustración de las características Haar
    :align: center
 
-OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already included in the example directory—just load and use them.
+OpenCV requiere clasificadores Haar preentrenados (archivos ``.xml``). Ya están incluidos en el directorio de ejemplo, solo hay que cargarlos y usarlos.
 
-2. Detection Pipeline
+2. Proceso de Detección
 
-   1. Load the trained Haar model using ``CascadeClassifier``  
-   2. Convert the real-time video to grayscale (to improve efficiency)  
-   3. Use ``detectMultiScale`` to detect face/eye regions  
-   4. Draw rectangles around detected targets
+   1. Cargar el modelo Haar entrenado usando ``CascadeClassifier``
+   2. Convertir el video en tiempo real a escala de grises (para mejorar la eficiencia)
+   3. Usar ``detectMultiScale`` para detectar regiones de rostros/ojos
+   4. Dibujar rectángulos alrededor de los objetivos detectados
 
 .. image:: img/opencv_haar_show.png
-   :alt: Detection pipeline illustration
+   :alt: Ilustración del proceso de detección
    :align: center
 
 
-2. Run the Code
+2. Ejecutar el Código
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
 
@@ -69,25 +69,25 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       python3 cv_8_haarcascade.py
 
    .. tip::
-      
-      We also provide ``cv_8_haarcascade_video.py`` for detecting faces and eyes from a video file.
 
-#. When you run the program, a window named **Raspberry Pi Camera - Face Detection** will appear and display the live camera image from the Raspberry Pi Camera.
+      También proporcionamos ``cv_8_haarcascade_video.py`` para detectar rostros y ojos desde un archivo de video.
 
-   Faces detected in the video stream are highlighted with **yellow rectangles**, and each detected face is labeled (Face 1, Face 2, ...).  
-   Within each detected face region, the program also detects eyes and marks them with **orange rectangles**.
-   
-   The detection works in real time, and the rectangles will move as the person moves in front of the camera.
-   
-   To stop the program:
-   
-   * Press the **q** key on the keyboard  
-   * Or close the display window using the close button (X)  
-   
-   After exiting, the camera will stop and all OpenCV windows will be closed.
+#. Cuando ejecutes el programa, aparecerá una ventana llamada **Raspberry Pi Camera - Face Detection** y mostrará la imagen de la cámara en vivo de la Raspberry Pi.
+
+   Los rostros detectados en el flujo de video se resaltan con **rectángulos amarillos**, y cada rostro detectado se etiqueta (Face 1, Face 2, ...).
+   Dentro de cada región facial detectada, el programa también detecta ojos y los marca con **rectángulos naranjas**.
+
+   La detección funciona en tiempo real, y los rectángulos se moverán a medida que la persona se mueva frente a la cámara.
+
+   Para detener el programa:
+
+   * Presiona la tecla **q** en el teclado
+   * O cierra la ventana de visualización usando el botón de cerrar (X)
+
+   Después de salir, la cámara se detendrá y todas las ventanas de OpenCV se cerrarán.
 
 
-3. Complete Code
+3. Código Completo
 -------------------
 
 
@@ -186,10 +186,10 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       cv2.destroyAllWindows()
       print("Camera stopped.")
 
-4. Code Explanation
+4. Explicación del Código
 ----------------------
 
-#. Import required libraries:
+#. Importar las bibliotecas necesarias:
 
    .. code-block:: python
 
@@ -197,26 +197,26 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       from picamera2 import Picamera2
       from pathlib import Path
 
-   OpenCV is used for detection and drawing, Picamera2 is used to capture frames from the Raspberry Pi camera.
+   OpenCV se usa para la detección y el dibujo, Picamera2 se usa para capturar fotogramas de la cámara Raspberry Pi.
 
-#. Get the directory of the current script:
+#. Obtener el directorio del script actual:
 
    .. code-block:: python
 
       BASE_DIR = Path(__file__).resolve().parent
 
-   This lets you load the cascade XML files from the same folder as the Python script.
+   Esto te permite cargar los archivos XML de los clasificadores desde la misma carpeta que el script Python.
 
-#. Load Haar cascade classifiers (face and eye):
+#. Cargar los clasificadores Haar (rostro y ojos):
 
    .. code-block:: python
 
       face_cascade = cv2.CascadeClassifier(str(BASE_DIR / "haarcascade_frontalface_default.xml"))
       eye_cascade  = cv2.CascadeClassifier(str(BASE_DIR / "haarcascade_eye.xml"))
 
-   Haar cascades are pre-trained models that can detect faces and eyes.
+   Los clasificadores Haar son modelos preentrenados que pueden detectar rostros y ojos.
 
-#. Check if the cascade files are loaded correctly:
+#. Verificar que los archivos de los clasificadores se carguen correctamente:
 
    .. code-block:: python
 
@@ -225,10 +225,10 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       if eye_cascade.empty():
           raise FileNotFoundError("Failed to load haarcascade_eye.xml")
 
-   If the file path is wrong or the file is missing, ``CascadeClassifier`` will be empty.  
-   These checks help you find the problem early.
+   Si la ruta del archivo es incorrecta o el archivo falta, ``CascadeClassifier`` estará vacío.
+   Estas comprobaciones te ayudan a encontrar el problema temprano.
 
-#. Initialize the camera and set the resolution:
+#. Inicializar la cámara y establecer la resolución:
 
    .. code-block:: python
 
@@ -237,33 +237,33 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       picam2.configure(config)
       picam2.start()
 
-   This starts the camera in video mode at 640×480.
+   Esto inicia la cámara en modo video a 640x480.
 
-#. Capture frames continuously:
+#. Capturar fotogramas continuamente:
 
    .. code-block:: python
 
       frame_rgb = picam2.capture_array()
 
-   Each loop captures one frame. Picamera2 typically returns frames in RGB format.
+   Cada bucle captura un fotograma. Picamera2 normalmente devuelve fotogramas en formato RGB.
 
-#. Convert to grayscale (faster for detection):
+#. Convertir a escala de grises (más rápido para la detección):
 
    .. code-block:: python
 
       gray = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2GRAY)
 
-   Face/eye detection works on grayscale images and runs faster than using color images.
+   La detección de rostros/ojos funciona en imágenes en escala de grises y es más rápida que usar imágenes en color.
 
-#. Improve contrast for more stable detection:
+#. Mejorar el contraste para una detección más estable:
 
    .. code-block:: python
 
       gray = cv2.equalizeHist(gray)
 
-   Histogram equalization can improve detection results under different lighting conditions.
+   La ecualización del histograma puede mejorar los resultados de detección bajo diferentes condiciones de iluminación.
 
-#. Detect faces in the frame:
+#. Detectar rostros en el fotograma:
 
    .. code-block:: python
 
@@ -274,21 +274,21 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
           minSize=(60, 60)
       )
 
-   This returns a list of rectangles ``(x, y, w, h)`` for all detected faces.
+   Esto devuelve una lista de rectángulos ``(x, y, w, h)`` para todos los rostros detectados.
 
-   - ``scaleFactor`` controls the image scale step (smaller can be more accurate but slower).
-   - ``minNeighbors`` reduces false positives (higher = stricter).
-   - ``minSize`` ignores very small detections.
+   - ``scaleFactor`` controla el paso de escala de la imagen (más pequeño puede ser más preciso pero más lento).
+   - ``minNeighbors`` reduce los falsos positivos (más alto = más estricto).
+   - ``minSize`` ignora las detecciones muy pequeñas.
 
-#. Convert RGB to BGR for drawing and display:
+#. Convertir RGB a BGR para dibujar y mostrar:
 
    .. code-block:: python
 
       frame_bgr = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
 
-   OpenCV drawing functions and ``imshow`` expect BGR for color images.
+   Las funciones de dibujo de OpenCV e ``imshow`` esperan BGR para imágenes en color.
 
-#. Draw face rectangles and labels:
+#. Dibujar rectángulos y etiquetas de rostros:
 
    .. code-block:: python
 
@@ -296,9 +296,9 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       cv2.putText(frame_bgr, f"Face {i}", (x, max(0, y - 10)),
                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
 
-   This draws a box around each detected face and adds a label like “Face 1”.
+   Esto dibuja un cuadro alrededor de cada rostro detectado y añade una etiqueta como "Face 1".
 
-#. Detect eyes inside each face (ROI):
+#. Detectar ojos dentro de cada rostro (ROI):
 
    .. code-block:: python
 
@@ -312,18 +312,18 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
           minSize=(20, 20)
       )
 
-   ROI means “Region of Interest”. Detecting eyes only inside the face area is faster and reduces false detections.
+   ROI significa "Región de Interés". Detectar ojos solo dentro del área facial es más rápido y reduce las falsas detecciones.
 
-#. Draw up to two eyes:
+#. Dibujar hasta dos ojos:
 
    .. code-block:: python
 
       for (ex, ey, ew, eh) in eyes[:2]:
           cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 127, 255), 2)
 
-   This draws rectangles around the first two detected eyes.
+   Esto dibuja rectángulos alrededor de los dos primeros ojos detectados.
 
-#. Show the result and handle exit:
+#. Mostrar el resultado y manejar la salida:
 
    .. code-block:: python
 
@@ -336,58 +336,58 @@ OpenCV requires pre-trained Haar classifiers (``.xml`` files). They are already 
       if cv2.getWindowProperty(WIN, cv2.WND_PROP_VISIBLE) < 1:
           break
 
-   Press ``q`` to quit, or close the window to exit safely.
+   Presiona ``q`` para salir, o cierra la ventana para salir de forma segura.
 
-#. Cleanup (always runs):
+#. Limpieza (siempre se ejecuta):
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   The camera is stopped and all OpenCV windows are closed even if an error occurs.
+   La cámara se detiene y todas las ventanas de OpenCV se cierran incluso si ocurre un error.
 
 
-5. Pros and Cons of Haar Detection
+5. Pros y Contras de la Detección Haar
 ----------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: 30 35 35
 
-   * - Aspect
-     - Advantages
-     - Disadvantages
-   * - Speed
-     - Very fast; suitable for Raspberry Pi
+   * - Aspecto
+     - Ventajas
+     - Desventajas
+   * - Velocidad
+     - Muy rápida; adecuada para Raspberry Pi
      - -
-   * - Accuracy
-     - Works well for frontal faces
-     - Sensitive to rotation and profile views
-   * - Lighting
-     - Good under even lighting
-     - Performance drops if too bright/dark
-   * - Model
-     - Small model size; easy to deploy
-     - Less accurate than deep learning methods
+   * - Precisión
+     - Funciona bien para rostros frontales
+     - Sensible a la rotación y vistas de perfil
+   * - Iluminación
+     - Buena bajo iluminación uniforme
+     - El rendimiento disminuye si es demasiado brillante/oscuro
+   * - Modelo
+     - Tamaño de modelo pequeño; fácil de implementar
+     - Menos preciso que los métodos de aprendizaje profundo
 
-Because it’s lightweight and fast, Haar features are still very practical on embedded devices.
+Debido a que es ligera y rápida, las características Haar siguen siendo muy prácticas en dispositivos embebidos.
 
 
-6. Common Improvements
+6. Mejoras Comunes
 ----------------------
 
-1. **Lighting Preprocessing**: Apply histogram equalization or CLAHE before detection to improve performance in low light.  
-2. **Multi-Angle Detection**: Load both frontal and profile face classifiers to detect more poses.  
-3. **More Facial Features**: Add Haar classifiers for eyes/mouth/nose to enrich detection.  
-4. **Use DNN Instead of Haar**: OpenCV DNN + ResNet/MobileNet can yield higher accuracy (but require more compute).
+1. **Preprocesamiento de Iluminación**: Aplica ecualización de histograma o CLAHE antes de la detección para mejorar el rendimiento con poca luz.
+2. **Detección Multiángulo**: Carga clasificadores de rostros frontales y de perfil para detectar más poses.
+3. **Más Características Faciales**: Añade clasificadores Haar para ojos/boca/nariz para enriquecer la detección.
+4. **Usar DNN en lugar de Haar**: OpenCV DNN + ResNet/MobileNet puede ofrecer mayor precisión (pero requiere más recursos computacionales).
 
 
 
-7. Extended Exercises
+7. Ejercicios Extendidos
 ---------------------
 
-- Use ``cv2.equalizeHist`` on the grayscale image to enhance low-light detection.  
-- Add mouth or nose Haar classifiers to detect more facial features.  
-- Record the detection process with ``cv2.VideoWriter``.  
-- Combine with GPIO output to make a Raspberry Pi project: “turn on LED when a face is detected.”
+- Usa ``cv2.equalizeHist`` en la imagen en escala de grises para mejorar la detección con poca luz.
+- Añade clasificadores Haar de boca o nariz para detectar más características faciales.
+- Graba el proceso de detección con ``cv2.VideoWriter``.
+- Combínalo con salida GPIO para hacer un proyecto Raspberry Pi: "enciende un LED cuando se detecte un rostro".

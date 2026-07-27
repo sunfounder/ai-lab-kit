@@ -8,37 +8,37 @@
 2.11 Joystick
 =========================
 
-**Introduction**
+**Introducción**
 
-A joystick is an input device commonly used for gaming, robotics, and navigation systems. It typically has two axes (X and Y) for directional control and a button (Btn or SW) for additional input. In this project, you will learn how a joystick works by manipulating it and displaying the corresponding values of the X, Y, and button states on the screen.
+Un joystick es un dispositivo de entrada comúnmente utilizado para juegos, robótica y sistemas de navegación. Típicamente tiene dos ejes (X e Y) para control direccional y un botón (Btn o SW) para entrada adicional. En este proyecto, aprenderás cómo funciona un joystick manipulándolo y mostrando los valores correspondientes de los estados X, Y y del botón en la pantalla.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Below are the components required for this project:
+A continuación se muestran los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_joystick`
-        - \- 
+        \-
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
 
 .. image:: img/fzz/2.1.9_sch.png
@@ -49,9 +49,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Build the circuit as shown in the diagram below:
+Construye el circuito como se muestra en el diagrama a continuación:
 
 .. image:: img/fzz/2.1.9_bb.png
    :width: 80%
@@ -59,19 +59,19 @@ Build the circuit as shown in the diagram below:
 
 
 
-Ensure that:
+Asegúrate de que:
 
-- The VRX and VRY pins of the joystick are connected to ADC pins.
-- The SW pin of the joystick is connected to a GPIO pin 17.
-- Power and ground connections are correctly set.
+- Los pines VRX y VRY del joystick estén conectados a pines ADC.
+- El pin SW del joystick esté conectado al pin GPIO 17.
+- Las conexiones de alimentación y tierra estén correctamente establecidas.
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -79,27 +79,27 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.11_Joystick.py
 
-This Python script read and display real-time joystick data on a Fusion HAT+. When executed:
+Este script de Python lee y muestra datos del joystick en tiempo real en un Fusion HAT+. Al ejecutarse:
 
-1. The script continuously reads the X and Y values from the Fusion HAT+.
-2. It monitors the button connected to GPIO pin 17 to detect whether it is pressed or not.
-3. The X, Y, and button state values are printed to the console in the format ``X: <value>  Y: <value>  Btn: <value>``, where:
+1. El script lee continuamente los valores X e Y del Fusion HAT+.
+2. Monitorea el botón conectado al pin GPIO 17 para detectar si está presionado o no.
+3. Los valores de X, Y y el estado del botón se imprimen en la consola en el formato ``X: <valor>  Y: <valor>  Btn: <valor>``, donde:
 
-   - ``X`` and ``Y`` are the analog readings from the ADC chip.
-   - ``Btn`` is ``1`` when the button is not pressed and ``0`` when it is pressed.
+   - ``X`` e ``Y`` son las lecturas analógicas del chip ADC.
+   - ``Btn`` es ``1`` cuando el botón no está presionado y ``0`` cuando está presionado.
 
-4. The script updates every 0.2 seconds, running continuously until interrupted with ``Ctrl+C``.
+4. El script se actualiza cada 0.2 segundos, ejecutándose continuamente hasta que se interrumpe con ``Ctrl+C``.
 
 ----------------------------------------------
 
 
-**Code**
+**Código**
 
-Below is the Python code used for this project:
+A continuación se muestra el código Python utilizado en este proyecto:
 
 
 .. raw:: html
@@ -138,13 +138,13 @@ Below is the Python code used for this project:
          time.sleep(0.2)
 
    # Gracefully handle script termination (e.g., via KeyboardInterrupt)
-   except KeyboardInterrupt: 
+   except KeyboardInterrupt:
       pass
 
 
 ---------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
 1. **Imports:**
 
@@ -154,9 +154,9 @@ Below is the Python code used for this project:
       from fusion_hat.pin import Pin, Mode, Pull
       import time
 
-   The script imports necessary modules: ``fusion_hat`` for GPIO functionalities, and ``time`` for adding delays.
+   El script importa los módulos necesarios: ``fusion_hat`` para las funcionalidades GPIO y ``time`` para agregar retardos.
 
-2. **Initialization:**
+2. **Inicialización:**
 
    .. code-block:: python
 
@@ -165,10 +165,10 @@ Below is the Python code used for this project:
       xAxis = ADC('A1')
       yAxis = ADC('A0')
 
-   The script initializes the joystick by creating instances of the ``Pin`` and ``ADC`` classes. The button is set to input mode with an internal pull-up resistor enabled, and the X and Y axes are set to read from ADC channels A0 and A1, respectively.
+   El script inicializa el joystick creando instancias de las clases ``Pin`` y ``ADC``. El botón se configura en modo de entrada con una resistencia de pull-up interna habilitada, y los ejes X e Y se configuran para leer desde los canales ADC A0 y A1, respectivamente.
 
 
-3. **Main Loop:**
+3. **Bucle Principal:**
 
    .. code-block:: python
 
@@ -189,45 +189,45 @@ Below is the Python code used for this project:
             time.sleep(0.2)
 
       # Gracefully handle script termination (e.g., via KeyboardInterrupt)
-      except KeyboardInterrupt: 
+      except KeyboardInterrupt:
          pass
 
-   - Reads X and Y values from ADC channels 0 and 1, respectively.
-   - Reads the button state (pressed or not) from the SW pin.
-   - Prints the X, Y, and button values to the screen every 0.2 seconds.
+   - Lee los valores X e Y de los canales ADC 0 y 1, respectivamente.
+   - Lee el estado del botón (presionado o no) desde el pin SW.
+   - Imprime los valores de X, Y y el botón en la pantalla cada 0.2 segundos.
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
 
-1. **ADC Values Not in Expected Range**:
+1. **Los valores del ADC no están en el rango esperado**:
 
-   - **Cause**: Incorrect ADC channel configuration or wiring issues.
-   - **Solution**: Verify the ADC channel configuration and wiring. Ensure the joystick is connected to the correct ADC channels.
+   - **Causa**: Configuración incorrecta del canal ADC o problemas de cableado.
+   - **Solución**: Verifica la configuración del canal ADC y el cableado. Asegúrate de que el joystick esté conectado a los canales ADC correctos.
 
-2. **Button State Always 0**:
+2. **El estado del botón es siempre 0**:
 
-   - **Cause**: Incorrect button wiring or pull-up/pull-down configuration.
-   - **Solution**: Verify the button wiring. Check the pull-up/pull-down configuration to ensure the button is properly connected to the SW pin.
+   - **Causa**: Cableado incorrecto del botón o configuración de pull-up/pull-down.
+   - **Solución**: Verifica el cableado del botón. Revisa la configuración de pull-up/pull-down para asegurarte de que el botón esté correctamente conectado al pin SW.
 
-3. **ADC Values Are Constant**:
+3. **Los valores del ADC son constantes**:
 
-   - **Cause**: The ADC channels are not connected to any input.
-   - **Solution**: Connect joysticks to ADC channels 0 and 1 to provide variable inputs.
+   - **Causa**: Los canales ADC no están conectados a ninguna entrada.
+   - **Solución**: Conecta el joystick a los canales ADC 0 y 1 para proporcionar entradas variables.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
 
 
-1. **Joystick Control**: Use the X and Y values to control a virtual joystick or game element.
+1. **Control de Joystick**: Utiliza los valores X e Y para controlar un joystick virtual o un elemento de juego.
 
-2. **Data Logging**: Log the X, Y, and button values to a file for analysis:
-     
+2. **Registro de datos**: Guarda los valores de X, Y y el botón en un archivo para su análisis:
+
    .. code-block:: python
 
       with open("sensor_log.txt", "a") as log_file:
@@ -235,6 +235,6 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**Conclusión**
 
-This experiment demonstrates how to interface a joystick with a Fusion HAT+ for analog-to-digital conversion. By understanding how to read and interpret joystick inputs, you can build interactive systems for gaming, robotics, or other applications.
+Este experimento demuestra cómo interconectar un joystick con un Fusion HAT+ para la conversión analógico-digital. Al comprender cómo leer e interpretar las entradas del joystick, puedes construir sistemas interactivos para juegos, robótica u otras aplicaciones.

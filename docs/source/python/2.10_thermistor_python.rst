@@ -4,27 +4,27 @@
 
 .. _py_thermistor:
 
-2.10 Thermistor
+2.10 Termistor
 ====================================
 
-**Introduction**
+**Introducción**
 
-A thermistor is a temperature-sensitive resistor widely used in temperature sensing and control applications. Unlike photoresistors that detect light, thermistors respond to temperature changes by varying their resistance. This makes them ideal for projects like heat alarms, thermostats, and temperature monitoring systems. In this project, we will use a thermistor to measure ambient temperature and display it in both Celsius and Fahrenheit.
+Un termistor es un resistor sensible a la temperatura ampliamente utilizado en aplicaciones de detección y control de temperatura. A diferencia de los fotoresistores que detectan luz, los termistores responden a los cambios de temperatura variando su resistencia. Esto los hace ideales para proyectos como alarmas de calor, termostatos y sistemas de monitoreo de temperatura. En este proyecto, usaremos un termistor para medir la temperatura ambiente y mostrarla tanto en grados Celsius como Fahrenheit.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Here are the components required for this project:
+Estos son los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,7 +35,7 @@ Here are the components required for this project:
     *   - :ref:`cpn_thermistor`
         - |link_thermistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
         - \-
 
@@ -44,9 +44,9 @@ Here are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Below are the schematic diagrams illustrating how to connect the thermistor to the Fusion HAT+:
+A continuación se muestran los diagramas esquemáticos que ilustran cómo conectar el termistor al Fusion HAT+:
 
 
 .. image:: img/fzz/2.2.2_sch.png
@@ -55,9 +55,9 @@ Below are the schematic diagrams illustrating how to connect the thermistor to t
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Build the circuit as shown in the wiring diagram below:
+Construye el circuito como se muestra en el diagrama de conexiones a continuación:
 
 .. image:: img/fzz/2.2.2_bb.png
    :width: 80%
@@ -65,20 +65,20 @@ Build the circuit as shown in the wiring diagram below:
 
 
 
-Ensure that:
+Asegúrate de que:
 
-* The thermistor is correctly connected to the Fusion HAT+.
-* Power and ground connections are secure.
-* All wiring is consistent with the diagram to ensure proper functionality.
+* El termistor esté correctamente conectado al Fusion HAT+.
+* Las conexiones de alimentación y tierra estén seguras.
+* Todo el cableado sea coherente con el diagrama para garantizar un funcionamiento adecuado.
 
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 
 .. raw:: html
@@ -86,22 +86,22 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 2.10_Thermistor.py 
+   sudo python3 2.10_Thermistor.py
 
-This Python script reads an analog signal from a thermistor via the fusion hat and calculates the corresponding temperature. When executed:
+Este script de Python lee una señal analógica de un termistor a través del Fusion HAT+ y calcula la temperatura correspondiente. Al ejecutarse:
 
-1. The script continuously reads the voltage.
-2. It calculates the thermistor resistance (``Rt``), and determines the temperature in Kelvin, Celsius, and Fahrenheit.
-3. The calculated temperatures are printed to the console in both Celsius and Fahrenheit, formatted to two decimal places, as ``Celsius: <value> C  Fahrenheit: <value> F``.
-4. The process repeats every 0.2 seconds until the script is interrupted with ``Ctrl+C``.
+1. El script lee continuamente el voltaje.
+2. Calcula la resistencia del termistor (``Rt``) y determina la temperatura en Kelvin, Celsius y Fahrenheit.
+3. Las temperaturas calculadas se imprimen en la consola tanto en Celsius como en Fahrenheit, formateadas a dos decimales, como ``Celsius: <valor> C  Fahrenheit: <valor> F``.
+4. El proceso se repite cada 0.2 segundos hasta que el script es interrumpido con ``Ctrl+C``.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Below is the Python code used for this project:
+A continuación se muestra el código Python utilizado en este proyecto:
 
 
 .. raw:: html
@@ -151,7 +151,7 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
 1. **Imports:**
 
@@ -162,18 +162,18 @@ Below is the Python code used for this project:
       import math
 
 
-   This script imports necessary modules: ``ADC`` from the ``fusion_hat`` library for read voltage, ``time`` for sleep functionality, and ``math`` for mathematical calculations.
+   Este script importa los módulos necesarios: ``ADC`` de la biblioteca ``fusion_hat`` para leer voltaje, ``time`` para la funcionalidad de espera y ``math`` para cálculos matemáticos.
 
 
-2. **Initialization:**
+2. **Inicialización:**
 
    .. code-block:: python
 
       thermistor = ADC('A3')
 
-   Initialize the ADC object on pin A3.
+   Inicializa el objeto ADC en el pin A3.
 
-3. **Data Processing:**
+3. **Procesamiento de Datos:**
 
    .. code-block:: python
 
@@ -190,65 +190,65 @@ Below is the Python code used for this project:
             Cel = temp - 273.15 # Convert Kelvin to Celsius
             Fah = Cel * 1.8 + 32 # Convert Celsius to Fahrenheit
 
-   - Reads the voltage from the thermistor.
-   - Calculates the thermistor's resistance.
-   - Uses the Steinhart-Hart equation to compute temperature in Kelvin.
-   - Converts Kelvin to Celsius and Fahrenheit.
+   - Lee el voltaje del termistor.
+   - Calcula la resistencia del termistor.
+   - Utiliza la ecuación de Steinhart-Hart para calcular la temperatura en Kelvin.
+   - Convierte Kelvin a Celsius y Fahrenheit.
 
 
-4. **Output:**
+4. **Salida:**
 
    .. code-block:: python
 
       print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
       time.sleep(0.2)
 
-   The calculated temperature is displayed on the screen in both Celsius and Fahrenheit. A delay is included to allow the temperature readings to stabilize and to prevent excessive CPU usage.
+   La temperatura calculada se muestra en la pantalla tanto en Celsius como en Fahrenheit. Se incluye un retardo para permitir que las lecturas de temperatura se estabilicen y evitar el uso excesivo de la CPU.
 
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Solución de Problemas**
 
 
-1. **Temperature Values Are Incorrect or Erratic**:
+1. **Los valores de temperatura son incorrectos o erráticos**:
 
-   - **Cause**: Incorrect thermistor parameters or noisy input signal.
-   - **Solution**:
+   - **Causa**: Parámetros incorrectos del termistor o señal de entrada ruidosa.
+   - **Solución**:
 
-     - Ensure the thermistor's resistance at 25°C (``10000`` in this script) and the ``3950`` B-value are accurate for your thermistor model.
-     - Add a capacitor or software filtering to reduce signal noise.
+     - Asegúrate de que la resistencia del termistor a 25°C (``10000`` en este script) y el valor B de ``3950`` sean precisos para tu modelo de termistor.
+     - Agrega un capacitor o filtrado por software para reducir el ruido de la señal.
 
-2. **Divide-by-Zero Error**:
+2. **Error de división entre cero**:
 
-   - **Cause**: The voltage ``Vr`` is too close to 0 or 3.3V, leading to division by zero in the resistance calculation.
-   - **Solution**: Ensure the ADC input voltage stays within the 0–3.3V range, and check connections for short circuits or disconnections.
+   - **Causa**: El voltaje ``Vr`` está demasiado cerca de 0 o 3.3V, lo que provoca una división entre cero en el cálculo de la resistencia.
+   - **Solución**: Asegúrate de que el voltaje de entrada del ADC se mantenga dentro del rango de 0–3.3V y verifica las conexiones en busca de cortocircuitos o desconexiones.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Display Temperatures on an LCD or OLED**: Use an LCD or OLED screen to show the temperature values dynamically.
+1. **Mostrar temperaturas en un LCD u OLED**: Utiliza una pantalla LCD u OLED para mostrar los valores de temperatura de forma dinámica.
 
-2. **Data Logging**: Save the temperature readings to a file for analysis:
-     
+2. **Registro de datos**: Guarda las lecturas de temperatura en un archivo para su análisis:
+
    .. code-block:: python
 
       with open("temperature_log.txt", "a") as log_file:
          log_file.write(f"Celsius: {Cel:.2f}, Fahrenheit: {Fah:.2f}\n")
 
-3. **Threshold-Based Alerts**: Trigger alerts when the temperature exceeds a predefined threshold:
-     
+3. **Alertas basadas en umbrales**: Activa alertas cuando la temperatura supere un umbral predefinido:
+
    .. code-block:: python
 
       if Cel > 30:
          print("Warning: High temperature!")
 
-4. **LED or Buzzer Feedback**: Provide visual or auditory feedback based on temperature levels:
-     
+4. **Retroalimentación con LED o Zumbador**: Proporciona retroalimentación visual o auditiva según los niveles de temperatura:
+
    .. code-block:: python
 
       from fusion_hat import Pin
@@ -262,6 +262,6 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusión**
 
-This experiment demonstrates how to use a thermistor with an Fusion HAT+ to measure ambient temperature accurately. By understanding the principles of analog-to-digital conversion and the Steinhart-Hart equation, you can build advanced temperature monitoring and control systems for various applications.
+Este experimento demuestra cómo usar un termistor con un Fusion HAT+ para medir la temperatura ambiente con precisión. Al comprender los principios de la conversión analógico-digital y la ecuación de Steinhart-Hart, puedes construir sistemas avanzados de monitoreo y control de temperatura para diversas aplicaciones.

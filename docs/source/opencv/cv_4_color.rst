@@ -3,13 +3,13 @@
    :end-before: end_hello_message
 
 
-4. Color Detection
+4. Detección de Color
 ===========================================
 
-Color detection is one of the most fundamental and practical functions in computer vision.  
-In this chapter, we will use step-by-step code and explanations to **detect red objects using the HSV color space** and **draw bounding boxes** around them.
+La detección de color es una de las funciones más fundamentales y prácticas en la visión artificial.
+En este capítulo, utilizaremos código y explicaciones paso a paso para **detectar objetos rojos usando el espacio de color HSV** y **dibujar rectángulos delimitadores** alrededor de ellos.
 
-This forms the foundation for more advanced object tracking techniques (e.g., CAMShift).
+Esto sienta las bases para técnicas de seguimiento de objetos más avanzadas (por ejemplo, CAMShift).
 
 .. raw:: html
 
@@ -18,58 +18,58 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           Your browser does not support the video tag.
       </video>
 
-1. Objective and Approach
+1. Objetivo y Enfoque
 --------------------------------------------
 
-- Use **Picamera2** to capture real-time camera frames  
-- Convert the image from BGR to HSV color space  
-- Use ``cv2.inRange`` to extract the red regions  
-- Use morphological filtering to remove noise  
-- Use ``cv2.findContours`` to find red object contours  
-- Draw bounding boxes around the detected red regions
+- Usar **Picamera2** para capturar fotogramas de cámara en tiempo real
+- Convertir la imagen de BGR al espacio de color HSV
+- Usar ``cv2.inRange`` para extraer las regiones rojas
+- Usar filtrado morfológico para eliminar el ruido
+- Usar ``cv2.findContours`` para encontrar contornos de objetos rojos
+- Dibujar rectángulos delimitadores alrededor de las regiones rojas detectadas
 
 .. image:: img/color_detection.png
-   :alt: Color detection preview illustration
+   :alt: Ilustración de vista previa de detección de color
    :align: center
 
-2. Run the Code
+2. Ejecutar el Código
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
-   
-#. Open the terminal and enter the following command:
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
+
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_4_color.py
 
-#. When you run the program, two OpenCV windows will appear on the screen:
+#. Cuando ejecutes el programa, aparecerán dos ventanas de OpenCV en la pantalla:
 
-   * **Red Detection** – shows the live camera image with green bounding boxes around detected red objects  
-   * **Red Mask** – shows the binary mask image used for red color detection  
+   * **Red Detection** – muestra la imagen de la cámara en vivo con rectángulos verdes alrededor de los objetos rojos detectados
+   * **Red Mask** – muestra la imagen de máscara binaria utilizada para la detección de color rojo
 
-   The program continuously captures frames from the Raspberry Pi camera and detects red regions in real time.  
-   If a red object is detected, a green rectangle and the area value will be displayed on the color image.
+   El programa captura fotogramas continuamente de la cámara Raspberry Pi y detecta regiones rojas en tiempo real.
+   Si se detecta un objeto rojo, se mostrarán un rectángulo verde y el valor del área en la imagen en color.
 
-   You can exit the program in two ways:
+   Puedes salir del programa de dos maneras:
 
-   * Press the **q** key on the keyboard  
-   * Close any of the OpenCV windows by clicking the close button (X)  
+   * Presionar la tecla **q** en el teclado
+   * Cerrar cualquiera de las ventanas de OpenCV haciendo clic en el botón de cerrar (X)
 
-   After exiting, the camera stops streaming and all OpenCV windows are closed.
+   Después de salir, la cámara deja de transmitir y todas las ventanas de OpenCV se cierran.
 
-3. Complete Code
+3. Código Completo
 ------------------------------
 
 .. code-block:: python
@@ -172,10 +172,10 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
    cv2.destroyAllWindows()
 
 
-4. Code Explanation
+4. Explicación del Código
 --------------------------------
 
-#. Initialize Picamera2 and start streaming:
+#. Inicializar Picamera2 y comenzar la transmisión:
 
    .. code-block:: python
 
@@ -186,27 +186,27 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       picam2.configure(config)
       picam2.start()
 
-   This configures the camera at 640×480 and starts the preview stream.  
-   ``XRGB8888`` is a 4-channel format, so the captured frames are BGRA-like.
+   Esto configura la cámara a 640x480 e inicia la transmisión de vista previa.
+   ``XRGB8888`` es un formato de 4 canales, por lo que los fotogramas capturados son similares a BGRA.
 
-#. Convert the captured frame to a format OpenCV commonly uses:
+#. Convertir el fotograma capturado a un formato que OpenCV usa comúnmente:
 
    .. code-block:: python
 
       frame_bgra = picam2.capture_array()
       frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   Picamera2 returns a 4-channel image here, so we convert it to standard 3-channel BGR for processing.
+   Picamera2 devuelve aquí una imagen de 4 canales, por lo que la convertimos a BGR estándar de 3 canales para su procesamiento.
 
-#. Use HSV color space for robust color detection:
+#. Usar el espacio de color HSV para una detección de color robusta:
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2HSV)
 
-   HSV separates color (Hue) from brightness, which makes color detection more stable under different lighting.
+   HSV separa el color (Tono) del brillo, lo que hace que la detección de color sea más estable bajo diferentes condiciones de iluminación.
 
-#. Define two HSV ranges for red:
+#. Definir dos rangos HSV para el rojo:
 
    .. code-block:: python
 
@@ -214,19 +214,19 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       mask2 = cv2.inRange(hsv, LOWER_RED2, UPPER_RED2)
       mask = cv2.bitwise_or(mask1, mask2)
 
-   Red “wraps around” the Hue scale in OpenCV HSV (near 0 and near 180), so two ranges are combined to cover all reds.
+   El rojo "se envuelve" alrededor de la escala de Tono en HSV de OpenCV (cerca de 0 y cerca de 180), por lo que se combinan dos rangos para cubrir todos los rojos.
 
-#. Clean the mask with morphology (reduce noise and fill holes):
+#. Limpiar la máscara con morfología (reducir ruido y rellenar agujeros):
 
    .. code-block:: python
 
       mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, KERNEL, iterations=1)
       mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, KERNEL, iterations=2)
 
-   - **OPEN** removes small noisy dots.
-   - **CLOSE** fills small holes inside the detected red regions.
+   - **OPEN** elimina pequeños puntos ruidosos.
+   - **CLOSE** rellena pequeños agujeros dentro de las regiones rojas detectadas.
 
-#. Find red regions and filter small blobs:
+#. Encontrar regiones rojas y filtrar manchas pequeñas:
 
    .. code-block:: python
 
@@ -237,10 +237,10 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           if area < MIN_AREA:
               continue
 
-   Contours are detected from the binary mask.  
-   ``MIN_AREA`` ignores small red regions to reduce false detections.
+   Los contornos se detectan a partir de la máscara binaria.
+   ``MIN_AREA`` ignora las regiones rojas pequeñas para reducir las falsas detecciones.
 
-#. Draw bounding boxes and labels on the result image:
+#. Dibujar rectángulos delimitadores y etiquetas en la imagen de resultado:
 
    .. code-block:: python
 
@@ -248,18 +248,18 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       cv2.rectangle(frame_bgr, (x, y), (x + w, y + h), (0, 255, 0), 2)
       cv2.putText(frame_bgr, f"red area={int(area)}", ...)
 
-   This shows where OpenCV found red objects, and prints the detected blob area for reference.
+   Esto muestra dónde encontró OpenCV los objetos rojos e imprime el área de la mancha detectada como referencia.
 
-#. Display both the result and the mask:
+#. Mostrar tanto el resultado como la máscara:
 
    .. code-block:: python
 
       cv2.imshow(WIN_RESULT, frame_bgr)
       cv2.imshow(WIN_MASK, mask)
 
-   The **result window** shows the camera view with boxes, and the **mask window** shows the red-only binary image.
+   La **ventana de resultado** muestra la vista de la cámara con los rectángulos, y la **ventana de máscara** muestra la imagen binaria solo roja.
 
-#. Exit conditions (keyboard + window close):
+#. Condiciones de salida (teclado + cierre de ventana):
 
    .. code-block:: python
 
@@ -271,36 +271,35 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           cv2.getWindowProperty(WIN_MASK, cv2.WND_PROP_VISIBLE) < 1):
           break
 
-   Press ``q`` to quit, or close either window to exit safely.
+   Presiona ``q`` para salir, o cierra cualquiera de las ventanas para salir de forma segura.
 
-#. Cleanup:
+#. Limpieza:
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   Always stop the camera and close OpenCV windows to release resources.
+   Siempre detén la cámara y cierra las ventanas de OpenCV para liberar recursos.
 
 
-5. Parameter Tuning Tips
+5. Consejos para el Ajuste de Parámetros
 -----------------------------
 
-- ``LOWER_RED1 / UPPER_RED1``: adjust this range to detect other colors.  
-  For example, green ≈ ``[35, 50, 50]`` to ``[85, 255, 255]``.
+- ``LOWER_RED1 / UPPER_RED1``: ajusta este rango para detectar otros colores.
+  Por ejemplo, verde ≈ ``[35, 50, 50]`` a ``[85, 255, 255]``.
 
-- ``KERNEL``: larger kernels give stronger filtering but may remove small objects.
+- ``KERNEL``: kernels más grandes proporcionan un filtrado más fuerte pero pueden eliminar objetos pequeños.
 
-- ``MIN_AREA``: increasing this value filters out small noisy contours; decreasing it makes detection more sensitive.
+- ``MIN_AREA``: aumentar este valor filtra los contornos ruidosos pequeños; disminuirlo hace que la detección sea más sensible.
 
 .. note::
-   You can start by only displaying the ``mask`` and tuning the thresholds until the target region looks clear, then proceed with the rest of the pipeline.
+   Puedes comenzar mostrando solo la ``mask`` y ajustando los umbrales hasta que la región objetivo se vea clara, luego continuar con el resto del proceso.
 
 
 
-
-6. Extensions and Practice
+6. Extensiones y Práctica
 --------------------------
 
-- Modify the HSV threshold to detect other colors (e.g., blue or green).  
-- Experiment with different morphological parameters in more complex backgrounds.  
+- Modifica el umbral HSV para detectar otros colores (por ejemplo, azul o verde).
+- Experimenta con diferentes parámetros morfológicos en fondos más complejos.

@@ -5,28 +5,28 @@
 
 .. _py_gravity_cube:
 
-4.14 Gravity Cube
+4.14 Cubo Gravitatorio
 =========================
 
-**Introduction**
+**Introducción**
 
-In this lesson, you will build a **gravity-referenced 3D cube** displayed on a 128×64 SSD1306 OLED, driven by an **IMU**.  
-The cube tilts according to the board’s orientation relative to gravity, using accelerometer-only roll and pitch.  
+En esta lección, construirás un **cubo 3D referenciado a la gravedad** mostrado en un OLED SSD1306 de 128×64, controlado por una **IMU**.
+El cubo se inclina según la orientación de la placa relativa a la gravedad, utilizando solo el acelerómetro para obtener el balanceo y cabeceo.
 
-Key features:
+Características principales:
 
-- Orthographic 3D cube rendering (no perspective distortion)  
-- Orientation derived from the accelerometer relative to an initial baseline  
-- One cube face is filled to make front-back orientation easy to see  
-- Two configuration flags let you flip X/Y directions to match your physical mounting  
+- Renderizado de cubo 3D ortográfico (sin distorsión de perspectiva)
+- Orientación derivada del acelerómetro relativa a una línea base inicial
+- Una cara del cubo está rellena para que la orientación frontal-trasera sea fácil de ver
+- Dos banderas de configuración permiten invertir las direcciones X/Y para que coincidan con tu montaje físico
 
-As you tilt the board, the cube rotates smoothly, giving an intuitive visualization of device orientation.
+A medida que inclinas la placa, el cubo rota suavemente, proporcionando una visualización intuitiva de la orientación del dispositivo.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
@@ -55,9 +55,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Refer to the wiring diagram for assembling the components:
+Consulte el diagrama de conexiones para ensamblar los componentes:
 
 .. image:: img/fzz/4.14_cube2_bb.png
    :width: 80%
@@ -65,9 +65,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Pasos de Configuración**
 
-#. Install the OLED libraries:
+#. Instala las librerías del OLED:
 
    .. raw:: html
 
@@ -77,7 +77,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Install the IMU libraries:
+#. Instala las librerías de la IMU:
 
    .. raw:: html
 
@@ -85,10 +85,10 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages
 
 
-#. Run the example from the ``ai-lab-kit`` directory:
+#. Ejecuta el ejemplo desde el directorio ``ai-lab-kit``:
 
    .. raw:: html
 
@@ -99,19 +99,19 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.14_Cube.py
 
-#. When the script runs:
+#. Cuando el script se ejecuta:
 
-   * The accelerometer provides gravity-referenced X/Y/Z data.  
-   * The code computes roll and pitch relative to an initial baseline (current orientation becomes 0°, 0°).  
-   * A wireframe cube with a **filled front face** is drawn on the OLED.  
-   * Tilting the board rotates the cube on screen.  
-   * Press **Ctrl+C** to exit; the OLED is cleared.
+   * El acelerómetro proporciona datos X/Y/Z referenciados a la gravedad.
+   * El código calcula el balanceo y cabeceo relativos a una línea base inicial (la orientación actual se convierte en 0°, 0°).
+   * Se dibuja en el OLED un cubo alámbrico con una **cara frontal rellena**.
+   * Inclinar la placa rota el cubo en la pantalla.
+   * Presiona **Ctrl+C** para salir; el OLED se limpia.
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the Python script for the gravity-referenced cube:
+Aquí está el script de Python para el cubo referenciado a la gravedad:
 
 .. raw:: html
 
@@ -200,7 +200,7 @@ Here is the Python script for the gravity-referenced cube:
       ax_g = ax / 9.80665
       ay_g = ay / 9.80665
       az_g = az / 9.80665
-      
+
       g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
       axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
       roll  = math.atan2(ayn, azn)
@@ -241,7 +241,7 @@ Here is the Python script for the gravity-referenced cube:
       while True:
          # Read IMU data
          data = imu.read()
-         
+
          # Extract accelerometer data (in m/s²)
          ax = data['accel_x']
          ay = data['accel_y']
@@ -287,21 +287,21 @@ Here is the Python script for the gravity-referenced cube:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **IMU Initialization**
+1. **Inicialización de la IMU**
 
-   The script creates an ``IMU`` instance from the Fusion HAT+ module.  
-   The accelerometer provides raw X, Y, Z acceleration values in units of m/s².
+   El script crea una instancia de ``IMU`` del módulo Fusion HAT+.
+   El acelerómetro proporciona valores brutos de aceleración X, Y, Z en unidades de m/s².
 
-2. **Gravity-Referenced Angles**
+2. **Ángulos Referenciados a la Gravedad**
 
-   ``accel_to_rp()`` converts the accelerometer readings into **roll** and **pitch**:
+   ``accel_to_rp()`` convierte las lecturas del acelerómetro en **balanceo** y **cabeceo**:
 
-   - Roll: rotation around the **X** axis  
-   - Pitch: rotation around the **Y** axis  
+   - Balanceo: rotación alrededor del eje **X**
+   - Cabeceo: rotación alrededor del eje **Y**
 
-   Only gravity is used, so yaw cannot be determined (and is fixed to 0).
+   Solo se usa la gravedad, por lo que la guiñada no se puede determinar (y se fija a 0).
 
    .. code-block:: python
 
@@ -315,44 +315,44 @@ Here is the Python script for the gravity-referenced cube:
          ax_g = ax / 9.80665
          ay_g = ay / 9.80665
          az_g = az / 9.80665
-         
+
          g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
          axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
          roll  = math.atan2(ayn, azn)
          pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
          return roll, pitch
 
-3. **Baseline Orientation**
+3. **Orientación de Línea Base**
 
-   On the very first reading:
+   En la primera lectura:
 
-   - The current ``roll`` and ``pitch`` are stored as baseline (``roll0``, ``pitch0``).  
-   - Subsequent orientations are expressed as **relative** angles:
+   - El ``balanceo`` y ``cabeceo`` actuales se almacenan como línea base (``roll0``, ``pitch0``).
+   - Las orientaciones subsiguientes se expresan como ángulos **relativos**:
 
      .. code-block:: python
 
         roll_rel  = roll_abs  - roll0
         pitch_rel = pitch_abs - pitch0
 
-   This way, the device’s initial position becomes **0°, 0°**.
+   De esta manera, la posición inicial del dispositivo se convierte en **0°, 0°**.
 
-4. **User-Configurable Axis Flip**
+4. **Inversión de Eje Configurable por el Usuario**
 
-   The two flags ``FLIP_X`` and ``FLIP_Y`` allow you to invert motion on each axis:
+   Las dos banderas ``FLIP_X`` y ``FLIP_Y`` permiten invertir el movimiento en cada eje:
 
-   - Set ``FLIP_X = True`` if roll feels reversed on the display  
-   - Set ``FLIP_Y = True`` if pitch feels reversed  
+   - Establece ``FLIP_X = True`` si el balanceo se siente invertido en la pantalla
+   - Establece ``FLIP_Y = True`` si el cabeceo se siente invertido
 
-   This is helpful if your IMU is rotated or wired in a different orientation.
+   Esto es útil si tu IMU está rotada o cableada en una orientación diferente.
 
-5. **Smoothing (EMA)**
+5. **Suavizado (EMA)**
 
-   The function ``ema()`` applies **exponential moving average** smoothing:
+   La función ``ema()`` aplica suavizado de **media móvil exponencial**:
 
-   - Reduces jitter caused by sensor noise  
-   - Makes cube motion look more natural  
+   - Reduce las vibraciones causadas por el ruido del sensor
+   - Hace que el movimiento del cubo se vea más natural
 
-   ``ROLL_EMA`` and ``PITCH_EMA`` control how responsive vs. smooth the motion is.
+   ``ROLL_EMA`` y ``PITCH_EMA`` controlan qué tan sensible vs. suave es el movimiento.
 
    .. code-block:: python
 
@@ -361,9 +361,9 @@ Here is the Python script for the gravity-referenced cube:
          return alpha * new + (1.0 - alpha) * prev
 
 
-6. **3D Cube Rotation**
+6. **Rotación del Cubo 3D**
 
-   ``rotate_point()`` applies rotation matrices to each cube vertex:
+   ``rotate_point()`` aplica matrices de rotación a cada vértice del cubo:
 
       .. code-block:: python
 
@@ -380,12 +380,12 @@ Here is the Python script for the gravity-referenced cube:
             if yaw:
                cz, sz = math.cos(yaw), math.sin(yaw)
                x, y = (x*cz - y*sz), (x*sz + y*cz)
-            return (x, y, z)   
+            return (x, y, z)
 
-   - ``Rx(roll)`` followed by ``Ry(pitch)`` (yaw kept at 0)  
-   - Produces rotated 3D coordinates  
+   - ``Rx(balanceo)`` seguido de ``Ry(cabeceo)`` (guiñada mantenida en 0)
+   - Produce coordenadas 3D rotadas
 
-   ``project_point()`` then converts 3D coordinates to 2D OLED positions using **orthographic projection**.
+   ``project_point()`` luego convierte las coordenadas 3D a posiciones 2D en el OLED usando **proyección ortográfica**.
 
       .. code-block:: python
 
@@ -398,15 +398,15 @@ Here is the Python script for the gravity-referenced cube:
             return int(cx + scale * x), int(cy - scale * y)
 
 
-7. **Drawing the Cube**
+7. **Dibujo del Cubo**
 
    ``draw_cube()``:
 
-   - Clears the screen  
-   - Rotates and projects all 8 cube vertices  
-   - Draws all edges as a wireframe  
-   - Fills one face (``FRONT_FACE``) so you can easily see which side is pointing toward you  
-   - Optionally shows roll and pitch in degrees at the top left
+   - Limpia la pantalla
+   - Rota y proyecta los 8 vértices del cubo
+   - Dibuja todas las aristas como un alámbrico
+   - Rellena una cara (``FRONT_FACE``) para que puedas ver fácilmente qué lado apunta hacia ti
+   - Opcionalmente muestra el balanceo y cabeceo en grados en la esquina superior izquierda
 
    .. code-block:: python
 
@@ -437,65 +437,64 @@ Here is the Python script for the gravity-referenced cube:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-- **Cube does not move**
+- **El cubo no se mueve**
 
-  - Confirm I2C is enabled on Raspberry Pi.  
-  - Verify the correct I2C address is used by your IMU driver.
+  - Confirma que I2C esté habilitado en la Raspberry Pi.
+  - Verifica que se use la dirección I2C correcta para tu controlador IMU.
 
-- **Motion looks reversed**
+- **El movimiento se ve invertido**
 
-  - Toggle ``FLIP_X`` or ``FLIP_Y`` to invert directions.  
-  - Try placing the board flat, then slowly tilt along one axis to identify which flip is needed.
+  - Cambia ``FLIP_X`` o ``FLIP_Y`` para invertir las direcciones.
+  - Intenta colocar la placa plana, luego inclínala lentamente a lo largo de un eje para identificar qué inversión se necesita.
 
-- **Cube is too jittery**
+- **El cubo está demasiado nervioso**
 
-  - Increase smoothing by lowering ``ROLL_EMA`` / ``PITCH_EMA`` (e.g., 0.1).  
-  - Make sure the board is mechanically stable and cables are not tugging it.
+  - Aumenta el suavizado reduciendo ``ROLL_EMA`` / ``PITCH_EMA`` (por ejemplo, 0.1).
+  - Asegúrate de que la placa esté mecánicamente estable y los cables no la estén tirando.
 
-- **Cube tilts when resting flat**
+- **El cubo se inclina cuando está plano**
 
-  - Hold the board steady and restart the script; the initial reading becomes the baseline.  
-  - Ensure the board is truly flat when the program starts.
+  - Mantén la placa firme y reinicia el script; la lectura inicial se convierte en la línea base.
+  - Asegúrate de que la placa esté realmente plana cuando el programa se inicia.
 
-- **OLED shows nothing**
+- **El OLED no muestra nada**
 
-  - Check OLED I2C address (commonly ``0x3C``).  
-  - Verify wiring and that the display contrast is adequate.  
-  - Confirm that ``adafruit-circuitpython-ssd1306`` is installed.
+  - Verifica la dirección I2C del OLED (comúnmente ``0x3C``).
+  - Verifica el cableado y que el contraste de la pantalla sea adecuado.
+  - Confirma que ``adafruit-circuitpython-ssd1306`` esté instalado.
 
 ----------------------------------------------
 
-**Try It Yourself**
+**Pruébalo Tú Mismo**
 
-1. **Add Yaw from Gyro**
+1. **Agregar Guiñada desde el Giroscopio**
 
-   Combine gyro integration with accelerometer data (a complementary filter) to add a yaw axis
-   and allow full 3D cube rotation.
+   Combina la integración del giroscopio con los datos del acelerómetro (un filtro complementario) para agregar un eje de guiñada
+   y permitir la rotación completa del cubo 3D.
 
-2. **Change Cube Size or Position**
+2. **Cambiar el Tamaño o la Posición del Cubo**
 
-   Adjust ``CUBE_SIZE`` or the projection center to move the cube or make it larger/smaller:
+   Ajusta ``CUBE_SIZE`` o el centro de proyección para mover el cubo o hacerlo más grande/más pequeño:
 
-   - Zoom in for a more dramatic effect  
-   - Shift it slightly upward to leave more room for text
+   - Acerca para un efecto más dramático
+   - Desplázalo ligeramente hacia arriba para dejar más espacio para el texto
 
-3. **Add a Wireframe Grid**
+3. **Agregar una Cuadrícula Alámbrica**
 
-   Draw a simple “floor” grid behind the cube to emphasize 3D motion.
+   Dibuja una "cuadrícula de piso" simple detrás del cubo para enfatizar el movimiento 3D.
 
-4. **Add Auto-Recenter Function**
+4. **Agregar Función de Re-centrado Automático**
 
-   Long-press a button (or use a key input) to reset the baseline orientation during runtime.
+   Mantén presionado un botón (o usa una entrada de teclado) para restablecer la orientación de línea base durante la ejecución.
 
-5. **Multiple Display Modes**
+5. **Múltiples Modos de Visualización**
 
-   Toggle between:
+   Alterna entre:
 
-   - Wireframe only  
-   - Filled face only  
-   - Face shading based on tilt angle  
+   - Solo alámbrico
+   - Solo cara rellena
+   - Sombreado de cara basado en el ángulo de inclinación
 
-These enhancements turn the simple gravity cube into a rich 3D IMU visualization tool.
-
+Estas mejoras convierten el simple cubo gravitatorio en una rica herramienta de visualización IMU 3D.

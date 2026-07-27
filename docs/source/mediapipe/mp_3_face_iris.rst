@@ -4,100 +4,100 @@
 
 .. _mp_face_iris:
 
-3. Facial Contours and Iris Detection
+3. Contornos Faciales y Detección del Iris
 =================================================================
 
 ------------------------------------------------------------
-1. Overview
+1. Descripción General
 ------------------------------------------------------------
 
-In the previous sections, we implemented basic face mesh detection
-and simple emotion recognition.
+En las secciones anteriores, implementamos la detección básica de malla facial
+y el reconocimiento simple de emociones.
 
-This section focuses on the detailed feature connection methods
-provided by MediaPipe FaceMesh:
+Esta sección se centra en los métodos de conexión de características detalladas
+proporcionados por MediaPipe FaceMesh:
 
-- ``FACEMESH_CONTOURS`` — Draws facial contour lines
-  (face edges and outer feature boundaries)
+- ``FACEMESH_CONTOURS`` — Dibuja las líneas de contorno facial
+  (bordes del rostro y límites exteriores de características)
 
-- ``FACEMESH_IRISES`` — Draws iris regions of both eyes
+- ``FACEMESH_IRISES`` — Dibuja las regiones del iris de ambos ojos
 
-By drawing only contours and iris regions, the visualization becomes
-cleaner and more lightweight. This is useful for:
+Al dibujar solo contornos y regiones del iris, la visualización se vuelve
+más limpia y ligera. Esto es útil para:
 
-- Facial feature extraction
-- Eye tracking
-- Pupil tracking
-- Gaze interaction
+- Extracción de características faciales
+- Seguimiento ocular
+- Seguimiento pupilar
+- Interacción por mirada
 
 .. image:: img/mp_face_iris.png
    :align: center
 
 ------------------------------------------------------------
-2. How it Works
+2. Cómo Funciona
 ------------------------------------------------------------
 
-The program performs the following steps:
+El programa realiza los siguientes pasos:
 
-1. Initialize the MediaPipe FaceMesh model.
-2. Capture video frames from the Raspberry Pi camera.
-3. Convert the image to RGB format (required by MediaPipe).
-4. Draw facial contour lines using ``FACEMESH_CONTOURS``.
-5. Draw iris landmarks using ``FACEMESH_IRISES``.
-6. Display only key areas for clearer visualization.
+1. Inicializar el modelo MediaPipe FaceMesh.
+2. Capturar fotogramas de video de la cámara Raspberry Pi.
+3. Convertir la imagen al formato RGB (requerido por MediaPipe).
+4. Dibujar las líneas de contorno facial usando ``FACEMESH_CONTOURS``.
+5. Dibujar los puntos de referencia del iris usando ``FACEMESH_IRISES``.
+6. Mostrar solo las áreas clave para una visualización más clara.
 
 ------------------------
-3. Run the Code
+3. Ejecutar el Código
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   Antes de comenzar, asegúrate de:
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * Tener el soporte para cámara ensamblado
+   * Poder acceder al escritorio de Raspberry Pi
+   * Tener el paquete de código instalado
+   * Tener Fusion HAT+ instalado y configurado
+   * Tener OpenCV instalado
 
-   For detailed instructions, see :ref:`opencv_install`.
+   Para obtener instrucciones detalladas, consulta :ref:`opencv_install`.
 
-#. Open the terminal and enter the following command:
+#. Abre la terminal e ingresa el siguiente comando:
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_face_iris.py
 
-#. After running the program, a video window titled "Show Video" opens and displays the live camera feed.
+#. Después de ejecutar el programa, se abre una ventana de video titulada "Show Video" y muestra la transmisión de la cámara en vivo.
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_3.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
-         
-   When a face appears in front of the camera:
-   
-   - MediaPipe detects facial landmarks in real time.
-   - Only the facial contour lines are drawn (face outline, eyebrows, lips, etc.).
-   - The iris regions of both eyes are highlighted with circular landmark connections.
-   
-   Unlike the full face mesh, the screen shows only key contours and iris features, making the visualization cleaner and less crowded.
-   
-   As the user moves their head or eyes:
-   
-   - The contour lines follow the face smoothly.
-   - The iris landmarks track eye movement in real time.
-   
-   If no face is detected, the window continues displaying the normal camera feed without annotations.
-   
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+
+   Cuando aparece un rostro frente a la cámara:
+
+   - MediaPipe detecta puntos de referencia faciales en tiempo real.
+   - Solo se dibujan las líneas de contorno facial (contorno del rostro, cejas, labios, etc.).
+   - Las regiones del iris de ambos ojos se resaltan con conexiones de puntos circulares.
+
+   A diferencia de la malla facial completa, la pantalla muestra solo los contornos clave y las características del iris, haciendo la visualización más limpia y menos abarrotada.
+
+   A medida que el usuario mueve la cabeza o los ojos:
+
+   - Las líneas de contorno siguen el rostro suavemente.
+   - Los puntos de referencia del iris siguen el movimiento ocular en tiempo real.
+
+   Si no se detecta ningún rostro, la ventana continúa mostrando la transmisión normal de la cámara sin anotaciones.
+
+   Presiona ``q`` para salir del programa.
+   La cámara se detiene y la ventana de OpenCV se cierra automáticamente.
 
 -----------------------------
-4. Complete Code
+4. Código Completo
 -----------------------------
 
 .. code-block:: python
@@ -162,110 +162,110 @@ The program performs the following steps:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, only facial contours and iris regions of both eyes will be displayed on the screen.
+Después de ejecutar el programa, solo se mostrarán en la pantalla los contornos faciales y las regiones del iris de ambos ojos.
 
 -----------------------------
-5. Key Steps Explanation
+5. Explicación de Pasos Clave
 -----------------------------
 
-The code in this section is almost the same as
+El código en esta sección es casi el mismo que el de
 :ref:`mp_face`.
 
-The main difference is the drawing method used
-inside the main loop. The function ``draw_landmarks()``
-is called twice:
+La diferencia principal es el método de dibujo utilizado
+dentro del bucle principal. La función ``draw_landmarks()``
+se llama dos veces:
 
-- Once with ``FACEMESH_CONTOURS``
-- Once with ``FACEMESH_IRISES``
+- Una vez con ``FACEMESH_CONTOURS``
+- Una vez con ``FACEMESH_IRISES``
 
-You can comment out either drawing block
-to observe the difference in visual effect.
+Puedes comentar cualquiera de los bloques de dibujo
+para observar la diferencia en el efecto visual.
 
 ------------------------------------------------------------
 
 ``FACEMESH_CONTOURS``
 
-- A connection set provided by MediaPipe.
-- Mainly draws:
+- Un conjunto de conexiones proporcionado por MediaPipe.
+- Dibuja principalmente:
 
-  - Outer facial contour
-  - Edges of eyes
-  - Nose outline
-  - Lip contours
+  - Contorno facial externo
+  - Bordes de los ojos
+  - Contorno de la nariz
+  - Contornos de los labios
 
-This method produces a simplified visualization,
-making it easier to observe facial contour changes.
+Este método produce una visualización simplificada,
+facilitando la observación de los cambios en el contorno facial.
 
 ------------------------------------------------------------
 
 ``FACEMESH_IRISES``
 
-- Draws the iris regions of both eyes.
-- Includes iris keypoints and circular connection lines.
-- Useful for:
+- Dibuja las regiones del iris de ambos ojos.
+- Incluye puntos clave del iris y líneas de conexión circular.
+- Útil para:
 
-  - Eye tracking
-  - Pupil tracking
-  - Gaze detection
+  - Seguimiento ocular
+  - Seguimiento pupilar
+  - Detección de mirada
 
 ------------------------------------------------------------
 
 ``landmark_drawing_spec=None``
 
-- Disables drawing individual landmark points.
-- Only connection lines are displayed,
-  resulting in a cleaner visual effect.
+- Desactiva el dibujo de puntos de referencia individuales.
+- Solo se muestran las líneas de conexión,
+  resultando en un efecto visual más limpio.
 
-If you want to display both points and lines,
-define a custom ``DrawingSpec``.
+Si deseas mostrar tanto puntos como líneas,
+define un ``DrawingSpec`` personalizado.
 
 ------------------------------------------------------------
 
 ``drawing_styles.get_default_face_mesh_contours_style()``
 
-- Returns the default contour drawing style.
+- Devuelve el estilo de dibujo de contorno predeterminado.
 
 ``drawing_styles.get_default_face_mesh_iris_connections_style()``
 
-- Returns the default iris connection line style.
+- Devuelve el estilo de línea de conexión del iris predeterminado.
 
 
 ------------------------------------------------------------
-6. Troubleshooting
+6. Solución de Problemas
 ------------------------------------------------------------
 
-- Iris not detected
+- Iris no detectado
 
-  If the iris is not detected, the lighting may be insufficient,
-  the face may be too far from the camera,
-  or ``refine_landmarks`` may not be enabled.
+  Si el iris no se detecta, la iluminación puede ser insuficiente,
+  el rostro puede estar demasiado lejos de la cámara,
+  o ``refine_landmarks`` puede no estar habilitado.
 
-  Improve the lighting, move closer to the camera,
-  and make sure ``refine_landmarks=True`` is set
-  when initializing FaceMesh.
+  Mejora la iluminación, acércate a la cámara,
+  y asegúrate de que ``refine_landmarks=True`` esté configurado
+  al inicializar FaceMesh.
 
-- Contour lines jittery
+- Líneas de contorno temblorosas
 
-  If the contour lines appear unstable,
-  the detection confidence may be too low,
-  or lighting and head movement may be affecting tracking.
+  Si las líneas de contorno parecen inestables,
+  la confianza de detección puede ser demasiado baja,
+  o la iluminación y el movimiento de la cabeza pueden estar afectando el seguimiento.
 
-  Try increasing ``min_detection_confidence``,
-  improving lighting, and keeping head movements slower and smoother.
+  Intenta aumentar ``min_detection_confidence``,
+  mejorar la iluminación y mantener los movimientos de cabeza más lentos y suaves.
 
-- High latency
+- Alta latencia
 
-  If the video response feels slow,
-  the resolution may be too high
-  or ``refine_landmarks`` may be consuming additional resources.
+  Si la respuesta del video se siente lenta,
+  la resolución puede ser demasiado alta
+  o ``refine_landmarks`` puede estar consumiendo recursos adicionales.
 
-  Reduce the resolution (for example, 320×240),
-  or disable ``refine_landmarks`` if iris detection is not required.
-  
+  Reduce la resolución (por ejemplo, 320x240),
+  o desactiva ``refine_landmarks`` si no se necesita la detección del iris.
+
 -----------------------------
-7. Summary
+7. Resumen
 -----------------------------
 
-- ``FACEMESH_CONTOURS`` and ``FACEMESH_IRISES`` are two important connection methods provided by MediaPipe.
-- Compared to full mesh drawing, they are more lightweight and intuitive, suitable for practical interaction scenarios.
-- The next chapter will introduce how to use these features for gaze tracking and blink detection.
+- ``FACEMESH_CONTOURS`` y ``FACEMESH_IRISES`` son dos métodos de conexión importantes proporcionados por MediaPipe.
+- En comparación con el dibujo de malla completa, son más ligeros e intuitivos, adecuados para escenarios de interacción práctica.
+- El siguiente capítulo presentará cómo usar estas características para el seguimiento de la mirada y la detección de parpadeos.

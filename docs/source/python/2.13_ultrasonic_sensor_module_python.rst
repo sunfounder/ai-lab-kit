@@ -4,91 +4,91 @@
 
 .. _py_ultrasonic:
 
-2.13 Ultrasonic Sensor Module
-==============================
+2.13 Módulo de Sensor Ultrasónico
+===================================
 
-**Introduction**
+**Introducción**
 
-The ultrasonic sensor module uses ultrasonic waves to measure distances with remarkable accuracy. It emits ultrasonic waves and listens for their echo, calculating the distance based on the time taken for the echo to return. This versatile technology is commonly used in robotics, obstacle detection, and range-finding applications.
+El módulo de sensor ultrasónico utiliza ondas ultrasónicas para medir distancias con una precisión notable. Emite ondas ultrasónicas y escucha su eco, calculando la distancia basándose en el tiempo que tarda el eco en regresar. Esta tecnología versátil se utiliza comúnmente en robótica, detección de obstáculos y aplicaciones de medición de distancia.
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Here are the components required for this project:
+Estos son los componentes necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - INTRODUCCIÓN DEL COMPONENTE
+        - ENLACE DE COMPRA
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_ultrasonic_sensor`
         - |link_ultrasonic_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        \-
     *   - Raspberry Pi
-        - \-
+        \-
 
 
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**Diagrama de Circuito**
 
-Below is the schematic diagram for the ultrasonic sensor module:
+A continuación se muestra el diagrama esquemático del módulo de sensor ultrasónico:
 
 .. image:: img/fzz/2.2.7_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Assemble the circuit as shown in the diagram below:
+Ensambla el circuito como se muestra en el diagrama a continuación:
 
 .. image:: img/fzz/2.2.7_bb.png
    :width: 80%
    :align: center
 
-Ensure the connections are secure, with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27 of the Raspberry Pi.
+Asegúrate de que las conexiones estén seguras, con el pin Echo conectado a GPIO 22 y el pin Trigger a GPIO 27 de la Raspberry Pi.
 
 ----------------------------------------------
 
-**Running the Example**
+**Ejecutar el Ejemplo**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+Todo el código de ejemplo utilizado en este tutorial está disponible en el directorio ``ai-lab-kit``.
+Sigue estos pasos para ejecutar el ejemplo:
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.13_Ultrasonic.py
 
-This Python script uses an ultrasonic distance sensor to measure the distance to an object and displays the result on the console. When executed:
+Este script de Python utiliza un sensor de distancia ultrasónico para medir la distancia a un objeto y muestra el resultado en la consola. Al ejecutarse:
 
-1. The sensor, connected to GPIO pins 27 (trigger) and 22 (echo), continuously measures the distance to the nearest object.
-2. The distance is calculated in meters and converted to centimeters, then displayed in the format: ``Distance: <value> cm`` with two decimal places of precision.
-3. The distance is updated every 0.3 seconds, allowing for near real-time monitoring.
-4. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point it exits gracefully.
+1. El sensor, conectado a los pines GPIO 27 (trigger) y 22 (echo), mide continuamente la distancia al objeto más cercano.
+2. La distancia se calcula en metros y se convierte a centímetros, luego se muestra en el formato: ``Distance: <valor> cm`` con dos decimales de precisión.
+3. La distancia se actualiza cada 0.3 segundos, permitiendo un monitoreo casi en tiempo real.
+4. El programa se ejecuta indefinidamente hasta que se interrumpe con ``Ctrl+C``, momento en el cual sale de forma segura.
 
 ----------------------------------------------
 
 
-**Code**
+**Código**
 
 
-Below is the Python code for this project:
+A continuación se muestra el código Python para este proyecto:
 
 
 .. raw:: html
@@ -121,7 +121,7 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**Comprender el Código**
 
 1. **Imports:**
 
@@ -132,18 +132,19 @@ Below is the Python code for this project:
       from fusion_hat.pin import Pin
       from time import sleep
 
-   The script imports the ``Ultrasonic`` class from the ``fusion_hat`` library to interact with the ultrasonic sensor and the ``sleep`` function from the ``time`` module to introduce delays.
+   El script importa la clase ``Ultrasonic`` de la biblioteca ``fusion_hat`` para interactuar con el sensor ultrasónico y la función ``sleep`` del módulo ``time`` para introducir retardos.
 
 
-2. **Initialization:**
+2. **Inicialización:**
+
 
    .. code-block:: python
 
       sensor = Ultrasonic(Pin(27), Pin(22))
 
-   The ultrasonic sensor is initialized with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27. This setup enables the Raspberry Pi to send and receive ultrasonic signals.
+   El sensor ultrasónico se inicializa con el pin Echo conectado a GPIO 22 y el pin Trigger a GPIO 27. Esta configuración permite a la Raspberry Pi enviar y recibir señales ultrasónicas.
 
-3. **Main Loop:**
+3. **Bucle Principal:**
 
 
    .. code-block:: python
@@ -153,16 +154,16 @@ Below is the Python code for this project:
          print('Distance: {:.2f} cm'.format(dis))  # Print the distance with two decimal precision
          sleep(0.3)  # Wait for 0.3 seconds before the next measurement
 
-   * Continuously measures the distance to the nearest object.
-   * Converts the distance from meters to centimeters.
-   * Prints the distance with two decimal places of precision.
-   * Includes a 0.3-second delay to allow the sensor to stabilize between measurements.
+   * Mide continuamente la distancia al objeto más cercano.
+   * Convierte la distancia de metros a centímetros.
+   * Imprime la distancia con dos decimales de precisión.
+   * Incluye un retardo de 0.3 segundos para permitir que el sensor se estabilice entre mediciones.
 
 
 
-4. **Graceful Exit:**
+4. **Salida Segura:**
 
-   The ``try-except`` block ensures the program exits cleanly when interrupted with ``Ctrl+C``.
+   El bloque ``try-except`` garantiza que el programa salga limpiamente cuando se interrumpe con ``Ctrl+C``.
 
    .. code-block:: python
 
@@ -173,43 +174,43 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Troubleshooting**
+**Solución de Problemas**
 
-1. **No Distance Output**:
+1. **No hay salida de distancia**:
 
-   - **Cause**: The sensor is not properly connected or powered.
-   - **Solution**:
+   - **Causa**: El sensor no está correctamente conectado o alimentado.
+   - **Solución**:
 
-      - Ensure the trigger pin is connected to GPIO 27 and the echo pin to GPIO 22.
-      - Verify that the sensor has a stable power supply.
+      - Asegúrate de que el pin trigger esté conectado a GPIO 27 y el pin echo a GPIO 22.
+      - Verifica que el sensor tenga una fuente de alimentación estable.
 
-2. **Constant or Incorrect Distance Values**:
+2. **Valores de distancia constantes o incorrectos**:
 
-   - **Cause**: Obstacles are too close or too far from the sensor, or there is interference.
-   - **Solution**:
+   - **Causa**: Los obstáculos están demasiado cerca o demasiado lejos del sensor, o hay interferencia.
+   - **Solución**:
 
-      - Ensure the object is within the sensor's effective range (typically 2 cm to 400 cm).
-      - Check for interference from other ultrasonic devices or reflective surfaces.
+      - Asegúrate de que el objeto esté dentro del rango efectivo del sensor (típicamente de 2 cm a 400 cm).
+      - Verifica si hay interferencias de otros dispositivos ultrasónicos o superficies reflectantes.
 
-3. **Distance Always Zero**:
+3. **La distancia siempre es cero**:
 
-   - **Cause**: Faulty sensor or incorrect wiring.
-   - **Solution**: Test the sensor on another GPIO setup or replace it if faulty. Double-check the wiring configuration.
+   - **Causa**: Sensor defectuoso o cableado incorrecto.
+   - **Solución**: Prueba el sensor en otra configuración GPIO o reemplázalo si está defectuoso. Vuelve a verificar la configuración del cableado.
 
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**Ideas para Extender**
 
-1. **Threshold-Based Alerts**: Trigger an alert when the measured distance is below a specific threshold:
+1. **Alertas basadas en umbrales**: Activa una alerta cuando la distancia medida esté por debajo de un umbral específico:
 
   .. code-block:: python
 
       if dis < 10:
           print("Warning: Object too close!")
 
-2. **Auditory Feedback**: Add a buzzer that sounds when the distance is below a threshold:
+2. **Retroalimentación auditiva**: Agrega un zumbador que suene cuando la distancia esté por debajo de un umbral:
 
   .. code-block:: python
 
@@ -224,6 +225,6 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**Conclusión**
 
-This project demonstrates how to use an ultrasonic sensor module to measure distances with a Raspberry Pi. By understanding the principles of ultrasonic wave detection and GPIO programming, you can integrate such sensors into a variety of applications, from robotics to home automation. With this foundation, you can explore more advanced projects involving sensors and real-world interaction.
+Este proyecto demuestra cómo usar un módulo de sensor ultrasónico para medir distancias con una Raspberry Pi. Al comprender los principios de la detección de ondas ultrasónicas y la programación GPIO, puedes integrar dichos sensores en una variedad de aplicaciones, desde robótica hasta automatización del hogar. Con esta base, puedes explorar proyectos más avanzados que involucren sensores e interacción con el mundo real.

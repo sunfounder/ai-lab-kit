@@ -4,29 +4,29 @@
 
 .. _py_joystick_eye:
 
-4.13 Joystick-Controlled Eye
+4.13 Ojo Controlado por Joystick
 =================================
 
-**Introduction**
+**Introducción**
 
-In this lesson, you will build a **Joystick-Controlled Eye**, displayed on a 128×64 SSD1306 OLED screen.  
-A two-axis analog joystick provides X/Y movement, which is read using the Fusion HAT+’s ADC channels.  
-The OLED shows a stylized “eye” whose pupil smoothly follows the direction of the joystick.
+En esta lección, construirás un **Ojo Controlado por Joystick**, mostrado en una pantalla OLED SSD1306 de 128×64.
+Un joystick analógico de dos ejes proporciona movimiento X/Y, que se lee utilizando los canales ADC del Fusion HAT+.
+El OLED muestra un "ojo" estilizado cuya pupila sigue suavemente la dirección del joystick.
 
-The project demonstrates:
+El proyecto demuestra:
 
-- Reading multi-axis analog input  
-- Smooth value normalization and dead-zone handling  
-- Geometric constraints using an ellipse  
-- Real-time graphics rendering on a monochrome OLED  
+- Lectura de entrada analógica multieje
+- Normalización suave de valores y manejo de zona muerta
+- Restricciones geométricas usando una elipse
+- Renderizado de gráficos en tiempo real en un OLED monocromático
 
-As you move the joystick, the iris and pupil glide around inside the eye without crossing the outer sclera boundary.
+A medida que mueves el joystick, el iris y la pupila se deslizan dentro del ojo sin cruzar el borde exterior de la esclerótica.
 
 ----------------------------------------------
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
@@ -48,9 +48,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexiones**
 
-Refer to the wiring diagram for assembling the components:
+Consulte el diagrama de conexiones para ensamblar los componentes:
 
 .. image:: img/fzz/4.13_joystick_eye_bb.png
    :width: 100%
@@ -58,10 +58,10 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**Pasos de Configuración**
 
 
-#. Install the required libraries:
+#. Instala las librerías requeridas:
 
    .. raw:: html
 
@@ -71,7 +71,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the example from the ``ai-lab-kit`` directory:
+#. Ejecuta el ejemplo desde el directorio ``ai-lab-kit``:
 
    .. raw:: html
 
@@ -82,18 +82,18 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.13_JoystickEye.py
 
-#. When the script runs:
+#. Cuando el script se ejecuta:
 
-   * Moving the joystick left/right/up/down moves the pupil accordingly  
-   * Pupil movement is smoothed and constrained inside an elliptical eye  
-   * The display updates around **50 FPS**  
-   * Press **Ctrl+C** to exit  
+   * Mover el joystick izquierda/derecha/arriba/abajo mueve la pupila en consecuencia
+   * El movimiento de la pupila se suaviza y se restringe dentro de un ojo elíptico
+   * La pantalla se actualiza a aproximadamente **50 FPS**
+   * Presiona **Ctrl+C** para salir
 
 ----------------------------------------------
 
-**Code**
+**Código**
 
-Here is the Python script for the Joystick-Controlled Eye:
+Aquí está el script de Python para el Ojo Controlado por Joystick:
 
 .. raw:: html
 
@@ -289,18 +289,19 @@ Here is the Python script for the Joystick-Controlled Eye:
       main()
 
 
+
 ----------------------------------------------
 
-**Understanding the Code**
+**Comprender el Código**
 
-1. **Joystick Analog Reading**
+1. **Lectura Analógica del Joystick**
 
-   Two ADC channels read X and Y positions ``(0..4095)``.  
-   The script converts these values into normalized motion ``[-1..1]`` with:
+   Dos canales ADC leen las posiciones X e Y ``(0..4095)``.
+   El script convierte estos valores en movimiento normalizado ``[-1..1]`` con:
 
-   - Dead-zone handling  
-   - Direction inversion (up = positive Y)  
-   - Smoothing using exponential moving average (EMA)  
+   - Manejo de zona muerta
+   - Inversión de dirección (arriba = Y positivo)
+   - Suavizado usando media móvil exponencial (EMA)
 
    .. code-block:: python
 
@@ -320,14 +321,14 @@ Here is the Python script for the Joystick-Controlled Eye:
 
       ...
 
-2. **Eye Geometry**
+2. **Geometría del Ojo**
 
-   The eye is drawn as:
+   El ojo se dibuja como:
 
-   - An ellipse for the sclera (white)  
-   - Optional outer border  
-   - Optional iris ring  
-   - A black pupil  
+   - Una elipse para la esclerótica (blanco)
+   - Borde exterior opcional
+   - Anillo de iris opcional
+   - Una pupila negra
 
    .. code-block:: python
 
@@ -345,15 +346,15 @@ Here is the Python script for the Joystick-Controlled Eye:
          x1 = EYE_CX + EYE_W // 2
          y1 = EYE_CY + EYE_H // 2
 
-         ... 
+         ...
 
-3. **Pupil Movement Constraint**
+3. **Restricción del Movimiento de la Pupila**
 
-   The pupil center is constrained by the ellipse equation:
+   El centro de la pupila está restringido por la ecuación de la elipse:
 
    ``(px/MAX_X)^2 + (py/MAX_Y)^2 <= 1``
 
-   If input pushes the pupil outside the eye, the script projects it back onto the ellipse boundary.
+   Si la entrada empuja la pupila fuera del ojo, el script la proyecta de vuelta al borde de la elipse.
 
    .. code-block:: python
 
@@ -372,71 +373,70 @@ Here is the Python script for the Joystick-Controlled Eye:
          ...
 
 
-4. **Rendering**
+4. **Renderizado**
 
-   Each frame:
+   Cada cuadro:
 
-   - The eye background is redrawn  
-   - Pupil position is computed  
-   - The image buffer is sent to the OLED  
-   - Display refreshes at ~50 FPS  
+   - El fondo del ojo se redibuja
+   - La posición de la pupila se calcula
+   - El búfer de imagen se envía al OLED
+   - La pantalla se actualiza a ~50 FPS
 
-5. **Main Loop**
+5. **Bucle Principal**
 
-   Continuously reads joystick → normalizes → computes pupil → redraws eye → updates display.
+   Lee continuamente el joystick → normaliza → calcula la pupila → redibuja el ojo → actualiza la pantalla.
 
 ----------------------------------------------
 
-**Troubleshooting**
+**Solución de Problemas**
 
-- **Joystick movement feels jumpy**
+- **El movimiento del joystick se siente entrecortado**
 
-  - Increase ``SMOOTH_ALPHA``  
-  - Increase ``DEADZONE``  
+  - Aumenta ``SMOOTH_ALPHA``
+  - Aumenta ``DEADZONE``
 
-- **Eye looks stretched or small**
+- **El ojo se ve estirado o pequeño**
 
-  Adjust:
+  Ajusta:
 
   .. code-block:: python
 
      EYE_W, EYE_H = 90, 48
 
-- **Pupil clips outside the eye**
+- **La pupila sale del ojo**
 
-  Increase:
+  Aumenta:
 
   .. code-block:: python
 
      PUPIL_MARGIN = PUPIL_R + 3
 
-- **Joystick axes reversed**
+- **Los ejes del joystick están invertidos**
 
-  Swap ADC channels or flip signs.
+  Intercambia los canales ADC o invierte los signos.
 
 ----------------------------------------------
 
-**Try It Yourself**
+**Pruébalo Tú Mismo**
 
-1. **Blink Animation**  
+1. **Animación de Parpadeo**
 
-   Add timed eyelid closing/opening.
+   Agrega apertura/cierre programado de párpados.
 
-2. **Angry / Happy Eyebrow Mode**  
+2. **Modo de Ceño Enojado / Feliz**
 
-   Draw stylized brows reacting to joystick input.
+   Dibuja cejas estilizadas que reaccionen a la entrada del joystick.
 
-3. **Follow-the-Dot Game**  
+3. **Juego Sigue el Punto**
 
-   Add a moving target dot and make the eye “track” it.
+   Agrega un punto objetivo móvil y haz que el ojo lo "siga".
 
-4. **Add Button to Toggle Modes**  
+4. **Agregar Botón para Cambiar Modos**
 
-   Switch between eye styles: robot eye, cartoon eye, cat eye.
+   Cambia entre estilos de ojo: ojo robótico, ojo de dibujo animado, ojo de gato.
 
-5. **Add Multi-Eye Display**  
+5. **Agregar Visualización de Ojos Múltiples**
 
-   Render two eyes that move together or independently.
+   Renderiza dos ojos que se mueven juntos o de forma independiente.
 
-These extensions turn the simple joystick eye into a powerful OLED animation and interaction demo.
-
+Estas extensiones convierten el simple ojo con joystick en una potente demostración de animación OLED e interacción.

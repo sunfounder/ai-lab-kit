@@ -4,18 +4,18 @@
 
 .. _py_morse_code_decoder:
 
-(Example) AI-Powered Morse Code Decoder
+(Ejemplo) Decodificador de Código Morse con IA
 ========================================
 
-**Introduction**
+**Introducción**
 
-This project creates an intelligent **Morse Code Decoder** that uses AI to interpret timing patterns of button presses. The system captures precise timing data and leverages OpenAI's GPT to decode Morse code messages in real-time. The decoder features:
+Este proyecto crea un inteligente **Decodificador de Código Morse** que usa IA para interpretar patrones de temporización de pulsaciones de botones. El sistema captura datos de temporización precisos y aprovecha GPT de OpenAI para decodificar mensajes en código Morse en tiempo real. El decodificador incluye:
 
-1. **Timing-based Input** capturing precise press and release times
-2. **AI-powered Decoding** using GPT to interpret dot/dash patterns
-3. **Visual Indicator** with LED showing active decoding state
-4. **Dual-button Interface** separate input and control buttons
-5. **Real-time Feedback** displaying timing data as you input
+1. **Entrada basada en temporización** que captura tiempos precisos de pulsación y liberación
+2. **Decodificación con IA** usando GPT para interpretar patrones de puntos y rayas
+3. **Indicador Visual** con LED que muestra el estado activo de decodificación
+4. **Interfaz de Botón Dual** botones separados de entrada y control
+5. **Retroalimentación en Tiempo Real** mostrando datos de temporización mientras introduces
 
 .. raw:: html
 
@@ -24,24 +24,24 @@ This project creates an intelligent **Morse Code Decoder** that uses AI to inter
           Your browser does not support the video tag.
       </video>
 
-The system records button press durations, sends the timing data to AI for interpretation, and accurately decodes Morse code sequences like the universal distress signal "SOS."
+El sistema registra las duraciones de las pulsaciones de botón, envía los datos de temporización a la IA para su interpretación, y decodifica con precisión secuencias de código Morse como la señal universal de socorro "SOS".
 
-You can combine timing-sensitive inputs with AI interpretation for various coding systems. See:
+Puedes combinar entradas sensibles a la temporización con interpretación de IA para varios sistemas de codificación. Consulta:
 
-* :ref:`py_online_llm` 
+* :ref:`py_online_llm`
 
 ----------------------------------------------
 
-**What You'll Need**
+**Qué Necesitarás**
 
-The following components are required for this project:
+Los siguientes componentes son necesarios para este proyecto:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - COMPONENTE
+        - ENLACE DE COMPRA
     *   - :ref:`cpn_button`
         - |link_button_buy| (x2)
     *   - :ref:`cpn_led`
@@ -57,9 +57,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**Diagrama de Conexión**
 
-Connect the components to the Raspberry Pi as follows:
+Conecta los componentes a la Raspberry Pi de la siguiente manera:
 
 .. image:: img/fzz/morse_decoder_bb.png
    :width: 80%
@@ -74,9 +74,9 @@ Connect the components to the Raspberry Pi as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**Ejecutar el Ejemplo**
 
-#. Run the code
+#. Ejecuta el código
 
    .. raw:: html
 
@@ -87,19 +87,19 @@ Connect the components to the Raspberry Pi as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_morse_decoder.py
 
-#. Try a simple Morse code message (example: "SOS")
+#. Prueba un mensaje simple en código Morse (ejemplo: "SOS")
 
-   After the program starts, press the start/stop button to begin recording.  
-   Then press the Morse button to input dots (short presses) and dashes (long presses).
+   Después de que el programa se inicie, presiona el botón de inicio/parada para comenzar a grabar.
+   Luego presiona el botón Morse para introducir puntos (pulsaciones cortas) y rayas (pulsaciones largas).
 
-   When you finish, press the start/stop button again to stop recording and decode the message.
+   Cuando termines, presiona el botón de inicio/parada nuevamente para detener la grabación y decodificar el mensaje.
 
-#. Check the console output
+#. Verifica la salida de la consola
 
-   The console will display the press/release timestamps, and the AI will analyze the timing data
-   and output the decoded message.
+   La consola mostrará las marcas de tiempo de pulsación/liberación, y la IA analizará los datos de temporización
+   y mostrará el mensaje decodificado.
 
-   **Typical console output when inputting "SOS":**
+   **Salida típica de la consola al introducir "SOS":**
 
    .. code-block:: text
 
@@ -123,110 +123,110 @@ Connect the components to the Raspberry Pi as follows:
 
       Putting it all together, the decoded message is "SOS".
 
-#. Understand the workflow
+#. Entiende el flujo de trabajo
 
-   1. Start recording: press the start/stop button (GPIO 17) and the LED turns ON
-   2. Input Morse code: use the Morse button (GPIO 22) for dots and dashes
-   3. Real-time display: the console shows press/release timestamps
-   4. Stop and decode: press the start/stop button again and the LED turns OFF
-   5. AI analysis: the timing data is sent to OpenAI GPT for interpretation
-   6. Decoded output: the AI prints the decoded message
+   1. Iniciar grabación: presiona el botón de inicio/parada (GPIO 17) y el LED se ENCIENDE
+   2. Introducir código Morse: usa el botón Morse (GPIO 22) para puntos y rayas
+   3. Visualización en tiempo real: la consola muestra las marcas de tiempo de pulsación/liberación
+   4. Detener y decodificar: presiona el botón de inicio/parada nuevamente y el LED se APAGA
+   5. Análisis de IA: los datos de temporización se envían a OpenAI GPT para su interpretación
+   6. Salida decodificada: la IA imprime el mensaje decodificado
 
-**Code**
+**Código**
 
-Here is the full Python script for the AI-Powered Morse Code Decoder:
+Aquí está el script completo en Python para el Decodificador de Código Morse con IA:
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: python
-   
-   
+
+
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
    from fusion_hat.pin import Pin
    import random, time
-   
+
    # Register OpenAI API
    # openai.com
-   
+
    # Export your openai api key with :LLM_API_KEY
    # export LLM_API_KEY=sk-xxxxxxxxxxxxxxxxx
-   
+
    # Setup GPIO pins
    morse_input = Pin(22, mode=Pin.IN, pull=Pin.PULL_DOWN, bounce_time=0.05)
    start_stop_button = Pin(17, mode=Pin.IN, pull=Pin.PULL_DOWN, bounce_time=0.05)
    led = Pin(27, Pin.OUT)  # Indicator LED on GPIO 27
-   
+
    # Store the morse code events with timing data
    morse_events = []
    input_active = False  # Flag to indicate if input is active
-   
+
    # Setup LLM with Morse code decoding instructions
    INSTRUCTIONS = "You are a Morse code decoder. Decode based on the button press time, interpreting short presses as dots and long presses as dashes. The message you receive may be a word or a sentence, please decode it and output it."
-   
+
    WELCOME = "Hello, I am a Morse code decoder. Please press the button to start decoding. When you are done, press the button again to stop."
-   
+
    llm = OpenAI(
        api_key=OPENAI_API_KEY,
        model="gpt-4o",
    )
-   
+
    # Set how many messages to keep
    llm.set_max_messages(20)
    # Set instructions
    llm.set_instructions(INSTRUCTIONS)
    # Set welcome message
    llm.set_welcome(WELCOME)
-   
+
    print(WELCOME)
-   
+
    # Send the morse code timing data to the AI for decoding
    def decode_and_print():
        global morse_events
-       
+
        # Convert timing events to string for AI processing
        input_text = str(morse_events)
-       
+
        # Get response from AI with streaming
        response = llm.prompt(input_text, stream=True)
-       
+
        # Print streaming response
        for next_word in response:
            if next_word:
                print(next_word, end="", flush=True)
-       
+
        print("")  # New line after complete response
-       
+
        morse_events = []  # Clear the morse code events for next message
-   
+
    # Morse code input handling variables
    start_time = 0
-   
+
    # Function called when morse input button is pressed
    def morse_input_pressed():
        global start_time
-       start_time = time.time()  
+       start_time = time.time()
        morse_events.append(('pressed', start_time))
        print(f" Pressed at {start_time} -", end="")
-   
+
    # Function called when morse input button is released
    def morse_input_released():
        global morse_events, start_time
-       release_time = time.time()  
-       
+       release_time = time.time()
+
        # Debounce: ignore releases within 0.1 seconds
        if release_time - start_time < 0.1:
            return
-       
+
        morse_events.append(('released', release_time))
        print(f" {release_time}")
-   
+
    # Start/stop button handler
    def handle_start_stop():
        global input_active, morse_events
-       
+
        if input_active:
            # Stop recording and decode
            led.off()
@@ -239,12 +239,12 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
            morse_events.clear()  # Clear previous events
            led.on()
            print("Input started.")
-   
+
    # Add event listeners to buttons
    start_stop_button.when_activated = handle_start_stop
    morse_input.when_activated = morse_input_pressed
    morse_input.when_deactivated = morse_input_released
-   
+
    # Main program loop
    try:
        while True:
@@ -255,54 +255,54 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**Entendiendo el Código**
 
-1. GPIO Pin Configuration
+1. Configuración de Pines GPIO
 
-   Three GPIO pins are configured for different purposes:
-   
+   Se configuran tres pines GPIO para diferentes propósitos:
+
    .. code-block:: python
-   
+
       morse_input = Pin(22, mode=Pin.IN, pull=Pin.PULL_DOWN, bounce_time=0.05)
       start_stop_button = Pin(17, mode=Pin.IN, pull=Pin.PULL_DOWN, bounce_time=0.05)
       led = Pin(27, Pin.OUT)
-   
-   - Bounce time (0.05s): Prevents multiple detections from mechanical switch bouncing
-   - Pull-down: Ensures clean LOW signal when button is not pressed
-   - Separate functions: Input vs. control buttons prevent accidental inputs
 
-2. Timing Data Storage
+   - Tiempo de anti-rebote (0.05s): Evita múltiples detecciones por rebote mecánico del interruptor
+   - Pull-down: Asegura una señal LOW limpia cuando el botón no está presionado
+   - Funciones separadas: Los botones de entrada y control evitan entradas accidentales
 
-   Press/release events are stored with precise timestamps:
-   
+2. Almacenamiento de Datos de Temporización
+
+   Los eventos de pulsación/liberación se almacenan con marcas de tiempo precisas:
+
    .. code-block:: python
-   
+
       morse_events = []  # Empty list to store events
-      
+
       # Each event stored as tuple: ('pressed'/'released', timestamp)
       morse_events.append(('pressed', 1767773542.1257536))
       morse_events.append(('released', 1767773542.285196))
 
-3. Debounce Mechanism
+3. Mecanismo de Anti-rebote
 
-   Prevents false triggers from switch bouncing:
-   
+   Evita disparos falsos por rebote del interruptor:
+
    .. code-block:: python
-   
+
       def morse_input_released():
           if release_time - start_time < 0.1:  # 100ms debounce
               return  # Ignore very short releases
-          
+
           morse_events.append(('released', release_time))
 
-4. State Management
+4. Gestión de Estado
 
-   The system uses a flag to track recording state:
-   
+   El sistema usa una bandera para rastrear el estado de grabación:
+
    .. code-block:: python
-   
+
       input_active = False  # Initially not recording
-      
+
       def handle_start_stop():
           if input_active:
               # Stop recording and decode
@@ -312,162 +312,162 @@ Here is the full Python script for the AI-Powered Morse Code Decoder:
               input_active = True
               morse_events.clear()  # Clear previous data
 
-5. Visual Indicator
+5. Indicador Visual
 
-   LED provides visual feedback of recording state:
-   
+   El LED proporciona retroalimentación visual del estado de grabación:
+
    .. code-block:: python
-   
+
       def handle_start_stop():
           if input_active:
               led.off()  # LED OFF when not recording
           else:
               led.on()   # LED ON when recording
 
-6. AI Prompt Construction
+6. Construcción del Prompt para la IA
 
-   Timing data is converted to string for AI processing:
-   
+   Los datos de temporización se convierten en cadena para el procesamiento de la IA:
+
    .. code-block:: python
-   
+
       input_text = str(morse_events)
-      
+
       # Example format sent to AI:
       # "[('pressed', 1767773542.1257536), ('released', 1767773542.285196), ...]"
 
-7. Streaming Response
+7. Respuesta en Streaming
 
-   AI response is processed and displayed in real-time:
-   
+   La respuesta de la IA se procesa y muestra en tiempo real:
+
    .. code-block:: python
-   
+
       response = llm.prompt(input_text, stream=True)
-      
+
       for next_word in response:
           if next_word:
               print(next_word, end="", flush=True)
 
-8. Event-driven Architecture
+8. Arquitectura Basada en Eventos
 
-   Button events trigger immediate callbacks:
-   
+   Los eventos de botón activan devoluciones de llamada inmediatas:
+
    .. code-block:: python
-   
+
       # Assign callback functions to button events
       start_stop_button.when_activated = handle_start_stop
       morse_input.when_activated = morse_input_pressed
       morse_input.when_deactivated = morse_input_released
 
-9. Timing Precision
+9. Precisión de Temporización
 
-   Uses ``time.time()`` for microsecond-precise timing:
-   
+   Usa ``time.time()`` para temporización precisa en microsegundos:
+
    .. code-block:: python
-   
+
       start_time = time.time()  # Current time in seconds since epoch
-      
+
       # Calculate press duration:
       duration = release_time - start_time
 
-10. Data Clearing
+10. Limpieza de Datos
 
-    After decoding, the event list is cleared for next message:
-    
+    Después de la decodificación, la lista de eventos se limpia para el siguiente mensaje:
+
     .. code-block:: python
-    
+
         def decode_and_print():
             # ... process events ...
             morse_events = []  # Clear for next message
 
 ----------------------------------------------
 
-**Morse Code Timing Standards**
+**Estándares de Temporización del Código Morse**
 
-* Standard Timing (based on word PARIS):
+* Temporización Estándar (basada en la palabra PARIS):
 
-  - Dot: 1 unit
-  - Dash: 3 units
-  - Intra-character gap (between dots/dashes): 1 unit
-  - Inter-character gap (between letters): 3 units
-  - Word gap (between words): 7 units
+  - Punto: 1 unidad
+  - Raya: 3 unidades
+  - Espacio entre caracteres (entre puntos/rayas): 1 unidad
+  - Espacio entre letras: 3 unidades
+  - Espacio entre palabras: 7 unidades
 
-* Practical Implementation:
+* Implementación Práctica:
 
-  - Dot: < 0.3 seconds (short press)
-  - Dash: > 0.5 seconds (long press)
-  - Between elements: < 0.5 seconds pause
-  - Between letters: 0.5-1.5 seconds pause
-  - Between words: > 1.5 seconds pause
+  - Punto: < 0.3 segundos (pulsación corta)
+  - Raya: > 0.5 segundos (pulsación larga)
+  - Entre elementos: < 0.5 segundos de pausa
+  - Entre letras: 0.5-1.5 segundos de pausa
+  - Entre palabras: > 1.5 segundos de pausa
 
-* Common Morse Code Letters:
+* Letras Comunes del Código Morse:
 
-  - A: • — (dot-dash)
-  - B: — • • • (dash-dot-dot-dot)
-  - C: — • — • (dash-dot-dash-dot)
-  - S: • • • (dot-dot-dot)
-  - O: — — — (dash-dash-dash)
-
-----------------------------------------------
-
-**Troubleshooting**
-
-- Button presses not registering
-
-  - Check wiring: GPIO 22/17 to button, other side to Ground
-  - Verify pull-down configuration
-  - Test with simple script: ``print(Pin(22, mode=Pin.IN, pull=Pin.PULL_DOWN).read())``
-  - Check bounce time setting (0.05s may be too high)
-
-- LED not lighting up
-
-  - Verify LED polarity: anode (long leg) to GPIO 27 through resistor
-  - Check resistor value (220Ω recommended)
-  - Test LED directly: ``Pin(27, Pin.OUT).on()`` should light LED
-  - Ensure ground connection is complete
-
-- Timing data seems wrong
-
-  - Check system clock: ``date`` command
-  - Reduce debounce time if too sensitive
-  - Add print statements to verify callback execution
-  - Test with consistent press durations
-
-- AI not decoding correctly
-
-  - Check API key and internet connection
-  - Examine timing data sent to AI (print ``morse_events``)
-  - Ensure consistent press durations (dots short, dashes long)
-  - Add clearer pauses between letters
-
-- Multiple triggers from single press
-
-  - Increase bounce_time parameter (try 0.1s)
-  - Check for mechanical switch bouncing
-  - Add hardware debounce with capacitor
-  - Verify button is properly wired
-
-- System doesn't respond to start/stop
-
-  - Check if other callback is interfering
-  - Verify ``input_active`` flag logic
-  - Add debug prints to ``handle_start_stop()``
-  - Ensure no other process using GPIO
-
-- AI response too slow
-
-  - Check internet connection speed
-  - Reduce number of events (shorter messages)
-  - Consider using local decoding as fallback
-  - Implement timeout for AI responses
-
-- Can't distinguish dots from dashes
-
-  - Practice consistent timing
-  - Adjust threshold in AI instructions
-  - Add local preprocessing before sending to AI
-  - Use visual feedback during input
+  - A: • — (punto-raya)
+  - B: — • • • (raya-punto-punto-punto)
+  - C: — • — • (raya-punto-raya-punto)
+  - S: • • • (punto-punto-punto)
+  - O: — — — (raya-raya-raya)
 
 ----------------------------------------------
 
+**Solución de problemas**
 
-This AI-powered Morse code decoder demonstrates how precise timing data combined with intelligent pattern recognition can revive and modernize historical communication methods, making them accessible and educational for new generations!
+- Las pulsaciones de botón no se registran
+
+  - Verifica el cableado: GPIO 22/17 al botón, el otro lado a Tierra
+  - Verifica la configuración de pull-down
+  - Prueba con un script simple: ``print(Pin(22, mode=Pin.IN, pull=Pin.PULL_DOWN).read())``
+  - Verifica la configuración del tiempo de anti-rebote (0.05s puede ser demasiado alto)
+
+- El LED no se enciende
+
+  - Verifica la polaridad del LED: ánodo (pata larga) a GPIO 27 a través de una resistencia
+  - Verifica el valor de la resistencia (220Ω recomendado)
+  - Prueba el LED directamente: ``Pin(27, Pin.OUT).on()`` debería encender el LED
+  - Asegúrate de que la conexión a tierra esté completa
+
+- Los datos de temporización parecen incorrectos
+
+  - Verifica el reloj del sistema: comando ``date``
+  - Reduce el tiempo de anti-rebote si es demasiado sensible
+  - Añade declaraciones de impresión para verificar la ejecución de la devolución de llamada
+  - Prueba con duraciones de pulsación consistentes
+
+- La IA no decodifica correctamente
+
+  - Verifica la clave API y la conexión a internet
+  - Examina los datos de temporización enviados a la IA (imprime ``morse_events``)
+  - Asegúrate de tener duraciones de pulsación consistentes (puntos cortos, rayas largas)
+  - Añade pausas más claras entre letras
+
+- Múltiples disparos de una sola pulsación
+
+  - Aumenta el parámetro bounce_time (prueba con 0.1s)
+  - Verifica el rebote mecánico del interruptor
+  - Añade anti-rebote por hardware con un condensador
+  - Verifica que el botón esté correctamente cableado
+
+- El sistema no responde al inicio/parada
+
+  - Verifica si otra devolución de llamada está interfiriendo
+  - Verifica la lógica de la bandera ``input_active``
+  - Añade impresiones de depuración en ``handle_start_stop()``
+  - Asegúrate de que ningún otro proceso esté usando GPIO
+
+- Respuesta de IA demasiado lenta
+
+  - Verifica la velocidad de la conexión a internet
+  - Reduce el número de eventos (mensajes más cortos)
+  - Considera usar decodificación local como alternativa
+  - Implementa un tiempo de espera para las respuestas de la IA
+
+- No se pueden distinguir puntos de rayas
+
+  - Practica una temporización consistente
+  - Ajusta el umbral en las instrucciones de la IA
+  - Añade preprocesamiento local antes de enviar a la IA
+  - Usa retroalimentación visual durante la entrada
+
+----------------------------------------------
+
+
+¡Este decodificador de código Morse con IA demuestra cómo los datos de temporización precisos combinados con el reconocimiento inteligente de patrones pueden revivir y modernizar métodos de comunicación históricos, haciéndolos accesibles y educativos para las nuevas generaciones!

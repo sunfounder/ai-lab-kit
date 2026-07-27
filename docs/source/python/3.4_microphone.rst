@@ -6,34 +6,34 @@
 
 
 
-3.4 Funsion HAT Microphone
+3.4 Micrófono de Fusion HAT+
 ==============================
 
-**Introduction**
+**Introducción**
 
-The Fusion HAT+ includes a built-in microphone, making it ideal for audio input applications such as voice recognition, sound detection, or recording logs in AI/IoT projects.
+El Fusion HAT+ incluye un micrófono integrado, lo que lo hace ideal para aplicaciones de entrada de audio como reconocimiento de voz, detección de sonido o grabación de registros en proyectos de IA/IoT.
 
-This guide will help you check if the microphone is recognized by the system and show you how to perform a basic recording test.
+Esta guía te ayudará a verificar si el micrófono es reconocido por el sistema y te mostrará cómo realizar una prueba básica de grabación.
 
 .. image:: img/fusionhat_mic.png
    :align: center
    :width: 50%
 
 
-**What You’ll Need**
+**Qué Necesitarás**
 
-Below are the components required for this tutorial:
+A continuación se presentan los componentes necesarios para este tutorial:
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - Component
-        - Purchase Link
+    *   - Componente
+        - Enlace de Compra
 
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi (or compatible model)
+        - \-
+    *   - Raspberry Pi (o modelo compatible)
         - \-
 
 .. include:: /llm/python_stt_vosk.rst
