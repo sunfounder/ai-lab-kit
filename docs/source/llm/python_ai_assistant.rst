@@ -42,12 +42,12 @@
 
 **代码使用的配置：**
 
-* LLM：**OpenAI**（\ ``gpt-4o-mini``）
-* TTS：**Piper**（\ ``en_US-ryan-low``）
-* STT：**Vosk**（\ ``en-us``）
+* LLM：\ **OpenAI**\ （\ ``gpt-4o-mini``）
+* TTS：\ **Piper**\ （\ ``en_US-ryan-low``）
+* STT：\ **Vosk**\ （\ ``en-us``）
 * 唤醒词：\ ``"hey buddy"``
-* 键盘输入：**已启用**（可选的手动输入）
-* 图像模式：**已启用**（\ ``WITH_IMAGE=True``）——如果你以后决定使用图像，需要多模态能力的 LLM
+* 键盘输入：\ **已启用**\ （可选的手动输入）
+* 图像模式：\ **已启用**\ （\ ``WITH_IMAGE=True``）——如果你以后决定使用图像，需要多模态能力的 LLM
 
 **运行过程：**
 
@@ -55,7 +55,7 @@
 2. 它监听\ **"hey buddy"**。
 3. 唤醒后，你的语音被转录为文字（Vosk → text）。
 4. 文字被发送到 **OpenAI（gpt-4o-mini）**\ 以获取回复。
-5. 回复通过 **Piper**（\ ``en_US-ryan-low``）\ 朗读出来。
+5. 回复通过 **Piper**\ （\ ``en_US-ryan-low``）\ 朗读出来。
 
 **交互示例**
 

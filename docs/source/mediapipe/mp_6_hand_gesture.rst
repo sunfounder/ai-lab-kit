@@ -119,7 +119,7 @@ Gesture Recognizer 需要一个模型文件：
    - 实时检测并绘制 21 个手部关键点和连接线（手部骨骼）。
    - 在每帧上运行 Gesture Recognizer 模型以对手势进行分类。
 
-   如果识别到的手势分数超过 ``SCORE_THRESHOLD``（默认 0.5），程序会在对应手附近显示标签，包括：
+   如果识别到的手势分数超过 ``SCORE_THRESHOLD``\ （默认 0.5），程序会在对应手附近显示标签，包括：
 
    - 左右手信息（Left/Right）
    - 手势名称（例如 ``Thumb_Up``、``Open_Palm``、``Victory``）

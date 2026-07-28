@@ -4,20 +4,20 @@
 
 .. _py_book_cover_analyzer:
 
-（示例）书籍专家
-===================
+(示例) 图书专家
+===============
 
 **简介**
 
-在这个项目中，你将构建一个\ **AI 驱动书籍封面分析器**\ ，利用计算机视觉和自然语言处理技术，从书籍封面识别图书信息。该系统使用树莓派摄像头拍摄书籍封面图像，将其发送给 LLM 模型（此处使用 OpenAI 的 GPT-4o 视觉模型）进行分析，并通过文字转语音技术提供关于书名、作者、摘要和评价的音频反馈。
+在本项目中，您将构建一个\ **AI 驱动的图书封面分析器**\ ，它利用计算机视觉和自然语言处理技术，通过图书封面识别书籍。系统使用 Raspberry Pi 摄像头拍摄图书封面图像，将其发送给大语言模型（LLM）（此处使用 OpenAI 的 GPT-4o 视觉模型）进行分析，并通过 TTS（文字转语音）技术播报书籍的标题、作者、摘要和评价等音频反馈。
 
 该项目结合了多种技术：
 
 - 使用 Picamera2 进行摄像头拍摄
-- 使用 GPT-4o 视觉能力进行图像分析
-- 文字转语音转换，实现音频回复
-- RGB LED 用于视觉状态反馈
-- 物理按钮用于直观交互
+- 利用 GPT-4o 视觉能力进行图像分析
+- 使用 TTS（文字转语音）转换实现音频响应
+- 使用 RGB LED 提供视觉状态反馈
+- 使用物理按钮实现直观交互
 
 .. raw:: html
 
@@ -26,11 +26,11 @@
           Your browser does not support the video tag.
       </video>
 
-要使用其他 LLM 模型，请参考 :ref:`py_online_llm`。
+如需使用其他大语言模型，请参考 :ref:`py_online_llm`。
 
 ----------------------------------------------
 
-**所需组件**
+**所需元件**
 
 本项目需要以下组件：
 
@@ -38,9 +38,9 @@
     :widths: 30 20
     :header-rows: 1
 
-    *   - 组件
+    *   - 元件
         - 购买链接
-    *   - 树莓派摄像头模块
+    *   - Raspberry Pi 摄像头模组
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
         - \-
@@ -57,22 +57,22 @@
 
 **接线图**
 
-#. 为了方便使用摄像头模块，建议 :ref:`assemble_fusion_hat_pan_tilt`。
+#. 为了方便使用摄像头模组，建议参考 :ref:`assemble_fusion_hat_pan_tilt`。
 
    .. note::
 
-     安装云台可能会遮挡一些引脚，因此建议仅在使用摄像头时安装，或在安装后将其放置在外侧。
+     组装云台可能会遮挡一些引脚，因此建议仅在需要使用摄像头时组装，或在组装后将云台放置在外侧。
 
 
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. 按以下方式将组件连接到 Fusion HAT+：
+#. 按如下方式将组件连接到 Fusion HAT+：
 
    .. image:: img/fzz/llm_book_bb.png
       :width: 80%
       :align: center
 
-#. 用户按钮已集成在 Fusion HAT+ 上，无需额外接线。它位于 BATTERY 接口附近。*
+#. 用户按钮（User Button）已集成在 Fusion HAT+ 上，无需额外接线。它位于 BATTERY 端口附近。*
 
    .. image:: img/3.1_user_button.png
       :width: 50%
@@ -85,10 +85,10 @@
 
 **运行示例**
 
-#. 访问树莓派桌面：
+#. 访问 Raspberry Pi 桌面：
 
-   * :ref:`remote_desktop`：使用 **VNC** 获得完整的桌面体验。
-   * |link_rpi_connect|：使用 **Raspberry Pi Connect** 从任何浏览器安全访问你的 Pi。
+   * :ref:`remote_desktop`: 使用 **VNC** 获得完整桌面体验。
+   * |link_rpi_connect|: 使用 **Raspberry Pi Connect** 从任何浏览器安全访问您的 Pi。
 
 #. 打开终端并进入代码文件夹：
 
@@ -101,28 +101,28 @@
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_bookexpert.py
 
-#. 脚本运行后：
+#. 当脚本运行时：
 
    * 摄像头预览窗口将打开
-   * RGB LED 发出蓝光，表示就绪状态
+   * RGB LED 将亮起蓝色，表示就绪状态
    * 将一本书的封面放在摄像头前
-   * 按下 Fusion HAT+ 上的 USR 按钮（位于 BATTERY 接口附近）
-   * 系统将：
+   * 按下 Fusion HAT+ 上的 USR 按钮（位于 BATTERY 端口附近）
+   * 系统将执行：
 
      1. 拍摄照片（LED 变为黄色 🟡）
-     2. 使用 AI 进行分析（LED 变为紫色 🟣）
-     3. 朗读分析结果（LED 变为绿色 🟢）
-     4. 返回就绪状态（LED 变为蓝色 🔵）
+     2. 使用 AI 分析（LED 变为紫色 🟣）
+     3. 语音播报分析结果（LED 变为绿色 🟢）
+     4. 恢复到就绪状态（LED 变为蓝色 🔵）
      5. 如果发生错误，LED 将变为红色 🔴
 
-   * 照片保存到 ``~/Pictures/book_covers/``
+   * 照片将保存到 ``~/Pictures/book_covers/``
    * 按 Ctrl+C 退出
 
 ----------------------------------------------
 
 **代码**
 
-以下是 AI 书籍封面分析器的完整 Python 脚本：
+以下是 AI 图书封面分析器的完整 Python 脚本：
 
 .. raw:: html
 
@@ -379,7 +379,7 @@
 
 1. 摄像头初始化
 
-   Picamera2 库为树莓派摄像头控制提供了现代化的接口，支持图像拍摄和预览。
+   Picamera2 库为 Raspberry Pi 摄像头控制提供了现代接口，支持图像拍摄和预览。
 
    .. code-block:: python
 
@@ -390,9 +390,9 @@
       self.camera.start_preview(Preview.QT)
       self.camera.start()
 
-2. 线程安全的图像拍摄
+2. 带线程安全的图像拍摄
 
-   capture_photo 方法使用线程锁防止多次同时拍摄，并确保文件命名正确。
+   拍摄照片方法使用线程锁防止同时捕获，并确保文件命名正确。
 
    .. code-block:: python
 
@@ -403,9 +403,9 @@
               self.photo_index += 1
               return str(filepath)
 
-3. 视觉 AI 分析
+3. AI 视觉分析
 
-   系统使用 GPT-4o 的视觉能力分析书籍封面。为实现鲁棒性，实现了两种方法（流式和非流式）。
+   系统使用 GPT-4o 的视觉能力分析图书封面。为实现健壮性，实现了流式和非流式两种方法。
 
    .. code-block:: python
 
@@ -418,9 +418,9 @@
           # Method 2: Fallback to streaming if needed
           stream_response = self.llm.prompt(prompt_text, stream=True, image_path=image_path)
 
-4. 文字转语音转换
+4. 文字转语音（TTS）转换
 
-   OpenAI 的 TTS API 将 AI 的分析结果转换为自然的语音，具有可配置的语音选项。
+   OpenAI 的 TTS API 将 AI 的分析结果转换为自然语音，并提供可配置的语音选项。
 
    .. code-block:: python
 
@@ -433,7 +433,7 @@
 
 5. 状态反馈系统
 
-   RGB LED 在整个过程中使用颜色编码提供视觉反馈：
+   RGB LED 通过颜色编码在整个过程中提供视觉反馈：
 
    .. code-block:: python
 
@@ -449,7 +449,7 @@
 
 6. 按钮事件处理
 
-   用户按钮通过事件回调触发整个分析工作流。
+   USR 按钮通过事件回调触发整个分析流程。
 
    .. code-block:: python
 
@@ -466,7 +466,7 @@
 
 7. 文件管理
 
-   照片会自动组织到带日期编号的文件夹中。
+   照片自动按顺序编号保存到指定目录。
 
    .. code-block:: python
 
@@ -483,39 +483,39 @@
 
   - 确保摄像头排线正确插入（金色触点朝向正确方向）
   - 运行 ``sudo raspi-config``\ 并启用摄像头接口
-  - 启用摄像头后重新启动
+  - 启用摄像头后重启
 
 - "No preview window appears"
 
-  - 确保你在带有桌面环境的树莓派上运行
-  - 对于无头操作，删除或修改预览代码
+  - 确保您在带有桌面环境的 Raspberry Pi 上运行
+  - 对于无头操作，请移除或修改预览代码
   - 检查是否分配了足够的 GPU 内存
 
 - "OpenAI API error"
 
-  - 验证 ``secret.py``\ 中的 API 密钥正确且具有足够的额度
+  - 验证 ``secret.py``\ 中的 API 密钥是否正确且余额充足
   - 检查网络连接：\ ``ping 8.8.8.8``
-  - 确保你的账户有权访问 GPT-4o 和 TTS API
+  - 确保您的账户具有 GPT-4o 和 TTS API 的访问权限
 
 - "TTS audio not playing"
 
-  - 检查音频输出配置：\ ``sudo raspi-config`` → **System Options** → **Audio**
-  - 使用以下命令测试音频：\ ``speaker-test -t sine -f 440``
-  - 确保扬声器/耳机连接到正确的音频插孔
+  - 检查音频输出配置：\ ``sudo raspi-config`` → **系统选项** → **音频**
+  - 测试音频：\ ``speaker-test -t sine -f 440``
+  - 确保音箱/耳机已连接到正确的音频插孔
 
 - "Button press not detected"
 
-  - 按下时检查用户按钮 LED 是否亮起
+  - 按下时检查用户按钮（User Button）的 LED 是否亮起
   - 确保 Fusion HAT+ 正确安装在 GPIO 引脚上
-  - 检查按钮回调设置是否正确
+  - 验证按钮回调是否正确设置
 
 - "Image analysis returns generic responses"
 
-  - 拍摄书籍封面时确保光线充足
-  - 将书籍封面正对摄像头
+  - 拍摄图书封面时确保光线充足
+  - 将图书封面正对摄像头画面
   - 先尝试知名书籍以获得更好的识别效果
-  - 如果模糊，清洁摄像头镜头
+  - 如果画面模糊，请清洁摄像头镜头
 
 ----------------------------------------------
 
-该项目展示了计算机视觉、自然语言处理和物理计算的强大组合，创建了一个智能图书分析系统。它展示了 AI 如何增强与书籍等物理对象的日常交互，使信息更易于访问且更具吸引力！
+本项目展示了计算机视觉、自然语言处理和物理计算相结合的强大能力，创建了一个智能图书分析系统。它展示了 AI 如何增强与图书等日常物品的交互，让信息获取更加便捷和有趣！

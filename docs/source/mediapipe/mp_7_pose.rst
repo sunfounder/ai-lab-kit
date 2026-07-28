@@ -195,7 +195,7 @@
   用于图像颜色空间转换（BGR↔RGB）、显示窗口、绘制图形。
 
 * **mediapipe.python.solutions.pose**
-  MediaPipe 的 **Pose 模型**，可检测 **33 个全身关键点**（头部、肩部、肘部、膝部等），并可以返回分割遮罩（人与背景）。
+  MediaPipe 的 **Pose 模型**\ ，可检测 **33 个全身关键点**\ （头部、肩部、肘部、膝部等），并可以返回分割遮罩（人与背景）。
 
 * **drawing_utils / drawing_styles**
   MediaPipe 内置的绘制工具和样式定义，用于绘制关键点和骨骼线。
@@ -236,7 +236,7 @@ MediaPipe Pose 返回的结果结构包括：
    picam2.start()
 
 * 创建摄像头对象 ``Picamera2()``
-* 设置分辨率 **640x480**，像素格式 ``"XRGB8888"``（4 通道 BGRA）。
+* 设置分辨率 **640x480**\ ，像素格式 ``"XRGB8888"``\ （4 通道 BGRA）。
   此格式与 OpenCV 兼容性最好，省去解码步骤。
 * 启动摄像头。
 
@@ -251,7 +251,7 @@ MediaPipe Pose 返回的结果结构包括：
       frame_bgra = picam2.capture_array()               # Capture a frame from the camera (BGRA format)
       frame_bgr  = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-1. 捕获当前帧。Picamera2 默认以 **BGRA**（蓝绿红+Alpha）格式返回图像。
+1. 捕获当前帧。Picamera2 默认以 **BGRA**\ （蓝绿红+Alpha）格式返回图像。
 2. 转换为 **BGR** 供后续 OpenCV 处理。
 
 .. code-block:: python
@@ -356,7 +356,7 @@ MediaPipe Pose 模块返回 **33 个关键点**，覆盖头部、躯干、手臂
    * - 左/右足尖
      - 31 / 32
 
-这些点可用于**姿态判断**、**动作计数**（如下蹲、俯卧撑、瑜伽姿势检测）等。
+这些点可用于\ **姿态判断**\ 、\ **动作计数**\ （如下蹲、俯卧撑、瑜伽姿势检测）等。
 
 -----------------------------
 7. 性能与调优
@@ -419,9 +419,9 @@ MediaPipe Pose 模块返回 **33 个关键点**，覆盖头部、躯干、手臂
 
   可能的解决方案：
 
-  - 使用 ``model_complexity = 1``（本教程推荐）。
+  - 使用 ``model_complexity = 1``\ （本教程推荐）。
   - 确保 MediaPipe 安装在正确的虚拟环境中。
-  - 安装针对 Raspberry Pi 优化的 wheel 包，例如 ``mediapipe-bin``（PINTO0309 版本）。
+  - 安装针对 Raspberry Pi 优化的 wheel 包，例如 ``mediapipe-bin``\ （PINTO0309 版本）。
 
 - ``model_complexity = 2`` 崩溃但 ``1`` 可以工作
 

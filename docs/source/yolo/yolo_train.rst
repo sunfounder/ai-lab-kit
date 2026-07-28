@@ -154,7 +154,7 @@
 
 .. image:: img/ultralytics_3_new_dataset.png
 
-3. 弹出一个窗口。在这里，您可以上传刚才用Raspberry Pi拍摄的照片，并输入 **Dataset name**（数据集名称）。然后点击 **Create & upload**（创建并上传）。
+3. 弹出一个窗口。在这里，您可以上传刚才用Raspberry Pi拍摄的照片，并输入 **Dataset name**\ （数据集名称）。然后点击 **Create & upload**\ （创建并上传）。
 
 .. image:: img/ultralytics_4_create_dataset.png
 
@@ -183,21 +183,21 @@
 
 .. image:: img/ultralytics_8_new_model.png
 
-8. 在弹出的窗口中，选择 **YOLOv8n**\ 或 **YOLO11n**\ 作为 **Base Model**（基础模型）。这些是适合Raspberry Pi的Nano版本，体积小、速度快。
+8. 在弹出的窗口中，选择 **YOLOv8n**\ 或 **YOLO11n**\ 作为 **Base Model**\ （基础模型）。这些是适合Raspberry Pi的Nano版本，体积小、速度快。
 
 .. image:: img/ultralytics_9_new_model1.png
 
 9. 配置训练参数：
 
-   - **Image size**（图像大小）：选择 **320**（这是Raspberry Pi可以高效处理的图像大小）
-   - **Epochs**（训练轮数）：保持默认（通常50-100轮）
-   - **GPU Type**（GPU类型）：无特殊要求，但不同的GPU类型会影响训练速度和成本
+   - **Image size**\ （图像大小）：选择 **320**\ （这是Raspberry Pi可以高效处理的图像大小）
+   - **Epochs**\ （训练轮数）：保持默认（通常50-100轮）
+   - **GPU Type**\ （GPU类型）：无特殊要求，但不同的GPU类型会影响训练速度和成本
 
    **注意**：Ultralytics新用户可获得5美元免费额度；训练一个小模型通常只需花费几美分，按需使用即可。
 
 .. image:: img/ultralytics_9_new_model2.png
 
-10. 点击 **Start Training**（开始训练）。等待一段时间（通常10-30分钟，取决于数据量和GPU），模型将完成训练。
+10. 点击 **Start Training**\ （开始训练）。等待一段时间（通常10-30分钟，取决于数据量和GPU），模型将完成训练。
 
     训练期间，您可以查看实时指标：
 

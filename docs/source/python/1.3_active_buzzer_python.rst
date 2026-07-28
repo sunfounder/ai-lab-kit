@@ -35,8 +35,9 @@
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
         - \-
+
     *   - Raspberry Pi
-        \-
+        - \-
 
 
 

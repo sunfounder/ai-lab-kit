@@ -201,7 +201,7 @@ Qwen 是阿里云提供的一系列大语言和多模态模型。
 
   #. 前往阿里云官方 |link_qwen_inter| 页面。
   #. 登录或创建一个 **Alibaba Cloud** 账户。
-  #. 导航到 **Model Studio**（选择新加坡或北京区域）。
+  #. 导航到 **Model Studio**\ （选择新加坡或北京区域）。
 
       * 如果页面顶部出现 "Activate Now" 提示，点击它以激活 Model Studio 并获得免费配额（仅限新加坡）。
       * 激活是免费的——只有在免费配额用完后才会收费。
@@ -220,7 +220,7 @@ Qwen 是阿里云提供的一系列大语言和多模态模型。
 
   如果你在中国大陆，可以使用 **阿里云百炼（Bailian）**\ 控制台：
 
-  #. 登录 |link_aliyun|（百炼控制台）并完成账户验证。
+  #. 登录 |link_aliyun|\ （百炼控制台）并完成账户验证。
   #. 选择 **Create API Key**。如果提示模型服务未激活，点击 **Activate**，同意条款并领取免费配额。激活后，**Create API Key** 按钮将可用。
 
      .. image:: img/llm_qwen_aliyun_create.png
@@ -532,9 +532,9 @@ Doubao 是字节跳动的 AI 模型平台（火山引擎 Ark）。
 本项目通过统一接口支持连接多个 LLM 平台。
 我们内置了以下平台的支持：
 
-* **OpenAI**（ChatGPT / GPT-4o、GPT-4、GPT-3.5）
-* **Gemini**（Google AI Studio / Vertex AI）
-* **Grok**（xAI）
+* **OpenAI**\ （ChatGPT / GPT-4o、GPT-4、GPT-3.5）
+* **Gemini**\ （Google AI Studio / Vertex AI）
+* **Grok**\ （xAI）
 * **DeepSeek**
 * **Qwen（通义千问）**
 * **Doubao（豆包）**

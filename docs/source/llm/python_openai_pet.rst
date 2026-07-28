@@ -737,7 +737,7 @@
 
 - OLED 显示屏不显示
 
-  - 检查 I2C 连接：\ ``fusion_hat scan_i2c``（应显示 0x3C）
+  - 检查 I2C 连接：\ ``fusion_hat scan_i2c``\ （应显示 0x3C）
   - 确认 OLED 已通电（根据型号为 3.3V 或 5V）
   - 确保代码中 I2C 地址正确（0x3C 或 0x3D）
 
