@@ -4,13 +4,13 @@
 
 .. _play_with_llm:
 
-Play with AI (Multi-LLMs)
-------------------------------------------------------------
+AI 实验（多模型）
+--------------------
 
-Go beyond movement and vision by adding **speech** and **AI**.  
-Here you will explore text-to-speech (TTS), speech-to-text (STT), and large language models (LLMs) to make your Fusion HAT+ talk, listen, and even chat with you like a smart robot.
+超越运动和视觉，加入\ **语音**\ 和\ **AI**\ 吧。
+在这里，你将探索文字转语音（TTS）、语音转文字（STT）和大语言模型（LLM），让你的 Fusion HAT+ 像智能机器人一样说话、倾听，甚至与你聊天。
 
-.. toctree:: 
+.. toctree::
     :maxdepth: 1
 
     python_tts_espeak_pico2wave
@@ -21,17 +21,17 @@ Here you will explore text-to-speech (TTS), speech-to-text (STT), and large lang
     python_local_chatbot
     python_ai_assistant
 
-Here are some example project that you can try, there all are using the OpenAI API, and you can use the other llm APIs as well.
+下面是一些你可以尝试的示例项目，它们都使用 OpenAI API，你也可以使用其他 LLM API。
 
-.. toctree:: 
+.. toctree::
     :maxdepth: 1
 
-    python_openai_health.rst 
-    python_openai_fan.rst 
-    python_openai_blindfolded_game.rst 
+    python_openai_health.rst
+    python_openai_fan.rst
+    python_openai_blindfolded_game.rst
     python_openai_morse_decoder.rst
-    python_openai_lamp.rst 
-    python_openai_book.rst 
-    python_openai_pet.rst 
+    python_openai_lamp.rst
+    python_openai_book.rst
+    python_openai_pet.rst
     python_openai_weather.rst
     python_openai_homewok.rst

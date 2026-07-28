@@ -4,86 +4,78 @@
 
 .. _faq:
 
-FAQ
+常见问题
 =====================
 
+以下列出了用户在使用 AI Fusion Lab Kit 时可能遇到的一些常见问题。如果您的问题未在此列出，请参考各章节中的故障排除说明或联系技术支持。
 
-Below are some of the most common questions users may encounter while using the
-AI Fusion Lab Kit. If your issue is not listed here, please refer to the
-troubleshooting notes in each chapter or contact support.
-
-General Questions
+常规问题
 -----------------
 
-**Where can I download the system image?**
+**在哪里可以下载系统镜像？**
 
-    You can find the recommended Raspberry Pi system image and setup
-    instructions in the :ref:`get_start` section. The documentation also
-    provides step-by-step installation guidance for beginners.
+    您可以在 :ref:`get_start` 部分找到推荐的 Raspberry Pi 系统镜像和设置
+    说明。本文档还为初学者提供了逐步安装指导。
 
-**Do I need an internet connection to use the kit?**
+**使用此套件需要联网吗？**
 
-    Basic Python and hardware examples do not require internet access.
-    However, cloud-based LLMs and some AI features do require an active
-    internet connection.
+    基础的 Python 和硬件示例不需要网络连接。
+    然而，基于云的 LLM 和一些 AI 功能确实需要有效的网络连接。
 
-**Which Raspberry Pi models are supported?**
+**支持哪些 Raspberry Pi 型号？**
 
-    The kit officially supports Raspberry Pi 4B and Raspberry Pi 5.
-    Other models may work but are not guaranteed due to performance
-    or compatibility limitations.
+    该套件官方支持 Raspberry Pi 4B 和 Raspberry Pi 5。
+    其他型号可能也能使用，但由于性能或兼容性限制，不保证完全可用。
 
-**Do I need to power the FusionHAT separately?**
+**是否需要单独为 FusionHAT 供电？**
 
-    Yes. *The FusionHAT requires its own power supply*. The Raspberry Pi power
-    input does not supply power to the FusionHAT. If the FusionHAT is not
-    powered, certain functions — such as the speaker or other onboard modules —
-    may not work properly.
+    是的。**FusionHAT 需要自己的电源**\ 。Raspberry Pi 的电源输入不会为 FusionHAT 供电。
+    如果 FusionHAT 未上电，某些功能（如扬声器或其他板载模块）可能无法正常工作。
 
-Software / Installation
+软件 / 安装
 -----------------------
 
 **RuntimeError: Failed to add edge detection / RuntimeError: Cannot determine SOC peripheral base address**
 
-    This issue is usually caused by a conflict between the system-installed ``RPi.GPIO`` library and the GPIO library used by Fusion HAT.  
-    To solve it, please manually remove the system ``RPi.GPIO`` package files and then run the program again.
+    此问题通常由系统安装的 ``RPi.GPIO`` 库与 Fusion HAT 使用的 GPIO 库之间的冲突引起。
+    要解决此问题，请手动删除系统中的 ``RPi.GPIO`` 包文件，然后重新运行程序。
 
-    1. Remove the system ``RPi.GPIO`` files:
+    1. 删除系统 ``RPi.GPIO`` 文件：
 
        .. code-block:: bash
 
           sudo pip3 uninstall RPi.GPIO --break
           sudo rm -rf /usr/lib/python3/dist-packages/RPi.GPIO*
 
-    2. Reboot the Raspberry Pi:
+    2. 重新启动 Raspberry Pi：
 
        .. code-block:: bash
 
           sudo reboot
 
-    3. Run the example again (do not use sudo unless required):
+    3. 再次运行示例（除非必要，否则不要使用 sudo）：
 
-After removing the conflicting ``RPi.GPIO`` files, the interrupt-based button example should work normally.
+删除冲突的 ``RPi.GPIO`` 文件后，基于中断的按钮示例应能正常工作。
 
 
 
 **OSError: Fusion HAT not connected, check if Fusion Hat is powered on**
 
-If you encounter this error when running some examples (e.g., when calling PWM pins), the possible causes are:
+如果在运行某些示例（例如调用 PWM 引脚时）遇到此错误，可能的原因包括：
 
-1. The Fusion HAT is not properly connected;
-2. Incorrect power supply method;
-3. The Fusion HAT driver is missing after a Raspberry Pi system update.
+1. Fusion HAT 未正确连接；
+2. 供电方式不正确；
+3. Raspberry Pi 系统更新后缺少 Fusion HAT 驱动程序。
 
-Follow the steps below to check and resolve the issue:
+请按照以下步骤检查和解决问题：
 
-1. Run the following command to check the status of the Fusion HAT:
+1. 运行以下命令检查 Fusion HAT 的状态：
 
    .. code-block:: bash
 
       i2cdetect -y 1
 
-   Under normal conditions, you should see output similar to the following (with ``UU`` at address ``0x1e``):
+   正常情况下，您应该看到类似以下的输出（地址 ``0x1e`` 处显示 ``UU``\ ）：
 
    .. code-block:: bash
 
@@ -98,7 +90,7 @@ Follow the steps below to check and resolve the issue:
       60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
       70: -- -- -- -- -- -- -- --
 
-2. If you do not see ``UU`` but see ``17`` instead, the Fusion HAT driver is missing. Please reinstall the driver by running the following commands:
+2. 如果未显示 ``UU`` 而是显示 ``17``，则说明 Fusion HAT 驱动程序缺失。请运行以下命令重新安装驱动程序：
 
    .. code-block:: bash
 
@@ -106,9 +98,9 @@ Follow the steps below to check and resolve the issue:
       make
       sudo make install
 
-3. If you see neither ``UU`` nor ``17``, it means the Fusion HAT is not connected to the Raspberry Pi or there is a power issue. Please ensure that your Raspberry Pi is properly connected to the Fusion HAT and that the Raspberry Pi is powered by the Fusion HAT (not powered independently).
+3. 如果既未显示 ``UU`` 也未显示 ``17``，则说明 Fusion HAT 未连接到 Raspberry Pi 或存在电源问题。请确保您的 Raspberry Pi 已正确连接到 Fusion HAT，并且 Raspberry Pi 由 Fusion HAT 供电（而非独立供电）。
 
-4. If the above steps do not resolve the issue, please run the following commands and send us the output:
+4. 如果上述步骤未能解决问题，请运行以下命令并将输出发送给我们：
 
    .. code-block:: bash
 
@@ -120,39 +112,30 @@ Follow the steps below to check and resolve the issue:
       ls /sys/class/fusion_hat/fusion_hat
       cat ~/.ai-fusion
 
-**The installation script failed. What should I do?**
+**安装脚本执行失败，该怎么办？**
 
-    Ensure that your Raspberry Pi OS is up-to-date and that you have a stable
-    network connection during installation. Try running the setup script again.
-    If the issue persists, reboot the system and recheck your Python version.
+    请确保您的 Raspberry Pi OS 是最新版本，且在安装过程中保持稳定的网络连接。尝试重新运行安装脚本。如果问题仍然存在，请重启系统并重新检查 Python 版本。
 
-**Python examples cannot run. What might be the cause?**
+**Python 示例无法运行，可能的原因是什么？**
 
-    This is usually related to missing Python libraries or incorrect
-    environment setup. Verify that the dependencies were installed
-    through the setup guide in :ref:`get_start`.
+    这通常与缺少 Python 库或环境配置不正确有关。请确认已按照 :ref:`get_start` 中的设置指南完成依赖项的安装。
 
-**The camera is not detected.**
+**无法检测到摄像头。**
 
-    Make sure the ribbon cable is firmly connected and not inserted backwards.
-    Also confirm that the camera interface is enabled in the Raspberry Pi
-    configuration settings.
+    请确保排线连接牢固且方向正确。同时确认在 Raspberry Pi 配置设置中已启用摄像头接口。
 
-AI Features
+AI 功能
 -----------
 
-**LLM responses are slow or not returning.**
+**LLM 响应缓慢或无响应。**
 
-    This often indicates poor internet connectivity or API-rate limits from
-    the selected model provider. Try switching networks or testing with a
-    different model.
+    这通常表明网络连接质量较差或所选模型提供商的 API 速率受限。请尝试切换网络或使用不同的模型进行测试。
 
-**Speech-to-Text (STT) is inaccurate.**
+**语音转文本（STT）不准确。**
 
-    Check your microphone connection and reduce background noise. Some models
-    may require additional language packs or configuration adjustments.
+    请检查麦克风连接并减少背景噪音。某些模型可能需要额外的语言包或配置调整。
 
-**Show 'Error querying device -1' in the Vosk STT module.**
+**Vosk STT 模块显示 'Error querying device -1'。**
 
     .. code-block:: bash
 
@@ -165,12 +148,11 @@ AI Features
             raise PortAudioError(f'Error querying device {device}')
         sounddevice.PortAudioError: Error querying device -1
 
-    Please execute ``sudo /opt/setup_fusion_hat_audio.sh`` to re-setup audio
+    请执行 ``sudo /opt/setup_fusion_hat_audio.sh`` 重新设置音频。
 
+**使用 TTS/STT 时权限被拒绝**
 
-**Permission denied when usibg TTS/STT**
-
-    When running TTS (Text-to-Speech) or STT (Speech-to-Text) commands, you encounter a permission error like:
+    运行 TTS（文本转语音）或 STT（语音转文本）命令时，遇到类似如下的权限错误：
 
     .. code-block:: bash
 
@@ -185,51 +167,41 @@ AI Features
             File "<frozen os>", line 225, in makedirs
         PermissionError: [Errno 13] Permission denied: '/opt/piper_models'
 
-
-    This issue occurs in AI Fusion Lab Kit OS version 0.0.1. The system attempts to create a directory (/opt/piper_models) that requires root privileges, but the current user lacks sufficient permissions. Update the AI Fusion Lab Kit OS from version 0.0.1 to 0.1.0 by running the following command:
+    此问题出现在 AI Fusion Lab Kit OS 版本 0.0.1 中。系统尝试创建需要 root 权限的目录 (/opt/piper_models)，但当前用户权限不足。请运行以下命令将 AI Fusion Lab Kit OS 从 0.0.1 升级到 0.1.0：
 
     .. code-block:: bash
 
         curl -sSL https://raw.githubusercontent.com/sunfounder/sunfounder-installer-scripts/main/ai-fusion-lab-kit-upgrade-0.0.1-to-0.1.0.sh | sudo bash
 
-
-Computer Vision / MediaPipe
+计算机视觉 / MediaPipe
 ---------------------------
 
-**OpenCV examples show errors when accessing the camera.**
+**OpenCV 示例在访问摄像头时显示错误。**
 
-    Only one process can access the camera at a time. Ensure that no other
-    camera applications are running in the background.
+    每次只能有一个进程访问摄像头。请确保没有其他摄像头应用程序在后台运行。
 
-**MediaPipe examples run slowly.**
+**MediaPipe 示例运行缓慢。**
 
-    Real-time computer vision requires significant processing power. Consider
-    reducing the input resolution or closing other processes to free system
-    resources.
+    实时计算机视觉需要大量的处理能力。请考虑降低输入分辨率或关闭其他进程以释放系统资源。
 
-**MediaPipe projects do not work on the latest Raspberry Pi OS.**
+**MediaPipe 项目在最新的 Raspberry Pi OS 上无法运行。**
 
-    MediaPipe currently does not support the newest (Trixie version) Raspberry Pi system
-    releases due to dependency and architecture changes. Please use the legecy version
-    (Bookworm version) that supports all MediaPipe-based examples.
+    MediaPipe 目前不支持最新的（Trixie 版本）Raspberry Pi 系统版本，这是由于依赖关系和架构变化所致。请使用支持所有基于 MediaPipe 的示例的旧版本（Bookworm 版本）。
 
-Hardware Issues
+硬件问题
 ---------------
 
-**A component does not respond.**
+**某个组件无响应。**
 
-    Recheck your wiring connections and ensure proper orientation.
-    Refer to the :ref:`cpn_list` section for pin descriptions and sample diagrams.
+    请重新检查接线连接，确保方向正确。请参考 :ref:`cpn_list` 部分查看引脚说明和示例图示。
 
-**The device suddenly stops working.**
+**设备突然停止工作。**
 
-    This may be caused by power instability. Please ensure your power supply
-    meets the recommended specifications for the Raspberry Pi model in use.
+    这可能是由电源不稳定引起的。请确保您的电源符合所用 Raspberry Pi 型号的推荐规格。
 
-Contact and Support
+联系与支持
 -------------------
 
-**How can I get additional help?**
+**如何获得更多帮助？**
 
-    You may consult the documentation for detailed troubleshooting steps.
-    If you have any questions, just reach out to us at **service@sunfounder.com** —we’re here to help.
+    您可以查阅文档了解详细的故障排除步骤。如果您有任何疑问，请发送邮件至 **service@sunfounder.com**，我们很乐意为您提供帮助。

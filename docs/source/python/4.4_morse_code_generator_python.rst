@@ -4,26 +4,26 @@
 
 .. _py_fun_morse_code_generator:
 
-4.4 Morse Code Generator
-===========================
+4.4 摩斯密码生成器
+==================
 
-**Introduction**
+**简介**
 
-In this project, we will create a Morse code generator using a Raspberry Pi. You can input a series of characters via the terminal, and the system will output the corresponding Morse code signals using a buzzer and an LED. This project not only demonstrates basic GPIO control but also introduces Morse code, a fascinating communication method used historically for telegraphy.
+在本项目中，我们将使用树莓派创建一个摩斯密码生成器。您可以通过终端输入一系列字符，系统将使用蜂鸣器和 LED 输出对应的摩斯密码信号。该项目不仅演示了基本的 GPIO 控制，还介绍了摩斯密码这一历史上用于电报通信的迷人通信方法。
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required:
+需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -38,17 +38,17 @@ The following components are required:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The schematic diagram is shown below:
+原理图如下所示：
 
 .. image:: img/fzz/4.1.13_sch.png
    :width: 100%
@@ -57,9 +57,9 @@ The schematic diagram is shown below:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Build the circuit following the diagram below. Ensure correct polarity for the buzzer (the terminal with the "+" sign is the positive pole):
+按照下图搭建电路。注意蜂鸣器的极性（标有 "+" 号的一端为正极）：
 
 
 .. image:: img/fzz/4.1.13_bb.png
@@ -70,11 +70,11 @@ Build the circuit following the diagram below. Ensure correct polarity for the b
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到。
+按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -82,20 +82,20 @@ Follow these steps to run the example:
     <run></run>
 
 .. code-block:: shell
-   
+
     cd ~/ai-lab-kit/python/
     sudo python3 4.4_MorseCodeGenerator.py
 
-* After running the script, you can type a message in the terminal and the system will output it as Morse code using a buzzer and an LED. 
-* Each dot is indicated by a short beep/flash, and each dash by a longer beep/flash. 
-* Letters are separated by a brief pause, and spaces in the message create a longer pause between words. 
-* The program keeps waiting for new input messages and will stop safely when you press ``Ctrl + C``, turning off both the buzzer and the LED.
+* 运行脚本后，您可以在终端中输入消息，系统将通过蜂鸣器和 LED 将其以摩斯密码形式输出。
+* 每个点（dot）由短促的蜂鸣/闪烁表示，每个划（dash）由较长的蜂鸣/闪烁表示。
+* 字母之间通过短暂停顿分隔，消息中的空格则在单词之间创建更长的停顿。
+* 程序会持续等待新的输入消息，并在您按下 ``Ctrl + C`` 时安全停止，同时关闭蜂鸣器和 LED。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python code for this project:
+以下是本项目的 Python 代码：
 
 
 .. raw:: html
@@ -194,96 +194,96 @@ Below is the Python code for this project:
 
 
 
-This Python script converts a user-provided message into Morse code and signals it using a buzzer and LED. Here's how it works:
+此 Python 脚本将用户输入的消息转换为摩斯密码，并使用蜂鸣器和 LED 进行信号输出。其工作原理如下：
 
-1. **Morse Code Conversion**: The script translates the input text (letters, numbers, and some special characters) into Morse code using a predefined dictionary ``MORSECODE``.
+1. **摩斯密码转换**：脚本使用预定义的 ``MORSECODE`` 字典将输入文本（字母、数字和一些特殊字符）转换为摩斯密码。
 
-2. **Audio-Visual Morse Code Output**:
+2. **视听摩斯密码输出**：
 
-   - For each dot (``0``), the buzzer and LED are activated for a short duration (half of the pause time).
-   - For each dash (``1``), the buzzer and LED are activated for a longer duration (equal to the pause time).
+   - 对于每个点（``0``），蜂鸣器和 LED 在短时间内激活（停顿时间的一半）。
+   - 对于每个划（``1``），蜂鸣器和 LED 在较长时间内激活（等于停顿时间）。
 
-3. **User Interaction**:
+3. **用户交互**：
 
-   - Users input a message, and the system converts and emits the corresponding Morse code.
-   - The program continuously asks for new messages until interrupted.
+   - 用户输入消息，系统转换并发出相应的摩斯密码。
+   - 程序持续请求新消息，直到被中断。
 
-4. **Graceful Exit**: On ``Ctrl+C``, the script stops, turns off the buzzer and LED, and exits cleanly.
-
-----------------------------------------------
-
-**Understanding the Code**
-
-1. **Components Setup:**  
-
-   The buzzer and LED are initialized on GPIO pins 22 and 17, respectively.
-
-2. **Morse Code Dictionary:**  
-
-   Morse code is represented using '0' for dots (short signals) and '1' for dashes (long signals). For example, 'A' is represented as "01".
-
-3. **Signal Functions:**  
-
-   * The ``on()`` and ``off()`` functions activate or deactivate the buzzer and LED.  
-   * The ``beep()`` function combines these to create a signal with a specified duration.  
-
-4. **Morse Code Conversion:**  
-
-   The ``morsecode()`` function processes each letter of the input message. It emits a series of signals for each character using the Morse code dictionary.
-
-5. **Main Loop:**  
-
-   The program continuously prompts for user input and converts the input to Morse code signals. The loop can be terminated safely with ``Ctrl+C``.
-
+4. **优雅退出**：按下 ``Ctrl+C`` 时，脚本停止，关闭蜂鸣器和 LED，然后安全退出。
 
 ----------------------------------------------
 
+**理解代码**
 
-**Troubleshooting**
+1. **组件设置：**
 
-1. **Buzzer or LED Does Not Work**:
+   蜂鸣器和 LED 分别初始化为 GPIO 引脚 22 和 17。
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+2. **摩斯密码字典：**
 
-     - Verify the buzzer is connected to GPIO 22 and the LED to GPIO 17.
-     - Test the buzzer and LED independently using simple GPIO control scripts.
+   摩斯密码使用 '0' 表示点（短信号），'1' 表示划（长信号）。例如，'A' 表示为 "01"。
 
-2. **Morse Code Output Is Inaccurate**:
+3. **信号函数：**
 
-   - **Cause**: Input characters not in the ``MORSECODE`` dictionary.
-   - **Solution**:
+   * ``on()`` 和 ``off()`` 函数激活或停用蜂鸣器和 LED。
+   * ``beep()`` 函数结合这些操作创建指定时长的信号。
 
-     - Ensure the input contains only supported characters (A-Z, 0-9, and select symbols).
-     - Extend the ``MORSECODE`` dictionary to include additional characters.
+4. **摩斯密码转换：**
 
-3. **Fast or Overlapping Signals**:
+   ``morsecode()`` 函数处理输入消息中的每个字母。它使用摩斯密码字典为每个字符发出一系列信号。
 
-   - **Cause**: Inadequate timing for pauses or signal durations.
-   - **Solution**: Adjust the ``pause`` variable in the ``morsecode()`` function for clearer signaling:
+5. **主循环：**
+
+   程序持续提示用户输入，并将输入转换为摩斯密码信号。循环可通过 ``Ctrl+C`` 安全终止。
+
+
+----------------------------------------------
+
+
+**故障排除**
+
+1. **蜂鸣器或 LED 不工作**：
+
+   - **原因**：接线或 GPIO 引脚配置不正确。
+   - **解决方法**：
+
+     - 验证蜂鸣器是否连接到 GPIO 22，LED 是否连接到 GPIO 17。
+     - 使用简单的 GPIO 控制脚本独立测试蜂鸣器和 LED。
+
+2. **摩斯密码输出不准确**：
+
+   - **原因**：输入字符不在 ``MORSECODE`` 字典中。
+   - **解决方法**：
+
+     - 确保输入仅包含支持的字符（A-Z、0-9 和选定符号）。
+     - 扩展 ``MORSECODE`` 字典以包含更多字符。
+
+3. **信号过快或重叠**：
+
+   - **原因**：停顿或信号持续时间设置不当。
+   - **解决方法**：调整 ``morsecode()`` 函数中的 ``pause`` 变量以获得更清晰的信号：
 
        .. code-block:: python
 
-           pause = 0.5  # Increase pause duration for slower output
+           pause = 0.5  # 增加停顿时间以获得更慢的输出
 
-4. **Input Not Detected**:
+4. **未检测到输入**：
 
-   - **Cause**: Input issues in the runtime environment (e.g., no console).
-   - **Solution**: Ensure the script is run in a terminal or environment that supports ``input()``.
+   - **原因**：运行环境中的输入问题（例如没有控制台）。
+   - **解决方法**：确保脚本在支持 ``input()`` 的终端或环境中运行。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Adjustable Speed**: Allow users to set the Morse code signaling speed by inputting a custom pause value.
+1. **可调节速度**：允许用户通过输入自定义停顿值来设置摩斯密码信号速度。
 
      .. code-block:: python
 
          pause = float(input("Enter pause duration (seconds): "))
 
-2. **Multi-Device Output**: Add another LED or buzzer to display the Morse code simultaneously on different devices.
+2. **多设备输出**：添加另一个 LED 或蜂鸣器，在不同设备上同时显示摩斯密码。
 
-3. **Morse Code Logging**: Log the Morse code sequence to a file for each message:
+3. **摩斯密码记录**：将每条消息的摩斯密码序列记录到文件：
 
      .. code-block:: python
 
@@ -292,6 +292,6 @@ This Python script converts a user-provided message into Morse code and signals 
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project is a fun way to explore Morse code and its application using Raspberry Pi. By leveraging simple components like a buzzer and LED, you can create a system that bridges historical communication methods with modern electronics. Experiment with the code to enhance your understanding and make it your own!
+本项目是一种探索摩斯密码及其在树莓派上应用的趣味方式。通过利用蜂鸣器和 LED 等简单组件，您可以创建一个连接历史通信方式与现代电子技术的系统。尝试修改代码以加深理解，打造属于您自己的作品！

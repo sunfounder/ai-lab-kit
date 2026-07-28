@@ -4,25 +4,25 @@
 
 .. _mp_pose_squat:
 
-8. Squat Counter
-==========================================
+8. 深蹲计数器
+==============================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概述
 ------------------------------------------------------------
 
-In the previous chapter, we implemented basic human pose estimation.
-This chapter builds on that foundation to implement a simple
-**Squat Counter** using MediaPipe Pose.
+在上一章中，我们实现了基本的人体姿态估计。
+本章在此基础上，使用 MediaPipe Pose 实现一个简单的
+**深蹲计数器**。
 
-This is a practical example of combining:
+这是一个结合了以下要素的实用示例：
 
-- Pose detection
-- Action recognition
-- Real-time counting
+- 姿态检测
+- 动作识别
+- 实时计数
 
-It can be used in smart fitness systems,
-home workout assistants, or motion analysis applications.
+它可用于智能健身系统、
+家庭健身助手或运动分析应用。
 
 .. image:: img/mp_pose_s2.png
    :alt: Squat Count Example
@@ -30,50 +30,50 @@ home workout assistants, or motion analysis applications.
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 工作原理
 ------------------------------------------------------------
 
-The squat counter is implemented using the following logic:
+深蹲计数器使用以下逻辑实现：
 
-1. Use MediaPipe Pose to detect 33 body keypoints.
-2. Select key joints (Shoulder, Hip, Ankle).
-3. Use the normalized y-coordinates to estimate hip height.
-4. Define upper and lower thresholds (e.g., 0.55 and 0.45).
-5. Use a simple state machine to detect the transition:
-   "standing → squatting → standing".
-6. Increase the counter when a full squat cycle is completed.
-7. Display the squat count and current hip value on the screen.
+1. 使用 MediaPipe Pose 检测 33 个人体关键点。
+2. 选择关键关节（肩部、髋部、踝部）。
+3. 使用归一化的 y 坐标估计髋部高度。
+4. 定义上下阈值（例如 0.55 和 0.45）。
+5. 使用简单的状态机检测转换：
+   "站立 → 下蹲 → 站立"。
+6. 当完成一个完整的深蹲周期时，计数器增加。
+7. 在屏幕上显示深蹲次数和当前髋部值。
 
 .. note::
 
-   - This example does not use joint angle calculation.
-   - It relies on normalized coordinates to reduce computation.
-   - The method is lightweight and suitable for Raspberry Pi.
+   - 本示例不使用关节角度计算。
+   - 它依赖归一化坐标来减少计算量。
+   - 该方法轻量级，适用于 Raspberry Pi。
 
 ------------------------
-3. Run the Code
+3. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_squat.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. 运行程序后，一个标题为"Show Video"的窗口将打开并显示实时摄像头画面。
 
    .. raw:: html
 
@@ -82,36 +82,36 @@ The squat counter is implemented using the following logic:
              Your browser does not support the video tag.
          </video>
 
-   When a person stands in front of the camera:
+   当人站在摄像头前时：
 
-   - MediaPipe Pose detects 33 body landmarks in real time.
-   - A full-body skeleton is drawn on the screen.
-   - The system continuously calculates the relative hip position (HipRel).
+   - MediaPipe Pose 会实时检测 33 个人体关键点。
+   - 在屏幕上绘制全身骨骼。
+   - 系统持续计算相对髋部位置（HipRel）。
 
-   As you perform squats:
+   当您做深蹲时：
 
-   - When you move down and your hip passes the lower threshold (DOWN_TH),
-     the system marks that you are in the "bottom" position.
-   - When you stand back up and the hip passes the upper threshold (UP_TH),
-     the squat counter increases by 1.
+   - 当您下蹲且髋部超过下阈值（DOWN_TH）时，
+     系统标记您处于"底部"位置。
+   - 当您站起且髋部超过上阈值（UP_TH）时，
+     深蹲计数器增加 1。
 
-   The screen displays:
+   屏幕上显示：
 
-   - ``Squats: N`` — the total number of completed squats.
-   - ``HipRel: value`` — the current normalized hip position used for detection.
+   - ``Squats: N`` — 完成的深蹲总数。
+   - ``HipRel: value`` — 用于检测的当前归一化髋部位置。
 
-   The counter only increases after a full movement cycle
-   (stand → squat → stand), preventing duplicate counting.
+   计数器仅在一个完整的运动周期
+   （站立 → 下蹲 → 站立）完成后才增加，防止重复计数。
 
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   按 ``q`` 键退出程序。
+   摄像头将停止，OpenCV 窗口将自动关闭。
 
 
 -----------------------------
-4. Complete Code
+4. 完整代码
 -----------------------------
 
-Here is the complete squat counter implementation:
+以下是完整的深蹲计数器实现：
 
 .. code-block:: python
 
@@ -212,54 +212,54 @@ Here is the complete squat counter implementation:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After executing the script, the system will:
+执行脚本后，系统将：
 
-- Detect the human skeleton;
-- Calculate the relative hip position;
-- Count +1 when a complete cycle from "squat down" to "stand up" is finished;
-- Display **Squats: N** and the current HipRel value on the screen in real-time.
+- 检测人体骨骼；
+- 计算相对髋部位置；
+- 当完成从"下蹲"到"站起"的完整周期时，计数 +1；
+- 在屏幕上实时显示 **Squats: N** 和当前的 HipRel 值。
 
 -----------------------------------------------
-5. Coordinate and State Design
+5. 坐标与状态设计
 -----------------------------------------------
 
-We use the following 6 keypoints (3 on each side):
+我们使用以下 6 个关键点（每侧 3 个）：
 
 .. list-table::
    :header-rows: 1
 
-   * - Keypoint
-     - Index
-     - Description
-   * - Shoulder
-     - 11 (Left) / 12 (Right)
-     - Upper reference
-   * - Hip
-     - 23 (Left) / 24 (Right)
-     - Core for calculating squat position
-   * - Ankle
-     - 27 (Left) / 28 (Right)
-     - Lower reference
+   * - 关键点
+     - 索引
+     - 说明
+   * - 肩部
+     - 11（左）/ 12（右）
+     - 上部参考
+   * - 髋部
+     - 23（左）/ 24（右）
+     - 计算深蹲位置的核心
+   * - 踝部
+     - 27（左）/ 28（右）
+     - 下部参考
 
 .. image:: img/mp_pose_s1.png
    :alt: MediaPipe Pose Keypoints
    :align: center
 
-**Hip Relative** value calculation formula:
+**髋部相对位置** 的计算公式：
 
 .. math::
 
    hip\_rel = \frac{hip_y - shoulder_y}{ankle_y - shoulder_y}
 
-- Larger hip_rel means closer to the ground (i.e., squatting down).
-- Smaller hip_rel means standing upright.
+- hip_rel 越大表示越接近地面（即正在下蹲）。
+- hip_rel 越小表示站得越直。
 
-We define two thresholds:
+我们定义两个阈值：
 
-- **DOWN_TH = 0.55**: Considered entering the bottom of the squat
-- **UP_TH = 0.45**: Considered returning to standing
+- **DOWN_TH = 0.55**：认为已进入深蹲底部
+- **UP_TH = 0.45**：认为已恢复站立
 
-Use a simple state machine for reliable counting:
+使用简单的状态机进行可靠计数：
 
 .. code-block:: python
 
@@ -270,63 +270,63 @@ Use a simple state machine for reliable counting:
        in_bottom = False
 
 ----------------------------------------------------
-6. Parameter Tuning and Optimization
+6. 参数调优与优化
 ----------------------------------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Parameter
-     - Description
-     - Adjustment Suggestion
+   * - 参数
+     - 说明
+     - 调整建议
    * - DOWN_TH
-     - Squat action threshold
-     - Higher value requires deeper squat to count
+     - 深蹲动作阈值
+     - 值越高需要蹲得更深才计数
    * - UP_TH
-     - Stand up action threshold
-     - Lower value requires standing more upright
+     - 站起动作阈值
+     - 值越低需要站得更直
    * - model_complexity
-     - Pose model complexity
-     - Use 1 for faster speed
-   * - Resolution
-     - Affects frame rate and accuracy
-     - Recommended 640×480
+     - 姿态模型复杂度
+     - 使用 1 以获得更快速度
+   * - 分辨率
+     - 影响帧率和精度
+     - 推荐 640×480
 
 .. tip::
-   For people of different heights, adaptive thresholds or personalized calibration can be used for more accurate counting.
+   对于不同身高的人，可以使用自适应阈值或个性化校准以获得更准确的计数。
 
 ---------------------------------------------------------
-5. Troubleshooting
+7. 故障排除
 ---------------------------------------------------------
 
-- Inaccurate counting
+- 计数不准确
 
-  If the squat count is not accurate, the threshold values may not match your body position or camera angle. 
-  
-  Try printing ``hip_rel`` in real time and adjust ``DOWN_TH`` and ``UP_TH`` accordingly.
-  Also make sure your squat form is consistent and clearly visible.
+  如果深蹲计数不准确，阈值可能与您的身体位置或摄像头角度不匹配。
 
-- Person not detected
+  尝试实时打印 ``hip_rel`` 的值，并相应调整 ``DOWN_TH`` 和 ``UP_TH``。
+  同时确保您的深蹲动作一致且清晰可见。
 
-  If the body is not detected, improve lighting conditions and avoid complex backgrounds. 
-  
-  Make sure you are standing fully inside the frame and facing the camera directly.
+- 未检测到人
 
-- High latency
+  如果未检测到身体，请改善光照条件，避免复杂的背景。
 
-  If the video response is slow, reduce ``model_complexity`` to 1 and lower the camera resolution (for example, 640×480 or 320×240).
-  
-  Close unnecessary background programs to improve performance.
+  确保您完全站在画面内并正对摄像头。
+
+- 延迟高
+
+  如果视频响应缓慢，请将 ``model_complexity`` 降低到 1，并降低摄像头分辨率（例如 640×480 或 320×240）。
+
+  关闭不必要的后台程序以提高性能。
 
 -----------------------------
-6.  Summary
+8. 总结
 -----------------------------
 
-- Implemented a **real-time squat counter** using Pose keypoints + state machine;
-- No complex angle calculations required, high operational efficiency;
-- Suitable for Raspberry Pi or other edge device applications;
-- Future extensions possible:
+- 使用 Pose 关键点 + 状态机实现了**实时深蹲计数器**；
+- 无需复杂的角度计算，运行效率高；
+- 适用于 Raspberry Pi 或其他边缘设备应用；
+- 未来可扩展：
 
-  - Push-up/Sit-up detection
-  - Data recording and visualization
-  - Automatic rhythm guidance and training feedback
+  - 俯卧撑/仰卧起坐检测
+  - 数据记录与可视化
+  - 自动节奏指导和训练反馈

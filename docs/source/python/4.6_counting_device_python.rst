@@ -4,27 +4,27 @@
 
 .. _py_fun_count:
 
-4.6 Counting Device
-=======================
+4.6 计数装置
+============
 
-**Introduction**
+**简介**
 
-In this project, you will build a people-counting system using a PIR motion sensor and a 4-digit 7-segment display. The system increments the count displayed whenever the PIR sensor detects motion. This project is ideal for monitoring foot traffic in a hallway or entrance, and it provides hands-on experience with GPIO programming and display control.
+在本项目中，您将使用 PIR 运动传感器和 4 位数码管构建一个人流计数系统。每当 PIR 传感器检测到运动时，系统就会递增显示的计数。该项目非常适合监控走廊或入口的人流量，并提供 GPIO 编程和显示控制的实践经验。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,8 +39,8 @@ The following components are required for this project:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 
@@ -48,9 +48,9 @@ The following components are required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**电路图**
 
-Below is the circuit diagram for the project:
+以下是本项目的电路图：
 
 
 .. image:: img/fzz/4.1.4_sch.png
@@ -60,9 +60,9 @@ Below is the circuit diagram for the project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**接线图**
 
-Follow the wiring diagram to connect the components correctly:
+按照接线图正确连接组件：
 
 
 .. image:: img/fzz/4.1.4_bb.png
@@ -72,7 +72,7 @@ Follow the wiring diagram to connect the components correctly:
 
 .. note::
 
-   Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
+   调整 PIR 模块上的两个电位器以获得最佳灵敏度和检测距离。将两者都逆时针旋转到最大设置以获得最佳效果。
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 300
@@ -80,11 +80,11 @@ Follow the wiring diagram to connect the components correctly:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到。
+按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -92,32 +92,32 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 4.6_CountingDevice.py 
+   sudo python3 4.6_CountingDevice.py
 
-This Python script integrates a PIR motion sensor and a 7-segment display driven by a 74HC595 shift register. The script performs the following:
+此 Python 脚本集成了 PIR 运动传感器和由 74HC595 移位寄存器驱动的数码管。脚本执行以下操作：
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO 26 detects motion. Each motion detection increments a counter.
+1. **运动检测**：连接到 GPIO 26 的 PIR 运动传感器检测运动。每次运动检测递增一次计数器。
 
-2. **Number Display**: 
+2. **数字显示**：
 
-   - The current counter value is displayed on a 4-digit 7-segment display.
-   - The display updates dynamically as motion is detected, incrementing the value.
+   - 当前计数值显示在 4 位数码管上。
+   - 显示随运动检测动态更新，递增数值。
 
-3. **Continuous Monitoring**: The script continuously monitors for motion and updates the display in real-time.
+3. **持续监控**：脚本持续监控运动并实时更新显示。
 
-4. **Graceful Exit**: On ``Ctrl+C``, all pins are turned off, ensuring a clean shutdown of the script.
+4. **优雅退出**：按下 ``Ctrl+C`` 时，所有引脚关闭，确保脚本安全停止。
 
 
 
 ----------------------------------------------
 
 
-**Code**
+**代码**
 
 
-Below is the Python script used in this project:
+以下是本项目使用的 Python 脚本：
 
 
 
@@ -223,59 +223,59 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Motion Detection:**
+1. **运动检测：**
 
-   The PIR sensor detects motion and sends a signal to increment the counter.
+   PIR 传感器检测运动并发送信号以递增计数器。
 
-2. **Display Update:**
+2. **显示更新：**
 
-   The ``hc595_shift`` and ``pickDigit`` functions work together to control the 7-segment display and update the counter in real time.
+   ``hc595_shift`` 和 ``pickDigit`` 函数协同工作，控制数码管并实时更新计数器。
 
-3. **Main Loop:**
+3. **主循环：**
 
-   The ``loop`` function continuously checks the PIR sensor and updates the display when motion is detected.
+   ``loop`` 函数持续检查 PIR 传感器，并在检测到运动时更新显示。
 
-4. **Interrupt Handling:**
+4. **中断处理：**
 
-   The script ensures all GPIO pins are safely turned off when interrupted, preventing unexpected behavior.
+   脚本确保在中断时安全关闭所有 GPIO 引脚，防止意外行为。
 
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
-1. **Display Not Working**:
+1. **显示不工作**：
 
-   - **Cause**: Incorrect wiring of the 7-segment display or shift register.
-   - **Solution**:
+   - **原因**：数码管或移位寄存器接线错误。
+   - **解决方法**：
 
-     - Verify connections between the GPIO pins and the SDI, SRCLK, and RCLK pins of the shift register.
-     - Ensure all ``placePin`` connections match the corresponding digit pins.
+     - 验证 GPIO 引脚与移位寄存器的 SDI、SRCLK 和 RCLK 引脚之间的连接。
+     - 确保所有 ``placePin`` 连接与对应的数码管引脚匹配。
 
-2. **Motion Sensor Not Triggering**:
+2. **运动传感器不触发**：
 
-   - **Cause**: PIR sensor wiring or environmental interference.
-   - **Solution**:
+   - **原因**：PIR 传感器接线或环境干扰。
+   - **解决方法**：
 
-     - Check the PIR sensor connections to GPIO 26, power, and ground.
-     - Adjust the sensitivity and delay potentiometers on the PIR sensor if available.
+     - 检查 PIR 传感器到 GPIO 26、电源和 GND 的连接。
+     - 如有可用，调整 PIR 传感器上的灵敏度和延时电位器。
 
-3. **Counter Does Not Increment**:
+3. **计数器不递增**：
 
-   - **Cause**: Motion sensor state changes not detected.
-   - **Solution**:
+   - **原因**：未检测到运动传感器状态变化。
+   - **解决方法**：
 
-     - Ensure the ``pir.value()`` value updates correctly.
-     - Add debugging prints to confirm state transitions in the ``loop()`` function.
+     - 确保 ``pir.value()`` 值正确更新。
+     - 在 ``loop()`` 函数中添加调试打印以确认状态转换。
 
-4. **Flickering Display**:
+4. **显示闪烁**：
 
-   - **Cause**: Insufficient delay or improper timing in the display update.
-   - **Solution**: Add a small delay in the ``display()`` function to stabilize the display:
+   - **原因**：显示更新中的延时不足或时序不当。
+   - **解决方法**：在 ``display()`` 函数中添加小延时以稳定显示：
 
        .. code-block:: python
 
@@ -284,9 +284,9 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Bidirectional Counter**: Add another PIR sensor to detect motion in opposite directions and decrement the counter:
+1. **双向计数器**：添加另一个 PIR 传感器以检测相反方向的运动并递减计数器：
 
    .. code-block:: python
 
@@ -294,7 +294,7 @@ Below is the Python script used in this project:
       if pir2.value()==1:
          counter -= 1
 
-2. **Threshold-Based Alerts**: Trigger an alert (e.g., LED or buzzer) when the counter exceeds a predefined value:
+2. **基于阈值的警报**：当计数器超过预设值时触发警报（例如 LED 或蜂鸣器）：
 
    .. code-block:: python
 
@@ -305,14 +305,14 @@ Below is the Python script used in this project:
       else:
             buzzer.off()
 
-3. **Data Logging**: Log the counter value and timestamps to a file for analysis:
+3. **数据记录**：将计数器值和时间戳记录到文件以供分析：
 
    .. code-block:: python
 
       with open("motion_log.txt", "a") as log_file:
             log_file.write(f"{time.time():.3f}, Counter: {counter}\n")
 
-4. **Timer-Based Reset**: Reset the counter after a specific period of inactivity:
+4. **基于计时器的重置**：在特定不活动时间后重置计数器：
 
    .. code-block:: python
 
@@ -320,13 +320,12 @@ Below is the Python script used in this project:
       if time.time() - last_motion_time > 300:  # 5 minutes
             counter = 0
 
-5. **Event-Based Triggers**: Trigger specific actions (e.g., controlling appliances) when the counter reaches specific values.
+5. **基于事件的触发器**：当计数器达到特定值时触发特定操作（例如控制电器）。
 
 
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project introduces the basics of motion detection and display control using a PIR sensor and 7-segment display. It provides a practical foundation for more advanced IoT and data visualization projects.
-
+本项目介绍了使用 PIR 传感器和数码管进行运动检测和显示控制的基础知识。它为更高级的 IoT 和数据可视化项目提供了实用的基础。

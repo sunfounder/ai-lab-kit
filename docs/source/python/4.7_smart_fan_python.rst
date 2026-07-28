@@ -4,27 +4,27 @@
 
 .. _py_fun_fan:
 
-4.7 Smart Fan
-=========================
+4.7 智能风扇
+============
 
-**Introduction**
+**简介**
 
-In this project, you’ll build a "smart fan" that operates in both manual and automatic modes. By combining motors, buttons, and a thermistor, the fan can have adjustable wind speeds and respond to changes in temperature. This makes it a perfect experiment for learning about motor control, temperature sensing, and GPIO usage.
+在本项目中，您将构建一个兼具手动和自动模式的"智能风扇"。通过组合电机、按钮和热敏电阻，风扇可以实现可调风速并响应温度变化。这使其成为学习电机控制、温度感应和 GPIO 使用的理想实验。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**所需材料**
 
-Here are the components you’ll need for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,17 +39,17 @@ Here are the components you’ll need for this project:
     *   - :ref:`cpn_motor`
         - |link_motor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The circuit diagram below illustrates how to connect the thermistor, button, motor driver, and motor:
+以下电路图说明了如何连接热敏电阻、按钮、电机驱动器和电机：
 
 .. image:: img/fzz/4.1.7_sch.png
    :width: 100%
@@ -60,9 +60,9 @@ The circuit diagram below illustrates how to connect the thermistor, button, mot
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the following image for the breadboard layout and wiring connections:
+参考下图查看面包板布局和接线连接：
 
 
 .. image:: img/fzz/4.1.7_bb.png
@@ -73,11 +73,11 @@ Refer to the following image for the breadboard layout and wiring connections:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到。
+按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -85,15 +85,15 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.7_SmartFan.py
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here’s the Python script for this project:
+以下是本项目的 Python 脚本：
 
 
 
@@ -262,33 +262,33 @@ Here’s the Python script for this project:
 
 
 
-This Python script integrates a motor, button, and temperature sensor to create a temperature-controlled fan system with adjustable speed. When executed:
+此 Python 脚本集成了电机、按钮和温度传感器，创建了一个带可调速度的温控风扇系统。运行时：
 
-1. **Temperature Sensing**: Reads the current temperature in Celsius using the thermistor. Multiple samples are averaged for accuracy, and invalid readings are skipped rather than causing immediate failure.
+1. **温度感应**：使用热敏电阻读取当前摄氏度温度。多次采样取平均值以提高准确性，无效读数会被跳过而不是立即导致失败。
 
-2. **Manual Speed Adjustment**:
+2. **手动速度调节**：
 
-   - A button connected to GPIO 22 allows the user to cycle through five speed levels (0 to 4).
-   - Pressing the button increases the speed level, and the motor runs at the corresponding power (0%, 25%, 50%, 75%, or 100%). Speed level 0 stops the motor.
-   - Button input includes **debounce protection** (0.3 seconds) to prevent false triggers from contact bounce.
+   - 连接到 GPIO 22 的按钮允许用户在五个速度级别（0 到 4）之间循环。
+   - 按下按钮增加速度级别，电机以相应的功率运行（0%、25%、50%、75% 或 100%）。速度级别 0 停止电机。
+   - 按钮输入包含**去抖动保护**（0.3 秒），防止触点抖动引起的误触发。
 
-3. **Manual Priority Window**: After a button press, automatic speed adjustment is suppressed for **2 seconds** (``MANUAL_HOLD_TIME``). This ensures the user's manual setting is not immediately overridden by an automatic adjustment.
+3. **手动优先窗口**：按下按钮后，自动速度调整被抑制 **2 秒**（``MANUAL_HOLD_TIME``）。这确保用户的手动设置不会立即被自动调整覆盖。
 
-4. **Automatic Speed Control**: After the manual priority window expires (and when the fan is not off), the system adjusts the motor speed automatically based on temperature changes:
+4. **自动速度控制**：手动优先窗口过期后（且风扇未关闭时），系统会根据温度变化自动调整电机速度：
 
-   - If the temperature increases by **5°C** or more, the speed level increases (up to level 4).
-   - If the temperature decreases by **5°C** or more, the speed level decreases (down to level 0).
+   - 如果温度升高 **5°C** 或更多，速度级别增加（最高到级别 4）。
+   - 如果温度降低 **5°C** 或更多，速度级别降低（最低到级别 0）。
 
-5. **Continuous Monitoring**: The system continuously monitors the temperature and button state with a fast 0.05-second loop interval, ensuring responsive adjustments.
+5. **持续监控**：系统以 0.05 秒的快速循环间隔持续监控温度和按钮状态，确保响应及时的调整。
 
-6. **Graceful Exit**: On ``Ctrl+C``, the motor stops, and the script exits cleanly.
+6. **优雅退出**：按下 ``Ctrl+C`` 时，电机停止，脚本安全退出。
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**理解代码**
 
-1. **Temperature Calculation:**
+1. **温度计算：**
 
    .. code-block:: python
 
@@ -325,10 +325,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
           return sum(vals) / len(vals)
 
 
-   The ``temperature()`` function takes multiple samples from the thermistor, converts each analog reading into a resistance value, and calculates the temperature in Celsius using the Steinhart-Hart equation. Individual bad readings (voltage too low or resistance zero) are **skipped** via ``continue`` rather than causing the entire measurement to fail. Only if **all** samples are invalid does the function return ``None``. The final result is the arithmetic mean of all valid samples, giving a stable and noise-resistant reading.
+   ``temperature()`` 函数从热敏电阻采集多个样本，将每个模拟读数转换为电阻值，并使用 Steinhart-Hart 方程计算摄氏温度。个别的错误读数（电压过低或电阻为零）通过 ``continue`` **跳过**，而不是导致整个测量失败。只有在**所有**样本都无效时，函数才返回 ``None``。最终结果是所有有效样本的算术平均值，提供稳定且抗噪声的读数。
 
 
-2. **Motor Speed Control:**
+2. **电机速度控制：**
 
    .. code-block:: python
 
@@ -342,10 +342,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
           return lv
 
 
-   The ``motor_run()`` function maps the numeric level (0–4) to a percentage of motor power using a lookup table. Level 0 sends 0% power (off), while levels 1 through 4 correspond to 25%, 50%, 75%, and 100% power respectively. The level is first clamped to the valid range with ``max(0, min(4, lv))``.
+   ``motor_run()`` 函数使用查找表将数值级别（0-4）映射到电机功率百分比。级别 0 发送 0% 功率（关闭），而级别 1 到 4 分别对应 25%、50%、75% 和 100% 的功率。级别首先通过 ``max(0, min(4, lv))`` 限制在有效范围内。
 
 
-3. **Button Reading with Debounce:**
+3. **带去抖动的按钮读取：**
 
    .. code-block:: python
 
@@ -381,10 +381,10 @@ This Python script integrates a motor, button, and temperature sensor to create 
       last_button_state = button_state
 
 
-   Instead of using an interrupt callback, the code **polls** the button state in the main loop. A button press is detected by a **rising edge**: the button state transitions from ``0`` to ``1`` (``last_button_state == 0`` → ``button_state == 1``). A **debounce timer** (``DEBOUNCE_TIME = 0.3`` seconds) prevents contact bounce from triggering multiple presses. When a valid press is detected, the level cycles through 0→1→2→3→4→0, the reference temperature (``markTemp``) is updated, and the motor speed is applied immediately.
+   代码不使用中断回调，而是在主循环中**轮询**按钮状态。通过**上升沿**检测按钮按下：按钮状态从 ``0`` 转换为 ``1``（``last_button_state == 0`` → ``button_state == 1``）。**去抖动定时器**（``DEBOUNCE_TIME = 0.3`` 秒）防止触点抖动触发多次按下。检测到有效按下时，级别循环 0→1→2→3→4→0，更新参考温度（``markTemp``），并立即应用电机速度。
 
 
-4. **Main Loop and Automatic Adjustment:**
+4. **主循环和自动调整：**
 
    .. code-block:: python
 
@@ -431,69 +431,69 @@ This Python script integrates a motor, button, and temperature sensor to create 
               sleep(0.05)
 
 
-   The ``main()`` function runs a fast control loop (0.05-second interval). Key behaviors:
+   ``main()`` 函数运行一个快速控制循环（0.05 秒间隔）。关键行为：
 
-   - **Initialization**: It repeatedly reads the temperature until a valid ``markTemp`` is obtained, ensuring the system starts with a known reference.
+   - **初始化**：重复读取温度，直到获得有效的 ``markTemp``，确保系统以已知参考值启动。
 
-   - **Manual Priority**: After a button press, automatic adjustments are blocked for ``MANUAL_HOLD_TIME`` (2 seconds). This ``auto_allowed`` gate prevents the system from immediately counteracting the user’s manual change.
+   - **手动优先**：按下按钮后，自动调整被阻止 ``MANUAL_HOLD_TIME``（2 秒）。这个 ``auto_allowed`` 门控防止系统立即抵消用户的手动更改。
 
-   - **Automatic Adjustment**: When auto is allowed and the fan is not at level 0, the code checks whether the current temperature has deviated by ``TEMP_THRESHOLD`` (±5°C) from the reference. If so, the level is stepped up or down by one, and the reference is reset to the current temperature — this creates a **latching** behavior that prevents oscillation around the threshold.
+   - **自动调整**：当允许自动调整且风扇不在级别 0 时，代码检查当前温度是否与参考值偏差 ``TEMP_THRESHOLD``（±5°C）。如果是，级别逐级增加或减少，参考值重置为当前温度——这创建了一种**锁定**行为，防止在阈值附近振荡。
 
-   - **Periodic Output**: Every ``PRINT_INTERVAL`` (1 second), the current temperature, reference temperature, and level are printed for monitoring.
+   - **定期输出**：每 ``PRINT_INTERVAL``（1 秒）打印当前温度、参考温度和级别，以便监控。
 
-
-
-----------------------------------------------
-
-
-**Troubleshooting**
-
-1. **Motor Does Not Run**:
-
-   - **Cause**: Incorrect wiring or insufficient power supply.
-   - **Solution**:
-
-     - Verify the motor is connected to M0.
-     - Ensure the motor's power supply matches its voltage requirements.
-
-2. **Temperature Reading is Incorrect**:
-
-   - **Cause**: Faulty thermistor.
-   - **Solution**:
-
-     - Check the thermistor wiring and ensure it is within the specified range.
-
-3. **Button Press Not Detected**:
-
-   - **Cause**: Incorrect button wiring or GPIO configuration.
-   - **Solution**:
-
-     - Verify the button is connected to GPIO 22 and ground.
-     - Test the button independently to confirm it closes the circuit when pressed.
-
-4. **Speed Level Does Not Change Automatically**:
-
-   - **Cause**: Incorrect temperature difference calculation.
-   - **Solution**: Ensure the ``currentTemp`` and ``markTemp`` values update correctly in the ``main()`` function.
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+
+**故障排除**
+
+1. **电机不运行**：
+
+   - **原因**：接线错误或电源供电不足。
+   - **解决方法**：
+
+     - 验证电机是否连接到 M0。
+     - 确保电机的电源满足其电压要求。
+
+2. **温度读数不正确**：
+
+   - **原因**：热敏电阻故障。
+   - **解决方法**：
+
+     - 检查热敏电阻的接线，确保其在指定范围内。
+
+3. **按钮按下未被检测到**：
+
+   - **原因**：按钮接线或 GPIO 配置错误。
+   - **解决方法**：
+
+     - 验证按钮是否连接到 GPIO 22 和 GND。
+     - 独立测试按钮，确认按下时能闭合电路。
+
+4. **速度级别不自动变化**：
+
+   - **原因**：温差计算错误。
+   - **解决方法**：确保 ``main()`` 函数中的 ``currentTemp`` 和 ``markTemp`` 值正确更新。
 
 
-1. **Overheat Alert**: Add a buzzer or LED to alert the user when the temperature exceeds a critical threshold.
+----------------------------------------------
+
+**扩展思路**
+
+
+1. **过热警报**：添加蜂鸣器或 LED，在温度超过临界阈值时提醒用户。
 
      .. code-block:: python
 
          if currentTemp > 50:
              buzzer.on()
 
-2. **Smart Button Functions**: Long-press the button to reset the speed level to 0 or toggle automatic/manual modes.
+2. **智能按钮功能**：长按按钮将速度级别重置为 0 或切换自动/手动模式。
 
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-The Smart Fan project demonstrates how to combine manual and automatic control in a single system. It’s a practical example of integrating sensors, motors, and user interaction into a functional and efficient design. Try enhancing it with additional features to create your personalized climate control solution!
+智能风扇项目演示了如何在单个系统中结合手动和自动控制。它是集成传感器、电机和用户交互的功能性设计实例。尝试通过添加额外功能来创建您个性化的气候控制解决方案！

@@ -4,34 +4,34 @@
 
 .. _py_ultrasonic:
 
-2.13 Ultrasonic Sensor Module
-==============================
+2.13 超声波传感器模块
+======================
 
-**Introduction**
+**介绍**
 
-The ultrasonic sensor module uses ultrasonic waves to measure distances with remarkable accuracy. It emits ultrasonic waves and listens for their echo, calculating the distance based on the time taken for the echo to return. This versatile technology is commonly used in robotics, obstacle detection, and range-finding applications.
+超声波传感器模块利用超声波以惊人的精度测量距离。它发出超声波并监听其回波，根据回波返回所需的时间计算距离。这种多功能技术常用于机器人、障碍物检测和测距应用。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**你需要什么**
 
-Here are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_ultrasonic_sensor`
         - |link_ultrasonic_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -40,55 +40,55 @@ Here are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**电路图**
 
-Below is the schematic diagram for the ultrasonic sensor module:
+以下是超声波传感器模块的电路原理图：
 
 .. image:: img/fzz/2.2.7_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Assemble the circuit as shown in the diagram below:
+按下图所示组装电路：
 
 .. image:: img/fzz/2.2.7_bb.png
    :width: 80%
    :align: center
 
-Ensure the connections are secure, with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27 of the Raspberry Pi.
+确保连接牢固可靠，Echo引脚连接到Raspberry Pi的GPIO 22，Trigger引脚连接到GPIO 27。
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.13_Ultrasonic.py
 
-This Python script uses an ultrasonic distance sensor to measure the distance to an object and displays the result on the console. When executed:
+此Python脚本使用超声波距离传感器测量到物体的距离，并将结果显示在控制台上。执行时：
 
-1. The sensor, connected to GPIO pins 27 (trigger) and 22 (echo), continuously measures the distance to the nearest object.
-2. The distance is calculated in meters and converted to centimeters, then displayed in the format: ``Distance: <value> cm`` with two decimal places of precision.
-3. The distance is updated every 0.3 seconds, allowing for near real-time monitoring.
-4. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point it exits gracefully.
+1. 连接到GPIO引脚27（触发）和22（回波）的传感器持续测量到最近物体的距离。
+2. 距离以米为单位计算并转换为厘米，以格式：\ ``Distance: <value> cm``\ 显示，精度为两位小数。
+3. 每0.3秒更新一次距离，实现近实时的监测。
+4. 程序无限运行，直到用\ ``Ctrl+C``\ 中断，此时优雅退出。
 
 ----------------------------------------------
 
 
-**Code**
+**代码**
 
 
-Below is the Python code for this project:
+以下是本项目的Python代码：
 
 
 .. raw:: html
@@ -121,9 +121,9 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports:**
+1. **导入：**
 
 
    .. code-block:: python
@@ -132,18 +132,18 @@ Below is the Python code for this project:
       from fusion_hat.pin import Pin
       from time import sleep
 
-   The script imports the ``Ultrasonic`` class from the ``fusion_hat`` library to interact with the ultrasonic sensor and the ``sleep`` function from the ``time`` module to introduce delays.
+   脚本导入\ ``fusion_hat``\ 库中的\ ``Ultrasonic``\ 类以与超声波传感器交互，并导入\ ``time``\ 模块中的\ ``sleep``\ 函数以引入延迟。
 
 
-2. **Initialization:**
+2. **初始化：**
 
    .. code-block:: python
 
       sensor = Ultrasonic(Pin(27), Pin(22))
 
-   The ultrasonic sensor is initialized with the Echo pin connected to GPIO 22 and the Trigger pin to GPIO 27. This setup enables the Raspberry Pi to send and receive ultrasonic signals.
+   超声波传感器初始化，Echo引脚连接到GPIO 22，Trigger引脚连接到GPIO 27。此配置使Raspberry Pi能够发送和接收超声波信号。
 
-3. **Main Loop:**
+3. **主循环：**
 
 
    .. code-block:: python
@@ -153,16 +153,16 @@ Below is the Python code for this project:
          print('Distance: {:.2f} cm'.format(dis))  # Print the distance with two decimal precision
          sleep(0.3)  # Wait for 0.3 seconds before the next measurement
 
-   * Continuously measures the distance to the nearest object.
-   * Converts the distance from meters to centimeters.
-   * Prints the distance with two decimal places of precision.
-   * Includes a 0.3-second delay to allow the sensor to stabilize between measurements.
+   * 持续测量到最近物体的距离。
+   * 将距离从米转换为厘米。
+   * 以两位小数的精度打印距离。
+   * 包含0.3秒的延迟以使传感器在两次测量之间稳定。
 
 
 
-4. **Graceful Exit:**
+4. **优雅退出：**
 
-   The ``try-except`` block ensures the program exits cleanly when interrupted with ``Ctrl+C``.
+   ``try-except``\ 块确保程序在用\ ``Ctrl+C``\ 中断时能干净退出。
 
    .. code-block:: python
 
@@ -173,43 +173,43 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
-1. **No Distance Output**:
+1. **无距离输出**：
 
-   - **Cause**: The sensor is not properly connected or powered.
-   - **Solution**:
+   - **原因**：传感器未正确连接或未供电。
+   - **解决方案**：
 
-      - Ensure the trigger pin is connected to GPIO 27 and the echo pin to GPIO 22.
-      - Verify that the sensor has a stable power supply.
+      - 确保触发引脚连接到GPIO 27，回波引脚连接到GPIO 22。
+      - 确认传感器有稳定的电源。
 
-2. **Constant or Incorrect Distance Values**:
+2. **距离值恒定或不正确**：
 
-   - **Cause**: Obstacles are too close or too far from the sensor, or there is interference.
-   - **Solution**:
+   - **原因**：障碍物离传感器太近或太远，或存在干扰。
+   - **解决方案**：
 
-      - Ensure the object is within the sensor's effective range (typically 2 cm to 400 cm).
-      - Check for interference from other ultrasonic devices or reflective surfaces.
+      - 确保物体在传感器的有效范围内（通常为2 cm到400 cm）。
+      - 检查是否有其他超声波设备或反射表面的干扰。
 
-3. **Distance Always Zero**:
+3. **距离始终为零**：
 
-   - **Cause**: Faulty sensor or incorrect wiring.
-   - **Solution**: Test the sensor on another GPIO setup or replace it if faulty. Double-check the wiring configuration.
+   - **原因**：传感器故障或接线错误。
+   - **解决方案**：在其他GPIO设置上测试传感器，如有故障则更换传感器。仔细检查接线配置。
 
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Threshold-Based Alerts**: Trigger an alert when the measured distance is below a specific threshold:
+1. **基于阈值的警报**：当测量距离低于特定阈值时触发警报：
 
   .. code-block:: python
 
       if dis < 10:
           print("Warning: Object too close!")
 
-2. **Auditory Feedback**: Add a buzzer that sounds when the distance is below a threshold:
+2. **声音反馈**：添加蜂鸣器，在距离低于阈值时发出声音：
 
   .. code-block:: python
 
@@ -224,6 +224,6 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use an ultrasonic sensor module to measure distances with a Raspberry Pi. By understanding the principles of ultrasonic wave detection and GPIO programming, you can integrate such sensors into a variety of applications, from robotics to home automation. With this foundation, you can explore more advanced projects involving sensors and real-world interaction.
+本项目演示了如何使用超声波传感器模块通过Raspberry Pi测量距离。通过理解超声波检测和GPIO编程的原理，你可以将此类传感器集成到从机器人到家庭自动化的各种应用中。以此为基础，你可以探索涉及传感器和现实世界交互的更高级项目。

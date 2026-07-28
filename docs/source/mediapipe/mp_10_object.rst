@@ -5,125 +5,121 @@
 .. _mp_object:
 
 
-10. Object Detection
-=================================
+10. 物体检测
+===================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概述
 ------------------------------------------------------------
 
-In addition to specialized models for face, hands, and pose,
-MediaPipe also provides a general-purpose **Object Detector**
-based on TensorFlow Lite.
+除了面向人脸、手部和姿态的专业模型外，
+MediaPipe 还提供了一个基于 TensorFlow Lite 的通用 **Object Detector**（物体检测器）。
 
-This chapter demonstrates how to use the
-``efficientdet_lite0.tflite`` model on Raspberry Pi
-to perform real-time object detection and visualize results
-on the camera feed.
+本章演示如何在 Raspberry Pi 上使用
+``efficientdet_lite0.tflite`` 模型
+进行实时物体检测，并在摄像头画面上可视化结果。
 
 .. image:: img/mp_object.png
    :width: 500
    :align: center
 
-This module can be used for:
+该模块可用于：
 
-- Real-time object recognition demos
-- Smart home / robotics perception
-- Simple safety monitoring
-- Embedded vision projects
+- 实时物体识别演示
+- 智能家居/机器人感知
+- 简单的安全监控
+- 嵌入式视觉项目
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 工作原理
 ------------------------------------------------------------
 
-The program performs the following steps:
+程序执行以下步骤：
 
-1. Initialize the MediaPipe Tasks **ObjectDetector**
-   and load the ``efficientdet_lite0.tflite`` model.
-2. Capture frames from the Picamera2 video stream.
-3. Convert each frame to a MediaPipe ``mp.Image`` object.
-4. Call ``detect_for_video`` to run real-time object detection.
-5. Draw bounding boxes and labels using OpenCV.
-6. Limit the number of displayed detections to keep the output clear
-   and maintain stable performance on Raspberry Pi.
+1. 初始化 MediaPipe Tasks **ObjectDetector**
+   并加载 ``efficientdet_lite0.tflite`` 模型。
+2. 从 Picamera2 视频流捕获帧。
+3. 将每帧转换为 MediaPipe ``mp.Image`` 对象。
+4. 调用 ``detect_for_video`` 进行实时物体检测。
+5. 使用 OpenCV 绘制边界框和标签。
+6. 限制显示检测结果的数量，以保持输出清晰
+   并在 Raspberry Pi 上维持稳定的性能。
 
 -----------------------------
-3. Model Preparation
+3. 模型准备
 -----------------------------
 
-This example uses the **EfficientDet Lite0** model
-in TensorFlow Lite (TFLite) format.
+本示例使用 TensorFlow Lite（TFLite）格式的 **EfficientDet Lite0** 模型。
 
-EfficientDet Lite0 is lightweight and optimized for
-embedded devices such as Raspberry Pi.
-It provides a good balance between speed and accuracy.
+EfficientDet Lite0 轻量高效，针对
+Raspberry Pi 等嵌入式设备进行了优化。
+它在速度和精度之间提供了良好的平衡。
 
-The file ``efficientdet_lite0.tflite`` is included in the project directory
-and can be used directly.
+``efficientdet_lite0.tflite`` 文件包含在项目目录中，
+可直接使用。
 
-* `Official model download page <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
+* `官方模型下载页面 <https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector#efficientdet-lite0_model_recommended>`_
 
-If higher accuracy is required and hardware performance allows,
-you may switch to:
+如果硬件性能允许且需要更高精度，
+可以切换到：
 
 - EfficientDet Lite1
 - EfficientDet Lite2
 
-You can also replace the model with your own self-trained
-TFLite object detection model, as long as it follows
-MediaPipe Tasks Object Detector format requirements.
+您也可以使用自己训练的 TFLite 物体检测模型替换，
+只要它遵循 MediaPipe Tasks Object Detector 的格式要求即可。
 
 
 ------------------------
-4. Run the Code
+4. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_object.py
 
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. 运行程序后，一个标题为"Show Video"的窗口将打开并显示实时摄像头画面。
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_10.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
 
-   For each video frame, the Object Detector model (``efficientdet_lite0.tflite``) runs in real time and searches for recognizable objects in the scene.
-   
-   When objects are detected:
-   
-   - A rectangular bounding box is drawn around each object.
-   - A label and confidence score are shown above the box in the format ``name: score`` (for example, ``person: 0.87``).
-   - Only detections above ``SCORE_THRESHOLD`` (default 0.5) are displayed.
-   - To keep the display clear and maintain performance, the program draws up to ``MAX_DRAW`` detections (default 20) per frame.
-   
-   As the camera view changes, the bounding boxes and labels update continuously in real time.
-   
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   对于每个视频帧，Object Detector 模型（``efficientdet_lite0.tflite``）会实时运行，并在画面中搜索可识别的物体。
+
+   当检测到物体时：
+
+   - 每个物体周围会绘制一个矩形边界框。
+   - 边界框上方会显示标签和置信度分数，格式为 ``name: score``（例如 ``person: 0.87``）。
+   - 只有高于 ``SCORE_THRESHOLD``（默认 0.5）的检测结果才会显示。
+   - 为了保持显示清晰并维持性能，程序每帧最多绘制 ``MAX_DRAW``（默认 20）个检测结果。
+
+   随着摄像头画面的变化，边界框和标签会持续实时更新。
+
+   按 ``q`` 键退出程序。
+   摄像头将停止，OpenCV 窗口将自动关闭。
 
 -----------------------------
-5. Complete Code
+5. 完整代码
 -----------------------------
 
 .. code-block:: python
@@ -227,17 +223,17 @@ MediaPipe Tasks Object Detector format requirements.
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the camera feed will display:
+运行脚本后，摄像头画面将显示：
 
-- Bounding boxes around detected objects
-- Classification labels and confidence scores
-- Real-time detection (can achieve about 10~20 FPS on Raspberry Pi)
+- 检测到的物体周围有边界框
+- 分类标签和置信度分数
+- 实时检测（在 Raspberry Pi 上可实现约 10~20 FPS）
 
 -----------------------------
-6. Code Explanation
+6. 代码说明
 -----------------------------
 
-**Configuration**
+**配置**
 
 .. code-block:: python
 
@@ -246,10 +242,10 @@ After running the script, the camera feed will display:
    SCORE_THRESHOLD = 0.5
    MAX_DRAW = 20
 
-- ``SCORE_THRESHOLD`` controls the minimum confidence to display detections (applied inside the Tasks runtime).
-- ``MAX_DRAW`` is a UI convenience to limit how many boxes we render per frame.
+- ``SCORE_THRESHOLD`` 控制显示检测结果的最低置信度（在 Tasks 运行时内部应用）。
+- ``MAX_DRAW`` 是 UI 便利参数，用于限制每帧绘制的边界框数量。
 
-**Imports**
+**导入**
 
 .. code-block:: python
 
@@ -260,10 +256,10 @@ After running the script, the camera feed will display:
    from mediapipe.tasks import python
    from mediapipe.tasks.python import vision
 
-- ``mediapipe.tasks.python.vision`` hosts the **ObjectDetector** Tasks API.
-- We still use classic OpenCV for windowing and drawing.
+- ``mediapipe.tasks.python.vision`` 包含 **ObjectDetector** Tasks API。
+- 我们仍使用经典的 OpenCV 进行窗口显示和绘制。
 
-**Visualization Helper**
+**可视化辅助函数**
 
 .. code-block:: python
 
@@ -307,10 +303,10 @@ After running the script, the camera feed will display:
 
        return img
 
-- Keeps the main loop clean.
-- Avoids relying on non-existent "visualize" utilities; it works directly with Tasks outputs.
+- 保持主循环简洁。
+- 避免依赖不存在的"visualize"工具；直接与 Tasks 输出配合使用。
 
-**Create the ObjectDetector**
+**创建 ObjectDetector**
 
 .. code-block:: python
 
@@ -326,10 +322,10 @@ After running the script, the camera feed will display:
    )
    detector = vision.ObjectDetector.create_from_options(options)
 
-- ``RunningMode.VIDEO`` is optimized for streams and **requires timestamps**.
-- The Tasks runtime internally handles image resizing/normalization for you.
+- ``RunningMode.VIDEO`` 针对流式输入进行了优化，**需要时间戳**。
+- Tasks 运行时内部会自动处理图像的缩放和归一化。
 
-**Camera Setup (Streaming Source)**
+**摄像头设置（流式源）**
 
 .. code-block:: python
 
@@ -340,10 +336,10 @@ After running the script, the camera feed will display:
    picam2.configure(config)
    picam2.start()
 
-- 640×480 is a good trade-off between FPS and accuracy on Raspberry Pi.
-- Picamera2 returns BGRA (``XRGB8888``); we'll convert to BGR/RGB.
+- 640×480 是在 Raspberry Pi 上平衡帧率和精度的良好折中选择。
+- Picamera2 返回 BGRA（``XRGB8888``）；我们会转换为 BGR/RGB。
 
-**Per-Frame Detection**
+**逐帧检测**
 
 .. code-block:: python
 
@@ -356,10 +352,10 @@ After running the script, the camera feed will display:
    ts_ms = int(time.time() * 1000)  # monotonically increasing timestamp
    detection_result = detector.detect_for_video(mp_image, ts_ms)
 
-- MediaPipe expects **RGB** buffers.
-- The timestamp must **increase every frame**; using ``time.time()*1000`` is sufficient for this demo.
+- MediaPipe 需要 **RGB** 缓冲区。
+- 时间戳必须**每帧递增**；使用 ``time.time()*1000`` 对本演示来说足够。
 
-**Render and Display**
+**渲染与显示**
 
 .. code-block:: python
 
@@ -368,10 +364,10 @@ After running the script, the camera feed will display:
    if cv2.waitKey(1) & 0xFF == ord('q'):
        break
 
-- The helper returns a BGR image ready for OpenCV display.
-- Press ``q`` to exit the loop.
+- 辅助函数返回可直接用于 OpenCV 显示的 BGR 图像。
+- 按 ``q`` 键退出循环。
 
-**Cleanup**
+**清理**
 
 .. code-block:: python
 
@@ -382,61 +378,61 @@ After running the script, the camera feed will display:
    picam2.stop()
    cv2.destroyAllWindows()
 
-Always release the camera and destroy windows to avoid locking the device.
+始终释放摄像头并销毁窗口，以避免锁定设备。
 
 ------------------------------------------------------
-7. Performance and Applications
+7. 性能与应用
 ------------------------------------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Optimization Direction
-     - Effect
-     - Suggestion
-   * - Resolution
-     - Higher resolution gives clearer image but slower speed
-     - 640x480 is sufficient
-   * - Model Selection
+   * - 优化方向
+     - 效果
+     - 建议
+   * - 分辨率
+     - 越高图像越清晰但速度越慢
+     - 640x480 已足够
+   * - 模型选择
      - Lite0 ~ Lite2
-     - Lite0 is faster, Lite2 is more accurate
-   * - Multi-object Drawing
-     - Too many objects cause latency
-     - Use ``MAX_DRAW`` to limit
+     - Lite0 更快，Lite2 更精确
+   * - 多物体绘制
+     - 物体太多会导致延迟
+     - 使用 ``MAX_DRAW`` 限制
 
 ------------------------------------------------------
-8. Troubleshooting
+8. 故障排除
 ------------------------------------------------------
 
-- No detection results
+- 没有检测结果
 
-  If nothing is detected, the confidence threshold may be too high.
+  如果什么都没检测到，可能是置信度阈值太高。
 
-  Try lowering ``SCORE_THRESHOLD`` (for example, from 0.5 to 0.3) and test again.
+  尝试降低 ``SCORE_THRESHOLD``（例如从 0.5 降到 0.3）并重新测试。
 
-- Low frame rate
+- 帧率低
 
-  If the video feels slow, the model or resolution may be too heavy for the Raspberry Pi.
+  如果视频感觉卡顿，可能是模型或分辨率对 Raspberry Pi 来说太沉重。
 
-  Use a lighter model (``efficientdet_lite0.tflite``) and reduce the resolution (for example, 640×480 or 320×240). Closing other background processes can also improve performance.
+  使用更轻量的模型（``efficientdet_lite0.tflite``）并降低分辨率（例如 640×480 或 320×240）。关闭其他后台进程也可以提高性能。
 
-- Detection box offset
+- 检测框偏移
 
-  If bounding boxes look shifted or go out of frame, it is usually caused by coordinate conversion issues.
+  如果边界框看起来偏移或超出画面，通常是坐标转换问题引起的。
 
-  Make sure bounding box coordinates are clamped to the image boundaries. This example already clamps ``x1, y1, x2, y2`` to prevent out-of-range drawing.
+  确保边界框坐标被限制在图像边界内。本示例已经对 ``x1, y1, x2, y2`` 进行了限制，以防止超出范围的绘制。
 
-- Detection looks chaotic
+- 检测结果混乱
 
-  If too many objects are detected and the screen becomes cluttered, it may be hard to read the results.
+  如果检测到太多物体导致画面杂乱，可能难以阅读结果。
 
-  Limit the number of drawn detections using ``MAX_DRAW`` (for example, 10–20) to keep the visualization clear and stable.
+  使用 ``MAX_DRAW``（例如 10–20）限制绘制的检测结果数量，以保持可视化清晰稳定。
 
 -----------------------------
-9. Summary
+9. 总结
 -----------------------------
 
-- This chapter implemented general-purpose object detection based on MediaPipe Tasks;
-- Used the EfficientDet Lite0 model, balancing accuracy and performance;
-- Mastered the method for visualizing detection results;
-- Can be extended to custom models (e.g., fruit, vehicle, hazardous item detection scenarios).
+- 本章基于 MediaPipe Tasks 实现了通用物体检测；
+- 使用了 EfficientDet Lite0 模型，平衡了精度和性能；
+- 掌握了检测结果可视化的方法；
+- 可扩展至自定义模型（例如水果、车辆、危险物品检测场景）。

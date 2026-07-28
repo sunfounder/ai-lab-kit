@@ -2,64 +2,64 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-4. Text Vision Talk with Ollama
-================================
+4. 使用 Ollama 实现文本与视觉对话
+===================================
 
-In this lesson, you will learn how to use **Ollama**, a tool for running large language and vision models locally.  
-We will show you how to install Ollama, download a model, and connect Fusion HAT+ to it.  
+在本课中，你将学习如何使用 **Ollama**——一个在本地运行大语言和视觉模型的工具。
+我们将向你展示如何安装 Ollama、下载模型，并将 Fusion HAT+ 连接到它。
 
-With this setup, Fusion HAT+ can take a camera snapshot and the model will **see and tell** —  
-you can ask any question about the image, and the model will reply in natural language.
+有了这个设置，Fusion HAT+ 可以拍摄相机快照，模型将\ **看到并描述**——
+你可以询问任何关于图像的问题，模型会以自然语言回答。
 
 .. _download_ollama:
 
-1. Install Ollama (LLM) and Download Model
--------------------------------------------------
+1. 安装 Ollama（LLM）并下载模型
+---------------------------------------
 
-You can choose where to install **Ollama**: 
+你可以选择在哪里安装 **Ollama**：
 
-* On your Raspberry Pi (local run)  
-* Or on another computer (Mac/Windows/Linux) in the **same local network**  
+* 在你的树莓派上（本地运行）
+* 或在**同一局域网**内的另一台电脑上（Mac/Windows/Linux）
 
-**Recommended models vs hardware**
+**推荐模型 vs 硬件**
 
-You can choose any model available on |link_ollama_hub|.  
-Models come in different sizes (3B, 7B, 13B, 70B...).  
-Smaller models run faster and require less memory, while larger models provide better quality but need powerful hardware.
+你可以选择 |link_ollama_hub| 上的任何可用模型。
+模型有不同的参数规模（3B、7B、13B、70B...）。
+较小的模型运行更快，所需内存更少，而较大的模型提供更好的质量但需要更强大的硬件。
 
-Check the table below to decide which model size fits your device.
+查看下表，选择适合你设备的模型大小。
 
 .. list-table::
    :header-rows: 1
    :widths: 20 20 40
 
-   * - Model size
-     - Min RAM Required
-     - Recommended Hardware
-   * - ~3B parameters
-     - 8GB (16GB better)
-     - Raspberry Pi 5 (16GB) or mid-range PC/Mac
-   * - ~7B parameters
+   * - 模型大小
+     - 最低内存要求
+     - 推荐硬件
+   * - ~3B 参数
+     - 8GB（建议 16GB）
+     - 树莓派 5（16GB）或中端 PC/Mac
+   * - ~7B 参数
      - 16GB+
-     - Pi 5 (16GB, just usable) or mid-range PC/Mac
-   * - ~13B parameters
+     - Pi 5（16GB，勉强可用）或中端 PC/Mac
+   * - ~13B 参数
      - 32GB+
-     - Desktop PC / Mac with high RAM
-   * - 30B+ parameters
+     - 高内存台式 PC / Mac
+   * - 30B+ 参数
      - 64GB+
-     - Workstation / Server / GPU recommended
-   * - 70B+ parameters
+     - 工作站 / 服务器 / 建议使用 GPU
+   * - 70B+ 参数
      - 128GB+
-     - High-end server with multiple GPUs
+     - 配备多 GPU 的高端服务器
 
-**Install on Raspberry Pi**
+**在树莓派上安装**
 
-If you want to run Ollama directly on your Raspberry Pi:
+如果你想直接在树莓派上运行 Ollama：
 
-* Use a **64-bit Raspberry Pi OS**  
-* Strongly recommended: **Raspberry Pi 5 (16GB RAM)**  
+* 使用 **64 位树莓派操作系统**
+* 强烈建议：**树莓派 5（16GB RAM）**
 
-Run the following commands:
+运行以下命令：
 
 .. code-block:: bash
 
@@ -76,75 +76,75 @@ Run the following commands:
    # Tip: set OLLAMA_HOST=0.0.0.0 to allow access from LAN
    OLLAMA_HOST=0.0.0.0 ollama serve
 
-**Install on Mac / Windows / Linux (Desktop App)**
+**在 Mac / Windows / Linux 上安装（桌面应用）**
 
-1. Download and install Ollama from |link_ollama|  
+1. 从 |link_ollama| 下载并安装 Ollama
 
    .. image:: img/llm_ollama_download.png
 
-2. Open the Ollama app, go to the **Model Selector**, and use the search bar to find a model. For example, type ``llama3.2:3b`` (a small and lightweight model to start with).  
+2. 打开 Ollama 应用，进入 **Model Selector**，使用搜索栏查找模型。例如，输入 ``llama3.2:3b``（一个适合入门的小型轻量模型）。
 
    .. image:: img/llm_ollama_choose.png
 
-3. After the download is complete, type something simple like “Hi” in the chat window, Ollama will automatically start downloading it when you first use it.
+3. 下载完成后，在聊天窗口中输入简单的 "Hi" 之类的内容，Ollama 会在你首次使用时自动下载。
 
    .. image:: img/llm_olama_llama_download.png
 
-4. Go to **Settings** → enable **Expose Ollama to the network**. This allows your Raspberry Pi to connect to it over LAN.  
+4. 进入 **Settings** → 开启 **Expose Ollama to the network**。这允许你的树莓派通过局域网连接到它。
 
    .. image:: img/llm_olama_windows_enable.png
 
 .. warning::
 
-   If you see an error like:
+   如果你看到类似这样的错误：
 
    ``Error: model requires more system memory ...``
 
-   The model is too large for your machine.  
-   Use a **smaller model** or switch to a computer with more RAM.
+   说明模型对你的机器来说太大。
+   使用一个\ **更小的模型**\ 或切换到内存更大的电脑。
 
-2. Test Ollama
+2. 测试 Ollama
 --------------
 
-Once Ollama is installed and your model is ready, you can quickly test it with a minimal chat loop.
+一旦 Ollama 安装完成且模型就绪，你可以通过一个简单的聊天循环快速测试。
 
-**Set IP Address**
+**设置 IP 地址**
 
-#. Open the example script:
+#. 打开示例脚本：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm/
       sudo nano llm_ollama.py
 
-#. Update the parameters as needed:
+#. 根据需要更新参数：
 
-   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``: Update both ``ip`` and ``model`` to your own setup.  
+   * ``llm = Ollama(ip="localhost", model="llama3.2:3b")``：根据你的设置更新 ``ip``\ 和 ``model``。
 
-     * ``ip``: If Ollama runs on the **same Pi**, use ``localhost``. If Ollama runs on another computer in your LAN, enable **Expose to network** in Ollama and set ``ip`` to that computer’s LAN IP.  
-     * ``model``: Must exactly match the model name you downloaded/activated in Ollama.  
+     * ``ip``：如果 Ollama 运行在\ **同一台 Pi**\ 上，使用 ``localhost``。如果 Ollama 运行在局域网中的另一台电脑上，在 Ollama 中开启 **Expose to network**\ 并将 ``ip``\ 设置为该电脑的局域网 IP。
+     * ``model``：必须与你下载/在 Ollama 中激活的模型名称完全匹配。
 
 
-**Run the program**
+**运行程序**
 
   .. code-block:: bash
-  
+
       cd ~/ai-lab-kit/llm
       sudo python3 llm_ollama.py
 
-Now you can chat with Fusion HAT+ directly from the terminal.
+现在你可以直接在终端中与 Fusion HAT+ 聊天。
 
-   * You can choose **any model** available on |link_ollama_hub|, but smaller models (e.g. ``moondream:1.8b``, ``phi3:mini``) are recommended if you only have 8–16GB RAM.  
-   * Make sure the model you specify in the code matches the model you have already pulled in Ollama.  
-   * Type ``exit`` or ``quit`` to stop the program.  
-   * If you cannot connect, ensure that Ollama is running and that both devices are on the same LAN if you are using a remote host.
+   * 你可以选择 |link_ollama_hub| 上的\ **任何模型**\ ，但如果你只有 8–16GB 内存，建议使用较小的模型（如 ``moondream:1.8b``\ 或 ``phi3:mini``）。
+   * 确保你在代码中指定的模型与你已在 Ollama 中下载的模型匹配。
+   * 输入 ``exit``\ 或 ``quit``\ 停止程序。
+   * 如果无法连接，确保 Ollama 正在运行，并且如果你使用远程主机，两台设备在同一个局域网内。
 
-**Code**
+**代码**
 
 .. code-block:: python
 
    from fusion_hat.llm import Ollama
- 
+
    INSTRUCTIONS = "You are a helpful assistant."
    WELCOME = "Hello, I am a helpful assistant. How can I help you?"
 
@@ -178,44 +178,44 @@ Now you can chat with Fusion HAT+ directly from the terminal.
       print("")
 
 
-3. Vision Talk with Ollama
+3. 使用 Ollama 进行视觉对话
 --------------------------
 
-In this demo, the Pi camera takes a snapshot **each time you type a question**.  
-The program sends **your typed text + the new photo** to a local vision model via Ollama,  
-and then streams the model’s reply in plain English.  
-This is a minimal “see & tell” baseline you can later extend with color/face/QR checks.
+在这个演示中，Pi 摄像头会在你\ **每次输入问题时**\ 拍摄一张快照。
+程序将\ **你的输入文字 + 新照片**\ 通过 Ollama 发送给本地视觉模型，
+然后以纯文本流式输出模型的回复。
+这是一个最简的"看见并描述"基础示例，你可以之后扩展加入颜色/人脸/二维码检测。
 
-**Before You Start**
+**开始之前**
 
-#. Open the **Ollama** app (or run the service) and make sure a **vision-capable model** is pulled.
+#. 打开 **Ollama** 应用（或运行服务），确保已拉取一个\ **支持视觉的模型**。
 
-   * If you have enough memory (≥16GB RAM), you may try ``llava:7b``.
-   * If you only have **8GB RAM**, prefer a smaller model such as ``moondream:1.8b`` or ``granite3.2-vision:2b``.
+   * 如果你有足够内存（≥16GB RAM），可以尝试 ``llava:7b``。
+   * 如果你只有 **8GB RAM**，建议使用较小的模型，如 ``moondream:1.8b``\ 或 ``granite3.2-vision:2b``。
 
    .. image:: img/llm_ollama_image_model.png
 
-**Run the Demo**
+**运行演示**
 
-#. Go to the example folder and run the script:
+#. 进入示例文件夹并运行脚本：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/llm
       python3 llm_ollama_with_image.py
 
-#. What happens when it runs:
+#. 运行时的过程：
 
-   * The program prints a welcome line and waits for your input (``>>>``).
-   * **Every time you type anything** (e.g., “hello”, “Is there yellow?”, “Any faces?”, “What is on the desk?”), it:
+   * 程序打印一行欢迎信息，然后等待你的输入（\ ``>>>``）。
+   * **每次你输入任何内容**\ （例如，"hello"、"Is there yellow?"、"Any faces?"、"What is on the desk?"），它会：
 
-     * **captures a photo** from the Pi camera (saved to ``/tmp/llm-img.jpg``),  
-     * **sends your text + the photo** to the vision model via Ollama,  
-     * **streams back** the model’s answer to the terminal.
+     * **拍摄一张照片**（保存到 ``/tmp/llm-img.jpg``），
+     * **将你的文字 + 照片**\ 通过 Ollama 发送给视觉模型，
+     * **流式返回**\ 模型的答案到终端。
 
-   * Type ``exit`` or ``quit`` to end the program.
+   * 输入 ``exit``\ 或 ``quit``\ 结束程序。
 
-**Code**
+**代码**
 
 .. code-block:: python
 
@@ -274,34 +274,33 @@ This is a minimal “see & tell” baseline you can later extend with color/face
       print("")
 
 
-Troubleshooting
----------------
+故障排除
+--------
 
 
-* **I get an error like: `model requires more system memory ...`.**
+* **出现错误：`model requires more system memory ...`。**
 
-  * This means the model is too large for your device.  
-  * Use a smaller model such as ``moondream:1.8b`` or ``granite3.2-vision:2b``.  
-  * Or switch to a machine with more RAM and expose Ollama to the network.
+  * 这意味着模型对你的设备来说太大。
+  * 使用较小的模型，如 ``moondream:1.8b``\ 或 ``granite3.2-vision:2b``。
+  * 或者切换到内存更大的机器，并将 Ollama 暴露到网络。
 
-* **The code cannot connect to Ollama (connection refused).** 
+* **代码无法连接到 Ollama（连接被拒绝）。**
 
-  Check the following:
-  
-  * Make sure Ollama is running (``ollama serve`` or the desktop app is open).  
-  * If using a remote computer, enable **Expose to network** in Ollama settings.  
-  * Double-check that the ``ip="..."`` in your code matches the correct LAN IP.  
-  * Confirm both devices are on the same local network.
+  请检查以下内容：
 
-* **My Pi camera does not capture anything.**
+  * 确保 Ollama 正在运行（\ ``ollama serve``\ 或桌面应用已打开）。
+  * 如果使用远程电脑，在 Ollama 设置中开启 **Expose to network**。
+  * 再次检查代码中的 ``ip="..."``\ 是否正确的局域网 IP。
+  * 确认两台设备在同一个局域网内。
 
-  * Verify that ``Picamera2`` is installed and working with a simple test script.  
-  * Check that the camera cable is properly connected and enabled in ``raspi-config``.  
-  * Ensure your script has permission to write to the target path (``/tmp/llm-img.jpg``).
+* **我的 Pi 摄像头无法拍照。**
 
-* **The output is too slow.**  
+  * 验证 ``Picamera2``\ 是否已安装并能通过简单的测试脚本正常工作。
+  * 检查摄像头排线是否正确连接并在 ``raspi-config``\ 中启用。
+  * 确保你的脚本有权限写入目标路径（\ ``/tmp/llm-img.jpg``）。
 
-  * Smaller models reply faster, but with simpler answers.  
-  * You can lower the camera resolution (e.g., 640×480 instead of 1280×720) to speed up image processing.  
-  * Close other programs on your Pi to free up CPU and RAM.
-  
+* **输出太慢。**
+
+  * 较小的模型回复更快，但答案更简单。
+  * 你可以降低摄像头分辨率（例如 640×480 而非 1280×720）以加快图像处理速度。
+  * 关闭树莓派上的其他程序以释放 CPU 和内存。

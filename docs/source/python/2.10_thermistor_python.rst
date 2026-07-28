@@ -4,27 +4,27 @@
 
 .. _py_thermistor:
 
-2.10 Thermistor
-====================================
+2.10 热敏电阻
+==============
 
-**Introduction**
+**介绍**
 
-A thermistor is a temperature-sensitive resistor widely used in temperature sensing and control applications. Unlike photoresistors that detect light, thermistors respond to temperature changes by varying their resistance. This makes them ideal for projects like heat alarms, thermostats, and temperature monitoring systems. In this project, we will use a thermistor to measure ambient temperature and display it in both Celsius and Fahrenheit.
+热敏电阻是一种对温度敏感的电阻，广泛应用于温度传感和控制应用中。与检测光线的光敏电阻不同，热敏电阻通过改变其阻值来响应温度变化。这使得它们非常适合用于热警报、恒温器和温度监测系统等项目。在本项目中，我们将使用热敏电阻测量环境温度，并以摄氏度和华氏度显示。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**你需要什么**
 
-Here are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,18 +35,19 @@ Here are the components required for this project:
     *   - :ref:`cpn_thermistor`
         - |link_thermistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 
 
 
+
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-Below are the schematic diagrams illustrating how to connect the thermistor to the Fusion HAT+:
+以下是说明如何将热敏电阻连接到Fusion HAT+的电路原理图：
 
 
 .. image:: img/fzz/2.2.2_sch.png
@@ -55,9 +56,9 @@ Below are the schematic diagrams illustrating how to connect the thermistor to t
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Build the circuit as shown in the wiring diagram below:
+按下图所示的接线图搭建电路：
 
 .. image:: img/fzz/2.2.2_bb.png
    :width: 80%
@@ -65,20 +66,20 @@ Build the circuit as shown in the wiring diagram below:
 
 
 
-Ensure that:
+确保：
 
-* The thermistor is correctly connected to the Fusion HAT+.
-* Power and ground connections are secure.
-* All wiring is consistent with the diagram to ensure proper functionality.
+* 热敏电阻正确连接到Fusion HAT+。
+* 电源和地线连接牢固。
+* 所有接线与图示一致，以确保功能正常。
 
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -86,22 +87,22 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
-   sudo python3 2.10_Thermistor.py 
+   sudo python3 2.10_Thermistor.py
 
-This Python script reads an analog signal from a thermistor via the fusion hat and calculates the corresponding temperature. When executed:
+此Python脚本通过fusion hat读取热敏电阻的模拟信号并计算相应的温度。执行时：
 
-1. The script continuously reads the voltage.
-2. It calculates the thermistor resistance (``Rt``), and determines the temperature in Kelvin, Celsius, and Fahrenheit.
-3. The calculated temperatures are printed to the console in both Celsius and Fahrenheit, formatted to two decimal places, as ``Celsius: <value> C  Fahrenheit: <value> F``.
-4. The process repeats every 0.2 seconds until the script is interrupted with ``Ctrl+C``.
+1. 脚本持续读取电压。
+2. 计算热敏电阻的阻值（\ ``Rt``\ ），并确定开尔文、摄氏度和华氏度的温度。
+3. 计算出的温度以摄氏度和华氏度打印到控制台，格式为两位小数：\ ``Celsius: <value> C  Fahrenheit: <value> F``\ 。
+4. 每0.2秒重复一次，直到用\ ``Ctrl+C``\ 中断脚本。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python code used for this project:
+以下是本项目使用的Python代码：
 
 
 .. raw:: html
@@ -151,9 +152,9 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports:**
+1. **导入：**
 
    .. code-block:: python
 
@@ -162,18 +163,18 @@ Below is the Python code used for this project:
       import math
 
 
-   This script imports necessary modules: ``ADC`` from the ``fusion_hat`` library for read voltage, ``time`` for sleep functionality, and ``math`` for mathematical calculations.
+   此脚本导入所需模块：\ ``fusion_hat``\ 库中的\ ``ADC``\ 用于读取电压，\ ``time``\ 用于睡眠功能，\ ``math``\ 用于数学计算。
 
 
-2. **Initialization:**
+2. **初始化：**
 
    .. code-block:: python
 
       thermistor = ADC('A3')
 
-   Initialize the ADC object on pin A3.
+   在引脚A3上初始化ADC对象。
 
-3. **Data Processing:**
+3. **数据处理：**
 
    .. code-block:: python
 
@@ -190,65 +191,66 @@ Below is the Python code used for this project:
             Cel = temp - 273.15 # Convert Kelvin to Celsius
             Fah = Cel * 1.8 + 32 # Convert Celsius to Fahrenheit
 
-   - Reads the voltage from the thermistor.
-   - Calculates the thermistor's resistance.
-   - Uses the Steinhart-Hart equation to compute temperature in Kelvin.
-   - Converts Kelvin to Celsius and Fahrenheit.
+   - 从热敏电阻读取电压。
+   - 计算热敏电阻的阻值。
+   - 使用Steinhart-Hart方程计算开尔文温度。
+   - 将开尔文转换为摄氏度和华氏度。
 
 
-4. **Output:**
+4. **输出：**
 
    .. code-block:: python
 
       print('Celsius: %.2f C  Fahrenheit: %.2f F' % (Cel, Fah))
       time.sleep(0.2)
 
-   The calculated temperature is displayed on the screen in both Celsius and Fahrenheit. A delay is included to allow the temperature readings to stabilize and to prevent excessive CPU usage.
+   计算出的温度以摄氏度和华氏度显示在屏幕上。包含延迟以使温度读数稳定并防止CPU使用率过高。
 
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
 
-1. **Temperature Values Are Incorrect or Erratic**:
+1. **温度值不正确或不稳定**：
 
-   - **Cause**: Incorrect thermistor parameters or noisy input signal.
-   - **Solution**:
+   - **原因**：热敏电阻参数不正确或输入信号有噪声。
+   - **解决方案**：
 
-     - Ensure the thermistor's resistance at 25°C (``10000`` in this script) and the ``3950`` B-value are accurate for your thermistor model.
-     - Add a capacitor or software filtering to reduce signal noise.
+     - 确保热敏电阻在25°C时的阻值（本脚本中为\ ``10000``\ ）和\ ``3950``\ B值对你的热敏电阻型号是准确的。
+     - 添加电容或软件滤波以减少信号噪声。
 
-2. **Divide-by-Zero Error**:
+2. **除零错误**：
 
-   - **Cause**: The voltage ``Vr`` is too close to 0 or 3.3V, leading to division by zero in the resistance calculation.
-   - **Solution**: Ensure the ADC input voltage stays within the 0–3.3V range, and check connections for short circuits or disconnections.
+   - **原因**：电压\ ``Vr``\ 太接近0或3.3V，导致阻值计算中出现除以零的情况。
+   - **解决方案**：确保ADC输入电压保持在0–3.3V范围内，并检查连接是否存在短路或断开。
+
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Display Temperatures on an LCD or OLED**: Use an LCD or OLED screen to show the temperature values dynamically.
+1. **在LCD或OLED上显示温度**：使用LCD或OLED屏幕动态显示温度值。
 
-2. **Data Logging**: Save the temperature readings to a file for analysis:
-     
+2. **数据记录**：将温度读数保存到文件中供分析：
+
    .. code-block:: python
 
       with open("temperature_log.txt", "a") as log_file:
          log_file.write(f"Celsius: {Cel:.2f}, Fahrenheit: {Fah:.2f}\n")
 
-3. **Threshold-Based Alerts**: Trigger alerts when the temperature exceeds a predefined threshold:
-     
+3. **基于阈值的警报**：当温度超过预设阈值时触发警报：
+
    .. code-block:: python
 
       if Cel > 30:
          print("Warning: High temperature!")
 
-4. **LED or Buzzer Feedback**: Provide visual or auditory feedback based on temperature levels:
-     
+4. **LED或蜂鸣器反馈**：根据温度水平提供视觉或声音反馈：
+
    .. code-block:: python
 
       from fusion_hat import Pin
@@ -262,6 +264,6 @@ Below is the Python code used for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This experiment demonstrates how to use a thermistor with an Fusion HAT+ to measure ambient temperature accurately. By understanding the principles of analog-to-digital conversion and the Steinhart-Hart equation, you can build advanced temperature monitoring and control systems for various applications.
+本实验演示了如何使用热敏电阻与Fusion HAT+准确测量环境温度。通过理解模数转换和Steinhart-Hart方程的原理，你可以为各种应用构建先进的温度监测和控制系统。

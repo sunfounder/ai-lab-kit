@@ -5,35 +5,35 @@
 
 .. _py_gravity_cube:
 
-4.14 Gravity Cube
-=========================
+4.14 重力立方体
+===============
 
-**Introduction**
+**简介**
 
-In this lesson, you will build a **gravity-referenced 3D cube** displayed on a 128×64 SSD1306 OLED, driven by an **IMU**.  
-The cube tilts according to the board’s orientation relative to gravity, using accelerometer-only roll and pitch.  
+在本课程中，您将构建一个显示在 128×64 SSD1306 OLED 上的**重力参考 3D 立方体**，由 **IMU** 驱动。
+立方体根据板子相对于重力的方向倾斜，使用仅基于加速度计的横滚角和俯仰角。
 
-Key features:
+主要特点：
 
-- Orthographic 3D cube rendering (no perspective distortion)  
-- Orientation derived from the accelerometer relative to an initial baseline  
-- One cube face is filled to make front-back orientation easy to see  
-- Two configuration flags let you flip X/Y directions to match your physical mounting  
+- 正交 3D 立方体渲染（无透视失真）
+- 方向由加速度计相对于初始基准线的读数推导
+- 一个立方体面被填充，使前后方向易于辨认
+- 两个配置标志让您翻转 X/Y 方向以匹配您的物理安装
 
-As you tilt the board, the cube rotates smoothly, giving an intuitive visualization of device orientation.
+当您倾斜板子时，立方体平滑旋转，提供设备方向的可视化直观展示。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_10_axis_imu`
@@ -42,12 +42,12 @@ The following components are required for this project:
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - Raspberry Pi
+    *   - 树莓派
         - \-
 
 .. ----------------------------------------------
 
-.. **Circuit Diagram**
+.. **电路图**
 
 .. .. image:: img/fzz/4.14_gravity_cube_sch.png
 ..    :width: 80%
@@ -55,9 +55,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the wiring diagram for assembling the components:
+参考接线图组装组件：
 
 .. image:: img/fzz/4.14_cube2_bb.png
    :width: 80%
@@ -65,9 +65,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**设置步骤**
 
-#. Install the OLED libraries:
+#. 安装 OLED 库：
 
    .. raw:: html
 
@@ -77,7 +77,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Install the IMU libraries:
+#. 安装 IMU 库：
 
    .. raw:: html
 
@@ -85,10 +85,10 @@ Refer to the wiring diagram for assembling the components:
 
    .. code-block:: shell
 
-      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+      sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages
 
 
-#. Run the example from the ``ai-lab-kit`` directory:
+#. 从 ``ai-lab-kit`` 目录运行示例：
 
    .. raw:: html
 
@@ -99,19 +99,19 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.14_Cube.py
 
-#. When the script runs:
+#. 脚本运行时：
 
-   * The accelerometer provides gravity-referenced X/Y/Z data.  
-   * The code computes roll and pitch relative to an initial baseline (current orientation becomes 0°, 0°).  
-   * A wireframe cube with a **filled front face** is drawn on the OLED.  
-   * Tilting the board rotates the cube on screen.  
-   * Press **Ctrl+C** to exit; the OLED is cleared.
+   * 加速度计提供重力参考的 X/Y/Z 数据。
+   * 代码计算相对于初始基准线的横滚角和俯仰角（当前方向变为 0°、0°）。
+   * 在 OLED 上绘制一个带有**填充前面**的线框立方体。
+   * 倾斜板子会使屏幕上的立方体旋转。
+   * 按 **Ctrl+C** 退出；OLED 被清除。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the Python script for the gravity-referenced cube:
+以下是重力参考立方体的 Python 脚本：
 
 .. raw:: html
 
@@ -200,7 +200,7 @@ Here is the Python script for the gravity-referenced cube:
       ax_g = ax / 9.80665
       ay_g = ay / 9.80665
       az_g = az / 9.80665
-      
+
       g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
       axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
       roll  = math.atan2(ayn, azn)
@@ -241,7 +241,7 @@ Here is the Python script for the gravity-referenced cube:
       while True:
          # Read IMU data
          data = imu.read()
-         
+
          # Extract accelerometer data (in m/s²)
          ax = data['accel_x']
          ay = data['accel_y']
@@ -287,21 +287,21 @@ Here is the Python script for the gravity-referenced cube:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **IMU Initialization**
+1. **IMU 初始化**
 
-   The script creates an ``IMU`` instance from the Fusion HAT+ module.  
-   The accelerometer provides raw X, Y, Z acceleration values in units of m/s².
+   脚本从 Fusion HAT+ 模块创建一个 ``IMU`` 实例。
+   加速度计提供原始的 X、Y、Z 加速度值，单位为 m/s²。
 
-2. **Gravity-Referenced Angles**
+2. **重力参考角度**
 
-   ``accel_to_rp()`` converts the accelerometer readings into **roll** and **pitch**:
+   ``accel_to_rp()`` 将加速度计读数转换为**横滚角**和**俯仰角**：
 
-   - Roll: rotation around the **X** axis  
-   - Pitch: rotation around the **Y** axis  
+   - 横滚角：绕 **X** 轴旋转
+   - 俯仰角：绕 **Y** 轴旋转
 
-   Only gravity is used, so yaw cannot be determined (and is fixed to 0).
+   仅使用重力，因此无法确定偏航角（固定为 0）。
 
    .. code-block:: python
 
@@ -315,44 +315,44 @@ Here is the Python script for the gravity-referenced cube:
          ax_g = ax / 9.80665
          ay_g = ay / 9.80665
          az_g = az / 9.80665
-         
+
          g = math.sqrt(ax_g*ax_g + ay_g*ay_g + az_g*az_g) + 1e-9
          axn, ayn, azn = ax_g / g, ay_g / g, az_g / g
          roll  = math.atan2(ayn, azn)
          pitch = math.atan2(-axn, math.sqrt(ayn*ayn + azn*azn))
          return roll, pitch
 
-3. **Baseline Orientation**
+3. **基准线方向**
 
-   On the very first reading:
+   在第一次读取时：
 
-   - The current ``roll`` and ``pitch`` are stored as baseline (``roll0``, ``pitch0``).  
-   - Subsequent orientations are expressed as **relative** angles:
+   - 当前的 ``roll`` 和 ``pitch`` 被存储为基准线（``roll0``、``pitch0``）。
+   - 后续方向表示为**相对**角度：
 
      .. code-block:: python
 
         roll_rel  = roll_abs  - roll0
         pitch_rel = pitch_abs - pitch0
 
-   This way, the device’s initial position becomes **0°, 0°**.
+   这样，设备的初始位置变为 **0°、0°**。
 
-4. **User-Configurable Axis Flip**
+4. **用户可配置的轴翻转**
 
-   The two flags ``FLIP_X`` and ``FLIP_Y`` allow you to invert motion on each axis:
+   两个标志 ``FLIP_X`` 和 ``FLIP_Y`` 允许您反转每个轴上的运动：
 
-   - Set ``FLIP_X = True`` if roll feels reversed on the display  
-   - Set ``FLIP_Y = True`` if pitch feels reversed  
+   - 如果横滚角在显示上感觉相反，设置 ``FLIP_X = True``
+   - 如果俯仰角感觉相反，设置 ``FLIP_Y = True``
 
-   This is helpful if your IMU is rotated or wired in a different orientation.
+   这在您的 IMU 以不同方向旋转或接线时很有帮助。
 
-5. **Smoothing (EMA)**
+5. **平滑（EMA）**
 
-   The function ``ema()`` applies **exponential moving average** smoothing:
+   ``ema()`` 函数应用**指数移动平均**平滑：
 
-   - Reduces jitter caused by sensor noise  
-   - Makes cube motion look more natural  
+   - 减少传感器噪声引起的抖动
+   - 使立方体运动看起来更自然
 
-   ``ROLL_EMA`` and ``PITCH_EMA`` control how responsive vs. smooth the motion is.
+   ``ROLL_EMA`` 和 ``PITCH_EMA`` 控制运动的响应速度与平滑程度。
 
    .. code-block:: python
 
@@ -361,9 +361,9 @@ Here is the Python script for the gravity-referenced cube:
          return alpha * new + (1.0 - alpha) * prev
 
 
-6. **3D Cube Rotation**
+6. **3D 立方体旋转**
 
-   ``rotate_point()`` applies rotation matrices to each cube vertex:
+   ``rotate_point()`` 对每个立方体顶点应用旋转矩阵：
 
       .. code-block:: python
 
@@ -380,12 +380,12 @@ Here is the Python script for the gravity-referenced cube:
             if yaw:
                cz, sz = math.cos(yaw), math.sin(yaw)
                x, y = (x*cz - y*sz), (x*sz + y*cz)
-            return (x, y, z)   
+            return (x, y, z)
 
-   - ``Rx(roll)`` followed by ``Ry(pitch)`` (yaw kept at 0)  
-   - Produces rotated 3D coordinates  
+   - ``Rx(roll)`` 后接 ``Ry(pitch)``（偏航保持为 0）
+   - 生成旋转后的 3D 坐标
 
-   ``project_point()`` then converts 3D coordinates to 2D OLED positions using **orthographic projection**.
+   ``project_point()`` 然后使用**正交投影**将 3D 坐标转换为 2D OLED 位置。
 
       .. code-block:: python
 
@@ -398,15 +398,15 @@ Here is the Python script for the gravity-referenced cube:
             return int(cx + scale * x), int(cy - scale * y)
 
 
-7. **Drawing the Cube**
+7. **绘制立方体**
 
-   ``draw_cube()``:
+   ``draw_cube()``：
 
-   - Clears the screen  
-   - Rotates and projects all 8 cube vertices  
-   - Draws all edges as a wireframe  
-   - Fills one face (``FRONT_FACE``) so you can easily see which side is pointing toward you  
-   - Optionally shows roll and pitch in degrees at the top left
+   - 清除屏幕
+   - 旋转并投影所有 8 个立方体顶点
+   - 将所有边绘制为线框
+   - 填充一个面（``FRONT_FACE``），使您可以轻松看到哪一面朝向您
+   - 可选地在左上角显示横滚角和俯仰角的度数
 
    .. code-block:: python
 
@@ -437,65 +437,63 @@ Here is the Python script for the gravity-referenced cube:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- **Cube does not move**
+- **立方体不移动**
 
-  - Confirm I2C is enabled on Raspberry Pi.  
-  - Verify the correct I2C address is used by your IMU driver.
+  - 确认树莓派上已启用 I2C。
+  - 验证 IMU 驱动程序使用的 I2C 地址是否正确。
 
-- **Motion looks reversed**
+- **运动方向相反**
 
-  - Toggle ``FLIP_X`` or ``FLIP_Y`` to invert directions.  
-  - Try placing the board flat, then slowly tilt along one axis to identify which flip is needed.
+  - 切换 ``FLIP_X`` 或 ``FLIP_Y`` 以反转方向。
+  - 尝试将板子平放，然后沿一个轴缓慢倾斜，以确定需要哪个翻转。
 
-- **Cube is too jittery**
+- **立方体抖动太厉害**
 
-  - Increase smoothing by lowering ``ROLL_EMA`` / ``PITCH_EMA`` (e.g., 0.1).  
-  - Make sure the board is mechanically stable and cables are not tugging it.
+  - 通过降低 ``ROLL_EMA`` / ``PITCH_EMA``（例如 0.1）来增加平滑度。
+  - 确保板子机械稳定，线缆不会拉扯它。
 
-- **Cube tilts when resting flat**
+- **平放时立方体倾斜**
 
-  - Hold the board steady and restart the script; the initial reading becomes the baseline.  
-  - Ensure the board is truly flat when the program starts.
+  - 稳住板子并重启脚本；第一次读数将成为基准线。
+  - 确保程序启动时板子真正平放。
 
-- **OLED shows nothing**
+- **OLED 不显示任何内容**
 
-  - Check OLED I2C address (commonly ``0x3C``).  
-  - Verify wiring and that the display contrast is adequate.  
-  - Confirm that ``adafruit-circuitpython-ssd1306`` is installed.
+  - 检查 OLED I2C 地址（通常为 ``0x3C``）。
+  - 验证接线，确保显示对比度足够。
+  - 确认 ``adafruit-circuitpython-ssd1306`` 已安装。
 
 ----------------------------------------------
 
-**Try It Yourself**
+**自己尝试**
 
-1. **Add Yaw from Gyro**
+1. **从陀螺仪添加偏航**
 
-   Combine gyro integration with accelerometer data (a complementary filter) to add a yaw axis
-   and allow full 3D cube rotation.
+   结合陀螺仪积分与加速度计数据（互补滤波器），添加偏航轴并实现完整的 3D 立方体旋转。
 
-2. **Change Cube Size or Position**
+2. **更改立方体大小或位置**
 
-   Adjust ``CUBE_SIZE`` or the projection center to move the cube or make it larger/smaller:
+   调整 ``CUBE_SIZE`` 或投影中心来移动立方体或使其变大/变小：
 
-   - Zoom in for a more dramatic effect  
-   - Shift it slightly upward to leave more room for text
+   - 放大以获得更显著的效果
+   - 稍微上移以为文本留出更多空间
 
-3. **Add a Wireframe Grid**
+3. **添加线框网格**
 
-   Draw a simple “floor” grid behind the cube to emphasize 3D motion.
+   在立方体后方绘制简单的"地面"网格，以强调 3D 运动。
 
-4. **Add Auto-Recenter Function**
+4. **添加自动重新居中功能**
 
-   Long-press a button (or use a key input) to reset the baseline orientation during runtime.
+   长按按钮（或使用按键输入）在运行时重置基准线方向。
 
-5. **Multiple Display Modes**
+5. **多种显示模式**
 
-   Toggle between:
+   在以下模式之间切换：
 
-   - Wireframe only  
-   - Filled face only  
-   - Face shading based on tilt angle  
+   - 仅线框
+   - 仅填充面
+   - 基于倾斜角度的面着色
 
-These enhancements turn the simple gravity cube into a rich 3D IMU visualization tool.
-
+这些增强功能将简单的重力立方体变成一个丰富的 3D IMU 可视化工具。

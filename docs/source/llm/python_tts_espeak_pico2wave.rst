@@ -5,40 +5,40 @@
 
 .. _tts_espeak_pico2wave:
 
-1. TTS with Espeak and Pico2Wave
-=================================================
+1. 使用 Espeak 和 Pico2Wave 实现 TTS
+=============================================
 
-In this lesson, we'll use two built-in text-to-speech (TTS) engines on Raspberry Pi — **Espeak** and **Pico2Wave** — to make the Fusion HAT+ talk.  
+在本课中，我们将使用树莓派上两个内置的文字转语音（TTS）引擎——\ **Espeak**\ 和\ **Pico2Wave**\ ——让 Fusion HAT+ 开口说话。
 
-These two engines are both simple and run offline, but they sound quite different:
+这两个引擎都很简单，可以离线运行，但音质差别很大：
 
-* **Espeak**: very lightweight and fast, but the voice is robotic. You can adjust speed, pitch, and volume.  
-* **Pico2Wave**: produces a smoother and more natural voice than Espeak, but has fewer options to configure.  
+* **Espeak**：非常轻量且快速，但声音带有机器感。你可以调整速度、音调和音量。
+* **Pico2Wave**：比 Espeak 产生更平滑、更自然的声音，但可配置的选项较少。
 
-You'll hear the difference in **voice quality** and **features**.  
+你将听到它们在\ **音质**\ 和\ **功能**\ 上的区别。
 
 ----
 
-1. Testing Espeak
+1. 测试 Espeak
 --------------------
 
-Espeak is a lightweight TTS engine included in Raspberry Pi OS.  
-Its voice sounds robotic, but it is highly configurable: you can adjust volume, pitch, speed, and more.  
+Espeak 是树莓派操作系统自带的一个轻量级 TTS 引擎。
+它的声音听起来带有机器感，但可配置性很高：你可以调整音量、音调、速度等。
 
-**Run the program**
+**运行程序**
 
   .. code-block:: bash
-  
+
       cd ~/ai-lab-kit/llm
       sudo python3 tts_espeak.py
 
-  * You should hear the Fusion HAT+ say: “Hello! I'm Espeak TTS.”
-  * Try changing the tuning parameters in the code to experiment with how ``amp``, ``speed``, ``gap``, and ``pitch`` affect the sound.
+  * 你应该会听到 Fusion HAT+ 说："Hello! I'm Espeak TTS."
+  * 尝试修改代码中的调参，体验 ``amp``、``speed``、``gap`` 和 ``pitch`` 对声音的影响。
 
-**Code**
+**代码**
 
 .. code-block:: python
-  
+
   from fusion_hat.tts import Espeak
 
   # Create Espeak TTS instance
@@ -52,39 +52,39 @@ Its voice sounds robotic, but it is highly configurable: you can adjust volume, 
   # Set pitch 0-99, default 80
   tts.set_pitch(80)
 
-  tts.say("Hello! I’m Espeak TTS.")
+  tts.say("Hello! I'm Espeak TTS.")
 
-**Code explanation:**
+**代码说明：**
 
-* ``tts.set_amp()`` — Controls the volume (0–200).  
-* ``tts.set_speed()`` — Adjusts the speaking speed (80–260).  
-* ``tts.set_gap()`` — Sets the word gap (0–200).  
-* ``tts.set_pitch()`` — Sets the pitch (0–99).  
-* ``tts.say()`` — Converts text to speech and plays it.
+* ``tts.set_amp()`` — 控制音量（0–200）。
+* ``tts.set_speed()`` — 调整说话速度（80–260）。
+* ``tts.set_gap()`` — 设置单词间隔（0–200）。
+* ``tts.set_pitch()`` — 设置音调（0–99）。
+* ``tts.say()`` — 将文字转换为语音并播放。
 
-💡 **Tip:** Try increasing the pitch and speed to make the robot sound cheerful, or lowering them to make it sound serious.
+💡 **提示：** 尝试提高音调和速度让声音听起来更欢快，或降低它们让声音更严肃。
 
 ----
 
 
-2. Testing Pico2Wave
+2. 测试 Pico2Wave
 ---------------------
 
-Pico2Wave produces a **more natural and human-like voice** compared to Espeak.  
-It’s very easy to use, but less flexible — you can only **change the language**, not the pitch, speed, or volume.  
-This makes Pico2Wave a great choice when you want clear and smooth speech without too much configuration.
+Pico2Wave 能够产生比 Espeak **更自然、更像人声**\ 的语音。
+它使用非常简单，但灵活性较低——你只能\ **更改语言**\ ，不能调整音调、速度或音量。
+这使得 Pico2Wave 在需要清晰流畅的语音而不需要太多配置时，是一个很好的选择。
 
-**Run the program**
+**运行程序**
 
   .. code-block:: bash
-  
+
       cd ~/ai-lab-kit/llm
       sudo python3 tts_pico2wave.py
 
-* You should hear the Fusion HAT+ say: “Hello! I'm Pico2Wave TTS.”  
-* Try changing the language (for example, ``es-ES`` for Spanish) and listen to how the voice changes.  
+* 你应该会听到 Fusion HAT+ 说："Hello! I'm Pico2Wave TTS."
+* 尝试更改语言（例如，西班牙语用 ``es-ES``），听听声音的变化。
 
-**Code**
+**代码**
 
 .. code-block:: python
 
@@ -95,78 +95,77 @@ This makes Pico2Wave a great choice when you want clear and smooth speech withou
 
   # Set the language
   tts.set_lang('en-US')  # en-US, en-GB, de-DE, es-ES, fr-FR, it-IT
-  
+
   # Quick hello (sanity check)
   tts.say("Hello! I'm Pico2Wave TTS.")
 
-**Code explanation:**
+**代码说明：**
 
-* ``tts.set_lang()`` — Sets the output language for speech synthesis.
+* ``tts.set_lang()`` — 设置语音合成的输出语言。
 
-  - ``en-US`` (default)
+  - ``en-US``（默认）
   - ``en-GB``
   - ``de-DE``
   - ``es-ES``
   - ``fr-FR``
   - ``it-IT``
 
-* ``tts.say()`` — Converts the text to speech and plays it immediately.  
+* ``tts.say()`` — 将文字转换为语音并立即播放。
 
 
 ----
 
-Troubleshooting
+故障排除
 -------------------
 
-* **No sound when running Espeak or Pico2Wave**
+* **运行 Espeak 或 Pico2Wave 时没有声音**
 
-  * Check that your speakers/headphones are connected and volume is not muted.  
-  * Run a quick test in terminal:
+  * 检查你的扬声器/耳机是否已连接，音量是否未静音。
+  * 在终端中快速测试：
 
     .. code-block:: bash
 
        espeak "Hello world"
        pico2wave -w test.wav "Hello world" && aplay test.wav
 
-  If you hear nothing, the issue is with audio output, not your Python code.
+  如果听不到任何声音，问题出在音频输出上，而非你的 Python 代码。
 
-* **Espeak voice sounds too fast or too robotic**
+* **Espeak 声音太快或太机械**
 
-  * Try adjusting the parameters in your code:
+  * 尝试调整代码中的参数：
 
     .. code-block:: python
 
        tts.set_speed(120)   # slower
        tts.set_pitch(60)    # different pitch
 
-* **Permission denied when running code**
+* **运行代码时提示权限被拒绝**
 
-  * Try running with ``sudo``:
+  * 尝试使用 ``sudo`` 运行：
 
     .. code-block:: bash
 
        sudo python3 test_tts_espeak.py
 
-Comparison: Espeak vs Pico2Wave
--------------------------------------
+Espeak 与 Pico2Wave 对比
+-------------------------------
 
 .. list-table::
    :widths: 20 40 40
    :header-rows: 1
 
-   * - Feature
+   * - 特性
      - Espeak
      - Pico2Wave
-   * - Voice quality
-     - Robotic, synthetic
-     - More natural, human-like
-   * - Languages
-     - Default English
-     - Fewer, but common ones
-   * - Adjustable
-     - Yes (speed, pitch, etc.)
-     - No (only language)
-   * - Performance
-     - Very fast, lightweight
-     - Slightly slower, heavier
-
+   * - 语音质量
+     - 机械、合成音
+     - 更自然，更像人声
+   * - 语言支持
+     - 默认为英语
+     - 较少，但覆盖常用语言
+   * - 可调节性
+     - 是（速度、音调等）
+     - 否（仅语言）
+   * - 性能
+     - 非常快，轻量
+     - 稍慢，较重

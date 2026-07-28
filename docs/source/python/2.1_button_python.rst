@@ -4,25 +4,25 @@
 
 .. _py_buton:
 
-2.1 Button
-==============
+2.1 按钮
+=========
 
-**Introduction**
+**介绍**
 
-In this project, we will learn how to use a button to control an LED. Buttons are fundamental input devices used in various electronic projects to interact with circuits and systems.
+在本项目中，我们将学习如何使用按钮控制LED。按钮是各种电子项目中使用的基本输入设备，用于与电路和系统进行交互。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,7 +35,7 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_button`
         - |link_button_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -43,9 +43,9 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-We will use a normally open button as an input for the Raspberry Pi. When the button is pressed, GPIO17 will receive a high-level signal (3.3V). The Raspberry Pi will detect this signal and turn the LED on. The circuit connections are shown in the diagrams below:
+我们将使用一个常开按钮作为Raspberry Pi的输入。按下按钮时，GPIO17将接收到高电平信号（3.3V）。Raspberry Pi将检测到此信号并点亮LED。电路连接如下图所示：
 
 
 .. image:: img/fzz/2.1.1_sch.png
@@ -55,13 +55,13 @@ We will use a normally open button as an input for the Raspberry Pi. When the bu
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to build the circuit:
+请按照以下步骤搭建电路：
 
-1. Connect the anode (long pin) of the LED to a GPIO pin (GPIO22) through a current-limiting resistor.
-2. Connect the cathode (short pin) of the LED to the ground (GND).
-3. Connect one terminal of the button to GPIO17 and the other terminal to the ground (GND).
+1. 将LED的正极（长脚）通过限流电阻连接到GPIO引脚（GPIO22）。
+2. 将LED的负极（短脚）连接到地（GND）。
+3. 将按钮的一个端子连接到GPIO17，另一个端子连接到地（GND）。
 
 
 .. image:: img/fzz/2.1.1_bb.png
@@ -70,11 +70,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -82,21 +82,21 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.1_Button.py
 
-This Python script demonstrates an interactive setup where a button controls an LED. When executed:
+此Python脚本演示了一个交互式设置，其中按钮控制LED。执行时：
 
-1. Pressing the button (connected to GPIO pin 17) turns the LED (connected to GPIO pin 22) on.
-2. Releasing the button turns the LED off.
-3. The program runs indefinitely, listening for button press and release events to control the LED.
+1. 按下按钮（连接到GPIO 17引脚）将点亮LED（连接到GPIO 22引脚）。
+2. 释放按钮将熄灭LED。
+3. 程序无限运行，监听按钮按下和释放事件以控制LED。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code toggles the LED based on button presses and releases:
+以下Python代码根据按钮的按下和释放来开关LED：
 
 
 .. raw:: html
@@ -128,11 +128,11 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The ``fusion_hat`` library provides a simple interface for GPIO control, and the ``signal`` module is used to keep the program running.
+   ``fusion_hat``\ 库提供了简单的GPIO控制接口，\ ``signal``\ 模块用于保持程序运行。
 
    .. code-block:: python
 
@@ -141,9 +141,9 @@ The following Python code toggles the LED based on button presses and releases:
       from signal import pause  # Import pause function from signal module
 
 
-2. **Component Initialization**
+2. **组件初始化**
 
-   The LED is connected to GPIO pin 22, and the Button is connected to GPIO pin 17.
+   LED连接到GPIO 22引脚，按钮连接到GPIO 17引脚。
 
    .. code-block:: python
 
@@ -152,18 +152,18 @@ The following Python code toggles the LED based on button presses and releases:
       # Initialize a Button object on GPIO pin 17
       button = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-3. **Event Handling**
+3. **事件处理**
 
-   The ``when_activated`` and ``when_deactivated`` events are linked to the LED's ``high()`` and ``low()`` methods, respectively. This ensures that the LED turns on when the button is pressed and off when the button is released.
+   ``when_activated``\ 和\ ``when_deactivated``\ 事件分别链接到LED的\ ``high()``\ 和\ ``low()``\ 方法。这确保按下按钮时LED点亮，释放按钮时LED熄灭。
 
    .. code-block:: python
 
        button.when_activated = led.high
        button.when_deactivated = led.low
 
-4. **Event Loop**
+4. **事件循环**
 
-   The ``pause()`` function keeps the program running and listens for button press and release events.
+   ``pause()``\ 函数保持程序运行，监听按钮按下和释放事件。
 
    .. code-block:: python
 
@@ -171,35 +171,35 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **LED Does Not Light Up**  
+1. **LED不亮**
 
-   - **Cause**: Incorrect GPIO pin connection or LED wiring.  
-   - **Solution**: Verify that the LED's positive leg is connected to GPIO pin 22 and its negative leg to a resistor leading to ground.
+   - **原因**：GPIO引脚连接或LED接线错误。
+   - **解决方案**：确认LED的正极连接到GPIO 22引脚，负极通过电阻连接到地。
 
-2. **Button Press Has No Effect**  
+2. **按钮按下去无效**
 
-   - **Cause**: Incorrect button wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the button is connected correctly to GPIO pin 17 and ground. .
+   - **原因**：按钮接线或GPIO引脚配置不正确。
+   - **解决方案**：确保按钮正确连接到GPIO 17引脚和地。
 
-3. **LED Stays On or Off Regardless of Button State**  
+3. **LED无论按钮状态如何都保持亮或灭**
 
-   - **Cause**: The button may not trigger events correctly.  
-   - **Solution**: Check the button’s functionality by directly testing its connectivity with a multimeter or simple circuit.
+   - **原因**：按钮可能未正确触发事件。
+   - **解决方案**：通过直接用万用表或简单电路测试按钮的连通性来检查其功能。
 
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Toggle LED State**  
+1. **切换LED状态**
 
-   Modify the script to toggle the LED's state with each button press instead of turning it on/off directly:
+   修改脚本，使每次按下按钮时切换LED状态，而不是直接开关：
 
    .. code-block:: python
-    
+
       def toggle():
          if led.value() == 1:
             led.off()
@@ -208,9 +208,9 @@ The following Python code toggles the LED based on button presses and releases:
 
       button.when_activated = toggle
 
-2. **Multiple LEDs**  
+2. **多个LED**
 
-   Control multiple LEDs with a single button, cycling through different patterns:
+   用一个按钮控制多个LED，循环切换不同模式：
 
    .. code-block:: python
 
@@ -225,9 +225,9 @@ The following Python code toggles the LED based on button presses and releases:
 
       button.when_activated = cycle_leds
 
-3. **Button Press Duration**  
+3. **按钮按下持续时间**
 
-   Add functionality to perform different actions based on how long the button is held:
+   根据按钮按下的时长执行不同操作：
 
    .. code-block:: python
 
@@ -250,9 +250,9 @@ The following Python code toggles the LED based on button presses and releases:
       button.when_activated = start_timer
       button.when_deactivated = check_duration
 
-4. **Debouncing**  
+4. **消抖**
 
-   Implement software debouncing for more accurate button press detection:
+   实现软件消抖，以获得更准确的按钮按下检测：
 
    .. code-block:: python
 
@@ -280,6 +280,6 @@ The following Python code toggles the LED based on button presses and releases:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a button to control an LED with a Fusion HAT+. Buttons are versatile components and can be integrated into various applications, from basic circuits to complex interactive systems.
+本项目演示了如何使用按钮通过Fusion HAT+控制LED。按钮是多功能组件，可集成到从基本电路到复杂交互系统的各种应用中。

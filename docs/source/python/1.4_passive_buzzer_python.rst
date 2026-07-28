@@ -4,25 +4,25 @@
 
 .. _py_pa_buzzer:
 
-1.4 Passive Buzzer
-===========================
+1.4 无源蜂鸣器
+===============
 
-**Introduction**
+**介绍**
 
-In this project, we will learn how to make a passive buzzer play music by driving it with different frequencies. Passive buzzers, unlike active buzzers, require an external signal to produce sound.
+在本项目中，我们将学习如何通过不同频率驱动无源蜂鸣器播放音乐。与有源蜂鸣器不同，无源蜂鸣器需要外部信号才能产生声音。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -40,23 +40,23 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The circuit uses a passive buzzer, a NPN transistor, and a 1kΩ resistor. The resistor protects the transistor from excessive current. By varying the frequency of the GPIO pin connected to the transistor, the buzzer produces different sounds, enabling it to play music.
+该电路使用一个无源蜂鸣器、一个NPN三极管和一个1kΩ电阻。电阻保护三极管免受过大电流影响。通过改变连接到三极管的GPIO引脚的频率，蜂鸣器可以发出不同的声音，从而实现播放音乐。
 
 .. image:: img/fzz/1.2.2_sch.png
 
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to build the circuit:
+请按照以下步骤搭建电路：
 
-1. Connect the base of the NPN transistor to PWM0 through the resistor.
-2. Connect the emitter of the transistor to the power supply (+).
-3. Connect the collector of the transistor to one terminal of the passive buzzer.
-4. Connect the other terminal of the buzzer to the ground (-).
+1. 将NPN三极管的基极通过电阻连接到PWM0。
+2. 将三极管的发射极连接到电源正极（+）。
+3. 将三极管的集电极连接到无源蜂鸣器的一个端子。
+4. 将蜂鸣器的另一个端子连接到电源负极（-）。
 
 .. image:: img/fzz/1.2.2_bb.png
    :width: 80%
@@ -64,11 +64,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -76,17 +76,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 1.4_PassiveBuzzer.py
 
-After running the script, the passive buzzer plays a short musical tune through PWM 0. Each note is played in sequence for its set duration, and the current note is printed to the console as it plays. When the tune finishes, the buzzer stops automatically, with silent pauses where the note is None. You can also stop the program at any time by pressing Ctrl + C.
+运行脚本后，无源蜂鸣器通过PWM 0播放一段简短的乐曲。每个音符按其设定时长依次播放，当前音符在播放时会打印到控制台。乐曲播放完毕后，蜂鸣器自动停止，其中音符为\ ``None``\ 处为静音停顿。你也可以随时按Ctrl + C停止程序。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code generates musical notes using a passive buzzer:
+以下Python代码使用无源蜂鸣器生成音乐音符：
 
 
 .. raw:: html
@@ -122,32 +122,32 @@ The following Python code generates musical notes using a passive buzzer:
       ('C4', 0.2), ('B4', 0.2), (None, 0.2),
       ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
       ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
-      ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+      ('A4', 0.2), ('G4', 0.2), ('E4', 0.2),
       ('D4', 0.2), ('E4', 0.2)]
 
 
-   try:
-      play(tune)  # Execute the play function to start playing the tune
+      try:
+         play(tune)  # Execute the play function to start playing the tune
 
-   except KeyboardInterrupt:
-      # Handle KeyboardInterrupt for graceful termination
-      pass
+      except KeyboardInterrupt:
+         # Handle KeyboardInterrupt for graceful termination
+         pass
 
-This Python script plays a musical tune using a passive buzzer connected to PWM 0. When executed:
+此Python脚本使用连接到PWM 0的无源蜂鸣器播放乐曲。执行时：
 
-1. The script iterates through a predefined sequence of musical notes (``tune``), playing each note for a specified duration.
-2. The notes are output to the console as they are played, providing a visual reference.
-3. The tune stops automatically once all notes are played. The buzzer produces no sound during pauses (when the note is ``None``).
-4. The program can be interrupted gracefully using ``Ctrl+C``.
+1. 脚本遍历预定义的音符序列（\ ``tune``\ ），每个音符按指定时长播放。
+2. 音符播放时输出到控制台，提供视觉参考。
+3. 所有音符播放完毕后，乐曲自动停止。在停顿期间（音符为\ ``None``\ ），蜂鸣器不发声。
+4. 可通过\ ``Ctrl+C``\ 优雅地中断程序。
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The ``Buzzer`` class from the ``fusion_hat`` library is used to generate tones, and ``time.sleep`` introduces delays for note durations.
+   ``fusion_hat``\ 库中的\ ``Buzzer``\ 类用于生成音调，\ ``time.sleep``\ 用于引入音符时长的延迟。
 
    .. code-block:: python
 
@@ -155,18 +155,18 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
        from fusion_hat.pwm import PWM
        from time import sleep
 
-2. **Buzzer Initialization**
+2. **蜂鸣器初始化**
 
-   The ``Buzzer`` is associated with PWM0 for tone generation.
+   ``Buzzer``\ 与PWM0关联以生成音调。
 
    .. code-block:: python
 
       # Initialize a TonalBuzzer connected to PWM 0
       tb = Buzzer(PWM('P0'))  # Update this pin number based on your setup
 
-3. **Playing Notes**
+3. **播放音符**
 
-   The ``play`` function iterates over a list of tuples representing musical notes and their durations. Each note is played for its specified duration, followed by a brief stop.
+   ``play``\ 函数遍历代表音乐音符及其时长的元组列表。每个音符按指定时长播放，然后短暂停止。
 
    .. code-block:: python
 
@@ -176,9 +176,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
             tb.play(note,float(duration))  # Play the note on the buzzer
          tb.off()  # Stop playing after the tune is complete
 
-4. **Tune Definition**
+4. **乐曲定义**
 
-   The ``tune`` variable contains a sequence of notes (e.g., 'C#4') and durations (e.g., 0.2 seconds).
+   ``tune``\ 变量包含一系列音符（例如'C#4'）和时长（例如0.2秒）。
 
    .. code-block:: python
 
@@ -191,13 +191,13 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
            ('C4', 0.2), ('B4', 0.2), (None, 0.2),
            ('F#4', 0.2), ('G4', 0.2), (None, 0.2),
            ('B4', 0.2), ('Bb4', 0.5), (None, 0.6),
-           ('A4', 0.2), ('G4', 0.2), ('E4', 0.2), 
+           ('A4', 0.2), ('G4', 0.2), ('E4', 0.2),
            ('D4', 0.2), ('E4', 0.2)
        ]
 
-5. **Keyboard Interrupt Handling**
+5. **键盘中断处理**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C).
+   ``try-except``\ 块确保程序在被中断时（例如\ ``Ctrl+C``\ ）优雅地停止。
 
    .. code-block:: python
 
@@ -210,26 +210,26 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **No Sound from the Buzzer**  
+1. **蜂鸣器无声音**
 
-   - **Cause**: Incorrect GPIO pin connection or incompatible buzzer type.  
-   - **Solution**: Ensure the TonalBuzzer is connected to PWM 0.
+   - **原因**：GPIO引脚连接错误或蜂鸣器类型不兼容。
+   - **解决方案**：确保TonalBuzzer连接到PWM 0。
 
-2. **Intermittent or Stuttering Sound**  
+2. **声音断续或卡顿**
 
-   - **Cause**: Timing inconsistencies in the ``sleep()`` function.  
-   - **Solution**: Confirm that the durations in the ``tune`` list are appropriately calibrated for smooth transitions.
+   - **原因**：\ ``sleep()``\ 函数的时序不一致。
+   - **解决方案**：确认\ ``tune``\ 列表中的时长已适当校准，以实现平滑过渡。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Custom Tunes**  
+1. **自定义乐曲**
 
-   Allow the user to input their own sequence of notes and durations:
+   允许用户输入自己的音符和时长序列：
 
    .. code-block:: python
 
@@ -243,9 +243,9 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(user_tune)
 
 
-2. **Multiple Tunes**  
+2. **多首乐曲**
 
-   Add predefined tunes and let the user select which one to play:
+   添加预定义乐曲并让用户选择播放哪一首：
 
    .. code-block:: python
 
@@ -257,17 +257,17 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
       play(tunes[choice])
 
 
-3. **Real-Time Interaction**  
+3. **实时交互**
 
-   Use buttons or a keyboard to play notes interactively, turning the buzzer into a simple instrument.
+   使用按钮或键盘交互式地播放音符，将蜂鸣器变成简单的乐器。
 
-4. **Chained Tunes**  
+4. **串联乐曲**
 
-   Automatically chain multiple tunes together to create a longer piece.
+   自动将多首乐曲串联在一起，形成更长的曲目。
 
-5. **Dynamic Speed Adjustment**  
+5. **动态速度调节**
 
-   Allow users to change the playback speed dynamically by modifying the note durations:
+   允许用户通过修改音符时长动态改变播放速度：
 
    .. code-block:: python
 
@@ -277,6 +277,6 @@ This Python script plays a musical tune using a passive buzzer connected to PWM 
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a passive buzzer to play musical notes. By combining hardware and software, you can create a variety of sounds and melodies for interactive projects.
+本项目演示了如何使用无源蜂鸣器播放音乐音符。通过结合硬件和软件，你可以为互动项目创建各种声音和旋律。

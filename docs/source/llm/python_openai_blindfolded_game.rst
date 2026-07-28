@@ -1,21 +1,21 @@
 .. include:: /index.rst
    :start-after: start_hello_message
    :end-before: end_hello_message
-   
+
 .. _py_blindfolded_watermelon_game:
 
-(Example) Blindfolded Watermelon Smashing Game
-====================================================
+（示例）蒙眼打西瓜游戏
+===========================
 
-**Introduction**
+**简介**
 
-This project creates an interactive **Blindfolded Watermelon Smashing Game** where players navigate a 20×20 meter grid using a joystick while relying on an AI assistant for directional guidance. The system integrates:
+该项目创建了一个交互式的\ **蒙眼打西瓜游戏**\ ，玩家使用摇杆在 20×20 米的网格中移动，并依靠 AI 助手进行方向引导。该系统集成了：
 
-1. **Joystick controls** for player movement on X/Y axes
-2. **AI-powered guidance** using OpenAI's GPT-4
-3. **Text-to-speech feedback** using Pico2Wave
-4. **Random target generation** for watermelon placement
-5. **Interactive button** for smashing actions
+1. **摇杆控制**：玩家在 X/Y 轴上的移动
+2. **AI 引导**：使用 OpenAI 的 GPT-4
+3. **文字转语音反馈**：使用 Pico2Wave
+4. **随机目标生成**：放置西瓜
+5. **交互按钮**：执行敲击动作
 
 .. raw:: html
 
@@ -24,26 +24,26 @@ This project creates an interactive **Blindfolded Watermelon Smashing Game** whe
           Your browser does not support the video tag.
       </video>
 
-The player starts at the center (0,0) and must find a randomly placed watermelon using only audio directions from the AI assistant, creating an engaging sensory-deprived gaming experience.
+玩家从中心点 (0,0) 出发，必须仅依靠 AI 助手的语音指引，找到随机放置的西瓜，创造出引人入胜的感官剥夺式游戏体验。
 
-You can combine various input devices with LLM modules to create interactive AI games. See:
+你可以将各种输入设备与 LLM 模块结合，创建交互式 AI 游戏。参见：
 
-* :ref:`py_online_llm` 
+* :ref:`py_online_llm`
 * :ref:`tts_espeak_pico2wave`
 * :ref:`py_joystick`
 
 ----------------------------------------------
 
-**What You'll Need**
+**所需组件**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
     *   - :ref:`cpn_joystick`
         - \-
     *   - :ref:`cpn_button`
@@ -57,9 +57,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Connect the components to the Fusion HAT+ as follows:
+按以下方式将组件连接到 Fusion HAT+：
 
 .. image:: img/fzz/watermelon_game_bb.png
    :width: 80%
@@ -75,9 +75,9 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**运行示例**
 
-#. Run the code
+#. 运行代码
 
    .. raw:: html
 
@@ -88,260 +88,260 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_blindfolded_game.py
 
-#. Play the game
+#. 玩游戏
 
-   After the script starts, the game will randomly place a watermelon on the 20×20 meter field.
-   Use the joystick to move step by step, and listen to the AI assistant for direction guidance.
+   脚本启动后，游戏会随机在 20×20 米的场地上放置一个西瓜。
+   使用摇杆逐步移动，并听取 AI 助手的方位引导。
 
-   When you think you have reached the watermelon position, press the button to smash.
-   If your coordinates match the watermelon exactly, you win the game.
+   当你认为已到达西瓜位置时，按下按钮进行敲击。
+   如果你的坐标与西瓜完全匹配，你就获胜了。
 
-#. Understand the game mechanics
+#. 了解游戏机制
 
-   * Coordinate System:
+   * 坐标系统：
 
-     - The game field is a 20×20 meter grid
-     - Coordinates range from (-10,-10) to (10,10)
-     - Positive X = East, Negative X = West
-     - Positive Y = South, Negative Y = North (inverted Y-axis)
-     - Center point is (0,0)
+     - 游戏场地为 20×20 米网格
+     - 坐标范围从 (-10,-10) 到 (10,10)
+     - X 正方向 = 东，X 负方向 = 西
+     - Y 正方向 = 南，Y 负方向 = 北（Y 轴反转）
+     - 中心点为 (0,0)
 
-   * Movement Rules:
+   * 移动规则：
 
-     - Joystick right → X+1 (East)
-     - Joystick left → X-1 (West)
-     - Joystick up → Y-1 (North)
-     - Joystick down → Y+1 (South)
-     - Each movement changes position by 1 meter
+     - 摇杆向右 → X+1（向东）
+     - 摇杆向左 → X-1（向西）
+     - 摇杆向上 → Y-1（向北）
+     - 摇杆向下 → Y+1（向南）
+     - 每次移动改变 1 米位置
 
-   * Winning Condition:
+   * 获胜条件：
 
-     - Player must be at exact watermelon coordinates
-     - Press button to "smash" at current position
-     - Exact match ends game with victory message
+     - 玩家必须到达西瓜的精确坐标
+     - 按下按钮在当前位置"敲击"
+     - 完全匹配则游戏结束，显示胜利消息
 
-   * AI Assistant Role:
+   * AI 助手角色：
 
-     - Receives both player and watermelon coordinates
-     - Provides cardinal direction guidance (N, NE, E, SE, S, SW, W, NW)
-     - Gives distance approximation in meters
-     - Keeps responses brief for audio playback
+     - 接收玩家和西瓜的坐标
+     - 提供基本方位引导（北、东北、东、东南、南、西南、西、西北）
+     - 以米为单位给出大致距离
+     - 保持回复简短，以便语音播放
 
 
-**Code**
+**代码**
 
-Here is the full Python script for the Blindfolded Watermelon Smashing Game:
+以下是蒙眼打西瓜游戏的完整 Python 脚本：
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: python
-   
-   
+
+
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
    from fusion_hat.adc import ADC
    from fusion_hat.pin import Pin
    from fusion_hat.tts import Pico2Wave
    import random, time
-   
+
    # Register OpenAI API
    # openai.com
-   
+
    # Export your openai api key with :LLM_API_KEY
    # export LLM_API_KEY=sk-xxxxxxxxxxxxxxxxx
-   
+
    # Setup TTS
    tts = Pico2Wave()
    tts.set_lang('en-US')
-   
+
    # Setup Joystick
    btn_pin = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP, bounce_time=0.05)
    x_axis = ADC('A1')
    y_axis = ADC('A0')
-   
+
    def MAP(x, in_min, in_max, out_min, out_max):
        """
        Map a value from one range to another.
        """
        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-   
+
    def activate():
        global smash_tips
        smash_tips = True
-           
+
    btn_pin.when_activated = activate
-   
+
    # Setup LLM
    INSTRUCTIONS = "This is a blindfolded watermelon-smashing game. A point representing a watermelon is randomly generated within a 20x20 meter area with coordinates ranging from (-10,-10) to (10,10). The player starts from the origin (0,0) and moves using a joystick. Even if the player can't see anything, they press a button to perform a smash action. After smashing, you will receive the watermelon's and player's coordinates. You need to advise the player on the direction of the watermelon, like 'The watermelon is ten meters to your northeast.' If the smash coordinates match, the game ends. Your responses will be converted into speech via TTS, so please keep them brief, ideally within two sentences."
-   
+
    WELCOME = "Hello, I am Blindfolded Watermelon Smashing Game Assistant. Use the joystick to move and press the button to smash. I will guide you to find the watermelon. Good luck!"
 
-   
+
    llm = OpenAI(
        api_key=OPENAI_API_KEY,
        model="gpt-4o",
    )
-   
+
    # Set how many messages to keep
    llm.set_max_messages(20)
    # Set instructions
    llm.set_instructions(INSTRUCTIONS)
    # Set welcome message
    llm.set_welcome(WELCOME)
-   
+
    print(WELCOME)
-   
+
    # Define the map size and the joystick pins
    watermelon_x, watermelon_y = random.randint(-10, 10), random.randint(-10, 10)
    player_x, player_y = 0, 0
    smash_tips = False
-   
+
    while True:
        x_val = MAP(x_axis.read(), 0, 4095, -100, 100)
        y_val = MAP(y_axis.read(), 0, 4095, -100, 100)
-       
+
        if x_val > 80:
            player_x += 1
        elif x_val < -80:
            player_x -= 1
-           
+
        if y_val > 80:
            player_y -= 1
        elif y_val < -80:
            player_y += 1
-           
+
        # Debug positions (commented out in actual game)
        # print('Watermelon position: %d, %d  ' % (watermelon_x, watermelon_y))
        # print('Player position: %d, %d  ' % (player_x, player_y))
-   
+
        time.sleep(0.3)
-   
+
        if smash_tips:
            smash_tips = False
            print("Smash!")
-           
+
            if (player_x, player_y) == (watermelon_x, watermelon_y):
                print("Target hit!")
                tts.say("Target hit!")
                break
            else:
                input_text = f"Watermelon position: ({watermelon_x}, {watermelon_y}), Player position: ({player_x}, {player_y})"
-               
+
                # Response with stream
                response = llm.prompt(input_text, stream=True)
                string = ""
-               
+
                for next_word in response:
                    if next_word:
                        # print(next_word, end="", flush=True)  # Uncomment for streaming display
                        string += next_word
-                       
+
                # print("")  # New line after streaming
                print("AI: " + string)
                tts.say(string)
-               
+
    print("Game over!")
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. Text-to-Speech Setup
+1. 文字转语音设置
 
-   The game uses Pico2Wave for audio feedback:
-   
+   游戏使用 Pico2Wave 进行音频反馈：
+
    .. code-block:: python
-   
+
       tts = Pico2Wave()
       tts.set_lang('en-US')
-   
-   This converts the AI's text responses into spoken English instructions.
 
-2. Joystick Input Handling
+   这将 AI 的文字回复转换为英语口语指令。
 
-   The joystick uses two ADC channels for X and Y axis reading:
-   
+2. 摇杆输入处理
+
+   摇杆使用两个 ADC 通道读取 X 和 Y 轴：
+
    .. code-block:: python
-   
+
       x_axis = ADC('A1')  # Horizontal movement
       y_axis = ADC('A0')  # Vertical movement
-      
+
       def MAP(x, in_min, in_max, out_min, out_max):
           return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
-      
+
       # Convert 0-4095 ADC reading to -100 to 100 range
       x_val = MAP(x_axis.read(), 0, 4095, -100, 100)
       y_val = MAP(y_axis.read(), 0, 4095, -100, 100)
 
-3. Button Setup with Interrupt
+3. 按钮中断设置
 
-   The button uses an interrupt callback for immediate response:
-   
+   按钮使用中断回调实现即时响应：
+
    .. code-block:: python
-   
+
       btn_pin = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP, bounce_time=0.05)
-      
+
       def activate():
           global smash_tips
           smash_tips = True
-              
+
       btn_pin.when_activated = activate
-   
-   When pressed, it sets ``smash_tips`` to ``True``, triggering the smash action in the main loop.
 
-4. OpenAI LLM Configuration
+   按下时，将 ``smash_tips``\ 设为 ``True``，在主循环中触发敲击动作。
 
-   The AI assistant is configured with specific game instructions:
-   
+4. OpenAI LLM 配置
+
+   AI 助手配置了特定的游戏指令：
+
    .. code-block:: python
-   
+
       INSTRUCTIONS = "This is a blindfolded watermelon-smashing game..."
       WELCOME = "Hello, I am Blindfolded Watermelon Smashing Game Assistant..."
-      
+
       llm = OpenAI(
           api_key=OPENAI_API_KEY,
           model="gpt-4o",
       )
-      
+
       llm.set_max_messages(20)       # Keep conversation history
       llm.set_instructions(INSTRUCTIONS)  # Set game rules
       llm.set_welcome(WELCOME)       # Set initial greeting
 
-5. Game State Management
+5. 游戏状态管理
 
-   The game maintains player and target positions:
-   
+   游戏维护玩家和目标位置：
+
    .. code-block:: python
-   
+
       # Random watermelon placement
       watermelon_x, watermelon_y = random.randint(-10, 10), random.randint(-10, 10)
-      
+
       # Player starts at center
       player_x, player_y = 0, 0
-      
+
       # Movement thresholds (80% joystick deflection)
       if x_val > 80:
           player_x += 1      # Move right
       elif x_val < -80:
           player_x -= 1      # Move left
-          
+
       if y_val > 80:
           player_y -= 1      # Move up (negative Y)
       elif y_val < -80:
           player_y += 1      # Move down (positive Y)
 
-6. Smash Action and AI Response
+6. 敲击动作和 AI 回复
 
-   When the button is pressed, the game checks for a hit or requests AI guidance:
-   
+   按下按钮时，游戏检查是否命中或请求 AI 引导：
+
    .. code-block:: python
-   
+
       if smash_tips:
           smash_tips = False
           print("Smash!")
-          
+
           if (player_x, player_y) == (watermelon_x, watermelon_y):
               print("Target hit!")
               tts.say("Target hit!")
@@ -349,97 +349,97 @@ Here is the full Python script for the Blindfolded Watermelon Smashing Game:
           else:
               # Send positions to AI for guidance
               input_text = f"Watermelon position: ({watermelon_x}, {watermelon_y}), Player position: ({player_x}, {player_y})"
-              
+
               # Get streaming response from AI
               response = llm.prompt(input_text, stream=True)
               string = ""
-              
+
               for next_word in response:
                   if next_word:
                       string += next_word
-                      
+
               print("AI: " + string)
               tts.say(string)  # Speak the guidance
 
-7. Streaming Response Processing
+7. 流式回复处理
 
-   The AI response is processed word-by-word for potential real-time display:
-   
+   AI 回复逐词处理，可用于实时显示：
+
    .. code-block:: python
-   
+
       response = llm.prompt(input_text, stream=True)
       string = ""
-      
+
       for next_word in response:
           if next_word:
               # Uncomment to display words as they arrive
               # print(next_word, end="", flush=True)
               string += next_word
 
-8. Movement Logic with Dead Zone
+8. 带死区的移动逻辑
 
-   The joystick has an 80-unit dead zone to prevent accidental movements:
-   
+   摇杆有 80 单位的死区，防止意外移动：
+
    .. code-block:: python
-   
+
       # Only move when joystick is pushed >80% in any direction
       # This prevents drifting from center position
       if x_val > 80:    # Right
       elif x_val < -80: # Left
-      
+
       if y_val > 80:    # Up
       elif y_val < -80: # Down
 
-9. Game Loop Structure
+9. 游戏循环结构
 
-   The main game loop continuously:
-   
-   1. Reads joystick position
-   2. Updates player coordinates if joystick is pushed
-   3. Checks for smash button press
-   4. Processes AI responses when needed
-   5. Provides audio feedback via TTS
+   主游戏循环持续：
 
-----------------------------------------------
-
-**Troubleshooting**
-
-- No response from joystick
-
-  - Verify ADC connections: A0 for Y-axis, A1 for X-axis
-  - Check power: VCC to 3.3V, GND to ground
-  - Test ADC reading: ``print(x_axis.read())`` should show 0-4095
-  - Ensure joystick is centered (should read ~2048)
-
-
-- No audio from TTS
-
-  - Check audio output: ``sudo raspi-config`` → **System Options** → **Audio**
-  - Test speaker: ``speaker-test -t sine -f 440``
-  - Ensure Pico2Wave is installed: ``pico2wave --help``
-  - Check volume: ``alsamixer``
-  - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
-
-- OpenAI API errors
-
-  - Verify API key in ``secret.py``
-  - Check internet connection: ``ping 8.8.8.8``
-  - Ensure billing is enabled on OpenAI account
-  - Verify model "gpt-4o" is available to your account
-
-- Player moves too fast/slow
-
-  - Adjust movement threshold (currently 80): higher = more joystick deflection needed
-  - Modify movement increment (currently 1): change to 0.5 for finer control
-  - Adjust sleep time (currently 0.3s): longer = slower movement response
-
-
-- AI responses too long
-
-  - Emphasize brevity in INSTRUCTIONS
-  - Add "Respond in 10 words or less" to instructions
-  - Implement response length checking in code
+   1. 读取摇杆位置
+   2. 如果摇杆被推动，更新玩家坐标
+   3. 检测敲击按钮的按下
+   4. 需要时处理 AI 回复
+   5. 通过 TTS 提供音频反馈
 
 ----------------------------------------------
 
-This blindfolded watermelon game demonstrates how physical controls, AI guidance, and audio feedback can create an engaging sensory-based gaming experience that challenges spatial awareness and listening skills!
+**故障排除**
+
+- 摇杆无响应
+
+  - 检查 ADC 连接：A0 为 Y 轴，A1 为 X 轴
+  - 检查电源：VCC 接 3.3V，GND 接地
+  - 测试 ADC 读取：\ ``print(x_axis.read())``\ 应显示 0-4095
+  - 确保摇杆居中（应读取约 2048）
+
+
+- TTS 无音频输出
+
+  - 检查音频输出：\ ``sudo raspi-config`` → **System Options** → **Audio**
+  - 测试扬声器：\ ``speaker-test -t sine -f 440``
+  - 确保已安装 Pico2Wave：\ ``pico2wave --help``
+  - 检查音量：\ ``alsamixer``
+  - 重新运行音频设置脚本：\ ``sudo /opt/setup_fusion_hat_audio.sh``
+
+- OpenAI API 错误
+
+  - 验证 ``secret.py``\ 中的 API 密钥
+  - 检查网络连接：\ ``ping 8.8.8.8``
+  - 确保 OpenAI 账户已启用计费
+  - 验证模型 "gpt-4o" 在你的账户中可用
+
+- 玩家移动过快/过慢
+
+  - 调整移动阈值（目前为 80）：数值越大，需要的摇杆偏转越大
+  - 修改移动增量（目前为 1）：改为 0.5 以获得更精细的控制
+  - 调整休眠时间（目前为 0.3 秒）：时间越长，移动响应越慢
+
+
+- AI 回复过长
+
+  - 在 INSTRUCTIONS 中强调简洁性
+  - 在指令中添加 "Respond in 10 words or less"
+  - 在代码中实现回复长度检查
+
+----------------------------------------------
+
+这个蒙眼打西瓜游戏展示了物理控制、AI 引导和音频反馈如何创造出引人入胜的感官游戏体验，挑战空间感知和听力技巧！

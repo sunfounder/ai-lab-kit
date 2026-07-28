@@ -4,39 +4,39 @@
 
 .. _py_servo:
 
-1.7 Servo
-==============================
+1.7 舵机
+=========
 
-**Introduction**
+**介绍**
 
-In this project, we will learn how to control a servo motor using a Raspberry Pi. Servo motors are commonly used in robotics and automation for precise control of angular motion.
+在本项目中，我们将学习如何使用Raspberry Pi控制舵机。舵机在机器人和自动化领域中常用于精确控制角度运动。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
 
     *   - :ref:`cpn_servo`
         - |link_servo_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The circuit diagram below shows the connections required for controlling the servo motor.
+以下电路图显示了控制舵机所需的连接。
 
 .. image:: img/fzz/1.3.2_sch.png
    :width: 80%
@@ -46,7 +46,7 @@ The circuit diagram below shows the connections required for controlling the ser
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
 
 .. image:: img/fzz/1.3.2_bb.png
@@ -55,11 +55,11 @@ The circuit diagram below shows the connections required for controlling the ser
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -67,17 +67,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
-   cd ~/ai-lab-kit/python/
-   sudo python3 1.7_Servo.py 
 
-After running the script, the servo connected to PWM 0 smoothly sweeps from −90° to 90° in 10-degree steps, pausing briefly at each position. It then moves back from 90° to −90° in the same way. This back-and-forth motion repeats continuously.
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.7_Servo.py
+
+运行脚本后，连接到PWM 0的舵机以10度为步长，从-90°到90°平滑扫描，在每个位置短暂停顿。然后以同样的方式从90°回到-90°。这种来回运动不断重复。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code demonstrates how to control the servo motor by moving it between various angles:
+以下Python代码演示了如何通过在不同角度之间移动来控制舵机：
 
 
 .. raw:: html
@@ -111,21 +111,21 @@ The following Python code demonstrates how to control the servo motor by moving 
       sleep(0.1)
 
 
-This Python script controls a servo motor connected to PWM 0. When executed:
+此Python脚本控制连接到PWM 0的舵机。执行时：
 
-1. The servo moves from -90 degrees to 90 degrees in 10-degree increments.
-2. It pauses for 0.1 seconds between each movement.
-3. It then reverses the direction and moves from 90 degrees to -90 degrees in 10-degree increments.
-4. The process repeats indefinitely.
+1. 舵机以10度为增量从-90度移动到90度。
+2. 每次移动之间暂停0.1秒。
+3. 然后反向，以10度为增量从90度移动到-90度。
+4. 过程无限重复。
 
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The ``fusion_hat`` library simplifies GPIO interactions, while the ``time`` library provides delay functions.
+   ``fusion_hat``\ 库简化了GPIO交互，而\ ``time``\ 库提供了延迟功能。
 
    .. code-block:: python
 
@@ -133,17 +133,17 @@ This Python script controls a servo motor connected to PWM 0. When executed:
       from time import sleep               # Import sleep for timing delays
 
 
-2. **Servo Initialization**
+2. **舵机初始化**
 
-   The ``Servo`` object is initialized with PWM 0.
+   ``Servo``\ 对象使用PWM 0初始化。
 
    .. code-block:: python
 
       servo = Servo(0)
 
-3. **Servo Movement**
+3. **舵机移动**
 
-   The servo is moved to different angles in a loop. The ``angle`` method sets the servo's position, and ``sleep`` pauses the loop for a specified duration.
+   舵机在循环中被移动到不同角度。\ ``angle``\ 方法设置舵机位置，\ ``sleep``\ 将循环暂停指定时间。
 
    .. code-block:: python
 
@@ -161,27 +161,27 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **Servo Does Not Move**  
+1. **舵机不转**
 
-   - **Cause**: Incorrect GPIO pin connection or power supply issues.  
-   - **Solution**: Ensure the servo is connected to PWM 0 and verify the power supply.
+   - **原因**：GPIO引脚连接错误或电源问题。
+   - **解决方案**：确保舵机连接到PWM 0并检查电源。
 
-2. **Servo Movement is Erratic or Unresponsive**  
+2. **舵机运动不稳定或无响应**
 
-   - **Cause**: Insufficient power supply to the servo.  
-   - **Solution**: Use an external power source for the servo if the Fusion HAT+ does not provide enough power.
+   - **原因**：舵机供电不足。
+   - **解决方案**：如果Fusion HAT+供电不足，请为舵机使用外部电源。
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**扩展思路**
 
 
-1. **User-Controlled Servo**  
+1. **用户控制舵机**
 
-   Allow users to control the servo position interactively through keyboard input:
+   允许用户通过键盘输入交互式控制舵机位置：
 
    .. code-block:: python
 
@@ -190,9 +190,9 @@ This Python script controls a servo motor connected to PWM 0. When executed:
          servo.angle(position)
 
 
-2. **Servo Position Tracking**  
+2. **舵机位置跟踪**
 
-   Record the servo position over time and plot the trajectory:
+   记录随时间变化的舵机位置并绘制轨迹：
 
    .. code-block:: python
 
@@ -207,6 +207,6 @@ This Python script controls a servo motor connected to PWM 0. When executed:
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to control a servo motor. Understanding servo control opens the door to building robots, mechanical arms, and other motion-based projects.
+本项目演示了如何控制舵机。理解舵机控制为构建机器人、机械臂和其他基于运动的项目打开了大门。

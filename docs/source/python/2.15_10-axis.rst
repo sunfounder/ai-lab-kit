@@ -4,25 +4,25 @@
 
 .. _py_10-axis:
 
-2.15 10-Axis IMU Sensor Module
-===============================
+2.15 10轴IMU传感器模块
+=======================
 
-**Introduction**
+**介绍**
 
-The 10-Axis IMU (Inertial Measurement Unit) module combines multiple sensors to provide comprehensive motion and environmental data. It integrates a barometric pressure sensor (SPL06_001) for altitude measurement, a 6-axis motion sensor (SH3001) for acceleration and rotation, and a 3-axis magnetometer (QMC6310) for compass heading. This sophisticated module is ideal for robotics, navigation systems, and motion-tracking applications.
+10轴IMU（惯性测量单元）模块结合了多个传感器，提供全面的运动和環境数据。它集成了用于海拔测量的气压传感器（SPL06_001）、用于加速度和角速度测量的6轴运动传感器（SH3001）以及用于罗盘航向的3轴磁力计（QMC6310）。这款精密的模块非常适合用于机器人、导航系统和运动跟踪应用。
 
 ----------------------------------------------
 
-**What You'll Need**
+**你需要什么**
 
-Here are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
@@ -41,29 +41,29 @@ Here are the components required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Connect the IMU module to Raspberry Pi as shown below:
+按下图所示将IMU模块连接到Raspberry Pi：
 
 .. image:: img/fzz/2.15_10axis_bb.png
    :width: 80%
    :align: center
 
-Ensure proper I2C connections:
+确保正确的I2C连接：
 
 - VCC → 3.3V
 - GND → GND
-- SDA → GPIO 2 (SDA)
-- SCL → GPIO 3 (SCL)
+- SDA → GPIO 2（SDA）
+- SCL → GPIO 3（SCL）
 
 ----------------------------------------------
 
 
 
-**Install the library**
+**安装库**
 
-Install the 10-Axis library:
-   
+安装10轴库：
+
 
 .. raw:: html
 
@@ -71,14 +71,14 @@ Install the 10-Axis library:
 
 .. code-block:: shell
 
-   sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages   
+   sudo pip install git+https://github.com/sunfounder/sunfounder-imu-python.git --break-system-packages
 
 -------------------------------------------------------
 
-**Calibrate the IMU**
+**校准IMU**
 
 
-Run the calibration script to calibrate the IMU:
+运行校准脚本来校准IMU：
 
 
 .. raw:: html
@@ -89,47 +89,47 @@ Run the calibration script to calibrate the IMU:
 
    sudo python3 -m sunfounder_imu.calibrate
 
-Then follow the instructions in the script to calibrate the IMU.
+然后按照脚本中的说明校准IMU。
 
 --------------------------------------------------------
 
 
-**Run the example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.15_10axis_imu.py
 
-This Python script reads comprehensive motion and environmental data from the 10-Axis IMU module. When executed:
+此Python脚本从10轴IMU模块读取全面的运动和環境数据。执行时：
 
-1. The script initializes communication with all three integrated sensors via I2C.
-2. Each sensor is detected and its I2C address is displayed for verification.
-3. The main loop continuously reads and displays data including:
+1. 脚本通过I2C初始化与所有三个集成传感器的通信。
+2. 每个传感器都被检测到，并显示其I2C地址以供验证。
+3. 主循环持续读取并显示数据，包括：
 
-   - Altitude (from barometric pressure)
-   - Compass heading (azimuth)
-   - 3-axis acceleration
-   - 3-axis angular velocity (gyroscope)
-   - 3-axis magnetic field strength
-   - Temperature and atmospheric pressure
+   - 海拔高度（来自气压）
+   - 罗盘航向（方位角）
+   - 三轴加速度
+   - 三轴角速度（陀螺仪）
+   - 三轴磁场强度
+   - 温度和大气压力
 
-4. Data updates every 0.5 seconds, providing real-time motion tracking.
-5. The program runs until interrupted with ``Ctrl+C``, then exits gracefully.
+4. 数据每0.5秒更新一次，提供实时运动跟踪。
+5. 程序运行直到用\ ``Ctrl+C``\ 中断，然后优雅退出。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python code for reading data from the 10-Axis IMU module:
+以下是读取10轴IMU模块数据的Python代码：
 
 .. raw:: html
 
@@ -162,11 +162,11 @@ Below is the Python code for reading data from the 10-Axis IMU module:
            name = class_type.__name__
            print(f"Found sensor {name} at address 0x{address:02X}")
        sleep(3)
-       
+
        try:
            while True:
                data = imu.read()
-               
+
                print(f"Altitude={data['altitude']:7.2f} m")
                print(f"Azimuth={data['azimuth']:7.2f} °")
                print(f"Acceleration:")
@@ -196,18 +196,18 @@ Below is the Python code for reading data from the 10-Axis IMU module:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports and Setup:**
+1. **导入和设置：**
 
    .. code-block:: python
 
       from time import sleep
       from sunfounder_imu import IMU
 
-   The script imports the necessary modules: ``sleep`` for timing delays and ``IMU`` class from the Sunfounder library to communicate with the sensor module.
+   脚本导入必要的模块：\ ``sleep``\ 用于定时延迟，\ ``IMU``\ 类来自Sunfounder库，用于与传感器模块通信。
 
-2. **Sensor Initialization:**
+2. **传感器初始化：**
 
    .. code-block:: python
 
@@ -217,9 +217,9 @@ Below is the Python code for reading data from the 10-Axis IMU module:
           print("No sensor found.")
           return
 
-   Creates an IMU object and scans for connected sensors on the I2C bus. If no sensors are found, the program exits.
+   创建IMU对象并在I2C总线上扫描连接的传感器。如果未找到传感器，程序退出。
 
-3. **Sensor Detection:**
+3. **传感器检测：**
 
    .. code-block:: python
 
@@ -227,9 +227,9 @@ Below is the Python code for reading data from the 10-Axis IMU module:
           name = class_type.__name__
           print(f"Found sensor {name} at address 0x{address:02X}")
 
-   Displays information about each detected sensor, including its type and I2C address for debugging purposes.
+   显示每个检测到的传感器的信息，包括其类型和I2C地址，用于调试目的。
 
-4. **Main Data Reading Loop:**
+4. **主数据读取循环：**
 
    .. code-block:: python
 
@@ -238,69 +238,69 @@ Below is the Python code for reading data from the 10-Axis IMU module:
           # Display all sensor readings with formatted output
           sleep(0.5)
 
-   - Calls ``imu.read()`` to get all sensor data in a single dictionary
-   - Formats and displays each parameter with consistent decimal precision
-   - Includes a 0.5-second delay to balance update rate and readability
+   - 调用\ ``imu.read()``\ 获取单个字典中的所有传感器数据。
+   - 以一致的小数精度格式化并显示每个参数。
+   - 包含0.5秒的延迟以平衡更新速率和可读性。
 
-5. **Graceful Exit:**
+5. **优雅退出：**
 
    .. code-block:: python
 
       except KeyboardInterrupt:
           print("\nExiting program...")
 
-   Catches the KeyboardInterrupt exception to allow clean program termination when ``Ctrl+C`` is pressed.
+   捕获KeyboardInterrupt异常，允许在按下\ ``Ctrl+C``\ 时干净地终止程序。
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **No Sensors Found**:
+1. **未找到传感器**：
 
-   - **Cause**: Incorrect wiring or I2C communication issues.
-   - **Solution**:
+   - **原因**：接线错误或I2C通信问题。
+   - **解决方案**：
 
-      - Verify all connections: VCC, GND, SDA, SCL
-      - Check if I2C is enabled on Raspberry Pi: ``sudo raspi-config`` → Interface Options → I2C
-      - Run ``i2cdetect -y 1`` to see if the sensors appear at their addresses
+      - 检查所有连接：VCC、GND、SDA、SCL。
+      - 检查Raspberry Pi上是否已启用I2C：\ ``sudo raspi-config``\ → 接口选项 → I2C。
+      - 运行\ ``i2cdetect -y 1``\ 查看传感器是否在其地址处出现。
 
-2. **Inconsistent or Erratic Readings**:
+2. **读数不一致或不稳定**：
 
-   - **Cause**: Electrical interference or sensor calibration issues.
-   - **Solution**:
+   - **原因**：电气干扰或传感器校准问题。
+   - **解决方案**：
 
-      - Keep the module away from strong magnetic fields or motors
-      - Ensure stable power supply with proper decoupling capacitors
-      - Place the module on a stable surface during measurement
+      - 使模块远离强磁场或电机。
+      - 确保稳定的电源并配有合适的去耦电容。
+      - 在测量时将模块放置在稳定表面上。
 
-3. **Altitude Readings Incorrect**:
+3. **海拔读数不正确**：
 
-   - **Cause**: Uncalibrated barometric pressure reference.
-   - **Solution**: The altitude is calculated relative to sea level pressure. For accurate readings, calibrate with known altitude or update sea level pressure reference.
+   - **原因**：气压参考未校准。
+   - **解决方案**：海拔是相对于海平面压力计算的。为获得准确读数，请使用已知海拔校准或更新海平面压力参考。
 
-4. **Compass Heading Inaccurate**:
+4. **罗盘航向不准确**：
 
-   - **Cause**: Local magnetic interference or improper calibration.
-   - **Solution**:
+   - **原因**：局部磁场干扰或校准不当。
+   - **解决方案**：
 
-      - Perform magnetometer calibration by rotating the module in a figure-8 pattern
-      - Keep away from metal objects, computers, and other magnetic sources
+      - 通过以8字形旋转模块来执行磁力计校准。
+      - 远离金属物体、计算机和其他磁源。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Motion Detection Alert**: Trigger an alert when acceleration exceeds a threshold:
+1. **运动检测警报**：当加速度超过阈值时触发警报：
 
    .. code-block:: python
 
-      acceleration_magnitude = (data['acceleration'].x**2 + 
-                                data['acceleration'].y**2 + 
+      acceleration_magnitude = (data['acceleration'].x**2 +
+                                data['acceleration'].y**2 +
                                 data['acceleration'].z**2)**0.5
       if acceleration_magnitude > 2.0:  # 2G threshold
           print("Motion detected!")
 
-2. **Orientation Detection**: Determine device orientation using combined sensor data:
+2. **方向检测**：使用组合传感器数据确定设备方向：
 
    .. code-block:: python
 
@@ -310,17 +310,17 @@ Below is the Python code for reading data from the 10-Axis IMU module:
       elif data['acceleration'].y > 8.0:
           print("Device is upright")
 
-3. **Data Logging**: Record sensor data to a file for analysis:
+3. **数据记录**：将传感器数据记录到文件中供分析：
 
    .. code-block:: python
 
       import csv
       with open('imu_data.csv', 'a') as f:
           writer = csv.writer(f)
-          writer.writerow([data['temperature'], data['pressure'], 
+          writer.writerow([data['temperature'], data['pressure'],
                           data['altitude'], data['azimuth']])
 
-4. **Tilt-Compensated Compass**: Improve heading accuracy using accelerometer data:
+4. **倾斜补偿罗盘**：使用加速度计数据提高航向精度：
 
    .. code-block:: python
 
@@ -331,6 +331,6 @@ Below is the Python code for reading data from the 10-Axis IMU module:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a 10-Axis IMU module to obtain comprehensive motion and environmental data with a Raspberry Pi. By integrating pressure, acceleration, rotation, and magnetic field sensors, this module provides a complete inertial measurement solution suitable for advanced applications like drone stabilization, robotics navigation, and motion tracking systems. The foundation established here enables further exploration into sensor fusion algorithms and complex motion analysis.
+本项目演示了如何使用10轴IMU模块通过Raspberry Pi获取全面的运动和環境数据。通过集成压力、加速度、角速度和磁场传感器，该模块提供了完整的惯性测量解决方案，适用于无人机稳定、机器人导航和运动跟踪系统等高级应用。这里建立的基础为进一步探索传感器融合算法和复杂运动分析打开了大门。

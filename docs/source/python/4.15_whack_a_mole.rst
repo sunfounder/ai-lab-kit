@@ -5,34 +5,34 @@
 
 .. _py_whack_a_mole:
 
-4.15 Whack-a-Mole Game
-======================
+4.15 打地鼠游戏
+================
 
-**Introduction**
+**简介**
 
-In this lesson, you will build a **Whack-a-Mole game** using the Fusion HAT+.  
-Four PWM-driven LEDs act as “moles,” fading smoothly in a 1-second cycle.  
-Your goal is to hit the correct button when its corresponding LED lights up. A buzzer gives audio feedback:
+在本课程中，您将使用 Fusion HAT+ 构建一个**打地鼠游戏**。
+四个 PWM 驱动的 LED 充当"地鼠"，在 1 秒的周期内平滑淡入淡出。
+您的目标是在对应的 LED 亮起时按下正确的按钮。蜂鸣器提供声音反馈：
 
-- **Correct hole → short high-pitch beep**
-- **Wrong hole → GAME OVER (low beep)**
+- **正确的洞 → 短促的高音鸣叫**
+- **错误的洞 → 游戏结束（低音鸣叫）**
 
-An SSD1306 OLED display shows your **current score** during the game and a **final score** on game over.
+SSD1306 OLED 显示屏在游戏过程中显示您的**当前得分**，并在游戏结束时显示**最终得分**。
 
-This project combines PWM brightness shaping, button edge detection, timing loops, and a simple game state machine.
+本项目结合了 PWM 亮度塑造、按钮边沿检测、定时循环和简单的游戏状态机。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_led`
@@ -45,14 +45,14 @@ The following components are required for this project:
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - Raspberry Pi
+    *   - 树莓派
         - \-
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the wiring diagram for assembling the components:
+参考接线图组装组件：
 
 .. image:: img/fzz/4.15_whack_a_mole_bb.png
    :width: 80%
@@ -60,9 +60,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**设置步骤**
 
-#. Install the required libraries:
+#. 安装所需库：
 
    .. raw:: html
 
@@ -72,7 +72,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the game from the ``ai-lab-kit`` directory:
+#. 从 ``ai-lab-kit`` 目录运行游戏：
 
    .. raw:: html
 
@@ -83,22 +83,22 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.15_WhackAMole.py
 
-#. When the script runs:
+#. 脚本运行时：
 
-   * One LED fades up/down (triangle wave).  
-   * Press **only the lit LED’s button** within the 1-second window:  
+   * 一个 LED 淡入淡出（三角波）。
+   * 在 1 秒窗口内按下**仅亮起 LED 对应的按钮**：
 
-     - Correct → score increases, next mole appears  
-     - Incorrect → buzzer plays error tone → **GAME OVER**  
-   * OLED shows only the current score (in-game)  
-   * OLED shows “GAME OVER” + final score upon losing  
-   * Press Ctrl+C to exit
+     - 正确 → 得分增加，下一个地鼠出现
+     - 错误 → 蜂鸣器播放错误音 → **游戏结束**
+   * OLED 在游戏中仅显示当前得分
+   * OLED 在失败时显示"GAME OVER" + 最终得分
+   * 按 Ctrl+C 退出
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the full Python script for the Whack-a-Mole game:
+以下是打地鼠游戏的完整 Python 脚本：
 
 .. raw:: html
 
@@ -322,15 +322,15 @@ Here is the full Python script for the Whack-a-Mole game:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **LED Fade Animation**
+1. **LED 淡入淡出动画**
 
-   Each LED performs a 1-second triangle-wave fade:
+   每个 LED 执行 1 秒的三角波淡入淡出：
 
-   - Brightness rises from 0 → 100%  
-   - Then falls from 100% → 0  
-   - Gamma correction (``u ** gamma``) improves visual linearity  
+   - 亮度从 0% 上升到 100%
+   - 然后从 100% 下降到 0%
+   - 伽马校正（``u ** gamma``）改善视觉线性度
 
    .. code-block:: python
 
@@ -341,13 +341,13 @@ Here is the full Python script for the Whack-a-Mole game:
                                     gamma: float = 1.8) -> (bool, Optional[List[int]]):
          ...
 
-2. **Button Edge Detection**
+2. **按钮边沿检测**
 
-   ``read_buttons()`` reads all four buttons.  
-   A **rising edge** (``previous=0, current=1``) means “button just pressed.”
+   ``read_buttons()`` 读取所有四个按钮。
+   **上升沿**（``previous=0, current=1``）表示"按钮刚刚按下"。
 
-   - If pressed button matches lit LED → **correct hit**  
-   - Else → **wrong hit → GAME OVER**
+   - 如果按下的按钮匹配亮起的 LED → **正确击中**
+   - 否则 → **错误击中 → 游戏结束**
 
    .. code-block:: python
 
@@ -357,10 +357,10 @@ Here is the full Python script for the Whack-a-Mole game:
 
 
 
-3. **Buzzer Feedback**
+3. **蜂鸣器反馈**
 
-   - ``A5`` short chirp = success  
-   - ``E4`` longer tone = miss / game over  
+   - ``A5`` 短促鸣叫 = 成功
+   - ``E4`` 较长音调 = 失误 / 游戏结束
 
    .. code-block:: python
 
@@ -379,11 +379,11 @@ Here is the full Python script for the Whack-a-Mole game:
 
 
 
-4. **Game Loop**
+4. **游戏循环**
 
-   - Randomly picks one of four LEDs (never the same twice in a row)  
-   - Runs a fade cycle, checking button presses  
-   - Updates score or ends the game  
+   - 随机选择四个 LED 中的一个（从不连续两次相同）
+   - 运行淡入淡出循环，检查按钮按下
+   - 更新得分或结束游戏
 
    .. code-block:: python
 
@@ -398,10 +398,10 @@ Here is the full Python script for the Whack-a-Mole game:
          ...
 
 
-5. **OLED Display**
+5. **OLED 显示**
 
-   - Shows only the score during play  
-   - Shows GAME OVER + final score when game ends  
+   - 游戏中仅显示得分
+   - 游戏结束时显示 GAME OVER + 最终得分
 
    .. code-block:: python
 
@@ -420,51 +420,51 @@ Here is the full Python script for the Whack-a-Mole game:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- **Buttons do not register presses**
+- **按钮不注册按下**
 
-  - Ensure buttons are wired correctly using BCM pin numbering  
-  - Confirm ``PULL_DOWN`` is applied so pressed state = 1  
-  - Check for correct ground wiring  
+  - 确保按钮使用 BCM 引脚编号正确接线
+  - 确认应用了 ``PULL_DOWN``，使得按下状态 = 1
+  - 检查 GND 接线是否正确
 
-- **LEDs flicker instead of fading smoothly**
+- **LED 闪烁而不是平滑淡入淡出**
 
-  - Reduce ``step`` time for smoother updates (e.g., 0.005)  
-  - Ensure PWM ports support proper duty cycle updates  
+  - 减小 ``step`` 时间以实现更平滑的更新（例如 0.005）
+  - 确保 PWM 端口支持适当的占空比更新
 
-- **Game ends immediately without pressing anything**
+- **游戏立即结束，无需按下任何按钮**
 
-  - A floating button pin may read as 1  
-  - Ensure pull-down resistors are correctly configured  
+  - 浮空的按钮引脚可能读取为 1
+  - 确保下拉电阻正确配置
 
-- **Score does not increase**
+- **得分不增加**
 
-  - Verify the LED index matches the button index  
-  - Ensure LED ports and button pins are in correct order  
+  - 验证 LED 索引是否与按钮索引匹配
+  - 确保 LED 端口和按钮引脚顺序正确
 
 ----------------------------------------------
 
-**Try It Yourself**
+**自己尝试**
 
-1. **Variable Speed Mode**  
+1. **变速模式**
 
-   Gradually shorten the fade duration to make the game more challenging.
+   逐渐缩短淡入淡出时长，使游戏更具挑战性。
 
-2. **Multi-LED Mode**  
+2. **多 LED 模式**
 
-   Light up two LEDs at once—player must hit either one.
+   同时点亮两个 LED——玩家击中任意一个即可。
 
-3. **Lives System**  
+3. **生命值系统**
 
-   Allow 3 mistakes before game over.
+   游戏结束前允许 3 次失误。
 
-4. **High-Score Storage**  
+4. **最高分存储**
 
-   Save the highest score to a file and display it at startup.
+   将最高分保存到文件，并在启动时显示。
 
-5. **Animated Title Screen**  
+5. **动画标题画面**
 
-   Add a splash screen before the game starts.
+   在游戏开始前添加启动画面。
 
-These ideas can turn Whack-a-Mole into a full arcade experience!
+这些想法可以将打地鼠变成完整的街机体验！

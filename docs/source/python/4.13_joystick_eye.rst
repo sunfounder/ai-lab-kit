@@ -4,36 +4,36 @@
 
 .. _py_joystick_eye:
 
-4.13 Joystick-Controlled Eye
-=================================
+4.13 摇杆控制眼睛
+===================
 
-**Introduction**
+**简介**
 
-In this lesson, you will build a **Joystick-Controlled Eye**, displayed on a 128×64 SSD1306 OLED screen.  
-A two-axis analog joystick provides X/Y movement, which is read using the Fusion HAT+’s ADC channels.  
-The OLED shows a stylized “eye” whose pupil smoothly follows the direction of the joystick.
+在本课程中，您将构建一个**摇杆控制的眼睛**，显示在 128×64 SSD1306 OLED 屏幕上。
+双轴模拟摇杆提供 X/Y 移动，通过 Fusion HAT+ 的 ADC 通道读取。
+OLED 显示一只风格化的"眼睛"，其瞳孔平滑地跟随摇杆的方向移动。
 
-The project demonstrates:
+该项目演示了：
 
-- Reading multi-axis analog input  
-- Smooth value normalization and dead-zone handling  
-- Geometric constraints using an ellipse  
-- Real-time graphics rendering on a monochrome OLED  
+- 读取多轴模拟输入
+- 平滑值归一化和死区处理
+- 使用椭圆的几何约束
+- 在单色 OLED 上实时渲染图形
 
-As you move the joystick, the iris and pupil glide around inside the eye without crossing the outer sclera boundary.
+当您移动摇杆时，虹膜和瞳孔在眼睛内部滑动，不会越过外部的巩膜边界。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_joystick`
@@ -42,15 +42,15 @@ The following components are required for this project:
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - Raspberry Pi
+    *   - 树莓派
         - \-
 
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the wiring diagram for assembling the components:
+参考接线图组装组件：
 
 .. image:: img/fzz/4.13_joystick_eye_bb.png
    :width: 100%
@@ -58,10 +58,10 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**设置步骤**
 
 
-#. Install the required libraries:
+#. 安装所需库：
 
    .. raw:: html
 
@@ -71,7 +71,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the example from the ``ai-lab-kit`` directory:
+#. 从 ``ai-lab-kit`` 目录运行示例：
 
    .. raw:: html
 
@@ -82,18 +82,18 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.13_JoystickEye.py
 
-#. When the script runs:
+#. 脚本运行时：
 
-   * Moving the joystick left/right/up/down moves the pupil accordingly  
-   * Pupil movement is smoothed and constrained inside an elliptical eye  
-   * The display updates around **50 FPS**  
-   * Press **Ctrl+C** to exit  
+   * 向左/右/上/下移动摇杆，瞳孔会相应移动
+   * 瞳孔运动经过平滑处理，并限制在椭圆眼睛内部
+   * 显示以约 **50 FPS** 更新
+   * 按 **Ctrl+C** 退出
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the Python script for the Joystick-Controlled Eye:
+以下是摇杆控制眼睛的 Python 脚本：
 
 .. raw:: html
 
@@ -289,18 +289,19 @@ Here is the Python script for the Joystick-Controlled Eye:
       main()
 
 
+
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Joystick Analog Reading**
+1. **摇杆模拟读取**
 
-   Two ADC channels read X and Y positions ``(0..4095)``.  
-   The script converts these values into normalized motion ``[-1..1]`` with:
+   两个 ADC 通道读取 X 和 Y 位置 ``(0..4095)``。
+   脚本将这些值转换为归一化运动 ``[-1..1]``，包括：
 
-   - Dead-zone handling  
-   - Direction inversion (up = positive Y)  
-   - Smoothing using exponential moving average (EMA)  
+   - 死区处理
+   - 方向反转（向上 = 正 Y）
+   - 使用指数移动平均（EMA）平滑
 
    .. code-block:: python
 
@@ -320,14 +321,14 @@ Here is the Python script for the Joystick-Controlled Eye:
 
       ...
 
-2. **Eye Geometry**
+2. **眼睛几何**
 
-   The eye is drawn as:
+   眼睛绘制为：
 
-   - An ellipse for the sclera (white)  
-   - Optional outer border  
-   - Optional iris ring  
-   - A black pupil  
+   - 巩膜（白色）的椭圆
+   - 可选的外边框
+   - 可选的虹膜环
+   - 黑色瞳孔
 
    .. code-block:: python
 
@@ -345,15 +346,15 @@ Here is the Python script for the Joystick-Controlled Eye:
          x1 = EYE_CX + EYE_W // 2
          y1 = EYE_CY + EYE_H // 2
 
-         ... 
+         ...
 
-3. **Pupil Movement Constraint**
+3. **瞳孔移动约束**
 
-   The pupil center is constrained by the ellipse equation:
+   瞳孔中心受椭圆方程约束：
 
    ``(px/MAX_X)^2 + (py/MAX_Y)^2 <= 1``
 
-   If input pushes the pupil outside the eye, the script projects it back onto the ellipse boundary.
+   如果输入将瞳孔推到眼睛外部，脚本将其投影回椭圆边界。
 
    .. code-block:: python
 
@@ -372,71 +373,70 @@ Here is the Python script for the Joystick-Controlled Eye:
          ...
 
 
-4. **Rendering**
+4. **渲染**
 
-   Each frame:
+   每帧：
 
-   - The eye background is redrawn  
-   - Pupil position is computed  
-   - The image buffer is sent to the OLED  
-   - Display refreshes at ~50 FPS  
+   - 重新绘制眼睛背景
+   - 计算瞳孔位置
+   - 将图像缓冲区发送到 OLED
+   - 以约 50 FPS 刷新显示
 
-5. **Main Loop**
+5. **主循环**
 
-   Continuously reads joystick → normalizes → computes pupil → redraws eye → updates display.
+   持续读取摇杆 → 归一化 → 计算瞳孔 → 重绘眼睛 → 更新显示。
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- **Joystick movement feels jumpy**
+- **摇杆移动感觉跳跃**
 
-  - Increase ``SMOOTH_ALPHA``  
-  - Increase ``DEADZONE``  
+  - 增加 ``SMOOTH_ALPHA``
+  - 增加 ``DEADZONE``
 
-- **Eye looks stretched or small**
+- **眼睛看起来拉伸或太小**
 
-  Adjust:
+  调整：
 
   .. code-block:: python
 
      EYE_W, EYE_H = 90, 48
 
-- **Pupil clips outside the eye**
+- **瞳孔超出眼睛边界**
 
-  Increase:
+  增加：
 
   .. code-block:: python
 
      PUPIL_MARGIN = PUPIL_R + 3
 
-- **Joystick axes reversed**
+- **摇杆轴方向相反**
 
-  Swap ADC channels or flip signs.
+  交换 ADC 通道或翻转符号。
 
 ----------------------------------------------
 
-**Try It Yourself**
+**自己尝试**
 
-1. **Blink Animation**  
+1. **眨眼动画**
 
-   Add timed eyelid closing/opening.
+   添加定时眼睑闭合/张开。
 
-2. **Angry / Happy Eyebrow Mode**  
+2. **生气/开心眉毛模式**
 
-   Draw stylized brows reacting to joystick input.
+   绘制风格化的眉毛，对摇杆输入做出反应。
 
-3. **Follow-the-Dot Game**  
+3. **追踪点游戏**
 
-   Add a moving target dot and make the eye “track” it.
+   添加一个移动的目标点，让眼睛"追踪"它。
 
-4. **Add Button to Toggle Modes**  
+4. **添加按钮切换模式**
 
-   Switch between eye styles: robot eye, cartoon eye, cat eye.
+   在眼睛样式之间切换：机器眼、卡通眼、猫眼。
 
-5. **Add Multi-Eye Display**  
+5. **添加多眼显示**
 
-   Render two eyes that move together or independently.
+   渲染两只眼睛，一起或独立移动。
 
-These extensions turn the simple joystick eye into a powerful OLED animation and interaction demo.
-
+这些扩展将简单的摇杆眼睛变成了一个强大的 OLED 动画和交互演示。

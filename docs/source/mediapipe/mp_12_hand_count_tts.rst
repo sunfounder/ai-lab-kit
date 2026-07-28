@@ -4,71 +4,70 @@
 
 .. _mp_hand_count_tts:
 
-12. Adding TTS Voice Broadcast to MediaPipe Projects
-=======================================================
+12. 为 MediaPipe 项目添加 TTS 语音播报
+===========================================================
 
 -----------------------------------------------------------------
-1. Overview
+1. 概述
 -----------------------------------------------------------------
 
-In :ref:`mp_hand_count` (Section 5), we built a hand gesture
-counting program that displays the number of raised fingers on screen.
+在 :ref:`mp_hand_count`（第 5 节）中，我们构建了一个手势计数程序，
+在屏幕上显示抬起的手指数量。
 
-In this section, we will go one step further:
-**add Text-to-Speech (TTS) voice broadcast**
-so the Raspberry Pi can *speak* the detected finger count out loud —
-making the project more interactive and accessible.
+在本节中，我们将更进一步：
+**添加文本转语音（TTS）语音播报**功能，
+让 Raspberry Pi 可以*说出*检测到的手指数量——
+使项目更具交互性和可访问性。
 
 .. image:: img/mp_hand_count.png
    :align: center
 
-This lesson is not just about finger counting —
-it teaches a **general pattern** for adding TTS to *any*
-MediaPipe or OpenCV project.
+本课不仅是关于手指计数——
+它还教授了一种向*任何* MediaPipe 或 OpenCV 项目
+添加 TTS 的**通用模式**。
 
-By the end of this lesson, you will know how to:
+学完本课后，您将知道如何：
 
-- Initialize and configure the Fusion HAT+ TTS engine
-- Trigger TTS on a key press with debounce protection
-- Add visual feedback while the system is speaking
-- Apply this pattern to your own computer vision projects
-
-
------------------------------------------------------------------
-2. How It Works
------------------------------------------------------------------
-
-The program builds on the hand-counting pipeline and adds a TTS layer
-that is activated by a key press:
-
-1. Initialize **MediaPipe Hands** for real-time hand detection.
-2. Initialize the **Fusion HAT+ TTS engine** (Espeak).
-3. Capture video frames and detect fingers (same as before).
-4. Wait for the user to press the ``t`` key.
-5. On key press, convert the current finger count into a spoken message.
-6. Use **debounce logic** to prevent rapid repeated triggers.
-7. Show a **visual flash** on screen while TTS is speaking.
-8. The speech plays through the Fusion HAT+ speaker.
-
-The key design idea is:
-
-    *TTS is added as a non-blocking layer —*
-    detection runs continuously, and speech is only triggered
-    when the user requests it.
-
-This pattern keeps the video pipeline smooth while adding
-voice output on demand.
+- 初始化并配置 Fusion HAT+ TTS 引擎
+- 通过按键触发 TTS 并带有防抖保护
+- 在系统播报时添加视觉反馈
+- 将此模式应用到您自己的计算机视觉项目中
 
 
 -----------------------------------------------------------------
-3. The Fusion HAT+ TTS Module
+2. 工作原理
 -----------------------------------------------------------------
 
-The ``fusion_hat`` library provides a simple, unified interface
-for several TTS engines. In this project, we use **Espeak** —
-a lightweight offline engine that works well on Raspberry Pi.
+程序在手势计数流水线的基础上添加了一个 TTS 层，
+通过按键触发：
 
-**Basic usage:**
+1. 初始化 **MediaPipe Hands** 进行实时手部检测。
+2. 初始化 **Fusion HAT+ TTS 引擎**（Espeak）。
+3. 捕获视频帧并检测手指（与之前相同）。
+4. 等待用户按下 ``t`` 键。
+5. 按键时将当前手指数量转换为语音消息。
+6. 使用**防抖逻辑**防止重复快速触发。
+7. TTS 播报时在屏幕上显示**视觉闪烁**效果。
+8. 语音通过 Fusion HAT+ 扬声器播放。
+
+关键设计思路：
+
+    *TTS 以非阻塞层的形式添加——*
+    检测持续运行，语音仅在用户请求时触发。
+
+这种模式使视频流水线保持流畅，同时
+按需提供语音输出。
+
+
+-----------------------------------------------------------------
+3. Fusion HAT+ TTS 模块
+-----------------------------------------------------------------
+
+``fusion_hat`` 库为多种 TTS 引擎提供了简单统一的接口。
+在本项目中，我们使用 **Espeak**——
+一个轻量级的离线引擎，在 Raspberry Pi 上运行良好。
+
+**基本用法：**
 
 .. code-block:: python
 
@@ -85,32 +84,32 @@ a lightweight offline engine that works well on Raspberry Pi.
     # Speak
     tts.say("Hello!")
 
-Three parameters let you customize the voice:
+三个参数可让您自定义语音：
 
-- **amp** (amplitude) — controls volume. Higher = louder.
-- **speed** — speaking rate in words per minute. 150 is normal.
-- **pitch** — voice pitch. 80 is the default; lower values sound deeper.
+- **amp**（amplitude）—— 控制音量。数值越大越响。
+- **speed** —— 语速，以每分钟单词数计。150 为正常速度。
+- **pitch** —— 音调。80 为默认值；较低的值听起来更低沉。
 
 .. note::
 
-   Fusion HAT+ also supports **Piper** (neural, offline)
-   and **OpenAI TTS** (online, natural voices).
-   See :ref:`tts_piper_openai` for more advanced options.
+   Fusion HAT+ 还支持 **Piper**（神经网路离线引擎）
+   和 **OpenAI TTS**（在线引擎，自然语音）。
+   更多高级选项请参见 :ref:`tts_piper_openai`。
 
 
 -----------------------------------------------------------------
-4. Key Design: Adding TTS to a Video Loop
+4. 关键设计：为视频循环添加 TTS
 -----------------------------------------------------------------
 
-When adding TTS to a real-time video pipeline, there are a few
-important design considerations. Let's walk through each one.
+在向实时视频流水线添加 TTS 时，有几个
+重要的设计考量。让我们逐一分析。
 
 --------------------------------------------------
-4.1 Trigger by Key Press
+4.1 按键触发
 --------------------------------------------------
 
-Rather than speaking on every frame (which would be chaotic),
-we use a keyboard key as the trigger:
+我们不是每帧都播报（那样会一片混乱），
+而是使用键盘按键作为触发器：
 
 .. code-block:: python
 
@@ -118,19 +117,18 @@ we use a keyboard key as the trigger:
     if key == ord('t'):
         tts.say(message)
 
-The ``t`` key is chosen because it's easy to remember
-(*t* for *talk*). You can use any key — ``space`` for
-hands-free floor control, or a GPIO button for physical input.
+选择 ``t`` 键是因为它容易记忆
+（*t* 代表 *talk*）。您可以使用任何按键——``space`` 用于
+免提控制，或 GPIO 按钮用于物理输入。
 
 --------------------------------------------------
-4.2 Debounce Protection
+4.2 防抖保护
 --------------------------------------------------
 
-Without protection, holding down the ``t`` key would trigger
-TTs dozens of times per second, overlapping speech and
-making it unintelligible.
+不加保护的话，按住 ``t`` 键会每秒触发 TTS 数十次，
+导致语音重叠，无法听清。
 
-**Solution: time-based debounce.**
+**解决方案：基于时间的防抖。**
 
 .. code-block:: python
 
@@ -144,16 +142,16 @@ making it unintelligible.
             last_tts_time = now
             tts.say(message)
 
-After each TTS trigger, further triggers are ignored
-for 1.5 seconds. This gives the speech enough time to finish
-before the next one starts.
+每次 TTS 触发后，后续触发在 1.5 秒内
+被忽略。这给了语音足够的时间完成，
+然后才开始下一次播报。
 
 --------------------------------------------------
-4.3 Building the Message
+4.3 构建消息
 --------------------------------------------------
 
-The finger count (an integer) must be converted into
-a natural-sounding sentence:
+手指数量（整数）需要转换为
+听起来自然的句子：
 
 .. code-block:: python
 
@@ -164,16 +162,16 @@ a natural-sounding sentence:
     else:
         message = f"{total_fingers} fingers detected"
 
-Using ``"one"`` instead of ``"1"`` ensures Espeak pronounces
-it naturally. For numbers greater than one, the digit form
-works fine with Espeak.
+使用 ``"one"`` 而不是 ``"1"`` 可以确保 Espeak
+自然地发音。对于大于一的数字，
+使用数字形式在 Espeak 中可以正常工作。
 
 --------------------------------------------------
-4.4 Visual Feedback (Green Border Flash)
+4.4 视觉反馈（绿色边框闪烁）
 --------------------------------------------------
 
-While the system is speaking, we add a visual indicator
-so the user knows speech is in progress:
+在系统播报时，我们添加一个视觉指示器，
+让用户知道语音正在播放：
 
 .. code-block:: python
 
@@ -185,60 +183,60 @@ so the user knows speech is in progress:
         cv2.putText(frame, "Speaking...", (10, 75),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
 
-A **green border** appears around the frame and a
-**"Speaking..."** label is shown. Both disappear automatically
-after 1 second.
+画面周围出现一个**绿色边框**，并显示
+**"Speaking..."** 标签。两者在 1 秒后
+自动消失。
 
-This feedback loop is important because:
+这个反馈循环很重要，因为：
 
-- TTS takes a moment to complete — the user needs to know
-  the system heard their command.
-- The border disappears when done, so it does not interfere
-  with normal use.
+- TTS 需要一点时间完成——用户需要知道
+  系统已收到他们的指令。
+- 边框在完成后消失，不会干扰
+  正常使用。
 
 
 -----------------------------------------------------------------
-5. Run the Code
+5. 运行代码
 -----------------------------------------------------------------
 
 .. important::
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The Fusion HAT+ is assembled and the speaker is connected
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * MediaPipe and OpenCV are installed
+   * Fusion HAT+ 已组装，扬声器已连接
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * MediaPipe 和 OpenCV 已安装
 
-   For detailed instructions, see :ref:`mediapipe_install` and :ref:`opencv_install`.
+   详细说明请参见 :ref:`mediapipe_install` 和 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count_tts.py
 
-#. After running the program:
+#. 运行程序后：
 
-   - A window titled "MediaPipe Hand Count + TTS" opens,
-     showing the live camera feed.
-   - Hold your hand up to the camera — the finger count appears
-     in the top-left corner.
-   - *Press the* ``t`` *key* — the system speaks the current
-     finger count through the Fusion HAT+ speaker.
-   - A green border flashes on screen while speaking.
+   - 一个标题为"MediaPipe Hand Count + TTS"的窗口会打开，
+     显示实时摄像头画面。
+   - 将手举到摄像头前——手指数量会显示在
+     左上角。
+   - *按下* ``t`` *键* —— 系统会通过 Fusion HAT+ 扬声器
+     播报当前的手指数量。
+   - 播报时屏幕上会闪烁绿色边框。
 
    .. hint::
 
-      Try showing different numbers of fingers and pressing ``t``
-      each time. You should hear: "one finger detected",
-      "three fingers detected", etc.
+      试试展示不同数量的手指，每次按下 ``t`` 键。
+      您应该会听到："one finger detected"、
+      "three fingers detected" 等。
 
-   Press ``q`` to exit the program.
+   按 ``q`` 键退出程序。
 
 
 --------------------------------------------------
-6. Complete Code
+6. 完整代码
 --------------------------------------------------
 
 .. code-block:: python
@@ -401,14 +399,14 @@ This feedback loop is important because:
 
 
 --------------------------------------------------
-7. Code Explanation
+7. 代码说明
 --------------------------------------------------
 
-Let's walk through the code section by section, focusing on
-what's new compared to the basic hand-counting program.
+让我们逐段分析代码，重点介绍
+与基本手势计数程序相比新增的部分。
 
 --------------------------------------------------
-7.1 Imports and Initialization
+7.1 导入与初始化
 --------------------------------------------------
 
 .. code-block:: python
@@ -421,14 +419,14 @@ what's new compared to the basic hand-counting program.
    tts.set_speed(150)
    tts.set_pitch(80)
 
-Two new imports and a TTS initialization block are the first
-additions. ``Espeak()`` creates the TTS engine, and the three
-``set_*`` calls configure the voice.
+两个新的导入和一个 TTS 初始化块是
+首要的添加内容。``Espeak()`` 创建 TTS 引擎，三个
+``set_*`` 调用配置语音。
 
-The ``import time`` is needed for debounce timing.
+``import time`` 用于防抖计时。
 
 --------------------------------------------------
-7.2 Debounce Constants and State Variables
+7.2 防抖常量与状态变量
 --------------------------------------------------
 
 .. code-block:: python
@@ -439,15 +437,15 @@ The ``import time`` is needed for debounce timing.
    tts_triggered = False
    tts_flash_until = 0
 
-Four new variables are introduced:
+引入了四个新变量：
 
-- ``DEBOUNCE_INTERVAL`` — prevents TTS spam (seconds).
-- ``last_tts_time`` — records when TTS was last triggered.
-- ``tts_triggered`` — flag for the visual flash effect.
-- ``tts_flash_until`` — timestamp when the flash should end.
+- ``DEBOUNCE_INTERVAL`` — 防止 TTS 频繁触发（秒）。
+- ``last_tts_time`` — 记录上次 TTS 触发的时间。
+- ``tts_triggered`` — 视觉闪烁效果的标志。
+- ``tts_flash_until`` — 闪烁结束的时间戳。
 
 --------------------------------------------------
-7.3 Key Handling with Debounce
+7.3 带防抖的按键处理
 --------------------------------------------------
 
 .. code-block:: python
@@ -470,29 +468,29 @@ Four new variables are introduced:
 
            tts.say(message)
 
-This is the core TTS addition. Let's break it down:
+这是核心的 TTS 添加部分。我们来分解一下：
 
-1. **Key detection** — ``ord('t')`` checks if ``t`` was pressed.
+1. **按键检测** — ``ord('t')`` 检查是否按下了 ``t`` 键。
 
-2. **Debounce gate** — ``time.time() - last_tts_time > DEBOUNCE_INTERVAL``
-   ensures at least 1.5 seconds have passed since the last trigger.
-   If not enough time has passed, the key press is ignored.
+2. **防抖门控** — ``time.time() - last_tts_time > DEBOUNCE_INTERVAL``
+   确保距离上次触发至少过去了 1.5 秒。
+   如果时间不够，按键被忽略。
 
-3. **Update state** — When the gate passes, we record the current
-   time and set the flash timer.
+3. **更新状态** — 当门控通过时，我们记录当前
+   时间并设置闪烁计时器。
 
-4. **Build message** — The finger count is converted into a
-   human-readable sentence.
+4. **构建消息** — 将手指数量转换为
+   人类可读的句子。
 
-5. **Speak** — ``tts.say(message)`` sends the text to the speaker.
+5. **播报** — ``tts.say(message)`` 将文本发送到扬声器。
 
 .. note::
 
-   ``tts.say()`` is **non-blocking** — the program continues
-   processing video frames while speech plays in the background.
+   ``tts.say()`` 是**非阻塞**的——程序在语音后台播放时
+   继续处理视频帧。
 
 --------------------------------------------------
-7.4 Visual Feedback
+7.4 视觉反馈
 --------------------------------------------------
 
 .. code-block:: python
@@ -506,25 +504,25 @@ This is the core TTS addition. Let's break it down:
    else:
        tts_triggered = False
 
-- A green border (8 pixels thick) is drawn around the entire frame.
-- A yellow "Speaking..." label appears below the finger count.
-- Both persist for 1 second, then disappear automatically.
-- When the flash timer expires, ``tts_triggered`` resets to ``False``,
-  ready for the next trigger.
+- 在整个画面周围绘制一个绿色边框（8 像素粗）。
+- 在手指计数下方显示一个黄色的"Speaking..."标签。
+- 两者持续 1 秒，然后自动消失。
+- 当闪烁计时器到期时，``tts_triggered`` 重置为 ``False``，
+  为下一次触发做好准备。
 
-This pattern is reusable — you can add the same feedback
-to any project that triggers TTS.
+这种模式是可重用的——您可以为任何触发 TTS 的项目
+添加同样的反馈。
 
 
 -----------------------------------------------------------------
-8. Extension Ideas: Applying This Pattern to Other Projects
+8. 扩展思路：将此模式应用于其他项目
 -----------------------------------------------------------------
 
-The TTS integration pattern you learned here is **generic**.
-You can add voice broadcast to any MediaPipe, OpenCV, or YOLO
-project by following these steps:
+您在这里学到的 TTS 集成模式是**通用的**。
+您可以通过以下步骤为任何 MediaPipe、OpenCV 或 YOLO 项目
+添加语音播报：
 
-**Step 1: Import and initialize TTS**
+**步骤 1：导入并初始化 TTS**
 
 .. code-block:: python
 
@@ -532,14 +530,14 @@ project by following these steps:
    tts = Espeak()
    tts.set_amp(200)
 
-**Step 2: Add debounce variables (before the loop)**
+**步骤 2：添加防抖变量（循环之前）**
 
 .. code-block:: python
 
    DEBOUNCE_INTERVAL = 1.5
    last_tts_time = 0
 
-**Step 3: Add key-triggered TTS (inside the loop)**
+**步骤 3：添加按键触发 TTS（循环内部）**
 
 .. code-block:: python
 
@@ -550,86 +548,84 @@ project by following these steps:
            # Build your message from detection results
            tts.say(your_message)
 
-Here are some ideas for applying this pattern:
+以下是一些应用此模式的思路：
 
-- **MediaPipe Face Detection** (:ref:`mp_face`)
+- **MediaPipe 人脸检测** （:ref:`mp_face`）
   → "Face detected at center of frame"
 
-- **MediaPipe Pose** (:ref:`mp_pose`)
-  → "Both arms raised" or "Squat detected — good form!"
+- **MediaPipe 姿态估计** （:ref:`mp_pose`）
+  → "Both arms raised" 或 "Squat detected — good form!"
 
-- **OpenCV Color Tracking** (:ref:`play_with_opencv`)
-  → "Red object moving left" or "Target locked"
+- **OpenCV 颜色追踪** （:ref:`play_with_opencv`）
+  → "Red object moving left" 或 "Target locked"
 
-- **YOLO Object Detection** (:ref:`play_with_yolo`)
-  → "Person detected" or "Two cars in view"
+- **YOLO 物体检测** （:ref:`play_with_yolo`）
+  → "Person detected" 或 "Two cars in view"
 
-- **Hardware Integration**
-  → Replace the ``t`` key with a GPIO button press via
-  ``fusion_hat`` for a completely hands-free experience.
+- **硬件集成**
+  → 通过 ``fusion_hat`` 将 ``t`` 键替换为 GPIO 按钮按下，
+  实现完全免提体验。
 
 
 -----------------------------------------------------------------
-9. Troubleshooting
+9. 故障排除
 -----------------------------------------------------------------
 
-- **No sound from the speaker**
+- **扬声器没有声音**
 
-  Make sure the Fusion HAT+ speaker is properly connected and
-  the volume is not muted. Try running a simple TTS test:
+  确保 Fusion HAT+ 扬声器已正确连接，
+  音量未被静音。尝试运行一个简单的 TTS 测试：
 
   .. code-block:: bash
 
      sudo python3 -c "from fusion_hat.tts import Espeak; Espeak().say('test')"
 
-  If you hear "test", the TTS engine is working.
+  如果您听到"test"，说明 TTS 引擎正常工作。
 
-- **TTS triggers too many times when holding the key**
+- **按住按键时 TTS 触发太多次**
 
-  Increase ``DEBOUNCE_INTERVAL`` to a larger value,
-  for example ``2.0`` or ``2.5`` seconds.
+  将 ``DEBOUNCE_INTERVAL`` 增大到更大的值，
+  例如 ``2.0`` 或 ``2.5`` 秒。
 
-  If you want only a single trigger per key press
-  (no repeat when held), track the key state across frames
-  and only fire on the *rising edge* (key transition from
-  not-pressed to pressed).
+  如果您希望每次按键只触发一次
+  （按住时不重复），请跨帧追踪按键状态，
+  只在*上升沿*（按键从未按下到按下的转换）触发。
 
-- **Speech sounds too fast or unclear**
+- **语音太快或听不清**
 
-  Lower the speed: ``tts.set_speed(120)``.
+  降低语速：``tts.set_speed(120)``。
 
-  Adjust the pitch for clarity: ``tts.set_pitch(70)``.
+  调整音调以提高清晰度：``tts.set_pitch(70)``。
 
-- **Speech overlaps with previous speech**
+- **语音与之前的语音重叠**
 
-  Espeak on Fusion HAT+ queues speech by default.
-  If you want to cancel ongoing speech before starting new speech,
-  you can add a small delay or use a different TTS engine.
+  Fusion HAT+ 上的 Espeak 默认会将语音排队。
+  如果您想在开始新语音前取消正在进行的语音，
+  可以添加一个小延迟或使用不同的 TTS 引擎。
 
-- **Visual flash does not appear**
+- **视觉闪烁不出现**
 
-  Check that ``tts_triggered`` is set to ``True`` inside the
-  debounce block and that ``tts_flash_until`` is set to
-  ``time.time() + 1.0``.
+  检查 ``tts_triggered`` 是否在防抖块内
+  设置为 ``True``，并且 ``tts_flash_until`` 是否设置为
+  ``time.time() + 1.0``。
 
 
 -----------------------------------------------------------------
-10. Summary
+10. 总结
 -----------------------------------------------------------------
 
-- This lesson demonstrated how to **add TTS voice broadcast**
-  to a MediaPipe computer vision project.
-- The Fusion HAT+ ``Espeak`` engine provides a simple,
-  offline TTS solution on Raspberry Pi.
-- **Key design patterns** covered:
+- 本节课演示了如何**向 MediaPipe 计算机视觉项目添加 TTS 语音播报**。
+- Fusion HAT+ 的 ``Espeak`` 引擎在 Raspberry Pi 上
+  提供了简单、离线的 TTS 解决方案。
+- **涉及的关键设计模式：**
 
-  - Triggering TTS by key press (not on every frame)
-  - **Debounce protection** to prevent speech overlap
-  - **Visual feedback** (green border flash) for user awareness
-  - Converting detection results into natural spoken messages
+  - 通过按键触发 TTS（而不是每帧都触发）
+  - **防抖保护** 防止语音重叠
+  - **视觉反馈**（绿色边框闪烁）用于用户感知
+  - 将检测结果转换为自然的语音消息
 
-- These patterns are **project-agnostic** — you can apply them
-  to any OpenCV, MediaPipe, or YOLO project to add voice output.
-- Adding voice makes your projects more accessible and
-  hands-free, opening the door to assistive technology
-  applications and interactive installations.
+- 这些模式是**项目无关的**——您可以将它们应用到
+  任何 OpenCV、MediaPipe 或 YOLO 项目中，以添加语音输出。
+- 添加语音使您的项目更具可访问性和
+  免提操作性，为辅助技术应用
+  和交互式安装开辟了道路。

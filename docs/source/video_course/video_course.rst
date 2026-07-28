@@ -4,7 +4,7 @@
 
 .. _youtube_list:
 
-Video Course
+视频课程
 ================
 
 
@@ -14,13 +14,13 @@ Video Course
 
 .. |link_video_courses| raw:: html
 
-    <a href="https://www.youtube.com/playlist?list=PLGs0VKk2DiYz9lvgEK4YJSWszqexhLGc1" target="_blank">AI Fusion Lab Kit video courses on YouTube</a>
-    
+    <a href="https://www.youtube.com/playlist?list=PLGs0VKk2DiYz9lvgEK4YJSWszqexhLGc1" target="_blank">AI Fusion Lab Kit 视频课程（YouTube）</a>
 
-This video tutorial series is produced by |link_paul| and is now available for free at |link_video_courses|.
 
-Designed specifically for absolute beginners, this series will guide you step by step on how to use a Raspberry Pi and the Fusion HAT+ to build a variety of fun and practical projects. You will not only learn how to design and build circuits from scratch, but also how to truly apply artificial intelligence (AI) to your own creations — covering key technologies and frameworks such as Python, Large Language Models (LLMs), OpenCV, MediaPipe, and YOLO.
+本视频教程系列由 |link_paul| 制作，现已在 |link_video_courses| 免费提供。
 
-Our goal is to help you gain the confidence to independently complete your own projects. This tutorial series is an excellent resource for STEM education — whether you are learning in a public school, private school, homeschool environment, or simply a lifelong learner passionate about exploring the world of electronics and programming.
+该系列专为绝对的初学者设计，将逐步指导您如何使用 Raspberry Pi 和 Fusion HAT+ 构建各种有趣且实用的项目。您不仅将学习如何从头开始设计和搭建电路，还将学习如何将人工智能（AI）真正应用到自己的创意中——涵盖 Python、大语言模型（LLM）、OpenCV、MediaPipe 和 YOLO 等关键技术和框架。
 
-We greatly value your feedback and warmly welcome you to share your experiences and suggestions about the course!
+我们的目标是帮助您获得独立完成自己项目的信心。该教程系列是 STEM 教育的优秀资源——无论您是在公立学校、私立学校、家庭学校环境中学习，还是仅仅是一个热衷于探索电子和编程世界的终身学习者。
+
+我们非常重视您的反馈，热烈欢迎您分享关于课程的经验和建议！

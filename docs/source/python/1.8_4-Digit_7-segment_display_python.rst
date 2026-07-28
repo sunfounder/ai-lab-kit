@@ -4,25 +4,25 @@
 
 .. _py_4_segment:
 
-1.8 4-Digit 7-Segment Display
-====================================
+1.8 四位数码管
+===============
 
-**Introduction**
+**介绍**
 
-In this project, we will learn how to control a 4-digit 7-segment display to create a counter. The counter will increment by 1 every second, and the display will update accordingly. This project highlights the use of GPIO pins and a 74HC595 shift register to manage multiple digits efficiently.
+在本项目中，我们将学习如何控制四位数码管来创建一个计数器。计数器每秒增加1，显示器相应更新。本项目突出了GPIO引脚和74HC595移位寄存器的使用，以高效管理多个数码管。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,16 +35,16 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The circuit diagram shows how to connect the 74HC595 shift register to the 4-digit 7-segment display and the Raspberry Pi GPIO pins. The shift register reduces the number of GPIO pins required, allowing efficient control of the display.
+电路图显示了如何将74HC595移位寄存器连接到四位数码管和Raspberry Pi的GPIO引脚。移位寄存器减少了所需的GPIO引脚数量，从而实现对显示器的有效控制。
 
 .. image:: img/fzz/1.1.5_sch.png
    :width: 100%
@@ -53,14 +53,14 @@ The circuit diagram shows how to connect the 74HC595 shift register to the 4-dig
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to assemble the circuit:
+请按照以下步骤组装电路：
 
-1. Place the 4-digit 7-segment display and the 74HC595 shift register on the breadboard.
-2. Connect the output pins of the 74HC595 to the segments of the display.
-3. Use Digital pins on the Fusion HAT+ for the data input (SER also called SDI), shift register clock (SRCLK), and latch register clock (RCLK).
-4. Add resistors to limit current for the display segments.
+1. 将四位数码管和74HC595移位寄存器插入面包板。
+2. 将74HC595的输出引脚连接到数码管的段引脚。
+3. 使用Fusion HAT+的数字引脚作为数据输入（SER，也称为SDI）、移位寄存器时钟（SRCLK）和锁存寄存器时钟（RCLK）。
+4. 添加电阻以限制数码管段的电流。
 
 .. image:: img/fzz/1.1.5_bb.png
    :width: 80%
@@ -70,11 +70,11 @@ Follow these steps to assemble the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -82,17 +82,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 1.8_4-Digit.py
 
-After running the script, the 4-digit 7-segment display shows a counter that increases by one every second. The current counter value is also printed to the console. This continues until you stop the program by pressing Ctrl + C.
+运行脚本后，四位数码管显示一个每秒递增的计数器。当前计数器值也会打印到控制台。此过程持续进行，直到你按Ctrl + C停止程序。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The Python code below initializes the display, updates the counter, and manages the display refresh loop:
+以下Python代码初始化显示器、更新计数器并管理显示刷新循环：
 
 
 .. raw:: html
@@ -183,7 +183,7 @@ The Python code below initializes the display, updates the counter, and manages 
       setup()  # Initialize the setup
       while True:
          loop()  # Start the main loop
-         
+
    except KeyboardInterrupt:
       # Handle script interruption (e.g., Ctrl+C)
       destroy()  # Cleanup resources on exit
@@ -191,22 +191,22 @@ The Python code below initializes the display, updates the counter, and manages 
 
 
 
-This Python script controls a 4-digit 7-segment display using a Raspberry Pi and a 74HC595 shift register. When executed:
+此Python脚本使用Raspberry Pi和74HC595移位寄存器控制四位数码管。执行时：
 
-1. The display shows an incrementing counter, with digits updating every second.
-2. The counter value is printed to the console for debugging purposes.
+1. 显示器显示递增的计数器，数字每秒更新一次。
+2. 计数器值打印到控制台以供调试。
 
-The program runs indefinitely, incrementing the displayed counter until the user interrupts the script by pressing ``Ctrl+C``.
+程序无限运行，递增显示的计数器，直到用户按下\ ``Ctrl+C``\ 中断脚本。
 
 
 ----------------------------------------------
 
 
-**Understanding the Code**
+**理解代码**
 
-1. **Initialize GPIO Pins**
+1. **初始化GPIO引脚**
 
-   Assign GPIO pins for the shift register and digit selection.
+   为移位寄存器和位选分配GPIO引脚。
 
    .. code-block:: python
 
@@ -218,17 +218,17 @@ The program runs indefinitely, incrementing the displayed counter until the user
       # Define GPIO pins for digit selection on the 7-segment display
       placePin = [Pin(pin,mode=Mode.OUT) for pin in (23, 24, 25, 12)]
 
-2. **Segment Codes**
+2. **段码**
 
-   The ``number`` array defines the binary representation for digits 0-9.
+   ``number``\ 数组定义了数字0-9的二进制表示。
 
    .. code-block:: python
 
       number = (0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90)
 
-3. **Display Refresh**
+3. **刷新显示**
 
-   The ``loop`` function continuously updates the display by selecting each digit and sending the appropriate data.
+   ``loop``\ 函数通过选择每个位并发送相应数据来持续更新显示器。
 
    .. code-block:: python
 
@@ -242,9 +242,9 @@ The program runs indefinitely, incrementing the displayed counter until the user
                hc595_shift(number[digit])
                time.sleep(0.001)
 
-4. **Counter Update**
+4. **计数器更新**
 
-   The ``timer`` function increments the counter every second.
+   ``timer``\ 函数每秒递增计数器。
 
    .. code-block:: python
 
@@ -255,9 +255,9 @@ The program runs indefinitely, incrementing the displayed counter until the user
          counter += 1
          print("%d" % counter)
 
-5. **Cleanup**
+5. **资源清理**
 
-   The ``destroy`` function stops the timer and releases GPIO resources on program exit.
+   ``destroy``\ 函数在程序退出时停止定时器并释放GPIO资源。
 
    .. code-block:: python
 
@@ -271,56 +271,56 @@ The program runs indefinitely, incrementing the displayed counter until the user
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **Display Shows Nothing**  
+1. **显示器无显示**
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Double-check the connections to the 74HC595 shift register and ensure the GPIO pins (17, 4, 27) match the defined variables (``SDI``, ``RCLK``, ``SRCLK``).
+   - **原因**：接线错误或GPIO引脚配置不正确。
+   - **解决方案**：仔细检查与74HC595移位寄存器的连接，确保GPIO引脚（17、4、27）与定义的变量（\ ``SDI``\ 、\ ``RCLK``\ 、\ ``SRCLK``\ ）匹配。
 
-2. **Digits Do Not Update Correctly**  
+2. **数字更新不正确**
 
-   - **Cause**: Timing issues or incorrect multiplexing.  
-   - **Solution**: Ensure that the ``time.sleep(0.001)`` in the ``loop()`` function is sufficient for stable display updates.
+   - **原因**：时序问题或复用不正确。
+   - **解决方案**：确保\ ``loop()``\ 函数中的\ ``time.sleep(0.001)``\ 足以实现稳定的显示更新。
 
-3. **Counter Resets Unexpectedly**  
+3. **计数器意外重置**
 
-   - **Cause**: The ``timer1`` threading timer may not be running properly.  
-   - **Solution**: Confirm that the ``setup()`` function is executed before the main ``loop()`` and that the timer is started correctly.
+   - **原因**：\ ``timer1``\ 线程定时器可能未正常运行。
+   - **解决方案**：确认在执行主\ ``loop()``\ 之前已执行\ ``setup()``\ 函数，且定时器已正确启动。
 
-4. **KeyboardInterrupt Not Working**  
+4. **KeyboardInterrupt不起作用**
 
-   - **Cause**: The ``destroy()`` function may not execute properly on interruption.  
-   - **Solution**: Ensure all GPIO devices are properly closed in ``destroy()`` and that it is called in the ``except KeyboardInterrupt`` block.
+   - **原因**：\ ``destroy()``\ 函数可能未在中断时正确执行。
+   - **解决方案**：确保所有GPIO设备在\ ``destroy()``\ 中正确关闭，并且在\ ``except KeyboardInterrupt``\ 块中调用了该函数。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Custom Counter Behavior**  
+1. **自定义计数器行为**
 
-   Modify the counter to count down, reset at a specific value, or display specific patterns.
+   修改计数器以实现倒计数、在特定值重置或显示特定图案。
 
-2. **Multi-Mode Display**  
+2. **多模式显示**
 
-   Add different display modes, such as:
-   
-   - Static message display.
-   - Alternating between the counter and a predefined message.
+   添加不同的显示模式，例如：
 
-3. **Variable Counter Speed**  
+   - 静态消息显示。
+   - 在计数器和预定义消息之间交替显示。
 
-   Allow the user to change the counter increment speed dynamically:
+3. **可变计数速度**
+
+   允许用户动态更改计数器的递增速度：
 
    .. code-block:: python
 
       speed = float(input("Enter counter speed in seconds: "))
       timer1 = threading.Timer(speed, timer)
 
-4. **Real-Time Clock**  
+4. **实时时钟**
 
-   Replace the counter with a real-time clock to display the current time:
+   用实时时钟替换计数器以显示当前时间：
 
    .. code-block:: python
 
@@ -332,6 +332,6 @@ The program runs indefinitely, incrementing the displayed counter until the user
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to control a 4-digit 7-segment display using a 74HC595 shift register and GPIO programming. The skills learned here can be applied to more complex displays and interactive systems.
+本项目演示了如何使用74HC595移位寄存器和GPIO编程控制四位数码管。这里学到的技能可应用于更复杂的显示器和交互系统。

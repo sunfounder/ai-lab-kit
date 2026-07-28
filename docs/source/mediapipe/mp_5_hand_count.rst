@@ -4,72 +4,69 @@
 
 .. _mp_hand_count:
 
-5. Hand Gesture Counting
+5. 手势计数
 ==============================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概述
 ------------------------------------------------------------
 
-In the previous section, we implemented real-time hand
-detection and landmark visualization.
+在上一节中，我们实现了实时手部检测和关键点可视化。
 
-This section extends that functionality by using
-finger landmark positions to count the number of
-raised fingers (0–5).
+本节扩展了这一功能，利用手指关键点位置
+来计算抬起的手指数量（0–5）。
 
-By analyzing the relative positions of finger tips
-and their corresponding joints, we can determine
-whether each finger is extended.
+通过分析指尖与其对应关节的相对位置，
+我们可以判断每根手指是否伸直。
 
 .. image:: img/mp_hand_count.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 工作原理
 ------------------------------------------------------------
 
-The program follows these steps:
+程序按以下步骤执行：
 
-1. Initialize the MediaPipe Hands model.
-2. Capture video frames from the Raspberry Pi camera.
-3. Detect 21 hand landmarks in real time.
-4. Compare fingertip coordinates with their proximal joints.
-5. Determine whether each finger is extended.
-6. Count the number of raised fingers.
-7. Display the result on the video frame.
+1. 初始化 MediaPipe Hands 模型。
+2. 从 Raspberry Pi 摄像头捕获视频帧。
+3. 实时检测 21 个手部关键点。
+4. 比较指尖坐标与其近端关节。
+5. 判断每根手指是否伸直。
+6. 统计抬起的手指数量。
+7. 在视频帧上显示结果。
 
-This method is:
+这种方法：
 
-- Lightweight and efficient
-- Suitable for Raspberry Pi
-- A foundation for gesture control and interactive systems
+- 轻量高效
+- 适用于 Raspberry Pi
+- 是手势控制和交互系统的基础
 
 ------------------------
-3. Run the Code
+3. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. 运行程序后，一个标题为"Show Video"的窗口将打开并显示实时摄像头画面。
 
    .. raw:: html
 
@@ -78,37 +75,35 @@ This method is:
              Your browser does not support the video tag.
          </video>
 
-   When a hand appears in front of the camera:
+   当手出现在摄像头前时：
 
-   - MediaPipe detects the hand in real time.
-   - 21 landmark points and connection lines are drawn on the hand.
-   - The program analyzes the positions of the fingertips and joints.
-   - The number of raised fingers (0–5) is calculated.
+   - MediaPipe 会实时检测手部。
+   - 在手上绘制 21 个关键点和连接线。
+   - 程序分析指尖和关节的位置。
+   - 计算抬起的手指数量（0–5）。
 
-   The detected finger count is displayed in the top-left corner
-   of the screen as:
+   检测到的手指数量会显示在屏幕左上角：
 
       Fingers: X
 
-   As you extend or fold your fingers, the number updates
-   instantly in real time.
+   当您伸直或弯曲手指时，数字会实时更新。
 
-   If no hand is detected, only the normal camera feed
-   is displayed without a finger count.
+   如果未检测到手，则仅显示正常的摄像头画面，
+   不显示手指计数。
 
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+   按 ``q`` 键退出程序。
+   摄像头将停止，OpenCV 窗口将自动关闭。
 
 
 
 -----------------------------
-4. Complete Code
+4. 完整代码
 -----------------------------
 
 .. code-block:: python
 
    from picamera2 import Picamera2, Preview
-   import cv2 
+   import cv2
    import mediapipe.python.solutions.hands as mp_hands
    import mediapipe.python.solutions.drawing_utils as drawing
    import mediapipe.python.solutions.drawing_styles as drawing_styles
@@ -190,35 +185,34 @@ This method is:
    picam2.stop()
    cv2.destroyAllWindows()
 
-In each loop iteration, it determines whether each of the 5 fingers is extended and counts the number of extended fingers. For example:
+在每个循环迭代中，程序判断 5 根手指是否伸直并统计伸直的数量。例如：
 
-- ✊ All fingers closed → Count 0
-- ☝️ Index finger extended → Count 1
-- ✌️ Index + Middle fingers → Count 2
-- 🖐️ All five fingers open → Count 5
+- ✊ 所有手指握拳 → 计数 0
+- ☝️ 食指伸直 → 计数 1
+- ✌️ 食指 + 中指 → 计数 2
+- 🖐️ 五指全部张开 → 计数 5
 
 --------------------------------------------------------------
-5. Detection Logic and Extensions
+5. 检测逻辑与扩展
 --------------------------------------------------------------
 
-MediaPipe Hands returns 21 landmarks.
-We use fingertip and joint positions to determine whether
-each finger is extended.
+MediaPipe Hands 返回 21 个关键点。
+我们使用指尖和关节位置来判断每根手指是否伸直。
 
 .. code-block:: python
 
    finger_tips = [4, 8, 12, 16, 20]
    finger_dips = [2, 6, 10, 14, 18]
 
-- ``finger_tips`` → Fingertip indices  
-  (Thumb=4, Index=8, Middle=12, Ring=16, Pinky=20)
+- ``finger_tips`` → 指尖索引
+  （拇指=4，食指=8，中指=12，无名指=16，小指=20）
 
-- ``finger_dips`` → Corresponding proximal joints  
-  (Thumb=2, Index=6, Middle=10, Ring=14, Pinky=18)
+- ``finger_dips`` → 对应的近端关节
+  （拇指=2，食指=6，中指=10，无名指=14，小指=18）
 
 ------------------------------------------------------------
 
-Finger counting logic:
+手指计数逻辑：
 
 .. code-block:: python
 
@@ -237,56 +231,55 @@ Finger counting logic:
    cv2.putText(frame, f"Fingers: {finger_count}", (10, 30),
                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-Logic explanation:
+逻辑说明：
 
-- **Thumb** → Compare ``tip.x`` and ``dip.x`` (for right hand).
-- **Other fingers** → Compare ``tip.y`` and ``dip.y``.
-- If the fingertip is above (or outward from) the joint,
-  the finger is considered extended.
-- Each satisfied condition increases the count by ``+1``.
-
-------------------------------------------------------------
-
-Extension tips:
-
-- To support both left and right hands,
-  use ``hands_detected.multi_handedness`` to determine hand type,
-  and reverse the thumb x-axis comparison accordingly.
-
-- This logic can be extended to implement:
-
-  - OK gesture recognition
-  - Thumbs-up detection
-  - Rock–paper–scissors interaction
-  - Custom gesture-based controls
+- **拇指** → 比较 ``tip.x`` 和 ``dip.x``（适用于右手）。
+- **其他手指** → 比较 ``tip.y`` 和 ``dip.y``。
+- 如果指尖在关节上方（或外侧），则认为该手指伸直。
+- 每个满足条件的手指会使计数 ``+1``。
 
 ------------------------------------------------------------
-6. Troubleshooting
+
+扩展提示：
+
+- 要同时支持左右手，
+  可使用 ``hands_detected.multi_handedness`` 判断手型，
+  并相应地反转拇指的 x 轴比较方向。
+
+- 此逻辑可扩展实现：
+
+  - OK 手势识别
+  - 竖拇指检测
+  - 石头剪刀布交互
+  - 自定义手势控制
+
+------------------------------------------------------------
+6. 故障排除
 ------------------------------------------------------------
 
-- Thumb detection inaccurate
+- 拇指检测不准确
 
-  Thumb detection may be inaccurate because the logic differs for left and right hands. The horizontal comparison used for the thumb depends on hand orientation.
+  拇指检测可能不准确，因为左右手的逻辑不同。拇指使用的水平比较取决于手的方向。
 
-  Use ``multi_handedness`` to determine whether the detected hand is left or right, and adjust the thumb detection logic accordingly.
+  使用 ``multi_handedness`` 判断检测到的手是左手还是右手，并相应调整拇指检测逻辑。
 
-- Unstable detection
+- 检测不稳定
 
-  If finger counting appears unstable, lighting may be insufficient or the background may be cluttered.
+  如果手指计数显示不稳定，可能是光照不足或背景杂乱。
 
-  Improve the lighting conditions and use a plain background to increase detection stability.
+  改善光照条件并使用简单的背景以提高检测稳定性。
 
-- High latency
+- 延迟高
 
-  If the response feels slow, the resolution may be too high or the CPU may be overloaded.
+  如果响应感觉缓慢，可能是分辨率太高或 CPU 负载过高。
 
-  Reduce the resolution (for example, 320×240) and close unnecessary background processes. You can also simplify the finger counting logic if needed.
+  降低分辨率（例如 320×240），关闭不必要的后台进程。如有需要，也可简化手指计数逻辑。
 
 
 -----------------------------
-7. Summary
+7. 总结
 -----------------------------
 
-- Using MediaPipe Hands, we can quickly implement **real-time gesture recognition**.
-- This section implemented **number gesture counting** based on fingertip positions, laying the foundation for custom gesture recognition.
-- By adapting for left/right hands and expanding judgment rules, more complex interactive scenarios can be achieved.
+- 使用 MediaPipe Hands，我们可以快速实现**实时手势识别**。
+- 本节实现了基于指尖位置的**数字手势计数**，为自定义手势识别奠定了基础。
+- 通过适配左右手和扩展判断规则，可以实现更复杂的交互场景。

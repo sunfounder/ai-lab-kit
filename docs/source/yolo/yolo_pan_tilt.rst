@@ -2,51 +2,51 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-4. Track Objects with Pan-Tilt
+4. 使用云台追踪物体
 ==============================================================
 
 
-In previous tutorials, we learned how to use YOLO for object detection on Raspberry Pi. However, detection is just the first step—if you want the camera to truly "follow" the target, you need to combine detection with mechanical control.
+在前面的教程中，我们学习了如何使用YOLO在Raspberry Pi上进行目标检测。然而，检测只是第一步——如果您想让摄像头真正"跟随"目标，就需要将检测与机械控制结合起来。
 
-This tutorial will guide you through building a **YOLO Object Tracking System** that achieves the following:
+本教程将引导您构建一个\ **YOLO物体跟踪系统**，实现以下功能：
 
-* Real-time detection of specific objects using YOLO
-* Automatic calculation of the target's position deviation in the frame
-* Servo-controlled camera pan-tilt to keep the target centered in the frame
-* Support for saving current frames with SPACE key for dataset collection
+* 使用YOLO实时检测特定物体
+* 自动计算目标在画面中的位置偏差
+* 通过舵机控制摄像头云台，使目标保持在画面中央
+* 支持按SPACE键保存当前帧，用于数据集采集
 
-Here we track the target from our custom model trained in the previous tutorial—mine is a snowman. You can also choose other models (such as yolov8n) to track other targets (like people, cars, etc.).
+这里我们追踪的目标是前一个教程中训练的自定义模型中的物体——我的是一个雪人。您也可以选择其他模型（如yolov8n）来追踪其他目标（如人、车等）。
 
 .. image:: img/yolo_track.png
 
-Figure: YOLO object tracking system in action. When the target moves, the camera pan-tilt automatically follows, keeping the target near the yellow crosshair in the center of the frame. The green bounding box marks the detected target.
+图示：YOLO物体跟踪系统运行中。当目标移动时，摄像头云台自动跟随，使目标保持在画面中央的黄色十字准星附近。绿色边界框标记检测到的目标。
 
-**Application Scenarios**:
+**应用场景**：
 
-* Smart surveillance: Automatically track suspicious targets
-* Pet companion: Let the camera follow your pet's movements
-* Video conferencing: Automatically keep speakers centered in the frame
-* Data collection: Automatically capture multi-angle images of targets
+* 智能监控：自动跟踪可疑目标
+* 宠物伴侣：让摄像头跟随宠物的移动
+* 视频会议：自动让讲话者保持在画面中央
+* 数据采集：自动捕获目标的多角度图像
 
-Hardware Setup
+硬件设置
 ---------------------------------------
 
-To use this project, you need to assemble the pan-tilt following the instructions in :ref:`assemble_fusion_hat_pan_tilt`.
+要使用此项目，您需要按照 :ref:`assemble_fusion_hat_pan_tilt`\ 中的说明组装云台。
 
 .. image:: ../quick_start/img/gimbal_assemble.png
 
 
-Running the Code
+运行代码
 ----------------------------------------
 
-1. **Modify configuration parameters**
+1. **修改配置参数**
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/yolo
       nano yolo_tracking.py
 
-   Change the ``TARGET`` variable at the beginning of the code to the object you want to track:
+   将代码开头的 ``TARGET``\ 变量改为您要追踪的物体：
 
    .. code-block:: python
 
@@ -54,25 +54,25 @@ Running the Code
       # or
       TARGET = "snowman"    # Track a snowman
 
-2. **Prepare the model file**
+2. **准备模型文件**
 
-   * Use a pre-trained model: ``model = YOLO("yolov8n.pt")``
-   * Use a custom model: ``model = YOLO("snowman.pt")``
+   * 使用预训练模型：\ ``model = YOLO("yolov8n.pt")``
+   * 使用自定义模型：\ ``model = YOLO("snowman.pt")``
 
-3. **Save and run the code**
+3. **保存并运行代码**
 
    .. code-block:: bash
 
       python3 yolo_tracking.py
 
-4. **Operation instructions**
+4. **操作说明**
 
-   * After starting the program, the camera begins working automatically
-   * When a target is detected, the servos automatically rotate to keep the target centered in the frame
-   * Press ``SPACE`` to save the current frame (for collecting training data)
-   * Press ``ESC`` to exit the program
+   * 启动程序后，摄像头自动开始工作
+   * 检测到目标时，舵机自动旋转，使目标保持在画面中央
+   * 按 ``SPACE``\ 保存当前帧（用于采集训练数据）
+   * 按 ``ESC``\ 退出程序
 
-Code
+代码
 -----------------
 
 .. code-block:: python
@@ -151,22 +151,22 @@ Code
       """
       if x is None or y is None:
          return 0, 0
-      
+
       pan_move = 0
       tilt_move = 0
-      
+
       # Horizontal movement (pan)
       if x < CX - DEADZONE:
          pan_move = 1           # Move right
       elif x > CX + DEADZONE:
          pan_move = -1          # Move left
-      
+
       # Vertical movement (tilt)
       if y < CY - DEADZONE:
          tilt_move = -1         # Move down
       elif y > CY + DEADZONE:
          tilt_move = 1          # Move up
-      
+
       return pan_move, tilt_move
 
    def find_target_detection(results, target_name):
@@ -176,19 +176,19 @@ Code
       """
       if len(results[0].boxes) == 0:
          return None, None, None
-      
+
       for box in results[0].boxes:
          class_id = int(box.cls[0])
          class_name = model.names[class_id]
          confidence = float(box.conf[0])
-         
+
          # Case-insensitive partial match
          if target_name.lower() in class_name.lower():
                x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
                x_center = int((x1 + x2) / 2)
                y_center = int((y1 + y2) / 2)
                return x_center, y_center, confidence
-      
+
       return None, None, None
 
    # -------------------- Main Tracking Loop --------------------
@@ -196,46 +196,46 @@ Code
       while True:
          # Capture frame
          frame = picam2.capture_array()
-         
+
          # Run YOLO detection
          results = model.predict(frame, imgsz=320, conf=CONFIDENCE, verbose=False)
-         
+
          # Find target object
          obj_x, obj_y, obj_conf = find_target_detection(results, TARGET)
-         
+
          # Process tracking if object found
          if obj_x is not None:
                pan_move, tilt_move = simple_track(obj_x, obj_y)
                pan_pos += pan_move
                tilt_pos += tilt_move
-               
+
                # Limit servo angles to safe ranges
                pan_pos = max(-90, min(90, pan_pos))
                tilt_pos = max(-45, min(45, tilt_pos))
-               
+
                # Send commands to servos
                pan.angle(pan_pos)
                tilt.angle(tilt_pos)
-               
+
                # Draw detection box
-               cv2.rectangle(frame, (obj_x - 30, obj_y - 30), 
+               cv2.rectangle(frame, (obj_x - 30, obj_y - 30),
                            (obj_x + 30, obj_y + 30), (0, 255, 0), 2)
                cv2.circle(frame, (obj_x, obj_y), 5, (0, 255, 0), -1)
-               
+
                status = f"{TARGET} detected: {obj_conf:.2f}"
                color = (0, 255, 0)
          else:
                status = f"No {TARGET} detected"
                color = (0, 0, 255)
-         
+
          # Draw center crosshair
          cv2.line(frame, (CX - 20, CY), (CX + 20, CY), (0, 255, 255), 2)
          cv2.line(frame, (CX, CY - 20), (CX, CY + 20), (0, 255, 255), 2)
-         
+
          # Draw deadzone rectangle (visual reference)
          cv2.rectangle(frame, (CX - DEADZONE, CY - DEADZONE),
                         (CX + DEADZONE, CY + DEADZONE), (255, 255, 0), 1)
-         
+
          # Display status information
          cv2.putText(frame, status, (10, 30),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
@@ -245,25 +245,25 @@ Code
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
          cv2.putText(frame, "SPACE=capture  ESC=exit", (10, 105),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-         
+
          # Show video window
          cv2.imshow(f"YOLO Tracking - {TARGET}", frame)
-         
+
          # Handle key presses
          key = cv2.waitKey(1) & 0xFF
-         
+
          if key == 32:  # SPACE key - capture image
                filename = f"{SAVE_DIR}/img_{capture_count:04d}.jpg"
                cv2.imwrite(filename, frame)
                print(f"Captured: {filename}")
                capture_count += 1
-               
+
                # Flash effect
                flash = frame.copy()
                flash[:] = (255, 255, 255)
                cv2.imshow(f"YOLO Tracking - {TARGET}", flash)
                cv2.waitKey(50)
-               
+
          elif key == 27:  # ESC key - exit
                print(f"\nExiting. Total captured: {capture_count} images")
                break
@@ -279,12 +279,12 @@ Code
       print("Tracking stopped. Servos centered.")
 
 
-Code Explanation
+代码解释
 ------------------------------
 
-Here is the complete YOLO object tracking code. We'll analyze its working principle section by section.
+以下是完整的YOLO物体跟踪代码。我们逐节分析其工作原理。
 
-**1. Import Libraries and Configuration Parameters**
+**1. 导入库和配置参数**
 
 .. code-block:: python
 
@@ -313,32 +313,32 @@ Here is the complete YOLO object tracking code. We'll analyze its working princi
    # Create save directory
    os.makedirs(SAVE_DIR, exist_ok=True)
 
-Configuration parameters:
+配置参数：
 
 .. list-table::
    :header-rows: 1
    :widths: 20 40 40
 
-   * - Parameter
-     - Description
-     - Recommended Value
+   * - 参数
+     - 说明
+     - 推荐值
    * - ``TARGET``
-     - Name of the object to track
-     - "person", "snowman", "cup"
+     - 要追踪的物体名称
+     - "person"、 "snowman"、 "cup"
    * - ``W, H``
-     - Camera resolution
-     - 640x480 (balanced performance)
+     - 摄像头分辨率
+     - 640x480（性能平衡）
    * - ``DEADZONE``
-     - Deadzone range (pixels)
-     - 50-100, prevents frequent jitter
+     - 死区范围（像素）
+     - 50-100，防止频繁抖动
    * - ``CONFIDENCE``
-     - Detection confidence threshold
+     - 检测置信度阈值
      - 0.3-0.5
    * - ``SAVE_DIR``
-     - Image save directory
+     - 图像保存目录
      - captured_images
 
-**2. Initialize Servos**
+**2. 初始化舵机**
 
 .. code-block:: python
 
@@ -350,12 +350,12 @@ Configuration parameters:
    tilt.angle(0)     # Center position
    time.sleep(1)
 
-Servo angle ranges:
+舵机角度范围：
 
-* Pan servo (horizontal): -90° to 90°, 0° is center
-* Tilt servo (vertical): -45° to 45°, 0° is center
+* 水平舵机：-90° 到 90°，0°为居中
+* 垂直舵机：-45° 到 45°，0°为居中
 
-**3. Load YOLO Model**
+**3. 加载YOLO模型**
 
 .. code-block:: python
 
@@ -365,12 +365,12 @@ Servo angle ranges:
    model = YOLO("your_model.pt")
    print("Model loaded successfully")
 
-Model selection recommendations:
+模型选择建议：
 
-* Use your own trained model: ``"snowman.pt"``, ``"my_pet.pt"``
-* Use pre-trained model: ``"yolov8n.pt"`` (can detect 80 common objects)
+* 使用自己训练的模型：\ ``"snowman.pt"``、\ ``"my_pet.pt"``
+* 使用预训练模型：\ ``"yolov8n.pt"``（可检测80种常见物体）
 
-**4. Object Detection and Tracking Logic**
+**4. 物体检测与跟踪逻辑**
 
 .. code-block:: python
 
@@ -383,22 +383,22 @@ Model selection recommendations:
       """
       if x is None or y is None:
          return 0, 0
-      
+
       pan_move = 0
       tilt_move = 0
-      
+
       # Horizontal movement (pan)
       if x < CX - DEADZONE:
          pan_move = 1           # Move right
       elif x > CX + DEADZONE:
          pan_move = -1          # Move left
-      
+
       # Vertical movement (tilt)
       if y < CY - DEADZONE:
          tilt_move = -1         # Move down
       elif y > CY + DEADZONE:
          tilt_move = 1          # Move up
-      
+
       return pan_move, tilt_move
 
    def find_target_detection(results, target_name):
@@ -408,28 +408,28 @@ Model selection recommendations:
       """
       if len(results[0].boxes) == 0:
          return None, None, None
-      
+
       for box in results[0].boxes:
          class_id = int(box.cls[0])
          class_name = model.names[class_id]
          confidence = float(box.conf[0])
-         
+
          # Case-insensitive partial match
          if target_name.lower() in class_name.lower():
                x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
                x_center = int((x1 + x2) / 2)
                y_center = int((y1 + y2) / 2)
                return x_center, y_center, confidence
-      
+
       return None, None, None
 
-Tracking logic explanation:
+跟踪逻辑说明：
 
-* **Deadzone mechanism**: When the target is within the deadzone near the center of the frame, the servos don't move, preventing frequent jitter
-* **Direction determination**: If the target is left of center, rotate right; if right of center, rotate left
-* **Target identification**: Find the object to track by matching class names
+* **死区机制**：当目标在画面中央附近的死区内时，舵机不移动，防止频繁抖动
+* **方向判断**：物体偏左则向右转，偏右则向左转
+* **目标识别**：通过匹配类名找到要追踪的物体
 
-**5. Main Loop**
+**5. 主循环**
 
 .. code-block:: python
 
@@ -438,44 +438,44 @@ Tracking logic explanation:
       while True:
          # Capture frame
          frame = picam2.capture_array()
-         
+
          # Run YOLO detection
          results = model.predict(frame, imgsz=320, conf=CONFIDENCE, verbose=False)
-         
+
          # Find target object
          obj_x, obj_y, obj_conf = find_target_detection(results, TARGET)
-         
+
          # Process tracking if object found
          if obj_x is not None:
                pan_move, tilt_move = simple_track(obj_x, obj_y)
                pan_pos += pan_move
                tilt_pos += tilt_move
-               
+
                # Limit servo angles to safe ranges
                pan_pos = max(-90, min(90, pan_pos))
                tilt_pos = max(-45, min(45, tilt_pos))
-               
+
                # Send commands to servos
                pan.angle(pan_pos)
                tilt.angle(tilt_pos)
-               
+
                # Draw detection box
-               cv2.rectangle(frame, (obj_x - 30, obj_y - 30), 
+               cv2.rectangle(frame, (obj_x - 30, obj_y - 30),
                            (obj_x + 30, obj_y + 30), (0, 255, 0), 2)
                cv2.circle(frame, (obj_x, obj_y), 5, (0, 255, 0), -1)
-               
+
                status = f"{TARGET} detected: {obj_conf:.2f}"
                color = (0, 255, 0)
          else:
                status = f"No {TARGET} detected"
                color = (0, 0, 255)
-         
+
          # Draw center crosshair and deadzone
          cv2.line(frame, (CX - 20, CY), (CX + 20, CY), (0, 255, 255), 2)
          cv2.line(frame, (CX, CY - 20), (CX, CY + 20), (0, 255, 255), 2)
          cv2.rectangle(frame, (CX - DEADZONE, CY - DEADZONE),
                         (CX + DEADZONE, CY + DEADZONE), (255, 255, 0), 1)
-         
+
          # Display status information
          cv2.putText(frame, status, (10, 30),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
@@ -485,25 +485,25 @@ Tracking logic explanation:
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
          cv2.putText(frame, "SPACE=capture  ESC=exit", (10, 105),
                      cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-         
+
          # Show video window
          cv2.imshow(f"YOLO Tracking - {TARGET}", frame)
-         
+
          # Handle key presses
          key = cv2.waitKey(1) & 0xFF
-         
+
          if key == 32:  # SPACE key - capture image
                filename = f"{SAVE_DIR}/img_{capture_count:04d}.jpg"
                cv2.imwrite(filename, frame)
                print(f"Captured: {filename}")
                capture_count += 1
-               
+
                # Flash effect
                flash = frame.copy()
                flash[:] = (255, 255, 255)
                cv2.imshow(f"YOLO Tracking - {TARGET}", flash)
                cv2.waitKey(50)
-               
+
          elif key == 27:  # ESC key - exit
                print(f"\nExiting. Total captured: {capture_count} images")
                break
@@ -518,12 +518,12 @@ Tracking logic explanation:
       picam2.stop()
       print("Tracking stopped. Servos centered.")
 
-Performance Optimization
+性能优化
 -----------------------------------------
 
-When running the tracking system on Raspberry Pi, the following optimizations can help:
+在Raspberry Pi上运行跟踪系统时，以下优化方法可以提供帮助：
 
-1. **Reduce detection frequency**: Detect every 2-3 frames, reuse detection results for other frames
+1. **降低检测频率**：每2-3帧检测一次，中间帧复用检测结果
 
 .. code-block:: python
 
@@ -534,35 +534,35 @@ When running the tracking system on Raspberry Pi, the following optimizations ca
            results = model.predict(frame, imgsz=320)
        frame_count += 1
 
-2. **Narrow detection region**: Only detect in areas where the target is likely to appear
+2. **缩小检测区域**：只在目标可能出现的区域进行检测
 
-3. **Use smaller models**: ``yolov8n.pt`` is the best choice
+3. **使用更小的模型**：\ ``yolov8n.pt``\ 是最佳选择
 
-4. **Adjust deadzone range**: Increasing ``DEADZONE`` reduces frequent servo movement
+4. **调整死区范围**：增大 ``DEADZONE``\ 可以减少舵机的频繁移动
 
-Common Questions
+常见问题
 ---------------------------------
 
-**Q: What if the servos don't move?**
+**问：舵机不动怎么办？**
 
-* Check if the servos are properly connected
-* Verify that the fusion_hat library is correctly installed
+* 检查舵机是否正确连接
+* 确认fusion_hat库已正确安装
 
-**Q: What if tracking response is too slow?**
+**问：跟踪响应太慢怎么办？**
 
-* Lower camera resolution (e.g., 320x240)
-* Reduce detection resolution ``imgsz``
-* Increase deadzone range to reduce servo movement
+* 降低摄像头分辨率（如320x240）
+* 降低检测分辨率 ``imgsz``
+* 增大死区范围以减少舵机移动
 
-**Q: What if target detection is unstable?**
+**问：目标检测不稳定怎么办？**
 
-* Adjust the ``CONFIDENCE`` threshold (lower values detect more but increase false positives)
-* Ensure adequate lighting
-* Use a custom-trained model for better specificity
+* 调整 ``CONFIDENCE``\ 阈值（值越低检测越多，但误检也增加）
+* 确保充足的光照
+* 使用自定义训练的模型以获得更好的针对性
 
-**Q: How to adjust servo sensitivity?**
+**问：如何调整舵机灵敏度？**
 
-Modify the step value in the ``simple_track`` function:
+修改\ ``simple_track``\ 函数中的步长值：
 
 .. code-block:: python
 
@@ -570,14 +570,14 @@ Modify the step value in the ``simple_track`` function:
    pan_move = 2  # Originally 1
    tilt_move = 2
 
-**Q: Can I track multiple targets?**
+**问：可以追踪多个目标吗？**
 
-Modify the ``find_target_detection`` function to return the nearest or highest confidence target, or implement multi-target switching functionality.
+修改\ ``find_target_detection``\ 函数，返回最近或置信度最高的目标，或实现多目标切换功能。
 
-Extended Features
+扩展功能
 -----------------------------------
 
-**1. Add PID Control** (smoother tracking)
+**1. 添加PID控制**（更平滑的跟踪）
 
 .. code-block:: python
 
@@ -586,7 +586,7 @@ Extended Features
    pan_output = pan_error * 0.05  # Proportional control
    pan_pos += int(pan_output)
 
-**2. Automatically Record Tracking Trajectory**
+**2. 自动记录跟踪轨迹**
 
 .. code-block:: python
 
@@ -594,7 +594,7 @@ Extended Features
    trajectory = []
    trajectory.append((obj_x, obj_y))
 
-**3. Send Notifications When Target is Detected**
+**3. 检测到目标时发送通知**
 
 .. code-block:: python
 
@@ -602,18 +602,18 @@ Extended Features
        # Send email or push notification
        pass
 
-**4. Face Recognition Integration**
+**4. 集成人脸识别**
 
-Combine with face recognition libraries to track only specific individuals.
+结合人脸识别库，只追踪特定人物。
 
-Summary
+总结
 ---------------------
 
-Through this tutorial, you have learned:
+通过本教程，您已学会：
 
-* How to combine YOLO object detection with servo control
-* How to implement a vision-based automatic tracking system
-* How to use deadzone mechanisms to avoid jitter
-* How to collect training data during tracking
+* 如何将YOLO目标检测与舵机控制相结合
+* 如何实现基于视觉的自动跟踪系统
+* 如何使用死区机制避免抖动
+* 如何在跟踪过程中采集训练数据
 
-This system can be widely applied in scenarios such as smart surveillance, automated photography, and robotic vision. As YOLO models continue to evolve, you can build even more intelligent tracking systems—such as automatically adjusting zoom based on target size, or predicting target movement based on motion trajectories.
+该系统可广泛应用于智能监控、自动拍摄、机器人视觉等场景。随着YOLO模型的不断发展，您可以构建更加智能的跟踪系统——例如根据目标大小自动调整变焦，或根据运动轨迹预测目标移动方向。

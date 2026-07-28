@@ -2,67 +2,67 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-1. Show Image
+1. 显示图像
 ==============================================
 
-In this chapter, we’ll explore a simple example to help you quickly experience the basic usage of OpenCV: **reading and displaying an image**.
+在本章中，我们将探索一个简单示例，帮助您快速体验OpenCV的基本用法：\ **读取和显示图像**。
 
-In the example project folder, we have already prepared a sample photo named ``my_photo.jpg``.  
-You can also use the :ref:`py_photograph` example to take a photo and save it to the current folder.
+在示例项目文件夹中，我们已经准备了一张名为\ ``my_photo.jpg``\ 的示例照片。
+您也可以使用 :ref:`py_photograph`\ 示例拍摄照片并保存到当前文件夹。
 
 
-1. Project Overview
+1. 项目概览
 -------------------
 
-In this section, we will accomplish the following tasks:
+在本节中，我们将完成以下任务：
 
-- Use ``cv2.imread`` to read a local image
-- Use ``cv2.imshow`` to display the image
-- Use ``cv2.waitKey`` to control window behavior
-- Use ``cv2.destroyAllWindows`` to close the window
+- 使用 ``cv2.imread`` 读取本地图像
+- 使用 ``cv2.imshow`` 显示图像
+- 使用 ``cv2.waitKey`` 控制窗口行为
+- 使用 ``cv2.destroyAllWindows`` 关闭窗口
 
-After successfully running this code, an image window will pop up on your screen.
+成功运行此代码后，屏幕上将弹出一个图像窗口。
 
 .. image:: img/opencv_imshow.png
-   :alt: Preview of the result
+   :alt: 结果预览
    :align: center
 
 
-2. Run the Code
+2. 运行代码
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装
+   * 您可以访问Raspberry Pi桌面
+   * 代码包已安装
+   * Fusion HAT+已安装并配置
+   * OpenCV已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
-   
+
       cd ~/ai-lab-kit/opencv_python
       python3 cv_1_imgshow.py
 
-#. After running the script, OpenCV opens a window titled ``Picture`` and displays the image loaded from ``my_photo.jpg``.  
+#. 运行脚本后，OpenCV会打开一个标题为\ ``Picture``\ 的窗口，并显示从\ ``my_photo.jpg``\ 加载的图像。
 
-   The window will remain open until the user quits the program.
-   
-   To exit the program, you can:
-   
-   * Press **q** on the keyboard  
-   * Close the window by clicking the close button  
-   
-   Once the window is closed, all OpenCV resources are released and the program exits.
+   窗口将保持打开状态，直到用户退出程序。
 
-3. Complete Code
+   要退出程序，您可以：
+
+   * 按键盘上的 **q** 键
+   * 点击关闭按钮关闭窗口
+
+   窗口关闭后，所有OpenCV资源将被释放，程序退出。
+
+3. 完整代码
 -------------------
 
 .. code-block:: python
@@ -99,33 +99,33 @@ After successfully running this code, an image window will pop up on your screen
    # Destroy all OpenCV windows and release memory
    cv2.destroyAllWindows()
 
-4. Code Explanation
+4. 代码解释
 ----------------------
 
-- ``cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)``  
+- ``cv2.imread("my_photo.jpg", cv2.IMREAD_COLOR)``
 
-  Reads the image named ``my_photo.jpg`` and loads it in color mode.
+  读取名为\ ``my_photo.jpg``\ 的图像，并以彩色模式加载。
 
-- ``cv2.imshow("Picture", img)``  
+- ``cv2.imshow("Picture", img)``
 
-  Creates a window titled “Picture” and displays the image.
+  创建一个标题为"Picture"的窗口并显示图像。
 
-- ``cv2.waitKey(0)``  
+- ``cv2.waitKey(0)``
 
-  When the parameter is ``0``, the program will wait indefinitely until you close the window or press any key.
+  当参数为\ ``0``\ 时，程序将无限等待，直到您关闭窗口或按下任意键。
 
 - ``cv2.getWindowProperty()``
 
-  Gets a property value of the specified window (for example, whether the window is still visible).
+  获取指定窗口的属性值（例如，窗口是否仍然可见）。
 
 
-- ``cv2.destroyAllWindows()``  
+- ``cv2.destroyAllWindows()``
 
-  Closes all OpenCV windows and releases resources.
+  关闭所有OpenCV窗口并释放资源。
 
-5. Further Practice
+5. 扩展练习
 -----------------------
 
-- Try changing the window title in ``imshow`` to “My First OpenCV Window”.  
-- Replace the image with a different one and observe the result.  
-- Modify the ``waitKey`` parameter to `3000` so the program automatically closes the window after 3 seconds.
+- 尝试将\ ``imshow``\ 中的窗口标题改为"My First OpenCV Window"。
+- 将图像替换为其他图片并观察结果。
+- 将\ ``waitKey``\ 参数修改为\ ``3000``，使程序在3秒后自动关闭窗口。

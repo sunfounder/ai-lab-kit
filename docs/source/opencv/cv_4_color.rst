@@ -3,13 +3,13 @@
    :end-before: end_hello_message
 
 
-4. Color Detection
+4. 颜色检测
 ===========================================
 
-Color detection is one of the most fundamental and practical functions in computer vision.  
-In this chapter, we will use step-by-step code and explanations to **detect red objects using the HSV color space** and **draw bounding boxes** around them.
+颜色检测是计算机视觉中最基础且最实用的功能之一。
+在本章中，我们将通过逐步的代码和讲解，使用\ **HSV颜色空间**\ 来\ **检测红色物体**\ 并\ **绘制边界框**。
 
-This forms the foundation for more advanced object tracking techniques (e.g., CAMShift).
+这为更高级的物体跟踪技术（如CAMShift）奠定了基础。
 
 .. raw:: html
 
@@ -18,58 +18,58 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           Your browser does not support the video tag.
       </video>
 
-1. Objective and Approach
+1. 目标与方法
 --------------------------------------------
 
-- Use **Picamera2** to capture real-time camera frames  
-- Convert the image from BGR to HSV color space  
-- Use ``cv2.inRange`` to extract the red regions  
-- Use morphological filtering to remove noise  
-- Use ``cv2.findContours`` to find red object contours  
-- Draw bounding boxes around the detected red regions
+- 使用 **Picamera2** 捕捉实时摄像头帧
+- 将图像从BGR转换为HSV颜色空间
+- 使用 ``cv2.inRange`` 提取红色区域
+- 使用形态学滤波去除噪点
+- 使用 ``cv2.findContours`` 查找红色物体轮廓
+- 在检测到的红色区域周围绘制边界框
 
 .. image:: img/color_detection.png
-   :alt: Color detection preview illustration
+   :alt: 颜色检测预览示意图
    :align: center
 
-2. Run the Code
+2. 运行代码
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装
+   * 您可以访问Raspberry Pi桌面
+   * 代码包已安装
+   * Fusion HAT+已安装并配置
+   * OpenCV已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
-   
-#. Open the terminal and enter the following command:
+   详细说明请参见 :ref:`opencv_install`。
+
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       cd ~/ai-lab-kit/opencv_python
       python3 cv_4_color.py
 
-#. When you run the program, two OpenCV windows will appear on the screen:
+#. 运行程序后，屏幕上将出现两个OpenCV窗口：
 
-   * **Red Detection** – shows the live camera image with green bounding boxes around detected red objects  
-   * **Red Mask** – shows the binary mask image used for red color detection  
+   * **Red Detection** – 显示实时摄像头画面，检测到的红色物体周围带有绿色边界框
+   * **Red Mask** – 显示用于红色检测的二值掩膜图像
 
-   The program continuously captures frames from the Raspberry Pi camera and detects red regions in real time.  
-   If a red object is detected, a green rectangle and the area value will be displayed on the color image.
+   程序持续从Raspberry Pi摄像头捕捉帧并实时检测红色区域。
+   如果检测到红色物体，彩色图像上将显示绿色矩形和面积值。
 
-   You can exit the program in two ways:
+   您可以通过两种方式退出程序：
 
-   * Press the **q** key on the keyboard  
-   * Close any of the OpenCV windows by clicking the close button (X)  
+   * 按键盘上的 **q** 键
+   * 单击任意OpenCV窗口的关闭按钮（X）
 
-   After exiting, the camera stops streaming and all OpenCV windows are closed.
+   退出后，摄像头停止采集，所有OpenCV窗口关闭。
 
-3. Complete Code
+3. 完整代码
 ------------------------------
 
 .. code-block:: python
@@ -172,10 +172,10 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
    cv2.destroyAllWindows()
 
 
-4. Code Explanation
+4. 代码解释
 --------------------------------
 
-#. Initialize Picamera2 and start streaming:
+#. 初始化Picamera2并开始视频流：
 
    .. code-block:: python
 
@@ -186,27 +186,27 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       picam2.configure(config)
       picam2.start()
 
-   This configures the camera at 640×480 and starts the preview stream.  
-   ``XRGB8888`` is a 4-channel format, so the captured frames are BGRA-like.
+   将摄像头配置为640×480并开始预览流。
+   ``XRGB8888``\ 是4通道格式，因此捕获的帧类似BGRA格式。
 
-#. Convert the captured frame to a format OpenCV commonly uses:
+#. 将捕获的帧转换为OpenCV常用的格式：
 
    .. code-block:: python
 
       frame_bgra = picam2.capture_array()
       frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   Picamera2 returns a 4-channel image here, so we convert it to standard 3-channel BGR for processing.
+   Picamera2返回4通道图像，我们将其转换为标准的3通道BGR进行处理。
 
-#. Use HSV color space for robust color detection:
+#. 使用HSV颜色空间进行稳健的颜色检测：
 
    .. code-block:: python
 
       hsv = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2HSV)
 
-   HSV separates color (Hue) from brightness, which makes color detection more stable under different lighting.
+   HSV将颜色（色相）与亮度分离，使颜色检测在不同光照下更加稳定。
 
-#. Define two HSV ranges for red:
+#. 定义红色的两个HSV范围：
 
    .. code-block:: python
 
@@ -214,19 +214,19 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       mask2 = cv2.inRange(hsv, LOWER_RED2, UPPER_RED2)
       mask = cv2.bitwise_or(mask1, mask2)
 
-   Red “wraps around” the Hue scale in OpenCV HSV (near 0 and near 180), so two ranges are combined to cover all reds.
+   在OpenCV的HSV中，红色在色相刻度上"环绕"（接近0和接近180），因此需要组合两个范围来覆盖所有红色。
 
-#. Clean the mask with morphology (reduce noise and fill holes):
+#. 使用形态学操作清理掩膜（减少噪点并填充空洞）：
 
    .. code-block:: python
 
       mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, KERNEL, iterations=1)
       mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, KERNEL, iterations=2)
 
-   - **OPEN** removes small noisy dots.
-   - **CLOSE** fills small holes inside the detected red regions.
+   - **OPEN** 去除微小的噪点。
+   - **CLOSE** 填充检测到的红色区域内部的小空洞。
 
-#. Find red regions and filter small blobs:
+#. 查找红色区域并过滤小区域：
 
    .. code-block:: python
 
@@ -237,10 +237,10 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           if area < MIN_AREA:
               continue
 
-   Contours are detected from the binary mask.  
-   ``MIN_AREA`` ignores small red regions to reduce false detections.
+   从二值掩膜中检测轮廓。
+   ``MIN_AREA``\ 忽略小的红色区域以减少误检。
 
-#. Draw bounding boxes and labels on the result image:
+#. 在结果图像上绘制边界框和标签：
 
    .. code-block:: python
 
@@ -248,18 +248,18 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
       cv2.rectangle(frame_bgr, (x, y), (x + w, y + h), (0, 255, 0), 2)
       cv2.putText(frame_bgr, f"red area={int(area)}", ...)
 
-   This shows where OpenCV found red objects, and prints the detected blob area for reference.
+   显示OpenCV发现红色物体的位置，并打印检测到的区域面积供参考。
 
-#. Display both the result and the mask:
+#. 同时显示结果和掩膜：
 
    .. code-block:: python
 
       cv2.imshow(WIN_RESULT, frame_bgr)
       cv2.imshow(WIN_MASK, mask)
 
-   The **result window** shows the camera view with boxes, and the **mask window** shows the red-only binary image.
+   **结果窗口**\ 显示带框的摄像头画面，\ **掩膜窗口**\ 显示仅包含红色的二值图像。
 
-#. Exit conditions (keyboard + window close):
+#. 退出条件（键盘 + 窗口关闭）：
 
    .. code-block:: python
 
@@ -271,36 +271,35 @@ This forms the foundation for more advanced object tracking techniques (e.g., CA
           cv2.getWindowProperty(WIN_MASK, cv2.WND_PROP_VISIBLE) < 1):
           break
 
-   Press ``q`` to quit, or close either window to exit safely.
+   按 ``q`` 退出，或关闭任一窗口以安全退出。
 
-#. Cleanup:
+#. 清理资源：
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   Always stop the camera and close OpenCV windows to release resources.
+   始终停止摄像头并关闭OpenCV窗口以释放资源。
 
 
-5. Parameter Tuning Tips
+5. 参数调试建议
 -----------------------------
 
-- ``LOWER_RED1 / UPPER_RED1``: adjust this range to detect other colors.  
-  For example, green ≈ ``[35, 50, 50]`` to ``[85, 255, 255]``.
+- ``LOWER_RED1 / UPPER_RED1``: 调整此范围以检测其他颜色。
+  例如，绿色大约为\ ``[35, 50, 50]``\ 到\ ``[85, 255, 255]``。
 
-- ``KERNEL``: larger kernels give stronger filtering but may remove small objects.
+- ``KERNEL``: 更大的内核提供更强的滤波效果，但可能去除小物体。
 
-- ``MIN_AREA``: increasing this value filters out small noisy contours; decreasing it makes detection more sensitive.
+- ``MIN_AREA``: 增大此值可过滤小的噪点轮廓；减小则使检测更灵敏。
 
 .. note::
-   You can start by only displaying the ``mask`` and tuning the thresholds until the target region looks clear, then proceed with the rest of the pipeline.
+   您可以先只显示 ``mask``，调整阈值直到目标区域清晰可见，然后再进行后续处理。
 
 
 
-
-6. Extensions and Practice
+6. 扩展练习
 --------------------------
 
-- Modify the HSV threshold to detect other colors (e.g., blue or green).  
-- Experiment with different morphological parameters in more complex backgrounds.  
+- 修改HSV阈值以检测其他颜色（例如蓝色或绿色）。
+- 在更复杂的背景下尝试不同的形态学参数。

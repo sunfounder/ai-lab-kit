@@ -3,21 +3,21 @@
    :end-before: end_hello_message
 
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: 如果您使用的是预装了 "Raspberry Pi OS with AI Fusion Lab Kit" 镜像，则可以跳过本部分。此镜像已包含本章所述的所有软件安装、环境配置和示例代码部署。
 
 .. _install_all_modules:
 
-Configure Power & Install Software
+配置电源与安装软件
 ================================================================
 
-In this chapter, you’ll install the related software, configure audio, set up safe power management and learn how to handle shutdowns.
- 
+在本章中，您将安装相关软件、配置音频、设置安全电源管理，并学习如何处理关机。
+
 
 .. _download_code:
 
-Download Sample Code
+下载示例代码
 ---------------------------------
-Download the complete set of example code for the kit:
+下载套件的完整示例代码：
 
    .. raw:: html
 

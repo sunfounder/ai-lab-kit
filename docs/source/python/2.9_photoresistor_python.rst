@@ -5,29 +5,29 @@
 
 .. _py_photoresistor:
 
-2.9 Photoresistor
-===========================
+2.9 光敏电阻
+=============
 
-**Introduction**
+**介绍**
 
-A photoresistor, also known as a light-dependent resistor (LDR), is a component that detects light intensity. Its resistance decreases as the light intensity increases, making it useful in devices like automatic night lamps and ambient light controllers. 
+光敏电阻（也称为光依赖电阻LDR）是一种检测光线强度的元件。其阻值随着光线强度的增加而降低，使其适用于自动夜灯和环境光控制器等设备。
 
-This project demonstrates how to use a photoresistor with Fusion HAT+ to adjust an LED's brightness based on ambient light levels. The working principle is similar to a potentiometer, except the input is light instead of manual adjustment.
+本项目演示了如何使用光敏电阻配合Fusion HAT+，根据环境光线水平调整LED的亮度。其工作原理与电位器类似，只是输入信号是光线而非手动调节。
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-Here are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -40,16 +40,16 @@ Here are the components required for this project:
     *   - :ref:`cpn_photoresistor`
         - |link_photoresistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**电路图**
 
-Below are the schematic diagrams illustrating how to connect the components:
+以下是说明如何连接组件的电路原理图：
 
 
 .. image:: img/fzz/2.2.1_sch.png
@@ -61,9 +61,9 @@ Below are the schematic diagrams illustrating how to connect the components:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Build the circuit as shown in the diagram below:
+按下图所示搭建电路：
 
 .. image:: img/fzz/2.2.1_bb.png
    :width: 80%
@@ -71,18 +71,18 @@ Build the circuit as shown in the diagram below:
 
 
 
-Ensure that:
+确保：
 
-- The photoresistor is connected to the Fusion HAT+ to convert analog signals into digital values.
-- The LED is connected to a GPIO pin for PWM control.
-- All connections are secure, and power and ground connections are properly set.
+- 光敏电阻连接到Fusion HAT+，以将模拟信号转换为数字值。
+- LED连接到GPIO引脚进行PWM控制。
+- 所有连接牢固可靠，电源和地线连接正确。
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 .. raw:: html
 
@@ -93,21 +93,21 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.9_Photoresistor.py
 
-This Python script continuously reads the photoresistor's value, maps it to a suitable range for setting the LED brightness, and adjusts the LED's brightness accordingly. The script also includes a graceful exit mechanism to turn off the LED when interrupted by the user. When executed:
+此Python脚本持续读取光敏电阻的值，将其映射到适合设置LED亮度的范围，并相应调整LED的亮度。脚本还包含一个优雅退出机制，可在被用户中断时关闭LED。执行时：
 
-1. The Fusion HAT+ continuously reads photoresistor values from its input channel (ranging from 0 to 4095).
-2. The analog value, representing light intensity or another variable input, is printed to the console as ``result =  <value>``.
-3. The script maps the analog value to a PWM signal to adjust the brightness of the LED.
-4. The LED brightness dynamically changes based on the ADC input, with updates every 0.2 seconds.
-5. The program runs indefinitely until interrupted with ``Ctrl+C``, at which point the LED turns off.
+1. Fusion HAT+持续从其输入通道读取光敏电阻的值（范围0到4095）。
+2. 代表光线强度的模拟值以\ ``result = <value>``\ 的格式打印到控制台。
+3. 脚本将模拟值映射为PWM信号，以调整LED的亮度。
+4. LED亮度根据ADC输入动态变化，每0.2秒更新一次。
+5. 程序无限运行，直到用\ ``Ctrl+C``\ 中断，此时LED熄灭。
 
 
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python code used in this project:
+以下是本项目使用的Python代码：
 
 .. raw:: html
 
@@ -147,7 +147,7 @@ Below is the Python code used in this project:
          time.sleep(0.2)
 
    # Graceful exit when 'Ctrl+C' is pressed
-   except KeyboardInterrupt: 
+   except KeyboardInterrupt:
       led.pulse_width_percent(0)  # Turn off the LED
 
 
@@ -156,9 +156,9 @@ Below is the Python code used in this project:
 ----------------------------------------------
 
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports:**
+1. **导入：**
 
 
    .. code-block:: python
@@ -168,9 +168,9 @@ Below is the Python code used in this project:
       import time
 
 
-   The script imports necessary modules for reading analog values and controlling the LED brightness.
+   脚本导入读取模拟值和控制LED亮度所需的模块。
 
-2. **Initialization:**
+2. **初始化：**
 
 
    .. code-block:: python
@@ -181,21 +181,21 @@ Below is the Python code used in this project:
       # Set up the potentiometer
       photoresistor = ADC('A0')
 
-   The LED connected to GPIO pin P0 is initialized, and the A0 is set up to read analog values from the photoresistor.
+   连接到GPIO引脚P0的LED被初始化，A0被设置为从光敏电阻读取模拟值。
 
 
-3. **Mapping Function:**
+3. **映射函数：**
 
    .. code-block:: python
 
        def MAP(x, in_min, in_max, out_min, out_max):
            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-   The ``MAP`` function converts ADC values (0-4095) to a range suitable for PWM control (0 to 100).
+   ``MAP``\ 函数将ADC值（0-4095）转换为适合PWM控制的范围（0到100）。
 
 
 
-4. **Main Loop:**
+4. **主循环：**
 
    .. code-block:: python
 
@@ -213,12 +213,12 @@ Below is the Python code used in this project:
          # Wait for 1 seconds before reading again
          time.sleep(0.2)
 
-   - Continuously reads light intensity values from the photoresistor.
-   - Adjusts the LED brightness proportionally to the detected light intensity.
-   - Includes a short delay to reduce CPU usage and allow visible changes in LED brightness.
+   - 持续从光敏电阻读取光线强度值。
+   - 根据检测到的光线强度按比例调整LED亮度。
+   - 包含短暂延迟以减少CPU使用率，并允许LED亮度发生可见变化。
 
 
-5. **Graceful Exit:**
+5. **优雅退出：**
 
    .. code-block:: python
 
@@ -227,37 +227,37 @@ Below is the Python code used in this project:
       except KeyboardInterrupt:
          led.pulse_width_percent(0)  # Turn off the LED
 
-   The program ensures the LED is turned off when the script is interrupted (e.g., via ``Ctrl+C``).
+   程序确保在脚本被中断时（例如通过\ ``Ctrl+C``\ ）关闭LED。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
-1. **LED Does Not Light Up**:
+1. **LED不亮**：
 
-   - **Cause**: Incorrect GPIO connection or LED wiring.
-   - **Solution**: Verify the LED is connected to P0 with a resistor to prevent damage.
+   - **原因**：GPIO连接或LED接线错误。
+   - **解决方案**：确认LED连接到P0并带有电阻以防止损坏。
 
-2. **ADC Values Always Zero or Maximum**:
+2. **ADC值始终为零或最大**：
 
-   - **Cause**: Incorrect wiring.
-   - **Solution**: Check the ADC pin and ensure it is connected to photoresistor.
+   - **原因**：接线错误。
+   - **解决方案**：检查ADC引脚，确保其连接到光敏电阻。
 
-3. **LED Brightness Not Changing**:
+3. **LED亮度不变**：
 
-   - **Cause**: ADC values are not correctly mapped to the PWM range.
-   - **Solution**: Ensure the mapping function correctly scales the ADC value to the PWM range (0 to 100).
+   - **原因**：ADC值未正确映射到PWM范围。
+   - **解决方案**：确保映射函数正确地将ADC值缩放到PWM范围（0到100）。
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**扩展思路**
 
 
-1. **Threshold-Based Behavior**: Turn the LED on or off when the analog value crosses a threshold:
-     
+1. **基于阈值的行为**：当模拟值超过阈值时打开或关闭LED：
+
    .. code-block:: python
 
       if result > 128:
@@ -265,8 +265,8 @@ Below is the Python code used in this project:
       else:
          led.off()
 
-2. **Data Logging**: Log the ADC values and LED brightness to a file for analysis:
-     
+2. **数据记录**：将ADC值和LED亮度记录到文件中供分析：
+
      .. code-block:: python
 
          with open("adc_log.txt", "a") as log_file:
@@ -276,6 +276,6 @@ Below is the Python code used in this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This experiment demonstrates how to use a photoresistor and Fusion HAT+ to control an LED's brightness based on ambient light intensity. By understanding the principles of analog-to-digital conversion and PWM control, you can expand this project to develop more complex light-responsive systems, such as automated lighting or smart devices.
+本实验演示了如何使用光敏电阻和Fusion HAT+根据环境光线强度控制LED的亮度。通过理解模数转换和PWM控制的原理，你可以将此项目扩展为开发更复杂的光响应系统，如自动照明或智能设备。

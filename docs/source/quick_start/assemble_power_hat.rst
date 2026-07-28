@@ -7,103 +7,100 @@
 
 .. start_assemble_hat
 
-Assemble and Power on Fusion HAT+ (Important)
+组装并启动 Fusion HAT+（重要）
 =======================================================
 
-Connect Fusion HAT+ to Raspberry Pi
+将 Fusion HAT+ 连接到 Raspberry Pi
 ----------------------------------------
 
-Here, we'll teach you how to assemble the Fusion HAT+.
+在这里，我们将教您如何组装 Fusion HAT+。
 
-#. Assemble the base.
-#. Stick the battery to the base.
-#. Secure the Raspberry Pi with with standoffs.
-#. Connect the FPC cable to the Raspberry Pi. (We will assemble it and the Camera Module when assembled the pan-tilt.)
-#. Plug the Fusion HAT+ into the 40-pin connector on the Raspberry Pi. 
-#. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT+ will not work.)
+#. 组装底座。
+#. 将电池粘贴到底座上。
+#. 使用铜柱固定 Raspberry Pi。
+#. 将 FPC 排线连接到 Raspberry Pi。（组装云台时，我们会一起安装排线和摄像头模块。）
+#. 将 Fusion HAT+ 插入 Raspberry Pi 的 40 针连接器。
+#. **插入电池。**\ （这非常重要。如果不插入电池，Fusion HAT+ 将无法工作。）
 
-
-For the details of the assembly, please check the video below.
+有关组装的详细信息，请观看下面的视频。
 
 .. raw:: html
 
-  <iframe width="100%" 
+  <iframe width="100%"
     style="aspect-ratio: 16/9; max-width: 100%;"
-    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
     </iframe>
 
 
 
-Charge
+充电
 -------------------
 
-Before the first use, it is recommended to fully charge the battery. You can use the included USB Type-C charging cable, or your own USB-C charger.  
+首次使用前，建议将电池充满电。您可以使用附带的 USB Type-C 充电线或自己的 USB-C 充电器。
 
 .. note::
 
-  The battery may arrive with low charge because Amazon requires it to be below 30% before air shipment. You **MUST** fully charge it before use to prevent over-discharge and damage.
-  Plug the USB-C to Fusion HAT+, and the battery will be charged automatically. You don't need to connect the power supply to the Raspberry Pi.
+   电池在到货时电量可能较低，因为亚马逊要求电池在空运前电量低于 30%。在使用前，您\ **必须**\ 将其充满电，以防止过度放电造成损坏。
+   将 USB-C 插入 Fusion HAT+，电池将自动开始充电。您无需连接 Raspberry Pi 的电源。
 
-* We recommend using a **5V 3A power supply**, such as the official Raspberry Pi 15W adapter.  
-* You can also use a **USB-C PD (Power Delivery)** charger or a **QC 2.0 fast charger**.  
-* Charging from 0% to full typically takes about **2 hours**.  
+* 我们建议使用 **5V 3A 电源适配器**\ ，例如官方 Raspberry Pi 15W 适配器。
+* 您也可以使用 **USB-C PD（Power Delivery）充电器** 或 **QC 2.0 快速充电器**\ 。
+* 从 0% 充满通常需要约 **2 小时**\ 。
 
 .. image:: img/power_charge.jpg
    :width: 400
    :align: center
 
-The Fusion HAT+ includes **two battery indicator LEDs**, showing the battery voltage level:  
+Fusion HAT+ 包含 **两个电池指示灯 LED**\ ，用于显示电池电压水平：
 
 .. list-table::
    :header-rows: 1
    :widths: 40 40
 
-   * - LED Status
-     - Battery Voltage
-   * - 2 LEDs ON
+   * - LED 状态
+     - 电池电压
+   * - 2 个 LED 亮
      - > 7.4V
-   * - 1 LED ON
+   * - 1 个 LED 亮
      - < 7.4V
-   * - Both LEDs OFF
+   * - 两个 LED 均灭
      - < 6.5V
 
-When charging, one of the LEDs will blink to indicate charging progress:  
+充电时，其中一个 LED 会闪烁以指示充电进度：
 
 .. list-table::
    :header-rows: 1
    :widths: 40 40
 
-   * - LED Status
-     - Battery Voltage
-   * - 1 LED ON, 1 LED Blinking
+   * - LED 状态
+     - 电池电压
+   * - 1 个 LED 亮，1 个 LED 闪烁
      - > 7.4V
-   * - Only 1 LED Blinking
+   * - 仅 1 个 LED 闪烁
      - < 7.4V
 
 
-After fully charged:
+充满电后：
 
-* **If the Fusion HAT+ is ON**, both LEDs will remain lit.  
-* **If the Fusion HAT+ is OFF**, both LEDs will turn off.  
+* **如果 Fusion HAT+ 处于开机状态**\ ，两个 LED 将保持常亮。
+* **如果 Fusion HAT+ 处于关机状态**\ ，两个 LED 都将熄灭。
 
 .. note::
 
-   For extended programming or debugging sessions, you can keep the Fusion HAT+ powered  
-   by connecting the USB-C cable, which will charge the battery and run the Fusion HAT+ at the same time. 
-   Even if you run the Fusion HAT+ while the charer is connected, the battery **cannot** be removed.
+   在进行长时间的编程或调试时，您可以通过连接 USB-C 线缆让 Fusion HAT+ 保持供电，这样可以在充电的同时运行 Fusion HAT+。即使您在连接充电器的情况下运行 Fusion HAT+，**也不能**\ 取出电池。
 
-Power ON
+开机
 ----------------------
 
-When the battery has sufficient charge, press the **power button** on the Fusion HAT+ briefly. 
+当电池电量充足时，短按 Fusion HAT+ 上的 **电源按钮**\ 。
 
-* The **PWR LED** will turn on.  
-* The **battery LEDs** will also light up.  
-* The Raspberry Pi will power on automatically.  
+* **PWR LED** 将亮起。
+* **电池 LED** 也将点亮。
+* Raspberry Pi 将自动启动。
 
 .. image:: img/power_button.jpg
     :width: 400
@@ -114,27 +111,27 @@ When the battery has sufficient charge, press the **power button** on the Fusion
 
 .. _assemble_fusion_hat_pan_tilt:
 
-Assemble the Pan-tilt (For Camera) 
+组装云台（用于摄像头）
 ------------------------------------------------------
 
-To make using the camera module easier, you can assemble a pan-tilt.
+为了方便使用摄像头模块，您可以组装一个云台。
 
-.. note:: 
-  
-  Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
+.. note::
+
+   组装云台可能会遮挡部分引脚，因此建议仅在使用摄像头时组装，或者组装后将其放置在外部。
 
 
 .. image:: img/gimbal_assemble.png
 
-For the details of the assembly, please check the video below.
+有关组装的详细信息，请观看下面的视频。
 
 .. raw:: html
 
-  <iframe width="100%" 
+  <iframe width="100%"
     style="aspect-ratio: 16/9; max-width: 100%;"
-    src="https://www.youtube.com/embed/7CkGPKnbjM4" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    src="https://www.youtube.com/embed/7CkGPKnbjM4"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
     </iframe>

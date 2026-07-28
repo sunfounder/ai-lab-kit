@@ -5,27 +5,27 @@
 .. _py_fun_welcome:
 
 
-4.5 Welcome
-==============================
+4.5 欢迎系统
+============
 
-**Introduction**
+**简介**
 
-Have you ever noticed the automatic doors in convenience stores that open with a welcoming chime when someone approaches? This project replicates that functionality on a smaller scale. Using a PIR sensor, servo motor, LED, and buzzer, you’ll create a miniature "automatic door" system. When motion is detected, the system lights an LED, "opens" the door using a servo, and plays a welcoming chime with a buzzer.
+您是否注意过便利店中当有人靠近时会自动打开并发出迎宾铃声的自动门？本项目将在较小规模上复制该功能。使用 PIR 传感器、舵机、LED 和蜂鸣器，您将创建一个微型"自动门"系统。当检测到运动时，系统点亮 LED，使用舵机"打开"门，并通过蜂鸣器播放迎宾铃声。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**所需材料**
 
-Below are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -42,9 +42,10 @@ Below are the components required for this project:
     *   - :ref:`cpn_transistor`
         - |link_transistor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
         - \-
+    *   - 树莓派
+        - \-
+
 
 
 
@@ -52,9 +53,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**电路图**
 
-Below is the circuit diagram for this project:
+以下是本项目的电路图：
 
 .. image:: img/fzz/4.1.5_sch.png
    :width: 100%
@@ -65,9 +66,9 @@ Below is the circuit diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**接线图**
 
-Follow the wiring diagram to assemble the circuit:
+按照接线图组装电路：
 
 
 .. image:: img/fzz/4.1.5_bb.png
@@ -77,7 +78,7 @@ Follow the wiring diagram to assemble the circuit:
 
 .. note::
 
-   Adjust the potentiometers on the PIR sensor module for optimal sensitivity and detection range. Rotate both potentiometers fully counterclockwise for best performance.
+   调整 PIR 传感器模块上的电位器以获得最佳灵敏度和检测范围。将两个电位器都逆时针旋转到底以获得最佳性能。
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 300
@@ -86,11 +87,11 @@ Follow the wiring diagram to assemble the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到。
+按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -98,16 +99,16 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.5_Welcome.py
 
 ----------------------------------------------
 
 
-**Code**
+**代码**
 
-Below is the Python script for the project:
+以下是本项目的 Python 脚本：
 
 
 
@@ -118,7 +119,7 @@ Below is the Python script for the project:
 .. code-block:: python
 
    from fusion_hat.pin import Pin, Mode, Pull
-   from fusion_hat.servo import Servo 
+   from fusion_hat.servo import Servo
    from fusion_hat.modules import Buzzer
    from fusion_hat.pwm import PWM
    import time
@@ -194,97 +195,97 @@ Below is the Python script for the project:
       buzPin.off()
       ledPin.off()
 
-This Python script integrates a PIR motion sensor, servo motor, LED, and buzzer to create an automated welcoming system. When executed:
+此 Python 脚本集成了 PIR 运动传感器、舵机、LED 和蜂鸣器，创建了一个自动迎宾系统。运行时：
 
-1. **Motion Detection**: A PIR motion sensor connected to GPIO pin 22 detects motion.
+1. **运动检测**：连接到 GPIO 引脚 22 的 PIR 运动传感器检测运动。
 
-2. **Door Automation**: When motion is detected:
+2. **门自动化**：检测到运动时：
 
-     - The servo motor (on PWM 4) opens a door by moving from 0° to 180°.
-     - The LED (on GPIO pin 17) turns on.
-     - A welcoming chime is played through the buzzer (on PWM 0).
-     - The servo motor closes the door by moving back from 180° to 0°.
-     - The LED turns off.
+     - 舵机（PWM 4）通过从 0° 移动到 180° 打开门。
+     - LED（GPIO 引脚 17）亮起。
+     - 通过蜂鸣器（PWM 0）播放迎宾铃声。
+     - 舵机通过从 180° 移回 0° 关闭门。
+     - LED 熄灭。
 
-3. **Continuous Monitoring**: The system continuously monitors for motion and triggers the above sequence whenever motion is detected.
+3. **持续监控**：系统持续监控运动，每当检测到运动时就触发上述序列。
 
-4. **Graceful Exit**: On ``Ctrl+C``, the buzzer and LED are turned off, and the script exits cleanly.
-
-
-----------------------------------------------
-
-**Understanding the Code**
-
-1. **Motion Detection:** The PIR sensor detects motion and triggers the system.
-
-2. **Servo Control:** The servo motor opens and closes the door using angles from 0° to 180°.
-
-3. **Buzzer Melody:** A welcoming tune is played using the ``Buzzer``.
-
-4. **Reset:** After the chime, the system closes the door and turns off the LED, ready for the next event.
-
+4. **优雅退出**：按下 ``Ctrl+C`` 时，蜂鸣器和 LED 关闭，脚本安全退出。
 
 
 ----------------------------------------------
 
+**理解代码**
 
-**Troubleshooting**
+1. **运动检测：** PIR 传感器检测运动并触发系统。
 
-1. **Motion Not Detected**:
+2. **舵机控制：** 舵机使用 0° 到 180° 的角度打开和关闭门。
 
-   - **Cause**: PIR sensor not wired correctly or environmental interference.
-   - **Solution**:
+3. **蜂鸣器旋律：** 使用 ``Buzzer`` 播放迎宾曲。
 
-     - Ensure the PIR sensor is connected to GPIO pin 22, power, and ground.
-     - Adjust the sensor's sensitivity and delay potentiometers if available.
+4. **重置：** 播放铃声后，系统关闭门并熄灭 LED，准备迎接下一次事件。
 
-2. **Servo Not Moving**:
 
-   - **Cause**: Incorrect servo configuration or power supply issues.
-   - **Solution**:
-
-     - Verify the servo is connected to P4 and powered correctly.
-
-3. **Chime Not Playing**:
-
-   - **Cause**: Buzzer misconfiguration or incorrect tune format.
-   - **Solution**:
-
-     - Ensure the buzzer is connected to P0.
-     - Verify the ``tune`` list contains valid note and duration pairs.
-
-4. **LED Not Turning On**:
-
-   - **Cause**: LED wiring or GPIO configuration issues.
-   - **Solution**: Verify the LED is connected to GPIO pin 17 with an appropriate resistor.
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**故障排除**
 
-1. **Adjustable Chime**: Add more melodies or allow the user to select different chimes for different events.
+1. **未检测到运动**：
 
-2. **Time-Based Operation**: Disable the system during specific hours (e.g., at night):
+   - **原因**：PIR 传感器接线错误或环境干扰。
+   - **解决方法**：
+
+     - 确保 PIR 传感器连接到 GPIO 引脚 22、电源和 GND。
+     - 如有可用，调整传感器的灵敏度和延时电位器。
+
+2. **舵机不移动**：
+
+   - **原因**：舵机配置不正确或电源问题。
+   - **解决方法**：
+
+     - 验证舵机是否连接到 P4 并正确供电。
+
+3. **铃声不播放**：
+
+   - **原因**：蜂鸣器配置错误或曲调格式不正确。
+   - **解决方法**：
+
+     - 确保蜂鸣器连接到 P0。
+     - 验证 ``tune`` 列表包含有效的音符和持续时间对。
+
+4. **LED 不亮**：
+
+   - **原因**：LED 接线或 GPIO 配置问题。
+   - **解决方法**：验证 LED 是否通过适当的电阻连接到 GPIO 引脚 17。
+
+----------------------------------------------
+
+
+**扩展思路**
+
+1. **可调节铃声**：添加更多旋律，或允许用户为不同事件选择不同的铃声。
+
+2. **基于时间的操作**：在特定时段禁用系统（例如夜间）：
 
      .. code-block:: python
 
          from datetime import datetime
-         if 8 <= datetime.now().hour < 22:  # Operate only between 8 AM and 10 PM
+         if 8 <= datetime.now().hour < 22:  # 仅在上午 8 点至晚上 10 点之间运行
              opendoor()
 
-3. **Data Logging**: Log motion detection events and timestamps to a file for analysis:
+3. **数据记录**：将运动检测事件和时间戳记录到文件以供分析：
 
      .. code-block:: python
 
          with open("motion_log.txt", "a") as log_file:
              log_file.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - Motion detected\n")
 
-4. **Voice Greetings**: Replace the buzzer chime with pre-recorded voice messages using a speaker.
+4. **语音问候**：使用扬声器将蜂鸣器铃声替换为预录的语音消息。
 
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project replicates the functionality of automatic doors in a fun and educational way. It introduces concepts like motion detection, servo control, and sound generation, making it a great entry point for IoT and automation projects. Try expanding it by adding features like remote notifications or cloud integration for real-time monitoring.
+本项目以有趣且富有教育意义的方式复制了自动门的功能。它引入了运动检测、舵机控制和声音生成等概念，是 IoT 和自动化项目的良好起点。尝试通过添加远程通知或云集成等功能来扩展它，实现实时监控。

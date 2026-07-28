@@ -4,25 +4,25 @@
 
 .. _py_ws2812:
 
-1.9  NeoPixel LED Strip
-===========================
+1.9 NeoPixel LED灯带
+=====================
 
-**Introduction**
+**介绍**
 
-In this project, we will learn how to control an addressable RGB LED strip (NeoPixel) using SPI communication on a Raspberry Pi. NeoPixels are intelligent RGB LEDs that contain their own drivers, allowing individual control of each LED in a chain. This project demonstrates basic color control and filling the entire strip with different colors.
+在本项目中，我们将学习如何使用Raspberry Pi上的SPI通信控制可寻址RGB LED灯带（NeoPixel）。NeoPixel是智能RGB LED，内置驱动芯片，可以对链条中的每个LED进行独立控制。本项目演示了基本的颜色控制以及用不同颜色填充整个灯带。
 
 ----------------------------------------------
 
-**What You'll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
    :widths: 30 20
    :header-rows: 1
 
-   *   - COMPONENT
-       - PURCHASE LINK
+   *   - 组件
+       - 购买链接
 
    *   - :ref:`cpn_circular_ws2812_module`
        - \-
@@ -30,13 +30,13 @@ To complete this project, you will need the following components:
        - |link_wires_buy|
 
    *   - :ref:`cpn_fusion_hat`
-       - \- 
+       - \-
    *   - Raspberry Pi
        - \-
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
 .. image:: img/fzz/1.9_ws2812_bb.png
    :width: 70%
@@ -45,45 +45,45 @@ To complete this project, you will need the following components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**设置步骤**
 
-#. Before running the code, you need to install the required library:
+#. 在运行代码之前，你需要安装所需的库：
 
-   This library provides the necessary functions to control NeoPixel LEDs using SPI communication.
+   该库提供了通过SPI通信控制NeoPixel LED所需的功能。
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-   
+
         sudo pip3 install adafruit-circuitpython-neopixel-spi --break
 
-#. All example code used in this tutorial is available in the ``ai-lab-kit`` directory. Follow these steps to run the example:
+#. 本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。请按照以下步骤运行示例：
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
-      
+
       cd ~/ai-lab-kit/python/
       sudo python3 1.9_NeoPixel.py
 
-#. When this script runs, the WS2812 LED module cycles through three solid colors:
+#. 运行此脚本时，WS2812 LED模块将循环显示三种纯色：
 
-   * All LEDs turn **red** for one second  
-   * All LEDs turn **green** for one second  
-   * All LEDs turn **blue** for one second  
+   * 所有LED变为**红色**，持续一秒
+   * 所有LED变为**绿色**，持续一秒
+   * 所有LED变为**蓝色**，持续一秒
 
-   After displaying each color, the LEDs briefly turn **off** before repeating the cycle.  
-   The terminal prints the current color name as the pattern runs.
+   显示每种颜色后，LED短暂**熄灭**，然后重复循环。
+   终端会在模式运行时打印当前颜色名称。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code controls a NeoPixel LED strip, cycling through different colors:
+以下Python代码控制NeoPixel LED灯带，循环显示不同颜色：
 
 .. raw:: html
 
@@ -131,7 +131,7 @@ The following Python code controls a NeoPixel LED strip, cycling through differe
          strip.fill((0, 0, 255))  # Full blue
          strip.show()
          time.sleep(1)
-      
+
          # Turn all LEDs off
          # print("Off for 10 seconds")
          strip.fill((0, 0, 0))    # All channels 0 = off
@@ -139,24 +139,24 @@ The following Python code controls a NeoPixel LED strip, cycling through differe
          time.sleep(1)
 
    # Gracefully handle script termination (e.g., via KeyboardInterrupt)
-   except KeyboardInterrupt: 
+   except KeyboardInterrupt:
       pass
 
-This Python script demonstrates basic control of a 12-LED WS2812 ring using the NeoPixel SPI driver. When executed:
+此Python脚本演示了使用NeoPixel SPI驱动程序控制12灯珠WS2812环形LED。执行时：
 
-1. The script initializes the SPI interface and prepares the WS2812 LED ring.
-2. All LEDs cycle through red, green, and blue with 1-second intervals.
-3. Each color change is printed to the console for debugging.
-4. The LEDs briefly turn off between cycles.
-5. The program loops continuously until interrupted with Ctrl+C.
+1. 脚本初始化SPI接口并准备WS2812 LED环形灯。
+2. 所有LED以1秒间隔循环显示红、绿、蓝。
+3. 每次颜色变化都会打印到控制台以供调试。
+4. LED在每次循环之间短暂熄灭。
+5. 程序持续循环，直到用\ ``Ctrl+C``\ 中断。
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The script uses the ``neopixel_spi`` library to control WS2812 LEDs through Raspberry Pi’s SPI interface.
+   脚本使用\ ``neopixel_spi``\ 库通过Raspberry Pi的SPI接口控制WS2812 LED。
 
    .. code-block:: python
 
@@ -164,16 +164,16 @@ This Python script demonstrates basic control of a 12-LED WS2812 ring using the 
       import board
       import neopixel_spi as neopixel
 
-2. **SPI and NeoPixel Setup**
+2. **SPI和NeoPixel设置**
 
-   The SPI bus is initialized and the NeoPixel ring is configured with 12 LEDs and the required color order (GRB).
-   
+   SPI总线被初始化，NeoPixel环形灯配置为12个LED和所需的颜色顺序（GRB）。
+
    .. code-block:: python
-   
+
        spi = board.SPI()
        LED_COUNT = 12
        PIXEL_ORDER = neopixel.GRB
-   
+
        strip = neopixel.NeoPixel_SPI(
            spi,
            LED_COUNT,
@@ -181,98 +181,98 @@ This Python script demonstrates basic control of a 12-LED WS2812 ring using the 
            auto_write=False
        )
 
-3. **Initial LED Reset**
+3. **初始LED重置**
 
-   A short delay ensures the LEDs are ready, then all pixels are turned off.
-   
+   短暂延迟确保LED就绪，然后关闭所有像素。
+
    .. code-block:: python
-   
+
        time.sleep(0.01)
        strip.fill(0)
        strip.show()
 
-4. **Main Color-Cycling Loop**
+4. **主颜色循环**
 
-   Inside the infinite loop, the script fills the LED ring with solid red, green, and blue in sequence. Each change is displayed for one second.
-   
+   在无限循环内，脚本依次用红色、绿色和蓝色填充LED环形灯。每种颜色显示一秒钟。
+
    .. code-block:: python
-   
+
        while True:
            strip.fill((255, 0, 0))  # Red
            strip.show()
            time.sleep(1)
            # Similar code for green and blue...
 
-**5. Color Format**
+5. **颜色格式**
 
-   Colors are defined using an RGB tuple: ``(red, green, blue)`` with each value between 0–255.
-   
+   颜色使用RGB元组定义：\ ``(red, green, blue)``\ ，每个值为0–255之间。
+
    .. code-block:: python
-   
+
        strip.fill((0, 255, 0))  # Example: green
 
-Troubleshooting
----------------
+故障排除
+--------
 
-* **LED Ring Not Lighting Correctly**
+* **LED环形灯不亮**
 
-  - **Cause:** Wrong wiring or insufficient power  
-  - **Solution:** Ensure VCC is 5V, GND is shared, and the data line is connected to DIN (sometimes labeled RGB)
+  - **原因：** 接线错误或供电不足
+  - **解决方案：** 确保VCC为5V，GND共地，数据线连接到DIN（有时标记为RGB）
 
-* **Incorrect Colors**
+* **颜色不正确**
 
-  - **Cause:** LED color order mismatch  
-  - **Solution:** Try different pixel orders such as ``neopixel.RGB`` or ``neopixel.GRBW``
+  - **原因：** LED颜色顺序不匹配
+  - **解决方案：** 尝试不同的像素顺序，如\ ``neopixel.RGB``\ 或\ ``neopixel.GRBW``
 
-* **SPI Not Working**
+* **SPI不工作**
 
-  - **Cause:** SPI disabled or hardware conflict  
-  - **Solution:** Enable SPI via ``sudo raspi-config``
-  
-* **Library Import Fails**
+  - **原因：** SPI被禁用或硬件冲突
+  - **解决方案：** 通过\ ``sudo raspi-config``\ 启用SPI
 
-  - **Cause:** Missing dependency  
-  - **Solution:**
-  
+* **库导入失败**
+
+  - **原因：** 缺少依赖
+  - **解决方案：**
+
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       sudo pip3 install adafruit-circuitpython-neopixel-spi --break
 
-Extendable Ideas
-------------------
+扩展思路
+--------
 
-* You can light up specific LEDs with different colors to create simple patterns or highlight certain positions on the ring.
+* 你可以用不同颜色点亮特定LED，以创建简单图案或突出环形灯上的特定位置。
 
   .. code-block:: python
-  
+
       strip[0] = (255, 0, 0)
       strip.show()
 
-* By cycling through calculated RGB values, you can generate a smooth rainbow transition across all LEDs.
+* 通过循环计算RGB值，你可以在所有LED上生成平滑的彩虹过渡。
 
   .. code-block:: python
-  
+
       strip.fill(wheel(50))
       strip.show()
 
-* Create a chasing effect by lighting one LED at a time while keeping the others off.
+* 一次点亮一个LED，同时保持其他LED熄灭，创建追逐效果。
 
   .. code-block:: python
-  
+
       strip[i] = (0, 255, 0)
       strip.show()
 
-* You can dim or brighten the entire LED ring by adjusting the brightness attribute.
+* 你可以通过调整亮度属性来调暗或调亮整个LED环形灯。
 
   .. code-block:: python
-  
+
       strip.brightness = 0.3
 
-Conclusion
-----------
+总结
+----
 
-This example demonstrates how to control a WS2812 12-LED ring using SPI on a Raspberry Pi. With only a few lines of code, you can cycle through colors, create animations, and explore individual LED control. This makes WS2812 rings ideal for indicator lights, robotics, decorative effects, and interactive visual projects.
+本示例演示了如何使用Raspberry Pi上的SPI控制WS2812 12-LED环形灯。仅需几行代码，你就可以循环显示颜色、创建动画并探索单个LED控制。这使得WS2812环形灯非常适合用于指示灯、机器人、装饰效果和交互式视觉项目。

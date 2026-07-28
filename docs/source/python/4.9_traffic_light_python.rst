@@ -4,27 +4,27 @@
 
 .. _py_fun_traffic_light:
 
-4.9 Traffic Light Simulation
-==============================
+4.9 交通灯模拟
+==============
 
-**Introduction**
+**简介**
 
-This project demonstrates the use of LEDs and a 4-digit 7-segment display to simulate a real-world traffic light system. The LEDs represent the red, yellow, and green lights, while the 7-segment display counts down the time remaining for each light. It provides an engaging way to learn about GPIO control, timing, and 7-segment displays in an educational or prototype setting.
+本项目演示如何使用 LED 和 4 位数码管模拟真实的交通灯系统。LED 代表红灯、黄灯和绿灯，而数码管则倒计时显示每个灯的剩余时间。它提供了一种在原型设计或教育环境中学习 GPIO 控制、定时和数码管使用的引人入胜的方式。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,17 +39,17 @@ The following components are required for this project:
     *   - :ref:`cpn_74hc595`
         - |link_74hc595_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-Below is the schematic diagram for the traffic light simulation project:
+以下是交通灯模拟项目的原理图：
 
 .. image:: img/fzz/4.1.9_sch.png
    :width: 90%
@@ -60,9 +60,9 @@ Below is the schematic diagram for the traffic light simulation project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the wiring diagram for assembling the components:
+参考接线图组装组件：
 
 
 .. image:: img/fzz/4.1.9_bb.png
@@ -72,11 +72,11 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到。
+按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -84,17 +84,17 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.9_TrafficLight.py
 
-   
+
 ----------------------------------------------
 
-**Code**
+**代码**
 
 
-Here is the Python script for the traffic light simulation:
+以下是交通灯模拟的 Python 脚本：
 
 
 .. raw:: html
@@ -219,79 +219,80 @@ Here is the Python script for the traffic light simulation:
       destroy()
 
 
-----------------------------------------------
-
-
-**Understanding the Code**
-
-1. **Initialization:**
-
-   * Sets up GPIO pins for the shift register, 7-segment display, and traffic light LEDs.
-   * Defines constants for light durations and initializes state variables.
-
-2. **7-Segment Display Functions:**
-
-   * ``clearDisplay``: Clears all segments on the display.
-   * ``hc595_shift``: Sends data to the shift register to control display segments.
-   * ``pickDigit``: Activates a specific digit for multiplexing.
-
-3. **Timer Function:**
-
-   * Handles the countdown and transitions between light states.
-
-4. **Traffic Light Control:**
-
-   * Updates the LEDs based on the current state.
-
-5. **Main Loop:**
-
-   * Continuously updates the display and LEDs.
-
-6. **Cleanup:**
-
-   * Ensures all resources are properly released on termination.
-
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**理解代码**
 
-1. **Traffic Lights Not Working**:
+1. **初始化：**
 
-   - **Cause**: Incorrect wiring or faulty LEDs.
-   - **Solution**:
+   * 设置移位寄存器、数码管和交通灯 LED 的 GPIO 引脚。
+   * 定义灯光时长的常量并初始化状态变量。
 
-     - Verify that the LEDs are correctly connected to GPIO pins 5 (Red), 6 (Green), and 13 (Yellow).
-     - Test each LED individually using a simple GPIO control script.
+2. **数码管函数：**
 
-2. **7-Segment Display Does Not Show Countdown**:
+   * ``clearDisplay``：清除显示器上的所有段。
+   * ``hc595_shift``：向移位寄存器发送数据以控制显示段。
+   * ``pickDigit``：激活特定数字用于复用显示。
 
-   - **Cause**: Incorrect wiring or shift register configuration.
-   - **Solution**:
+3. **定时器函数：**
 
-     - Ensure the shift register's ``SDI``, ``RCLK``, and ``SRCLK`` pins are properly connected to GPIO 17, 4, and 27, respectively.
-     - Verify the digit selection pins match the ``placePin`` configuration.
+   * 处理倒计时和灯状态之间的转换。
 
-3. **Countdown Timer Freezes**:
+4. **交通灯控制：**
 
-   - **Cause**: Timer thread not restarting correctly.
-   - **Solution**: Ensure the ``timer()`` function calls ``timer1.start()`` to restart the timer thread.
+   * 根据当前状态更新 LED。
 
-4. **Incorrect Light Durations**:
+5. **主循环：**
 
-   - **Cause**: Incorrect duration values or state transitions.
-   - **Solution**:
+   * 持续更新显示和 LED。
 
-     - Verify the ``redLight``, ``greenLight``, and ``yellowLight`` durations.
-     - Check the ``timer()`` function logic to ensure correct state transitions.
+6. **清理：**
+
+   * 确保在终止时正确释放所有资源。
+
 
 ----------------------------------------------
 
 
-**Extendable Ideas**
+**故障排除**
 
-1. **Pedestrian Crossing**: Add a pedestrian crossing button that temporarily interrupts the traffic cycle to allow pedestrians to cross safely.
+1. **交通灯不工作**：
+
+   - **原因**：接线错误或 LED 损坏。
+   - **解决方法**：
+
+     - 验证 LED 是否正确连接到 GPIO 引脚 5（红）、6（绿）和 13（黄）。
+     - 使用简单的 GPIO 控制脚本单独测试每个 LED。
+
+2. **数码管不显示倒计时**：
+
+   - **原因**：接线或移位寄存器配置错误。
+   - **解决方法**：
+
+     - 确保移位寄存器的 ``SDI``、``RCLK`` 和 ``SRCLK`` 引脚正确连接到 GPIO 17、4 和 27。
+     - 验证数字选择引脚是否与 ``placePin`` 配置匹配。
+
+3. **倒计时卡死**：
+
+   - **原因**：定时器线程未正确重启。
+   - **解决方法**：确保 ``timer()`` 函数调用 ``timer1.start()`` 以重启定时器线程。
+
+4. **灯光时长不正确**：
+
+   - **原因**：时长值或状态转换错误。
+   - **解决方法**：
+
+     - 验证 ``redLight``、``greenLight`` 和 ``yellowLight`` 的时长。
+     - 检查 ``timer()`` 函数逻辑，确保状态转换正确。
+
+----------------------------------------------
+
+
+**扩展思路**
+
+1. **行人过街**：添加行人过街按钮，临时中断交通灯周期，让行人安全过街。
 
    .. code-block:: python
 
@@ -304,9 +305,9 @@ Here is the Python script for the traffic light simulation:
                counter = 5  # Shorten green light duration
       pedestrian_button.when_activated = handle_pedestrian
 
-2. **Adaptive Timing**: Adjust the durations of the traffic lights dynamically based on real-time traffic density.
+2. **自适应定时**：根据实时交通流量动态调整交通灯的时长。
 
-3. **Event Logging**: Log traffic light state changes with timestamps to a file for analysis:
+3. **事件记录**：将交通灯状态变化和时间戳记录到文件以供分析：
 
    .. code-block:: python
 
@@ -315,6 +316,6 @@ Here is the Python script for the traffic light simulation:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project simulates a traffic light system, providing hands-on experience with GPIO control, shift registers, and 7-segment displays. It’s a fun and educational way to explore electronics and programming while replicating a real-world application. Try enhancing the system to make it even more interactive!
+本项目模拟了一个交通灯系统，提供了 GPIO 控制、移位寄存器和数码管的实践经验。这是一种有趣且富有教育意义的电子技术和编程探索方式，同时复制了现实世界的应用。尝试增强系统，使其更加互动！

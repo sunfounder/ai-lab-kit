@@ -4,53 +4,53 @@
 
 
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: 如果您使用的是预装的"Raspberry Pi OS with AI Fusion Lab Kit"镜像，可以跳过本节。该镜像已包含本章所述的所有软件安装、环境配置和示例代码部署。
 
 
 .. _opencv_install:
 
-0. Setup OpenCV
+0. 安装OpenCV
 =========================================================================
 
-This chapter shows you how to install OpenCV on the Raspberry Pi and verify that it works correctly.
+本章将介绍如何在Raspberry Pi上安装OpenCV并验证其是否正常工作。
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. 为了方便使用摄像头模块，建议先完成 :ref:`assemble_fusion_hat_pan_tilt`。
 
-   .. note:: 
-     
-      Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+      组装云台可能会遮挡部分引脚，因此建议仅在使用摄像头时组装，或在组装后将云台放置在外部。
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. 访问Raspberry Pi桌面：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
-
-
-#. Complete the setup in :ref:`install_all_modules` (download the provided code package, and finish the Fusion HAT+ installation and configuration).
+   * :ref:`remote_desktop`: 使用\ **VNC**\ 获得完整的桌面体验。
+   * |link_rpi_connect|: 使用\ **Raspberry Pi Connect**\ 从任何浏览器安全地访问您的Pi。
 
 
-#. Now, update the Raspberry Pi software sources to ensure you get the latest packages:
+#. 完成 :ref:`install_all_modules`\ 中的设置（下载提供的代码包，并完成Fusion HAT+的安装和配置）。
+
+
+#. 现在，更新Raspberry Pi软件源以确保您获得最新的软件包：
 
    .. code-block:: shell
 
       sudo apt update
 
-#. Use the following command to install the Python 3 version of OpenCV:
+#. 使用以下命令安装Python 3版本的OpenCV：
 
    .. code-block:: bash
 
       sudo apt install python3-opencv
 
-#. Run the command below to verify that OpenCV has been installed successfully:
+#. 运行以下命令验证OpenCV是否安装成功：
 
    .. code-block:: bash
 
       python3 -c "import cv2; print(cv2.__version__)"
 
-   If the OpenCV version number is displayed, the installation was successful.
+   如果显示OpenCV版本号，则表示安装成功。
 
    .. image:: img/install_opencv_check_version.png
       :align: center

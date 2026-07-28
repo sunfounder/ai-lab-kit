@@ -5,33 +5,33 @@
 
 .. _py_room_monitor:
 
-4.12 Environment Monitor
-==============================================
+4.12 环境监测器
+================
 
-**Introduction**
+**简介**
 
-In this lesson, you will build an **Environment Monitor Dashboard** that reads temperature, humidity, and ambient light level, and displays all values in real time on a 128×64 OLED screen.
+在本课程中，您将构建一个**环境监测仪表板**，它可以读取温度、湿度和环境光照强度，并在 128×64 OLED 屏幕上实时显示所有数值。
 
-This project uses:
+本项目使用：
 
-- **DHT11 sensor** to measure temperature and humidity  
-- **LDR (Light Dependent Resistor)** connected to the Fusion HAT+ ADC to measure light level  
-- **SSD1306 OLED** to display environmental data and a dynamic light bar  
+- **DHT11 传感器**测量温度和湿度
+- **LDR（光敏电阻）**连接到 Fusion HAT+ ADC 以测量光照强度
+- **SSD1306 OLED**显示环境数据和动态光条
 
-The screen updates continuously and shows a status indicator (``OK`` or ``TIMEOUT``) depending on whether the DHT11 provides a valid reading.
+屏幕持续更新，并根据 DHT11 是否提供有效读数显示状态指示器（``OK`` 或 ``TIMEOUT``）。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_humiture_sensor`
@@ -42,12 +42,12 @@ The following components are required for this project:
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - Raspberry Pi
+    *   - 树莓派
         - \-
 
 .. ----------------------------------------------
 
-.. **Circuit Diagram**
+.. **电路图**
 
 .. .. image:: img/fzz/4.12_room_monitor_sch.png
 ..    :width: 80%
@@ -55,9 +55,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the wiring diagram for assembling the components:
+参考接线图组装组件：
 
 .. image:: img/fzz/4.12_room_monitor_bb.png
    :width: 100%
@@ -65,7 +65,7 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**设置步骤**
 
 .. #. Create and activate a virtual environment for this project:
 
@@ -79,7 +79,7 @@ Refer to the wiring diagram for assembling the components:
 ..       python3 -m venv 4.12_room_monitor_env --system-site-packages
 ..       source 4.12_room_monitor_env/bin/activate
 
-#. Install the required libraries:
+#. 安装所需库：
 
    .. raw:: html
 
@@ -89,7 +89,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. Run the example code from the ``ai-lab-kit`` directory:
+#. 从 ``ai-lab-kit`` 目录运行示例代码：
 
    .. raw:: html
 
@@ -100,19 +100,19 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.12_RoomMonitor.py
 
-#. When the script runs:
+#. 脚本运行时：
 
-   * The OLED shows temperature, humidity, and light percentage  
-   * A horizontal bar graph displays the current light level  
-   * “OK” or “TIMEOUT” indicates DHT11 read status  
-   * Data updates every 0.5 seconds  
-   * Press **Ctrl+C** to exit and clear the display
+   * OLED 显示温度、湿度和光照百分比
+   * 水平条形图显示当前光照强度
+   * "OK" 或 "TIMEOUT" 表示 DHT11 读取状态
+   * 数据每 0.5 秒更新一次
+   * 按 **Ctrl+C** 退出并清除显示
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the Python script for the environment monitor dashboard:
+以下是环境监测仪表板的 Python 脚本：
 
 .. raw:: html
 
@@ -256,23 +256,23 @@ Here is the Python script for the environment monitor dashboard:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports**
+1. **导入**
 
-   The script uses several modules:
+   脚本使用多个模块：
 
-   - ``DHT11`` for temperature/humidity sensing  
-   - ``ADC`` to read LDR brightness from analog input  
-   - ``PIL`` for OLED drawing  
-   - ``adafruit_ssd1306`` for OLED control  
-   - ``mean()`` for smoothing light readings  
+   - ``DHT11`` 用于温度/湿度感应
+   - ``ADC`` 从模拟输入读取 LDR 亮度
+   - ``PIL`` 用于 OLED 绘图
+   - ``adafruit_ssd1306`` 用于 OLED 控制
+   - ``mean()`` 用于平滑光照读数
 
 
-2. **OLED Setup**
+2. **OLED 设置**
 
-   A 128×64 SSD1306 OLED is initialized using I2C.  
-   A framebuffer (Pillow image) is used to draw all UI elements before sending them to the display.
+   使用 I2C 初始化 128×64 SSD1306 OLED。
+   使用帧缓冲器（Pillow 图像）在发送到显示之前绘制所有 UI 元素。
 
    .. code-block:: python
 
@@ -288,10 +288,10 @@ Here is the Python script for the environment monitor dashboard:
       draw = ImageDraw.Draw(image)
       font  = ImageFont.load_default()
 
-3. **Sensor Reading**
+3. **传感器读取**
 
-   - The DHT11 may occasionally fail. When this happens, the script shows ``TIMEOUT`` but retains the last valid values.  
-   - The LDR raw reading (0..4095) is smoothed using a moving average to reduce flicker.
+   - DHT11 偶尔可能失败。发生这种情况时，脚本显示 ``TIMEOUT`` 但保留最后的有效值。
+   - LDR 原始读数（0..4095）使用移动平均值平滑以减少闪烁。
 
    .. code-block:: python
 
@@ -309,10 +309,10 @@ Here is the Python script for the environment monitor dashboard:
       light_pct, raw_smooth = light_percent(raw)
 
 
-4. **Light Mapping**
+4. **光照映射**
 
-   ``linear_map()`` converts the raw ADC value into a percentage (0..100%).  
-   ``clamp()`` ensures the final value stays in range.
+   ``linear_map()`` 将原始 ADC 值转换为百分比（0..100%）。
+   ``clamp()`` 确保最终值保持在范围内。
 
    .. code-block:: python
 
@@ -328,16 +328,16 @@ Here is the Python script for the environment monitor dashboard:
          return int(clamp(pct, 0, 100)), smooth_raw
 
 
-5. **Rendering the Dashboard**
+5. **渲染仪表板**
 
-   The OLED displays:
+   OLED 显示：
 
-   - Title  
-   - Temperature (°C)  
-   - Humidity (%)  
-   - Light percentage and raw ADC value  
-   - A horizontal bar graph for light intensity  
-   - Status text indicating sensor health  
+   - 标题
+   - 温度（°C）
+   - 湿度（%）
+   - 光照百分比和原始 ADC 值
+   - 光照强度的水平条形图
+   - 指示传感器健康状态的状态文本
 
 
    .. code-block:: python
@@ -366,71 +366,70 @@ Here is the Python script for the environment monitor dashboard:
          sw, sh = text_size(font, status_text)
          draw.text((WIDTH - sw - 2, 0), status_text, font=font, fill=255)
 
-6. **Main Loop**
+6. **主循环**
 
-   Every 0.5 seconds:
+   每 0.5 秒：
 
-   - DHT11 is read  
-   - LDR is read and smoothed  
-   - Screen is updated  
-   - Optional debug logs can be printed  
+   - 读取 DHT11
+   - 读取并平滑 LDR
+   - 更新屏幕
+   - 可打印可选的调试日志
 
-7. **Graceful Shutdown**
+7. **优雅关机**
 
-   Upon Ctrl+C:
+   Ctrl+C 时：
 
-   - OLED is cleared  
-   - A message is printed  
-
-----------------------------------------------
-
-**Troubleshooting**
-
-- **DHT11 returns TIMEOUT frequently**
-
-  - Increase delay between reads  
-  - Check wiring and signal pin  
-  - Ensure pull-up resistor is used if needed  
-
-- **OLED stays blank**
-
-  - Verify I2C address (``0x3C``)  
-  - Check SDA/SCL wiring  
-  - Ensure libraries are installed correctly  
-
-- **Light percentage seems inverted**
-
-  - Swap ``LDR_RAW_MIN`` and ``LDR_RAW_MAX``  
-  - Check LDR circuit orientation (voltage divider)  
-
-- **Display flicker**
-
-  - Increase light smoothing window  
-  - Reduce refresh rate (use ``time.sleep(1.0)``)
+   - OLED 被清除
+   - 打印一条消息
 
 ----------------------------------------------
 
-**Try It Yourself**
+**故障排除**
 
-1. **Add Fahrenheit display (°F)**  
+- **DHT11 频繁返回 TIMEOUT**
 
-   Show both °C and °F on the screen.
+  - 增加读取之间的延时
+  - 检查接线和信号引脚
+  - 确保在需要时使用上拉电阻
 
-2. **Add max/min history**  
+- **OLED 保持空白**
 
-   Track highest/lowest temperature, humidity, or brightness.
+  - 验证 I2C 地址（``0x3C``）
+  - 检查 SDA/SCL 接线
+  - 确保库已正确安装
 
-3. **Add alert system**  
+- **光照百分比似乎反了**
 
-   Flash the OLED border when humidity is too low or temperature too high.
+  - 交换 ``LDR_RAW_MIN`` 和 ``LDR_RAW_MAX``
+  - 检查 LDR 电路方向（分压器）
 
-4. **Add graphing mode**  
+- **显示闪烁**
 
-   Draw scrolling graphs for temperature and humidity trends.
+  - 增加光照平滑窗口
+  - 降低刷新率（使用 ``time.sleep(1.0)``）
 
-5. **Add animated icons**  
+----------------------------------------------
 
-   Use small bitmaps for sun, rain, thermometer, humidity droplets, etc.
+**自己尝试**
 
-These ideas turn the simple environment monitor into a feature-rich environmental dashboard.
+1. **添加华氏度显示（°F）**
 
+   在屏幕上同时显示 °C 和 °F。
+
+2. **添加最大/最小历史记录**
+
+   跟踪最高/最低温度、湿度或亮度。
+
+3. **添加警报系统**
+
+   当湿度过低或温度过高时闪烁 OLED 边框。
+
+4. **添加图形模式**
+
+   绘制温度和湿度趋势的滚动图。
+
+5. **添加动画图标**
+
+   使用太阳、雨、温度计、湿度水滴等小位图。
+
+这些想法将简单的环境监测器变成了一个功能丰富的环境仪表板。

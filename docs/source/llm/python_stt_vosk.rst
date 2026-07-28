@@ -6,11 +6,11 @@
 .. _py_stt_whisper:
 .. _test_vosk:
 
-3. STT with Vosk (Offline)
-==============================================
+3. 使用 Vosk 实现 STT（离线）
+=================================
 
-Vosk is a lightweight speech-to-text (STT) engine that supports many languages and runs fully **offline** on Raspberry Pi.  
-You only need internet access once to download a language model. After that, everything works without a network connection.  
+Vosk 是一个轻量级的语音转文字（STT）引擎，支持多种语言，可在树莓派上\ **完全离线**\ 运行。
+你只需要联网一次来下载语言模型。之后，一切都可以在无网络连接的情况下工作。
 
 .. raw:: html
 
@@ -19,30 +19,30 @@ You only need internet access once to download a language model. After that, eve
           Your browser does not support the video tag.
       </video>
 
-In this lesson, we will:  
+在本课中，我们将：
 
-* Check the microphone on Raspberry Pi.  
-* Install and test Vosk with a chosen language model.  
+* 检查树莓派上的麦克风。
+* 安装并测试 Vosk，使用所选择的语言模型。
 
 
 .. start_mic
 
 
-Run the program
---------------------------
+运行程序
+----------
 
 .. code-block:: bash
 
    cd ~/ai-lab-kit/llm
    sudo python3 stt_vosk_stream.py
 
-The first time you run this code with a new language, Vosk will:
+首次使用新语言运行此代码时，Vosk 将：
 
-* **Automatically download the language model** (by default, the small version).
-* **Print out the list of supported languages**.
-* Start **listening** for audio input through the microphone.
+* **自动下载语言模型**（默认是小版本）。
+* **打印出支持的语言列表**。
+* 开始通过麦克风\ **监听**\ 音频输入。
 
-You’ll see something like this in the terminal:
+你会在终端中看到类似这样的信息：
 
 .. code-block:: text
 
@@ -50,20 +50,20 @@ You’ll see something like this in the terminal:
          ['ar', 'ar-tn', 'ca', 'cn', 'cs', 'de', 'en-gb', 'en-in', 'en-us', 'eo', 'es', 'fa', 'fr', 'gu', 'hi', 'it', 'ja', 'ko', 'kz', 'nl', 'pl', 'pt', 'ru', 'sv', 'te', 'tg', 'tr', 'ua', 'uz', 'vn']
          Say something
 
-This means:
+这意味着：
 
-   * The model file (``vosk-model-small-en-us-0.15``) has been downloaded.  
-   * The list of supported languages has been printed.  
-   * The system is now listening — say something into the Fusion HAT+ microphone, and the recognized text will appear in the terminal.
+   * 模型文件（\ ``vosk-model-small-en-us-0.15``）已下载。
+   * 支持的语言列表已打印。
+   * 系统现在正在监听——对着 Fusion HAT+ 麦克风说话，识别的文字将出现在终端中。
 
-**Tips:**
+**提示：**
 
-* Keep the microphone about **15–30 cm** away for better accuracy.  
-* Choose a **model that matches your language and accent**.  
-* Use a quiet environment to improve recognition.
+* 保持麦克风距离约 **15–30 厘米**\ 以获得更好的准确率。
+* 选择一种\ **与你的语言和口音匹配的模型**。
+* 在安静的环境中使用，以提高识别效果。
 
-Code
----------------
+代码
+-----------
 
 .. code-block:: python
 
@@ -80,39 +80,39 @@ Code
                print(f"partial: {result['partial']}", end="\r", flush=True)
 
 
-**Code explanation:**
+**代码说明：**
 
-* ``stt.listen(stream=True)`` — Starts streaming speech recognition and yields intermediate results as you speak.  
-* ``result["partial"]`` — Displays the **real-time recognized text** (updated continuously).  
-* ``result["final"]`` — Displays the **final recognized sentence** when you stop speaking.  
-* The loop runs continuously, allowing **hands-free real-time transcription**.
+* ``stt.listen(stream=True)`` — 启动流式语音识别，并在你说话时返回中间结果。
+* ``result["partial"]`` — 显示\ **实时识别的文字**（持续更新）。
+* ``result["final"]`` — 在你停止说话时显示\ **最终识别的句子**。
+* 循环持续运行，实现\ **免提实时转录**。
 
-Tip: This streaming mode is perfect for **voice assistants**, **command control**, or **live transcription**.
+提示：这种流式模式非常适合\ **语音助手**、**命令控制**\ 或\ **实时转录**。
 
-Troubleshooting
+故障排除
 -----------------
 
-* **No such file or directory (when running `arecord`)**
+* **运行 `arecord` 时提示 "No such file or directory"**
 
-  You may have used the wrong card/device number.  
-  Run:
+  你可能使用了错误的声卡/设备编号。
+  运行：
 
   .. code-block:: bash
 
      arecord -l
 
-  and replace ``1,0`` with the numbers shown for your USB microphone.
+  并将 ``1,0``\ 替换为你的 USB 麦克风所显示的编号。
 
 
-* **Vosk does not recognize speech**
+* **Vosk 无法识别语音**
 
-  * Make sure the **language code** matches your model (e.g. ``en-us`` for English, ``zh-cn`` for Chinese).  
-  * Keep the microphone 15–30 cm away and avoid background noise.  
-  * Speak clearly and slowly.
+  * 确保\ **语言代码**\ 与你的模型匹配（例如，英语用 ``en-us``，中文用 ``zh-cn``）。
+  * 保持麦克风距离 15–30 厘米，避免背景噪音。
+  * 清晰且缓慢地说话。
 
-* **High latency / slow recognition**
+* **高延迟 / 识别缓慢**
 
-  * The default auto-download is a **small model** (faster, but less accurate).  
-  * If it’s still slow, close other programs to free CPU.  
+  * 默认自动下载的是\ **小模型**（更快，但准确率较低）。
+  * 如果仍然缓慢，关闭其他程序以释放 CPU。
 
 .. end_mic

@@ -5,112 +5,112 @@
 .. _mp_pose:
 
 
-7. Human Pose Estimation
-================================
+7. 人体姿态估计
+====================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概述
 ------------------------------------------------------------
 
-Following the implementation of hand and gesture recognition,
-this chapter introduces **MediaPipe Pose** —
-a lightweight yet powerful real-time human pose estimation module.
+在实现了手部和手势识别之后，
+本章介绍 **MediaPipe Pose** —
+一个轻量且强大的实时人体姿态估计模块。
 
-Using MediaPipe Pose, we can detect **33 body landmarks**
-in real time and draw the full-body skeleton on the video feed.
+使用 MediaPipe Pose，我们可以实时检测 **33 个人体关键点**
+并在视频画面上绘制全身骨骼。
 
 .. image:: img/mp_pose.png
    :width: 400
    :align: center
 
-This module can be used for:
+该模块可用于：
 
-- Action recognition
-- Posture correction
-- Fitness monitoring
-- Motion analysis
+- 动作识别
+- 姿态纠正
+- 健身监测
+- 运动分析
 
 ------------------------------------------------------------
-2. How It Works
+2. 工作原理
 ------------------------------------------------------------
 
-The program performs the following steps:
+程序执行以下步骤：
 
-1. Initialize the MediaPipe Pose model
-   (configure model complexity and optional segmentation).
-2. Capture video frames using ``Picamera2``.
-3. Convert frames to RGB format (required by MediaPipe).
-4. Run the Pose model to obtain 33 body keypoints.
-5. Draw keypoints and skeleton connections using OpenCV.
-6. Display the annotated video stream in real time.
+1. 初始化 MediaPipe Pose 模型
+   （配置模型复杂度和可选的分割功能）。
+2. 使用 ``Picamera2`` 捕获视频帧。
+3. 将帧转换为 RGB 格式（MediaPipe 所需格式）。
+4. 运行 Pose 模型获取 33 个人体关键点。
+5. 使用 OpenCV 绘制关键点和骨骼连接。
+6. 实时显示带注释的视频流。
 
-This chapter lays the foundation for more advanced
-human–computer interaction and body motion analysis tasks.
+本章为更高级的人机交互和身体运动分析任务
+奠定基础。
 
 
 ------------------------
-3. Run the Code
+3. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose.py
 
-   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+   如果您想将 MediaPipe Pose 应用于录制视频，可以运行以下命令：
 
    .. code-block:: bash
-   
+
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_video.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. 运行程序后，一个标题为"Show Video"的窗口将打开并显示实时摄像头画面。
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_7.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
-         
-   When a person appears in front of the camera:
-   
-   - MediaPipe Pose detects 33 body landmarks in real time.
-   - A full-body skeleton is drawn on the video frame.
-   - Key joints such as shoulders, elbows, wrists, hips, knees, and ankles are connected with lines.
-   
-   As the person moves:
-   
-   - The skeletal keypoints follow the body motion smoothly.
-   - The skeleton updates continuously in real time.
-   
-   If background segmentation is enabled (``enable_segmentation=True``),
-   the model internally computes a segmentation mask, although in this example
-   only the skeleton is displayed.
-   
-   If no person is detected, the program simply shows the normal camera feed without annotations.
-   
-   Press ``q`` to exit the program.
-   The camera stops and the OpenCV window closes automatically.
+
+   当人出现在摄像头前时：
+
+   - MediaPipe Pose 会实时检测 33 个人体关键点。
+   - 在视频帧上绘制全身骨骼。
+   - 肩部、肘部、手腕、髋部、膝部和踝部等关键关节会用线连接。
+
+   当人移动时：
+
+   - 骨骼关键点会平滑跟随身体运动。
+   - 骨骼会持续实时更新。
+
+   如果启用了背景分割（``enable_segmentation=True``），
+   模型会在内部计算分割遮罩，不过在本示例中
+   仅显示骨骼。
+
+   如果未检测到人，程序将仅显示正常的摄像头画面，不添加注释。
+
+   按 ``q`` 键退出程序。
+   摄像头将停止，OpenCV 窗口将自动关闭。
 
 -----------------------------
-4. Complete Code
+4. 完整代码
 -----------------------------
 
-Here is a basic human pose detection program:
+以下是一个基本的人体姿态检测程序：
 
 .. code-block:: python
 
@@ -168,17 +168,17 @@ Here is a basic human pose detection program:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the program, the camera feed will display a real-time human skeleton, including:
+运行程序后，摄像头画面将显示实时人体骨骼，包括：
 
-- 33 keypoints
-- Skeleton connection lines
-- Skeleton follows movement when the person moves
+- 33 个关键点
+- 骨骼连接线
+- 人移动时骨骼跟随运动
 
 -----------------------------
-5. Code Explanation
+5. 代码说明
 -----------------------------
 
-**1. Import Libraries**
+**1. 导入库**
 
 .. code-block:: python
 
@@ -189,18 +189,18 @@ After running the program, the camera feed will display a real-time human skelet
   import mediapipe.python.solutions.drawing_styles as drawing_styles
 
 * **Picamera2**
-  Controls the Raspberry Pi camera, based on libcamera.
+  控制 Raspberry Pi 摄像头，基于 libcamera。
 
-* **cv2 (OpenCV)**
-  Used for image color space conversion (BGR↔RGB), display windows, drawing graphics.
+* **cv2（OpenCV）**
+  用于图像颜色空间转换（BGR↔RGB）、显示窗口、绘制图形。
 
 * **mediapipe.python.solutions.pose**
-  MediaPipe's **Pose model**, which can detect **33 full-body keypoints** (head, shoulders, elbows, knees, etc.), and can return segmentation masks (human vs. background).
+  MediaPipe 的 **Pose 模型**，可检测 **33 个全身关键点**（头部、肩部、肘部、膝部等），并可以返回分割遮罩（人与背景）。
 
 * **drawing_utils / drawing_styles**
-  MediaPipe's built-in drawing tools and style definitions, used for drawing keypoints and skeleton lines.
+  MediaPipe 内置的绘制工具和样式定义，用于绘制关键点和骨骼线。
 
-**2. Initialize Pose Model**
+**2. 初始化 Pose 模型**
 
 .. code-block:: python
 
@@ -210,19 +210,19 @@ After running the program, the camera feed will display a real-time human skelet
       enable_segmentation=True,
   )
 
-* ``static_image_mode=False``: Indicates the input is a continuous video stream, not a single image. Tracks after initial detection for faster speed. Usually set to False.
+* ``static_image_mode=False``：表示输入为连续视频流，而非单张图像。首次检测后进行追踪，速度更快。通常设为 False。
 
-* ``model_complexity=1``: Model complexity, 0=light, 1=medium, 2=high accuracy (slower). Set to 1 or 2 if Raspberry Pi performance allows.
+* ``model_complexity=1``：模型复杂度，0=轻量，1=中等，2=高精度（较慢）。Raspberry Pi 性能允许时可设为 1 或 2。
 
-* ``enable_segmentation=True``: Outputs human segmentation mask, can distinguish foreground person from background. When True, enables effects like background replacement, chroma keying. This usage will be explained in subsequent documentation: :ref:`mp_pose_segmentation`
+* ``enable_segmentation=True``：输出人体分割遮罩，可区分前景人物和背景。设为 True 时，可实现背景替换、抠像等效果。此用法将在后续文档中说明：:ref:`mp_pose_segmentation`
 
-MediaPipe Pose returns a result structure including:
+MediaPipe Pose 返回的结果结构包括：
 
-* ``pose_landmarks``: 33 keypoints;
-* ``pose_world_landmarks``: 3D world coordinates;
-* ``segmentation_mask``: Human segmentation map.
+* ``pose_landmarks``：33 个关键点；
+* ``pose_world_landmarks``：3D 世界坐标；
+* ``segmentation_mask``：人体分割图。
 
-**3. Open Camera**
+**3. 打开摄像头**
 
 .. code-block:: python
 
@@ -235,15 +235,15 @@ MediaPipe Pose returns a result structure including:
    #picam2.start_preview(Preview.QTGL)
    picam2.start()
 
-* Create camera object ``Picamera2()``
-* Set resolution **640x480**, pixel format ``"XRGB8888"`` (4-channel BGRA).
-  This format has the best compatibility with OpenCV, eliminating decoding steps.
-* Start the camera.
+* 创建摄像头对象 ``Picamera2()``
+* 设置分辨率 **640x480**，像素格式 ``"XRGB8888"``（4 通道 BGRA）。
+  此格式与 OpenCV 兼容性最好，省去解码步骤。
+* 启动摄像头。
 
-Optional:
-``picam2.start_preview(Preview.QTGL)`` can display the video stream window directly on the GPU; commented out here, using OpenCV's ``imshow()`` instead.
+可选：
+``picam2.start_preview(Preview.QTGL)`` 可直接在 GPU 上显示视频流窗口；此处注释掉，改用 OpenCV 的 ``imshow()``。
 
-**4. Main Loop: Process Each Frame**
+**4. 主循环：处理每一帧**
 
 .. code-block:: python
 
@@ -251,8 +251,8 @@ Optional:
       frame_bgra = picam2.capture_array()               # Capture a frame from the camera (BGRA format)
       frame_bgr  = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-1. Capture the current frame. Picamera2 returns images in **BGRA** (Blue Green Red + Alpha) format by default.
-2. Convert to **BGR** for subsequent OpenCV processing.
+1. 捕获当前帧。Picamera2 默认以 **BGRA**（蓝绿红+Alpha）格式返回图像。
+2. 转换为 **BGR** 供后续 OpenCV 处理。
 
 .. code-block:: python
 
@@ -260,23 +260,23 @@ Optional:
    frame = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
    results = pose.process(frame)
 
-MediaPipe models **must use RGB**.
+MediaPipe 模型**必须使用 RGB**。
 
-* Call ``pose.process()`` for keypoint detection.
-* ``results`` is a complex object that may contain:
+* 调用 ``pose.process()`` 进行关键点检测。
+* ``results`` 是一个复杂对象，可能包含：
 
-  * ``results.pose_landmarks``: Keypoints (33 points)
-  * ``results.pose_world_landmarks``: 3D coordinates
-  * ``results.segmentation_mask``: Segmentation mask
+  * ``results.pose_landmarks``：关键点（33 个点）
+  * ``results.pose_world_landmarks``：3D 坐标
+  * ``results.segmentation_mask``：分割遮罩
 
 .. code-block:: python
 
    # Convert back to BGR for OpenCV display
    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-Convert back because OpenCV's ``imshow()`` requires BGR order.
+转换回来，因为 OpenCV 的 ``imshow()`` 需要 BGR 顺序。
 
-**5. Draw Pose Keypoints**
+**5. 绘制姿态关键点**
 
 .. code-block:: python
 
@@ -288,25 +288,25 @@ Convert back because OpenCV's ``imshow()`` requires BGR order.
          landmark_drawing_spec=drawing_styles.get_default_pose_landmarks_style(),
       )
 
-If a human body is detected:
+如果检测到人体：
 
-* ``results.pose_landmarks``: Contains ``(x, y, z, visibility)`` for each keypoint.
+* ``results.pose_landmarks``：包含每个关键点的 ``(x, y, z, visibility)``。
 
-  * ``x, y``: Normalized coordinates (0~1)
-  * ``z``: Relative depth
-  * ``visibility``: Keypoint confidence (0~1)
+  * ``x, y``：归一化坐标（0~1）
+  * ``z``：相对深度
+  * ``visibility``：关键点置信度（0~1）
 
-* ``draw_landmarks`` parameter explanation:
+* ``draw_landmarks`` 参数说明：
 
-   * ``frame``: Image to draw on (BGR format)
-   * ``results.pose_landmarks``: Human keypoints for the current frame
-   * ``mp_pose.POSE_CONNECTIONS``: Connection rules (which points to connect with lines)
-   * ``landmark_drawing_spec``: Point drawing style
-   * ``connection_drawing_spec``: Line drawing style (can be omitted, uses system default style)
+   * ``frame``：要绘制的图像（BGR 格式）
+   * ``results.pose_landmarks``：当前帧的人体关键点
+   * ``mp_pose.POSE_CONNECTIONS``：连接规则（哪些点之间用线连接）
+   * ``landmark_drawing_spec``：点绘制样式
+   * ``connection_drawing_spec``：线绘制样式（可省略，使用系统默认样式）
 
-Effect: Draws the skeleton (connections for head, arms, legs) and keypoints (joint positions) on the image.
+效果：在图像上绘制骨骼（头、手臂、腿的连接）和关键点（关节位置）。
 
-**6. Display Frame & Exit Logic**
+**6. 显示帧与退出逻辑**
 
 .. code-block:: python
 
@@ -315,10 +315,10 @@ Effect: Draws the skeleton (connections for head, arms, legs) and keypoints (joi
    if cv2.waitKey(1) & 0xff == ord('q'):
       break
 
-Display each frame in the ``"Show Video"`` window.
-Exit the loop when the 'q' key is pressed.
+在 ``"Show Video"`` 窗口中显示每一帧。
+按 'q' 键退出循环。
 
-**7. Release Resources**
+**7. 释放资源**
 
 .. code-block:: python
 
@@ -326,118 +326,118 @@ Exit the loop when the 'q' key is pressed.
    picam2.stop()
    cv2.destroyAllWindows()
 
-Stop preview, release camera, close all OpenCV windows.
+停止预览、释放摄像头、关闭所有 OpenCV 窗口。
 
 -----------------------------
-6. Pose Model Introduction
+6. Pose 模型介绍
 -----------------------------
 
-The MediaPipe Pose module returns **33 keypoints**, covering areas like the head, torso, arms, and legs:
+MediaPipe Pose 模块返回 **33 个关键点**，覆盖头部、躯干、手臂和腿等区域：
 
 .. list-table::
    :header-rows: 1
 
-   * - Body Part
-     - Index
-   * - Nose
+   * - 身体部位
+     - 索引
+   * - 鼻子
      - 0
-   * - Left/Right Shoulder
+   * - 左/右肩
      - 11 / 12
-   * - Left/Right Elbow
+   * - 左/右肘
      - 13 / 14
-   * - Left/Right Wrist
+   * - 左/右手腕
      - 15 / 16
-   * - Left/Right Hip
+   * - 左/右髋
      - 23 / 24
-   * - Left/Right Knee
+   * - 左/右膝
      - 25 / 26
-   * - Left/Right Ankle
+   * - 左/右踝
      - 27 / 28
-   * - Left/Right Foot Index
+   * - 左/右足尖
      - 31 / 32
 
-These points can be used for **posture judgment**, **action counting** (e.g., squats, push-ups, yoga pose detection), etc.
+这些点可用于**姿态判断**、**动作计数**（如下蹲、俯卧撑、瑜伽姿势检测）等。
 
 -----------------------------
-7. Performance and Tuning
+7. 性能与调优
 -----------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Item
-     - Impact
-     - Optimization Suggestion
-   * - Resolution
-     - Higher resolution increases accuracy but also latency
-     - Use 640x480 to balance performance and speed
+   * - 项目
+     - 影响
+     - 优化建议
+   * - 分辨率
+     - 更高的分辨率提高精度但也增加延迟
+     - 使用 640x480 平衡性能和速度
    * - model_complexity
-     - Improves recognition accuracy but slows computation
-     - Recommended 1~2 for Raspberry Pi
-   * - segmentation
-     - Increases GPU/CPU load
-     - Recommended to disable if background replacement is not needed
+     - 提高识别精度但减慢计算速度
+     - Raspberry Pi 推荐 1~2
+   * - 分割功能
+     - 增加 GPU/CPU 负载
+     - 如不需要背景替换，建议禁用
 
 ------------------------------------------------------------
-8. Troubleshooting
+8. 故障排除
 ------------------------------------------------------------
 
-- No human detected
+- 未检测到人体
 
-  If the program runs but no person is detected, make sure the entire body is inside the camera frame. Avoid strong backlight and improve lighting conditions. Keep a distance of about 1–2 meters from the camera for best results.
+  如果程序运行但未检测到人，请确保整个身体在摄像头画面内。避免强逆光，改善光照条件。与摄像头保持约 1-2 米的距离效果最佳。
 
-- Video is slow or lagging
+- 视频卡顿或延迟
 
-  If the frame rate is low, try reducing the resolution to 640×480 or lower. Set ``model_complexity = 1`` for better performance. Disable segmentation if it is not required, and close other background programs to free system resources.
+  如果帧率低，尝试将分辨率降低到 640×480 或更低。设置 ``model_complexity = 1`` 以获得更好的性能。如果不需要分割功能，请禁用它，并关闭其他后台程序以释放系统资源。
 
-- Segmentation fault occurs
+- 发生段错误
 
-  Most segmentation faults are caused by a mismatch between the system architecture and the installed MediaPipe wheel.
+  大多数段错误是由于系统架构与安装的 MediaPipe wheel 不匹配引起的。
 
-  Check your system architecture:
+  检查系统架构：
 
   .. code-block:: bash
 
      uname -m
 
-  The output should be ``aarch64``.
+  输出应为 ``aarch64``。
 
-  If you see ``armv7l`` or ``armhf``, you are using 32-bit Raspberry Pi OS, which is not compatible with the official MediaPipe wheel.
+  如果您看到 ``armv7l`` 或 ``armhf``，说明您使用的是 32 位 Raspberry Pi OS，与官方 MediaPipe wheel 不兼容。
 
-  You can also verify in Python:
+  您也可以在 Python 中验证：
 
   .. code-block:: python
 
      import platform
      print(platform.machine())
 
-  The result must also be ``aarch64``.
+  结果也必须是 ``aarch64``。
 
-- Using aarch64 but still getting segmentation fault
+- 使用 aarch64 但仍然发生段错误
 
-  This may happen if some TensorFlow Lite XNNPACK kernels are not fully compatible with your MediaPipe build.
+  这可能是由于某些 TensorFlow Lite XNNPACK 内核与您的 MediaPipe 版本不完全兼容。
 
-  Possible solutions:
+  可能的解决方案：
 
-  - Use ``model_complexity = 1`` (recommended in this tutorial).
-  - Make sure MediaPipe is installed in the correct virtual environment.
-  - Install a Raspberry Pi–optimized wheel such as ``mediapipe-bin`` (PINTO0309 version).
+  - 使用 ``model_complexity = 1``（本教程推荐）。
+  - 确保 MediaPipe 安装在正确的虚拟环境中。
+  - 安装针对 Raspberry Pi 优化的 wheel 包，例如 ``mediapipe-bin``（PINTO0309 版本）。
 
-- ``model_complexity = 2`` crashes but ``1`` works
+- ``model_complexity = 2`` 崩溃但 ``1`` 可以工作
 
-  Complexity 2 loads a larger model that may trigger advanced CPU optimizations. On Raspberry Pi, some optimized TensorFlow Lite kernels may not be fully supported. Complexity 1 avoids those kernels and is generally more stable and faster on Raspberry Pi.
+  复杂度 2 加载更大的模型，可能触发高级 CPU 优化。在 Raspberry Pi 上，某些优化的 TensorFlow Lite 内核可能不受完全支持。复杂度 1 可避免这些内核，在 Raspberry Pi 上通常更稳定且更快。
 
 
 
 -----------------------------
-9. Summary
+9. 总结
 -----------------------------
 
-- This chapter implemented **real-time human skeleton detection** based on MediaPipe Pose;
-- Pose provides 33 keypoints, usable in fields like fitness, posture analysis, action recognition;
-- By adjusting resolution and model complexity, smooth operation can be achieved on Raspberry Pi;
-- Based on these keypoints, we can subsequently develop:
+- 本章基于 MediaPipe Pose 实现了**实时人体骨骼检测**；
+- Pose 提供 33 个关键点，可用于健身、姿态分析、动作识别等领域；
+- 通过调整分辨率和模型复杂度，可在 Raspberry Pi 上流畅运行；
+- 基于这些关键点，我们可以进一步开发：
 
-  - Action recognition (e.g., "raising hand", "squatting")
-  - Posture assessment (e.g., "Is sitting posture correct?")
-  - Human interactive control.
+  - 动作识别（如"举手"、"下蹲"）
+  - 姿态评估（如"坐姿是否正确"）
+  - 人体交互控制。

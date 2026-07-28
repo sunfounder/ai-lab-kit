@@ -1,118 +1,119 @@
-# AI Fusion Lab Kit Documentation Repository
+# AI Fusion Lab Kit 文档仓库
 
-> **Canonical AI guidance.** This is the authoritative CLAUDE.md for the AI Fusion Lab Kit documentation project. All language-variant repositories (`ai-lab-kit-rtd-*-sync`) should sync their CLAUDE.md from this file. When adding rules or fixes, update this file first, then propagate to other language repos.
+> **权威 AI 指南。** 这是 AI Fusion Lab Kit 文档项目的权威 CLAUDE.md。所有语言变体仓库（`ai-lab-kit-rtd-*-sync`）应从此文件同步其 CLAUDE.md。在添加规则或修复时，请先更新此文件，然后传播到其他语言仓库。
 
-## Project Identity
+## 项目标识
 
-| Field | Value |
+| 字段 | 值 |
 |---|---|
-| **Product** | SunFounder AI Fusion Lab Kit — all-in-one AI/electronics learning platform |
-| **Repository** | `https://github.com/sunfounder/ai-lab-kit` |
-| **Documentation** | Sphinx + ReadTheDocs (`sphinx_rtd_theme`) |
-| **Published at** | `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/` |
-| **Company** | SunFounder (service@sunfounder.com) |
-| **License** | GPL v2 |
+| **产品** | SunFounder AI Fusion Lab Kit —— 一体化 AI/电子学习平台 |
+| **仓库** | `https://github.com/sunfounder/ai-lab-kit` |
+| **文档** | Sphinx + ReadTheDocs（`sphinx_rtd_theme`） |
+| **发布地址** | `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/` |
+| **公司** | SunFounder（service@sunfounder.com） |
+| **许可证** | GPL v2 |
 
-The AI Fusion Lab Kit combines a modular hardware kit with step-by-step learning modules covering Python programming, electronic components, computer vision (OpenCV, MediaPipe), object detection (YOLO), and large language models (Ollama, OpenAI, DeepSeek, xAI, Doubao, Qwen, Gemini). This repository's `docs` branch contains **only documentation** — a Sphinx documentation site built via ReadTheDocs.
+AI Fusion Lab Kit 将模块化硬件套件与循序渐进的学习模块相结合，涵盖 Python 编程、电子元器件、计算机视觉（OpenCV、MediaPipe）、目标检测（YOLO）和大语言模型（Ollama、OpenAI、DeepSeek、xAI、Doubao、Qwen、Gemini）。本仓库的 `docs` 分支仅包含**文档** —— 一个通过 ReadTheDocs 构建的 Sphinx 文档站点。
 
 ---
 
-## Branch Strategy
+## 分支策略
 
-| Branch | Role |
+| 分支 | 角色 |
 |---|---|
-| `main` | Product source code, system image, installer, examples |
-| `docs` | **Documentation source** — Sphinx RST files, images, RTD config |
+| `main` | 产品源代码、系统镜像、安装程序、示例 |
+| `docs` | **文档源文件** —— Sphinx RST 文件、图片、RTD 配置 |
 
-### Cardinal Rule
+### 基本原则
 
-> **`docs` is the documentation branch.** All documentation changes (content, structure, images, configuration) happen on `docs`. The `main` branch is for product source code and images. These two branches serve different purposes and should not be confused.
+> **`docs` 是文档分支。** 所有文档变更（内容、结构、图片、配置）都在 `docs` 上进行。`main` 分支用于产品源代码和镜像。这两个分支服务于不同的目的，不应混淆。
 
-### Language Branches
+### 语言分支
 
-| Branch | Language | `conf.py` `language` | Published URL |
+| 分支 | 语言 | `conf.py` `language` | 发布 URL |
 |---|---|---|---|
-| `docs` | English (source) | `'en'` | `/en/latest/` |
-| `docs-de` | German | `'de'` | `/de/latest/` |
-| `docs-ja` | Japanese | `'ja'` | `/ja/latest/` |
+| `docs` | 英语（源文件） | `'en'` | `/en/latest/` |
+| `docs-de` | 德语 | `'de'` | `/de/latest/` |
+| `docs-ja` | 日语 | `'ja'` | `/ja/latest/` |
+| `docs-cn` | 中文 | `'zh'` | `/zh/latest/` |
 
-Additional language branches (`docs-es`, `docs-fr`, `docs-it`, `docs-zh`) may be created from `docs` as needed.
+其他语言分支（`docs-es`、`docs-fr`、`docs-it`、`docs-zh`）可根据需要从 `docs` 创建。
 
 ---
 
-## Repository Layout (docs branch)
+## 仓库结构（docs 分支）
 
 ```
 ai-lab-kit/
-├── .readthedocs.yaml              # RTD build config (Sphinx 7.3.7, Python 3.11, Ubuntu 22.04)
-├── .gitignore                     # Ignores: .vscode, build/, secret files, backups
-├── .gitmodules                    # Submodule: docs/source/_shared → sf-shared.git (main)
+├── .readthedocs.yaml              # RTD 构建配置（Sphinx 7.3.7、Python 3.11、Ubuntu 22.04）
+├── .gitignore                     # 忽略：.vscode、build/、密钥文件、备份
+├── .gitmodules                    # 子模块：docs/source/_shared → sf-shared.git（main）
 ├── LICENSE.txt                    # GPL v2
-├── README.md                      # Product overview + quick links
-├── show.txt                       # Legacy GPL license/warranty display script
-├── CLAUDE.md                      # This file — AI assistant guidance
+├── README.md                      # 产品概述 + 快速链接
+├── show.txt                       # 旧版 GPL 许可证/担保显示脚本
+├── CLAUDE.md                      # 本文件 —— AI 助手指南
 └── docs/
-    ├── requirements.txt           # sphinx==7.3.7, sphinx_rtd_theme==3.0.1, sphinx_copybutton
-    ├── Makefile / make.bat        # Sphinx build (SOURCEDIR=source, BUILDDIR=build)
+    ├── requirements.txt           # sphinx==7.3.7、sphinx_rtd_theme==3.0.1、sphinx_copybutton
+    ├── Makefile / make.bat        # Sphinx 构建（SOURCEDIR=source、BUILDDIR=build）
     └── source/
-        ├── conf.py                # Sphinx config: extensions, theme, JS/CSS, rst_epilog
-        ├── index.rst              # Root toctree — 11 entries
-        ├── faq.rst                # Frequently asked questions
-        ├── component.rst          # Component reference (toctree into _shared/component/)
-        ├── appendix.rst           # Appendix (toctree into _shared/appendix/)
-        ├── quick_start/           # Getting started — OS install, HAT assembly, setup
-        │   ├── quick_start.rst    #   Chapter index
+        ├── conf.py                # Sphinx 配置：扩展、主题、JS/CSS、rst_epilog
+        ├── index.rst              # 根 toctree —— 11 个条目
+        ├── faq.rst                # 常见问题
+        ├── component.rst          # 元器件参考（toctree 指向 _shared/component/）
+        ├── appendix.rst           # 附录（toctree 指向 _shared/appendix/）
+        ├── quick_start/           # 快速入门 —— OS 安装、HAT 组装、设置
+        │   ├── quick_start.rst    #   章节索引
         │   ├── install_the_os.rst
         │   ├── fh_install_the_os.rst
         │   ├── fh_set_up_pi.rst
         │   ├── run_installer.rst
         │   ├── assemble_power_hat.rst
         │   └── need_components.rst
-        ├── video_course/          # YouTube video course links
+        ├── video_course/          # YouTube 视频课程链接
         │   └── video_course.rst
-        ├── python/                # ~50 Python hardware experiments
-        │   ├── play_with_python.rst   # Chapter index (Output / Input / Camera & Audio / Projects)
-        │   ├── 1.1_blinking_led_python.rst ... 1.10_oled_screen.rst       # Output (10 lessons)
-        │   ├── 2.1_button_python.rst ... 2.15_10-axis.rst                 # Input (15 lessons)
-        │   ├── 3.1_photograph_python.rst ... 3.4_microphone.rst           # Camera & Audio (4 lessons)
-        │   └── 4.1_camera_python.rst ... 4.16_pan_tilt_camera.rst         # Projects (16 lessons)
-        ├── llm/                   # AI & Large Language Models
-        │   ├── llm.rst                # Chapter index
-        │   ├── python_tts_espeak_pico2wave.rst  # TTS (eSpeak, pico2wave)
-        │   ├── python_tts_piper_openai.rst      # TTS (Piper, OpenAI TTS)
-        │   ├── python_ai_assistant.rst          # STT (Vosk)
-        │   ├── python_llm_ollama.rst            # Local LLM (Ollama)
-        │   ├── python_online_llms.rst           # Online LLMs (OpenAI, xAI, DeepSeek, Doubao, Qwen, Gemini)
-        │   ├── python_local_chatbot.rst         # Local chatbot project
-        │   └── python_openai_*.rst              # OpenAI-based projects (health, fan, game, lamp, etc.)
-        ├── opencv/                # OpenCV computer vision (9 lessons)
-        │   ├── opencv.rst             # Chapter index
+        ├── python/                # 约 50 个 Python 硬件实验
+        │   ├── play_with_python.rst   # 章节索引（输出 / 输入 / 摄像头与音频 / 项目）
+        │   ├── 1.1_blinking_led_python.rst ... 1.10_oled_screen.rst       # 输出（10 课）
+        │   ├── 2.1_button_python.rst ... 2.15_10-axis.rst                 # 输入（15 课）
+        │   ├── 3.1_photograph_python.rst ... 3.4_microphone.rst           # 摄像头与音频（4 课）
+        │   └── 4.1_camera_python.rst ... 4.16_pan_tilt_camera.rst         # 项目（16 课）
+        ├── llm/                   # AI 与大语言模型
+        │   ├── llm.rst                # 章节索引
+        │   ├── python_tts_espeak_pico2wave.rst  # TTS（eSpeak、pico2wave）
+        │   ├── python_tts_piper_openai.rst      # TTS（Piper、OpenAI TTS）
+        │   ├── python_ai_assistant.rst          # STT（Vosk）
+        │   ├── python_llm_ollama.rst            # 本地 LLM（Ollama）
+        │   ├── python_online_llms.rst           # 在线 LLM（OpenAI、xAI、DeepSeek、Doubao、Qwen、Gemini）
+        │   ├── python_local_chatbot.rst         # 本地聊天机器人项目
+        │   └── python_openai_*.rst              # 基于 OpenAI 的项目（健康、风扇、游戏、灯等）
+        ├── opencv/                # OpenCV 计算机视觉（9 课）
+        │   ├── opencv.rst             # 章节索引
         │   └── cv_0_setup.rst ... cv_8_face.rst
-        ├── mediapipe/             # MediaPipe AI vision (12 lessons)
-        │   ├── mediapipe.rst          # Chapter index
+        ├── mediapipe/             # MediaPipe AI 视觉（12 课）
+        │   ├── mediapipe.rst          # 章节索引
         │   └── mp_0_setup.rst ... mp_11_object_track.rst
-        ├── yolo/                  # YOLO object detection (6 lessons)
-        │   ├── yolo.rst               # Chapter index
+        ├── yolo/                  # YOLO 目标检测（6 课）
+        │   ├── yolo.rst               # 章节索引
         │   └── yolo_*.rst
-        ├── _shared/               # Git submodule — cross-product shared content
-        │   ├── component/         #   54 component reference pages
-        │   ├── appendix/          #   7 appendix pages (I2C, SPI, SSH, VNC, FileZilla)
-        │   └── pi_start/          #   Raspberry Pi getting-started guides
+        ├── _shared/               # Git 子模块 —— 跨产品共享内容
+        │   ├── component/         #   54 个元器件参考页面
+        │   ├── appendix/          #   7 个附录页面（I2C、SPI、SSH、VNC、FileZilla）
+        │   └── pi_start/          #   Raspberry Pi 入门指南
         ├── _static/
-        │   ├── lang.js            # Multi-language redirect script
-        │   └── video/             # Embedded video files
+        │   ├── lang.js            # 多语言重定向脚本
+        │   └── video/             # 嵌入式视频文件
         ├── _templates/
-        │   └── layout.html       # Sphinx HTML template (SunFounder nav bar with logo)
-        └── img/                  # All documentation images (organized by chapter)
+        │   └── layout.html        # Sphinx HTML 模板（带 logo 的 SunFounder 导航栏）
+        └── img/                   # 所有文档图片（按章节组织）
 ```
 
 ---
 
-## Documentation Conventions
+## 文档约定
 
-### RST File Boilerplate
+### RST 文件样板
 
-Every page follows this exact pattern:
+每个页面都遵循以下精确模式：
 
 ```rst
 .. include:: /index.rst
@@ -121,35 +122,35 @@ Every page follows this exact pattern:
 
 .. _ref_label:
 
-Page Title
+页面标题
 ===========
 ```
 
-The `start_hello_message` / `end_hello_message` markers are defined in `index.rst` and contain the Facebook community note. The `.. include::` directive pulls it into every page.
+`start_hello_message` / `end_hello_message` 标记定义在 `index.rst` 中，包含 Facebook 社区公告。`.. include::` 指令将其引入每个页面。
 
-### Reference Labels
+### 引用标签
 
-Each `.rst` file defines a reference label for cross-document linking. These labels are code identifiers, not human-readable text — **never translate them**.
+每个 `.rst` 文件定义一个用于跨文档链接的引用标签。这些标签是代码标识符，而非人类可读的文本——**切勿翻译它们**。
 
-Key reference labels:
+关键引用标签：
 
-| Label | File | Content |
+| 标签 | 文件 | 内容 |
 |---|---|---|
-| `get_start` | `quick_start/quick_start.rst` | Getting started chapter |
-| `youtube_list` | `video_course/video_course.rst` | YouTube video course |
-| `play_with_python` | `python/play_with_python.rst` | Python chapter |
-| `play_with_llm` | `llm/llm.rst` | AI / LLM chapter |
-| `play_with_opencv` | `opencv/opencv.rst` | OpenCV chapter |
-| `play_with_mediapipe` | `mediapipe/mediapipe.rst` | MediaPipe chapter |
-| `play_with_yolo` | `yolo/yolo.rst` | YOLO chapter |
-| `cpn_list` | `component.rst` | Component reference |
-| `faq` | `faq.rst` | Frequently asked questions |
+| `get_start` | `quick_start/quick_start.rst` | 快速入门章节 |
+| `youtube_list` | `video_course/video_course.rst` | YouTube 视频课程 |
+| `play_with_python` | `python/play_with_python.rst` | Python 章节 |
+| `play_with_llm` | `llm/llm.rst` | AI / LLM 章节 |
+| `play_with_opencv` | `opencv/opencv.rst` | OpenCV 章节 |
+| `play_with_mediapipe` | `mediapipe/mediapipe.rst` | MediaPipe 章节 |
+| `play_with_yolo` | `yolo/yolo.rst` | YOLO 章节 |
+| `cpn_list` | `component.rst` | 元器件参考 |
+| `faq` | `faq.rst` | 常见问题 |
 
-Individual lessons also define labels (e.g., `py_led` in `python/1.1_blinking_led_python.rst`). These labels **must remain consistent** across all language variants — they are the cross-document linking mechanism.
+各个课程也定义了标签（例如 `python/1.1_blinking_led_python.rst` 中的 `py_led`）。这些标签**必须在所有语言变体中保持一致**——它们是跨文档链接机制。
 
-### Include Directives
+### Include 指令
 
-The primary `include` pattern in this project is the hello message import:
+本项目主要的 `include` 模式是欢迎消息导入：
 
 ```rst
 .. include:: /index.rst
@@ -157,7 +158,7 @@ The primary `include` pattern in this project is the hello message import:
    :end-before: end_hello_message
 ```
 
-Markers in `index.rst` use the format:
+`index.rst` 中的标记使用以下格式：
 ```rst
 .. start_hello_message
 
@@ -167,49 +168,49 @@ Markers in `index.rst` use the format:
 .. end_hello_message
 ```
 
-When content in this block changes, it affects every page that includes it. Ensure consistency when modifying.
+当此块中的内容发生变化时，将影响所有包含它的页面。修改时请确保一致性。
 
-### Link Substitutions (`rst_epilog` in `conf.py`)
+### 链接替换（`conf.py` 中的 `rst_epilog`）
 
-All external links live as RST substitutions in `conf.py` under `rst_epilog`. There are three groups:
+所有外部链接都以 RST 替换的方式存在于 `conf.py` 的 `rst_epilog` 中。共有三组：
 
-**Component purchase links** (25+ links for LEDs, sensors, motors, etc.):
+**元器件购买链接**（25+ 个 LED、传感器、电机等链接）：
 ```rst
 .. |link_led_buy| raw:: html
-    <a href="https://www.sunfounder.com/products/..." target="_blank">BUY</a>
+    <a href="https://www.sunfounder.com/products/..." target="_blank">购买</a>
 ```
 
-**Language-specific tutorial links** (6 languages):
-| Substitution | Purpose |
+**语言特定教程链接**（6 种语言）：
+| 替换 | 用途 |
 |---|---|
-| `\|link_sf_facebook\|` | SunFounder Facebook community |
-| `\|link_en_tutorials\|` | English online tutorials |
-| `\|link_german_tutorials\|` | German online tutorials |
-| `\|link_jp_tutorials\|` | Japanese online tutorials |
-| `\|link_es_tutorials\|` | Spanish online tutorials |
-| `\|link_fr_tutorials\|` | French online tutorials |
-| `\|link_it_tutorials\|` | Italian online tutorials |
+| `\|link_sf_facebook\|` | SunFounder Facebook 社区 |
+| `\|link_en_tutorials\|` | 英语在线教程 |
+| `\|link_german_tutorials\|` | 德语在线教程 |
+| `\|link_jp_tutorials\|` | 日语在线教程 |
+| `\|link_es_tutorials\|` | 西班牙语在线教程 |
+| `\|link_fr_tutorials\|` | 法语在线教程 |
+| `\|link_it_tutorials\|` | 意大利语在线教程 |
 
-**External reference links** (Raspberry Pi tools, AI platforms, etc.):
-| Substitution | Purpose |
+**外部参考链接**（Raspberry Pi 工具、AI 平台等）：
+| 替换 | 用途 |
 |---|---|
-| `\|link_rpi_imager\|` | Raspberry Pi Imager download |
+| `\|link_rpi_imager\|` | Raspberry Pi Imager 下载 |
 | `\|link_rpi_connect\|` | Raspberry Pi Connect |
-| `\|link_ollama\|` | Ollama download |
-| `\|link_ollama_hub\|` | Ollama model hub |
-| `\|link_openai_platform\|` | OpenAI API keys |
-| `\|link_deepseek\|` | DeepSeek platform |
+| `\|link_ollama\|` | Ollama 下载 |
+| `\|link_ollama_hub\|` | Ollama 模型中心 |
+| `\|link_openai_platform\|` | OpenAI API 密钥 |
+| `\|link_deepseek\|` | DeepSeek 平台 |
 | `\|link_grok_ai\|` | xAI Cloud Console |
-| `\|link_doubao\|` | Volcengine (Doubao) |
-| `\|link_aliyun\|` | Alibaba Bailian (Qwen) |
-| `\|link_google_ai\|` | Google AI Studio (Gemini) |
-| `\|link_piper_voice\|` | Piper TTS voices |
+| `\|link_doubao\|` | 火山引擎（豆包） |
+| `\|link_aliyun\|` | 阿里云百炼（Qwen） |
+| `\|link_google_ai\|` | Google AI Studio（Gemini） |
+| `\|link_piper_voice\|` | Piper TTS 语音 |
 
-When adding a new external link, add the `.. |link_xxx|` definition to `conf.py` `rst_epilog`. Never hardcode external URLs in `.rst` files.
+在添加新的外部链接时，请将 `.. |link_xxx|` 定义添加到 `conf.py` 的 `rst_epilog` 中。切勿在 `.rst` 文件中硬编码外部 URL。
 
-### Image Paths
+### 图片路径
 
-All images live under `docs/source/img/` and are referenced with `img/` relative paths:
+所有图片位于 `docs/source/img/` 下，使用 `img/` 相对路径引用：
 
 ```rst
 .. image:: img/led_circuit.png
@@ -217,56 +218,56 @@ All images live under `docs/source/img/` and are referenced with `img/` relative
    :align: center
 ```
 
-Images are organized by chapter (e.g., `img/python/`, `img/opencv/`, `img/mediapipe/`).
+图片按章节组织（例如 `img/python/`、`img/opencv/`、`img/mediapipe/`）。
 
-### File Naming
+### 文件命名
 
-- **Python lessons**: `X.Y_descriptive_name_python.rst` (e.g., `1.1_blinking_led_python.rst`, `2.14_dht_python.rst`)
-- **OpenCV lessons**: `cv_N_descriptive_name.rst` (e.g., `cv_0_setup.rst`, `cv_8_face.rst`)
-- **MediaPipe lessons**: `mp_N_descriptive_name.rst` (e.g., `mp_0_setup.rst`, `mp_7_pose.rst`)
-- **YOLO lessons**: `yolo_descriptive_name.rst`
-- **LLM lessons**: `python_descriptive_name.rst` (e.g., `python_llm_ollama.rst`, `python_openai_health.rst`)
-- **Quick start**: `snake_case_descriptive.rst`
-- **Chapter indexes**: `descriptive_name.rst` (e.g., `play_with_python.rst`, `llm.rst`, `opencv.rst`)
-- **Root pages**: `index.rst`, `faq.rst`, `component.rst`, `appendix.rst`
+- **Python 课程**：`X.Y_descriptive_name_python.rst`（例如 `1.1_blinking_led_python.rst`、`2.14_dht_python.rst`）
+- **OpenCV 课程**：`cv_N_descriptive_name.rst`（例如 `cv_0_setup.rst`、`cv_8_face.rst`）
+- **MediaPipe 课程**：`mp_N_descriptive_name.rst`（例如 `mp_0_setup.rst`、`mp_7_pose.rst`）
+- **YOLO 课程**：`yolo_descriptive_name.rst`
+- **LLM 课程**：`python_descriptive_name.rst`（例如 `python_llm_ollama.rst`、`python_openai_health.rst`）
+- **快速入门**：`snake_case_descriptive.rst`
+- **章节索引**：`descriptive_name.rst`（例如 `play_with_python.rst`、`llm.rst`、`opencv.rst`）
+- **根页面**：`index.rst`、`faq.rst`、`component.rst`、`appendix.rst`
 
-### RST Section Underlines
+### RST 章节下划线
 
-- Title (top-level): `=====` overline and underline
-- Section: `------` underline
-- Sub-section: `~~~~~~` underline
-- The overline/underline must be at least as long as the title text
-- For CJK titles: CJK characters count as 2 display columns each; the underline must match the display width, not character count
+- 标题（顶层）：`=====` 上划线和下划线
+- 章节：`------` 下划线
+- 子章节：`~~~~~~` 下划线
+- 上划线/下划线必须至少与标题文本等长
+- 对于 CJK 标题：每个 CJK 字符计为 2 个显示列；下划线必须匹配显示宽度，而非字符数
 
 ---
 
-## Build & Preview
+## 构建与预览
 
-### Local Build (Sphinx)
+### 本地构建（Sphinx）
 
 ```bash
 cd docs
 pip install -r requirements.txt
-make html          # Output: docs/build/html/index.html
+make html          # 输出：docs/build/html/index.html
 ```
 
-On Windows:
+在 Windows 上：
 ```batch
 cd docs
-make.bat html      # Also runs: git submodule update --init --remote
+make.bat html      # 同时运行：git submodule update --init --remote
 ```
 
-**Note**: `make.bat` automatically syncs the `_shared` submodule before building. The Makefile does not.
+**注意**：`make.bat` 在构建前会自动同步 `_shared` 子模块。Makefile 不会。
 
 ### ReadTheDocs
 
-Builds automatically on push to the `docs` branch. Configuration in `.readthedocs.yaml`:
-- OS: Ubuntu 22.04, Python 3.11
-- Sphinx config: `docs/source/conf.py`
-- Submodules: included (all, recursive)
-- Builds all formats (HTML, PDF, ePub)
+推送到 `docs` 分支时自动构建。配置在 `.readthedocs.yaml` 中：
+- 操作系统：Ubuntu 22.04、Python 3.11
+- Sphinx 配置：`docs/source/conf.py`
+- 子模块：包含（全部、递归）
+- 构建所有格式（HTML、PDF、ePub）
 
-### Published URLs
+### 发布 URL
 
 ```
 https://docs.sunfounder.com/projects/ai-lab-kit/en/latest/
@@ -274,225 +275,226 @@ https://docs.sunfounder.com/projects/ai-lab-kit/en/latest/
 
 ---
 
-## Sphinx Configuration (conf.py)
+## Sphinx 配置（conf.py）
 
-### Extensions
+### 扩展
 
-| Extension | Purpose |
+| 扩展 | 用途 |
 |---|---|
-| `sphinx_copybutton` | Adds copy button to code blocks |
-| `sphinx_rtd_theme` | ReadTheDocs theme |
-| `sphinx.ext.intersphinx` | Cross-project reference linking |
+| `sphinx_copybutton` | 为代码块添加复制按钮 |
+| `sphinx_rtd_theme` | ReadTheDocs 主题 |
+| `sphinx.ext.intersphinx` | 跨项目引用链接 |
 
-`sphinx.ext.autosectionlabel` is **disabled** — keep commented out. Causes duplicate label warnings with CJK section titles.
+`sphinx.ext.autosectionlabel` **已禁用** —— 保持注释状态。在包含 CJK 章节标题时会导致重复标签警告。
 
-### Theme
+### 主题
 
-- **Theme**: `sphinx_rtd_theme`
-- **Options**: flyout attached, version/language selectors disabled
-- **GitHub integration**: Enabled, pointing to `sunfounder/ai-lab-kit` on the `docs` branch
+- **主题**：`sphinx_rtd_theme`
+- **选项**：flyout 附加，版本/语言选择器禁用
+- **GitHub 集成**：已启用，指向 `sunfounder/ai-lab-kit` 的 `docs` 分支
 
-### Custom Assets
+### 自定义资源
 
-**JavaScript** (loaded in order):
-- `https://ezblock.cc/readDocFile/custom.js` — SunFounder shared custom JS
-- `./lang.js` — Multi-language auto-detection and redirect
-- ACE code editor: `ace.js`, `ext-language_tools.js`, `theme-chrome.js`, `mode-python.js`, `mode-sh.js`, `monokai.js`
-- xterm.js terminal: `xterm.js`, `FitAddon.js`
-- `readTheDocIndex.js` — Custom page behavior
+**JavaScript**（按顺序加载）：
+- `https://ezblock.cc/readDocFile/custom.js` —— SunFounder 共享自定义 JS
+- `./lang.js` —— 多语言自动检测和重定向
+- ACE 代码编辑器：`ace.js`、`ext-language_tools.js`、`theme-chrome.js`、`mode-python.js`、`mode-sh.js`、`monokai.js`
+- xterm.js 终端：`xterm.js`、`FitAddon.js`
+- `readTheDocIndex.js` —— 自定义页面行为
 
-**CSS**:
-- `https://ezblock.cc/readDocFile/custom.css` — SunFounder shared custom CSS
-- `readTheDoc/src/css/index.css` — Custom page styles
-- `readTheDoc/src/css/xterm.css` — Terminal styles
+**CSS**：
+- `https://ezblock.cc/readDocFile/custom.css` —— SunFounder 共享自定义 CSS
+- `readTheDoc/src/css/index.css` —— 自定义页面样式
+- `readTheDoc/src/css/xterm.css` —— 终端样式
 
-**Template**: `_templates/layout.html` — extends default RTD layout, adds SunFounder nav bar with logo linking to `https://sunfounder.com`.
+**模板**：`_templates/layout.html` —— 扩展默认 RTD 布局，添加链接到 `https://sunfounder.com` 的 SunFounder 导航栏及 logo。
 
-### Multi-Language
+### 多语言
 
-The `lang.js` script in `_static/` handles automatic language detection via browser language and redirects to the appropriate URL.
+`_static/` 中的 `lang.js` 脚本通过浏览器语言自动检测并重定向到相应的 URL。
 
-Published URLs follow the pattern `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/`.
+发布 URL 遵循模式 `https://docs.sunfounder.com/projects/ai-lab-kit/<lang>/latest/`。
 
-The `language` variable in `conf.py` is set to `'en'` by default. When building for other languages:
-- Set `language = '<locale>'` in `conf.py`
-- Add `.po` translation files under `docs/source/locale/`
-- Update the `link_<lang>_tutorials` substitution with the correct description translation
+`conf.py` 中的 `language` 变量默认设置为 `'en'`。在为其他语言构建时：
+- 在 `conf.py` 中设置 `language = '<locale>'`
+- 在 `docs/source/locale/` 下添加 `.po` 翻译文件
+- 使用正确的描述翻译更新 `link_<lang>_tutorials` 替换
 
-Supported languages: `en`, `de`, `es`, `fr`, `it`, `ja`, `zh`.
+支持的语言：`en`、`de`、`es`、`fr`、`it`、`ja`、`zh`。
 
 ---
 
-## Common Maintenance Tasks
+## 常见维护任务
 
-### Adding a New Python Lesson
+### 添加新的 Python 课程
 
-1. Create the `.rst` file in `docs/source/python/` following the naming convention
-2. Start with the standard boilerplate (include hello message + ref label + title)
-3. Define a `.. _ref_label:` at the top if the page will be cross-referenced
-4. Add the file to the appropriate `.. toctree::` in `python/play_with_python.rst` under the correct section (Output / Input / Camera & Audio / Projects)
-5. If new components are introduced, add their purchase links to `conf.py` `rst_epilog`
-6. Build locally to verify: `cd docs && make.bat html`
-7. Commit on `docs`
+1. 按照命名约定在 `docs/source/python/` 中创建 `.rst` 文件
+2. 以标准样板开头（包含欢迎消息 + 引用标签 + 标题）
+3. 如果页面将被交叉引用，在顶部定义 `.. _ref_label:`
+4. 将文件添加到 `python/play_with_python.rst` 中的相应 `.. toctree::`，放在正确的部分（输出 / 输入 / 摄像头与音频 / 项目）
+5. 如果引入了新元器件，将其购买链接添加到 `conf.py` 的 `rst_epilog`
+6. 本地构建验证：`cd docs && make.bat html`
+7. 在 `docs` 上提交
 
-### Adding a New Chapter
+### 添加新章节
 
-1. Create a directory under `docs/source/` (e.g., `new_chapter/`)
-2. Create the chapter index `.rst` with standard boilerplate + `.. _ref_label:` + toctree
-3. Add the chapter to the root toctree in `index.rst`
-4. Add the `ref_label` to the navigation section in `index.rst`
-5. Build locally to verify
+1. 在 `docs/source/` 下创建目录（例如 `new_chapter/`）
+2. 创建章节索引 `.rst`，包含标准样板 + `.. _ref_label:` + toctree
+3. 将章节添加到 `index.rst` 的根 toctree
+4. 将 `ref_label` 添加到 `index.rst` 的导航部分
+5. 本地构建验证
 
-### Updating the Root Toctree
+### 更新根 Toctree
 
-The root toctree in `index.rst` has 11 entries in this order:
+`index.rst` 中的根 toctree 按顺序包含 11 个条目：
 
-1. **About This Kit** — `self` (self-referencing)
-2. **Getting Started** — `quick_start/quick_start`
-3. **Video Course** — `video_course/video_course`
-4. **Play with Python** — `python/play_with_python`
-5. **AI (LLM)** — `llm/llm`
-6. **OpenCV** — `opencv/opencv`
-7. **MediaPipe** — `mediapipe/mediapipe`
-8. **YOLO** — `yolo/yolo`
-9. **Components** — `component`
-10. **Appendix** — `appendix`
-11. **FAQ** — `faq`
+1. **关于本套件** —— `self`（自引用）
+2. **快速入门** —— `quick_start/quick_start`
+3. **视频课程** —— `video_course/video_course`
+4. **玩转 Python** —— `python/play_with_python`
+5. **AI（LLM）** —— `llm/llm`
+6. **OpenCV** —— `opencv/opencv`
+7. **MediaPipe** —— `mediapipe/mediapipe`
+8. **YOLO** —— `yolo/yolo`
+9. **元器件** —— `component`
+10. **附录** —— `appendix`
+11. **常见问题** —— `faq`
 
-### Adding Content with Include Markers
+### 使用 Include 标记添加内容
 
-When content needs to be shared between pages:
+当需要在页面之间共享内容时：
 
-1. Add `.. start_<marker>` before and `.. end_<marker>` after the reusable block in the source file
-2. In the destination file, use:
+1. 在源文件中，在可重用块之前添加 `.. start_<marker>`，之后添加 `.. end_<marker>`
+2. 在目标文件中，使用：
    ```rst
    .. include:: /source_file.rst
        :start-after: start_<marker>
        :end-before: end_<marker>
    ```
 
-### Modifying the Submodule
+### 修改子模块
 
-The `docs/source/_shared/` directory is a Git submodule pointing to `https://github.com/sunfounder/sf-shared.git` (branch: `main`). Changes to shared component docs, appendix pages, or Pi setup guides must be made in the `sf-shared` repository, not here.
+`docs/source/_shared/` 目录是一个 Git 子模块，指向 `https://github.com/sunfounder/sf-shared.git`（分支：`main`）。共享元器件文档、附录页面或 Pi 设置指南的更改必须在 `sf-shared` 仓库中进行，而非此处。
 
-To update the submodule pointer:
+要更新子模块指针：
 ```bash
 cd docs/source/_shared
 git pull origin main
 cd ../../..
 git add docs/source/_shared
-git commit -m "Update _shared submodule"
+git commit -m "更新 _shared 子模块"
 ```
 
-### Verifying Language Branches
+### 验证语言分支
 
-The `docs` branch is the **English source** and must never contain translated content. After any operation that touches the remote repository (push, merge, force-push), verify the integrity of the `docs` branch and all language branches:
+`docs` 分支是**英语源文件**，绝不能包含翻译内容。在执行任何涉及远程仓库的操作（推送、合并、强制推送）后，请验证 `docs` 分支和所有语言分支的完整性：
 
-**1. Verify `docs` is English:**
+**1. 验证 `docs` 为英语：**
 
 ```bash
 git show remotes/origin/docs:docs/source/conf.py | grep "language ="
-# Expected: language = 'en'
+# 预期：language = 'en'
 ```
 
-If the remote `docs` shows a non-English language, restore it from the canonical English source immediately:
+如果远程 `docs` 显示非英语语言，请立即从规范英语源恢复：
 
 ```bash
-# From the canonical English workspace:
+# 从规范英语工作区：
 git push origin docs --force
 ```
 
-**2. Verify each language branch has the correct language code:**
+**2. 验证每个语言分支具有正确的语言代码：**
 
-| Branch | Expected `conf.py` | Published URL |
+| 分支 | 预期 `conf.py` | 发布 URL |
 |---|---|---|
 | `docs` | `language = 'en'` | `/en/latest/` |
 | `docs-de` | `language = 'de'` | `/de/latest/` |
 | `docs-ja` | `language = 'ja'` | `/ja/latest/` |
+| `docs-cn` | `language = 'zh'` | `/zh/latest/` |
 
-Additional branches (`docs-es`, `docs-fr`, `docs-it`, `docs-zh`) follow the same pattern.
+其他分支（`docs-es`、`docs-fr`、`docs-it`、`docs-zh`）遵循相同模式。
 
-**3. Quick verification script for all branches:**
+**3. 所有分支的快速验证脚本：**
 
 ```bash
-for b in docs docs-de docs-ja; do
+for b in docs docs-de docs-ja docs-cn; do
   lang=$(git show "remotes/origin/$b:docs/source/conf.py" 2>/dev/null | grep "language =")
   echo "$b: $lang"
 done
 ```
 
-**4. When creating a new language branch:**
+**4. 创建新的语言分支时：**
 
-- Always branch from `docs` (English), never from another language branch
-- Update `conf.py`: set `language = '<code>'`, comment out `sphinx.ext.autosectionlabel`
-- Translate all `.rst` files and `README.md`
-- Translate `CLAUDE.md` and update the branch identifier
-- Run `make html` and resolve all warnings before committing
-- **CJK languages (Chinese, Japanese)**: CJK characters count as 2 display columns — section underlines/overlines must be 2× the character count. Inline `**markup**` adjacent to CJK characters needs `\ ` (escaped space) as delimiter.
-- After pushing, verify the remote branch content matches the intended language
+- 始终从 `docs`（英语）分支，切勿从其他语言分支
+- 更新 `conf.py`：设置 `language = '<code>'`，注释掉 `sphinx.ext.autosectionlabel`
+- 翻译所有 `.rst` 文件和 `README.md`
+- 翻译 `CLAUDE.md` 并更新分支标识符
+- 运行 `make html` 并在提交前解决所有警告
+- **CJK 语言（中文、日语）**：每个 CJK 字符计为 2 个显示列——章节上划线/下划线必须为字符数的 2 倍。与 CJK 字符相邻的内联 `**markup**` 需要使用 `\ `（转义空格）作为分隔符。
+- 推送后，验证远程分支内容是否与目标语言一致
 
 ---
 
-## Notes for AI Assistants
+## AI 助手注意事项
 
-When working on this repository:
+在处理此仓库时：
 
-1. **The `docs` branch is documentation-only.** Product source code and system images live on `main`. Do not add Python scripts, binaries, or disk images to `docs`.
-2. **The Facebook community note** at the top of each `.rst` file is imported from `index.rst` via the `start_hello_message` / `end_hello_message` include block. It is part of SunFounder's documentation standard and appears on nearly every user-facing page.
-3. **`conf.py` link substitutions** are the single source of external URLs. Never hardcode external links in `.rst` files — use `|link_xxx|` substitutions.
-4. **Reference labels** (`.. _label:`) are code identifiers, not human-readable text. Never translate them.
-5. **RST section underlines (and overlines) must match title display width.**
-   
-   - For single-underline headings (title followed by `=` or `-`), the underline must be at least as long as the title text.
-   - For overline+underline headings (e.g., `====` above and below the title), **both** the overline and underline must use the same character, be the **exact same length**, and be at least as long as the title. When translating titles, always update both lines together.
-   - **CJK display width**: docutils counts CJK characters as **2 display columns** each (ASCII = 1 column). The overline/underline must match the total display width, not the character count.
-   
-   Translated titles are often longer than the English originals — extend overlines and underlines accordingly. When the title contains CJK characters, the underline/overline will be significantly longer than the character count suggests.
+1. **`docs` 分支仅包含文档。** 产品源代码和系统镜像位于 `main`。不要向 `docs` 添加 Python 脚本、二进制文件或磁盘镜像。
+2. **Facebook 社区公告** 位于每个 `.rst` 文件的顶部，通过 `index.rst` 的 `start_hello_message` / `end_hello_message` 包含块导入。它是 SunFounder 文档标准的一部分，出现在几乎所有面向用户的页面上。
+3. **`conf.py` 链接替换** 是外部 URL 的唯一来源。切勿在 `.rst` 文件中硬编码外部链接——使用 `|link_xxx|` 替换。
+4. **引用标签**（`.. _label:`）是代码标识符，而非人类可读的文本。切勿翻译它们。
+5. **RST 章节下划线（和上划线）必须匹配标题的显示宽度。**
 
-6. **Inline strong markup (`**...**`) breaks when adjacent to CJK characters.** docutils inline markup recognition requires the `**` delimiters to be adjacent to whitespace or ASCII punctuation (`- : / . , ; ! ? ' " ( ) [ ] { } < >`). CJK characters (Chinese, Japanese, Korean) are **not** valid delimiters.
+   - 对于单下划线标题（标题后跟 `=` 或 `-`），下划线必须至少与标题文本等长。
+   - 对于上划线+下划线标题（例如标题上方和下方的 `====`），**两个**线必须使用相同字符，**长度完全相等**，且至少与标题等长。翻译标题时，请同时更新两个线。
+   - **CJK 显示宽度**：docutils 将每个 CJK 字符计为 **2 个显示列**（ASCII = 1 列）。上划线/下划线必须匹配总显示宽度，而非字符数。
 
-   When `**text**` is immediately preceded or followed by a CJK character, docutils emits `WARNING: Inline strong start-string without end-string.` because it cannot find the closing `**`.
+   翻译后的标题通常比英文原文更长——请相应延长上划线和下划线。当标题包含 CJK 字符时，下划线/上划线将比字符数显示的长度长得多。
 
-   **Fix**: Insert `\ ` (backslash-escaped space) between the `**` delimiter and the adjacent CJK character:
+6. **内联加粗标记（`**...**`）在与 CJK 字符相邻时会中断。** docutils 内联标记识别要求 `**` 分隔符与空白或 ASCII 标点相邻（`- : / . , ; ! ? ' " ( ) [ ] { } < >`）。CJK 字符（中文、日文、韩文）**不是**有效的分隔符。
+
+   当 `**text**` 前面或后面紧邻 CJK 字符时，docutils 会发出 `WARNING: Inline strong start-string without end-string.` 因为它找不到闭合的 `**`。
+
+   **修复**：在 `**` 分隔符与相邻 CJK 字符之间插入 `\ `（反斜杠转义空格）：
 
    ```rst
-   # WRONG — closing ** followed by CJK に, warning emitted:
+   # 错误 —— 闭合 ** 后跟 CJK 字符，发出警告：
    **PI3V3**にブリッジすると
 
-   # RIGHT — \  acts as a valid delimiter:
+   # 正确 —— \ 作为有效分隔符：
    **PI3V3**\ にブリッジすると
 
-   # WRONG — opening ** preceded by CJK は, warning emitted:
+   # 错误 —— 开 ** 前有 CJK 字符，发出警告：
    または**コマンドラインツール**
 
-   # RIGHT:
+   # 正确：
    または\ **コマンドラインツール**
    ```
 
-   This applies equally to other inline markup (`*emphasis*`, ```literal```) when adjacent to CJK text. Always check the build warnings for "Inline ... start-string without end-string" after translating content with inline markup.
+   当其他内联标记（`*emphasis*`、`` `literal` ``）与 CJK 文本相邻时同样适用。在翻译包含内联标记的内容后，请始终检查构建警告中是否有 "Inline ... start-string without end-string"。
 
-7. **Nested lists require blank lines and correct indentation in RST.** When a numbered list item or bullet item contains sub-bullets, a blank line must precede the nested list, and the nested items must be indented to align with the text of the parent item (typically 3+ spaces). Without the blank line, RST renders the bullets as a single run-on line.
+7. **RST 中的嵌套列表需要空行和正确的缩进。** 当编号列表项或项目符号项包含子项目时，必须在嵌套列表前添加空行，并且嵌套项必须缩进以与父项文本对齐（通常为 3 个以上空格）。如果没有空行，RST 会将项目符号渲染为连续的一行。
 
-   **Wrong** (sub-bullets without blank line):
+   **错误**（子项目没有空行）：
    ```rst
-   3. **Parent item**:
-      - First sub-item
-      - Second sub-item
+   3. **父项**：
+      - 第一个子项
+      - 第二个子项
    ```
 
-   **Correct**:
+   **正确**：
    ```rst
-   3. **Parent item**:
+   3. **父项**：
 
-        - First sub-item
-        - Second sub-item
+        - 第一个子项
+        - 第二个子项
    ```
 
-8. **Code blocks** (Python, bash, shell) are never translated. Command strings and file paths stay as-is.
-9. **The `_static` and `_templates` directories** contain custom assets. Changes here affect the global look and behavior of the published site across all pages.
-10. **Build output** goes to `docs/build/` and is gitignored — never commit build artifacts.
-11. **Images** are all under `docs/source/img/`. When adding new images, place them there (organized by chapter subdirectory) and reference with relative paths.
-12. **The `_shared` submodule** contains cross-product content (component references, appendix, Pi setup guides). Changes to these files must go through the `sf-shared` repository, not be edited directly here.
-13. **The `show` script** at the repo root is a GPL license display utility — it is Python 2 syntax and should be considered legacy.
-14. **Lesson file numbering** follows a consistent scheme: `X.Y_` for Python lessons (where X = section, Y = lesson within section), `cv_N_` for OpenCV, `mp_N_` for MediaPipe. When adding lessons within an existing section, renumber carefully to avoid breaking cross-references.
-15. **The `make.bat` Windows build script** automatically runs `git submodule update --init --remote` before building. The `Makefile` does not — when using `make html` on Linux/macOS, ensure the submodule is up to date manually if needed.
+8. **代码块**（Python、bash、shell）绝不翻译。命令字符串和文件路径保持不变。
+9. **`_static` 和 `_templates` 目录** 包含自定义资源。此处的更改会影响已发布站点的全局外观和行为。
+10. **构建输出** 位于 `docs/build/` 且已被 gitignore——切勿提交构建产物。
+11. **图片** 全部位于 `docs/source/img/` 下。添加新图片时，请将其放置在此处（按章节子目录组织）并使用相对路径引用。
+12. **`_shared` 子模块** 包含跨产品内容（元器件参考、附录、Pi 设置指南）。对这些文件的更改必须通过 `sf-shared` 仓库进行，而非在此处直接编辑。
+13. **仓库根目录的 `show` 脚本** 是一个 GPL 许可证显示工具——它使用 Python 2 语法，应视为遗留文件。
+14. **课程文件编号** 遵循一致的方案：Python 课程为 `X.Y_`（其中 X = 部分，Y = 部分内的课程），OpenCV 为 `cv_N_`，MediaPipe 为 `mp_N_`。在现有部分内添加课程时，请仔细重新编号以避免破坏交叉引用。
+15. **`make.bat` Windows 构建脚本** 在构建前会自动运行 `git submodule update --init --remote`。`Makefile` 不会——在 Linux/macOS 上使用 `make html` 时，如有需要请手动确保子模块是最新的。

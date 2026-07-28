@@ -2,11 +2,11 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-7. Canny Edge Detection
+7. Canny边缘检测
 =========================================
 
-In this chapter, we will capture real-time video using Raspberry Pi + Picamera2 and perform edge detection with OpenCV’s **Canny algorithm**.  
-Edge detection is a fundamental part of computer vision, and the Canny algorithm is widely regarded as one of the most stable and noise-robust methods.
+在本章中，我们将使用Raspberry Pi + Picamera2捕获实时视频，并利用OpenCV的\ **Canny算法**\ 进行边缘检测。
+边缘检测是计算机视觉的基础部分，而Canny算法被广泛认为是最稳定、抗噪能力最强的方法之一。
 
 .. raw:: html
 
@@ -15,42 +15,42 @@ Edge detection is a fundamental part of computer vision, and the Canny algorithm
           Your browser does not support the video tag.
       </video>
 
-1. What Does the Canny Algorithm Do?
+1. Canny算法的作用是什么？
 --------------------------------------------------
 
-In images, **edges** usually correspond to locations with strong intensity (grayscale) changes, such as:
+在图像中，\ **边缘**\ 通常对应于灰度强度发生剧烈变化的位置，例如：
 
-- Object outlines
-- Boundaries between bright and dark regions
-- Structural edge lines
+- 物体的轮廓
+- 明亮区域与黑暗区域之间的边界
+- 结构性的边缘线条
 
-The purpose of Canny edge detection is to:
+Canny边缘检测的目的是：
 
-- **Accurately extract edge information** while reducing unnecessary interference;
-- Provide a reliable foundation for subsequent **contour detection**, **object segmentation**, and **geometric recognition** (e.g., circles, rectangles);
-- In robot vision, it’s often used for **path detection** and **obstacle recognition**.
+- **精确提取边缘信息**，同时减少不必要的干扰；
+- 为后续的\ **轮廓检测**、\ **物体分割**\ 和\ **几何形状识别**（如圆形、矩形）提供可靠基础；
+- 在机器人视觉中，常用于\ **路径检测**\ 和\ **障碍物识别**。
 
 .. image:: img/opencv_canny.png
-   :alt: Illustration of Canny edge detection
+   :alt: Canny边缘检测示意图
    :align: center
 
 
-2. Run the Code
+2. 运行代码
 ------------------------
 
 .. important::
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装
+   * 您可以访问Raspberry Pi桌面
+   * 代码包已安装
+   * Fusion HAT+已安装并配置
+   * OpenCV已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
@@ -58,18 +58,18 @@ The purpose of Canny edge detection is to:
       python3 cv_7_canny.py
 
    .. tip::
-   
-      We also provide ``cv_7_canny_video.py`` to process video files, and ``cv_7_canny_conbine.py`` to combine real-time capture with video (combined view).
 
-#. When you run the program, two OpenCV windows will appear:
+      我们还提供\ ``cv_7_canny_video.py``\ 用于处理视频文件，以及\ ``cv_7_canny_conbine.py``\ 用于结合实时捕捉和视频（组合视图）。
 
-   * **Camera** – displays the live camera image  
-   * **Canny Edges** – displays the detected edges in real time  
-   
-   You can adjust the edge detection thresholds using the trackbars.  
-   Press **q** or close any window to exit the program.
+#. 运行程序后，将出现两个OpenCV窗口：
 
-3. Complete Code
+   * **Camera** – 显示实时摄像头画面
+   * **Canny Edges** – 实时显示检测到的边缘
+
+   您可以使用滑动条调整边缘检测阈值。
+   按 **q** 或关闭任意窗口退出程序。
+
+3. 完整代码
 ---------------------------------
 
 .. code-block:: python
@@ -169,19 +169,19 @@ The purpose of Canny edge detection is to:
    picam2.stop()             # Stop the camera
    cv2.destroyAllWindows()   # Close all OpenCV windows
 
-4. Code Explanation
+4. 代码解释
 ---------------------------------
-#. Define a callback function for trackbars:
+#. 为滑动条定义回调函数：
 
    .. code-block:: python
 
       def _noop(x):
           pass
 
-   OpenCV trackbars require a callback function.  
-   We do not need to do anything inside it, so an empty function is enough.
+   OpenCV滑动条需要一个回调函数。
+   我们不需要在其中执行任何操作，因此空函数即可。
 
-#. Initialize Picamera2 and set the preview format:
+#. 初始化Picamera2并设置预览格式：
 
    .. code-block:: python
 
@@ -193,10 +193,10 @@ The purpose of Canny edge detection is to:
       )
       picam2.start()
 
-   This starts the Raspberry Pi camera at 640×480.  
-   ``XRGB8888`` is a 4-channel format, so frames are BGRA-like.
+   以640×480分辨率启动Raspberry Pi摄像头。
+   ``XRGB8888``\ 是4通道格式，因此帧数据类似BGRA。
 
-#. Create two OpenCV windows:
+#. 创建两个OpenCV窗口：
 
    .. code-block:: python
 
@@ -206,40 +206,40 @@ The purpose of Canny edge detection is to:
       cv2.namedWindow(WIN_CAM)
       cv2.namedWindow(WIN_EDGE)
 
-   One window shows the original camera image, and the other shows the Canny edge result.
+   一个窗口显示原始摄像头图像，另一个显示Canny边缘检测结果。
 
-#. Create trackbars to adjust Canny thresholds in real time:
+#. 创建滑动条以实时调整Canny阈值：
 
    .. code-block:: python
 
       cv2.createTrackbar("low_th",  WIN_EDGE, 50, 255, _noop)
       cv2.createTrackbar("high_th", WIN_EDGE, 150, 255, _noop)
 
-   - ``low_th``: lower threshold for Canny.
-   - ``high_th``: higher threshold for Canny.
-   
-   You can drag these sliders to change the edge detection sensitivity.
+   - ``low_th``: Canny的低阈值。
+   - ``high_th``: Canny的高阈值。
 
-#. Capture a frame and convert it for OpenCV processing:
+   您可以拖动这些滑块来改变边缘检测的灵敏度。
+
+#. 捕获帧并转换为OpenCV处理的格式：
 
    .. code-block:: python
 
       frame_bgra = picam2.capture_array()
       frame_bgr = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
 
-   The camera output is 4-channel, so we convert it to standard 3-channel BGR.
+   摄像头输出为4通道，因此我们将其转换为标准的3通道BGR。
 
-#. Convert to grayscale and blur the image:
+#. 转换为灰度图并模糊图像：
 
    .. code-block:: python
 
       gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
       blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
-   - Canny works on grayscale images.
-   - Gaussian blur reduces noise, which helps avoid detecting too many false edges.
+   - Canny在灰度图像上运行。
+   - 高斯模糊减少噪点，有助于避免检测到过多的虚假边缘。
 
-#. Read trackbar values and keep them valid:
+#. 读取滑动条值并保持有效：
 
    .. code-block:: python
 
@@ -250,28 +250,28 @@ The purpose of Canny edge detection is to:
           high_th = low_th + 1
           cv2.setTrackbarPos("high_th", WIN_EDGE, high_th)
 
-   Canny expects ``high_th`` to be larger than ``low_th``.  
-   This block automatically fixes the values if the user drags them too close.
+   Canny要求\ ``high_th``\ 大于\ ``low_th``。
+   如果用户将值拖得太接近，此代码块会自动修正。
 
-#. Run Canny edge detection:
+#. 执行Canny边缘检测：
 
    .. code-block:: python
 
       edges = cv2.Canny(blurred, low_th, high_th)
 
-   Canny highlights strong edges in the image.  
-   Lower thresholds usually detect more edges, but also more noise.
+   Canny突出显示图像中的强边缘。
+   较低的阈值通常会检测到更多边缘，但也会增加噪声。
 
-#. Display both windows:
+#. 显示两个窗口：
 
    .. code-block:: python
 
       cv2.imshow(WIN_CAM, frame_bgr)
       cv2.imshow(WIN_EDGE, edges)
 
-   The left window shows the live camera feed, and the other shows the detected edges.
+   左侧窗口显示实时摄像头画面，另一个窗口显示检测到的边缘。
 
-#. Exit conditions (press ``q`` or close the window):
+#. 退出条件（按 ``q`` 或关闭窗口）：
 
    .. code-block:: python
 
@@ -283,77 +283,77 @@ The purpose of Canny edge detection is to:
           cv2.getWindowProperty(WIN_EDGE, cv2.WND_PROP_VISIBLE) < 1):
           break
 
-   This allows beginners to stop the program in two ways: keyboard or closing the window.
+   初学者可以通过键盘或关闭窗口两种方式停止程序。
 
-#. Cleanup:
+#. 清理资源：
 
    .. code-block:: python
 
       picam2.stop()
       cv2.destroyAllWindows()
 
-   Always stop the camera and close all OpenCV windows to release resources.
+   始终停止摄像头并关闭所有OpenCV窗口以释放资源。
 
-5. Why is Canny Useful?
+5. 为什么Canny有用？
 --------------------------
 
-Canny output is well-suited for subsequent vision tasks:
+Canny输出非常适合后续的视觉任务：
 
 .. list-table::
    :header-rows: 1
    :widths: 30 70
 
-   * - Application
-     - Description
-   * - Contour detection
-     - Use ``cv2.findContours`` on Canny output to obtain object shapes
-   * - Object segmentation
-     - Use edges as a basis to separate target from background
-   * - Shape recognition
-     - Combine with Hough transforms to detect circles, lines, etc.
-   * - Robot navigation
-     - Detect ground, roads, obstacle outlines to assist planning
-   * - OCR / Target localization
-     - Text regions, QR codes, markers often have clear edge features
+   * - 应用
+     - 描述
+   * - 轮廓检测
+     - 在Canny输出上使用 ``cv2.findContours``\ 获取物体形状
+   * - 物体分割
+     - 以边缘为基础将目标与背景分离
+   * - 形状识别
+     - 结合霍夫变换检测圆形、直线等
+   * - 机器人导航
+     - 检测地面、道路、障碍物轮廓以辅助规划
+   * - OCR / 目标定位
+     - 文本区域、二维码、标记通常具有清晰的边缘特征
 
-Canny isn’t just “cool-looking”—it’s the **entry point** to a broader CV pipeline.
+Canny不仅仅是"看起来很酷"——它是更广泛的计算机视觉流程的\ **入口**。
 
 
-6. Threshold Selection Tips
+6. 阈值选择建议
 ---------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: 70 30 30 70
-   
-   * - Scenario
+
+   * - 场景
      - low_th
      - high_th
-     - Notes
-   * - Stable indoor lighting
+     - 说明
+   * - 室内光照稳定
      - 50
      - 150
-     - General case, stable results
-   * - Strong lighting & high contrast
+     - 一般情况，结果稳定
+   * - 强光高对比度
      - 100
      - 200
-     - Increase thresholds to reduce false edges
-   * - Low light, noisy
+     - 提高阈值以减少虚假边缘
+   * - 低光照、有噪声
      - 30
      - 100
-     - Lower thresholds to keep more details
-   * - Very blurry edges
+     - 降低阈值以保留更多细节
+   * - 边缘非常模糊
      - 20
      - 80
-     - Lower thresholds further to make edges more sensitive
+     - 进一步降低阈值使边缘更敏感
 
-Use the trackbars to quickly tune an appropriate range, then hardcode it into your program.
+使用滑动条快速调出一个合适的范围，然后将其作为固定值写在程序中。
 
 
-7. Extended Exercises
+7. 扩展练习
 ---------------------
 
-- Use ``cv2.findContours`` on the Canny output to draw object boundaries.  
-- Change the Gaussian kernel size and observe how edge accuracy changes.  
-- Try different thresholds in low/high light to understand double-threshold effects.  
-- Use the edge map for shape detection with ``cv2.HoughLines`` (lines) or ``cv2.HoughCircles`` (circles).
+- 在Canny输出上使用 ``cv2.findContours``\ 绘制物体边界。
+- 改变高斯核大小，观察边缘精度的变化。
+- 在低/高光照下尝试不同的阈值，理解双阈值的效果。
+- 使用边缘图结合 ``cv2.HoughLines``（直线）或 ``cv2.HoughCircles``（圆形）进行形状检测。

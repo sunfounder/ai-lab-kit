@@ -4,99 +4,99 @@
 
 .. _py_photograph:
 
-3.1 Photograph Module
-==========================
+3.1 拍照模块
+============
 
-**Introduction**
+**简介**
 
-This project introduces you to using the Raspberry Pi camera module to capture a photograph. The camera module can take high-quality still images and videos, making it a versatile tool for projects ranging from photography to computer vision.
+本项目将介绍如何使用树莓派摄像头模块拍摄照片。摄像头模块可以拍摄高质量静态图像和视频，使其成为从摄影到计算机视觉等多种项目的多功能工具。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-Below are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    * - COMPONENT INTRODUCTION
-      - PURCHASE LINK
+    * - 组件介绍
+      - 购买链接
 
     * - :ref:`cpn_camera_module`
       - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 ----------------------------------------------
 
-**Experimental Procedures**
+**实验步骤**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. 为方便使用摄像头模块，建议先\ :ref:`assemble_fusion_hat_pan_tilt`\ 。
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     安装云台可能会遮挡部分引脚，因此建议仅在使用摄像头时安装，或在安装后将其置于外侧。
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. 访问树莓派桌面：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`：使用\ **VNC**\ 获得完整的桌面体验。
+   * |link_rpi_connect|：使用\ **Raspberry Pi Connect**\ 从任何浏览器安全地访问树莓派。
 
-#. Open a Terminal and go to the code folder:
+#. 打开终端并进入代码文件夹：
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       cd ~/ai-lab-kit/python
 
-#. Run the script to start the camera:
+#. 运行脚本启动摄像头：
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
       sudo python3 3.1_Photograph.py
 
-#. After the script starts, press the **Fusion HAT+ USR button** to take photos.
+#. 脚本启动后，按下\ **Fusion HAT+ USR 按钮**\ 拍照。
 
    .. image:: img/3.1_user_button.png
       :width: 50%
 
-   * Each press captures a picture.
-   * Photos are saved in ``~/user/Pictures`` as ``my_photo.jpg``.
-   * Press ``Ctrl+C`` to stop the script.
+   * 每次按下按钮拍摄一张照片。
+   * 照片保存至 ``~/user/Pictures`` 目录，文件名为 ``my_photo.jpg``。
+   * 按 ``Ctrl+C`` 停止脚本。
 
    .. image:: img/3.1_take_photo.jpg
       :width: 70%
 
 .. note::
-   QT preview requires a desktop environment.
-   If the preview cannot be started (for example, over SSH),
-   the camera can still capture and save photos normally.
+   QT 预览需要桌面环境。
+   如果无法启动预览（例如通过 SSH 连接），
+   摄像头仍可正常拍摄和保存照片。
 
 ----------------------------------------------
 
 
-**Code**
+**代码**
 
-Below is the Python code used for this project:
+以下是本项目使用的 Python 代码：
 
 .. raw:: html
 
    <run></run>
-   
+
 .. code-block:: python
 
    #!/usr/bin/env python3
@@ -145,9 +145,9 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports and Purpose**
+1. **导入与目的**
 
    .. code-block:: python
 
@@ -155,15 +155,15 @@ Below is the Python code used for this project:
       from picamera2 import Picamera2, Preview
       from fusion_hat.user_button import UserButton
 
-   These modules provide:
-   
-   - ``os`` and ``pwd``: used to correctly locate the real user’s home directory,
-     even when the program is run with ``sudo``.
-   - ``time``: keeps the program running in a loop.
-   - ``Picamera2`` and ``Preview``: control the Raspberry Pi camera and preview modes.
-   - ``UserButton``: reads the Fusion HAT+ USR button.
+   这些模块提供以下功能：
 
-2. **Resolving the Save Path**
+   - ``os`` 和 ``pwd``：用于正确查找真实用户的主目录，
+     即使在程序使用 ``sudo`` 运行时也能正常工作。
+   - ``time``：保持程序在循环中运行。
+   - ``Picamera2`` 和 ``Preview``：控制树莓派摄像头和预览模式。
+   - ``UserButton``：读取 Fusion HAT+ USR 按钮。
+
+2. **解析保存路径**
 
    .. code-block:: python
 
@@ -172,25 +172,25 @@ Below is the Python code used for this project:
       os.makedirs(f"{home}/Pictures", exist_ok=True)
       photo = f"{home}/Pictures/my_photo.jpg"
 
-   This section determines where photos are saved:
+   此部分确定照片的保存位置：
 
-   - If the script is run with ``sudo``, ``SUDO_USER`` is used to find the
-     original user’s home directory.
-   - Otherwise, the current user’s home directory is used.
-   - A ``Pictures`` folder is created if it does not already exist.
-   - All photos are saved as ``my_photo.jpg`` (each new photo overwrites the last).
+   - 如果脚本使用 ``sudo`` 运行，则使用 ``SUDO_USER`` 查找
+     原始用户的主目录。
+   - 否则，使用当前用户的主目录。
+   - 如果 ``Pictures`` 文件夹不存在，则自动创建。
+   - 所有照片保存为 ``my_photo.jpg``（每张新照片会覆盖上一张）。
 
-3. **Camera Initialization**
+3. **摄像头初始化**
 
    .. code-block:: python
 
       camera = Picamera2()
       camera.configure(camera.create_preview_configuration())
 
-   The camera object is created and configured with a default preview setup.
-   This configuration works both with and without a visible preview window.
+   创建摄像头对象并使用默认预览配置进行设置。
+   此配置在有或没有可见预览窗口的情况下均可工作。
 
-4. **Photo Capture Function**
+4. **拍照功能**
 
    .. code-block:: python
 
@@ -198,20 +198,20 @@ Below is the Python code used for this project:
           camera.capture_file(photo)
           print(f"Saved: {photo}")
 
-   This function is called whenever the USR button is pressed.
-   It captures a photo and saves it to the predefined path, then prints
-   the save location.
+   每当按下 USR 按钮时调用此函数。
+   它拍摄一张照片并保存到预定义路径，然后打印
+   保存位置。
 
-5. **USR Button Binding**
+5. **USR 按钮绑定**
 
    .. code-block:: python
 
       UserButton().set_on_click(shot)
 
-   The Fusion HAT+ USR button is linked to the ``shot`` function.
-   Each button press triggers a photo capture.
+   Fusion HAT+ USR 按钮与 ``shot`` 函数关联。
+   每次按钮按下触发一次拍照。
 
-6. **Conditional Preview Start**
+6. **条件预览启动**
 
    .. code-block:: python
 
@@ -223,12 +223,12 @@ Below is the Python code used for this project:
           except Exception as e:
               print(f"Preview disabled: {e}")
 
-   - The program checks whether a graphical display is available.
-   - If a display exists, it attempts to start a QT preview window.
-   - If no display is available (for example, when running over SSH),
-     the preview is skipped without stopping the program.
+   - 程序检查图形化显示是否可用。
+   - 如果存在显示器，则尝试启动 QT 预览窗口。
+   - 如果显示器不可用（例如通过 SSH 运行时），
+     则跳过预览，不停止程序。
 
-7. **Camera Start and Main Loop**
+7. **摄像头启动与主循环**
 
    .. code-block:: python
 
@@ -239,10 +239,9 @@ Below is the Python code used for this project:
           while True:
               time.sleep(0.1)
 
-   The camera is started, and the program enters an infinite loop to
-   keep running and listening for button presses.
+   摄像头启动，程序进入无限循环以保持运行并监听按钮按下。
 
-8. **Clean Exit and Resource Cleanup**
+8. **安全退出与资源清理**
 
    .. code-block:: python
 
@@ -257,43 +256,42 @@ Below is the Python code used for this project:
           try: camera.close()
           except: pass
 
-   When ``Ctrl+C`` is pressed:
+   按下 ``Ctrl+C`` 时：
 
-   - The camera is stopped.
-   - The preview is stopped only if it was successfully started.
-   - The camera resources are released cleanly.
+   - 停止摄像头。
+   - 仅在预览已成功启动时才停止预览。
+   - 干净地释放摄像头资源。
 
-   This ensures the program exits without error messages, regardless of
-   whether a preview window was used.
+   无论是否使用了预览窗口，这都能确保程序无错误信息地退出。
 
 -------------------------
 
-**Troubleshooting**
+**故障排除**
 
 
-1. **No Preview Window**
+1. **无预览窗口**
 
-   - **Cause:** Camera not enabled, missing display, or Picamera2 not installed.
-   - **Fix:** Run on a system with a display (not pure SSH), and test Picamera2 with a simple script.
+   - **原因：** 未启用摄像头、缺少显示器或未安装 Picamera2。
+   - **解决方法：** 在有显示器的系统上运行（非纯 SSH），并用简单脚本测试 Picamera2。
 
-2. **USR Button Not Working**
+2. **USR 按钮不工作**
 
-   - **Cause:** Fusion HAT+ not seated correctly, button not detected, or wrong photo folder checked.
-   - **Fix:** Reconnect HAT, run script with ``sudo``, and check photos under ``~/Pictures``.
+   - **原因：** Fusion HAT+ 未正确安装、按钮未被检测到或检查了错误的照片文件夹。
+   - **解决方法：** 重新连接 HAT，使用 ``sudo`` 运行脚本，并检查 ``~/Pictures`` 下的照片。
 
-3. **Photos Saved to Wrong Location**
+3. **照片保存到错误位置**
 
-   - **Cause:** Running with ``sudo`` may confuse home directories.
-   - **Fix:** Script already handles this; print ``REAL_USER`` or ``PICTURES_DIR`` if unsure.
+   - **原因：** 使用 ``sudo`` 运行可能会混淆主目录。
+   - **解决方法：** 脚本已处理此问题；如果不确定可打印 ``REAL_USER`` 或 ``PICTURES_DIR``。
 
-4. **Preview Freezes**
+4. **预览卡死**
 
-   - **Cause:** Camera in use by another app or low system resources.
-   - **Fix:** Close other apps, update the system, or reboot the Pi.
+   - **原因：** 摄像头被其他应用程序使用或系统资源不足。
+   - **解决方法：** 关闭其他应用程序、更新系统或重启树莓派。
 
 --------------
 
-**Conclusion**
+**总结**
 
-This script lets you capture photos using the Fusion HAT+ USR button and save them automatically to ``~/Pictures``.  
-The setup is ideal for simple camera projects and can be extended for timelapses, DIY camera builds, or classroom demos.
+本脚本让您可以使用 Fusion HAT+ USR 按钮拍摄照片，并自动保存到 ``~/Pictures`` 目录。
+此设置非常适合简单的摄像头项目，并可扩展用于延时摄影、DIY 相机搭建或课堂演示。

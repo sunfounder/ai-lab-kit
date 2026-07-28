@@ -4,25 +4,25 @@
 
 .. _py_touch:
 
-2.5 Touch Switch Module
-================================
+2.5 触摸开关模块
+=================
 
-**Introduction**
+**介绍**
 
-In this project, we explore the use of a Touch Switch Module. This component replaces traditional mechanical switches and offers benefits such as precise control, fine touch sensitivity, and minimal mechanical wear. Touch switches are commonly used in modern appliances and devices where reliability and ease of operation are essential.
+在本项目中，我们将探索触摸开关模块的使用。该组件替代了传统的机械开关，具有精确控制、精细触摸灵敏度和最小机械磨损等优点。触摸开关常用于对可靠性和操作便捷性要求较高的现代电器和设备中。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,16 +35,16 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_touch_switch`
         - |link_touch_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-Below is the schematic diagram showing how to connect the Touch Switch Module to the Raspberry Pi and LEDs:
+以下是触摸开关模块连接到Raspberry Pi和LED的电路原理图：
 
 .. image:: img/fzz/2.1.3_sch.png
    :width: 100%
@@ -52,13 +52,13 @@ Below is the schematic diagram showing how to connect the Touch Switch Module to
 
 ------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to build the circuit:
+请按照以下步骤搭建电路：
 
-1. Connect the Touch Switch Module output pin to GPIO17.
-2. Connect LED1 anode to GPIO22 and LED2 anode to GPIO27 via appropriate resistors.
-3. Connect the cathodes of both LEDs and the Touch Switch ground pin to GND.
+1. 将触摸开关模块的输出引脚连接到GPIO17。
+2. 分别通过合适的电阻将LED1的正极连接到GPIO22，LED2的正极连接到GPIO27。
+3. 将两个LED的负极和触摸开关模块的地引脚连接到GND。
 
 .. image:: img/fzz/2.1.3_bb.png
    :width: 80%
@@ -67,11 +67,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -79,33 +79,33 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.5_TouchSwitch.py
 
-This Python script uses a touch sensor to control two LEDs connected to a Raspberry Pi. When executed:
+此Python脚本使用触摸传感器控制连接到Raspberry Pi的两个LED。执行时：
 
-1. **Touch Sensor Pressed**:
+1. **触摸传感器按下**：
 
-   - Prints "You touch it!" to the console.
-   - Turns off LED1 (connected to GPIO pin 22).
-   - Turns on LED2 (connected to GPIO pin 27).
+   - 在控制台打印"You touch it!"。
+   - 熄灭LED1（连接到GPIO 22引脚）。
+   - 点亮LED2（连接到GPIO 27引脚）。
 
-2. **Touch Sensor Not Pressed**:
+2. **触摸传感器未按下**：
 
-   - LED1 turns on.
-   - LED2 turns off.
+   - LED1点亮。
+   - LED2熄灭。
 
-3. The program continuously monitors the touch sensor's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. 程序每0.5秒持续监测触摸传感器的状态并相应调整LED。
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. 脚本无限运行，直到按下\ ``Ctrl+C``\ 中断。
 
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code controls two LEDs based on the state of the Touch Switch Module:
+以下Python代码根据触摸开关模块的状态控制两个LED：
 
 
 .. raw:: html
@@ -147,11 +147,11 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 ----------------------------------------------
 
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The ``fusion_hat`` library is used to simplify GPIO control, and the ``sleep`` function provides delay functionality.
+   ``fusion_hat``\ 库用于简化GPIO控制，\ ``sleep``\ 函数提供延迟功能。
 
    .. code-block:: python
 
@@ -159,9 +159,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
       from time import sleep  # Import sleep for delay
 
 
-2. **Component Initialization**
+2. **组件初始化**
 
-   The touch sensor is configured as a button on GPIO17, and two LEDs are initialized on GPIO22 and GPIO27.
+   触摸传感器配置为GPIO17上的按钮，两个LED在GPIO22和GPIO27上初始化。
 
    .. code-block:: python
 
@@ -173,9 +173,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **Main Loop**
+3. **主循环**
 
-   The program continuously checks the state of the Touch Switch Module. When touched, LED2 turns on and LED1 off; otherwise, LED1 is on, and LED2 is off.
+   程序持续检查触摸开关模块的状态。触摸时，LED2亮、LED1灭；否则LED1亮、LED2灭。
 
    .. code-block:: python
 
@@ -188,9 +188,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
                led2.off()
            sleep(0.5)
 
-4. **Interrupt Handling**
+4. **中断处理**
 
-   A ``try-except`` block ensures that the program exits cleanly upon receiving a keyboard interrupt (Ctrl+C).
+   ``try-except``\ 块确保程序在收到键盘中断（\ ``Ctrl+C``\ ）时能干净退出。
 
    .. code-block:: python
 
@@ -199,23 +199,22 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **No Response from Touch Sensor**  
+1. **触摸传感器无响应**
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.  
-   - **Solution**: Ensure the touch sensor is connected to GPIO pin 17 and ground, and verify that ``PULL_DOWN`` matches the sensor's active-low configuration.
+   - **原因**：接线错误或GPIO引脚配置不正确。
+   - **解决方案**：确保触摸传感器连接到GPIO 17引脚和地，并确认\ ``PULL_DOWN``\ 与传感器的低电平有效配置匹配。
 
-2. **Sensor Always Reads Pressed or Not Pressed**  
+2. **传感器始终读为按下或未按下**
 
-   - **Cause**: Faulty sensor or wiring.  
-   - **Solution**: Test the sensor with a multimeter or replace it. Check for loose or incorrect connections.
+   - **原因**：传感器或接线故障。
+   - **解决方案**：使用万用表测试传感器或更换传感器。检查连接是否松动或错误。
 
+3. **LED闪烁或行为异常**
 
-3. **LEDs Flicker or Behave Erratically**  
-
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce to stabilize the input signal:
+   - **原因**：按钮消抖问题。
+   - **解决方案**：添加软件消抖以稳定输入信号：
 
    .. code-block:: python
 
@@ -225,11 +224,11 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Touch Duration Detection**  
+1. **触摸时长检测**
 
-   Add functionality to detect how long the touch sensor is pressed and adjust LED behavior:
+   添加检测触摸传感器按下时长的功能，并相应调整LED行为：
 
    .. code-block:: python
 
@@ -244,9 +243,9 @@ The following Python code controls two LEDs based on the state of the Touch Swit
             duration = time() - start_time
             print(f"Sensor was touched for {duration:.2f} seconds")
 
-2. **Adjustable Delay**  
+2. **可调延迟**
 
-   Allow the user to modify the delay dynamically to fine-tune responsiveness:
+   允许用户动态修改延迟以微调响应速度：
 
    .. code-block:: python
 
@@ -256,6 +255,6 @@ The following Python code controls two LEDs based on the state of the Touch Swit
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a Touch Switch Module with the Fusion HAT+ to control LEDs. Touch switches are versatile and reliable components, often used in modern devices for seamless and intuitive interaction.
+本项目演示了如何使用触摸开关模块通过Fusion HAT+控制LED。触摸开关是多功能且可靠的组件，常用于现代设备以实现无缝直观的交互。

@@ -4,25 +4,25 @@
 
 .. _py_relay:
 
-1.5 Relay Control
-===========================
+1.5 继电器控制
+===============
 
-**Introduction**
+**介绍**
 
-In this project, we will learn how to control a relay module using a Raspberry Pi. Relays are electrically operated switches that allow low-power circuits to control high-power devices safely. This project demonstrates how to toggle a relay on and off at regular intervals.
+在本项目中，我们将学习如何使用Raspberry Pi控制继电器模块。继电器是电动操作的开关，允许低压电路安全地控制高压设备。本项目演示如何以固定间隔开关继电器。
 
 ----------------------------------------------
 
-**What You'll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
     *   - :ref:`cpn_wires`
@@ -38,23 +38,23 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_diode`
         - |link_diode_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The GPIO signal passes through a 1 kΩ resistor to the transistor base, allowing the transistor to switch the relay coil on and off. When GPIO17 outputs HIGH, the transistor turns on, current flows through the relay coil, the relay activates, and the LED (through the 220 Ω resistor) lights up. When GPIO17 outputs LOW, the transistor turns off, the relay coil is de-energized, the relay releases, and the LED turns off. A flyback diode is placed across the relay coil to protect the circuit from voltage spikes.
+GPIO信号通过一个1kΩ电阻到达三极管基极，使三极管能够开关继电器线圈。当GPIO17输出高电平时，三极管导通，电流流过继电器线圈，继电器吸合，LED（通过220Ω电阻）亮起。当GPIO17输出低电平时，三极管截止，继电器线圈断电，继电器释放，LED熄灭。续流二极管并联在继电器线圈两端，以保护电路免受电压尖峰的影响。
 
 .. image:: img/fzz/1.3.3_relay_sch.png
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to build the circuit:
+请按照以下步骤搭建电路：
 
 
 .. image:: img/fzz/1.3.3_relay_bb.png
@@ -63,27 +63,27 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: shell
-   
-   cd ~/ai-lab-kit/python/
-   sudo python3 1.5_Relay.py 
 
-After running the script, the relay connected to GPIO 17 repeatedly switches on and off every second. When the relay is turned on, the console displays “Relay open…”, and when it is turned off, “…Relay close” is shown. This cycle continues until you press Ctrl + C, at which point the program stops and the relay is safely turned off.
+   cd ~/ai-lab-kit/python/
+   sudo python3 1.5_Relay.py
+
+运行脚本后，连接到GPIO 17的继电器每隔一秒反复开关。继电器打开时，控制台显示"Relay open…"，关闭时显示"…Relay close"。此循环持续进行，直到你按Ctrl + C停止程序，此时继电器安全关闭。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code controls a relay module, toggling it on and off:
+以下Python代码控制继电器模块，使其开关切换：
 
 .. raw:: html
 
@@ -102,7 +102,7 @@ The following Python code controls a relay module, toggling it on and off:
         # Loop to continuously toggle the relay's state every second
         while True:
             print('Relay open...')  # Inform that the relay is being activated
-            relay.high()  # Turn on the relay 
+            relay.high()  # Turn on the relay
             sleep(1)   # Maintain the relay in the on state for 1 second
 
             print('...Relay close')  # Inform that the relay is being deactivated
@@ -115,53 +115,53 @@ The following Python code controls a relay module, toggling it on and off:
         pass
 
 
-This Python script controls a relay module connected to GPIO pin 17. When executed:
+此Python脚本控制连接到GPIO 17引脚的继电器模块。执行时：
 
-1. The script enters an infinite loop that toggles the relay state every second
-2. When the relay is activated (HIGH), "Relay open..." is printed to the console
-3. When the relay is deactivated (LOW), "...Relay close" is printed to the console
-4. The program can be interrupted gracefully using ``Ctrl+C``, which ensures the relay is turned off before exiting
+1. 脚本进入无限循环，每秒切换一次继电器状态。
+2. 继电器吸合（高电平）时，控制台打印"Relay open..."。
+3. 继电器释放（低电平）时，控制台打印"...Relay close"。
+4. 可使用\ ``Ctrl+C``\ 优雅地中断程序，确保在退出前关闭继电器。
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The ``Pin`` class from the ``fusion_hat`` library is used to control GPIO pins, and ``time.sleep`` introduces delays between state changes.
+   ``fusion_hat``\ 库中的\ ``Pin``\ 类用于控制GPIO引脚，\ ``time.sleep``\ 用于在状态变化之间引入延迟。
 
    .. code-block:: python
 
         from fusion_hat.pin import Pin, Mode
         from time import sleep  # Import the sleep function for delay
 
-2. **Relay Initialization**
+2. **继电器初始化**
 
-   The relay is initialized on GPIO pin 17 and set to output mode.
+   继电器在GPIO 17引脚上初始化，并设置为输出模式。
 
    .. code-block:: python
 
       # Initialize the relay connected to GPIO pin 17
       relay = Pin(17,mode=Mode.OUT)
 
-3. **Main Control Loop**
+3. **主控制循环**
 
-   The ``while True`` loop continuously toggles the relay state with 1-second intervals.
+   ``while True``\ 循环以1秒间隔持续切换继电器状态。
 
    .. code-block:: python
 
       while True:
           print('Relay open...')  # Inform that the relay is being activated
-          relay.high()  # Turn on the relay 
+          relay.high()  # Turn on the relay
           sleep(1)   # Maintain the relay in the on state for 1 second
 
           print('...Relay close')  # Inform that the relay is being deactivated
           relay.low()  # Turn off the relay
           sleep(1)   # Maintain the relay in the off state for 1 second
 
-4. **Keyboard Interrupt Handling**
+4. **键盘中断处理**
 
-   The ``try-except`` block ensures the program stops gracefully when interrupted (e.g., Ctrl+C), and turns off the relay before exiting.
+   ``try-except``\ 块确保程序在被中断时（例如\ ``Ctrl+C``\ ）优雅地停止，并在退出前关闭继电器。
 
    .. code-block:: python
 
@@ -172,35 +172,35 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **Relay Not Responding**
+1. **继电器无响应**
 
-   - **Cause**: Incorrect wiring or wrong GPIO pin configuration.
-   - **Solution**: Verify all connections match the wiring diagram and confirm GPIO 17 is correctly specified.
+   - **原因**：接线错误或GPIO引脚配置不正确。
+   - **解决方案**：确认所有连接与接线图一致，且GPIO 17已正确指定。
 
-2. **Relay Stays On or Off**
+2. **继电器常开或常关**
 
-   - **Cause**: Logic level mismatch or power supply issues.
-   - **Solution**: Ensure the relay module is compatible with 3.3V logic levels and check that the power supply is adequate.
+   - **原因**：逻辑电平不匹配或电源问题。
+   - **解决方案**：确保继电器模块与3.3V逻辑电平兼容，并检查电源是否充足。
 
-3. **Program Doesn't Exit Cleanly**
+3. **程序无法干净退出**
 
-   - **Cause**: Keyboard interrupt not properly handled.
-   - **Solution**: Make sure to use ``Ctrl+C`` to terminate the program and check that the exception handling code is present.
+   - **原因**：键盘中断未正确处理。
+   - **解决方案**：确保使用\ ``Ctrl+C``\ 终止程序，并检查异常处理代码是否存在。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Scheduled Control**
+1. **定时控制**
 
-   Modify the code to control the relay based on a schedule, turning it on and off at specific times:
+   修改代码，根据时间表控制继电器，在特定时间开关：
 
    .. code-block:: python
 
       import datetime
-      
+
       # Turn relay on during specific hours
       current_time = datetime.datetime.now().time()
       if datetime.time(9, 0) <= current_time <= datetime.time(17, 0):
@@ -208,9 +208,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
       else:
           relay.low()
 
-2. **Sensor-Activated Control**
+2. **传感器触发控制**
 
-   Connect a sensor (like a temperature or motion sensor) and control the relay based on sensor readings:
+   连接传感器（如温度或运动传感器），根据传感器读数控制继电器：
 
    .. code-block:: python
 
@@ -220,9 +220,9 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
       else:
           relay.low()   # Turn off cooling device
 
-3. **Multiple Relay Control**
+3. **多继电器控制**
 
-   Expand the project to control multiple relays simultaneously:
+   扩展项目以同时控制多个继电器：
 
    .. code-block:: python
 
@@ -232,13 +232,13 @@ This Python script controls a relay module connected to GPIO pin 17. When execut
           'fan': Pin(18, Pin.OUT),
           'pump': Pin(19, Pin.OUT)
       }
-      
+
       # Control individual relays
       relays['light'].high()
       relays['fan'].low()
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to control a relay module using a Raspberry Pi. Relays are fundamental components in home automation, industrial control systems, and IoT applications. By mastering relay control, you can interface low-voltage circuits with high-power devices safely and effectively.
+本项目演示了如何使用Raspberry Pi控制继电器模块。继电器是家庭自动化、工业控制系统和物联网应用中的基本组件。通过掌握继电器控制，你可以安全高效地将低压电路与高压设备连接起来。

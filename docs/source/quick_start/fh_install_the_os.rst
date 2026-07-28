@@ -5,7 +5,7 @@
 
 .. _install_os_sd_fusion_kit:
 
-Installing the Operating System
+安装操作系统
 ===================================
 
 
@@ -15,29 +15,29 @@ Installing the Operating System
    :end-before: end_imager
 
 
-Download the Exclusive Image File
+下载专属镜像文件
 ------------------------------------------------------
 
-Download the AI ​​Fusion Lab Kit operating system image file: `Raspberry Pi OS with AI Fusion Lab Kit <https://sunfounder.github.io/download/ai-fusion-lab-kit/index.html>`_。 
+下载 AI Fusion Lab Kit 操作系统镜像文件： `Raspberry Pi OS with AI Fusion Lab Kit <https://sunfounder.github.io/download/ai-fusion-lab-kit/index.html>`_。
 
 .. image:: img/fusion_kit_imager_download.png
-   :width: 90% 
+   :width: 90%
 
-This image is based on Raspberry Pi OS and comes with the AI Fusion Lab Kit pre-integrated into the system. It includes all the necessary software, example code, and related configurations required for the AI Fusion Lab Kit. By using this image, you can skip certain setup steps described in the documentation.
+此镜像基于 Raspberry Pi OS，并预集成了 AI Fusion Lab Kit 到系统中。它包含了 AI Fusion Lab Kit 所需的所有必要软件、示例代码及相关配置。使用此镜像，您可以跳过文档中描述的部分设置步骤。
 
-If you prefer to use a native Raspberry Pi OS for manual configuration, please install:  
+如果您更倾向于使用原生 Raspberry Pi OS 进行手动配置，请安装：
 `Raspberry Pi OS (Legacy, 64-bit) (Bookworm, Debian 12)`
 
 .. include:: /_shared/pi_start/install_os_trixie.rst
    :start-after: start_install_os
    :end-before: end_install_os
 
-3. Go to the OS section and choose the **Use custom** 
-   
+3. 进入 OS 部分，选择 **Use custom**
+
    .. image:: img/fusion_kit_imager1.png
       :width: 90%
 
-   And select the downloaded image file ``ai.fusion.lab.kit-bookworm.64.full.20xx.xx.xx-latest.zip``.
+   然后选择下载的镜像文件 ``ai.fusion.lab.kit-bookworm.64.full.20xx.xx.xx-latest.zip``\ 。
 
    .. image:: img/fusion_kit_imager2.png
       :width: 90%

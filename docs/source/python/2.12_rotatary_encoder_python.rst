@@ -6,30 +6,30 @@
 
 .. _py_rotary_encoder:
 
-2.12 Rotary Encoder
-=======================
+2.12 旋转编码器
+================
 
-**Introduction**
+**介绍**
 
-A rotary encoder is an input device that converts rotational motion into digital signals. It’s commonly used for navigating menus, adjusting values, or scrolling through items. In this project, you’ll connect a rotary encoder (with an integrated push-button) to a Raspberry Pi via the Fusion HAT+, read rotation steps, and reset the counter with the encoder’s switch.
+旋转编码器是一种将旋转运动转换为数字信号的输入设备。它通常用于导航菜单、调整数值或滚动浏览项目。在本项目中，你将通过Fusion HAT+将旋转编码器（带集成按钮）连接到Raspberry Pi，读取旋转步数，并使用编码器的开关重置计数器。
 
-This experiment illustrates how to interface a rotary encoder using event callbacks for smooth, low-latency input handling.
+本实验演示了如何使用事件回调来接口旋转编码器，以实现平滑、低延迟的输入处理。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-Here are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_rotary_encoder`
-        - |link_rotary_encoder_buy| 
+        - |link_rotary_encoder_buy|
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
@@ -39,9 +39,9 @@ Here are the components required for this project:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-Below are the schematic diagrams for the project:
+以下是本项目的电路原理图：
 
 .. image:: img/fzz/2.1.6_rotary_sch.png
    :width: 80%
@@ -49,30 +49,30 @@ Below are the schematic diagrams for the project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Connect the components as shown in the wiring diagram below:
+按下图所示的接线图连接组件：
 
 .. image:: img/fzz/2.1.6_rotary_bb.png
    :width: 80%
    :align: center
 
-**Pin Mapping Used in the Example**
+**示例中使用的引脚映射**
 
 - **CLK** → **GPIO 17**
 - **DT** → **GPIO 4**
-- **SW (button)** → **GPIO 27** (with internal pull-up)
+- **SW（按钮）** → **GPIO 27**（带内部上拉）
 - **+** → **3.3V**
 - **GND** → **GND**
 
-Ensure that all connections are secure. If your encoder has separate **C (COM)** and **NO/NC** for the switch, connect **C** to GND and **NO** to the SW pin (internal pull-up enabled in software).
+确保所有连接牢固可靠。如果你的编码器为开关配有独立的 **C（COM）** 和 **NO/NC**，请将 **C** 连接到 GND，**NO** 连接到 SW 引脚（软件中启用内部上拉）。
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory.
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 .. raw:: html
 
@@ -83,13 +83,13 @@ Follow these steps to run the example:
    cd ~/ai-lab-kit/python/
    sudo python3 2.12_RotaryEncoder.py
 
-After running the script, rotating the rotary encoder will increase or decrease a counter, and the current counter value is printed to the console in real time. Pressing the encoder’s button resets the counter to zero and displays a reset message. The program keeps running and responding to user input until you press Ctrl + C to exit.
+运行脚本后，旋转编码器将增加或减少计数器，当前计数器值实时打印到控制台。按下编码器按钮将计数器重置为零并显示重置消息。程序持续运行并响应用户输入，直到你按Ctrl + C退出。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python code used for this project:
+以下是本项目使用的Python代码：
 
 .. raw:: html
 
@@ -151,20 +151,20 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports**
+1. **导入**
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       import time
 
-   - ``Pin`` is used to configure and read GPIO pins for the rotary encoder.
-   - ``Mode`` and ``Pull`` define the pin direction and internal pull-up resistors.
-   - ``time`` is used to control polling intervals and button debounce timing.
+   - ``Pin``\ 用于配置和读取旋转编码器的GPIO引脚。
+   - ``Mode``\ 和\ ``Pull``\ 定义引脚方向和内部上拉电阻。
+   - ``time``\ 用于控制轮询间隔和按钮消抖时序。
 
-2. **GPIO Pin Setup**
+2. **GPIO引脚设置**
 
    .. code-block:: python
 
@@ -176,12 +176,12 @@ Below is the Python code used for this project:
       dt  = Pin(DT_PIN,  mode=Mode.IN, pull=Pull.UP)
       sw  = Pin(SW_PIN,  mode=Mode.IN, pull=Pull.UP)
 
-   - ``CLK`` and ``DT`` are the two quadrature signal pins of the rotary encoder.
-   - ``SW`` is the built-in push button of the encoder.
-   - Internal pull-up resistors keep the signal stable when the encoder is idle.
-   - The button is active LOW and reads ``0`` when pressed.
+   - ``CLK``\ 和\ ``DT``\ 是旋转编码器的两个正交信号引脚。
+   - ``SW``\ 是编码器内置的按钮。
+   - 内部上拉电阻在编码器空闲时保持信号稳定。
+   - 按钮为低电平有效，按下时读取\ ``0``\ 。
 
-3. **State Variables**
+3. **状态变量**
 
    .. code-block:: python
 
@@ -189,11 +189,11 @@ Below is the Python code used for this project:
       last_clk = clk.value()
       last_detent = None
 
-   - ``raw`` counts low-level quadrature transitions from the encoder.
-   - ``last_clk`` stores the previous CLK state to detect signal changes.
-   - ``last_detent`` keeps track of the last displayed counter value to avoid repeated output.
+   - ``raw``\ 统计编码器的低电平正交转换次数。
+   - ``last_clk``\ 存储先前的CLK状态以检测信号变化。
+   - ``last_detent``\ 跟踪上次显示的计数器值，避免重复输出。
 
-4. **Rotation Detection**
+4. **旋转检测**
 
    .. code-block:: python
 
@@ -201,31 +201,31 @@ Below is the Python code used for this project:
       if c != last_clk:
           raw += 1 if dt.value() != c else -1
 
-   - The script continuously polls the CLK pin.
-   - A change in CLK indicates encoder movement.
-   - The rotation direction is determined by comparing DT with CLK.
+   - 脚本持续轮询CLK引脚。
+   - CLK的变化表示编码器移动。
+   - 通过比较DT与CLK确定旋转方向。
 
-5. **Detent (Click) Calculation**
+5. **定位点（咔嗒）计算**
 
    .. code-block:: python
 
       detent = raw // 2
 
-   - Most rotary encoders generate two signal transitions per physical click.
-   - Dividing by 2 converts raw transitions into clean detent counts.
+   - 大多数旋转编码器每次物理点击产生两次信号转换。
+   - 除以2将原始转换转换为清晰的定位点计数。
 
-6. **Clean Console Output**
+6. **干净的控制台输出**
 
    .. code-block:: python
 
       if detent != last_detent:
           print(f"\\rCounter: {detent}   ", end="", flush=True)
 
-   - Output is updated only when the counter value changes.
-   - ``\\r`` moves the cursor back to the beginning of the line for in-place updates.
-   - ``flush=True`` ensures immediate display on the terminal.
+   - 仅在计数器值变化时更新输出。
+   - ``\\r``\ 将光标移回行首以进行原地更新。
+   - ``flush=True``\ 确保立即显示在终端上。
 
-7. **Button Reset Handling**
+7. **按钮重置处理**
 
    .. code-block:: python
 
@@ -235,47 +235,47 @@ Below is the Python code used for this project:
           print("\\rCounter: 0   ", end="", flush=True)
           time.sleep(0.25)
 
-   - Pressing the button resets the counter to zero.
-   - A short delay is used for button debounce to prevent multiple triggers.
+   - 按下按钮将计数器重置为零。
+   - 使用短暂延迟进行按钮消抖，防止多次触发。
 
-8. **Polling Interval and Program Exit**
+8. **轮询间隔和程序退出**
 
    .. code-block:: python
 
       time.sleep(0.001)
 
-   - A 1 ms polling delay balances responsiveness and CPU usage.
-   - Pressing ``Ctrl + C`` exits the program gracefully.
+   - 1ms的轮询延迟平衡了响应速度和CPU使用率。
+   - 按下\ ``Ctrl + C``\ 优雅退出程序。
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **No Output on Rotation**
+1. **旋转时无输出**
 
-   - **Cause**: Miswired CLK/DT or poor ground connection.
-   - **Solution**: Verify **CLK→GPIO17**, **DT→GPIO4**, **GND common**. Ensure 3.3V supply is correct (do **not** use 5V encoders directly on GPIO).
+   - **原因**：CLK/DT接线错误或接地不良。
+   - **解决方案**：确认**CLK→GPIO17**、**DT→GPIO4**、**GND共地**。确保3.3V供电正确（请勿在GPIO上直接使用5V编码器）。
 
-2. **Counter Jumps Erratically (Bounces/Noise)**
+2. **计数器跳变不稳定（抖动/噪声）**
 
-   - **Cause**: Mechanical bounce or long wires picking up noise.
-   - **Solution**: Keep wires short and twisted as a pair if possible; add small capacitors (e.g., 0.01–0.1 µF) from CLK/DT to GND if needed; enable any available debounce options in your library version.
+   - **原因**：机械触点抖动或长线缆引入噪声。
+   - **解决方案**：尽可能保持线缆短且双绞；如有需要可在CLK/DT到GND之间添加小电容（如0.01–0.1µF）；在可用的库版本中启用消抖选项。
 
-3. **Button Not Detected**
+3. **按钮未检测到**
 
-   - **Cause**: Switch contacts wired to 3.3V instead of GND or pull-up misconfiguration.
-   - **Solution**: Ensure **SW** connects to **GND** when pressed; confirm ``pull=Pin.PULL_UP`` is set.
+   - **原因**：开关触点连接到3.3V而非GND，或上拉配置错误。
+   - **解决方案**：确保**SW**按下时连接到**GND**；确认已设置\ ``pull=Pin.PULL_UP``\ 。
 
-4. **Direction Reversed**
+4. **方向反转**
 
-   - **Cause**: CLK and DT swapped relative to your desired direction.
-   - **Solution**: Swap the **CLK** and **DT** wires or invert at the application layer (e.g., subtract steps).
+   - **原因**：相对于所需方向，CLK和DT接反了。
+   - **解决方案**：交换**CLK**和**DT**的接线，或在应用层取反（例如，减去步数）。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Adjust a Variable (e.g., Volume/Brightness) Smoothly**
+1. **平滑调节变量（如音量/亮度）**
 
    .. code-block:: python
 
@@ -285,7 +285,7 @@ Below is the Python code used for this project:
           value = max(0, min(100, 50 + encoder.steps()))
           print(f'Value = {value}')
 
-2. **Use the Button to Toggle a Mode**
+2. **使用按钮切换模式**
 
    .. code-block:: python
 
@@ -297,7 +297,7 @@ Below is the Python code used for this project:
           encoder.reset()
           print(f'Mode switched to: {mode[idx]}')
 
-3. **LED/Buzzer Feedback**
+3. **LED/蜂鸣器反馈**
 
    .. code-block:: python
 
@@ -309,12 +309,12 @@ Below is the Python code used for this project:
           # brief flash without blocking callbacks is recommended
           led.off()
 
-4. **Long-Press to Perform a Special Action**
+4. **长按执行特殊操作**
 
-   - Track press duration using timestamps in ``sw.when_activated`` and (if available) ``sw.when_deactivated`` to trigger different actions for short/long presses.
+   - 使用时间戳在\ ``sw.when_activated``\ 和（如果可用）\ ``sw.when_deactivated``\ 中跟踪按下时长，以触发的短按/长按的不同操作。
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This experiment shows how to read a rotary encoder and its integrated button using event-driven callbacks on the Fusion HAT+. With this pattern, you can build responsive interfaces such as menu navigators, dial-controlled settings, and jog wheels for real-time control in your Raspberry Pi projects.
+本实验展示了如何使用事件驱动回调在Fusion HAT+上读取旋转编码器及其集成按钮。使用此模式，你可以构建响应式界面，如菜单导航器、旋钮控制设置和用于Raspberry Pi项目实时控制的拨轮。

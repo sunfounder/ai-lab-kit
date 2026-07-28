@@ -2,33 +2,33 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-.. note:: If you are using the pre-installed "Raspberry Pi OS with AI Fusion Lab Kit" image, you can skip this section. This image already includes all the software installations, environment configurations, and example code deployments described in this chapter.
+.. note:: 如果您使用的是预装的"Raspberry Pi OS with AI Fusion Lab Kit"镜像，可以跳过本节。该镜像已包含本章所述的所有软件安装、环境配置和示例代码部署。
 
 
-0. Setup YOLO Environment
+0. 安装YOLO环境
 ==============================
 
 
 
-This chapter shows you how to install Yolo on the Raspberry Pi and verify that it works correctly.
+本章将介绍如何在Raspberry Pi上安装YOLO并验证其是否正常工作。
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. 为了方便使用摄像头模块，建议先完成 :ref:`assemble_fusion_hat_pan_tilt`。
 
-   .. note:: 
-     
-      Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+      组装云台可能会遮挡部分引脚，因此建议仅在使用摄像头时组装，或在组装后将云台放置在外部。
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Access the Raspberry Pi Desktop:
+#. 访问Raspberry Pi桌面：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`: 使用\ **VNC**\ 获得完整的桌面体验。
+   * |link_rpi_connect|: 使用\ **Raspberry Pi Connect**\ 从任何浏览器安全地访问您的Pi。
 
 
 
-3. Install required dependencies:
+3. 安装所需的依赖包：
 
    .. code-block:: bash
 
@@ -36,7 +36,7 @@ This chapter shows you how to install Yolo on the Raspberry Pi and verify that i
       sudo apt upgrade -y
       sudo apt install python3-pip python3-opencv python3-numpy python3-picamera2 -y
 
-4. Install Ultralytics (the official YOLO library):
+4. 安装Ultralytics（官方YOLO库）：
 
    .. code-block:: bash
 
@@ -48,4 +48,3 @@ This chapter shows you how to install Yolo on the Raspberry Pi and verify that i
 
       # Manually install ultralytics' other dependencies
       pip3 install pyyaml requests psutil polars tqdm matplotlib seaborn --break-system-packages
-

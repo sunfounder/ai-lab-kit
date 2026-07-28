@@ -4,87 +4,77 @@
 
 .. _mp_hand_count_auto_tts:
 
-13. Touchless Auto TTS — Hands-Free Voice Broadcast
-======================================================
+13. 免接触自动 TTS — 免提语音播报
+==========================================================
 
 -----------------------------------------------------------------
-1. Overview
+1. 概述
 -----------------------------------------------------------------
 
-In :ref:`mp_hand_count_tts` (Section 12), we built a hand gesture
-counting program where the user presses the ``t`` key to trigger
-a TTS voice broadcast.
+在 :ref:`mp_hand_count_tts`（第 12 节）中，我们构建了一个手势计数程序，
+用户需要按下 ``t`` 键来触发 TTS 语音播报。
 
-In this section, we take the next step: **remove the keyboard entirely.**
-The system now *automatically* detects when you hold a hand gesture
-steady and speaks the finger count — no keys, no buttons,
-completely touchless.
+在本节中，我们更进一步：**完全去掉键盘。**
+系统现在*自动*检测您何时保持手部姿势稳定，
+并播报手指数量——无需按键，无需按钮，
+完全免接触。
 
 .. image:: img/mp_hand_count.png
    :align: center
 
-This lesson introduces a **state-machine pattern** for touchless
-interaction — a technique you can apply to accessibility projects,
-hands-free installations, and any scenario where keyboard input
-is not practical.
+本节课介绍了一种用于免接触交互的**状态机模式**——
+这是一种可用于无障碍项目、
+免提安装以及任何不方便使用键盘输入的场景的技术。
 
-By the end of this lesson, you will know how to:
+学完本课后，您将知道如何：
 
-- Design a state machine for hand-presence tracking
-- Detect gesture *stability* over multiple frames
-- Use a hold-duration gate to avoid false triggers
-- Auto-detect when a hand enters or leaves the frame
-- Provide multi-stage visual feedback (idle → detected → stable → speaking)
-- Display a progress bar for hold-duration countdown
-
-
------------------------------------------------------------------
-2. How It Works
------------------------------------------------------------------
-
-The program replaces the keyboard trigger with an **automatic
-stability-based trigger**. Here is the pipeline:
-
-1. Initialize **MediaPipe Hands** for real-time hand detection.
-2. Initialize the **Fusion HAT+ TTS engine** (Espeak).
-3. Capture video frames and detect fingers (same as before).
-4. Feed the finger count into a **stability detector** — a sliding
-   window that checks whether the count has remained the same
-   across multiple consecutive frames.
-5. Once the count is confirmed stable, start a **hold-duration timer**.
-6. If the user holds the same gesture for 2.5 seconds, TTS fires
-   automatically.
-7. If the hand leaves the frame, the system speaks "hand left the frame"
-   after a short delay.
-8. A **progress bar** and **multi-color border** show the current
-   state at a glance.
-
-The key design idea is:
-
-    *The user's steady hand replaces the keyboard —*
-    the system watches for *intent* (holding still) rather than
-    reacting to every fleeting gesture.
-
-This makes the project fully hands-free and accessible — ideal for
-assistive technology, interactive exhibits, or situations where
-the user cannot reach a keyboard.
+- 设计用于手部存在追踪的状态机
+- 跨多帧检测手势*稳定性*
+- 使用保持时长门控避免误触发
+- 自动检测手何时进入或离开画面
+- 提供多阶段视觉反馈（空闲 → 检测到 → 稳定 → 播报）
+- 显示保持时长的进度条
 
 
 -----------------------------------------------------------------
-3. Key Design Concepts
+2. 工作原理
 -----------------------------------------------------------------
 
-Adding auto-triggered TTS requires more sophisticated state
-management than the key-press version. Let's walk through each
-new concept.
+程序用**基于稳定性的自动触发器**替换了键盘触发器。以下是流水线：
+
+1. 初始化 **MediaPipe Hands** 进行实时手部检测。
+2. 初始化 **Fusion HAT+ TTS 引擎**（Espeak）。
+3. 捕获视频帧并检测手指（与之前相同）。
+4. 将手指数量输入**稳定性检测器**——一个滑动窗口，
+   检查连续多帧中手指数量是否保持不变。
+5. 一旦确认数量稳定，启动**保持时长计时器**。
+6. 如果用户保持相同姿势 2.5 秒，TTS 自动触发。
+7. 如果手离开画面，系统在短暂延迟后播报"hand left the frame"。
+8. **进度条**和**多色边框**一目了然地显示当前状态。
+
+关键设计思路：
+
+    *用户稳定的手代替了键盘——*
+    系统观察*意图*（保持静止），而不是对每个短暂手势做出反应。
+
+这使得项目完全免提和可访问——非常适合
+辅助技术、互动展览或用户无法触及键盘的场景。
+
+
+-----------------------------------------------------------------
+3. 关键设计概念
+-----------------------------------------------------------------
+
+添加自动触发 TTS 需要比按键版本更复杂的状态管理。
+让我们逐一分析每个新概念。
 
 --------------------------------------------------
-3.1 State Machine for Hand Tracking
+3.1 手部追踪的状态机
 --------------------------------------------------
 
-The program tracks hand presence as a **state**, not just a
-per-frame value. A ``HandTrackingState`` class encapsulates
-all the state variables:
+程序将手部存在追踪为一个**状态**，而不仅仅是
+每帧的值。``HandTrackingState`` 类封装了
+所有状态变量：
 
 .. code-block:: python
 
@@ -103,23 +93,23 @@ all the state variables:
 
     state = HandTrackingState()
 
-By grouping all tracking variables into one object, the code
-stays organized even as the logic grows more complex.
+通过将所有追踪变量分组到一个对象中，
+即使逻辑变得更加复杂，代码也能保持有序。
 
-The state machine transitions through these phases:
+状态机经过以下阶段：
 
-- **No hand** — gray border, idle status
-- **Hand detected, not yet stable** — cyan border, "keep hand still" prompt
-- **Stable, holding** — green border fills in, progress bar animates
-- **Speaking** — bright green flash, "SPEAKING..." label
+- **无手** — 灰色边框，空闲状态
+- **检测到手，尚未稳定** — 青色边框，"保持手部静止"提示
+- **稳定，保持中** — 绿色边框填充，进度条动画
+- **播报中** — 亮绿色闪烁，"SPEAKING..." 标签
 
 --------------------------------------------------
-3.2 Stability Detection
+3.2 稳定性检测
 --------------------------------------------------
 
-A single-frame finger count is unreliable — the number can
-flicker due to camera noise or slight hand movement. To avoid
-false triggers, we use a **sliding window** of recent counts:
+单帧的手指数量不可靠——由于摄像头噪声
+或轻微手部移动，数字可能会闪烁。为了避免
+误触发，我们使用一个**滑动窗口**来记录最近的数量：
 
 .. code-block:: python
 
@@ -145,17 +135,17 @@ false triggers, we use a **sliding window** of recent counts:
         state.current_fingers = new_count
         return False
 
-The gesture is considered **stable** only when the last 5 frames
-all report the same finger count. This filters out momentary
-flickers and ensures the system only speaks when the user is
-intentionally holding a gesture.
+仅当最近 5 帧都报告相同的手指数量时，
+手势才被认为是**稳定的**。这过滤了短暂的
+抖动，确保系统仅在用户有意识地
+保持姿势时才播报。
 
 --------------------------------------------------
-3.3 Auto-Trigger with Hold Duration
+3.3 带保持时长的自动触发
 --------------------------------------------------
 
-Stability alone is not enough — the user must *hold* the gesture
-long enough to demonstrate intent:
+仅有稳定性还不够——用户必须*保持*姿势
+足够长的时间以表明意图：
 
 .. code-block:: python
 
@@ -185,18 +175,18 @@ long enough to demonstrate intent:
 
         return True
 
-Three gates protect against false triggers:
+三道门控防止误触发：
 
-1. **Minimum interval** — at least 4 seconds between any two TTS events.
-2. **Hold duration** — the gesture must be held steady for 2.5 seconds.
-3. **Repeat guard** — the same count won't be spoken again for 8 seconds.
+1. **最小间隔** — 任意两次 TTS 事件之间至少 4 秒。
+2. **保持时长** — 手势必须稳定保持 2.5 秒。
+3. **重复防护** — 相同数量在 8 秒内不会再次播报。
 
 --------------------------------------------------
-3.4 Hand Exit Detection
+3.4 手部离开检测
 --------------------------------------------------
 
-When the user removes their hand from the camera, the system
-notices and speaks a notification:
+当用户将手从摄像头移开时，
+系统会注意到并播报通知：
 
 .. code-block:: python
 
@@ -212,15 +202,14 @@ notices and speaks a notification:
         if now - state.last_tts_time >= MIN_TTS_INTERVAL:
             tts.say("hand left the frame")
 
-The exit message only fires if enough time has passed since
-the last TTS event — preventing it from interrupting a
-finger-count announcement.
+离开消息仅在距离上次 TTS 事件足够时间后
+才触发——防止它打断手指数量播报。
 
 --------------------------------------------------
-3.5 Building the Message
+3.5 构建消息
 --------------------------------------------------
 
-Message construction is identical to the key-press version:
+消息构建与按键版本相同：
 
 .. code-block:: python
 
@@ -233,17 +222,17 @@ Message construction is identical to the key-press version:
 
 .. note::
 
-   Unlike the key-press version which sums fingers across both hands,
-   this version uses ``max(total_fingers, finger_count)`` to pick
-   the hand with the most visible fingers. This produces more
-   reliable results when both hands are in frame.
+   与按键版本对双手手指求和不同，
+   本版本使用 ``max(total_fingers, finger_count)`` 选择
+   可见手指最多的手。当双手都在画面中时，
+   这能产生更可靠的结果。
 
 --------------------------------------------------
-3.6 Multi-Stage Visual Feedback
+3.6 多阶段视觉反馈
 --------------------------------------------------
 
-Instead of a single green flash, this version provides a
-**continuous color-coded border** that reflects the current state:
+与单一的绿色闪烁不同，本版本提供了
+**连续的颜色编码边框**，反映当前状态：
 
 .. code-block:: python
 
@@ -252,16 +241,16 @@ Instead of a single green flash, this version provides a
     COLOR_STABLE   = (0, 255, 0)       # green  — gesture stable, holding
     COLOR_SPEAKING = (0, 255, 0)       # bright green — TTS in progress
 
-The border color transitions smoothly from cyan to green as the
-hold duration progresses, giving the user real-time feedback on
-how close they are to triggering TTS.
+边框颜色随着保持时长的推进，
+从青色平滑过渡到绿色，
+让用户实时了解距离触发 TTS 还有多久。
 
-**Progress bar**: A small bar in the top-right corner fills from
-left to right as the hold duration counts up. When it reaches 100%,
-TTS fires. This gives the user a clear visual countdown.
+**进度条**：右上角的一个小条从左向右填充，
+随着保持时长增加而增长。当达到 100% 时，
+TTS 触发。这给用户一个清晰的视觉倒计时。
 
-**Status text**: A status line below the finger count shows the
-current phase:
+**状态文本**：手指数量下方的状态行显示
+当前阶段：
 
 - ``"Status: No hand detected"``
 - ``"Status: Detecting... keep hand still"``
@@ -270,51 +259,51 @@ current phase:
 
 
 -----------------------------------------------------------------
-4. Run the Code
+4. 运行代码
 -----------------------------------------------------------------
 
 .. important::
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The Fusion HAT+ is assembled and the speaker is connected
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * MediaPipe and OpenCV are installed
+   * Fusion HAT+ 已组装，扬声器已连接
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * MediaPipe 和 OpenCV 已安装
 
-   For detailed instructions, see :ref:`mediapipe_install` and :ref:`opencv_install`.
+   详细说明请参见 :ref:`mediapipe_install` 和 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_count_tts_without_tap.py
 
-#. After running the program:
+#. 运行程序后：
 
-   - A window titled "MediaPipe Hand Detection + AUTO TTS (Touchless Mode)" opens,
-     showing the live camera feed.
-   - Hold your hand up to the camera — the finger count appears
-     in the top-left corner.
-   - *Keep your hand still* — watch the border change from gray
-     to cyan to green, and the progress bar fill up.
-   - After 2.5 seconds of holding the same gesture, the system
-     automatically speaks the finger count.
-   - Remove your hand from the camera — after a moment, the system
-     says "hand left the frame."
+   - 一个标题为"MediaPipe Hand Detection + AUTO TTS (Touchless Mode)"的窗口会打开，
+     显示实时摄像头画面。
+   - 将手举到摄像头前——手指数量会显示在
+     左上角。
+   - *保持手部静止* —— 观察边框从灰色
+     变为青色再变为绿色，进度条逐渐填满。
+   - 保持相同手势 2.5 秒后，系统
+     自动播报手指数量。
+   - 将手从摄像头移开——片刻之后，系统
+     会播报"hand left the frame"。
 
    .. hint::
 
-      Try showing different numbers of fingers and holding each
-      one steady for a few seconds. You should hear each count
-      spoken automatically. Notice how the border color and
-      progress bar guide you through the process.
+      试试展示不同数量的手指，每个姿势
+      保持几秒钟。您应该会听到每个数量
+      自动播报。注意边框颜色和
+      进度条如何引导您完成整个过程。
 
-   Press ``q`` to exit the program.
+   按 ``q`` 键退出程序。
 
 
 --------------------------------------------------
-5. Complete Code
+5. 完整代码
 --------------------------------------------------
 
 .. code-block:: python
@@ -651,15 +640,14 @@ current phase:
 
 
 --------------------------------------------------
-6. Code Explanation
+6. 代码说明
 --------------------------------------------------
 
-Let's walk through the code section by section, focusing on
-what's new compared to the key-press version from
-:ref:`mp_hand_count_tts`.
+让我们逐段分析代码，重点介绍
+与 :ref:`mp_hand_count_tts` 中的按键版本相比新增的部分。
 
 --------------------------------------------------
-6.1 Imports and New Dependencies
+6.1 导入与新增依赖
 --------------------------------------------------
 
 .. code-block:: python
@@ -667,17 +655,16 @@ what's new compared to the key-press version from
    from collections import deque
    import time
 
-The key addition is ``deque`` — a double-ended queue from
-Python's ``collections`` module. It provides a fixed-size
-sliding window for stability detection: when you ``append``
-to a ``deque(maxlen=N)``, old items are automatically
-dropped, keeping only the most recent N values.
+关键的补充是 ``deque``——Python ``collections`` 模块中的
+双端队列。它为稳定性检测提供了固定大小的
+滑动窗口：当你 ``append`` 到 ``deque(maxlen=N)`` 时，
+旧项会自动丢弃，只保留最近的 N 个值。
 
-This is perfect for tracking the last 5–10 finger counts
-without manual list management.
+这对于追踪最近的 5-10 个手指数量非常完美，
+无需手动管理列表。
 
 --------------------------------------------------
-6.2 Constants and Configuration
+6.2 常量与配置
 --------------------------------------------------
 
 .. code-block:: python
@@ -694,20 +681,20 @@ without manual list management.
    COLOR_STABLE   = (0, 255, 0)       # green
    COLOR_SPEAKING = (0, 255, 0)       # bright green
 
-All timing and behavior parameters are declared as named constants
-at the top of the file. This makes the program easy to tune —
-want a longer hold time? Change ``HOLD_DURATION_REQUIRED``.
-Want less frequent announcements? Increase ``MIN_TTS_INTERVAL``.
+所有计时和行为参数都在文件顶部
+声明为命名常量。这使得程序易于调优——
+想要更长的保持时间？更改 ``HOLD_DURATION_REQUIRED``。
+想要减少播报频率？增加 ``MIN_TTS_INTERVAL``。
 
-The four border colors define a visual language:
+四种边框颜色定义了一种视觉语言：
 
-- **Gray** — idle, no hand in frame
-- **Cyan** — hand detected, but not yet stable
-- **Green** — gesture is stable and holding
-- **Bright green** — currently speaking
+- **灰色** — 空闲，画框中无手
+- **青色** — 检测到手，但尚未稳定
+- **绿色** — 手势稳定且保持中
+- **亮绿色** — 正在播报
 
 --------------------------------------------------
-6.3 HandTrackingState Class
+6.3 HandTrackingState 类
 --------------------------------------------------
 
 .. code-block:: python
@@ -727,26 +714,26 @@ The four border colors define a visual language:
 
    state = HandTrackingState()
 
-This class bundles all tracking variables into a single object.
-Each variable serves a specific role:
+这个类将所有追踪变量打包到一个对象中。
+每个变量都有特定的作用：
 
-- ``finger_history`` — sliding window of recent finger counts
-  (used by the stability detector)
-- ``current_fingers`` — the finger count for the current frame
-- ``stable_fingers`` — the last confirmed stable count that was spoken
-- ``stable_start_time`` — when the current stable period began
-- ``is_stable`` — whether the gesture is currently confirmed stable
-- ``hand_present`` — whether a hand is currently in frame
-- ``hand_absent_start_time`` — when the hand last left the frame
-- ``last_tts_time`` — timestamp of the last TTS event
-- ``last_tts_message`` — the last spoken message (to avoid repeats)
-- ``last_no_hand_tts_time`` — timestamp of last "no hand" announcement
+- ``finger_history`` — 最近手指数量的滑动窗口
+  （由稳定性检测器使用）
+- ``current_fingers`` — 当前帧的手指数量
+- ``stable_fingers`` — 上次已确认稳定并被播报的数量
+- ``stable_start_time`` — 当前稳定期开始的时间
+- ``is_stable`` — 手势当前是否已确认稳定
+- ``hand_present`` — 画框中当前是否有手
+- ``hand_absent_start_time`` — 手上次离开画框的时间
+- ``last_tts_time`` — 上次 TTS 事件的时间戳
+- ``last_tts_message`` — 上次播报的消息（避免重复）
+- ``last_no_hand_tts_time`` — 上次"无手"播报的时间戳
 
-A single ``state`` instance is created globally, so all helper
-functions can read and modify it without passing parameters.
+创建了一个全局的 ``state`` 实例，因此所有辅助函数
+都可以读取和修改它，而无需传递参数。
 
 --------------------------------------------------
-6.4 Stability Detection Function
+6.4 稳定性检测函数
 --------------------------------------------------
 
 .. code-block:: python
@@ -768,23 +755,23 @@ functions can read and modify it without passing parameters.
        state.current_fingers = new_count
        return False
 
-This function is the heart of the touchless system. Here's how it works:
+这个函数是免接触系统的核心。工作原理如下：
 
-1. **Append** the new finger count to the sliding window.
-2. **Check** if we have enough frames (at least 5).
-3. **Compare** the last 5 frames — if they all match the current
-   count, the gesture is stable.
-4. **Record** the time when stability began (``stable_start_time``)
-   — this is used by the hold-duration timer.
-5. **Return** ``True`` on the frame where stability is first
-   confirmed, ``False`` otherwise.
+1. **追加** 新的手指数量到滑动窗口。
+2. **检查** 是否有足够的帧（至少 5 帧）。
+3. **比较** 最近 5 帧——如果它们都匹配当前
+   数量，则手势稳定。
+4. **记录** 稳定性开始的时间（``stable_start_time``）
+   ——用于保持时长计时器。
+5. **返回** 首次确认稳定时的帧返回 ``True``，
+   否则返回 ``False``。
 
-The ``all(c == new_count for c in recent_counts)`` expression is
-elegant: it checks that *every* value in the window matches the
-current count. If even one frame differs, stability is broken.
+``all(c == new_count for c in recent_counts)`` 表达式很优雅：
+它检查窗口中*每个*值是否都匹配当前数量。
+即使有一帧不同，稳定性就被打破。
 
 --------------------------------------------------
-6.5 Auto TTS Trigger Logic
+6.5 自动 TTS 触发逻辑
 --------------------------------------------------
 
 .. code-block:: python
@@ -804,25 +791,25 @@ current count. If even one frame differs, stability is broken.
                return False
        return True
 
-This function acts as a **gate** — all conditions must be met
-before TTS can fire:
+这个函数充当**门控**——所有条件必须满足
+才能触发 TTS：
 
-1. **Minimum interval**: at least 4 seconds since the last TTS.
-2. **Hand present and stable**: the gesture must be confirmed stable.
-3. **Hold duration**: the user must have held the gesture for
-   at least 2.5 seconds.
-4. **Repeat guard**: the same finger count won't be spoken again
-   for 8 seconds (2× the minimum interval).
+1. **最小间隔**：距上次 TTS 至少 4 秒。
+2. **手存在且稳定**：手势必须已确认稳定。
+3. **保持时长**：用户必须保持手势
+   至少 2.5 秒。
+4. **重复防护**：相同的手指数量在 8 秒内
+   不会再次播报（2 倍最小间隔）。
 
 .. tip::
 
-   The hold duration creates a clear *intent signal* — momentary
-   gestures are ignored, but a deliberate hold triggers speech.
-   This is the key difference from the key-press approach: the
-   user's *patience* replaces the button press.
+   保持时长创建了一个清晰的*意图信号*——短暂的手势
+   被忽略，但有意识的保持触发播报。
+   这是与按键方法的关键区别：用户的*耐心*
+   替代了按钮按下。
 
 --------------------------------------------------
-6.6 Hand Exit Detection
+6.6 手部离开检测
 --------------------------------------------------
 
 .. code-block:: python
@@ -846,18 +833,18 @@ before TTS can fire:
            if now - state.last_tts_time >= MIN_TTS_INTERVAL:
                trigger_hand_exit_tts()
 
-When the hand enters or leaves the frame, the state is reset:
+当手进入或离开画框时，状态被重置：
 
-- Stability is cleared (``is_stable = False``)
-- The finger history is wiped (``history.clear()``)
-- If the hand just left, and enough time has passed since the
-  last TTS, the system says "hand left the frame"
+- 稳定性被清除（``is_stable = False``）
+- 手指历史被清空（``history.clear()``）
+- 如果手刚刚离开，且距离上次 TTS 足够时间，
+  系统会播报"hand left the frame"
 
-Resetting stability on entry and exit prevents stale state
-from carrying over between hand appearances.
+在进入和离开时重置稳定性，可防止陈旧状态
+在手部出现之间传递。
 
 --------------------------------------------------
-6.7 Multi-Color Border and Progress Bar
+6.7 多色边框与进度条
 --------------------------------------------------
 
 .. code-block:: python
@@ -884,16 +871,16 @@ from carrying over between hand appearances.
 
        return COLOR_DETECTED
 
-The border color is not just decorative — it's a real-time
-status indicator:
+边框颜色不仅起装饰作用——它是实时的
+状态指示器：
 
-- **No hand** → gray border
-- **Hand detected, not stable** → cyan border
-- **Stable, still holding** → smooth gradient from cyan to green
-  as the hold duration progresses
-- **Hold complete / speaking** → bright green border
+- **无手** → 灰色边框
+- **检测到手，不稳定** → 青色边框
+- **稳定，保持中** → 从青色到绿色的平滑渐变
+  随着保持时长推进
+- **保持完成 / 播报中** → 亮绿色边框
 
-The **progress bar** works alongside the border:
+**进度条**与边框协同工作：
 
 .. code-block:: python
 
@@ -910,111 +897,106 @@ The **progress bar** works alongside the border:
        cv2.rectangle(frame, (bar_x, bar_y), (bar_x + filled_width, bar_y + bar_height),
                     (0, 255, 0), -1)   # fill
 
-A dark gray bar (40% of frame width) sits in the top-right corner.
-A green fill sweeps across it as the hold time progresses.
-When the bar is full, TTS fires.
+一个深灰色条（画框宽度的 40%）位于右上角。
+随着保持时间的推进，绿色填充穿过它。
+当条填满时，TTS 触发。
 
-Together, the border color and progress bar give the user
-continuous feedback — they always know exactly how close they
-are to triggering speech.
-
-
------------------------------------------------------------------
-7. Extension Ideas
------------------------------------------------------------------
-
-The touchless auto-TTS pattern opens up many possibilities:
-
-- **Assistive communication** — Map specific gestures to
-  pre-recorded phrases. Hold up 1 finger for "yes", 2 for "no",
-  3 for "help". The system speaks the phrase automatically.
-
-- **Hands-free presentation control** — Hold a gesture to
-  advance slides or trigger sound effects during a talk.
-
-- **Interactive museum exhibit** — Visitors hold up fingers
-  to hear facts about numbered exhibits. No touching required.
-
-- **GPIO button integration** — Add a physical button via
-  ``fusion_hat`` GPIO that enables/disables auto-TTS mode,
-  giving the user manual control over when the system listens.
-
-- **Multi-gesture vocabulary** — Extend the stability detector
-  to recognize a sequence of gestures (e.g., 1 finger → 2 fingers
-  → 3 fingers) as a "command code" that triggers different actions.
-
-- **Combine with Face Detection** — Auto-announce when a face
-  enters or leaves the frame: "Person detected" / "Person left."
+边框颜色和进度条共同为用户提供连续的反馈——
+他们总能清楚地知道距离触发播报还有多远。
 
 
 -----------------------------------------------------------------
-8. Troubleshooting
+7. 扩展思路
 -----------------------------------------------------------------
 
-- **TTS fires too frequently or on unstable gestures**
+免接触自动 TTS 模式开启了许多可能性：
 
-  Increase ``STABLE_FRAMES_REQUIRED`` (e.g., from 5 to 8) to
-  require more frames of consistency before confirming stability.
+- **辅助通信** — 将特定手势映射到
+  预录短语。伸出 1 根手指表示"是"，2 根表示"否"，
+  3 根表示"求助"。系统自动播报短语。
 
-  Increase ``HOLD_DURATION_REQUIRED`` (e.g., from 2.5 to 3.5)
-  to require a longer hold before speaking.
+- **免提演示控制** — 保持手势以
+  在演讲中推进幻灯片或触发音效。
 
-- **TTS never fires, even when holding steady**
+- **互动博物馆展品** — 参观者伸出手指
+  即可听到编号展品的事實信息。无需触摸。
 
-  Make sure your hand is well-lit and clearly visible to the
-  camera. Check that ``min_detection_confidence`` is not set
-  too high (0.5 is a good default).
+- **GPIO 按钮集成** — 通过 ``fusion_hat`` GPIO 添加物理按钮，
+  用于启用/禁用自动 TTS 模式，
+  让用户手动控制系统何时监听。
 
-  Verify that the status text on screen shows "Ready to speak!"
-  — if it stays at "Detecting..." or the progress bar never
-  fills, the stability detector may not be confirming.
+- **多手势词汇表** — 扩展稳定性检测器
+  以识别手势序列（例如 1 根手指 → 2 根手指
+  → 3 根手指）作为触发不同动作的"命令代码"。
 
-- **"Hand left the frame" spoken at wrong times**
-
-  The exit message respects ``MIN_TTS_INTERVAL`` — it won't
-  fire if a finger-count announcement just happened. If you
-  want it to always speak, remove the ``MIN_TTS_INTERVAL``
-  check from ``trigger_hand_exit_tts()``.
-
-- **Progress bar not appearing**
-
-  The progress bar only appears when ``has_hand`` is ``True``
-  **and** ``state.is_stable`` is ``True``. If either condition
-  is false, the bar is hidden. Check the status text to
-  determine which condition is failing.
-
-- **Border color doesn't change**
-
-  Verify that ``get_border_color()`` is being called on every
-  frame and that the ``state.hand_present`` and ``state.is_stable``
-  flags are being updated correctly in the main loop.
+- **与人脸检测结合** — 当人脸进入或离开画面时
+  自动播报："Person detected" / "Person left。"
 
 
 -----------------------------------------------------------------
-9. Summary
+8. 故障排除
 -----------------------------------------------------------------
 
-- This lesson demonstrated how to **remove the keyboard trigger**
-  and build a fully touchless auto-TTS system.
-- The project uses a **state machine** (``HandTrackingState`` class)
-  to track hand presence, gesture stability, and TTS timing.
-- **Key design patterns** covered:
+- **TTS 触发太频繁或不稳定的手势也被触发**
 
-  - **Stability detection** — sliding window of finger counts
-    to confirm the user is holding a gesture steady
-  - **Hold-duration gate** — requiring 2.5 seconds of stability
-    before triggering TTS, replacing the key press with *intent*
-  - **Auto exit detection** — speaking "hand left the frame"
-    when the hand disappears
-  - **Multi-stage visual feedback** — color-coded border
-    (gray → cyan → green) plus a progress bar for real-time
-    status
-  - **State reset on hand entry/exit** — clearing history and
-    stability to prevent stale data from carrying over
+  增加 ``STABLE_FRAMES_REQUIRED``（例如从 5 改为 8），
+  以要求在确认稳定性前有更多帧的一致性。
 
-- These patterns are **project-agnostic** — you can apply the
-  state-machine + stability-detection approach to any computer
-  vision project that needs touchless interaction.
-- Combining auto-TTS with gesture recognition opens the door
-  to assistive technology, hands-free control systems, and
-  interactive installations.
+  增加 ``HOLD_DURATION_REQUIRED``（例如从 2.5 改为 3.5），
+  以要求在播报前保持更长时间。
+
+- **TTS 从不触发，即使保持稳定**
+
+  确保手部光照良好且摄像头可见。检查 ``min_detection_confidence``
+  是否设置过高（0.5 是良好的默认值）。
+
+  确认屏幕上的状态文本显示"Ready to speak!"
+  ——如果一直停留在"Detecting..."或进度条从未
+  填满，则稳定性检测器可能未确认。
+
+- **"Hand left the frame"在错误时间播报**
+
+  离开消息遵循 ``MIN_TTS_INTERVAL`` 规则——如果手指数量
+  播报刚刚发生，它不会触发。如果您希望它总是播报，
+  从 ``trigger_hand_exit_tts()`` 中移除 ``MIN_TTS_INTERVAL`` 检查。
+
+- **进度条不显示**
+
+  进度条仅在 ``has_hand`` 为 ``True`` **且** ``state.is_stable``
+  为 ``True`` 时显示。如果任一条件为假，
+  条就会被隐藏。检查状态文本以确定
+  哪个条件失败。
+
+- **边框颜色不变**
+
+  验证是否每帧都调用了 ``get_border_color()``，
+  并且 ``state.hand_present`` 和 ``state.is_stable``
+  标志在主循环中正确更新。
+
+
+-----------------------------------------------------------------
+9. 总结
+-----------------------------------------------------------------
+
+- 本节课演示了如何**移除键盘触发器**
+  并构建一个完全免接触的自动 TTS 系统。
+- 该项目使用一个**状态机**（``HandTrackingState`` 类）
+  来追踪手部存在、手势稳定性和 TTS 计时。
+- **涉及的关键设计模式：**
+
+  - **稳定性检测** — 手指数量的滑动窗口，
+    以确认用户正稳定保持手势
+  - **保持时长门控** — 在触发 TTS 前要求 2.5 秒的稳定性，
+    用*意图*替代按键
+  - **自动离开检测** — 当手消失时播报
+    "hand left the frame"
+  - **多阶段视觉反馈** — 颜色编码的边框
+    （灰色 → 青色 → 绿色）加上实时状态进度条
+  - **手部进出时状态重置** — 清除历史记录和
+    稳定性，防止陈旧数据传递
+
+- 这些模式是**项目无关的**——您可以将
+  状态机 + 稳定性检测方法应用于任何需要
+  免接触交互的计算机视觉项目。
+- 将自动 TTS 与手势识别结合，为辅助技术、
+  免提控制系统和交互式安装打开了大门。

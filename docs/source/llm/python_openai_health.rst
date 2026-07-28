@@ -4,19 +4,18 @@
 
 .. _py_ai_health_assistant:
 
-(Example) AI Health Assistant with Temperature Monitoring
-=========================================================
+（示例）带体温监测的 AI 健康助手
+================================
 
-**Introduction**
+**简介**
 
+该项目创建了一个智能的\ **AI 健康助手**\ ，将体温感应与语音交互相结合，提供个性化的健康评估。该系统集成了：
 
-This project creates an intelligent **AI Health Assistant** that combines body temperature sensing with voice interaction to provide personalized health assessments. The system integrates:
-
-1. **Thermistor-based Temperature Sensing** for accurate body temperature measurement
-2. **Speech Recognition** for understanding user symptoms and queries
-3. **AI-Powered Health Analysis** using OpenAI GPT for medical assessment
-4. **Text-to-Speech Feedback** providing audible health recommendations
-5. **Real-time Monitoring** with continuous temperature conversion
+1. **基于热敏电阻的体温感应**\ ：用于精确测量体温
+2. **语音识别**\ ：用于理解用户的症状和询问
+3. **AI 健康分析**\ ：使用 OpenAI GPT 进行医疗评估
+4. **文字转语音反馈**\ ：提供可听的健康建议
+5. **实时监测**\ ：持续的温度转换
 
 .. raw:: html
 
@@ -25,10 +24,10 @@ This project creates an intelligent **AI Health Assistant** that combines body t
           Your browser does not support the video tag.
       </video>
 
-The health assistant measures body temperature through a thermistor circuit, analyzes the reading with AI, and provides appropriate health advice based on established medical temperature ranges.
+健康助手通过热敏电阻电路测量体温，使用 AI 分析读数，并根据公认的医疗温度范围提供适当的健康建议。
 
 
-* :ref:`py_online_llm` 
+* :ref:`py_online_llm`
 * :ref:`py_stt_whisper`
 * :ref:`tts_espeak_pico2wave`
 * :ref:`py_thermistor`
@@ -36,16 +35,16 @@ The health assistant measures body temperature through a thermistor circuit, ana
 
 ----------------------------------------------
 
-**What You'll Need**
+**所需组件**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
     *   - :ref:`cpn_thermistor`
         - |link_thermistor_buy|
     *   - :ref:`cpn_resistor`
@@ -59,9 +58,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Connect the components to the Fusion HAT+ as follows:
+按以下方式将组件连接到 Fusion HAT+：
 
 .. image:: img/fzz/health_assistant_bb.png
    :width: 80%
@@ -76,9 +75,9 @@ Connect the components to the Fusion HAT+ as follows:
 
 ----------------------------------------------
 
-**Run the Example**
+**运行示例**
 
-#. Run the Code
+#. 运行代码
 
    .. raw:: html
 
@@ -89,12 +88,11 @@ Connect the components to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_health.py
 
-#. Check the Result
+#. 查看结果
 
-   When the program starts, it will prompt you to speak. It will then estimate your body
-   temperature and provide health advice.
+   程序启动后，会提示你说话。然后它会估算你的体温并提供健康建议。
 
-   Typical console output:
+   典型的控制台输出：
 
    .. code-block:: text
 
@@ -112,9 +110,9 @@ Connect the components to the Fusion HAT+ as follows:
       hydrated, and monitor your symptoms. If the fever persists or worsens, consider
       seeking medical attention.
 
-#. Example Scenarios
+#. 示例场景
 
-   * Normal Temperature (36.5°C):
+   * 正常体温（36.5°C）：
 
      .. code-block:: text
 
@@ -122,7 +120,7 @@ Connect the components to the Fusion HAT+ as follows:
         AI: "Your body temperature is 36.5°C, which is within the normal range. You're
         doing well, but continue to monitor how you feel."
 
-   * High Fever (39.2°C):
+   * 高烧（39.2°C）：
 
      .. code-block:: text
 
@@ -130,7 +128,7 @@ Connect the components to the Fusion HAT+ as follows:
         AI: "Your body temperature is 39.2°C, indicating a high fever. Please rest
         immediately, stay hydrated, and consider seeking medical advice as soon as possible."
 
-   * Low Temperature (34.2°C):
+   * 低温（34.2°C）：
 
      .. code-block:: text
 
@@ -139,17 +137,17 @@ Connect the components to the Fusion HAT+ as follows:
         hypothermia. Please warm up immediately with blankets and warm drinks."
 
 
-**Code**
+**代码**
 
-Here is the full Python script for the AI Health Assistant:
+以下是 AI 健康助手的完整 Python 脚本：
 
 .. raw:: html
 
    <run></run>
 
 .. code-block:: python
-   
-   
+
+
    from fusion_hat.llm import OpenAI
    from secret import OPENAI_API_KEY
    import time
@@ -157,30 +155,30 @@ Here is the full Python script for the AI Health Assistant:
    from fusion_hat.adc import ADC
    import math
    from fusion_hat.tts import Pico2Wave
-   
+
    # Setup Text-to-Speech and Speech-to-Text
    tts = Pico2Wave()
    tts.set_lang('en-US')
    stt = STT(language="en-us")
-   
+
    # Register OpenAI API
    # openai.com
-   
+
    # Export your openai api key with :LLM_API_KEY
    # export LLM_API_KEY=sk-xxxxxxxxxxxxxxxxx
-   
+
    # Setup ADC for thermistor reading on channel A3
    thermistor = ADC('A3')
-   
+
    # Setup LLM with health assessment instructions
    INSTRUCTIONS = '''
    You are a health assistant. Your task is to assess the user's body temperature based on the thermistor reading and provide appropriate health advice.
-   
+
    The thermistor reading represents body temperature in Celsius.
-   
+
    ### Input Format:
    "thermistor: [value], message: [user query]"
-   
+
    ### Output Guidelines:
    1. If temperature < 35.0°C, warn about hypothermia and suggest warming up.
    2. If 35.0°C ≤ temperature ≤ 37.5°C, confirm normal temperature and reassure the user.
@@ -188,174 +186,174 @@ Here is the full Python script for the AI Health Assistant:
    4. If temperature > 38.5°C, alert about high fever and recommend medical attention.
    5. Include the temperature value in your response to justify your assessment.
    6. Your reply should be brief and concise, no more than two sentences.
-   
+
    ### Example Input:
    thermistor: 39.0, message: I feel unwell.
-   
+
    ### Example Output:
    Your body temperature is 39.0°C, which indicates a high fever. Please rest, stay hydrated, and consider seeking medical advice if symptoms persist.
    '''
-   
+
    WELCOME = "Hello, I am a health assistant. Please hold your thermometer and I will assess your body temperature based on the thermistor reading. If you feel unwell, please provide your symptoms and I will provide appropriate health advice."
-   
+
    llm = OpenAI(
        api_key=OPENAI_API_KEY,
        model="gpt-4o",
    )
-   
+
    # Set how many messages to keep
    llm.set_max_messages(20)
    # Set instructions
    llm.set_instructions(INSTRUCTIONS)
    # Set welcome message
    llm.set_welcome(WELCOME)
-   
+
    print(WELCOME)
-   
+
    # Function to read and convert thermistor value to temperature
    def temperature():
        while True:
            # Read analog value (0-4095)
            analogVal = thermistor.read()
-           
+
            # Calculate voltage across thermistor
            Vr = 3.3 * float(analogVal) / 4095
-           
+
            # Check for sensor issues
            if 3.3 - Vr < 0.1:
                print("Please check the sensor")
                continue
-           
+
            # Calculate thermistor resistance
            Rt = 10000 * Vr / (3.3 - Vr)
-           
+
            # Convert resistance to temperature using Steinhart-Hart equation
            # B = 3950 (thermistor coefficient), R0 = 10000Ω at 25°C
            temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25)))
-           
+
            # Convert from Kelvin to Celsius
            Cel = temp - 273.15
-           
+
            return Cel
-   
+
    # Main loop for voice interaction
    while True:
        print("Say something")
-       
+
        # Listen for speech input
        for result in stt.listen(stream=True):
            if result["done"]:
                # Print final recognized text
                print(f"\r\x1b[Kfinal: {result['final']}")
-               
+
                # Measure temperature and combine with user query
                current_temp = temperature()
                input_text = f"thermistor: {current_temp:.1f}, message: {result['final']}"
-               
+
                # Get response from LLM with streaming
                response = llm.prompt(input_text, stream=True)
-               
+
                # Collect the full response
                string = ""
                for next_word in response:
                    if next_word:
                        print(next_word, end="", flush=True)
                        string += next_word
-               
+
                # Speak the response
                tts.say(string)
                print("")  # New line after response
-               
+
            else:
                # Print partial recognition results
                print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. Temperature Sensor Initialization
+1. 温度传感器初始化
 
-   The thermistor is connected to ADC channel A3:
-   
+   热敏电阻连接到 ADC 通道 A3：
+
    .. code-block:: python
-   
+
       thermistor = ADC('A3')
-      
-   This reads analog values from 0-4095 representing voltage levels.
 
-2. Steinhart-Hart Temperature Conversion
+   这读取 0-4095 的模拟值，代表电压水平。
 
-   The thermistor uses the Steinhart-Hart equation for accurate temperature calculation:
-   
+2. Steinhart-Hart 温度转换
+
+   热敏电阻使用 Steinhart-Hart 方程进行精确的温度计算：
+
    .. code-block:: python
-   
+
       # Read analog value (0-4095)
       analogVal = thermistor.read()
-      
+
       # Convert to voltage (0-3.3V)
       Vr = 3.3 * float(analogVal) / 4095
-      
+
       # Calculate thermistor resistance using voltage divider formula
       Rt = 10000 * Vr / (3.3 - Vr)
-      
+
       # Steinhart-Hart equation: 1/T = 1/T0 + 1/B * ln(R/R0)
       temp = 1 / (((math.log(Rt / 10000)) / 3950) + (1 / (273.15 + 25)))
-      
+
       # Convert Kelvin to Celsius
       Cel = temp - 273.15
 
-3. Sensor Error Checking
+3. 传感器错误检查
 
-   The code includes basic error detection:
-   
+   代码包含基本的错误检测：
+
    .. code-block:: python
-   
+
       if 3.3 - Vr < 0.1:
           print("Please check the sensor")
           continue
-      
-   This detects if the thermistor is disconnected or shorted.
 
-4. Speech Recognition Setup
+   这检测热敏电阻是否断开或短路。
 
-   Both STT and TTS are configured for English:
-   
+4. 语音识别设置
+
+   STT 和 TTS 都配置为英语：
+
    .. code-block:: python
-   
+
       tts = Pico2Wave()
       tts.set_lang('en-US')
       stt = STT(language="en-us")
 
-5. Contextual Input Construction
+5. 上下文输入构建
 
-   Temperature data is combined with user query:
-   
+   温度数据与用户查询结合：
+
    .. code-block:: python
-   
+
       current_temp = temperature()
       input_text = f"thermistor: {current_temp:.1f}, message: {result['final']}"
-      
-   Format: ``"thermistor: 37.2, message: I feel dizzy"``
 
-6. Medical Classification Logic
+   格式：\ ``"thermistor: 37.2, message: I feel dizzy"``
 
-   The AI instructions define temperature ranges:
-   
+6. 医疗分类逻辑
+
+   AI 指令定义了温度范围：
+
    .. code-block:: python
-   
+
       # Temperature ranges for medical assessment:
       # < 35.0°C: Hypothermia warning
       # 35.0-37.5°C: Normal range
       # 37.5-38.5°C: Mild fever
       # > 38.5°C: High fever
 
-7. Real-time Speech Processing
+7. 实时语音处理
 
-   The system shows partial recognition results:
-   
+   系统显示部分识别结果：
+
    .. code-block:: python
-   
+
       for result in stt.listen(stream=True):
           if result["done"]:
               # Final recognition
@@ -364,118 +362,118 @@ Here is the full Python script for the AI Health Assistant:
               # Partial recognition
               print(f"partial: {result['partial']}", end="", flush=True)
 
-8. Streaming AI Response
+8. 流式 AI 回复
 
-   AI response is streamed and spoken simultaneously:
-   
+   AI 回复被流式接收并同时朗读：
+
    .. code-block:: python
-   
+
       response = llm.prompt(input_text, stream=True)
       string = ""
-      
+
       for next_word in response:
           if next_word:
               print(next_word, end="", flush=True)
               string += next_word
-      
+
       tts.say(string)  # Speak complete response
 
-9. Temperature Formatting
+9. 温度格式化
 
-   Temperature is formatted to one decimal place:
-   
+   温度保留一位小数：
+
    .. code-block:: python
-   
+
       f"thermistor: {current_temp:.1f}"
-      
-   This ensures consistent precision (e.g., 36.5°C instead of 36.512345°C).
 
-10. Clear Console Display
+   这确保了一致的精度（例如，36.5°C 而不是 36.512345°C）。
 
-    Uses ANSI escape codes for clean output:
-    
+10. 清晰的终端显示
+
+    使用 ANSI 转义码实现干净的输出：
+
     .. code-block:: python
-    
+
         print(f"\r\x1b[Kpartial: {result['partial']}", end="", flush=True)
-        
-    - ``\r``: Return to start of line
-    - ``\x1b[K``: Clear to end of line
-    - Prevents overlapping text during streaming
+
+    - ``\r``：回到行首
+    - ``\x1b[K``：清除到行尾
+    - 防止流式输出时文字重叠
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- Temperature readings inaccurate
+- 温度读数不准确
 
-  - Check thermistor wiring: proper voltage divider configuration
-  - Verify resistor value: should match thermistor's nominal resistance
-  - Calibrate with known temperature source
-  - Check ADC reference voltage (should be 3.3V stable)
+  - 检查热敏电阻接线：正确的分压器配置
+  - 验证电阻值：应与热敏电阻的标称电阻匹配
+  - 使用已知温度源进行校准
+  - 检查 ADC 参考电压（应为稳定的 3.3V）
 
-- No speech recognition
+- 语音识别无响应
 
-  - Test microphone: ``arecord --duration=3 test.wav && aplay test.wav``
-  - Check audio device selection in STT initialization
-  - Ensure background noise is minimal
-  - Speak clearly and at moderate pace
+  - 测试麦克风：\ ``arecord --duration=3 test.wav && aplay test.wav``
+  - 检查 STT 初始化中的音频设备选择
+  - 确保背景噪音最小
+  - 清晰并以适中的语速说话
 
-- AI not responding
+- AI 无响应
 
-  - Check internet connection
-  - Verify OpenAI API key in ``secret.py``
-  - Ensure billing is enabled on OpenAI account
-  - Check if API rate limits are exceeded
+  - 检查网络连接
+  - 验证 ``secret.py``\ 中的 OpenAI API 密钥
+  - 确保 OpenAI 账户已启用计费
+  - 检查是否超过 API 速率限制
 
-- Temperature jumps erratically
+- 温度读数跳动异常
 
-  - Add software filtering: moving average of readings
-  - Check for loose connections
-  - Add capacitor (0.1µF) across thermistor for noise reduction
-  - Ensure thermistor is making good thermal contact
+  - 添加软件滤波：读取值的移动平均
+  - 检查是否有松动连接
+  - 在热敏电阻两端并联电容（0.1µF）以减少噪声
+  - 确保热敏电阻良好接触热源
 
-- Text-to-speech not working
+- 文字转语音不工作
 
-  - Test audio output: ``speaker-test -t sine -f 440``
-  - Verify language setting: ``tts.set_lang('en-US')``
-  - Check volume: ``alsamixer``
-  - Re-execute the audio setup script: ``sudo /opt/setup_fusion_hat_audio.sh``
+  - 测试音频输出：\ ``speaker-test -t sine -f 440``
+  - 验证语言设置：\ ``tts.set_lang('en-US')``
+  - 检查音量：\ ``alsamixer``
+  - 重新运行音频设置脚本：\ ``sudo /opt/setup_fusion_hat_audio.sh``
 
-- Sensor reading shows 0 or 4095
+- 传感器读数为 0 或 4095
 
-  - Check wiring: thermistor may be shorted (0) or open (4095)
-  - Verify voltage divider calculation
-  - Test ADC with known voltage source
-  - Check ADC channel (should be A3)
+  - 检查接线：热敏电阻可能短路（0）或开路（4095）
+  - 验证分压器计算
+  - 使用已知电压源测试 ADC
+  - 检查 ADC 通道（应为 A3）
 
-**Safety and Medical Disclaimer**
+**安全与医疗免责声明**
 
 .. warning::
 
-   This project is for educational and demonstration purposes only.  
-   It is **NOT** a medical device and must **NOT** be used for real medical diagnosis or treatment.
+   本项目仅用于教育和演示目的。
+   它\ **不是**\ 医疗设备，\ **不得**\ 用于真实的医疗诊断或治疗。
 
-#. Safety guidelines
+#. 安全指南
 
-   * Not for medical use: Do not rely on this system for any health or treatment decisions.
-   * Emergency situations: Always seek professional medical help for serious symptoms.
-   * Accuracy limitations: Thermistor accuracy is limited compared to medical thermometers.
-   * Calibration required: Regular calibration against a medical thermometer is essential.
-   * Supervision needed: Adult supervision is recommended when used for educational purposes.
+   * 非医疗用途：请勿依赖本系统做出任何健康或治疗决定。
+   * 紧急情况：对于严重症状，请务必寻求专业医疗帮助。
+   * 精度限制：与医用温度计相比，热敏电阻的精度有限。
+   * 需要校准：定期使用医用温度计进行校准至关重要。
+   * 需要监督：用于教育目的时，建议有成人监督。
 
-#. When to seek medical attention
+#. 何时寻求医疗帮助
 
-   Seek professional medical help if any of the following occur:
+   如果出现以下任何情况，请寻求专业医疗帮助：
 
-   * Temperature > 39.5°C (103.1°F) in adults
-   * Temperature > 38.0°C (100.4°F) in infants under 3 months
-   * Fever lasting more than 3 days
-   * Difficulty breathing or chest pain
-   * Severe headache or stiff neck
-   * Confusion or seizures
+   * 成人体温 > 39.5°C（103.1°F）
+   * 3 个月以下婴儿体温 > 38.0°C（100.4°F）
+   * 发烧持续超过 3 天
+   * 呼吸困难或胸痛
+   * 剧烈头痛或脖子僵硬
+   * 意识模糊或惊厥
 
 
 
 ----------------------------------------------
 
-This AI Health Assistant demonstrates how sensor technology, voice interaction, and artificial intelligence can work together to create accessible health monitoring tools, while emphasizing the importance of professional medical consultation for serious health concerns!
+这个 AI 健康助手展示了传感器技术、语音交互和人工智能如何协同工作，创建便捷的健康监测工具，同时强调了在严重健康问题中咨询专业医务人员的重要性！

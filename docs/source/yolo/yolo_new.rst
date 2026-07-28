@@ -2,30 +2,30 @@
    :start-after: start_hello_message
    :end-before: end_hello_message
 
-1. Run YOLO on Raspberry Pi
+1. 在Raspberry Pi上运行YOLO
 ==============================================================
 
-YOLO (You Only Look Once) is a revolutionary object detection algorithm characterized by its speed and accuracy. It transforms object detection into a regression problem, predicting all object categories and locations in an image through a single neural network forward pass.
+YOLO（You Only Look Once）是一种革命性的目标检测算法，以其速度和准确性著称。它将目标检测转化为回归问题，通过单次神经网络前向传播即可预测图像中所有物体的类别和位置。
 
-Think of it as a vision system that can "see everything at a glance." Whether it's video surveillance, autonomous driving, or industrial quality inspection, YOLO can be found wherever real-time object detection is needed.
+可以将其想象为一个能够"一眼看尽所有"的视觉系统。无论是视频监控、自动驾驶还是工业质检，只要需要实时目标检测，都能看到YOLO的身影。
 
 .. image:: img/yolo_new.png
 
-Figure: YOLOv8n running in real-time on Raspberry Pi. Objects in the camera feed are accurately detected and annotated, with detected classes and confidence scores displayed on the left. This image shows the model successfully identifying objects such as a person, chair, and TV.
+图示：YOLOv8n在Raspberry Pi上实时运行。摄像头画面中的物体被准确检测并标注，左侧显示检测到的类别和置信度分数。本图展示模型成功识别了人、椅子和电视等物体。
 
-Core Principles
+核心原理
 ------------------------------------------
 
-Unlike earlier two-stage methods (such as R-CNN) that "first find candidate regions and then identify them," YOLO adopts a fundamentally different approach:
+与早期两阶段方法（如R-CNN）"先找候选区域再识别"不同，YOLO采用了一种根本不同的方法：
 
-* **Unified Framework**: Divides the image into a grid (e.g., the original 7x7 grid).
+* **统一框架**：将图像划分为网格（例如原始的7x7网格）。
 
-* **Grid Prediction**: Each grid cell is responsible for predicting objects whose center falls within that cell. Each grid predicts multiple bounding boxes (including position and size) along with their confidence scores, while also predicting object class probabilities.
+* **网格预测**：每个网格单元负责预测中心落在该单元内的物体。每个网格预测多个边界框（包括位置和大小）及其置信度分数，同时预测物体类别概率。
 
-* **One-Stage Completion**: Classification and localization are accomplished simultaneously within the same neural network, truly achieving "you only look once," thus significantly outperforming previous methods in speed.
+* **一步完成**：分类和定位在同一神经网络中同时完成，真正实现"只看一次"，因此在速度上远超此前的方法。
 
 
-Running the Code
+运行代码
 ------------------------------------
 
 .. code-block:: bash
@@ -33,9 +33,9 @@ Running the Code
    cd ~/ai-lab-kit/yolo
    python3 yolo_test.py
 
-The code will automatically download a model (approximately 6MB) and run it on the camera. The results will be displayed in a window with a title of "YOLOv8".
+代码将自动下载模型（约6MB）并在摄像头上运行，结果将在一个标题为"YOLOv8"的窗口中显示。
 
-(the first run will automatically download an approximately 6MB model):
+（首次运行将自动下载约6MB的模型）：
 
 .. code-block:: python
 
@@ -59,16 +59,16 @@ The code will automatically download a model (approximately 6MB) and run it on t
       while True:
          # capture frame
          frame = picam2.capture_array()
-         
+
          # run YOLO and set imgsz=320
          results = model(frame, imgsz=320)
-         
+
          # draw results
          annotated = results[0].plot()
-         
+
          # show results
          cv2.imshow("YOLO on Raspberry Pi", annotated)
-         
+
          # press 'q' to exit
          if cv2.waitKey(1) & 0xFF == ord('q'):
                break
@@ -79,42 +79,42 @@ The code will automatically download a model (approximately 6MB) and run it on t
 
 
 
-Troubleshooting
+故障排除
 ---------------
 
-Q: If encountering Numpy.dtype size changed error
+问：遇到Numpy.dtype size changed错误
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Downgrade the Numpy version:
+降级Numpy版本：
 
 .. code-block:: bash
 
    # If version is 2.x, downgrade to 1.x
    pip3 install "numpy<2.0" --break-system-packages --force-reinstall
 
-Q: If encountering ``libopenblas.so.0`` missing error
+问：遇到\ ``libopenblas.so.0``\ 缺失错误
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Install the OpenBLAS library:
+安装OpenBLAS库：
 
 .. code-block:: bash
 
    sudo apt install libopenblas-dev
 
-Q: If the camera cannot be opened
+问：无法打开摄像头
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Check the camera connection and ensure it is enabled:
+检查摄像头连接并确保已启用：
 
 .. code-block:: bash
 
    sudo raspi-config
    # Select Interface Options -> Camera -> Enable
 
-Q: If encountering out-of-memory errors
+问：遇到内存不足错误
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Increase swap space:
+增加交换空间：
 
 .. code-block:: bash
 
@@ -124,88 +124,88 @@ Increase swap space:
    sudo dphys-swapfile setup
    sudo dphys-swapfile swapon
 
-Performance Optimization Methods
+性能优化方法
 --------------------------------------------------------
 
-Running YOLO on a Raspberry Pi (even 4B/5) can be demanding. Here are several proven optimization methods:
+在Raspberry Pi（即使是4B/5）上运行YOLO可能会有较大负担。以下是几种经过验证的优化方法：
 
-1. **Adjust YOLO Inference Resolution**: The code above already uses imgsz=320, which is a balanced setting. Adjustable values:
+1. **调整YOLO推理分辨率**：上述代码已使用imgsz=320，这是一个平衡的设置。可调值：
 
-   * ``imgsz=224`` - Lowest resolution, fastest speed
-   * ``imgsz=320`` - Standard choice
-   * ``imgsz=416`` - Higher accuracy, slower speed
-   * ``imgsz=640`` - Highest accuracy, very slow on Raspberry Pi
+   * ``imgsz=224`` - 最低分辨率，最快速度
+   * ``imgsz=320`` - 标准选择
+   * ``imgsz=416`` - 更高精度，较慢速度
+   * ``imgsz=640`` - 最高精度，在Raspberry Pi上非常慢
 
-2. **Choose the Right Model**:
+2. **选择合适的模型**：
 
-   * ``yolov8n.pt`` (6MB) - Fastest, suitable for real-time detection
-   * ``yolov8s.pt`` (22MB) - Slightly slower but more accurate
-   * ``yolov8m.pt`` (49MB) - Slower, higher accuracy
-   * ``yolov8l/x.pt`` - Generally unusable on Raspberry Pi
-   * You can also use your own trained model, e.g., ``"/home/pi/my_model.pt"``. We'll cover how to train custom models in later chapters.
+   * ``yolov8n.pt`` (6MB) - 最快，适合实时检测
+   * ``yolov8s.pt`` (22MB) - 稍慢但更精确
+   * ``yolov8m.pt`` (49MB) - 更慢，精度更高
+   * ``yolov8l/x.pt`` - 通常在Raspberry Pi上无法使用
+   * 也可以使用自己训练的模型，例如\ ``"/home/pi/my_model.pt"``。我们将在后续章节介绍如何训练自定义模型。
 
-3. **Limit Detection Classes**: If only detecting specific objects (e.g., only people), modify the code:
+3. **限制检测类别**：如果只检测特定物体（例如只检测人），修改代码：
 
 .. code-block:: python
 
    results = model(frame, classes=[0], imgsz=320)  # 0 is the class ID for person
 
-Common class IDs:
+常见类别ID：
 
-   * 0 - person
-   * 1 - bicycle
-   * 2 - car
-   * 3 - motorcycle
-   * 5 - bus
-   * 7 - truck
+   * 0 - person（人）
+   * 1 - bicycle（自行车）
+   * 2 - car（汽车）
+   * 3 - motorcycle（摩托车）
+   * 5 - bus（公交车）
+   * 7 - truck（卡车）
 
-4. **Use Lightweight Model Variants**:
+4. **使用轻量级模型变体**：
 
 .. code-block:: python
 
    # Use pruned version of YOLOv8n (if available)
    model = YOLO("yolov8n.pt")
-   
+
    # Or use TensorRT acceleration (requires additional configuration)
    # model = YOLO("yolov8n.pt")
    # model.export(format="engine")  # Export as TensorRT engine
 
-5. **Reduce Frame Processing**: If real-time display of all frames isn't needed, process frames intermittently:
+5. **减少帧处理频率**：如果不需要实时显示所有帧，可以间歇处理：
 
 .. code-block:: python
 
    frame_count = 0
    while True:
        frame = picam2.capture_array()
-       
+
        # Process every 3rd frame
        if frame_count % 3 == 0:
            results = model(frame, imgsz=320)
            annotated = results[0].plot()
            cv2.imshow("YOLO on Raspberry Pi", annotated)
-       
+
        frame_count += 1
-       
+
        if cv2.waitKey(1) & 0xFF == ord('q'):
            break
 
-6. **Use Multi-threading**: Separate camera capture and YOLO inference into different threads:
+6. **使用多线程**：将摄像头捕获和YOLO推理分到不同线程：
 
 .. code-block:: python
 
    import threading
    import queue
-   
+
    frame_queue = queue.Queue(maxsize=2)
    result_queue = queue.Queue(maxsize=2)
-   
+
    def capture_frames():
        while True:
            frame = picam2.capture_array()
            if frame_queue.full():
                frame_queue.get()
            frame_queue.put(frame)
-   
+
    def process_frames():
        while True:
            frame = frame_queue.get()
@@ -214,54 +214,54 @@ Common class IDs:
            if result_queue.full():
                result_queue.get()
            result_queue.put(annotated)
-   
+
    # Start threads
    threading.Thread(target=capture_frames, daemon=True).start()
    threading.Thread(target=process_frames, daemon=True).start()
-   
+
    while True:
        if not result_queue.empty():
            cv2.imshow("YOLO on Raspberry Pi", result_queue.get())
        if cv2.waitKey(1) & 0xFF == ord('q'):
            break
 
-Advanced Usage
+高级用法
 --------------------------------
 
-Using Video Files as Input
+使用视频文件作为输入
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
    import cv2
    from ultralytics import YOLO
-   
+
    model = YOLO("yolov8n.pt")
    cap = cv2.VideoCapture("input_video.mp4")
-   
+
    while cap.isOpened():
        ret, frame = cap.read()
        if not ret:
            break
-       
+
        results = model(frame, imgsz=320)
        annotated = results[0].plot()
        cv2.imshow("YOLO Detection", annotated)
-       
+
        if cv2.waitKey(1) & 0xFF == ord('q'):
            break
-   
+
    cap.release()
    cv2.destroyAllWindows()
 
-Summary
+总结
 ------------------
 
-Through this tutorial, you have learned:
+通过本教程，您已学会：
 
-* How to set up the YOLO environment on Raspberry Pi
-* How to perform real-time object detection using the camera
-* How to resolve common installation and runtime issues
-* Various methods to optimize detection performance
+* 如何在Raspberry Pi上搭建YOLO环境
+* 如何使用摄像头进行实时目标检测
+* 如何解决常见的安装和运行问题
+* 多种优化检测性能的方法
 
-The power of YOLO lies in its simplicity and efficiency, enabling respectable object detection performance even on embedded devices like the Raspberry Pi. Continue exploring, and you can build various interesting applications such as smart surveillance, object tracking, and people counting.
+YOLO的优势在于其简洁和高效，即使在Raspberry Pi这样的嵌入式设备上也能实现可观的目标检测性能。继续探索，您可以构建各种有趣的应用，如智能监控、物体追踪和人员计数。

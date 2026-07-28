@@ -4,102 +4,99 @@
 
 .. _mp_face_emotion:
 
-2. Emotion Detection
-==========================================
+2. 情绪检测
+=======================================
 
 -----------------------------
-1. Overview
+1. 概述
 -----------------------------
 
-In this section, we extend Face Mesh detection to perform
-basic emotion recognition.
+在本节中，我们将扩展 Face Mesh 检测，实现基本的情绪识别。
 
-Instead of using deep learning models, this method uses
-facial landmark geometry (eyes and mouth ratios) to classify
-expressions in real time.
+该方法不使用深度学习模型，而是利用面部关键点几何特征（眼睛和嘴部比例）实时对表情进行分类。
 
 .. image:: img/mp_face_emotion_happy.png
    :align: center
 
-Recognizable emotions:
+可识别的情绪：
 
-- 😮 Surprised
-- 😀 Happy
-- 😢 Sad
-- 😠 Angry
-- 😐 Neutral
+- 😮 惊讶
+- 😀 开心
+- 😢 悲伤
+- 😠 生气
+- 😐 中性
 
 -----------------------------
-2. How it Works
+2. 工作原理
 -----------------------------
 
-The program follows these steps:
+程序按以下步骤执行：
 
-1. Use ``Picamera2`` + ``MediaPipe FaceMesh`` to obtain 468 landmarks.
-2. Select key feature points around the eyes and mouth.
-3. Calculate normalized ratios:
-   
-   - Eye openness
-   - Mouth width
-   - Mouth openness
+1. 使用 ``Picamera2`` + ``MediaPipe FaceMesh`` 获取 468 个关键点。
+2. 选择眼睛和嘴部周围的关键特征点。
+3. 计算归一化比例：
 
-4. Compare values with preset thresholds.
-5. Display the detected emotion using OpenCV.
+   - 眼睛睁开度
+   - 嘴部宽度
+   - 嘴部张开度
 
-Advantages of this approach:
+4. 将数值与预设阈值进行比较。
+5. 使用 OpenCV 显示检测到的情绪。
 
-- Fast and lightweight (suitable for Raspberry Pi)
-- No neural network required
-- Easy to adjust thresholds
+这种方法的优势：
+
+- 快速且轻量（适用于 Raspberry Pi）
+- 无需神经网络
+- 易于调整阈值
 
 ------------------------
-3. Run the Code
+3. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
         sudo python3 ~/ai-lab-kit/mediapipe/mp_face_emotion.py
-#. After running the program, a video window opens and displays the live camera feed.
+#. 运行程序后，将打开一个视频窗口并显示实时摄像头画面。
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_2.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
 
-   When a face appears in front of the camera, the system:
-   
-   - Detects 468 facial landmarks in real time  
-   - Calculates eye openness and mouth openness ratios  
-   - Classifies the current facial expression  
-   
-   The detected emotion label (such as ``Happy``, ``Surprised``, ``Sad``, ``Angry`` or ``Neutral``) is displayed on the video screen.
-   
-   As the user changes facial expressions, the emotion label updates instantly.
-   
-   If no face is detected, the program continues showing the normal camera feed without an emotion label.
-   
-   Press ``q`` to exit the program. The camera will stop and the OpenCV window will close automatically.
+   当摄像头前出现人脸时，系统会：
+
+   - 实时检测 468 个面部关键点
+   - 计算眼睛睁开度和嘴部张开度比例
+   - 对当前面部表情进行分类
+
+   检测到的情绪标签（如 ``Happy``、``Surprised``、``Sad``、``Angry`` 或 ``Neutral``）会显示在视频画面上。
+
+   当用户改变面部表情时，情绪标签会实时更新。
+
+   如果未检测到人脸，程序将继续显示正常的摄像头画面，不显示情绪标签。
+
+   按 ``q`` 键退出程序。摄像头将停止，OpenCV 窗口将自动关闭。
 
 
 -----------------------------
-4. Complete Code
+4. 完整代码
 -----------------------------
 
 .. code-block:: python
@@ -213,13 +210,13 @@ Advantages of this approach:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running, the recognized emotion category will be displayed in real-time on the camera feed, along with debug information including mouth width, mouth openness, eye openness, etc.
+运行后，摄像头画面上将实时显示识别的情绪类别，以及包括嘴部宽度、嘴部张开度、眼睛睁开度等调试信息。
 
 -----------------------------
-5. Key Steps Explanation
+5. 关键步骤说明
 -----------------------------
 
-#. Select key points
+#. 选择关键点
 
    .. code-block:: python
 
@@ -230,22 +227,21 @@ After running, the recognized emotion category will be displayed in real-time on
       MOUTH_LEFT, MOUTH_RIGHT = 61, 291
       LIP_UP, LIP_DOWN = 13, 14
 
-   These indices correspond to:
+   这些索引对应：
 
-   - 159, 145 → Upper and lower edges of the left eye
-   - 386, 374 → Upper and lower edges of the right eye
-   - 33, 263 → Eye centers (used for normalization)
-   - 61, 291 → Mouth corners
-   - 13, 14 → Upper and lower lip midpoints
+   - 159, 145 → 左眼上下边缘
+   - 386, 374 → 右眼上下边缘
+   - 33, 263 → 眼睛中心（用于归一化）
+   - 61, 291 → 嘴角
+   - 13, 14 → 上下唇中点
 
    .. image:: img/mp_face_point.jpg
       :align: center
 
-#. Normalize distances
+#. 归一化距离
 
-   To reduce the influence of camera distance,
-   use the distance between the two eye centers
-   as the normalization scale.
+   为了减少摄像头距离的影响，
+   使用两眼中心之间的距离作为归一化尺度。
 
    .. code-block:: python
 
@@ -260,7 +256,7 @@ After running, the recognized emotion category will be displayed in real-time on
           landmarks[R_EYE_CENTER]
       )
 
-#. Calculate geometric features
+#. 计算几何特征
 
    .. code-block:: python
 
@@ -286,13 +282,13 @@ After running, the recognized emotion category will be displayed in real-time on
 
       eye_open = 0.5 * (eye_open_L + eye_open_R)
 
-   Calculated features:
+   计算出的特征：
 
-   - ``mouth_width`` → Horizontal mouth width
-   - ``mouth_open`` → Vertical mouth opening
-   - ``eye_open`` → Average eye openness
+   - ``mouth_width`` → 嘴部水平宽度
+   - ``mouth_open`` → 嘴部垂直张开度
+   - ``eye_open`` → 平均眼睛睁开度
 
-#. Classify emotion using thresholds
+#. 使用阈值分类情绪
 
    .. code-block:: python
 
@@ -307,44 +303,44 @@ After running, the recognized emotion category will be displayed in real-time on
       else:
           label = "Neutral"
 
-   Emotion rules (empirical thresholds):
+   情绪规则（经验阈值）：
 
-   - Surprised → Mouth and eyes are wide open
-   - Happy → Mouth wide, eyes normal
-   - Sad / Angry → Mouth and eyes mostly closed
-   - Neutral → Does not match other conditions
+   - 惊讶 → 嘴和眼睛都睁大
+   - 开心 → 嘴张宽，眼睛正常
+   - 悲伤 / 生气 → 嘴和眼睛基本闭合
+   - 中性 → 不匹配其他条件
 
 -----------------------------------------------------
-6. Threshold and Robustness Adjustment
+6. 阈值和鲁棒性调整
 -----------------------------------------------------
 
-- Thresholds like ``0.08``, ``0.035``, ``0.018`` are based on empirical values at 640×480 resolution.
-- If the camera is closer or the resolution is different, adjust the thresholds using the debug information (mw/mo/eo).
-- Emotion judgment logic can be modified to be more complex or use trained models for higher accuracy, such as calculating the relative position of mouth corners, mouth shape, and other features.
+- 像 ``0.08``、``0.035``、``0.018`` 这样的阈值基于 640×480 分辨率的经验值。
+- 如果摄像头距离不同或分辨率不同，请使用调试信息（mw/mo/eo）调整阈值。
+- 情绪判断逻辑可以修改得更复杂，或使用训练好的模型以获得更高精度，例如计算嘴角相对位置、嘴部形状等特征。
 
 ------------------------------------------------------------
-7. Troubleshooting
+7. 故障排除
 ------------------------------------------------------------
 
-- Emotion recognition not sensitive
+- 情绪识别不灵敏
 
-  Thresholds may not match the current camera distance.  
-  Adjust ``mouth_open`` and ``eye_open`` values.
+  阈值可能与当前摄像头距离不匹配。
+  调整 ``mouth_open`` 和 ``eye_open`` 的值。
 
-- Detection latency
+- 检测延迟
 
-  Resolution may be too high.  
-  Reduce resolution or disable ``refine_landmarks``.
+  分辨率可能过高。
+  降低分辨率或禁用 ``refine_landmarks``。
 
-- Cannot recognize emotion
+- 无法识别情绪
 
-  Lighting may be insufficient or the face angle is skewed.  
-  Improve lighting and face the camera directly.
+  光照可能不足或面部角度偏斜。
+  改善光照条件并正对摄像头。
 
 -----------------------------
-8.  Summary
+8. 总结
 -----------------------------
 
-- This chapter implemented lightweight emotion recognition based on **geometric features + FaceMesh landmarks**.
-- Offers advantages of **high real-time performance** and **adjustable thresholds**.
-- Can be used in projects like interactive art, HCI, classroom/meeting state detection.
+- 本章实现了基于 **几何特征 + FaceMesh 关键点** 的轻量级情绪识别。
+- 具有 **高实时性** 和 **可调阈值** 的优势。
+- 可用于互动艺术、人机交互、课堂/会议状态检测等项目。

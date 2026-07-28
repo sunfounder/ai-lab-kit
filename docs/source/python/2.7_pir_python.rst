@@ -4,34 +4,34 @@
 
 .. _py_pir:
 
-2.7 PIR Sensor
-=================
+2.7 PIR传感器
+==============
 
-**Introduction**
+**介绍**
 
-The Passive Infrared (PIR) sensor is a motion detection device that senses infrared radiation emitted by humans and animals. In this project, we will use the PIR sensor to detect motion.
+被动红外（PIR）传感器是一种运动检测设备，可以感知人体和动物发出的红外辐射。在本项目中，我们将使用PIR传感器检测运动。
 
 
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-Below are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_pir`
         - |link_pir_buy|
     *   - :ref:`cpn_wires`
-        - |link_wires_buy|        
+        - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -39,9 +39,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**电路图**
 
-Below is the schematic diagram for this project:
+以下是本项目的电路原理图：
 
 .. image:: img/fzz/2.2.6_sch.png
 
@@ -49,19 +49,19 @@ Below is the schematic diagram for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**接线图**
 
-Build the circuit as shown in the diagram below:
+按下图所示搭建电路：
 
 .. image:: img/fzz/2.2.6_bb.png
    :width: 80%
    :align: center
 
-Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per the schematic.
+确保RGB LED和PIR传感器按照原理图连接到正确的GPIO引脚。
 
 .. note::
 
-   Adjust the two potentiometers on the PIR module for optimal sensitivity and detection distance. Turn both counterclockwise to their maximum setting for best results.
+   调节PIR模块上的两个电位器以获得最佳灵敏度和检测距离。将两个电位器都逆时针调到最大以获得最佳效果。
 
 .. image:: ../python/img/PIR_TTE.png
    :width: 200
@@ -69,11 +69,11 @@ Ensure the RGB LED and PIR sensor are connected to the correct GPIO pins as per 
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -81,25 +81,25 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.7_PIR.py
 
-This Python script monitors a PIR (Passive Infrared) motion sensor based on motion detection. When executed:
+此Python脚本基于运动检测监测PIR（被动红外）运动传感器。执行时：
 
-1. **When Motion is Detected**: Prints "Detected Barrier!" to the console.
+1. **检测到运动时**：在控制台打印"Detected Barrier!"。
 
-2. **When No Motion is Detected**: Prints "No Barrier" to the console.
+2. **未检测到运动时**：在控制台打印"No Barrier"。
 
-3. The program runs indefinitely, waiting for motion events. It can be terminated by pressing Ctrl+C.
+3. 程序无限运行，等待运动事件。可通过按Ctrl+C终止。
 
 
 ----------------------------------------------
 
 
-**Code**
+**代码**
 
-Below is the Python code for this project:
+以下是本项目的Python代码：
 
 
 .. raw:: html
@@ -123,7 +123,7 @@ Below is the Python code for this project:
 
    try:
       pir.when_activated = detect  # Set up an interrupt to detect changes in the pir sensor state
-      pir.when_deactivated = detect  
+      pir.when_deactivated = detect
 
       # Run an event loop that waits for button events and keeps the script running
       print("CTRL + C to exit")
@@ -136,28 +136,28 @@ Below is the Python code for this project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports:**
+1. **导入：**
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
       from signal import pause  # Import pause function from signal module
 
-   The script uses the ``fusion_hat`` library to control the PIR sensor, and the ``signal`` module to handle program termination.
+   脚本使用\ ``fusion_hat``\ 库控制PIR传感器，使用\ ``signal``\ 模块处理程序终止。
 
 
-2. **Initialization:**
+2. **初始化：**
 
    .. code-block:: python
 
       pir = Pin(17, mode=Mode.IN, pull=Pull.DOWN)
 
-   In this line, a PIR sensor is initialized on pin 17 with an internal pull-down resistor enabled.
+   在这一行中，PIR传感器在引脚17上初始化，并启用了内部下拉电阻。
 
 
-3. **Main Loop:**
+3. **主循环：**
 
    .. code-block:: python
 
@@ -169,7 +169,7 @@ Below is the Python code for this project:
 
       try:
          pir.when_activated = detect  # Set up an interrupt to detect changes in the pir sensor state
-         pir.when_deactivated = detect  
+         pir.when_deactivated = detect
 
          # Run an event loop that waits for button events and keeps the script running
          print("CTRL + C to exit")
@@ -180,30 +180,30 @@ Below is the Python code for this project:
          pass
 
 
-   * Continuously checks for motion detected by the PIR sensor.
-   * If motion is detected, the message "Detected Barrier!" is printed.
-   * If no motion is detected, the message "No Barrier" is printed.
+   * 持续检查PIR传感器检测到的运动。
+   * 如果检测到运动，打印消息"Detected Barrier!"。
+   * 如果未检测到运动，打印消息"No Barrier"。
 
 
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
 
-1. **Motion Not Detected**:
+1. **未检测到运动**：
 
-   - **Cause**: PIR sensor is not wired or configured properly.
-   - **Solution**:
+   - **原因**：PIR传感器接线或配置不正确。
+   - **解决方案**：
 
-     - Ensure the PIR sensor is connected to GPIO pin 17, power, and ground.
-     - Adjust the sensor’s sensitivity and delay potentiometers if available.
+     - 确保PIR传感器连接到GPIO 17引脚、电源和地。
+     - 如果可用，调节传感器的灵敏度和延迟电位器。
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Auditory Feedback**: Add a buzzer that sounds when motion is detected:
+1. **声音反馈**：添加蜂鸣器，在检测到运动时发出声音：
 
    .. code-block:: python
 
@@ -214,7 +214,7 @@ Below is the Python code for this project:
       else:
          buzzer.off()
 
-2. **Data Logging**: Log motion detection events with timestamps to a file for analysis:
+2. **数据记录**：将运动检测事件及其时间戳记录到文件中供分析：
 
    .. code-block:: python
 
@@ -225,6 +225,6 @@ Below is the Python code for this project:
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a PIR sensor. By understanding the basics of motion sensing  control, you can expand this project into more advanced applications such as security systems, automated lighting, or interactive devices. The PIR sensor’s versatility and simplicity make it an excellent component for countless DIY and professional projects.
+本项目演示了如何使用PIR传感器。通过理解运动传感控制的基础知识，你可以将此项目扩展到更高级的应用，如安防系统、自动照明或交互式设备。PIR传感器的多功能性和简单性使其成为无数DIY和专业项目的优秀组件。

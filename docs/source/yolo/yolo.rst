@@ -4,21 +4,19 @@
 
 .. _play_with_yolo:
 
-Play with YOLO (Object Detection & Training)
+YOLO目标检测与训练入门
 ======================================================
 
-In the previous chapters, you used ready-made AI models (MediaPipe).
-In this chapter, you will train your own AI model from scratch using YOLO.
-
-Play with YOLO (Object Detection & Training)
+在前面的章节中，您使用了现成的AI模型（MediaPipe）。
+在本章中，您将使用YOLO从头开始训练自己的AI模型。
 
 
 
 .. toctree::
    :maxdepth: 1
 
-   yolo_setup.rst 
-   yolo_new.rst 
+   yolo_setup.rst
+   yolo_new.rst
    yolo_yoloe.rst
-   yolo_train.rst 
-   yolo_pan_tilt.rst 
+   yolo_train.rst
+   yolo_pan_tilt.rst

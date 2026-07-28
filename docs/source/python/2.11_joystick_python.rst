@@ -5,40 +5,40 @@
 
 .. _py_joystick:
 
-2.11 Joystick
-=========================
+2.11 摇杆
+==========
 
-**Introduction**
+**介绍**
 
-A joystick is an input device commonly used for gaming, robotics, and navigation systems. It typically has two axes (X and Y) for directional control and a button (Btn or SW) for additional input. In this project, you will learn how a joystick works by manipulating it and displaying the corresponding values of the X, Y, and button states on the screen.
+摇杆是一种输入设备，常用于游戏、机器人和导航系统。它通常有两个轴（X和Y）用于方向控制，以及一个按钮（Btn或SW）用于额外输入。在本项目中，你将学习摇杆的工作原理，通过操作它并在屏幕上显示X、Y和按钮状态的相应值。
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**你需要什么**
 
-Below are the components required for this project:
+以下是本项目所需的组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_joystick`
-        - \- 
+        - \-
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
 
 .. image:: img/fzz/2.1.9_sch.png
@@ -49,9 +49,9 @@ Below are the components required for this project:
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**接线图**
 
-Build the circuit as shown in the diagram below:
+按下图所示搭建电路：
 
 .. image:: img/fzz/2.1.9_bb.png
    :width: 80%
@@ -59,19 +59,19 @@ Build the circuit as shown in the diagram below:
 
 
 
-Ensure that:
+确保：
 
-- The VRX and VRY pins of the joystick are connected to ADC pins.
-- The SW pin of the joystick is connected to a GPIO pin 17.
-- Power and ground connections are correctly set.
+- 摇杆的VRX和VRY引脚连接到ADC引脚。
+- 摇杆的SW引脚连接到GPIO 17引脚。
+- 电源和地线连接正确。
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -79,27 +79,27 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.11_Joystick.py
 
-This Python script read and display real-time joystick data on a Fusion HAT+. When executed:
+此Python脚本读取并实时显示Fusion HAT+上的摇杆数据。执行时：
 
-1. The script continuously reads the X and Y values from the Fusion HAT+.
-2. It monitors the button connected to GPIO pin 17 to detect whether it is pressed or not.
-3. The X, Y, and button state values are printed to the console in the format ``X: <value>  Y: <value>  Btn: <value>``, where:
+1. 脚本持续从Fusion HAT+读取X和Y值。
+2. 监测连接到GPIO 17引脚的按钮，检测其是否被按下。
+3. X、Y和按钮状态值以\ ``X: <value>  Y: <value>  Btn: <value>``\ 的格式打印到控制台，其中：
 
-   - ``X`` and ``Y`` are the analog readings from the ADC chip.
-   - ``Btn`` is ``1`` when the button is not pressed and ``0`` when it is pressed.
+   - ``X``\ 和\ ``Y``\ 是ADC芯片的模拟读数。
+   - ``Btn``\ 在未按下时为\ ``1``\ ，按下时为\ ``0``\ 。
 
-4. The script updates every 0.2 seconds, running continuously until interrupted with ``Ctrl+C``.
+4. 脚本每0.2秒更新一次，持续运行直到用\ ``Ctrl+C``\ 中断。
 
 ----------------------------------------------
 
 
-**Code**
+**代码**
 
-Below is the Python code used for this project:
+以下是本项目使用的Python代码：
 
 
 .. raw:: html
@@ -138,15 +138,15 @@ Below is the Python code used for this project:
          time.sleep(0.2)
 
    # Gracefully handle script termination (e.g., via KeyboardInterrupt)
-   except KeyboardInterrupt: 
+   except KeyboardInterrupt:
       pass
 
 
 ---------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports:**
+1. **导入：**
 
    .. code-block:: python
 
@@ -154,9 +154,9 @@ Below is the Python code used for this project:
       from fusion_hat.pin import Pin, Mode, Pull
       import time
 
-   The script imports necessary modules: ``fusion_hat`` for GPIO functionalities, and ``time`` for adding delays.
+   脚本导入所需模块：\ ``fusion_hat``\ 用于GPIO功能，\ ``time``\ 用于添加延迟。
 
-2. **Initialization:**
+2. **初始化：**
 
    .. code-block:: python
 
@@ -165,10 +165,10 @@ Below is the Python code used for this project:
       xAxis = ADC('A1')
       yAxis = ADC('A0')
 
-   The script initializes the joystick by creating instances of the ``Pin`` and ``ADC`` classes. The button is set to input mode with an internal pull-up resistor enabled, and the X and Y axes are set to read from ADC channels A0 and A1, respectively.
+   脚本通过创建\ ``Pin``\ 和\ ``ADC``\ 类的实例来初始化摇杆。按钮设置为输入模式，启用内部上拉电阻；X和Y轴分别设置为从ADC通道A1和A0读取。
 
 
-3. **Main Loop:**
+3. **主循环：**
 
    .. code-block:: python
 
@@ -189,45 +189,44 @@ Below is the Python code used for this project:
             time.sleep(0.2)
 
       # Gracefully handle script termination (e.g., via KeyboardInterrupt)
-      except KeyboardInterrupt: 
+      except KeyboardInterrupt:
          pass
 
-   - Reads X and Y values from ADC channels 0 and 1, respectively.
-   - Reads the button state (pressed or not) from the SW pin.
-   - Prints the X, Y, and button values to the screen every 0.2 seconds.
+   - 分别从ADC通道0和1读取X和Y值。
+   - 读取按钮状态（按下或未按下）来自SW引脚。
+   - 每0.2秒将X、Y和按钮值打印到屏幕上。
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
 
-1. **ADC Values Not in Expected Range**:
+1. **ADC值不在预期范围内**：
 
-   - **Cause**: Incorrect ADC channel configuration or wiring issues.
-   - **Solution**: Verify the ADC channel configuration and wiring. Ensure the joystick is connected to the correct ADC channels.
+   - **原因**：ADC通道配置错误或接线问题。
+   - **解决方案**：确认ADC通道配置和接线。确保摇杆连接到正确的ADC通道。
 
-2. **Button State Always 0**:
+2. **按钮状态始终为0**：
 
-   - **Cause**: Incorrect button wiring or pull-up/pull-down configuration.
-   - **Solution**: Verify the button wiring. Check the pull-up/pull-down configuration to ensure the button is properly connected to the SW pin.
+   - **原因**：按钮接线或上拉/下拉配置错误。
+   - **解决方案**：检查按钮接线。检查上拉/下拉配置，确保按钮正确连接到SW引脚。
 
-3. **ADC Values Are Constant**:
+3. **ADC值恒定不变**：
 
-   - **Cause**: The ADC channels are not connected to any input.
-   - **Solution**: Connect joysticks to ADC channels 0 and 1 to provide variable inputs.
+   - **原因**：ADC通道未连接到任何输入。
+   - **解决方案**：将摇杆连接到ADC通道0和1以提供可变输入。
 
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
 
+1. **摇杆控制**：使用X和Y值控制虚拟摇杆或游戏元素。
 
-1. **Joystick Control**: Use the X and Y values to control a virtual joystick or game element.
+2. **数据记录**：将X、Y和按钮值记录到文件中供分析：
 
-2. **Data Logging**: Log the X, Y, and button values to a file for analysis:
-     
    .. code-block:: python
 
       with open("sensor_log.txt", "a") as log_file:
@@ -235,6 +234,6 @@ Below is the Python code used for this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This experiment demonstrates how to interface a joystick with a Fusion HAT+ for analog-to-digital conversion. By understanding how to read and interpret joystick inputs, you can build interactive systems for gaming, robotics, or other applications.
+本实验演示了如何将摇杆与Fusion HAT+连接进行模数转换。通过理解如何读取和解释摇杆输入，你可以为游戏、机器人或其他应用构建交互式系统。

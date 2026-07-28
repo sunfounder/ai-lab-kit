@@ -4,16 +4,16 @@
 
 .. _py_ai_led_controller:
 
-(Example) AI-powered LED Controller
-======================================
+（示例）AI 驱动 LED 控制器
+=============================
 
-**Introduction**
+**简介**
 
-In this project, you'll build an **AI-powered LED controller** that combines an LLM Model (here we use OpenAI's GPT-4o language model) with an RGB LED. The system interprets natural language commands to control LED colors, allowing you to verbally request specific colors using color names, HEX values, or RGB tuples. This demonstrates the integration of artificial intelligence with physical hardware through natural language processing.
+在这个项目中，你将构建一个\ **AI 驱动 LED 控制器**\ ，将 LLM 模型（这里使用 OpenAI 的 GPT-4o 语言模型）与 RGB LED 相结合。该系统可以解析控制 LED 颜色的自然语言指令，让你通过语音请求特定的颜色——使用颜色名称、HEX 值或 RGB 元组。这展示了人工智能通过自然语言处理与物理硬件集成的能力。
 
-When you say commands like "turn on red light" or "show warm yellow light," the AI parses your request and generates appropriate control signals to adjust the LED accordingly.
+当你说出"打开红灯"或"显示暖黄光"等指令时，AI 会解析你的请求并生成适当的控制信号来相应地调整 LED。
 
-To use the other llm model, please refer to :ref:`py_online_llm` .
+要使用其他 LLM 模型，请参考 :ref:`py_online_llm`。
 
 .. raw:: html
 
@@ -24,16 +24,16 @@ To use the other llm model, please refer to :ref:`py_online_llm` .
 
 ----------------------------------------------
 
-**What You'll Need**
+**所需组件**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
     *   - :ref:`cpn_fusion_hat`
         - \-
     *   - :ref:`cpn_rgb_led`
@@ -47,9 +47,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Connect the RGB LED to the Fusion HAT+ as follows:
+按以下方式将 RGB LED 连接到 Fusion HAT+：
 
 .. image:: img/fzz/llm_book_bb.png
    :width: 80%
@@ -64,10 +64,10 @@ Connect the RGB LED to the Fusion HAT+ as follows:
 
 ----------------------------------------------------------
 
-**Run the Code**
+**运行代码**
 
 
-#. Run the AI LED controller:
+#. 运行 AI LED 控制器：
 
    .. raw:: html
 
@@ -78,24 +78,24 @@ Connect the RGB LED to the Fusion HAT+ as follows:
       cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_lamp.py
 
-#. When the script runs:
+#. 脚本运行后：
 
-   * You'll see a welcome message: "Smart Lighting Assistant started!"
-   * Type natural language commands like:
+   * 你会看到一条欢迎消息："Smart Lighting Assistant started!"
+   * 输入自然语言指令，例如：
 
      - "turn on red light"
-     - "show blue color"  
+     - "show blue color"
      - "set to warm white"
      - "turn off the light"
 
-   * The AI will respond and control the LED accordingly
-   * Type 'quit' or 'exit' to end the program
+   * AI 将做出响应并相应地控制 LED
+   * 输入 'quit' 或 'exit' 结束程序
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the full Python script for the AI LED Controller:
+以下是 AI LED 控制器的完整 Python 脚本：
 
 .. raw:: html
 
@@ -114,13 +114,13 @@ Here is the full Python script for the AI LED Controller:
        def __init__(self):
            # Initialize LED
            self.rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
-           
+
            # Initialize AI assistant
            self.llm = OpenAI(
                api_key=OPENAI_API_KEY,
                model="gpt-4o",
            )
-           
+
            # Enhanced instructions for LED control
            self.instructions = """You are an AI assistant that can control an RGB LED.
            When the user mentions colors, you need to respond with a specific format to control the LED.
@@ -136,15 +136,15 @@ Here is the full Python script for the AI LED Controller:
            Examples:
            User: Turn the light red
            You: OK, set to red. [LED:red]
-           
+
            User: Show warm yellow light
            You: Set to warm yellow light. [LED:#FFD700]
-           
+
            User: Turn off the light
            You: Light turned off. [LED:black] or [LED:(0,0,0)]
-           
+
            If the user doesn't mention anything color-related, don't include the [LED:...] tag."""
-           
+
            # Color name to RGB mapping
            self.color_map = {
                'red': (255, 0, 0),
@@ -161,38 +161,38 @@ Here is the full Python script for the AI LED Controller:
                'grey': (128, 128, 128),
                'warmwhite': (255, 197, 143),
            }
-           
+
            self.llm.set_max_messages(20)
            self.llm.set_instructions(self.instructions)
            self.llm.set_welcome("Hello! I'm your smart lighting assistant. I can control RGB LED colors.")
-           
+
            # Initial state: light off
            self.rgb_led.color((0, 0, 0))
-       
+
        def parse_led_command(self, text):
            """Parse LED control command from AI response"""
            pattern = r'\[LED:(.*?)\]'
            match = re.search(pattern, text)
-           
+
            if not match:
                return None, text
-               
+
            led_command = match.group(1).strip()
            display_text = re.sub(pattern, '', text).strip()
-           
+
            return led_command, display_text
-       
+
        def apply_color(self, color_spec):
            """Convert color specification to RGB and apply to LED"""
            color_spec = color_spec.lower().strip()
-           
+
            try:
                # 1. Process color names
                if color_spec in self.color_map:
                    rgb = self.color_map[color_spec]
                    self.rgb_led.color(rgb)
                    return True
-               
+
                # 2. Process hex strings (e.g., #FF0000)
                elif color_spec.startswith('#'):
                    hex_color = color_spec.lstrip('#')
@@ -200,7 +200,7 @@ Here is the full Python script for the AI LED Controller:
                        rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
                        self.rgb_led.color(rgb)
                        return True
-               
+
                # 3. Process RGB tuple strings (e.g., (255,0,0))
                elif color_spec.startswith('(') and color_spec.endswith(')'):
                    numbers = color_spec[1:-1].split(',')
@@ -209,13 +209,13 @@ Here is the full Python script for the AI LED Controller:
                        if all(0 <= val <= 255 for val in rgb):
                            self.rgb_led.color(rgb)
                            return True
-               
+
                # 4. Process hex number strings (e.g., 0xFF0000)
                elif color_spec.startswith('0x'):
                    hex_num = int(color_spec, 16)
                    self.rgb_led.color(hex_num)
                    return True
-               
+
                # 5. Try direct integer conversion
                else:
                    try:
@@ -225,46 +225,46 @@ Here is the full Python script for the AI LED Controller:
                            return True
                    except ValueError:
                        pass
-               
+
                return False
-               
+
            except Exception as e:
                print(f"Color setting error: {e}")
                return False
-       
+
        def run(self):
            """Main run loop"""
            print("Smart Lighting Assistant started!")
            print("You can say: 'turn on red light', 'show blue', 'set to purple', 'turn off light', etc.")
            print("Type 'quit' or 'exit' to end the program\n")
-           
+
            while True:
                try:
                    user_input = input(">>> ").strip()
-                   
+
                    if user_input.lower() in ['quit', 'exit', 'bye']:
                        print("Goodbye!")
                        self.rgb_led.color((0, 0, 0))
                        break
-                   
+
                    response = self.llm.prompt(user_input, stream=True)
-                   
+
                    full_response = ""
                    for word in response:
                        if word:
                            print(word, end="", flush=True)
                            full_response += word
                    print()
-                   
+
                    led_command, display_only = self.parse_led_command(full_response)
-                   
+
                    if led_command:
                        print(f"Detected LED command: {led_command}")
                        if self.apply_color(led_command):
                            print(f"✓ Applied color: {led_command}")
                        else:
                            print(f"✗ Unrecognized color format: {led_command}")
-                           
+
                except KeyboardInterrupt:
                    print("\nProgram interrupted")
                    self.rgb_led.color((0, 0, 0))
@@ -277,30 +277,30 @@ Here is the full Python script for the AI LED Controller:
    class AILEDControllerPro(AILEDController):
        def __init__(self):
            super().__init__()
-           
+
            self.instructions = """You control an RGB LED light. When user mentions colors, add [LED:color_value] at the end.
-           
+
            Color values can be:
            1. English color names: red, green, blue, yellow, purple, cyan, white, black, orange, pink
            2. HEX values: #FF0000
            3. RGB tuples: (255,0,0)
-           
+
            Examples:
            User: Turn on red light
            Response: Red light activated. [LED:red]
-           
+
            User: Turn off the light
            Response: Light turned off. [LED:black]
-           
+
            User: How is the weather today?
            Response: I can't check real-time weather, but I can adjust your lighting! [LED:#FFFFFF]"""
-           
+
            self.llm.set_instructions(self.instructions)
-       
+
        def process_user_input(self, text):
            """Preprocess user input for direct commands"""
            text_lower = text.lower()
-           
+
            direct_commands = {
                'turn on light': 'white',
                'turn off light': 'black',
@@ -311,12 +311,12 @@ Here is the full Python script for the AI LED Controller:
                'purple light': 'purple',
                'white light': 'white',
            }
-           
+
            for cmd, color in direct_commands.items():
                if cmd in text_lower:
                    self.apply_color(color)
                    return f"Set to {color}. [LED:{color}]"
-           
+
            return None
 
 
@@ -327,11 +327,11 @@ Here is the full Python script for the AI LED Controller:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. AI Assistant Initialization
+1. AI 助手初始化
 
-   The system uses OpenAI's GPT-4o model with custom instructions to ensure it generates LED control commands in a specific format.
+   系统使用 OpenAI 的 GPT-4o 模型，配合自定义指令，以确保其以特定格式生成 LED 控制指令。
 
    .. code-block:: python
 
@@ -339,30 +339,30 @@ Here is the full Python script for the AI LED Controller:
           api_key=OPENAI_API_KEY,
           model="gpt-4o",
       )
-      
+
       self.instructions = """You are an AI assistant that can control an RGB LED...
          ...End with [LED:color] where color can be:...
       """
-      
+
       self.llm.set_instructions(self.instructions)
 
-2. RGB LED Control
+2. RGB LED 控制
 
-   The RGB_LED class from fusion_hat.modules provides an interface to control the three color channels via PWM.
+   fusion_hat.modules 中的 RGB_LED 类提供了通过 PWM 控制三个颜色通道的接口。
 
    .. code-block:: python
 
       self.rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
-      
+
       # Set color using RGB tuple
       self.rgb_led.color((255, 0, 0))  # Red
-      
+
       # Set color using hex value
       self.rgb_led.color(0xFF0000)  # Also red
 
-3. Command Parsing with Regular Expressions
+3. 使用正则表达式解析指令
 
-   The system uses regex to extract LED control commands from the AI's response.
+   系统使用正则表达式从 AI 回复中提取 LED 控制指令。
 
    .. code-block:: python
 
@@ -370,48 +370,48 @@ Here is the full Python script for the AI LED Controller:
           """Parse LED control command from AI response"""
           pattern = r'\[LED:(.*?)\]'
           match = re.search(pattern, text)
-          
+
           if not match:
               return None, text
-              
+
           led_command = match.group(1).strip()
           display_text = re.sub(pattern, '', text).strip()
-          
+
           return led_command, display_text
 
-4. Multiple Color Format Support
+4. 多种颜色格式支持
 
-   The controller accepts various color specification formats for maximum flexibility.
+   控制器接受各种颜色规格格式，以提供最大的灵活性。
 
    .. code-block:: python
 
       def apply_color(self, color_spec):
           """Convert color specification to RGB and apply to LED"""
           color_spec = color_spec.lower().strip()
-          
+
           # 1. Color names (red, green, blue, etc.)
           # 2. HEX strings (#FF0000)
           # 3. RGB tuples ((255,0,0))
           # 4. Hex numbers (0xFF0000)
           # 5. Direct integers (16711680)
 
-5. Streaming Response
+5. 流式回复
 
-   The AI's response is streamed word by word for a more natural conversation experience.
+   AI 的回复逐词流式输出，带来更自然的对话体验。
 
    .. code-block:: python
 
       response = self.llm.prompt(user_input, stream=True)
-      
+
       full_response = ""
       for word in response:
           if word:
               print(word, end="", flush=True)
               full_response += word
 
-6. Enhanced Pro Version
+6. 增强版 Pro 版本
 
-   The AILEDControllerPro class adds direct command preprocessing for faster response to common requests.
+   AILEDControllerPro 类添加了直接指令预处理功能，以便更快速响应常见请求。
 
    .. code-block:: python
 
@@ -425,41 +425,41 @@ Here is the full Python script for the AI LED Controller:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- No module named 'openai'" error**
+- "No module named 'openai'" 错误
 
-   Ensure the fusion-hat package is installed:  
+   确保已安装 fusion-hat 包：
 
    .. code-block::
 
       curl -sSL https://raw.githubusercontent.com/sunfounder/sunfounder-installer-scripts/main/install-fusion-hat.sh | sudo bash
 
 
-- “Invalid API key" error
+- "Invalid API key" 错误
 
-  Verify your API key in ``secret.py`` is correct and hasn't expired.  
-  Check your OpenAI account for active API keys.
+  验证 ``secret.py``\ 中的 API 密钥正确且未过期。
+  检查你的 OpenAI 账户是否有有效的 API 密钥。
 
-- LED doesn't light up
+- LED 不亮
 
-  - Verify wiring connections (RGB pins to correct PWM ports)  
-  - Check if common cathode is connected to ground  
-  - Ensure current-limiting resistors are properly installed  
-  - Test each color channel individually using simple test code
+  - 检查接线（RGB 引脚连接到正确的 PWM 端口）
+  - 检查共阴极是否连接到地
+  - 确保限流电阻正确安装
+  - 使用简单的测试代码单独测试每个颜色通道
 
-- AI doesn't respond with [LED:...] tags
+- AI 回复中不包含 [LED:...] 标签
 
-  - Check the system instructions are being set correctly  
-  - Try more explicit color commands  
-  - Ensure the AI model (gpt-4o) is available on your account
+  - 检查系统指令是否正确设置
+  - 尝试更明确的颜色指令
+  - 确保 AI 模型（gpt-4o）在你的账户中可用
 
-- Streaming response appears choppy
+- 流式回复显得断续
 
-  - Check internet connection stability  
-  - Reduce stream delay by adjusting network timeouts  
-  - Consider using non-streaming mode for testing
+  - 检查网络连接的稳定性
+  - 通过调整网络超时减少流延迟
+  - 测试时可考虑使用非流式模式
 
 ----------------------------------------------
 
-This project demonstrates how AI can bridge natural language understanding with physical hardware control, opening possibilities for intuitive human-machine interfaces!
+该项目展示了 AI 如何桥接自然语言理解与物理硬件控制，为直观的人机交互界面开辟了可能性！

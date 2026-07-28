@@ -5,29 +5,29 @@
 
 .. _py_servo_angle_meter:
 
-4.11 Servo Angle Meter
-==============================
+4.11 舵机角度计
+================
 
-**Introduction**
+**简介**
 
-In this lesson, you will build a **Servo Angle Meter** — a visual servo angle indicator that uses a potentiometer to control a servo motor, while displaying the current angle on an OLED screen.  
-The potentiometer provides an analog voltage through the Fusion HAT+’s ADC interface.  
-The servo receives commands based on this reading, and a 128×64 I2C OLED screen shows the numeric servo angle and a graphical bar that moves smoothly across the display.
+在本课程中，您将构建一个**舵机角度计** —— 一个使用电位器控制舵机，同时在 OLED 屏幕上显示当前角度的可视化舵机角度指示器。
+电位器通过 Fusion HAT+ 的 ADC 接口提供模拟电压。
+舵机根据此读数接收指令，128×64 I2C OLED 屏幕显示数值形式的舵机角度和在显示屏上平滑移动的图形条。
 
-As you rotate the potentiometer, the servo sweeps between approximately -90° and +90°, and the OLED updates in real time.
+旋转电位器时，舵机在大约 -90° 到 +90° 之间摆动，OLED 实时更新。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
     *   - :ref:`cpn_potentiometer`
@@ -38,12 +38,12 @@ The following components are required for this project:
         - \-
     *   - :ref:`cpn_fusion_hat`
         - \-
-    *   - Raspberry Pi
+    *   - 树莓派
         - \-
 
 .. ----------------------------------------------
 
-.. **Circuit Diagram**
+.. **电路图**
 
 .. .. image:: img/fzz/4.11_servo_oled_sch.png
 ..    :width: 80%
@@ -51,9 +51,9 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Refer to the wiring diagram for assembling the components:
+参考接线图组装组件：
 
 .. image:: img/fzz/4.11_servo_angle_meter_bb.png
    :width: 100%
@@ -61,9 +61,9 @@ Refer to the wiring diagram for assembling the components:
 
 ----------------------------------------------
 
-**Setup Steps**
+**设置步骤**
 
-#. Install the required libraries:
+#. 安装所需库：
 
    .. raw:: html
 
@@ -73,7 +73,7 @@ Refer to the wiring diagram for assembling the components:
 
       sudo pip3 install adafruit-circuitpython-ssd1306 --break
 
-#. All example code used in this tutorial is available in the ``ai-lab-kit`` directory:
+#. 本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到：
 
    .. raw:: html
 
@@ -84,20 +84,20 @@ Refer to the wiring diagram for assembling the components:
       cd ~/ai-lab-kit/python/
       sudo python3 4.11_ServoAngleMeter.py
 
-#. When the script runs:
+#. 脚本运行时：
 
-   * Rotating the potentiometer moves the servo between -90° and +90°.  
-   * The OLED shows the numeric angle and a moving bar pointer.  
-   * Ctrl+C exits, resets servo to 0°, and clears the display.
+   * 旋转电位器可使舵机在 -90° 到 +90° 之间移动。
+   * OLED 显示数值角度和一个移动条指针。
+   * Ctrl+C 退出，将舵机重置为 0°，并清除显示。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the Python script for the Servo Angle Meter:
+以下是舵机角度计的 Python 脚本：
 
 .. raw:: html
-   
+
    <run></run>
 
 .. code-block:: python
@@ -195,21 +195,21 @@ Here is the Python script for the Servo Angle Meter:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports**
+1. **导入**
 
-   - ``ADC`` reads analog values from the potentiometer  
-   - ``Servo`` controls servo rotation  
-   - ``PIL`` handles all OLED graphics  
-   - ``adafruit_ssd1306`` drives the I2C OLED display  
-   - ``board`` provides hardware I/O  
-   - ``time`` controls loop speed  
+   - ``ADC`` 从电位器读取模拟值
+   - ``Servo`` 控制舵机旋转
+   - ``PIL`` 处理所有 OLED 图形
+   - ``adafruit_ssd1306`` 驱动 I2C OLED 显示
+   - ``board`` 提供硬件 I/O
+   - ``time`` 控制循环速度
 
-2. **OLED Setup**
+2. **OLED 设置**
 
-   A 128×64 SSD1306 OLED is initialized and cleared.  
-   An off-screen framebuffer holds the graphics for each frame before being pushed to the display.
+   初始化 128×64 SSD1306 OLED 并清除。
+   离屏帧缓冲器用于在每帧推送到显示之前保存图形。
 
    .. code-block:: python
 
@@ -226,11 +226,11 @@ Here is the Python script for the Servo Angle Meter:
       font = ImageFont.load_default()
 
 
-3. **Servo & Potentiometer**
+3. **舵机和电位器**
 
-   - Servo connected to port ``P0``  
-   - Potentiometer connected to analog input ``A0``  
-   - ADC range: ``0..4095``  
+   - 舵机连接到端口 ``P0``
+   - 电位器连接到模拟输入 ``A0``
+   - ADC 范围：``0..4095``
 
    .. code-block:: python
 
@@ -239,9 +239,9 @@ Here is the Python script for the Servo Angle Meter:
       pot   = ADC('A0')     # potentiometer on A0 (0..4095)
 
 
-4. **Mapping Values**
+4. **值映射**
 
-   ``linear_map()`` converts the potentiometer reading into a servo angle in the range ``-90..90``.
+   ``linear_map()`` 将电位器读数转换为 ``-90..90`` 范围内的舵机角度。
 
    .. code-block:: python
 
@@ -250,15 +250,15 @@ Here is the Python script for the Servo Angle Meter:
          return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
-5. **Drawing the UI**
+5. **绘制 UI**
 
-   The ``draw_bar()`` function:
+   ``draw_bar()`` 函数：
 
-   * Clears the display  
-   * Draws the title  
-   * Shows numeric angle  
-   * Draws a horizontal bar and tick marks  
-   * Draws a pointer and filled segment indicating the angle direction  
+   * 清除显示
+   * 绘制标题
+   * 显示数值角度
+   * 绘制水平条和刻度标记
+   * 绘制指针和填充段，指示角度方向
 
    .. code-block:: python
 
@@ -302,17 +302,17 @@ Here is the Python script for the Servo Angle Meter:
             draw.rectangle((BAR_CENTERX, BAR_TOP + 1, pos, BAR_TOP + BAR_HEIGHT - 1), outline=0, fill=255)
          else:
             draw.rectangle((pos, BAR_TOP + 1, BAR_CENTERX, BAR_TOP + BAR_HEIGHT - 1), outline=0, fill=255)
- 
 
-6. **Main Loop**
 
-   The script repeatedly:
+6. **主循环**
 
-   * Reads the ADC  
-   * Computes servo angle  
-   * Updates servo  
-   * Draws updated UI  
-   * Refreshes OLED  
+   脚本重复：
+
+   * 读取 ADC
+   * 计算舵机角度
+   * 更新舵机
+   * 绘制更新后的 UI
+   * 刷新 OLED
 
    .. code-block:: python
 
@@ -334,40 +334,40 @@ Here is the Python script for the Servo Angle Meter:
 
          time.sleep(0.05)  # ~20 FPS
 
-7. **Graceful Exit**
+7. **优雅退出**
 
-   Ctrl+C:
+   Ctrl+C：
 
-   - Servo returns to 0°  
-   - OLED is cleared  
+   - 舵机返回 0°
+   - OLED 被清除
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- **OLED shows nothing**
+- **OLED 不显示任何内容**
 
-  - Check I2C wiring  
-  - Verify device address is ``0x3C``  
-  - Ensure required libraries are installed  
+  - 检查 I2C 接线
+  - 验证设备地址是否为 ``0x3C``
+  - 确保已安装所需的库
 
-- **Servo does not respond**
+- **舵机不响应**
 
-  - Check servo power  
-  - Confirm servo is connected to ``P0``  
-  - Ensure servo signal wire is correct  
+  - 检查舵机电源
+  - 确认舵机连接到 ``P0``
+  - 确保舵机信号线正确
 
-- **Movement range incorrect**
+- **运动范围不正确**
 
-  Adjust:
+  调整：
 
   .. code-block:: python
 
      angle = int(linear_map(raw, 0, 4095, -90, 90))
 
-- **OLED flickers**
+- **OLED 闪烁**
 
-  Increase delay:
+  增加延时：
 
   .. code-block:: python
 
@@ -375,27 +375,26 @@ Here is the Python script for the Servo Angle Meter:
 
 ----------------------------------------------
 
-**Try It Yourself**
+**自己尝试**
 
-1. **Add servo angle limits**  
+1. **添加舵机角度限制**
 
-   Prevent mechanical overdrive.
+   防止机械过度驱动。
 
-2. **Add calibration**  
+2. **添加校准**
 
-   Detect min/max potentiometer values dynamically.
+   动态检测最小/最大电位器值。
 
-3. **Smooth motion**  
+3. **平滑运动**
 
-   Apply easing or low-pass filtering.
+   应用缓动或低通滤波。
 
-4. **More display info**  
+4. **更多显示信息**
 
-   Show raw ADC value alongside angle.
+   在角度旁边显示原始 ADC 值。
 
-5. **Warnings**  
+5. **警告**
 
-   Blink pointer near limits (±75°).
+   在极限值附近（±75°）闪烁指针。
 
-These additions turn the Servo Angle Meter into a highly capable input-visualization tool.
-
+这些补充将舵机角度计变成一个功能强大的输入可视化工具。

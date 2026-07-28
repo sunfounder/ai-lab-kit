@@ -4,27 +4,27 @@
 
 .. _py_fun_10s:
 
-4.8 GAME - 10 Second Challenge
-=================================
+4.8 游戏 - 10 秒挑战
+=====================
 
-**Introduction**
+**简介**
 
-Test your focus and timing with the "10 Second Challenge" game! In this project, you'll create a magic wand by attaching a tilt switch to a stick. Shake the wand to start a timer on a 4-digit segment display. Shake it again to stop the timer. The goal is to stop the timer as close to **10.00 seconds** as possible. Compete with friends to see who is the ultimate time wizard!
+通过"10 秒挑战"游戏测试您的专注力和时间感！在本项目中，您将通过将倾斜开关安装到棍子上来制作一根魔法棒。摇动魔法棒在 4 位数码管上启动计时器。再次摇动它停止计时器。目标是尽可能接近 **10.00 秒**停止计时器。与朋友比试，看谁是最终的时间大师！
 
 
 ----------------------------------------------
 
 
-**What You’ll Need**
+**所需材料**
 
-Below is the list of components required for this project:
+以下是本项目所需的组件列表：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -39,16 +39,16 @@ Below is the list of components required for this project:
     *   - :ref:`cpn_tilt_switch`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 ----------------------------------------------
 
 
-**Circuit Diagram**
+**电路图**
 
-Below is the schematic diagram for the "10 Second Challenge":
+以下是"10 秒挑战"的原理图：
 
 .. image:: img/fzz/4.1.15_sch.png
    :width: 100%
@@ -59,9 +59,9 @@ Below is the schematic diagram for the "10 Second Challenge":
 ----------------------------------------------
 
 
-**Wiring Diagram**
+**接线图**
 
-Follow the wiring instructions shown below to set up the circuit:
+按照下面的接线说明搭建电路：
 
 
 .. image:: img/fzz/4.1.15_bb.png
@@ -71,11 +71,11 @@ Follow the wiring instructions shown below to set up the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码均可在 ``ai-lab-kit`` 目录中找到。
+按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -83,23 +83,23 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 4.8_GAME_10Second.py
 
-When the script runs:
+脚本运行时：
 
-* Shake the wand to start the timer on the 4-digit segment display.
-* Shake the wand again to stop the timer.
-* If the timer reads 10.00 seconds, you win the round!
-* Shake the wand one more time to reset the game and start a new round.
+* 摇动魔法棒在 4 位数码管上启动计时器。
+* 再次摇动魔法棒停止计时器。
+* 如果计时器显示 10.00 秒，您就赢了这一轮！
+* 再摇动一次魔法棒重置游戏，开始新一轮。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
 
-Here is the Python code for the project:
+以下是本项目的 Python 代码：
 
 
 .. raw:: html
@@ -232,79 +232,79 @@ Here is the Python code for the project:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Button Input:**  
-   The tilt switch is connected to GPIO pin 22, which detects when the wand is shaken.
+1. **按钮输入：**
+   倾斜开关连接到 GPIO 引脚 22，用于检测魔法棒何时被摇动。
 
-2. **74HC595 Shift Register:**  
-   The shift register controls which digits are illuminated on the 7-segment display.
+2. **74HC595 移位寄存器：**
+   移位寄存器控制数码管上哪些数字被点亮。
 
-3. **Timer Logic:**  
-   A threading timer increments the counter every 0.01 seconds, ensuring precise timing.
+3. **定时器逻辑：**
+   线程定时器每 0.01 秒递增一次计数器，确保精确定时。
 
-4. **State Management:**  
-   The game switches between states (start, stop) based on button input, resetting the counter as needed.
+4. **状态管理：**
+   游戏根据按钮输入在状态之间切换（开始、停止），并在需要时重置计数器。
 
-5. **Display Update:**  
-   The 7-segment display shows the timer value, formatted to two decimal places.
+5. **显示更新：**
+   数码管显示计时器值，格式化为两位小数。
 
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-1. **7-Segment Display Not Showing Numbers**:
+1. **数码管不显示数字**：
 
-   - **Cause**: Incorrect wiring or GPIO pin configuration.
-   - **Solution**:
+   - **原因**：接线或 GPIO 引脚配置错误。
+   - **解决方法**：
 
-     - Verify connections to the 74HC595 shift register and 7-segment display.
-     - Ensure the ``number`` segment codes match the display's configuration.
+     - 验证与 74HC595 移位寄存器和数码管的连接。
+     - 确保 ``number`` 段码与显示器的配置匹配。
 
-2. **Switch Tilts Not Detected**:
+2. **未检测到开关倾斜**：
 
-   - **Cause**: Tilt switch wiring or debounce issues.
-   - **Solution**:
+   - **原因**：倾斜开关接线或去抖动问题。
+   - **解决方法**：
 
-     - Confirm the tilt switch is connected to GPIO 22.
-     - Add a short debounce delay in the ``loop()`` function:
+     - 确认倾斜开关连接到 GPIO 22。
+     - 在 ``loop()`` 函数中添加短去抖动延时：
 
        .. code-block:: python
 
            time.sleep(0.05)
 
-3. **Counter Not Incrementing**:
+3. **计数器不递增**：
 
-   - **Cause**: Timer function not starting correctly.
-   - **Solution**:
+   - **原因**：定时器函数未正确启动。
+   - **解决方法**：
 
-     - Check the ``timer()`` function and ensure ``timer1.start()`` is called.
-     - Debug by printing the ``counter`` value inside ``timer()``.
+     - 检查 ``timer()`` 函数，确保 ``timer1.start()`` 被调用。
+     - 在 ``timer()`` 内部打印 ``counter`` 值进行调试。
 
-4. **Display Shows Incorrect Digits**:
+4. **显示错误数字**：
 
-   - **Cause**: Segment codes in the ``number`` list do not match the hardware.
-   - **Solution**: Test individual digits with static segment codes to verify the mapping.
-
-
-----------------------------------------------
-
-**Extendable Ideas**
-
-1. **Adjustable Timer Speed**: Add a mechanism to change the timer's increment rate (e.g., using a second button to switch between 0.01, 0.1, and 1-second increments).
-
-2. **Countdown Mode**: Implement a countdown mode where the counter starts at a predefined value and decrements to 0.
-
-3. **Pause and Resume**: Add a separate button to pause and resume the counter without resetting.
-
-4. **Audio Feedback**: Use a buzzer to emit beeps when the counter reaches certain milestones (e.g., multiples of 10).
-
+   - **原因**：``number`` 列表中的段码与硬件不匹配。
+   - **解决方法**：使用静态段码测试各个数字，验证映射关系。
 
 
 ----------------------------------------------
 
+**扩展思路**
 
-**Conclusion**
+1. **可调节定时器速度**：添加更改计时器递增速率的机制（例如使用第二个按钮在 0.01、0.1 和 1 秒增量之间切换）。
 
-The "10 Second Challenge" demonstrates how simple components like a tilt switch and a 7-segment display can create an engaging interactive game. This project highlights the use of GPIO control, timers, and state management in Python, making it a fun and educational experience. Challenge yourself and your friends to achieve perfect timing!
+2. **倒计时模式**：实现倒计时模式，计数器从预设值开始递减到 0。
+
+3. **暂停和恢复**：添加独立按钮来暂停和恢复计数器而不重置。
+
+4. **声音反馈**：使用蜂鸣器在计数器达到特定里程碑时发出提示音（例如 10 的倍数）。
+
+
+
+----------------------------------------------
+
+
+**总结**
+
+"10 秒挑战"展示了如何使用倾斜开关和数码管等简单组件创建引人入胜的互动游戏。该项目突出了 Python 中 GPIO 控制、定时器和状态管理的使用，是一次有趣且富有教育意义的体验。挑战自己和朋友，达到完美计时！

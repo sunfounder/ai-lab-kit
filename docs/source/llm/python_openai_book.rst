@@ -4,20 +4,20 @@
 
 .. _py_book_cover_analyzer:
 
-(Example) Book Expert
-===========================
+（示例）书籍专家
+===================
 
-**Introduction**
+**简介**
 
-In this project, you'll build an **AI-powered book cover analyzer** that uses computer vision and natural language processing to identify books from their covers. The system captures images of book covers using a Raspberry Pi camera, sends them to LLM model (here we use OpenAI's GPT-4o vision model) for analysis, and provides audio feedback about the book's title, author, summary, and reception using text-to-speech technology.
+在这个项目中，你将构建一个\ **AI 驱动书籍封面分析器**\ ，利用计算机视觉和自然语言处理技术，从书籍封面识别图书信息。该系统使用树莓派摄像头拍摄书籍封面图像，将其发送给 LLM 模型（此处使用 OpenAI 的 GPT-4o 视觉模型）进行分析，并通过文字转语音技术提供关于书名、作者、摘要和评价的音频反馈。
 
-The project combines multiple technologies:
+该项目结合了多种技术：
 
-- Camera capture with Picamera2
-- Image analysis with GPT-4o vision capabilities
-- Text-to-speech conversion for audio responses
-- RGB LED for visual status feedback
-- Physical button for intuitive interaction
+- 使用 Picamera2 进行摄像头拍摄
+- 使用 GPT-4o 视觉能力进行图像分析
+- 文字转语音转换，实现音频回复
+- RGB LED 用于视觉状态反馈
+- 物理按钮用于直观交互
 
 .. raw:: html
 
@@ -26,21 +26,21 @@ The project combines multiple technologies:
           Your browser does not support the video tag.
       </video>
 
-To use the other llm model, please refer to :ref:`py_online_llm` .
+要使用其他 LLM 模型，请参考 :ref:`py_online_llm`。
 
 ----------------------------------------------
 
-**What You'll Need**
+**所需组件**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
-    *   - Raspberry Pi Camera Module
+    *   - 组件
+        - 购买链接
+    *   - 树莓派摄像头模块
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
         - \-
@@ -50,29 +50,29 @@ The following components are required for this project:
         - |link_resistor_buy|
     *   - :ref:`cpn_wires`
         - |link_wires_buy|
-    *   - Book (for testing)
+    *   - 书籍（用于测试）
         - \-
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. 为了方便使用摄像头模块，建议 :ref:`assemble_fusion_hat_pan_tilt`。
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     安装云台可能会遮挡一些引脚，因此建议仅在使用摄像头时安装，或在安装后将其放置在外侧。
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Connect the components to the Fusion HAT+ as follows:
+#. 按以下方式将组件连接到 Fusion HAT+：
 
    .. image:: img/fzz/llm_book_bb.png
       :width: 80%
       :align: center
 
-#. The User Button is already integrated into the Fusion HAT+ and doesn't require additional wiring. It is near by the BATTERY port.*
+#. 用户按钮已集成在 Fusion HAT+ 上，无需额外接线。它位于 BATTERY 接口附近。*
 
    .. image:: img/3.1_user_button.png
       :width: 50%
@@ -83,46 +83,46 @@ The following components are required for this project:
    :start-after: start_setup_openai
    :end-before: end_setup_openai
 
-**Running the Example**
+**运行示例**
 
-#. Access the Raspberry Pi Desktop:
+#. 访问树莓派桌面：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`：使用 **VNC** 获得完整的桌面体验。
+   * |link_rpi_connect|：使用 **Raspberry Pi Connect** 从任何浏览器安全访问你的 Pi。
 
-#. Open a Terminal and go to the code folder:
+#. 打开终端并进入代码文件夹：
 
    .. raw:: html
-   
+
       <run></run>
-   
+
    .. code-block:: shell
 
-      cd ~/ai-lab-kit/llm   
+      cd ~/ai-lab-kit/llm
       sudo python3 llm_openai_bookexpert.py
 
-#. When the script runs:
-   
-   * A camera preview window will open
-   * The RGB LED will glow blue, indicating ready state
-   * Place a book cover in front of the camera
-   * Press the USR Button on the Fusion HAT+ (which is near the BATTERY port)
-   * The system will:
+#. 脚本运行后：
 
-     1. Capture a photo (LED turns yellow 🟡)
-     2. Analyze with AI (LED turns purple 🟣)
-     3. Speak the analysis (LED turns green 🟢)
-     4. Return to ready state (LED turns blue 🔵)
-     5. If error occurs, the LED will turn red 🔴
+   * 摄像头预览窗口将打开
+   * RGB LED 发出蓝光，表示就绪状态
+   * 将一本书的封面放在摄像头前
+   * 按下 Fusion HAT+ 上的 USR 按钮（位于 BATTERY 接口附近）
+   * 系统将：
 
-   * Photos are saved to `~/Pictures/book_covers/`
-   * Press Ctrl+C to exit
+     1. 拍摄照片（LED 变为黄色 🟡）
+     2. 使用 AI 进行分析（LED 变为紫色 🟣）
+     3. 朗读分析结果（LED 变为绿色 🟢）
+     4. 返回就绪状态（LED 变为蓝色 🔵）
+     5. 如果发生错误，LED 将变为红色 🔴
+
+   * 照片保存到 ``~/Pictures/book_covers/``
+   * 按 Ctrl+C 退出
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Here is the full Python script for the AI Book Cover Analyzer:
+以下是 AI 书籍封面分析器的完整 Python 脚本：
 
 .. raw:: html
 
@@ -150,51 +150,51 @@ Here is the full Python script for the AI Book Cover Analyzer:
            # Initialize LED for status feedback
            self.rgb_led = RGB_LED(PWM(0), PWM(1), PWM(2), common=RGB_LED.CATHODE)
            self.set_led_color("blue")  # Ready state
-           
+
            # Initialize OpenAI LLM for image analysis
            self.llm = OpenAI(
                api_key=OPENAI_API_KEY,
                model="gpt-4o",  # GPT-4o supports image input
            )
-           
+
            # Initialize TTS for audio responses
            self.tts = OpenAI_TTS(api_key=OPENAI_API_KEY)
            self.tts.set_voice(self.tts.Voice.ALLOY)
-           
+
            # Initialize camera
            self.camera = Picamera2()
            self.camera.configure(self.camera.create_preview_configuration(main={"size": (800, 600)}))
-           
+
            # Initialize button
            self.btn = UserButton()
-           
+
            # Set up directories
            self.real_user = os.getenv("SUDO_USER") or os.getlogin()
            self.user_home = f"/home/{self.real_user}"
            self.pictures_dir = Path(self.user_home) / "Pictures" / "book_covers"
            self.pictures_dir.mkdir(parents=True, exist_ok=True)
-           
+
            # Threading locks
            self.photo_lock = threading.Lock()
            self.photo_index = 1
-           
+
            # Set LLM instructions
            self.instructions = """You are a book expert. Analyze book covers that are sent to you.
-           
+
            When you receive a book cover image, provide:
            1. Book title (if identifiable from cover)
            2. Author (if identifiable from cover)
            3. Brief summary of what the book is about (50 words)
            4. Overall rating/reception (e.g., "Highly acclaimed", "Classic", "Popular", etc.)
-           
+
            Keep your response under 100 words total.
            Speak in a friendly, informative tone suitable for an audio response.
-           
+
            If the image is not a book cover or is unclear, politely say you can't identify it and ask for another photo."""
-           
+
            self.llm.set_max_messages(10)
            self.llm.set_instructions(self.instructions)
-           
+
        def set_led_color(self, color_name):
            """Set RGB LED color for status feedback"""
            color_map = {
@@ -206,106 +206,106 @@ Here is the full Python script for the AI Book Cover Analyzer:
                "white": (255, 255, 255),
                "off": (0, 0, 0),
            }
-           
+
            if color_name in color_map:
                self.rgb_led.color(color_map[color_name])
-       
+
        def capture_photo(self):
            """Capture a photo and return the filepath"""
            with self.photo_lock:
                filepath = self.pictures_dir / f"book_cover_{self.photo_index:03d}.jpg"
                print(f"\n📸 Capturing photo: {filepath}")
-               
+
                # LED feedback: yellow for capturing
                self.set_led_color("yellow")
-               
+
                # Capture image
                self.camera.capture_file(str(filepath))
-               
+
                # Increment counter for next photo
                self.photo_index += 1
-               
+
                print("Photo captured successfully")
                return str(filepath)
-       
+
        def analyze_book_cover(self, image_path):
            """Send book cover image to OpenAI for analysis"""
            print("\n Analyzing book cover...")
-           
+
            # LED feedback: purple for processing
            self.set_led_color("purple")
-           
+
            try:
                # use fusion_hat.llm's prompt method to process the image
                prompt_text = "Please analyze this book cover and tell me about the book. Provide: 1) Book title if identifiable, 2) Author if identifiable, 3) Brief summary, 4) Overall rating/reception. Keep under 100 words."
-               
+
                print("Sending to AI for analysis...")
-               
+
                # method1: non-streaming response
                response = self.llm.prompt(prompt_text, image_path=image_path)
-               
+
                # if the response is a string, use it directly
                if isinstance(response, str):
                    analysis = response
                else:
                    # if response is not a string, try to convert it to a string
                    analysis = str(response)
-               
+
                print(f"\n Analysis:\n{analysis}")
-               
+
                # LED feedback: green for success
                self.set_led_color("green")
-               
+
                return analysis
-               
+
            except Exception as e:
                print(f"Error analyzing image: {e}")
                print(f"Error type: {type(e)}")
-               
+
                # method2: streaming response
                try:
                    print("Trying stream method...")
                    stream_response = self.llm.prompt(prompt_text, stream=True, image_path=image_path)
-                   
+
                    # receive the stream response
                    analysis_parts = []
                    for next_word in stream_response:
                        if next_word:
                            analysis_parts.append(next_word)
-                   
+
                    analysis = ''.join(analysis_parts)
                    print(f"\n Analysis (stream):\n{analysis}")
-                   
+
                    # LED feedback: green for success
                    self.set_led_color("green")
                    return analysis
-                   
+
                except Exception as e2:
                    print(f"Stream method also failed: {e2}")
-                   
+
                    # LED feedback: red for error
                    self.set_led_color("red")
                    return "Sorry, I couldn't analyze the book cover. Please make sure the book cover is clearly visible and try again."
-       
+
        def speak_response(self, text):
            """Convert text to speech"""
            print("\nSpeaking response...")
-           
+
            # Clean up text for TTS (remove markdown, etc.)
            clean_text = re.sub(r'[*_\[\]()#]', '', text)
-           
+
            # Speak with friendly instructions
            self.tts.say(clean_text, instructions="speak clearly and warmly")
            print("Response spoken")
-           
+
            # Return to ready state
            self.set_led_color("blue")
-       
+
        def button_handler(self):
            """Handle button press: capture photo, analyze, and speak"""
            print("\n" + "="*50)
            print("Processing request...")
-           
+
            # Step 1: Capture photo
            try:
                image_path = self.capture_photo()
@@ -315,29 +315,29 @@ Here is the full Python script for the AI Book Cover Analyzer:
                self.tts.say("Sorry, I couldn't take a photo. Please try again.")
                self.set_led_color("blue")
                return
-           
+
            # Step 2: Analyze with AI
            analysis = self.analyze_book_cover(image_path)
-           
+
            # Step 3: Speak the analysis
            self.speak_response(analysis)
-           
+
            print(f"Complete! Photo saved at: {image_path}")
            print("="*50 + "\n")
-       
+
        def run(self):
            """Main program loop"""
            # Set button callback
            self.btn.set_on_click(self.button_handler)
-           
+
            # Start camera preview
            print("Starting camera preview...")
            self.camera.start_preview(Preview.QT)
            self.camera.start()
-           
+
            # LED feedback: blue for ready
            self.set_led_color("blue")
-           
+
            print("\n" + "="*50)
            print("BOOK COVER ANALYZER")
            print("="*50)
@@ -353,15 +353,15 @@ Here is the full Python script for the AI Book Cover Analyzer:
            print(f"Photos saved to: {self.pictures_dir}")
            print("Press Ctrl+C to exit")
            print("="*50 + "\n")
-           
+
            try:
                # Keep program running
                while True:
                    time.sleep(0.1)
-                   
+
            except KeyboardInterrupt:
                print("\nExiting...")
-               
+
            finally:
                # Cleanup
                self.camera.stop_preview()
@@ -375,24 +375,24 @@ Here is the full Python script for the AI Book Cover Analyzer:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. Camera Initialization
+1. 摄像头初始化
 
-   The Picamera2 library provides a modern interface for Raspberry Pi camera control, supporting both image capture and preview.
+   Picamera2 库为树莓派摄像头控制提供了现代化的接口，支持图像拍摄和预览。
 
    .. code-block:: python
 
       self.camera = Picamera2()
       self.camera.configure(self.camera.create_preview_configuration(main={"size": (800, 600)}))
-      
+
       # Start preview and camera
       self.camera.start_preview(Preview.QT)
       self.camera.start()
 
-2. Image Capture with Thread Safety
+2. 线程安全的图像拍摄
 
-   The capture_photo method uses threading locks to prevent multiple simultaneous captures and ensures proper file naming.
+   capture_photo 方法使用线程锁防止多次同时拍摄，并确保文件命名正确。
 
    .. code-block:: python
 
@@ -403,37 +403,37 @@ Here is the full Python script for the AI Book Cover Analyzer:
               self.photo_index += 1
               return str(filepath)
 
-3. Vision AI Analysis
+3. 视觉 AI 分析
 
-   The system uses GPT-4o's vision capabilities to analyze book covers. Two methods (streaming and non-streaming) are implemented for robustness.
+   系统使用 GPT-4o 的视觉能力分析书籍封面。为实现鲁棒性，实现了两种方法（流式和非流式）。
 
    .. code-block:: python
 
       def analyze_book_cover(self, image_path):
           prompt_text = "Please analyze this book cover..."
-          
+
           # Method 1: Non-streaming response
           response = self.llm.prompt(prompt_text, image_path=image_path)
-          
+
           # Method 2: Fallback to streaming if needed
           stream_response = self.llm.prompt(prompt_text, stream=True, image_path=image_path)
 
-4. Text-to-Speech Conversion
+4. 文字转语音转换
 
-   OpenAI's TTS API converts the AI's analysis into natural-sounding speech with configurable voice options.
+   OpenAI 的 TTS API 将 AI 的分析结果转换为自然的语音，具有可配置的语音选项。
 
    .. code-block:: python
 
       self.tts = OpenAI_TTS(api_key=OPENAI_API_KEY)
       self.tts.set_voice(self.tts.Voice.ALLOY)
-      
+
       def speak_response(self, text):
           clean_text = re.sub(r'[*_\[\]()#]', '', text)  # Remove markdown
           self.tts.say(clean_text, instructions="speak clearly and warmly")
 
-5. Status Feedback System
+5. 状态反馈系统
 
-   The RGB LED provides visual feedback throughout the process using color coding:
+   RGB LED 在整个过程中使用颜色编码提供视觉反馈：
 
    .. code-block:: python
 
@@ -447,9 +447,9 @@ Here is the full Python script for the AI Book Cover Analyzer:
           }
           self.rgb_led.color(color_map[color_name])
 
-6. Button Event Handling
+6. 按钮事件处理
 
-   The User Button triggers the entire analysis workflow through an event callback.
+   用户按钮通过事件回调触发整个分析工作流。
 
    .. code-block:: python
 
@@ -460,13 +460,13 @@ Here is the full Python script for the AI Book Cover Analyzer:
           analysis = self.analyze_book_cover(image_path)
           # 3. Speak the analysis
           self.speak_response(analysis)
-      
+
       # Set callback
       self.btn.set_on_click(self.button_handler)
 
-7. File Management
+7. 文件管理
 
-   Photos are automatically organized in dated folders with sequential numbering.
+   照片会自动组织到带日期编号的文件夹中。
 
    .. code-block:: python
 
@@ -477,45 +477,45 @@ Here is the full Python script for the AI Book Cover Analyzer:
 
 ----------------------------------------------
 
-**Troubleshooting**
+**故障排除**
 
-- "Camera not detected" error
+- "Camera not detected" 错误
 
-  - Ensure the camera ribbon cable is properly inserted (gold contacts facing the correct direction)
-  - Run ``sudo raspi-config`` and enable the camera interface
-  - Reboot after enabling the camera
+  - 确保摄像头排线正确插入（金色触点朝向正确方向）
+  - 运行 ``sudo raspi-config``\ 并启用摄像头接口
+  - 启用摄像头后重新启动
 
 - "No preview window appears"
 
-  - Ensure you're running on a Raspberry Pi with a desktop environment
-  - For headless operation, remove or modify the preview code
-  - Check if you have sufficient GPU memory allocated
+  - 确保你在带有桌面环境的树莓派上运行
+  - 对于无头操作，删除或修改预览代码
+  - 检查是否分配了足够的 GPU 内存
 
 - "OpenAI API error"
 
-  - Verify your API key in ``secret.py`` is correct and has sufficient credits
-  - Check internet connectivity: ``ping 8.8.8.8``
-  - Ensure your account has access to GPT-4o and the TTS API
+  - 验证 ``secret.py``\ 中的 API 密钥正确且具有足够的额度
+  - 检查网络连接：\ ``ping 8.8.8.8``
+  - 确保你的账户有权访问 GPT-4o 和 TTS API
 
 - "TTS audio not playing"
 
-  - Check if audio output is configured: ``sudo raspi-config`` → **System Options** → **Audio**
-  - Test audio with: ``speaker-test -t sine -f 440``
-  - Ensure your speaker/headphones are connected to the correct audio jack
+  - 检查音频输出配置：\ ``sudo raspi-config`` → **System Options** → **Audio**
+  - 使用以下命令测试音频：\ ``speaker-test -t sine -f 440``
+  - 确保扬声器/耳机连接到正确的音频插孔
 
 - "Button press not detected"
 
-  - Check if the User Button LED lights up when pressed
-  - Ensure the Fusion HAT+ is properly seated on the GPIO pins
-  - Verify the button callback is set correctly
+  - 按下时检查用户按钮 LED 是否亮起
+  - 确保 Fusion HAT+ 正确安装在 GPIO 引脚上
+  - 检查按钮回调设置是否正确
 
 - "Image analysis returns generic responses"
 
-  - Ensure good lighting when capturing book covers
-  - Position the book cover squarely in the camera frame
-  - Try with well-known books first for better recognition
-  - Clean the camera lens if blurry
+  - 拍摄书籍封面时确保光线充足
+  - 将书籍封面正对摄像头
+  - 先尝试知名书籍以获得更好的识别效果
+  - 如果模糊，清洁摄像头镜头
 
 ----------------------------------------------
 
-This project demonstrates the powerful combination of computer vision, natural language processing, and physical computing to create an intelligent book analysis system. It showcases how AI can enhance everyday interactions with physical objects like books, making information more accessible and engaging!
+该项目展示了计算机视觉、自然语言处理和物理计算的强大组合，创建了一个智能图书分析系统。它展示了 AI 如何增强与书籍等物理对象的日常交互，使信息更易于访问且更具吸引力！

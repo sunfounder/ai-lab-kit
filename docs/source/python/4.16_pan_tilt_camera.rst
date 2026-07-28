@@ -4,25 +4,25 @@
 
 .. _py_pan_tilt_camera:
 
-4.16 Pan-Tilt Camera Control System
-==========================================================
+4.16 云台摄像头控制系统
+========================
 
-**Introduction**
+**简介**
 
-In this project, you will create a camera control system that can pan (move horizontally) and tilt (move vertically) using a joystick. The system allows you to remotely control the direction of a camera mounted on servos, preview the camera feed in real-time, and capture photos with the press of the joystick button. This project is perfect for surveillance applications, photography projects, or learning about servo motor control and camera integration.
+在本项目中，您将创建一个可以使用摇杆进行水平（平移）和垂直（倾斜）运动的摄像头控制系统。该系统允许您远程控制安装在舵机上的摄像头方向，实时预览摄像头画面，并通过按下摇杆按钮拍摄照片。该项目非常适合监控应用、摄影项目或学习舵机控制和摄像头集成。
 
 ----------------------------------------------
 
-**What You'll Need**
+**所需材料**
 
-The following components are required for this project:
+本项目需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,14 +35,14 @@ The following components are required for this project:
     *   - :ref:`cpn_camera_module`
         - |link_camera_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
-    *   - Raspberry Pi
+        - \-
+    *   - 树莓派
         - \-
 
 
 --------------------
 
-**Circuit Diagram**
+**电路图**
 
 .. image:: img/fzz/2.1.9_sch.png
    :width: 80%
@@ -50,18 +50,18 @@ The following components are required for this project:
 
 ---------------
 
-**Wiring Diagram**
+**接线图**
 
-#. To use camera module conveniently, :ref:`assemble_fusion_hat_pan_tilt` is recommended.
+#. 为方便使用摄像头模块，建议先\ :ref:`assemble_fusion_hat_pan_tilt`\ 。
 
-   .. note:: 
-     
-     Assembling the pan-tilt may obscure some pins, so it is recommended to assemble it only when using the camera, or place it on the outside after assembly.
-   
-   
+   .. note::
+
+     安装云台可能会遮挡部分引脚，因此建议仅在使用摄像头时安装，或在安装后将其置于外侧。
+
+
    .. image:: ../quick_start/img/gimbal_assemble.png
 
-#. Follow this wiring diagram to set up the circuit:
+#. 按照以下接线图搭建电路：
 
    .. image:: img/fzz/4.16_joystick_camera_bb.png
       :width: 100%
@@ -69,15 +69,15 @@ The following components are required for this project:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-1. Access the Raspberry Pi Desktop:
+1. 访问树莓派桌面：
 
-   * :ref:`remote_desktop`: Use **VNC** for a full desktop experience.
-   * |link_rpi_connect|: Use **Raspberry Pi Connect** to access your Pi securely from any browser.
+   * :ref:`remote_desktop`：使用\ **VNC**\ 获得完整的桌面体验。
+   * |link_rpi_connect|：使用\ **Raspberry Pi Connect**\ 从任何浏览器安全地访问树莓派。
 
-2. Open a Terminal and go to the code folder:
+2. 打开终端并进入代码文件夹：
 
    .. raw:: html
 
@@ -87,7 +87,7 @@ The following components are required for this project:
 
        cd ~/ai-lab-kit/python
 
-3. Run the script to start the camera:
+3. 运行脚本启动摄像头：
 
    .. raw:: html
 
@@ -97,21 +97,21 @@ The following components are required for this project:
 
        sudo python3 pan_tilt_camera.py
 
-4. After running the script, the pan-tilt camera system starts and initializes the camera and servos. 
+4. 运行脚本后，云台摄像头系统启动并初始化摄像头和舵机。
 
-   * If a display is available, a live camera preview is shown; otherwise, the program runs normally in headless mode.
+   * 如果有显示器可用，则显示实时摄像头预览；否则，程序在无头模式下正常运行。
 
-   * Moving the joystick left or right rotates the camera horizontally (pan), while moving it up or down tilts the camera vertically (tilt). 
+   * 向左或向右移动摇杆可使摄像头水平旋转（平移），向上或向下移动则可垂直倾斜（倾斜）。
 
-   * When the joystick button is pressed, the camera captures a photo and saves it to the ``Pictures/camera_pan_tilt`` directory using a simple sequential filename such as ``photo_001.jpg``.
+   * 按下摇杆按钮时，摄像头拍摄一张照片并保存到 ``Pictures/camera_pan_tilt`` 目录，使用简单的连续文件名如 ``photo_001.jpg``。
 
-   * The system continues running and responding to user input until you stop the program by pressing Ctrl + C.
+   * 系统持续运行并响应用户输入，直到您按 Ctrl + C 停止程序。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python script used in this project:
+以下是本项目使用的 Python 脚本：
 
 .. raw:: html
 
@@ -276,108 +276,107 @@ Below is the Python script used in this project:
         main()
 
 
-----------------------------------------------
-
-**Understanding the Code**
-
-#. **Hardware Initialization**
-
-   - Two servo motors are initialized to control camera pan (horizontal) and tilt (vertical) movement
-   - The joystick uses ADC channels to read X and Y analog values, and a GPIO pin to detect button presses
-   - The camera module is initialized and configured for preview mode, supporting both display and headless operation
-
-#. **Joystick Reading and Processing**
-
-   - ``read_joystick()`` reads raw analog values from the joystick’s X and Y axes
-   - ``map_value()`` converts ADC values (0–4095) into a usable range of −100 to 100
-   - ``apply_deadzone()`` filters out small joystick movements to prevent unwanted camera drift
-
-#. **Camera Movement Control**
-
-   - Joystick input is translated into incremental changes in pan and tilt angles
-   - ``clamp()`` ensures the angles stay within safe limits to protect the servo motors
-   - Servos are updated only when the angle changes, providing smooth and stable motion
-
-#. **Button Press Detection**
-
-   - The joystick button is configured as an active-low input using a pull-up resistor
-   - ``check_button_press()`` detects a button press using edge detection (HIGH → LOW)
-   - This ensures only one photo is taken per button press, even if the button is held
-
-#. **Photo Capture and Storage**
-
-   - ``take_photo()`` captures an image using the camera module
-   - Photos are saved with sequential filenames (for example, ``photo_001.jpg``)
-   - All images are stored in the user’s ``Pictures/camera_pan_tilt`` directory
-
-#. **Camera Preview Handling**
-
-
-   - A live camera preview is started only when a graphical display is available
-   - The script continues to function normally when running without a display
-
-#. **Main Loop and Cleanup**
-
-
-   - The main loop continuously reads joystick input and responds in real time
-   - When the program exits using ``Ctrl + C``, the camera is safely stopped
-   - All hardware resources are properly released to ensure a clean shutdown
-
 
 ----------------------------------------------
 
-**Troubleshooting**
+**理解代码**
 
-1. **Servos Not Moving**:
+#. **硬件初始化**
 
-   - **Cause**: Incorrect servo connections or power issues
-   - **Solution**:
+   - 初始化两个舵机，分别控制摄像头的水平（平移）和垂直（倾斜）运动
+   - 摇杆使用 ADC 通道读取 X 和 Y 模拟值，并使用 GPIO 引脚检测按钮按下
+   - 摄像头模块初始化为预览模式，支持有显示器和无头操作
 
-     - Verify servos are connected to correct channels (2 and 3)
-     - Ensure Fusion HAT is properly powered
-     - Check servo wiring for loose connections
+#. **摇杆读取和处理**
 
-2. **Camera Preview Not Showing**:
+   - ``read_joystick()`` 从摇杆的 X 和 Y 轴读取原始模拟值
+   - ``map_value()`` 将 ADC 值（0-4095）转换为可用范围 −100 到 100
+   - ``apply_deadzone()`` 过滤掉摇杆的小幅移动，防止摄像头不必要的漂移
 
-   - **Cause**: Camera module not detected or incorrect configuration
-   - **Solution**:
+#. **摄像头运动控制**
 
-     - Ensure camera cable is securely connected to CSI port
-     - Check if camera is enabled in Raspberry Pi configuration
-     - Verify camera module compatibility
+   - 摇杆输入被转换为平移和倾斜角度的增量变化
+   - ``clamp()`` 确保角度保持在安全范围内，保护舵机
+   - 仅当角度发生变化时才更新舵机，提供平滑稳定的运动
 
-3. **Joystick Not Responding**:
+#. **按钮按下检测**
 
-   - **Cause**: Incorrect pin assignments or ADC issues
-   - **Solution**:
+   - 摇杆按钮配置为使用上拉电阻的低电平有效输入
+   - ``check_button_press()`` 使用边沿检测（HIGH → LOW）检测按钮按下
+   - 这确保即使按住按钮，每次按下也只拍摄一张照片
 
-     - Verify joystick connections to A0, A1, and GPIO 17
-     - Test ADC readings with simple print statements
-     - Check if Fusion HAT ADC is functioning
+#. **照片拍摄和存储**
 
-4. **Photos Not Saving**:
+   - ``take_photo()`` 使用摄像头模块捕获图像
+   - 照片使用连续文件名保存（例如 ``photo_001.jpg``）
+   - 所有图像存储在用户的 ``Pictures/camera_pan_tilt`` 目录中
 
-   - **Cause**: Permission issues or directory problems
-   - **Solution**:
+#. **摄像头预览处理**
 
-     - Check if Pictures directory exists in user's home
-     - Verify write permissions for the photo directory
-     - Try running with sudo if permission issues persist
+   - 仅当图形显示可用时才启动实时摄像头预览
+   - 脚本在没有显示器的情况下继续正常运行
 
-5. **Erratic Servo Movement**:
+#. **主循环和清理**
 
-   - **Cause**: Power fluctuations or software timing issues
-   - **Solution**:
+   - 主循环持续读取摇杆输入并实时响应
+   - 使用 ``Ctrl + C`` 退出程序时，摄像头安全停止
+   - 所有硬件资源被正确释放，确保干净关机
 
-     - Ensure stable power supply to Fusion HAT
-     - Adjust ``MOVE_SPEED`` and delay values
-     - Add capacitors to servo power lines if needed
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**故障排除**
 
-1. **Video Recording**: Add video recording functionality with start/stop control:
+1. **舵机不移动**：
+
+   - **原因**：舵机连接不正确或电源问题
+   - **解决方法**：
+
+     - 验证舵机是否连接到正确的通道（2 和 3）
+     - 确保 Fusion HAT 正确供电
+     - 检查舵机接线是否松动
+
+2. **摄像头预览不显示**：
+
+   - **原因**：摄像头模块未被检测到或配置错误
+   - **解决方法**：
+
+     - 确保摄像头线缆牢固连接到 CSI 接口
+     - 检查树莓派配置中是否启用了摄像头
+     - 验证摄像头模块的兼容性
+
+3. **摇杆不响应**：
+
+   - **原因**：引脚分配错误或 ADC 问题
+   - **解决方法**：
+
+     - 验证摇杆连接到 A0、A1 和 GPIO 17
+     - 使用简单的打印语句测试 ADC 读数
+     - 检查 Fusion HAT ADC 是否正常工作
+
+4. **照片未保存**：
+
+   - **原因**：权限问题或目录问题
+   - **解决方法**：
+
+     - 检查用户主目录中是否存在 Pictures 目录
+     - 验证照片目录的写入权限
+     - 如果权限问题持续存在，尝试使用 sudo 运行
+
+5. **舵机运动不稳定**：
+
+   - **原因**：电源波动或软件时序问题
+   - **解决方法**：
+
+     - 确保为 Fusion HAT 提供稳定的电源
+     - 调整 ``MOVE_SPEED`` 和延时值
+     - 如有需要，在舵机电源线上添加电容
+
+----------------------------------------------
+
+**扩展思路**
+
+1. **视频录制**：添加带开始/停止控制的视频录制功能：
 
    .. code-block:: python
 
@@ -391,7 +390,7 @@ Below is the Python script used in this project:
           camera.stop_recording()
           print("Recording stopped")
 
-2. **Preset Positions**: Create preset camera positions for quick access:
+2. **预设位置**：创建摄像头预设位置以便快速访问：
 
    .. code-block:: python
 
@@ -411,6 +410,6 @@ Below is the Python script used in this project:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to create a sophisticated pan-tilt camera control system using Raspberry Pi, servos, and a camera module. It combines hardware control, real-time video processing, and user input handling into a cohesive system. The project provides a foundation for more advanced applications like surveillance systems, photography robots, or interactive art installations.
+本项目演示了如何使用树莓派、舵机和摄像头模块创建复杂的云台摄像头控制系统。它将硬件控制、实时视频处理和用户输入处理结合为一个有机整体。该项目为更高级的应用（如监控系统、摄影机器人或互动艺术装置）提供了基础。

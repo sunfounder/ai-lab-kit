@@ -5,75 +5,75 @@
 
 .. _mp_pose_segmentation:
 
-9. Green Screen
+9. 绿幕效果
 ====================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概述
 ------------------------------------------------------------
 
-This chapter uses the **person segmentation** capability of
-MediaPipe Pose to implement a simple **green screen effect**.
+本章使用 MediaPipe Pose 的**人物分割**能力
+来实现简单的**绿幕效果**。
 
-By separating the person from the background,
-we can replace the original background with a solid green color.
-This enables:
+通过将人物与背景分离，
+我们可以将原始背景替换为纯绿色。
+这使得以下应用成为可能：
 
-- Virtual background applications
-- Chroma key compositing (OBS / NLE)
-- Live streaming effects
-- AR-style scene replacement
+- 虚拟背景应用
+- 抠像合成（OBS / 非线性编辑）
+- 直播特效
+- AR 风格场景替换
 
 .. image:: img/mp_pose_green.png
    :align: center
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 工作原理
 ------------------------------------------------------------
 
-The green screen effect is implemented using the following steps:
+绿幕效果通过以下步骤实现：
 
-1. Initialize the Pose model with ``enable_segmentation=True``.
-2. For each frame, obtain ``results.segmentation_mask``.
-3. The mask is a single-channel probability map (range 0–1).
-4. Apply a threshold (e.g., 0.5) to separate foreground and background.
-5. Replace background pixels with solid green.
-6. Optionally apply blur or morphological filtering to smooth edges.
+1. 使用 ``enable_segmentation=True`` 初始化 Pose 模型。
+2. 对每一帧，获取 ``results.segmentation_mask``。
+3. 遮罩是单通道概率图（范围 0–1）。
+4. 应用阈值（例如 0.5）分离前景和背景。
+5. 将背景像素替换为纯绿色。
+6. 可选地应用模糊或形态学滤波以平滑边缘。
 
-This method is lightweight and runs in real time on Raspberry Pi,
-while providing a practical example of human segmentation.
+这种方法轻量高效，可在 Raspberry Pi 上实时运行，
+同时提供了一个实用的人体分割示例。
 
 ------------------------
-3. Run the Code
+3. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation.py
 
-   If you want to use MediaPipe Pose with a recorded video, you can run the following command:
+   如果您想将 MediaPipe Pose 应用于录制视频，可以运行以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_pose_segmentation_video.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. 运行程序后，一个标题为"Show Video"的窗口将打开并显示实时摄像头画面。
 
    .. raw:: html
 
@@ -82,26 +82,26 @@ while providing a practical example of human segmentation.
              Your browser does not support the video tag.
          </video>
 
-   A trackbar named ``Mask`` appears in the same window. It controls the segmentation threshold (0–100), with the default value set to 50 (0.5).
+   同一窗口中会出现一个名为 ``Mask`` 的滑动条。它控制分割阈值（0–100），默认值设为 50（0.5）。
 
-   When a person appears in front of the camera:
+   当人出现在摄像头前时：
 
-   - MediaPipe Pose generates a ``segmentation_mask`` for each frame.
-   - Pixels with mask values above the threshold are treated as the foreground (person).
-   - All other pixels are replaced with a solid green background (green screen effect).
+   - MediaPipe Pose 会为每帧生成 ``segmentation_mask``。
+   - 遮罩值高于阈值的像素被视为前景（人物）。
+   - 所有其他像素被替换为纯绿色背景（绿幕效果）。
 
-   As you move the ``Mask`` trackbar:
+   当您移动 ``Mask`` 滑动条时：
 
-   - Increasing the threshold keeps only the most confident foreground area (less background leak, but may cut off some body parts).
-   - Decreasing the threshold includes more pixels as foreground (more complete silhouette, but may include background noise).
+   - 提高阈值只保留最确信的前景区域（背景泄漏更少，但可能切割掉部分身体）。
+   - 降低阈值将更多像素包含为前景（轮廓更完整，但可能包含背景噪声）。
 
-   If no segmentation mask is available, the program simply shows the normal camera feed without background replacement.
+   如果没有分割遮罩可用，程序将仅显示正常的摄像头画面，不进行背景替换。
 
-   Press ``q`` to exit the program.  
-   The camera stops and the OpenCV window closes automatically.
+   按 ``q`` 键退出程序。
+   摄像头将停止，OpenCV 窗口将自动关闭。
 
 -----------------------------
-4. Complete Code
+4. 完整代码
 -----------------------------
 
 .. code-block:: python
@@ -186,25 +186,25 @@ while providing a practical example of human segmentation.
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the person (foreground) is preserved, and the background is replaced with solid green.
-It can be directly used for subsequent keying with **Chroma Key** in OBS, Premiere, DaVinci Resolve, etc.
+运行脚本后，人物（前景）被保留，背景被替换为纯绿色。
+可直接用于后续在 **OBS、Premiere、DaVinci Resolve** 等软件中使用**色度键**进行抠像。
 
 -------------------------------------
-5. Key Points Explanation
+5. 关键点说明
 -------------------------------------
 
-``segmentation_mask`` is a **single-channel float image** (range 0~1) with the same size as the input frame:
+``segmentation_mask`` 是一个**单通道浮点图像**（范围 0~1），大小与输入帧相同：
 
-- Value **close to 1**: High probability of being **foreground (person)**;
-- Value **close to 0**: High probability of being **background**.
+- 值**接近 1**：很可能是**前景（人物）**；
+- 值**接近 0**：很可能是**背景**。
 
-The usual approach is to set a threshold **T** (e.g., 0.5) and create a condition mask:
+通常的做法是设置一个阈值 **T**（例如 0.5）并创建条件遮罩：
 
 .. code-block:: python
 
    condition = (mask > T)[..., None]
 
-Here we set up a trackbar to adjust the threshold in real-time:
+这里我们设置了一个滑动条，用于实时调整阈值：
 
 .. code-block:: python
 
@@ -220,7 +220,7 @@ Here we set up a trackbar to adjust the threshold in real-time:
       # Create a condition mask
       condition = (mask > threshold/100.0)[..., None]  # [H, W, 1]
 
-Then we can use ``np.where(condition, frame, background)`` to replace the background; here we replace it with green:
+然后使用 ``np.where(condition, frame, background)`` 替换背景，此处替换为绿色：
 
 .. code-block:: python
 
@@ -231,11 +231,11 @@ Then we can use ``np.where(condition, frame, background)`` to replace the backgr
    frame = np.where(condition, frame, bg)
 
 ----------------------------------------------------
-6. Effect and Edge Optimization
+6. 效果与边缘优化
 ----------------------------------------------------
 
-Direct binarization can cause jagged edges or small holes around hair and clothing edges.
-**Light post-processing** can improve edges:
+直接二值化可能导致头发和衣物边缘出现锯齿或小孔。
+**轻量后处理**可以改善边缘：
 
 .. code-block:: python
 
@@ -253,14 +253,14 @@ Direct binarization can cause jagged edges or small holes around hair and clothi
 
 .. tip::
 
-   - **Recommended T value range 0.3~0.7**: Can be appropriately lowered in dark environments/conservative models; can be raised with more noise.
-   - Don't make the blur kernel too large, otherwise the person's boundary will "leak green".
+   - **推荐 T 值范围 0.3~0.7**：暗光环境/保守模型可适当降低；噪声较多时可提高。
+   - 模糊核不要太大，否则人物边界会"泛绿"。
 
 ----------------------------------------------------
-7. Using Custom Background (Image/Video)
+7. 使用自定义背景（图片/视频）
 ----------------------------------------------------
 
-Replace solid green with a custom background image:
+将纯绿色替换为自定义背景图片：
 
 .. code-block:: python
 
@@ -268,62 +268,62 @@ Replace solid green with a custom background image:
    bg_img = cv2.resize(bg_img, (frame.shape[1], frame.shape[0]))
    frame = np.where(condition, frame, bg_img)
 
-Or use another video as the background (read the next frame ``bg_frame``, resize to the same dimensions, then replace).
+或者使用另一个视频作为背景（读取下一帧 ``bg_frame``，调整到相同尺寸，然后替换）。
 
 ----------------------------------------------------
-8. Performance and Quality Balance
+8. 性能与质量平衡
 ----------------------------------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Item
-     - Impact
-     - Suggestion
-   * - Resolution
-     - Higher resolution gives finer edges but slower speed
-     - Start with 640×480; increase if clearer image needed
+   * - 项目
+     - 影响
+     - 建议
+   * - 分辨率
+     - 越高边缘越精细但速度越慢
+     - 从 640×480 开始；需要更清晰图像时再提高
    * - model_complexity
-     - Higher is more precise but slower
-     - Recommended 1~2 on Raspberry Pi
-   * - Post-processing strength
-     - Too much blur/morphology can "swallow edges/leak green"
-     - Small kernel + few iterations, observe edge effect
+     - 越高越精确但越慢
+     - Raspberry Pi 推荐 1~2
+   * - 后处理强度
+     - 过多模糊/形态学操作会"吞没边缘/泛绿"
+     - 小核 + 少迭代，观察边缘效果
 
 ------------------------------------------------------------
-9. Troubleshooting
+9. 故障排除
 ------------------------------------------------------------
 
-- Jagged edges or visible seams around the person
+- 人物周围出现锯齿边缘或可见接缝
 
-  This usually happens because the mask is applied with a hard threshold, which creates sharp boundaries. 
-  
-  Try adjusting the threshold using the ``Mask`` trackbar. For smoother edges, apply a small blur to the segmentation mask or use a simple morphological closing operation before compositing.
+  这通常是因为遮罩使用了硬阈值，产生了尖锐的边界。
 
-- Missing parts of the person
+  尝试使用 ``Mask`` 滑动条调整阈值。为了获得更平滑的边缘，可以对分割遮罩进行少量模糊处理，或在合成前使用简单的形态学闭合操作。
 
-  If parts of the body are cut out, the lighting may be too weak, or the clothing color may blend into the background. 
-  
-  Improve lighting, adjust the threshold, and try using a simpler background with higher contrast against the subject.
+- 人物部分缺失
 
-- Low frame rate
+  如果部分身体被切割掉，可能是光照太弱，或衣服颜色与背景融合。
 
-  If the video feels slow, the resolution may be too high or the model may be too complex. 
-  
-  Reduce the camera resolution (for example, 640×480 or 320×240) and keep ``model_complexity`` at 1 for better performance.
+  改善光照条件，调整阈值，并尝试使用与主体对比度更高的简单背景。
 
-- Green spills onto the subject
+- 帧率低
 
-  If the green background appears on the subject, the segmentation boundary may be inaccurate, or the subject color may cause visual confusion. 
-  
-  Try switching to a different replacement color (blue or gray), or replace the background with an image instead of a solid color for a more natural result.
+  如果视频感觉卡顿，可能是分辨率太高或模型太复杂。
+
+  降低摄像头分辨率（例如 640×480 或 320×240），并将 ``model_complexity`` 保持为 1 以获得更好的性能。
+
+- 绿色溢出到人物身上
+
+  如果绿色背景出现在人物身上，可能是分割边界不准确，或者人物颜色引起了视觉混淆。
+
+  尝试切换到不同的替换颜色（蓝色或灰色），或使用图片替换背景而不是纯色，以获得更自然的效果。
 
 
 -----------------------------
-10. Summary
+10. 总结
 -----------------------------
 
-- Using ``segmentation_mask``, we can quickly achieve "person cutout + background replacement";
-- Obtain more natural edges through thresholds and lightweight post-processing;
-- Suitable for virtual backgrounds, live streaming keying, remote teaching, etc.;
-- Next steps could combine **pose skeleton** and **segmentation** for more interactive effects (e.g., only replace background, don't replace foreground overlay skeleton).
+- 使用 ``segmentation_mask``，我们可以快速实现"人物抠图 + 背景替换"；
+- 通过阈值和轻量后处理获得更自然的边缘；
+- 适用于虚拟背景、直播抠像、远程教学等场景；
+- 下一步可结合**姿态骨骼**和**分割**实现更丰富的交互效果（例如仅替换背景，不替换前景叠加的骨骼）。

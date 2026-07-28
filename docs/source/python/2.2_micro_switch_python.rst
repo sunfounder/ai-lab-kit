@@ -4,25 +4,25 @@
 
 .. _py_micro_switch:
 
-2.2 Micro Switch
-=====================
+2.2 微动开关
+=============
 
-**Introduction**
+**介绍**
 
-In this project, we will explore how to use a Micro Switch to control two LEDs. A Micro Switch is a highly sensitive component that requires minimal compression to activate. It is often used in safety systems to prevent machinery or doors from operating under unsafe conditions.
+在本项目中，我们将探索如何使用微动开关控制两个LED。微动开关是一种高度敏感的组件，只需极小的按压即可触发。它常用于安全系统，以防止机器或门在不安全条件下运行。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, you will need the following components:
+要完成本项目，你将需要以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT
-        - PURCHASE LINK
+    *   - 组件
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -37,15 +37,15 @@ To complete this project, you will need the following components:
     *   - :ref:`cpn_capacitor`
         - |link_capacitor_buy|
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 and GPIO27. When the Micro Switch is pressed, the red LED lights up; when released, the yellow LED turns on.
+微动开关连接到GPIO17，两个LED分别连接到GPIO22和GPIO27。当微动开关按下时，红色LED亮起；释放时，黄色LED亮起。
 
 
 .. image:: img/fzz/2.1.2_sch.png
@@ -55,13 +55,13 @@ The Micro Switch is connected to GPIO17, and two LEDs are connected to GPIO22 an
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to build the circuit:
+请按照以下步骤搭建电路：
 
-1. Connect one terminal of the Micro Switch to GPIO17 and the other to the ground (GND).
-2. Connect the anodes of the two LEDs to GPIO22 (yellow) and GPIO27 (red) through current-limiting resistors.
-3. Connect the cathodes of both LEDs to GND.
+1. 将微动开关的一个端子连接到GPIO17，另一个端子连接到地（GND）。
+2. 将两个LED的正极通过限流电阻分别连接到GPIO22（黄色）和GPIO27（红色）。
+3. 将两个LED的负极都连接到GND。
 
 
 .. image:: img/fzz/2.1.2_bb.png
@@ -71,11 +71,11 @@ Follow these steps to build the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -83,31 +83,31 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.2_MicroSwitch.py
 
-This Python script controls two LEDs based on the state of a micro switch connected to a Raspberry Pi. When executed:
+此Python脚本根据连接到Raspberry Pi的微动开关状态控制两个LED。执行时：
 
-1. **Micro Switch Pressed**:
+1. **微动开关按下**：
 
-   - LED1 (connected to GPIO pin 22) turns on.
-   - LED2 (connected to GPIO pin 27) turns off.
+   - LED1（连接到GPIO 22引脚）点亮。
+   - LED2（连接到GPIO 27引脚）熄灭。
 
-2. **Micro Switch Released**:
+2. **微动开关释放**：
 
-   - LED1 turns off.
-   - LED2 turns on.
+   - LED1熄灭。
+   - LED2点亮。
 
-3. The program continuously checks the micro switch's state every 0.5 seconds and adjusts the LEDs accordingly.
+3. 程序每0.5秒持续检查微动开关的状态并相应调整LED。
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. 脚本无限运行，直到按下\ ``Ctrl+C``\ 中断。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-The following Python code toggles between two LEDs based on the state of the Micro Switch:
+以下Python代码根据微动开关的状态在两个LED之间切换：
 
 
 .. raw:: html
@@ -147,20 +147,20 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Library Import**
+1. **库导入**
 
-   The ``fusion_hat`` library provides simple GPIO control, and the ``time`` library enables delays.
+   ``fusion_hat``\ 库提供了简单的GPIO控制，\ ``time``\ 库用于实现延迟。
 
    .. code-block:: python
 
       from fusion_hat.pin import Pin, Mode, Pull
-      from time import sleep  # Import sleep function for delays  
+      from time import sleep  # Import sleep function for delays
 
-2. **Component Initialization**
+2. **组件初始化**
 
-   The Micro Switch is connected to GPIO17 with pull-up disabled, while the LEDs are connected to GPIO22 and GPIO27.
+   微动开关连接到GPIO17，禁用上拉电阻，而LED分别连接到GPIO22和GPIO27。
 
    .. code-block:: python
 
@@ -171,9 +171,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
       # Initialize LED2 connected to GPIO pin 27
       led2 = Pin(27,mode=Mode.OUT)
 
-3. **Switch State Handling**
+3. **开关状态处理**
 
-   The program checks the state of the Micro Switch in a loop. When pressed, LED1 turns on and LED2 off. When released, LED1 turns off and LED2 on.
+   程序在循环中检查微动开关的状态。按下时，LED1亮、LED2灭。释放时，LED1灭、LED2亮。
 
    .. code-block:: python
 
@@ -186,9 +186,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
             led2.on()
          sleep(0.5)
 
-4. **Interrupt Handling**
+4. **中断处理**
 
-   The ``try-except`` block ensures the script exits cleanly when interrupted using Ctrl+C.
+   ``try-except``\ 块确保脚本在使用\ ``Ctrl+C``\ 中断时能干净退出。
 
    .. code-block:: python
 
@@ -199,22 +199,22 @@ The following Python code toggles between two LEDs based on the state of the Mic
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
-1. **LEDs Do Not Respond**  
+1. **LED无响应**
 
-   - **Cause**: Incorrect GPIO wiring or pin configuration.  
-   - **Solution**: Ensure LED1 is connected to GPIO pin 22, LED2 to GPIO pin 27, and both LEDs have appropriate resistors. Verify the micro switch connection to GPIO pin 17.
+   - **原因**：GPIO接线或引脚配置不正确。
+   - **解决方案**：确保LED1连接到GPIO 22引脚，LED2连接到GPIO 27引脚，且两个LED都使用了合适的电阻。确认微动开关连接到GPIO 17引脚。
 
-2. **Micro Switch Not Detected**  
+2. **微动开关未被检测到**
 
-   - **Cause**: The micro switch might not be configured properly or needs a pull-up/pull-down resistor.  
-   - **Solution**: Confirm that ``pull = Pin.PULL_UP`` matches your switch configuration. If the switch requires a pull-up, enable it in the initialization.
+   - **原因**：微动开关可能未正确配置，或需要上拉/下拉电阻。
+   - **解决方案**：确认\ ``pull = Pin.PULL_UP``\ 与你的开关配置匹配。如果开关需要上拉，请在初始化中启用。
 
-3. **LEDs Flicker or Behave Erratically**  
+3. **LED闪烁或行为异常**
 
-   - **Cause**: Button debounce issues.  
-   - **Solution**: Add software debounce by introducing a short delay after detecting a press:
+   - **原因**：按钮消抖问题。
+   - **解决方案**：通过在检测到按下后引入短暂延迟来添加软件消抖：
 
 
    .. code-block:: python
@@ -226,11 +226,11 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Adjustable Delay**  
+1. **可调延迟**
 
-   Allow the user to change the delay dynamically to fine-tune LED responsiveness:
+   允许用户动态更改延迟，以微调LED的响应速度：
 
    .. code-block:: python
 
@@ -240,9 +240,9 @@ The following Python code toggles between two LEDs based on the state of the Mic
 
 
 
-2. **Audio Feedback**  
+2. **声音反馈**
 
-   Add a buzzer to provide an audible signal when the switch is pressed or released:
+   添加蜂鸣器，在开关按下或释放时提供声音信号：
 
    .. code-block:: python
 
@@ -257,6 +257,6 @@ The following Python code toggles between two LEDs based on the state of the Mic
 ----------------------------------------------
 
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a Micro Switch to control LEDs with the Fusion HAT+. Micro Switches are versatile components widely used in safety systems, user interfaces, and industrial controls. Experimenting with them can open up opportunities for creating more advanced projects.
+本项目演示了如何使用微动开关通过Fusion HAT+控制LED。微动开关是多功能组件，广泛应用于安全系统、用户界面和工业控制。通过实验，你可以为创建更高级的项目打开机会。

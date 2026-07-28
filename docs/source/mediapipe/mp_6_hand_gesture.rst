@@ -5,32 +5,32 @@
 .. _mp_hand_gesture:
 
 
-6. Hand Gesture Recognizer
-==================================================
+6. 手势识别器
+==========================================================
 
 ------------------------------------------------------------
-1. Overview
+1. 概述
 ------------------------------------------------------------
 
-In the previous chapter, we used MediaPipe Hands
-to obtain 21 hand landmarks and visualize the hand skeleton.
+在上一章中，我们使用 MediaPipe Hands
+获取了 21 个手部关键点并可视化了手部骨骼。
 
-This chapter introduces **MediaPipe Tasks – Gesture Recognizer**,
-which can directly output semantic gesture labels such as:
+本章介绍 **MediaPipe Tasks – Gesture Recognizer**，
+它可以直接输出语义手势标签，例如：
 
 - ``Thumb_Up``
 - ``Open_Palm``
 - ``Victory``
 - ``Closed_Fist``
 
-By combining:
+通过结合：
 
-- ``Picamera2`` for video capture
-- ``MediaPipe Hands`` for landmark visualization
-- ``Gesture Recognizer`` for classification
+- ``Picamera2`` 进行视频采集
+- ``MediaPipe Hands`` 进行关键点可视化
+- ``Gesture Recognizer`` 进行分类
 
-we can achieve real-time gesture recognition
-with both skeleton rendering and label display.
+我们可以实现实时手势识别，
+同时显示骨骼渲染和标签。
 
 .. image:: img/mp_hang_gesture.png
    :alt: Gesture Recognizer
@@ -38,41 +38,40 @@ with both skeleton rendering and label display.
 
 
 ------------------------------------------------------------
-2. How It Works
+2. 工作原理
 ------------------------------------------------------------
 
-The program performs the following steps:
+程序执行以下步骤：
 
-1. Capture video frames using ``Picamera2``.
-2. (Optional) Use ``MediaPipe Hands`` to draw landmarks.
-3. Use **MediaPipe Tasks – Gesture Recognizer** in ``VIDEO`` mode.
-4. For each detected hand, obtain:
+1. 使用 ``Picamera2`` 捕获视频帧。
+2. （可选）使用 ``MediaPipe Hands`` 绘制关键点。
+3. 在 ``VIDEO`` 模式下使用 **MediaPipe Tasks – Gesture Recognizer**。
+4. 对于检测到的每只手，获取：
 
-   - Gesture category list (label + confidence)
-   - Handedness (Left / Right)
-   - Normalized landmarks
+   - 手势类别列表（标签 + 置信度）
+   - 左右手信息（Left / Right）
+   - 归一化关键点
 
-5. Select the top-1 gesture and draw
-   "label + confidence score"
-   above the corresponding hand.
+5. 选择排名第一的手势，并在对应手的
+   上方绘制"标签 + 置信度分数"。
 
 .. note::
 
-   This chapter uses the MediaPipe **Tasks API (0.10+)**.
+   本章使用 MediaPipe **Tasks API（0.10+）**。
 
 
 ------------------------------------------------------------
-3. Model
+3. 模型
 ------------------------------------------------------------
 
-Gesture Recognizer requires a model file:
+Gesture Recognizer 需要一个模型文件：
 
 ``gesture_recognizer.task``
 
-The model file is already included in the example directory.
-Please use the provided version.
+该模型文件已包含在示例目录中。
+请使用提供的版本。
 
-The built-in model supports the following gesture labels:
+内置模型支持以下手势标签：
 
 - 0 → ``Unknown``
 - 1 → ``Closed_Fist``
@@ -84,59 +83,59 @@ The built-in model supports the following gesture labels:
 - 7 → ``ILoveYou``
 
 ------------------------
-4. Run the Code
+4. 运行代码
 ------------------------
 
 .. important::
 
 
-   Before you start, make sure:
+   开始之前，请确保：
 
-   * The pan-tilt is assembled
-   * You can access the Raspberry Pi desktop
-   * The code package is installed
-   * Fusion HAT+ is installed and configured
-   * OpenCV is installed
+   * 云台已组装完成
+   * 可以访问 Raspberry Pi 桌面
+   * 代码包已安装
+   * Fusion HAT+ 已安装并配置
+   * OpenCV 已安装
 
-   For detailed instructions, see :ref:`opencv_install`.
+   详细说明请参见 :ref:`opencv_install`。
 
-#. Open the terminal and enter the following command:
+#. 打开终端并输入以下命令：
 
    .. code-block:: bash
 
       sudo python3 ~/ai-lab-kit/mediapipe/mp_hand_gesture.py
 
-#. After running the program, a window titled "Show Video" opens and displays the live camera feed.
+#. 运行程序后，一个标题为"Show Video"的窗口将打开并显示实时摄像头画面。
 
    .. raw:: html
-   
+
          <video width="500" loop muted controls>
              <source src="../_static/video/Media_6.mp4" type="video/mp4">
              Your browser does not support the video tag.
          </video>
-         
-   When one or two hands appear in front of the camera, the program:
-   
-   - Detects and draws the 21 hand landmarks and connection lines (hand skeleton) in real time.
-   - Runs the Gesture Recognizer model on each frame to classify the gesture.
-   
-   If a gesture is recognized with a score above ``SCORE_THRESHOLD`` (default 0.5), the program shows a label near the corresponding hand, including:
-   
-   - Handedness (Left/Right)
-   - Gesture name (for example, ``Thumb_Up``, ``Open_Palm``, ``Victory``)
-   - Confidence score (for example, ``0.87``)
-   
-   A thin bounding box is also drawn around the hand area to make the label placement clearer.
-   
-   As you change hand poses, the gesture label and score update continuously in real time.
-   
-   If no hand is detected, or the gesture confidence is below the threshold, only the hand skeleton (or the raw camera feed) is shown without gesture labels.
-   
-   Press ``q`` to exit the program. The camera stops and the OpenCV window closes automatically.
+
+   当一只或两只手出现在摄像头前时，程序会：
+
+   - 实时检测并绘制 21 个手部关键点和连接线（手部骨骼）。
+   - 在每帧上运行 Gesture Recognizer 模型以对手势进行分类。
+
+   如果识别到的手势分数超过 ``SCORE_THRESHOLD``（默认 0.5），程序会在对应手附近显示标签，包括：
+
+   - 左右手信息（Left/Right）
+   - 手势名称（例如 ``Thumb_Up``、``Open_Palm``、``Victory``）
+   - 置信度分数（例如 ``0.87``）
+
+   还会在手部区域周围绘制一个细边框，使标签位置更清晰。
+
+   当您改变手部姿势时，手势标签和分数会持续实时更新。
+
+   如果未检测到手，或手势置信度低于阈值，则仅显示手部骨骼（或原始摄像头画面），不显示手势标签。
+
+   按 ``q`` 键退出程序。摄像头将停止，OpenCV 窗口将自动关闭。
 
 
 -----------------------------
-5. Complete Code
+5. 完整代码
 -----------------------------
 
 .. code-block:: python
@@ -281,108 +280,108 @@ The built-in model supports the following gesture labels:
    picam2.stop()
    cv2.destroyAllWindows()
 
-After running the script, the window will display the hand skeleton (optional) and gesture text boxes. When a gesture matching the model's categories is recognized, it will display above the corresponding hand's bounding box:
+运行脚本后，窗口将显示手部骨骼（可选）和手势文本框。当识别到与模型类别匹配的手势时，会在对应手的边界框上方显示：
 
-- Left/Right hand (handedness)
-- Gesture name (e.g., ``Thumb_Up``)
-- Confidence score (0~1)
-
------------------------------
-6. Code Explanation
------------------------------
-
-This example combines two parts:
-
-- **Hands (Solutions API)**: used for drawing the hand skeleton (21 landmarks + connections).
-- **Gesture Recognizer (Tasks API)**: used for predicting a gesture label such as ``Thumb_Up`` or ``Open_Palm``.
-
-**High-level flow**
-
-#. Initialize Hands for landmark drawing (optional but helpful for visualization).
-#. Load the Gesture Recognizer model (``gesture_recognizer.task``) and enable ``VIDEO`` mode.
-#. Start the camera and process frames in a loop:
-
-   - Convert the frame to RGB (MediaPipe requires RGB).
-   - Run Hands to draw the skeleton.
-   - Run Gesture Recognizer to get ``label + score`` for each hand.
-   - Draw the label near the corresponding hand.
-
-#. Press ``q`` to exit and release resources.
-
-**Key points to understand**
-
-- Model file
-
-  Gesture Recognizer requires ``gesture_recognizer.task``. Make sure the model file is placed in the same folder as the script (or update the path).
-
-- VIDEO mode requires timestamps
-
-  ``recognize_for_video()`` needs a continuously increasing timestamp in milliseconds. In this example, we generate it using OpenCV tick time.
-
-- Show labels with a confidence threshold
-
-  Only gestures with score >= ``SCORE_THRESHOLD`` are displayed. This avoids showing unstable predictions.
+- 左右手信息（handedness）
+- 手势名称（例如 ``Thumb_Up``）
+- 置信度分数（0~1）
 
 -----------------------------
-7. Parameters and Tuning
+6. 代码说明
+-----------------------------
+
+本示例结合了两部分：
+
+- **Hands（Solutions API）**：用于绘制手部骨骼（21 个关键点 + 连接）。
+- **Gesture Recognizer（Tasks API）**：用于预测手势标签，如 ``Thumb_Up`` 或 ``Open_Palm``。
+
+**高级流程**
+
+#. 初始化 Hands 用于关键点绘制（可选，但有助于可视化）。
+#. 加载 Gesture Recognizer 模型（``gesture_recognizer.task``）并启用 ``VIDEO`` 模式。
+#. 启动摄像头并在循环中处理帧：
+
+   - 将帧转换为 RGB（MediaPipe 需要 RGB）。
+   - 运行 Hands 绘制骨骼。
+   - 运行 Gesture Recognizer 获取每只手的 ``label + score``。
+   - 在对应手附近绘制标签。
+
+#. 按 ``q`` 键退出并释放资源。
+
+**需要理解的关键点**
+
+- 模型文件
+
+  Gesture Recognizer 需要 ``gesture_recognizer.task``。确保模型文件与脚本放在同一文件夹中（或更新路径）。
+
+- VIDEO 模式需要时间戳
+
+  ``recognize_for_video()`` 需要一个持续递增的毫秒级时间戳。在本示例中，我们使用 OpenCV 的 tick 时间生成。
+
+- 使用置信度阈值显示标签
+
+  只有分数 >= ``SCORE_THRESHOLD`` 的手势才会显示。这避免了显示不稳定的预测结果。
+
+-----------------------------
+7. 参数与调优
 -----------------------------
 
 .. list-table::
    :header-rows: 1
 
-   * - Parameter
-     - Description
-     - Suggestion
+   * - 参数
+     - 说明
+     - 建议
    * - ``SCORE_THRESHOLD``
-     - Gestures below this score are ignored
-     - Increase to reduce false positives; decrease to improve recall
+     - 低于此分数的手势将被忽略
+     - 提高可减少误报；降低可提高召回率
    * - ``max_num_hands``
-     - Number of hands to detect simultaneously
-     - 2 is sufficient for most scenarios
+     - 同时检测的手的数量
+     - 2 足以应对大多数场景
    * - ``running_mode=VIDEO``
-     - Video stream mode, requires timestamp
-     - Keep using (streaming recognition is more stable)
-   * - Resolution
-     - Affects speed and accuracy
-     - Recommended 640×480 or lower on Raspberry Pi for better FPS
+     - 视频流模式，需要时间戳
+     - 保持使用（流式识别更稳定）
+   * - 分辨率
+     - 影响速度和精度
+     - 在 Raspberry Pi 上推荐 640×480 或更低以获得更好 FPS
 
 -------------------------------------------------------
-8. Troubleshooting
+8. 故障排除
 -------------------------------------------------------
 
 - ``FileNotFoundError: gesture_recognizer.task``
 
-  This usually means the model file path is incorrect.
-  Make sure the model file is placed in the same directory as the script,
-  or update ``GESTURE_MODEL_PATH`` accordingly.
+  这通常意味着模型文件路径错误。
+  确保模型文件与脚本放在同一目录中，
+  或相应更新 ``GESTURE_MODEL_PATH``。
 
 - ``ImportError: cannot import name 'vision'``
 
-  This error indicates that the MediaPipe version is outdated.
-  Upgrade MediaPipe to version 0.10 or later using:
+  此错误表明 MediaPipe 版本过旧。
+  使用以下命令将 MediaPipe 升级到 0.10 或更高版本：
 
   ``pip install --upgrade mediapipe``
 
-- Recognized category differs from expectation
+- 识别的类别与预期不符
 
-  The model category set may differ, or lighting conditions may affect recognition.
-  Try improving lighting, simplifying the background,
-  or switching to a different model version.
+  模型类别集可能不同，或光照条件影响识别。
+  尝试改善光照、简化背景，
+  或切换到不同的模型版本。
 
-- Low frame rate
+- 帧率低
 
-  Raspberry Pi performance may be limited.
-  Reduce resolution, disable skeleton drawing,
-  or close unnecessary background processes.
+  Raspberry Pi 性能可能有限。
+  降低分辨率、禁用骨骼绘制，
+  或关闭不必要的后台进程。
 
 -----------------------------
-9. Summary
+9. 总结
 -----------------------------
 
-- **Gesture Recognizer** enables real-time semantic gesture recognition on Raspberry Pi;
-- Combined with **Hands** skeleton rendering, it's both intuitive and easy to debug;
-- By adjusting thresholds and resolution, a balance between "stability / speed" can be achieved;
-- Future possibilities:
+- **Gesture Recognizer** 可在 Raspberry Pi 上实现实时语义手势识别；
+- 结合 **Hands** 骨骼渲染，既直观又易于调试；
+- 通过调整阈值和分辨率，可以在"稳定性/速度"之间取得平衡；
+- 未来的可能性：
 
-  - Map different gestures to specific commands (shortcuts, GPIO control, etc.);
-  - Train custom gesture models for specific scenarios.
+  - 将不同手势映射到特定命令（快捷键、GPIO 控制等）；
+  - 为特定场景训练自定义手势模型。

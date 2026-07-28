@@ -4,25 +4,25 @@
 
 .. _py_tilt:
 
-2.4 Tilt Switch
-=================
+2.4 倾斜开关
+=============
 
-**Introduction**
+**介绍**
 
-In this project, we will explore the tilt switch module, a ball tilt-switch containing a small metal ball inside. This switch is designed to detect slight inclinations and can be utilized in various applications like motion detection, angle measurement, and balance monitoring.
+在本项目中，我们将探索倾斜开关模块，这是一种包含一个小金属球的滚珠倾斜开关。该开关设计用于检测轻微倾斜，可用于运动检测、角度测量和平衡监测等各种应用。
 
 ----------------------------------------------
 
-**What You’ll Need**
+**你需要什么**
 
-To complete this project, gather the following components:
+要完成本项目，请准备以下组件：
 
 .. list-table::
     :widths: 30 20
     :header-rows: 1
 
-    *   - COMPONENT INTRODUCTION
-        - PURCHASE LINK
+    *   - 组件介绍
+        - 购买链接
 
     *   - :ref:`cpn_breadboard`
         - |link_breadboard_buy|
@@ -35,7 +35,7 @@ To complete this project, gather the following components:
     *   - :ref:`cpn_tilt_switch`
         - \-
     *   - :ref:`cpn_fusion_hat`
-        - \- 
+        - \-
     *   - Raspberry Pi
         - \-
 
@@ -43,9 +43,9 @@ To complete this project, gather the following components:
 
 ----------------------------------------------
 
-**Circuit Diagram**
+**电路图**
 
-Refer to the following diagrams for connecting the tilt switch:
+请参考以下连接倾斜开关的示意图：
 
 .. image:: img/fzz/2.1.5_sch.png
    :width: 100%
@@ -55,14 +55,14 @@ Refer to the following diagrams for connecting the tilt switch:
 
 ----------------------------------------------
 
-**Wiring Diagram**
+**接线图**
 
-Follow these steps to set up the circuit:
+请按照以下步骤设置电路：
 
-1. Connect the tilt switch to GPIO pin 17 on the Raspberry Pi.
-2. Connect the green LED to GPIO pin 27 with a resistor.
-3. Connect the red LED to GPIO pin 22 with a resistor.
-4. Complete the connections by wiring the cathodes of both LEDs to GND.
+1. 将倾斜开关连接到Raspberry Pi的GPIO 17引脚。
+2. 将绿色LED通过电阻连接到GPIO 27引脚。
+3. 将红色LED通过电阻连接到GPIO 22引脚。
+4. 将两个LED的负极连接到GND以完成连接。
 
 .. image:: img/fzz/2.1.5_bb.png
    :width: 80%
@@ -72,11 +72,11 @@ Follow these steps to set up the circuit:
 
 ----------------------------------------------
 
-**Running the Example**
+**运行示例**
 
 
-All example code used in this tutorial is available in the ``ai-lab-kit`` directory. 
-Follow these steps to run the example:
+本教程中使用的所有示例代码都位于\ ``ai-lab-kit``\ 目录中。
+请按照以下步骤运行示例：
 
 
 .. raw:: html
@@ -84,32 +84,32 @@ Follow these steps to run the example:
    <run></run>
 
 .. code-block:: shell
-   
+
    cd ~/ai-lab-kit/python/
    sudo python3 2.4_Tilt.py
 
-This Python script uses a tilt sensor to control two LEDs and display status messages on the console. When executed:
+此Python脚本使用倾斜传感器控制两个LED并在控制台上显示状态消息。执行时：
 
-1. If the tilt sensor (connected to GPIO pin 17) detects a tilt:
+1. 如果倾斜传感器（连接到GPIO 17引脚）检测到倾斜：
 
-   - Prints a message to the console.
-   - Turns on the red LED (connected to GPIO pin 22).
-   - Turns off the green LED (connected to GPIO pin 27).
+   - 在控制台打印消息。
+   - 点亮红色LED（连接到GPIO 22引脚）。
+   - 熄灭绿色LED（连接到GPIO 27引脚）。
 
-2. If the tilt sensor remains upright (in its normal vertical position):
+2. 如果倾斜传感器保持直立（正常垂直位置）：
 
-   - Turns off the red LED.
-   - Turns on the green LED.
+   - 熄灭红色LED。
+   - 点亮绿色LED。
 
-3. The program continuously monitors the tilt sensor's state and adjusts the LEDs accordingly.
+3. 程序持续监测倾斜传感器的状态并相应调整LED。
 
-4. The script runs indefinitely until interrupted by pressing ``Ctrl+C``.
+4. 脚本无限运行，直到按下\ ``Ctrl+C``\ 中断。
 
 ----------------------------------------------
 
-**Code**
+**代码**
 
-Below is the Python script to control the tilt switch and LEDs:
+以下是控制倾斜开关和LED的Python脚本：
 
 .. raw:: html
 
@@ -144,8 +144,8 @@ Below is the Python script to control the tilt switch and LEDs:
 
    try:
       # Set up a callback to detect changes in the tilt sensor state
-      TiltPin.when_activated = detect 
-      TiltPin.when_deactivated = detect  
+      TiltPin.when_activated = detect
+      TiltPin.when_deactivated = detect
       pause()
 
    except KeyboardInterrupt:
@@ -154,11 +154,11 @@ Below is the Python script to control the tilt switch and LEDs:
 
 ----------------------------------------------
 
-**Understanding the Code**
+**理解代码**
 
-1. **Imports**
+1. **导入**
 
-   The script imports necessary classes for LED and Button control and initializes them with appropriate GPIO pins.
+   脚本导入LED和按钮控制所需的类，并用适当的GPIO引脚初始化它们。
 
    .. code-block:: python
 
@@ -166,9 +166,9 @@ Below is the Python script to control the tilt switch and LEDs:
       from signal import pause  # Import pause function from signal module
 
 
-2. **Initialization**
+2. **初始化**
 
-   Configure the tilt switch and LEDs connected to GPIO pins 17, 27, and 22.
+   配置连接到GPIO 17、27和22引脚的倾斜开关和LED。
 
    .. code-block:: python
 
@@ -176,9 +176,9 @@ Below is the Python script to control the tilt switch and LEDs:
       green_led = Pin(27,mode=Mode.OUT)  # Green LED connected to GPIO pin 27
       red_led = Pin(22,mode=Mode.OUT)   # Red LED connected to GPIO pin 22
 
-3. **Detect Function**
+3. **检测函数**
 
-   The ``detect`` function checks the state of the tilt switch and updates the LEDs accordingly. If the switch is tilted, the red LED lights up and the green LED turns off.
+   ``detect``\ 函数检查倾斜开关的状态并相应更新LED。如果开关倾斜，红色LED亮起，绿色LED熄灭。
 
    .. code-block:: python
 
@@ -193,16 +193,16 @@ Below is the Python script to control the tilt switch and LEDs:
             red_led.low()  # Turn off red LED
             green_led.high()  # Turn on green LED
 
-4. **Main Loop**
+4. **主循环**
 
-   Assign the ``detect`` function to handle ``when_pressed`` and ``when_released`` events of the tilt sensor. The loop continues until interrupted.
+   将\ ``detect``\ 函数分配给倾斜传感器的\ ``when_pressed``\ 和\ ``when_released``\ 事件处理。循环持续运行直到中断。
 
    .. code-block:: python
 
       try:
          # Set up a callback to detect changes in the tilt sensor state
-         TiltPin.when_activated = detect 
-         TiltPin.when_deactivated = detect  
+         TiltPin.when_activated = detect
+         TiltPin.when_deactivated = detect
          pause()
 
       except KeyboardInterrupt:
@@ -212,18 +212,17 @@ Below is the Python script to control the tilt switch and LEDs:
 ----------------------------------------------
 
 
-**Troubleshooting**
+**故障排除**
 
-1. **Script Does Not Respond to Tilting**  
+1. **脚本对倾斜无响应**
 
-   - **Cause**: Event listeners (``when_activated`` and ``when_deactivated``) not functioning properly.  
-   - **Solution**: Confirm that ``detect()`` is correctly linked to both ``when_activated`` and ``when_deactivated`` events.
+   - **原因**：事件监听器（\ ``when_activated``\ 和\ ``when_deactivated``\ ）未正常运行。
+   - **解决方案**：确认\ ``detect()``\ 已正确链接到\ ``when_activated``\ 和\ ``when_deactivated``\ 事件。
 
+2. **LED闪烁**
 
-2. **LEDs Flicker**  
-
-   - **Cause**: Sensor noise or debounce issues.  
-   - **Solution**: Add a short delay to stabilize the signal:
+   - **原因**：传感器噪声或消抖问题。
+   - **解决方案**：添加短暂延迟以稳定信号：
 
 
    .. code-block:: python
@@ -232,7 +231,7 @@ Below is the Python script to control the tilt switch and LEDs:
       from time import sleep
       def detect():
             sleep(0.05)  # Debounce delay
-            if TiltPin.value() == 0: 
+            if TiltPin.value() == 0:
                red_led.on()
                green_led.off()
             else:
@@ -240,14 +239,15 @@ Below is the Python script to control the tilt switch and LEDs:
                green_led.on()
 
 
+
 ----------------------------------------------
 
-**Extendable Ideas**
+**扩展思路**
 
-1. **Sound Feedback**  
+1. **声音反馈**
 
-   Add a buzzer to provide audio feedback when the tilt sensor is activated:
-   
+   添加蜂鸣器，在倾斜传感器激活时提供音频反馈：
+
    .. code-block:: python
 
       from fusion_hat import Buzzer,Pin
@@ -258,9 +258,9 @@ Below is the Python script to control the tilt switch and LEDs:
          buzzer.off()
 
 
-2. **Timed Alerts**  
+2. **定时警报**
 
-   Trigger an alert if the sensor remains tilted for a specified duration:
+   如果传感器保持倾斜超过指定时长，触发警报：
 
    .. code-block:: python
 
@@ -277,6 +277,6 @@ Below is the Python script to control the tilt switch and LEDs:
 
 ----------------------------------------------
 
-**Conclusion**
+**总结**
 
-This project demonstrates how to use a tilt switch with a Fusion HAT+ to detect inclinations and control LEDs. Tilt switches are a cost-effective solution for simple motion and angle detection, offering practical applications in robotics and home automation.
+本项目演示了如何使用倾斜开关通过Fusion HAT+检测倾斜并控制LED。倾斜开关是一种经济有效的运动检测和角度检测解决方案，在机器人和家庭自动化中具有实用价值。
