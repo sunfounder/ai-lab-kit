@@ -97,7 +97,7 @@ html_css_files = [
 
 # Multi-language
 
-language = 'en' # Before running make html, set the language.
+language = 'zh' # Before running make html, set the language.
 locale_dirs = ['locale/'] # .po files for other languages are placed in the locale/ folder.
 
 gettext_compact = False # Support for generating the contents of the folders inside source/ into other languages.
@@ -301,7 +301,11 @@ rst_epilog += """
 .. |link_it_tutorials| raw:: html
 
     <a href="https://docs.sunfounder.com/projects/ai-lab-kit/it/latest/" target="_blank">Tutorial online in italiano</a>
-    
+
+.. |link_cn_tutorials| raw:: html
+
+    <a href="https://docs.sunfounder.com/projects/ai-lab-kit/zh/latest/" target="_blank">中文在线教程</a>
+
 
 """
 
