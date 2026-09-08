@@ -17,7 +17,7 @@ Here, we'll teach you how to assemble the Fusion HAT+.
 
 #. Assemble the base.
 #. Stick the battery to the base.
-#. Secure the Raspberry Pi with with standoffs.
+#. Secure the Raspberry Pi with standoffs.
 #. Connect the FPC cable to the Raspberry Pi. (We will assemble it and the Camera Module when assembled the pan-tilt.)
 #. Plug the Fusion HAT+ into the 40-pin connector on the Raspberry Pi. 
 #. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT+ will not work.)
@@ -36,7 +36,24 @@ For the details of the assembly, please check the video below.
     allowfullscreen>
     </iframe>
 
+.. note::
 
+   **Battery upgrade notice:** We have upgraded the battery — the new version comes with a black case and is taller than the previous one.
+   To fit the taller battery, the kit now includes an extra **M2.5x10+6** through-hole nylon standoff, which is combined with the **M2.5x25+6** standoffs.
+
+If your kit includes the new battery with the black case, please follow the new assembly video below:
+
+.. raw:: html
+
+  <iframe width="100%" 
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+    </iframe>
+    
 
 Charge
 -------------------
@@ -94,7 +111,7 @@ After fully charged:
 
    For extended programming or debugging sessions, you can keep the Fusion HAT+ powered  
    by connecting the USB-C cable, which will charge the battery and run the Fusion HAT+ at the same time. 
-   Even if you run the Fusion HAT+ while the charer is connected, the battery **cannot** be removed.
+   Even if you run the Fusion HAT+ while the charger is connected, the battery **cannot** be removed.
 
 Power ON
 ----------------------
