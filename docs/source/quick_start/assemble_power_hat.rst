@@ -24,7 +24,29 @@ Fusion HAT+ を Raspberry Pi に接続する
 #. **バッテリーを挿入します。** （これは非常に重要です。バッテリーを挿入しないと、Fusion HAT+ は動作しません。）
 
 
+.. note::
+
+   **バッテリーアップグレードのお知らせ：** バッテリーをアップグレードしました。新しいバージョンは黒いケースで、以前のものより高さがあります。
+   黒いバッテリーが届いた場合は、**M2.5x25+6** スタンドオフの上に **M2.5x10+6** の貫通ナイロンスタンドオフを追加で重ねて取り付ける必要があります。
+
+.. image:: img/battery_black.png
+   :width: 400
+   :align: center
+
 組み立ての詳細については、以下の動画をご覧ください。
+
+.. raw:: html
+
+  <iframe width="100%" 
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+    </iframe>
+
+以前のバッテリーが届いた場合は、以下の以前の組み立て動画をご覧ください。
 
 .. raw:: html
 
