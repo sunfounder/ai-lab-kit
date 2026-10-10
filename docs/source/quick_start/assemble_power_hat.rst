@@ -23,7 +23,29 @@ Aqui te ensenaremos como montar el Fusion HAT+.
 #. **Inserta la bateria.** (Esto es muy importante. Si no insertas la bateria, el Fusion HAT+ no funcionara.)
 
 
+.. note::
+
+   **Aviso de actualizacion de la bateria:** Hemos actualizado la bateria: la nueva version viene con una carcasa negra y es mas alta que la anterior.
+   Si has recibido la bateria negra, debes apilar un separador de nailon pasante **M2.5x10+6** adicional sobre los separadores **M2.5x25+6**.
+
+.. image:: img/battery_black.png
+   :width: 400
+   :align: center
+
 Para los detalles del montaje, consulta el video a continuacion.
+
+.. raw:: html
+
+  <iframe width="100%"
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+    </iframe>
+
+Si has recibido la bateria anterior, consulta el video de montaje anterior a continuacion:
 
 .. raw:: html
 

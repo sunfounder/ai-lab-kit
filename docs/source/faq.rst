@@ -216,6 +216,13 @@ Vision por Computadora / MediaPipe
 Problemas de Hardware
 ---------------------
 
+**Por que mi kit incluye un separador de nailon adicional?**
+
+    Hemos actualizado la bateria: la nueva version viene con una carcasa negra y es mas alta que la anterior.
+    Si has recibido la bateria negra, debes apilar el separador de nailon pasante M2.5x10+6 adicional sobre
+    los separadores M2.5x25+6.
+    Consulta la seccion :ref:`assemble_hat` para ver el video de montaje actualizado.
+
 **Un componente no responde.**
 
     Revisa tus conexiones de cableado y asegurate de que la orientacion sea correcta.
