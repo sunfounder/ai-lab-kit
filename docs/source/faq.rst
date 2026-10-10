@@ -219,6 +219,13 @@ Visione Artificiale / MediaPipe
 Problemi Hardware
 ---------------
 
+**Perche' il mio kit include un distanziatore in nylon aggiuntivo?**
+
+    Abbiamo aggiornato la batteria: la nuova versione ha una custodia nera ed e' piu' alta della precedente.
+    Se hai ricevuto la batteria nera, devi impilare il distanziatore in nylon passante M2.5x10+6 aggiuntivo sopra
+    i distanziatori M2.5x25+6.
+    Fai riferimento alla sezione :ref:`assemble_hat` per il video di assemblaggio aggiornato.
+
 **Un componente non risponde.**
 
     Ricontrolla i collegamenti dei cavi e assicurati del corretto orientamento.

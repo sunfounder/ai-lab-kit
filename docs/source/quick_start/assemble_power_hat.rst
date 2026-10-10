@@ -23,7 +23,29 @@ Qui ti insegneremo come assemblare il Fusion HAT+.
 #. **Inserisci la batteria.** (Questo e' molto importante. Se non inserisci la batteria, il Fusion HAT+ non funzionera'.)
 
 
+.. note::
+
+   **Avviso di aggiornamento della batteria:** Abbiamo aggiornato la batteria: la nuova versione ha una custodia nera ed e' piu' alta della precedente.
+   Se hai ricevuto la batteria nera, devi impilare un distanziale in nylon passante **M2.5x10+6** aggiuntivo sopra i distanziatori **M2.5x25+6**.
+
+.. image:: img/battery_black.png
+   :width: 400
+   :align: center
+
 Per i dettagli dell'assemblaggio, guarda il video qui sotto.
+
+.. raw:: html
+
+  <iframe width="100%"
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+    </iframe>
+
+Se hai ricevuto la batteria precedente, guarda il video di assemblaggio precedente qui sotto:
 
 .. raw:: html
 
