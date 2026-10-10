@@ -219,8 +219,8 @@ Hardware Issues
 **Why does my kit include an extra nylon standoff?**
 
     We have upgraded the battery — the new version comes with a black case and is taller than the previous one.
-    To fit the taller battery, the kit now includes an extra M2.5x10+6 through-hole nylon standoff, which is
-    combined with the M2.5x25+6 standoffs.
+    If you received the black battery, you need to stack the extra M2.5x10+6 through-hole nylon standoff on top of
+    the M2.5x25+6 standoffs.
     Please refer to the :ref:`assemble_hat` section for the updated assembly video.
 
 **A component does not respond.**

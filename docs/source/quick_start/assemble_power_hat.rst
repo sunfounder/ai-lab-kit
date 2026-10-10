@@ -29,7 +29,7 @@ For the details of the assembly, please check the video below.
 
   <iframe width="100%" 
     style="aspect-ratio: 16/9; max-width: 100%;"
-    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" 
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj" 
     title="YouTube video player" 
     frameborder="0" 
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -39,15 +39,15 @@ For the details of the assembly, please check the video below.
 .. note::
 
    **Battery upgrade notice:** We have upgraded the battery — the new version comes with a black case and is taller than the previous one.
-   To fit the taller battery, the kit now includes an extra **M2.5x10+6** through-hole nylon standoff, which is combined with the **M2.5x25+6** standoffs.
+   If you received the black battery, you need to stack an extra **M2.5x10+6** through-hole nylon standoff on top of the **M2.5x25+6** standoffs.
 
-If your kit includes the new battery with the black case, please follow the new assembly video below:
+If you received the earlier battery, please refer to the previous assembly video below:
 
 .. raw:: html
 
   <iframe width="100%" 
     style="aspect-ratio: 16/9; max-width: 100%;"
-    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj" 
+    src="https://www.youtube.com/embed/HlAayd1mSxU?si=oZnKyZihyyjQhsHl" 
     title="YouTube video player" 
     frameborder="0" 
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
