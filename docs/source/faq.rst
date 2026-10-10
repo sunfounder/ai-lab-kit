@@ -224,6 +224,13 @@ Computer Vision / MediaPipe
 Hardware-Probleme
 -----------------
 
+**Warum enthält mein Kit einen zusätzlichen Nylon-Abstandshalter?**
+
+    Wir haben den Akku verbessert — die neue Version hat ein schwarzes Gehäuse und ist höher als die vorherige.
+    Wenn Sie den schwarzen Akku erhalten haben, müssen Sie zusätzlich den M2.5x10+6 Nylon-Abstandshalter mit
+    Durchgangsloch auf die M2.5x25+6 Abstandshalter aufstecken.
+    Weitere Informationen finden Sie im Abschnitt :ref:`assemble_hat` mit dem aktualisierten Montagevideo.
+
 **Eine Komponente reagiert nicht.**
 
     Überprüfen Sie Ihre Verdrahtung und stellen Sie sicher, dass die

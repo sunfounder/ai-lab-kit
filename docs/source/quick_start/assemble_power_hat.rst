@@ -22,7 +22,29 @@ Hier zeigen wir Ihnen, wie Sie das Fusion HAT+ montieren.
 #. Stecken Sie das Fusion HAT+ auf den 40-Pin-Anschluss des Raspberry Pi.
 #. **Setzen Sie den Akku ein.** (Dies ist sehr wichtig. Wenn der Akku nicht eingesetzt ist, funktioniert das Fusion HAT+ nicht.)
 
+.. note::
+
+   **Hinweis zum Akku-Upgrade:** Wir haben den Akku verbessert — die neue Version hat ein schwarzes Gehäuse und ist höher als die vorherige.
+   Wenn Sie den schwarzen Akku erhalten haben, müssen Sie zusätzlich einen **M2.5x10+6** Nylon-Abstandshalter mit Durchgangsloch auf die **M2.5x25+6** Abstandshalter aufstecken.
+
+.. image:: img/battery_black.png
+   :width: 400
+   :align: center
+
 Weitere Details zur Montage finden Sie im folgenden Video.
+
+.. raw:: html
+
+  <iframe width="100%" 
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen>
+    </iframe>
+
+Wenn Sie den vorherigen Akku erhalten haben, sehen Sie sich bitte das vorherige Montagevideo unten an:
 
 .. raw:: html
 
