@@ -23,6 +23,11 @@ Here, we'll teach you how to assemble the Fusion HAT+.
 #. **Insert the battery.** (This is very important. If you don't insert the battery, the Fusion HAT+ will not work.)
 
 
+.. note::
+
+   **Battery upgrade notice:** We have upgraded the battery — the new version comes with a black case and is taller than the previous one.
+   If you received the black battery, you need to stack an extra **M2.5x10+6** through-hole nylon standoff on top of the **M2.5x25+6** standoffs.
+
 For the details of the assembly, please check the video below.
 
 .. raw:: html
@@ -35,11 +40,6 @@ For the details of the assembly, please check the video below.
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
     allowfullscreen>
     </iframe>
-
-.. note::
-
-   **Battery upgrade notice:** We have upgraded the battery — the new version comes with a black case and is taller than the previous one.
-   If you received the black battery, you need to stack an extra **M2.5x10+6** through-hole nylon standoff on top of the **M2.5x25+6** standoffs.
 
 If you received the earlier battery, please refer to the previous assembly video below:
 
