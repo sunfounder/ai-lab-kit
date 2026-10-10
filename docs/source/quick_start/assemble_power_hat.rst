@@ -22,7 +22,29 @@
 #. 将 Fusion HAT+ 插入 Raspberry Pi 的 40 针连接器。
 #. **插入电池。**\ （这非常重要。如果不插入电池，Fusion HAT+ 将无法工作。）
 
+.. note::
+
+   **电池升级通知：** 我们升级了电池——新版本采用黑色外壳，比之前的电池更高。
+   如果您收到的是黑色电池，需要在 **M2.5x25+6** 铜柱上再叠加一个 **M2.5x10+6** 单通尼龙柱。
+
+.. image:: img/battery_black.png
+   :width: 400
+   :align: center
+
 有关组装的详细信息，请观看下面的视频。
+
+.. raw:: html
+
+  <iframe width="100%"
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+    </iframe>
+
+如果您收到的是之前的电池，请观看下面的旧版组装视频：
 
 .. raw:: html
 
