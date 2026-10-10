@@ -191,6 +191,13 @@ Vision par ordinateur / MediaPipe
 Problemes materiels
 -------------------
 
+**Pourquoi mon kit contient-il une entretoise en nylon supplémentaire ?**
+
+    Nous avons amélioré la batterie — la nouvelle version est livrée avec un boîtier noir et est plus haute que la précédente.
+    Si vous avez reçu la batterie noire, vous devez empiler l'entretoise en nylon traversante M2.5x10+6 supplémentaire sur
+    les entretoises M2.5x25+6.
+    Veuillez consulter la section :ref:`assemble_hat` pour la vidéo d'assemblage mise à jour.
+
 **Un composant ne repond pas.**
 
     Revérifiez vos connexions de câblage et assurez-vous de l'orientation correcte. Reportez-vous a la section :ref:`cpn_list` pour les descriptions des broches et les schemas d'exemple.

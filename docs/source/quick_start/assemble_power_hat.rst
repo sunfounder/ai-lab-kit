@@ -23,7 +23,29 @@ Nous allons vous montrer comment assembler le Fusion HAT+.
 #. **Inserez la batterie.** (Ceci est tres important. Si vous n'inserez pas la batterie, le Fusion HAT+ ne fonctionnera pas.)
 
 
+.. note::
+
+   **Avis de mise à niveau de la batterie :** Nous avons amélioré la batterie — la nouvelle version est livrée avec un boîtier noir et est plus haute que la précédente.
+   Si vous avez reçu la batterie noire, vous devez empiler une entretoise en nylon traversante **M2.5x10+6** supplémentaire sur les entretoises **M2.5x25+6**.
+
+.. image:: img/battery_black.png
+   :width: 400
+   :align: center
+
 Pour les details de l'assemblage, veuillez regarder la video ci-dessous.
+
+.. raw:: html
+
+  <iframe width="100%"
+    style="aspect-ratio: 16/9; max-width: 100%;"
+    src="https://www.youtube.com/embed/XFfx1WebZ-w?si=6tDwO9GehKZyJCFj"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+    </iframe>
+
+Si vous avez reçu la batterie précédente, veuillez consulter la vidéo d'assemblage précédente ci-dessous :
 
 .. raw:: html
 
